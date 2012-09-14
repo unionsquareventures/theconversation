@@ -6,7 +6,6 @@ import sys
 import os
 import mimetypes
 import json
-from minifier import Minifier
 import urlparse
 import forms
 
@@ -14,7 +13,6 @@ from base import BaseHandler
 from post import PostHandler
 
 log = settings.log
-minifier = Minifier()
 
 class TwitterLoginHandler(BaseHandler, tornado.auth.TwitterMixin):
     @tornado.web.asynchronous
@@ -43,7 +41,8 @@ if __name__ == '__main__':
         (r'/', IndexHandler),
         (r'/auth/twitter/', TwitterLoginHandler),
         # Posts
-        (r'/posts(?:/(<id>.*))?', PostHandler),
+        (r'/posts', PostHandler),
+        (r'/posts/(?P<params>.*)$', PostHandler),
     ], **settings.tornado_config)
     http_server = tornado.httpserver.HTTPServer(application)#, ssl_options={
     #        "certfile": os.path.join("/", "sub.mydomain.com.crt"),
