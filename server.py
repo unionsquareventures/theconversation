@@ -22,10 +22,18 @@ class TwitterLoginHandler(BaseHandler, tornado.auth.TwitterMixin):
             return
         self.authorize_redirect()
 
-    def _on_login(self, user):
-        if not user:
+    def _on_login(self, user_obj):
+        if not user_obj:
             raise tornado.web.HTTPError(500, "Twitter authentication failed.")
+        user = {
+                'auth_type': 'twitter',
+                'username': user_obj['username'],
+                'screen_name': user_obj['screen_name'],
+                'profile_image_url': user_obj['profile_image_url'],
+                'profile_image_url_https': user_obj['profile_image_url_https'],
+        }
         self.set_secure_cookie("user", tornado.escape.json_encode(user))
+        self.set_secure_cookie("user_token", tornado.escape.json_encode({'twitter': user_obj['access_token']}))
         self.redirect("/")
 
 

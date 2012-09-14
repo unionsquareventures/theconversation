@@ -40,6 +40,7 @@ class PostHandler(BaseHandler):
 
     def index(self):
         # list posts
+        print self.get_current_user().keys()
         self.vars['posts'] = self.db.posts.find()
         self.render('templates/posts/index.html', **self.vars)
 
@@ -72,6 +73,7 @@ class PostHandler(BaseHandler):
             'title': form.title.data,
             'body': form.body.data,
             '_id': id,
+            'user': self.get_current_user(),
         }
         self.db.posts.insert(post)
         self.redirect('/posts/%s' % minifier.int_to_base62(post['_id']))
