@@ -32,8 +32,7 @@ class TwitterLoginHandler(BaseHandler, tornado.auth.TwitterMixin):
 # Main page
 class IndexHandler(BaseHandler):
     def get(self):
-        self.render('templates/index.html', **self.vars)
-
+        self.redirect('/posts')
 
 if __name__ == '__main__':
     log.info('Starting server on port 8888')

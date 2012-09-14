@@ -1,1 +1,15 @@
-{{ user['username'] }}
+{% for post in posts %}
+    <div class="post">
+        <h2>
+            <a href="/posts/{{ minifier.int_to_base62(post['_id']) }}">{{ post['title'] }}</a>
+        </h2>
+
+        <p>
+            {{ post['body'][:500] }}
+            {% if len(post['body']) > 500 %}
+                ...&nbsp;<a href="/posts/{{ minifier.int_to_base62(post['_id']) }}">more >></a>
+            {% end %}
+        </p>
+    </div>
+    <hr/>
+{% end %}

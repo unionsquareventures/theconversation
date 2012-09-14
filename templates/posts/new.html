@@ -1,1 +1,19 @@
-{{ user['username'] }}
+{% autoescape None %}
+
+<h1>Submit a Post</h1>
+
+<form action="/posts" method="post" >
+    {% module xsrf_form_html() %}
+
+    {% for field in form %}
+            {{ field.label }}:
+            {% for error in field.errors %}
+                <br/>
+                <i>{{ error }}</i>
+            {% end %}
+            <br/>
+            {{ field }}
+            <br/>
+    {% end %}
+    <input type="submit" value="Submit" />
+</form>

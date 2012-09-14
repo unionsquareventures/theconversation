@@ -10,7 +10,9 @@ conn = pymongo.Connection('localhost', 27017, socketTimeoutMS=50)
 class BaseHandler(tornado.web.RequestHandler):
     def __init__(self, *args, **kwargs):
         super(BaseHandler, self).__init__(*args, **kwargs)
-        self.vars = {'user': self.get_current_user()}
+        self.vars = {
+                        'user': self.get_current_user(),
+                    }
 
     @property
     def db(self):
