@@ -16,6 +16,10 @@ minifier = Minifier()
 
 
 class BaseHandler(tornado.web.RequestHandler):
+    def __init__(self, *args, **kwargs):
+        super(BaseHandler, self).__init__(*args, **kwargs)
+        self.vars = {'user': self.get_current_user()}
+
     @property
     def db(self):
         if not hasattr(self, '_db'):
@@ -55,15 +59,33 @@ class IndexHandler(BaseHandler):
     @tornado.web.authenticated
     @tornado.web.asynchronous
     def get(self):
-        vars = {'username': self.get_current_user()['username']}
-        self.render('templates/index.html', **vars)
+        self.render('templates/index.html', **self.vars)
+
+
+class PostsHandler(BaseHandler):
+    @tornado.web.asynchronous
+    def get(self, id=''):
+        self.render('templates/posts/index.html', **self.vars)
+
+
+class PostHandler(BaseHandler):
+    # no auth, anyone can access a post by it's URL
+    @tornado.web.asynchronous
+    def get(self, id=''):
+        id = minifier.base62_to_int(id)
+        res = self.db.posts.find_one({'_id': int(id)})
+        if not res:
+            raise tornado.web.HTTPError(404)
+        self.render('templates/posts/get.html', **self.vars)
 
 
 if __name__ == '__main__':
     log.info('Starting server on port 8888')
     application = tornado.web.Application([
-        (r'/auth/twitter/', TwitterLoginHandler),
         (r'/', IndexHandler),
+        (r'/auth/twitter/', TwitterLoginHandler),
+        (r'/posts', PostsHandler),
+        (r'/posts/(?P<id>.*)$', PostHandler),
     ], **settings.tornado_config)
     http_server = tornado.httpserver.HTTPServer(application)#, ssl_options={
     #        "certfile": os.path.join("/", "sub.mydomain.com.crt"),
