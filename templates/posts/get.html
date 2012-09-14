@@ -1,5 +1,11 @@
-<h1>{{ post['title'] }}</h1>
+{% extends "../base.html" %}
 
-<p>by: {{ post['user']['username'] }}</p>
+{% block title %}{{ post['title'] }}{% end %}
 
-<p>{{ post['body'] }}</p>
+{% block content %}
+    <h1>{{ post['title'] }}</h1>
+
+    <p>by: {{ post['user']['username'] }}</p>
+
+    <p>{{ post['body'] }}</p>
+{% end %}
