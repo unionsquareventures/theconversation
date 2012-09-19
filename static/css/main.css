@@ -4,8 +4,9 @@ html, body {
 }
 
 body {
-    background-color: #223;
+    background: #fff none;
     font-family: "Arial", sans-serif;
+
 }
 
 body a {
@@ -20,15 +21,45 @@ body a:hover {
 }
 
 #container {
-    width: 810px;
-    margin: 10px auto 0px auto;
-    padding: 20px;
+    width: 800px;
+    margin: 0px 0px 0px 20px;
     background-color: #FFF;
     min-height: 1000px;
+    float: left;
+}
+
+#nav {
+    float: left;
+    margin: 20px 0px 20px 20px;
+}
+
+.post {
+    padding: 0px 20px;
+    margin: 0px 0px 20px 0px;
+    border: 1px solid #BDBDBD;
+}
+.post h2 {
+    font-family: 'Source Sans Pro', sans-serif;
+    margin: 15px 0px 0px 0px;
+    padding: 0px;
+}
+.post_info {
+    display: inline;
+    font-size: 10px;
+}
+.post_info a {
+    font-weight: normal;
+}
+.post_content {
+    color: #333333;
+    line-height: 1.5;
+    letter-spacing: 0px;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 13px;
 }
 
 #content {
-    margin-top: 50px;
+    margin-top: 29px;
 }
 
 textarea {

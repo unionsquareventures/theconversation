@@ -1,11 +1,16 @@
 <html>
   <head>
       <title>{% block title %}{% end %}</title>
-      <link rel="stylesheet" type="text/css" href="/static/css/main.css" />
+        <link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" type="text/css" href="/static/css/main.css" />
   </head>
   <body>
+      <div id="nav">
+          <a href="/">
+              <img src="/static/images/logo.png" alt="Union Square Ventures" />
+          </a>
+      </div>
       <div id="container">
-          <img src="/static/images/logo.gif" alt="Union Square Ventures" />
           <div id="content">
             {% block content %}
             {% end %}

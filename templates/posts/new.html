@@ -1,4 +1,3 @@
-{% autoescape None %}
 {% extends "../base.html" %}
 
 {% block title %}Create a post{% end %}
@@ -10,13 +9,16 @@
         {% module xsrf_form_html() %}
 
         {% for field in form %}
-                {{ field.label }}:
+                <label for="{{field.name }}">
+                    {{ field.name.title() }}:
+                </label>
                 {% for error in field.errors %}
                     <br/>
                     <i>{{ error }}</i>
                 {% end %}
                 <br/>
-                {{ field }}
+                {% raw field %}
+                <br/>
                 <br/>
         {% end %}
         <input type="submit" value="Submit" />

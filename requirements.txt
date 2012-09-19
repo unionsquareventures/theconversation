@@ -1,3 +1,5 @@
 tornado
 pymongo
 wtForms
+markdown
+django
