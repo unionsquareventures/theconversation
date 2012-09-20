@@ -5,7 +5,7 @@
 {% block content %}
     <h1>Create a post</h1>
 
-    <form action="/posts" method="post" >
+    <form action="/posts/{{ post_id }}" method="post">
         {% module xsrf_form_html() %}
 
         {% for field in form %}
