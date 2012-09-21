@@ -39,19 +39,19 @@
 {% block content %}
     <div class="post post_detail">
         <h2>
-            <a href="/posts/{{ post.minified_id() }}">{{ post.title }}</a>
+            <a href="/posts/{{ minifier.int_to_base62(post['_id']) }}">{{ post['title'] }}</a>
         </h2>
 
         <p class="post_info">
             by: 
-            <a href="http://twitter.com/{{ post.user.username }}">
-                @{{ post.user.username }}
+            <a href="http://twitter.com/{{ post['user']['username'] }}">
+                @{{ post['user']['username'] }}
             </a>
             on
-            {{ post.date_created.strftime("%B %d, %Y") }}
+            {{ post['date_created'].strftime("%B %d, %Y") }}
         </p>
 
-        <div class="post_content">{% raw post.body_html %}</p>
+        <div class="post_content">{% raw post['body_html'] %}</p>
 
         <br/>
         <div id="disqus_thread"></div>
@@ -59,8 +59,8 @@
              (function() {
                 var disqus_shortname = 'usv'; // required: replace example with your forum shortname
                 var disqus_developer = 1; // developer mode is on
-                var disqus_identifier = "{{ post.id }}";
-                var disqus_url = "/posts/{{ post.minified_id() }}";
+                var disqus_identifier = "{{ post['_id'] }}";
+                var disqus_url = "/posts/{{ minifier.int_to_base62(post['_id']) }}";
 
                 (function() {
                     var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;

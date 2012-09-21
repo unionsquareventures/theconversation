@@ -1,0 +1,26 @@
+{% extends "../base.html" %}
+
+{% block title %}Posts{% end %}
+
+{% block content %}
+    {% for post in posts %}
+        <div class="post">
+            <h2>
+                <a href="/posts/{{ minifier.int_to_base62(post['_id']) }}">{{ post['title'] }}</a>
+            </h2>
+
+            <p class="post_info">
+                by: 
+                <a href="http://twitter.com/{{ post['user']['username'] }}">
+                    @{{ post['user']['username'] }}
+                </a>
+                on
+                {{ post['date_created'].strftime("%B %d, %Y") }}
+            </p>
+
+            <div class="post_content">
+                {% raw post['body_html'] %}
+            </div>
+        </div>
+    {% end %}
+{% end %}

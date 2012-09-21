@@ -8,12 +8,16 @@
     <form action="/posts/{{ post_id }}" method="post">
         {% module xsrf_form_html() %}
 
-        {% for name, html in model.form_fields() %}
-                <label for="{{ name }}">
-                    {{ name.title() }}:
+        {% for field in form %}
+                <label for="{{field.name }}">
+                    {{ field.name.title() }}:
                 </label>
+                {% for error in field.errors %}
+                    <br/>
+                    <i>{{ error }}</i>
+                {% end %}
                 <br/>
-                {% raw html %}
+                {% raw field %}
                 <br/>
                 <br/>
         {% end %}

@@ -9,8 +9,7 @@ import json
 import urlparse
 import forms
 
-from base import BaseHandler
-from post import PostHandler
+from handlers import BaseHandler, PostHandler
 
 log = settings.log
 

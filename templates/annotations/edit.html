@@ -1,0 +1,27 @@
+{% extends "../base.html" %}
+
+{% block title %}Create a post{% end %}
+
+{% block content %}
+    <h1>Create a post</h1>
+
+    <form action="/posts" method="post" >
+        {% module xsrf_form_html() %}
+
+        {% for field in form %}
+                <label for="{{field.name }}">
+                    {{ field.name.title() }}:
+                </label>
+                {% for error in field.errors %}
+                    <br/>
+                    <i>{{ error }}</i>
+                {% end %}
+                <br/>
+                {% raw field %}
+                <br/>
+                <br/>
+        {% end %}
+        <input type="submit" value="Submit" />
+    </form>
+{% end %}
+
