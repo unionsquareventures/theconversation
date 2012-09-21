@@ -8,6 +8,8 @@ from wtforms.validators import InputRequired
 from markdown import markdown
 from lib.markdown.mdx_video import VideoExtension
 import datetime as dt
+import re
+from collections import defaultdict
 
 from base import BaseHandler
 from minifier import Minifier
@@ -80,8 +82,24 @@ class PostHandler(BaseHandler):
         try:
             post.save()
         except mongoengine.ValidationError, e:
+            print e
             self.new(model=post, errors=e.errors)
             return
+
+        # Obtain questions
+        questions_data = defaultdict(dict)
+        for key, value in attributes.iteritems():
+            if not key.startswith('question['):
+                continue
+            m = re.search(r"question\[([0-9]+)\]\[\'([A-Za-z0-9_]+)\'\]", key)
+            index = int(m.group(1))
+            field = m.group(2)
+            questions_data[index][field] = value
+
+        # Create questions
+        for q in questions_data.values():
+            q = Question(**q)
+            post.update(push__questions=q)
 
         self.redirect('/posts/%s' % minifier.int_to_base62(post.id))
 
