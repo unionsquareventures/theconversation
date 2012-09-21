@@ -20,8 +20,36 @@
                 <br/>
                 <br/>
         {% end %}
-        <input type="text" value="test1" name="question[0]['text']" />
-        <input type="text" value="test2" name="question[1]['text']" />
+        <!--
+        <div id="questions">
+            <div id="question_fields">
+                <fieldset id="questions_template" class="question">
+                    <input type="text" value="" name="['text']" />
+                </fieldset>
+            </div>
+
+            <a href="#" class="plus">+</a>
+            <a href="#" class="minus">-</a>
+        </div>
+
+        <script src="/static/js/jquery-dynamic-form.js"></script>
+        <script type="text/javascript">
+            $(function() {
+                $("#questions_template").dynamicForm("#questions .plus", "#questions .minus",
+                        {
+                                        afterClone: function(clone) {
+                                                clone = $(clone[0]);
+                                                $.each(clone.children(), function(i, o) {
+                                                    o = $(o);
+                                                    var index = $("#question_fields .question").size();
+                                                    var new_name = 'question['+ index + ']' + o.attr('name');
+                                                    o.attr('name', new_name);
+                                                });
+                                        }
+                });
+            });
+        </script>
+        -->
 
         <input type="submit" value="Submit" />
     </form>
