@@ -43,7 +43,7 @@ class Post(Document):
 
         super(Post, self).save(*args, **kwargs)
 
-    def form_fields(self):
+    def form_fields(self, form_errors=None):
         for name, field in self._fields.iteritems():
             if name == self._meta['id_field'] or name in self.ignored_fields:
                 continue
@@ -56,7 +56,7 @@ class Post(Document):
 
             value = self._data.get(name)
             value = value.replace('"', '\\"') if value else ''
-            print name
             field_html = field_html.format(name=name, value=value)
-            label = self.labels.get(name, name)
-            yield (label, field_html)
+            label = self.labels.get(name, name).title()
+            field_errors = form_errors.get(name)
+            yield (name, label, field_html, field_errors)

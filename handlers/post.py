@@ -41,7 +41,7 @@ class PostHandler(BaseHandler):
 
     def index(self):
         # list posts
-        self.vars.update({'posts': self.db.posts.find()})
+        self.vars.update({'posts': Post.objects.all().order_by('date_created')})
         self.render('posts/index.html', **self.vars)
 
     def detail(self, id):
@@ -54,10 +54,11 @@ class PostHandler(BaseHandler):
 
     # Create a post
     @tornado.web.authenticated
-    def new(self, model=Post()):
+    def new(self, model=Post(), errors={}):
         self.vars.update({
             'model': model,
             'post_id': '',
+            'errors': errors,
         })
         self.render('posts/new.html', **self.vars)
 
@@ -69,7 +70,8 @@ class PostHandler(BaseHandler):
 
         attributes = {k: v[0] for k, v in self.request.arguments.iteritems()}
         video_ext = VideoExtension(configs={})
-        body_html = markdown(attributes['body_raw'], extensions=[video_ext], output_format='html5', safe_mode=False)
+        body_raw = attributes.get('body_raw', '')
+        body_html = markdown(body_raw, extensions=[video_ext], output_format='html5', safe_mode=False)
         attributes.update({
             'user': User(**self.get_current_user()),
             'body_html': body_html,
@@ -78,8 +80,7 @@ class PostHandler(BaseHandler):
         try:
             post.save()
         except mongoengine.ValidationError, e:
-            print e.errors
-            self.new(model=post)
+            self.new(model=post, errors=e.errors)
             return
 
         self.redirect('/posts/%s' % minifier.int_to_base62(post.id))
@@ -114,14 +115,12 @@ class PostHandler(BaseHandler):
             'user': User(**self.get_current_user()),
             'body_html': body_html,
         })
-        print attributes
         attributes = {'set__'+k: v for k, v in attributes.iteritems()}
         post.update(**attributes)
         try:
             post.save()
         except mongoengine.ValidationError, e:
-            print e.errors
-            self.new(model=post)
+            self.new(model=post, errors=e.errors)
             return
         self.redirect('/posts/%s' % post.minified_id())
 

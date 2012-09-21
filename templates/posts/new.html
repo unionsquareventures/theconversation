@@ -4,15 +4,18 @@
 
 {% block content %}
     <h1>Create a post</h1>
-
     <form action="/posts/{{ post_id }}" method="post">
         {% module xsrf_form_html() %}
 
-        {% for name, html in model.form_fields() %}
+        {% for name, label, html, field_errors in model.form_fields(errors) %}
                 <label for="{{ name }}">
-                    {{ name.title() }}:
+                    {{ label }}:
                 </label>
                 <br/>
+                {% if field_errors %}
+                    <i>{{ field_errors.message }}</i>
+                    <br/>
+                {% end %}
                 {% raw html %}
                 <br/>
                 <br/>
