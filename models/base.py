@@ -10,12 +10,7 @@ from minifier import Minifier
 
 minifier = Minifier()
 
-class BaseDocument(Document):
-    id = IntField(primary_key=True)
-
-    labels = {}
-    ignored_fields = []
-
+class IntIDMixin(object):
     def hook_id(self):
         counter_coll = self._get_collection_name() + 'Counter'
         counter = self._get_db()[counter_coll].find_and_modify(query={'_id': 'object_counter'},
@@ -26,6 +21,10 @@ class BaseDocument(Document):
 
     def minified_id(self):
         return minifier.int_to_base62(self.id)
+
+class BaseDocument(Document, IntIDMixin):
+    labels = {}
+    ignored_fields = []
 
     def save(self, *args, **kwargs):
         if kwargs.get('force_insert') or '_id' not in self.to_mongo():

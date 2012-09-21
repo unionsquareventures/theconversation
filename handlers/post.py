@@ -13,7 +13,7 @@ from base import BaseHandler
 from minifier import Minifier
 
 import mongoengine
-from models import Post, User
+from models import Post, User, Question
 
 minifier = Minifier()
 
@@ -67,7 +67,7 @@ class PostHandler(BaseHandler):
         if params:
             self.put(params)
             return
-
+        ##
         attributes = {k: v[0] for k, v in self.request.arguments.iteritems()}
         video_ext = VideoExtension(configs={})
         body_raw = attributes.get('body_raw', '')
@@ -106,7 +106,7 @@ class PostHandler(BaseHandler):
         post = Post.objects(id=id).first()
         if not post:
             raise tornado.web.HTTPError(404)
-
+        ##
         attributes = {k: v[0] for k, v in self.request.arguments.iteritems()}
         del attributes['_xsrf']
         video_ext = VideoExtension(configs={})
