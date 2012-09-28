@@ -25,7 +25,7 @@ class AnnotationHandler(BaseHandler):
             })
             annotations.append(a)
 
-        return self.render_json({
+        self.render_json({
             'total': len(annotations),
             'rows': annotations,
         })

@@ -23,7 +23,13 @@ class PostHandler(BaseHandler):
 
     def index(self):
         # list posts
-        self.vars.update({'posts': Post.objects.all().order_by('date_created')})
+        query = {}
+        tag = self.get_argument('tag', '')
+        if tag:
+            query.update({
+                'tags': tag,
+            })
+        self.vars.update({'posts': Post.objects(**query).order_by('date_created')})
         self.render('posts/index.html', **self.vars)
 
     def detail(self, id):
@@ -58,6 +64,7 @@ class PostHandler(BaseHandler):
             'user': User(**self.get_current_user()),
             'body_html': body_html,
         })
+        attributes['tags'] = attributes.get('tags', '').split(' ')
         post = Post(**attributes)
         try:
             post.save()

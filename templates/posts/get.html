@@ -38,7 +38,7 @@
           a.annotator('addPlugin', 'Disqus');
           a.annotator('addPlugin', 'Store', {
               // The endpoint of the store on your server.
-              prefix: 'http://localhost:8888',
+              prefix: 'http://127.0.0.1:8888',
 
               // Attach the uri of the current page to all annotations to allow search.
               annotationData: {
@@ -79,18 +79,29 @@
 
         <br/>
         {% if len(post.questions) %}
+            <p id="post_tags">
+                <b>Tags: </b>
+                {% for tag in post.tags %}
+                    <a href="/posts?tag={{ tag }}">{{ tag }}</a>
+                {% end %}
+            </p>
+        {% end %}
+        <br/>
+        {% if len(post.questions) %}
             <h2>Questions</h2>
-            {% for counter in range(len(post.questions)) %}
-                <div class="question">
-                    <h3 class="question">{{ post.questions[counter].text }}</h3>
-                    <iframe class="disqus" src="/disqus?post_id={{ post.id }}&question_number={{ counter+1 }}"></iframe>
-                </div>
-            {% end %}
-            <script type="text/javascript">
-                $(".question").on("click", function(e) {
-                    $(this).children("iframe").toggle();
-                });
-            </script>
+            <div id="questions">
+                {% for counter in range(len(post.questions)) %}
+                    <div class="question">
+                        <h3 class="question">{{ post.questions[counter].text }}</h3>
+                        <iframe class="disqus" src="/disqus?post_id={{ post.id }}&question_number={{ counter+1 }}"></iframe>
+                    </div>
+                {% end %}
+                <script type="text/javascript">
+                    $(".question").on("click", function(e) {
+                        $(this).children("iframe").toggle();
+                    });
+                </script>
+            </div>
         {% end %}
     </div>
 {% end %}

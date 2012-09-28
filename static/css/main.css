@@ -75,6 +75,10 @@ body a:hover {
     font-size: 13px;
 }
 
+#post_tags a {
+    font-weight: normal !important;
+}
+
 #content {
     margin-top: 29px;
 }
@@ -110,6 +114,10 @@ form input[type=submit] {
     margin: 29px 0px 30px 20px;
 }
 
+#questions {
+    margin: 0px 0px 20px 0px;
+}
+
 .question h3 {
     cursor: pointer;
     -webkit-touch-callout: none;
@@ -118,10 +126,20 @@ form input[type=submit] {
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+    margin-bottom: 10px;
 }
 
 .question .disqus {
     border: none;
     width: 750px;
     height: 350px;
+    margin: 0px;
+    padding: 0px;
+}
+
+.label_description {
+    font-size: 12px;
+    display: block;
+    margin: 0px 0px 8px 0px;
+    padding: 0px;
 }

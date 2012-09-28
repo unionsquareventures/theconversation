@@ -22,6 +22,7 @@ class Post(Document):
     user = EmbeddedDocumentField(User, required=True)
     questions = ListField(EmbeddedDocumentField(Question))
     annotations = ListField(EmbeddedDocumentField(Annotation))
+    tags = ListField(StringField())
 
     labels = {
         'body_raw': 'body',
