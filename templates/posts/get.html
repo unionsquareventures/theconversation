@@ -9,18 +9,27 @@
 {% block javascript %}
 <script src="/static/js/annotator-full.min.js"></script>
 <script type="text/javascript">
-        /*
-            // Create the annotation
-            $('.annotation .disqus').remove();
-            var disqus_frame = '<div class="annotation"><iframe class="disqus"'
-                                     + 'src="/disqus?post_id={{ post.id }}'
-                                        + '&annotation_number={{ 1 }}"></iframe></div>';
-            $("body").append($(disqus_frame));
+        $(document).ready(function(){
 
-            */
+          Annotator.Plugin.Disqus = function (element) {
+                var disqusPlugin = {};
+                disqusPlugin.pluginInit = function () {
+                        this.annotator
+                        .subscribe("annotationViewerTextField", function (field, annotation) {
+                                var ids = annotation['id'].split('_');
+                                var disqus_frame = '<div class="annotation"><iframe class="disqus"'
+                                     + 'src="/disqus?post_id=' + ids[0] + '&annotation_number='
+                                            + ids[1] + '"></iframe></div>';
+                                $(field).html(disqus_frame);
+                              
+                            });
+                };
+                return disqusPlugin;
+            };
 
-    $(document).ready(function(){
-        $(".post_content").annotator().annotator('addPlugin', 'Store', {
+          var a = $(".post_content").annotator();
+          a.annotator('addPlugin', 'Disqus');
+          a.annotator('addPlugin', 'Store', {
               // The endpoint of the store on your server.
               prefix: 'http://localhost:8888',
 
@@ -39,8 +48,8 @@
               urls: {
                 search: '/annotations',
               }
+          });
         });
-    });
 </script>
 {% end %}
 
