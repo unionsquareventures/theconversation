@@ -9,7 +9,7 @@ import json
 import urlparse
 import forms
 
-from handlers import BaseHandler, PostHandler
+from handlers import BaseHandler, PostHandler, DisqusHandler
 
 log = settings.log
 
@@ -49,6 +49,8 @@ if __name__ == '__main__':
         # Posts
         (r'/posts', PostHandler),
         (r'/posts/(?P<params>.*)$', PostHandler),
+        # Disqus
+        (r'/disqus', DisqusHandler),
     ], **settings.tornado_config)
     http_server = tornado.httpserver.HTTPServer(application)#, ssl_options={
     #        "certfile": os.path.join("/", "sub.mydomain.com.crt"),

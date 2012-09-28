@@ -84,3 +84,13 @@ form label {
 form input[type=submit] {
     margin: 15px 0px 0px 470px;
 }
+
+.question .disqus {
+    border: none;
+    width: 750px;
+    height: 350px;
+}
+
+.question h3 {
+    cursor: pointer;
+}

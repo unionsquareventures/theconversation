@@ -2,9 +2,6 @@ import settings
 import tornado.web
 import tornado.auth
 import tornado.httpserver
-from forms import Form
-from wtforms import TextField, TextAreaField, IntegerField
-from wtforms.validators import InputRequired
 from markdown import markdown
 from lib.markdown.mdx_video import VideoExtension
 import datetime as dt
