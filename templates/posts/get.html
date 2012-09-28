@@ -2,28 +2,14 @@
 
 {% block title %}{{ post['title'] }}{% end %}
 
+{% block css %}
+    <link rel="stylesheet" type="text/css" href="/static/css/annotator.min.css" />
+{% end %}
+
 {% block javascript %}
+<script src="/static/js/annotator-full.min.js"></script>
 <script type="text/javascript">
-    if(!window.Kolich){
-        Kolich = {};
-    }
-
-    Kolich.Selector = {};
-    Kolich.Selector.getSelected = function(){
-        var t = '';
-        if(window.getSelection){
-            t = window.getSelection();
-        }else if(document.getSelection){
-            t = document.getSelection();
-        }else if(document.selection){
-            t = document.selection.createRange().text;
-        }
-        return t;
-    }
-
-    Kolich.Selector.mouseup = function(){
-        var st = Kolich.Selector.getSelected();
-        if(st!='') {
+        /*
             // Create the annotation
             $('.annotation .disqus').remove();
             var disqus_frame = '<div class="annotation"><iframe class="disqus"'
@@ -31,11 +17,29 @@
                                         + '&annotation_number={{ 1 }}"></iframe></div>';
             $("body").append($(disqus_frame));
 
-        }
-    }
+            */
 
     $(document).ready(function(){
-        $(".post_content").bind("mouseup", Kolich.Selector.mouseup);
+        $(".post_content").annotator().annotator('addPlugin', 'Store', {
+              // The endpoint of the store on your server.
+              prefix: 'http://localhost:8888',
+
+              // Attach the uri of the current page to all annotations to allow search.
+              annotationData: {
+                'post_id': '{{ post.id }}'
+              },
+
+              // This will perform a "search" action rather than "read" when the plugin
+              // loads. Will request the last 20 annotations for the current url.
+              // eg. /store/endpoint/search?limit=20&uri=http://this/document/only
+              loadFromSearch: {
+                'limit': 20,
+                'post_id': '{{ post.id }}'
+              },
+              urls: {
+                search: '/annotations',
+              }
+        });
     });
 </script>
 {% end %}

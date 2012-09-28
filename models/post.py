@@ -6,6 +6,7 @@ import datetime as dt
 from mongoengine import *
 from base import BaseDocument
 from question import Question
+from annotation import Annotation
 from user import User
 
 from minifier import Minifier
@@ -20,6 +21,7 @@ class Post(Document):
     date_created = DateTimeField(required=True)
     user = EmbeddedDocumentField(User, required=True)
     questions = ListField(EmbeddedDocumentField(Question))
+    annotations = ListField(EmbeddedDocumentField(Annotation))
 
     labels = {
         'body_raw': 'body',
