@@ -15,9 +15,16 @@
                 var disqusPlugin = {};
                 disqusPlugin.pluginInit = function () {
                         this.annotator
+                        .subscribe("annotationViewerShown", function(viewer, annotations) {
+                            //$(viewer.element).children().children(".annotator-item:not(:last)").remove()
+                        });
+
+                        this.annotator
                         .subscribe("annotationViewerTextField", function (field, annotation) {
                                 var ids = annotation['id'].split('_');
-                                var disqus_frame = '<div class="annotation"><iframe class="disqus"'
+                                var disqus_frame = '<div class="annotation">'
+                                    + '<h3>"' + annotation['quote'] + '"</h3><br/>'
+                                    + '<iframe class="disqus"'
                                      + 'src="/disqus?post_id=' + ids[0] + '&annotation_number='
                                             + ids[1] + '"></iframe></div>';
                                 $(field).html(disqus_frame);
