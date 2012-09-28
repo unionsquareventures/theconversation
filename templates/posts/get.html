@@ -54,17 +54,19 @@
         <div class="post_content">{% raw post.body_html %}</div>
 
         <br/>
-        <h2>Questions</h2>
-        {% for counter in range(len(post.questions)) %}
-            <div class="question">
-                <h3 class="question">{{ post.questions[counter].text }}</h3>
-                <iframe class="disqus" src="/disqus?post_id={{ post.id }}&question_number={{ counter+1 }}"></iframe>
-            </div>
+        {% if len(post.questions) %}
+            <h2>Questions</h2>
+            {% for counter in range(len(post.questions)) %}
+                <div class="question">
+                    <h3 class="question">{{ post.questions[counter].text }}</h3>
+                    <iframe class="disqus" src="/disqus?post_id={{ post.id }}&question_number={{ counter+1 }}"></iframe>
+                </div>
+            {% end %}
+            <script type="text/javascript">
+                $(".question").on("click", function(e) {
+                    $(this).children("iframe").toggle();
+                });
+            </script>
         {% end %}
-        <script type="text/javascript">
-            $(".question").on("click", function(e) {
-                $(this).children("iframe").toggle();
-            });
-        </script>
     </div>
 {% end %}
