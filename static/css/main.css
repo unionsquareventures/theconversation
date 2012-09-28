@@ -143,3 +143,11 @@ form input[type=submit] {
     margin: 0px 0px 8px 0px;
     padding: 0px;
 }
+
+#post_tags {
+    border: 1px solid #BDBDBD;
+    border-left: 0px;
+    border-right: 0px;
+    padding: 10px 0px;
+    font-size: 14px;
+}
