@@ -8,8 +8,8 @@
          (function() {
             var disqus_shortname = 'usv'; // required: replace example with your forum shortname
             var disqus_developer = 1; // developer mode is on
-            var disqus_identifier = "{{ post.id }}_{{ question_number }}";
-            var disqus_url = "/posts/{{ post.minified_id() }}#question_{{ question_number }}";
+            var disqus_identifier = "{{ post.id }}_{{ secondary_id }}";
+            var disqus_url = "/posts/{{ post.minified_id() }}#{{ secondary_id }}";
 
             (function() {
                 var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;

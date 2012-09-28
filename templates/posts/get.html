@@ -23,9 +23,13 @@
 
     Kolich.Selector.mouseup = function(){
         var st = Kolich.Selector.getSelected();
-        if(st!=''){
-            alert("You selected:\n"+st);
-            // Call the backend to create the selection
+        if(st!='') {
+            // Create the annotation
+            $('.annotation .disqus').remove();
+            var disqus_frame = '<div class="annotation"><iframe class="disqus"'
+                                     + 'src="/disqus?post_id={{ post.id }}'
+                                        + '&annotation_number={{ 1 }}"></iframe></div>';
+            $("body").append($(disqus_frame));
 
         }
     }

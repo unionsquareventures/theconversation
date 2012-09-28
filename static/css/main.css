@@ -85,10 +85,12 @@ form input[type=submit] {
     margin: 15px 0px 0px 470px;
 }
 
-.question .disqus {
-    border: none;
-    width: 750px;
+.disqus {
+    border: 1px solid #BDBDBD;
+    width: 500px;
     height: 350px;
+    padding: 10px;
+    margin: 29px 0px 30px 20px;
 }
 
 .question h3 {
@@ -99,4 +101,10 @@ form input[type=submit] {
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
+}
+
+.question .disqus {
+    border: none;
+    width: 750px;
+    height: 350px;
 }
