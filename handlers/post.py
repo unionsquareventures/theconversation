@@ -91,13 +91,16 @@ class PostHandler(BaseHandler):
         for key, value in attributes.iteritems():
             if not key.startswith('question['):
                 continue
-            m = re.search(r"question\[([0-9]+)\]\[\'([A-Za-z0-9_]+)\'\]", key)
+            m = re.search(r"question\[([0-9]+)\]\[([A-z0-9\_]+)\]", key)
             index = int(m.group(1))
             field = m.group(2)
             questions_data[index][field] = value
 
         # Create questions
         for q in questions_data.values():
+            # Ignore empty questions
+            if not q["text"]:
+                continue
             q = Question(**q)
             post.update(push__questions=q)
 
@@ -124,7 +127,7 @@ class PostHandler(BaseHandler):
         post = Post.objects(id=id).first()
         if not post:
             raise tornado.web.HTTPError(404)
-        ##
+        #
         attributes = {k: v[0] for k, v in self.request.arguments.iteritems()}
         del attributes['_xsrf']
         video_ext = VideoExtension(configs={})
