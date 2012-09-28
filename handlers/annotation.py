@@ -30,6 +30,18 @@ class AnnotationHandler(BaseHandler):
             'rows': annotations,
         })
 
+    def detail(self, params=''):
+        params = params.split('_')
+        post_id = int(params[0])
+        annotation_num = int(params[1])
+
+        post = Post.objects(id=post_id).first()
+        if not post:
+            raise tornado.web.HTTPError(404)
+        a = annotation[annotation_num]
+        a['id'] = params
+        self.render_json(a.to_mongo())
+
     def post(self, params=''):
         req = json.loads(self.request.body)
         req['post_id'] = int(req['post_id'])
@@ -39,8 +51,13 @@ class AnnotationHandler(BaseHandler):
         if not post:
             raise tornado.web.HTTPError(404)
 
+        annotation_num = len(post.annotations)
         a = Annotation(**req)
         post.update(push__annotations=a)
+
+        a = a.to_mongo()
+        a['id'] = '%i_%i' % (post_id, annotation_num)
+        self.render_json(a)
 
     def delete(self, params):
         params = params.split('_')
