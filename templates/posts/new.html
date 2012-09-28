@@ -9,9 +9,8 @@
 
         {% for name, label, html, field_errors in model.form_fields(errors) %}
                 <label for="{{ name }}">
-                    {{ label }}:
+                    {{ label }}
                 </label>
-                <br/>
                 {% if field_errors %}
                     <i>{{ field_errors.message }}</i>
                     <br/>
@@ -20,37 +19,45 @@
                 <br/>
                 <br/>
         {% end %}
-        <!--
+        <label>Questions</label>
         <div id="questions">
-            <div id="question_fields">
-                <fieldset id="questions_template" class="question">
-                    <input type="text" value="" name="['text']" />
-                </fieldset>
+            <div id="questions_template">
+                <input type="text" value="" name="text" />
+                <a href="javascript:void(0);" class="plus">+</a>
+                <a href="javascript:void(0);" class="minus">-</a>
             </div>
 
-            <a href="#" class="plus">+</a>
-            <a href="#" class="minus">-</a>
         </div>
 
         <script src="/static/js/jquery-dynamic-form.js"></script>
         <script type="text/javascript">
             $(function() {
-                $("#questions_template").dynamicForm("#questions .plus", "#questions .minus",
-                        {
-                                        afterClone: function(clone) {
-                                                clone = $(clone[0]);
-                                                $.each(clone.children(), function(i, o) {
-                                                    o = $(o);
-                                                    var index = $("#question_fields .question").size();
-                                                    var new_name = 'question['+ index + ']' + o.attr('name');
-                                                    o.attr('name', new_name);
-                                                });
-                                        }
-                });
+                var template = $('#questions_template').clone();
+                $('#questions_template').remove();
+
+                var handle_add = function (e) {
+                    var newq = template.clone();
+                    $('#questions').append(newq);
+                    $.each(newq.children('input'), function(i, o) {
+                        var n = 'question' + '[' + newq.index() + ']' + '[' + $(this).attr('name') + ']';
+                        $(this).attr('name', n);
+                    });
+                    newq.children('.plus').on("click", handle_add);
+                    newq.children('.minus').on("click", handle_remove);
+                    if(e) {
+                        e.stopPropagation();
+                    }
+                };
+                var handle_remove = function (e) {
+                    $(this).parent().remove();
+                    e.stopPropagation();
+                };
+                handle_add();
+                $('#questions_template .minus').first().remove();
             });
         </script>
-        -->
 
+        <br/>
         <input type="submit" value="Submit" />
     </form>
 {% end %}
