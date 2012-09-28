@@ -33,6 +33,23 @@ body a:hover {
     margin: 20px 0px 20px 20px;
 }
 
+#nav ul {
+    list-style-type: none;
+    margin: 10px 0px 0px 0px;
+    padding: 0px;
+    font-weight: normal;
+    font-size: 14px;
+}
+#nav ul li {
+    margin: 5px 0px 0px 0px;
+    padding: 5px;
+    border: 1px solid #BDBDBD;
+}
+
+#nav ul li a {
+    display: block;
+}
+
 .post {
     padding: 0px 20px;
     margin: 0px 0px 20px 0px;
