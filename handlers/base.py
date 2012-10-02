@@ -3,9 +3,6 @@ import tornado.web
 import tornado.auth
 import tornado.httpserver
 import json
-import pymongo
-
-conn = pymongo.Connection('localhost', 27017, socketTimeoutMS=50)
 
 class BaseHandler(tornado.web.RequestHandler):
     def __init__(self, *args, **kwargs):
@@ -13,12 +10,6 @@ class BaseHandler(tornado.web.RequestHandler):
         self.vars = {
                         'user': self.get_current_user(),
                     }
-
-    @property
-    def db(self):
-        if not hasattr(self, '_db'):
-            self._db = conn['usv']
-        return self._db
 
     def render_json(self, obj):
         resp = json.dumps(obj)
@@ -33,19 +24,18 @@ class BaseHandler(tornado.web.RequestHandler):
         if not user_json: return None
         return tornado.escape.json_decode(user_json)
 
-    def get(self, params=''):
-        # TODO: Do this inside the routes w/ kwargs
-        if params.find('/') == -1:
-            params += '/'
-        id, action = params.split('/')
-        # Route new, detail, and index
-        if id == 'new':
+    def post(self, id='', action=''):
+        if id:
+            self.update(id)
+        else:
+            self.create()
+
+    def get(self, id='', action=''):
+        if action == 'new' and not id:
             self.new()
-            return
-        if id and action == '':
-            self.detail(id)
-            return
-        if action == 'edit':
+        elif action == 'edit' and id:
             self.edit(id)
-            return
-        self.index()
+        elif action == '' and id:
+            self.detail(id)
+        else:
+            self.index()

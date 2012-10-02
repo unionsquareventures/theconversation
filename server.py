@@ -9,32 +9,13 @@ import json
 import urlparse
 import forms
 
-from handlers import BaseHandler, PostHandler, DisqusHandler, AnnotationHandler
+from handlers.base import BaseHandler
+from handlers.post import PostHandler
+from handlers.disqus import DisqusHandler
+from handlers.annotation import AnnotationHandler
+from handlers.auth import TwitterLoginHandler
 
 log = settings.log
-
-class TwitterLoginHandler(BaseHandler, tornado.auth.TwitterMixin):
-    @tornado.web.asynchronous
-    def get(self):
-        if self.get_argument("oauth_token", None):
-            self.get_authenticated_user(callback=self.async_callback(self._on_login))
-            return
-        self.authorize_redirect()
-
-    def _on_login(self, user_obj):
-        if not user_obj:
-            raise tornado.web.HTTPError(500, "Twitter authentication failed.")
-        user = {
-                'auth_type': 'twitter',
-                'username': user_obj['username'],
-                'screen_name': user_obj['screen_name'],
-                'profile_image_url': user_obj['profile_image_url'],
-                'profile_image_url_https': user_obj['profile_image_url_https'],
-        }
-        self.set_secure_cookie("user", tornado.escape.json_encode(user))
-        self.set_secure_cookie("user_token", tornado.escape.json_encode({'twitter': user_obj['access_token']}))
-        self.redirect("/")
-
 
 # Main page
 class IndexHandler(BaseHandler):
@@ -47,17 +28,16 @@ if __name__ == '__main__':
         (r'/', IndexHandler),
         (r'/auth/twitter/', TwitterLoginHandler),
         # Posts
-        (r'/posts', PostHandler),
-        (r'/posts/(?P<params>.*)$', PostHandler),
+        (r'/posts$', PostHandler),
+        (r'/posts/(?P<action>new)$', PostHandler),
+        (r'/posts/(?P<id>[A-z0-9]+$)', PostHandler),
+        (r'/posts/(?P<id>[A-z0-9]+)/(?P<action>.*)$', PostHandler),
         # Disqus
         (r'/disqus', DisqusHandler),
         # Annotations
         (r'/annotations', AnnotationHandler),
-        (r'/annotations/(?P<params>.*)$', AnnotationHandler),
+        (r'/annotations/(?P<id>\d+$)', AnnotationHandler),
     ], **settings.tornado_config)
-    http_server = tornado.httpserver.HTTPServer(application)#, ssl_options={
-    #        "certfile": os.path.join("/", "sub.mydomain.com.crt"),
-    #        "keyfile": os.path.join("/", "sub.mydomain.com.key")
-    #})
+    http_server = tornado.httpserver.HTTPServer(application)
     http_server.listen(8888)
     tornado.ioloop.IOLoop.instance().start()

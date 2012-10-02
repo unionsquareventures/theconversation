@@ -4,7 +4,6 @@ from lib.markdown.mdx_video import VideoExtension
 import datetime as dt
 
 from mongoengine import *
-from base import BaseDocument
 from question import Question
 from annotation import Annotation
 from user import User
@@ -32,7 +31,6 @@ class Post(Document):
     def hook_date_created(self):
         self._data['date_created'] = dt.datetime.now()
 
-    ##
     def hook_id(self):
         counter_coll = self._get_collection_name() + 'Counter'
         counter = self._get_db()[counter_coll].find_and_modify(query={'_id': 'object_counter'},
@@ -40,11 +38,10 @@ class Post(Document):
                                                                 upsert=True, new=True)
         id = counter['value']
         self._data['id'] = id
-    ##
+
     def minified_id(self):
         return minifier.int_to_base62(self.id)
 
-    ##
     def save(self, *args, **kwargs):
         if kwargs.get('force_insert') or '_id' not in self.to_mongo():
             if self.hook_id:
@@ -52,7 +49,7 @@ class Post(Document):
             if self.hook_date_created:
                 self.hook_date_created()
         super(Post, self).save(*args, **kwargs)
-    ##
+
     def form_fields(self, form_errors=None):
         for name, field in self._fields.iteritems():
             if name == self._meta['id_field'] or name in self.ignored_fields:

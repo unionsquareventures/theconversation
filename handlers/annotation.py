@@ -8,7 +8,7 @@ import json
 from base import BaseHandler
 from models import Post, Annotation, AnnotationRange
 
-# TODO: Authentication
+# TODO: Annotation authentication and xsrf cookies
 
 class AnnotationHandler(BaseHandler):
 
@@ -30,19 +30,19 @@ class AnnotationHandler(BaseHandler):
             'rows': annotations,
         })
 
-    def detail(self, params=''):
-        params = params.split('_')
-        post_id = int(params[0])
-        annotation_num = int(params[1])
+    def detail(self, id):
+        ids = id.split('_')
+        post_id = int(ids[0])
+        annotation_num = int(ids[1])
 
         post = Post.objects(id=post_id).first()
         if not post:
             raise tornado.web.HTTPError(404)
         a = annotation[annotation_num]
-        a['id'] = params
+        a['id'] = id
         self.render_json(a.to_mongo())
 
-    def post(self, params=''):
+    def create(self):
         req = json.loads(self.request.body)
         req['post_id'] = int(req['post_id'])
         post_id = int(req['post_id'])
@@ -59,8 +59,8 @@ class AnnotationHandler(BaseHandler):
         a['id'] = '%i_%i' % (post_id, annotation_num)
         self.render_json(a)
 
-    def delete(self, params):
-        params = params.split('_')
+    def delete(self, id):
+        ids = id.split('_')
         post_id = int(params[0])
         annotation_num = int(params[1])
 
@@ -73,7 +73,7 @@ class AnnotationHandler(BaseHandler):
 
         return
 
-    def put(self, id=''):
+    def update(self, id):
         pass
 
     def check_xsrf_cookie(self):
