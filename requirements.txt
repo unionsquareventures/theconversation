@@ -4,3 +4,4 @@ wtForms
 markdown
 django
 mongoengine
+fabric
