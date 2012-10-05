@@ -14,6 +14,7 @@ from handlers.post import PostHandler
 from handlers.disqus import DisqusHandler
 from handlers.annotation import AnnotationHandler
 from handlers.auth import TwitterLoginHandler
+from handlers.email import EmailHandler
 
 log = settings.log
 
@@ -37,6 +38,8 @@ if __name__ == '__main__':
         # Annotations
         (r'/annotations', AnnotationHandler),
         (r'/annotations/(?P<id>\d+$)', AnnotationHandler),
+        # Email
+        (r'/email$', EmailHandler),
     ], **settings.tornado_config)
 
     if settings.server_port == 443:

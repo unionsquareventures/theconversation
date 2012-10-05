@@ -16,43 +16,21 @@ from models import Post, User, Question
 
 minifier = Minifier()
 
-class PostHandler(BaseHandler):
+class EmailHandler(BaseHandler):
     def __init__(self, *args, **kwargs):
-        super(PostHandler, self).__init__(*args, **kwargs)
+        super(EmailHandler, self).__init__(*args, **kwargs)
         self.vars['minifier'] = minifier
 
-    def index(self):
-        # list posts
-        query = {}
-        tag = self.get_argument('tag', '')
-        if tag:
-            query.update({
-                'tags': tag,
-            })
-        posts = Post.objects(**query).order_by('date_created')
-        self.vars.update({'posts': posts})
-        self.render('posts/index.html', **self.vars)
+    def check_xsrf_cookie(self):
+        pass
 
-    def detail(self, id):
-        id = minifier.base62_to_int(id)
-        post = Post.objects(id=id).first()
-        if not post:
-            raise tornado.web.HTTPError(404)
-        self.vars.update({'post': post})
-        self.render('posts/get.html', **self.vars)
-
-    @tornado.web.authenticated
-    def new(self, model=Post(), errors={}):
-        # Create a post
-        self.vars.update({
-            'model': model,
-            'post_id': '',
-            'errors': errors,
-        })
-        self.render('posts/new.html', **self.vars)
-
-    @tornado.web.authenticated
-    def create(self):
+    def post(self):
+        f = open("email", "w")
+        f.write(self.request.body)
+        f.close()
+        self.write('OK')
+        return
+        """
         attributes = {k: v[0] for k, v in self.request.arguments.iteritems()}
         video_ext = VideoExtension(configs={})
         body_raw = attributes.get('body_raw', '')
@@ -90,21 +68,4 @@ class PostHandler(BaseHandler):
             post.update(push__questions=q)
 
         self.redirect('/posts/%s' % minifier.int_to_base62(post.id))
-
-    # Update a post
-    @tornado.web.authenticated
-    def edit(self, id):
-        id = minifier.base62_to_int(id)
-        post = Post.objects(id=id).first()
-        if not post:
-            raise tornado.web.HTTPError(404)
-
-        self.vars.update({
-            'model':  post,
-            'post_id': post.minified_id(),
-        })
-        self.render('posts/new.html', **self.vars)
-
-    @tornado.web.authenticated
-    def update(self, id):
-        pass
+        """

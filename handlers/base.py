@@ -39,3 +39,22 @@ class BaseHandler(tornado.web.RequestHandler):
             self.detail(id)
         else:
             self.index()
+
+    def new(self):
+        raise tornado.web.HTTPError(404)
+
+    def edit(self, id):
+        raise tornado.web.HTTPError(404)
+
+    def detail(self, id):
+        raise tornado.web.HTTPError(404)
+
+    def index(self):
+        raise tornado.web.HTTPError(404)
+
+    def create(self):
+        raise tornado.web.HTTPError(404)
+
+    def update(self, id):
+        raise tornado.web.HTTPError(404)
+
