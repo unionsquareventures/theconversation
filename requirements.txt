@@ -5,3 +5,5 @@ markdown
 django
 mongoengine
 fabric
+-e git://github.com/simplegeo/python-oauth2.git#egg=python-oauth2
+-e git://github.com/contextio/Python-ContextIO.git#egg=ContextIO

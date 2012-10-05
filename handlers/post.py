@@ -53,6 +53,14 @@ class PostHandler(BaseHandler):
 
     @tornado.web.authenticated
     def create(self):
+        # Check for an emailed post
+        type = self.get_argument('email', '')
+        if type == 'email':
+            attributes = {k: v[0] for k, v in self.request.arguments.iteritems()}
+            print attributes
+            self.render_json({'msg': 'ok'})
+            return
+
         attributes = {k: v[0] for k, v in self.request.arguments.iteritems()}
         video_ext = VideoExtension(configs={})
         body_raw = attributes.get('body_raw', '')
