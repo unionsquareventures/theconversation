@@ -1,13 +1,13 @@
 import settings
 import tornado.web
 import tornado.auth
-import tornado.httpserver
+from tornado.httpserver import HTTPServer
 import sys
 import os
 import mimetypes
 import json
 import urlparse
-import forms
+import ssl
 
 from handlers.base import BaseHandler
 from handlers.post import PostHandler
@@ -23,7 +23,7 @@ class IndexHandler(BaseHandler):
         self.redirect('/posts')
 
 if __name__ == '__main__':
-    log.info('Starting server on port 8888')
+    log.info('Starting server')
     application = tornado.web.Application([
         (r'/', IndexHandler),
         (r'/auth/twitter/', TwitterLoginHandler),
@@ -38,6 +38,17 @@ if __name__ == '__main__':
         (r'/annotations', AnnotationHandler),
         (r'/annotations/(?P<id>\d+$)', AnnotationHandler),
     ], **settings.tornado_config)
-    http_server = tornado.httpserver.HTTPServer(application)
-    http_server.listen(8888)
+
+    if settings.server_port == 443:
+        log.info('SSL enabled')
+        server = HTTPServer(application, ssl_options=dict(
+            certfile="keys/server.crt",
+            keyfile="keys/server.key",
+            cert_reqs=ssl.CERT_NONE,
+        ))
+        server.listen(settings.server_port)
+    else:
+        log.info('SSL disabled')
+        application.listen(settings.server_port)
+
     tornado.ioloop.IOLoop.instance().start()
