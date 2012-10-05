@@ -30,12 +30,7 @@ body a:hover {
   margin-left: 400px !important;
 }
 
-#container {
-    width: 800px;
-    margin: 0px 0px 0px 20px;
-    background-color: #FFF;
-    min-height: 1000px;
-    float: left;
+.main.container {
 }
 
 .navbar .container {
@@ -44,6 +39,8 @@ body a:hover {
 
 .navbar-inner {
   border-bottom: 1px solid #F5F7CE !important;
+  -webkit-box-shadow: none !important;
+  box-shadow: none !important;
 }
 
 .navbar-fixed-top {
@@ -56,11 +53,15 @@ body a:hover {
 
 }
 
+.post_detail {
+  background-color: #FFF !important;
+}
+
 .post {
     padding: 30px 50px 30px 50px;
     margin: 10px 0px 30px 0px;
     border: 1px solid #EED;
-    background-color: white;
+    background-color: #FFF;
 }
 .post h1 {
     font-family: 'Helvetica', sans-serif; /* Source Sans Pro */
@@ -76,6 +77,7 @@ body a:hover {
     padding: 0px;
     font-size: 20px !important;
     height: 35px;
+    color: #21201D;
 }
 
 .post h3 {
@@ -92,6 +94,7 @@ body a:hover {
 }
 .post_info a {
     font-weight: normal;
+    color: #333333;
 }
 
 .post_content {
@@ -181,11 +184,14 @@ form input[type=submit] {
 }
 
 .annotation h3 {
-  font-size: 13px;
+  font-size: 13px !important;
   line-height: 20px;
+  height: auto !important;
 }
 
 #content {
   width: 530px;
-  margin: 20px auto;
+  margin: 20px auto 40px auto;
+  background: none #FFF;
+  padding: 50px;
 }
