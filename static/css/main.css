@@ -3,9 +3,8 @@ html, body {
 }
 
 body {
-    background: #fff none;
+    background: #222233 none;
     font-family: "Arial", sans-serif;
-
 }
 
 body a {
@@ -27,8 +26,8 @@ body a:hover {
   background: none #F5F7CE !important;
 }
 .nav {
-  margin-left: 405px !important;
   background: none white;
+  margin-left: 400px !important;
 }
 
 #container {
@@ -61,6 +60,7 @@ body a:hover {
     padding: 30px 50px 30px 50px;
     margin: 10px 0px 30px 0px;
     border: 1px solid #EED;
+    background-color: white;
 }
 .post h1 {
     font-family: 'Helvetica', sans-serif; /* Source Sans Pro */
