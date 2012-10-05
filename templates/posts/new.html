@@ -3,6 +3,7 @@
 {% block title %}Create a post{% end %}
 
 {% block content %}
+    <div id="content">
     <h1>Create a post</h1>
     <form action="/posts/{{ post_id }}" method="post">
         {% module xsrf_form_html() %}
@@ -64,5 +65,6 @@
 
         <br/>
         <input type="submit" value="Submit" />
-    </form>
+      </form>
+    </div>
 {% end %}

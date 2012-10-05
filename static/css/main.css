@@ -28,6 +28,7 @@ body a:hover {
 }
 .nav {
   margin-left: 405px !important;
+  background: none white;
 }
 
 #container {
@@ -57,16 +58,34 @@ body a:hover {
 }
 
 .post {
-    padding: 20px 50px 40px 50px;
+    padding: 30px 50px 30px 50px;
     margin: 10px 0px 30px 0px;
     border: 1px solid #EED;
 }
-.post h2 {
+.post h1 {
     font-family: 'Helvetica', sans-serif; /* Source Sans Pro */
-    margin: 15px 0px 0px 0px;
+    margin: 0px 0px 0px 0px;
     padding: 0px;
     font-size: 25px !important;
+    height: 35px;
 }
+
+.post h2 {
+    font-family: 'Helvetica', sans-serif; /* Source Sans Pro */
+    margin: 0px 0px 5px 0px;
+    padding: 0px;
+    font-size: 20px !important;
+    height: 35px;
+}
+
+.post h3 {
+    font-family: 'Helvetica', sans-serif; /* Source Sans Pro */
+    margin: 0px 0px 5px 0px;
+    padding: 0px;
+    font-size: 18px !important;
+    height: 30px;
+}
+
 .post_info {
     display: inline;
     font-size: 12px;
@@ -74,12 +93,14 @@ body a:hover {
 .post_info a {
     font-weight: normal;
 }
+
 .post_content {
     color: #333333;
     line-height: 1.5;
     letter-spacing: 0px;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 13px;
+    margin-top: 10px;
 }
 
 #post_tags a {
@@ -162,4 +183,9 @@ form input[type=submit] {
 .annotation h3 {
   font-size: 13px;
   line-height: 20px;
+}
+
+#content {
+  width: 530px;
+  margin: 20px auto;
 }
