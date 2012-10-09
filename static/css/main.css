@@ -195,3 +195,12 @@ form input[type=submit] {
   background: none #FFF;
   padding: 50px;
 }
+.post_checkbox input {
+    float: left;
+    margin-top: 5px;
+}
+.post_checkbox p {
+    float: left;
+    margin: 0px;
+    padding: 0px 0px 0px 8px;
+}

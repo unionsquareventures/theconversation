@@ -22,6 +22,7 @@ class Post(Document):
     questions = ListField(EmbeddedDocumentField(Question))
     annotations = ListField(EmbeddedDocumentField(Annotation))
     tags = ListField(StringField())
+    featured = BooleanField()
 
     labels = {
         'body_raw': 'body',
@@ -55,15 +56,19 @@ class Post(Document):
             if name == self._meta['id_field'] or name in self.ignored_fields:
                 continue
 
-            if field.__class__ != StringField:
-                continue
-            field_html = '<textarea name="{name}">{value}</textarea>'
+            field_html = ''
+            if field.__class__ == StringField and not field.max_length:
+                field_html = '<textarea name="{name}">{value}</textarea>'
             if field.__class__ == StringField and field.max_length:
                 field_html = '<input name="{name}" type="text" value="{value}" />'
+
+            if not field_html:
+                continue
 
             value = self._data.get(name)
             value = value.replace('"', '\\"') if value else ''
             field_html = field_html.format(name=name, value=value)
             label = self.labels.get(name, name).title()
             field_errors = form_errors.get(name)
+
             yield (name, label, field_html, field_errors)
