@@ -7,6 +7,8 @@ from lib.markdown.mdx_video import VideoExtension
 import datetime as dt
 import re
 from collections import defaultdict
+from itertools import groupby
+from operator import itemgetter
 
 from base import BaseHandler
 from minifier import Minifier
@@ -29,8 +31,8 @@ class PostHandler(BaseHandler):
             query.update({
                 'tags': tag,
             })
-        posts = Post.objects(**query).order_by('date_created')
-        self.vars.update({'posts': posts})
+        all_posts = Post.objects(**query).order_by('featured', 'date_created')
+        self.vars.update({'all_posts': all_posts})
         self.render('posts/index.html', **self.vars)
 
     def detail(self, id):
@@ -61,13 +63,14 @@ class PostHandler(BaseHandler):
         attributes.update({
             'user': User(**self.get_current_user()),
             'body_html': body_html,
+            'featured': True if attributes.get('featured') else False
         })
-        attributes['tags'] = attributes.get('tags', '').split(' ')
+        tags = attributes.get('tags', '').split(' ')
+        attributes['tags'] = [t for t in tags if t]
         post = Post(**attributes)
         try:
             post.save()
         except mongoengine.ValidationError, e:
-            print e
             self.new(model=post, errors=e.errors)
             return
 

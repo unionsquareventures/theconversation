@@ -36,9 +36,12 @@
 
           var a = $(".post_content").annotator();
           a.annotator('addPlugin', 'Disqus');
+          var url = window.location.href;
+          var arr = url.split("/");
+          var prefix = arr[0] + "//" + arr[2];
           a.annotator('addPlugin', 'Store', {
               // The endpoint of the store on your server.
-              prefix: 'http://127.0.0.1:8888',
+              prefix: prefix,
 
               // Attach the uri of the current page to all annotations to allow search.
               annotationData: {
@@ -67,10 +70,12 @@
         </h1>
 
         <p class="post_info">
-            by: 
-            <a href="http://twitter.com/{{ post.user.username }}">
-                @{{ post.user.username }}
-            </a>
+            {% if post.user.auth_type == 'twitter' %}
+                by: 
+                <a href="http://twitter.com/{{ post.user.username }}">
+                    @{{ post.user.username }}
+                </a>
+            {% end %}
             on
             <a href="#">{{ post.date_created.strftime("%B %d, %Y") }}</a>
         </p>
@@ -78,7 +83,7 @@
         <div class="post_content">{% raw post.body_html %}</div>
 
         <br/>
-        {% if len(post.questions) %}
+        {% if len(post.tags) %}
             <p id="post_tags">
                 <b>Tags: </b>
                 {% for tag in post.tags %}

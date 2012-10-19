@@ -22,7 +22,7 @@ class Post(Document):
     questions = ListField(EmbeddedDocumentField(Question))
     annotations = ListField(EmbeddedDocumentField(Annotation))
     tags = ListField(StringField())
-    featured = BooleanField()
+    featured = BooleanField(default=False)
 
     labels = {
         'body_raw': 'body',

@@ -3,17 +3,19 @@
 {% block title %}Posts{% end %}
 
 {% block content %}
-    {% for post in posts %}
+    {% for post in all_posts %}
         <div class="post">
             <h1>
                 <a href="/posts/{{ post.minified_id() }}">{{ post.title }}</a>
             </h1>
 
             <p class="post_info">
-                by: 
-                <a href="http://twitter.com/{{ post.user.username }}">
-                    @{{ post.user.username }}
-                </a>
+                {% if post.user.auth_type == 'twitter' %}
+                    by: 
+                    <a href="http://twitter.com/{{ post.user.username }}">
+                        @{{ post.user.username }}
+                    </a>
+                {% end %}
                 on
                 <a href="#">{{ post.date_created.strftime("%B %d, %Y") }}</a>
             </p>
