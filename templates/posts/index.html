@@ -39,7 +39,7 @@
         <div class="tags">
             <p class="section_label">USV Community</p>
             {% for tag in tags %}
-                <a href="#" class="tag">{{ tag.name }}</a>
+                <a href="/?tag={{ url_escape(tag.name) }}" class="tag">{{ tag.name }}</a>
             {% end %}
         </div>
         {% for post in posts %}
@@ -57,15 +57,27 @@
                     {% end %}
                     on
                     <a href="#">{{ post.date_created.strftime("%B %d, %Y") }}</a>
+                    &nbsp;
+                    <a href="/posts/{{ post.minified_id() }}#disqus_thread"></a>
                 </p>
 
-                <div class="post_content">
-                    {% raw post.body_html %}
-                </div>
             </div>
         {% end %}
     </div>
 
 </div>
 </div>
+
+<script type="text/javascript">
+/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+var disqus_shortname = 'usv'; // required: replace example with your forum shortname
+
+/* * * DON'T EDIT BELOW THIS LINE * * */
+(function () {
+    var s = document.createElement('script'); s.async = true;
+    s.type = 'text/javascript';
+    s.src = 'http://' + disqus_shortname + '.disqus.com/count.js';
+    (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+}());
+</script>
 {% end %}

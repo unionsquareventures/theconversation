@@ -32,7 +32,7 @@ class PostHandler(BaseHandler):
                 'tags': tag,
             })
         posts = Post.objects(featured=False, **query).order_by('-date_created')
-        featured_posts = Post.objects(featured=True, **query).order_by('-date_created')
+        featured_posts = Post.objects(featured=True).order_by('-date_created')
         tags = Tag.objects()
         self.vars.update({
             'posts': posts,

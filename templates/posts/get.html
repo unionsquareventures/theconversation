@@ -88,7 +88,7 @@
             <p id="post_tags">
                 <b>Tags: </b>
                 {% for tag in post.tags %}
-                    <a href="/posts?tag={{ tag }}">{{ tag }}</a>
+                    <a href="/posts?tag={{ url_escape(tag) }}">{{ tag }}</a>
                 {% end %}
             </p>
         {% end %}
