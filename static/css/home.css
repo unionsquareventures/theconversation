@@ -14,7 +14,11 @@
 }
 .tag {
     background: white;
-    display: inline-block;
+    display: inline;
     padding: 8px;
-
+}
+.section_label {
+    display: inline;
+    background: white;
+    padding: 8px;
 }

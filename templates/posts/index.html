@@ -10,9 +10,7 @@
 <div class="container-fluid">
 <div class="row-fluid">
     <div class="span4">
-        <div class="tag">
-            <a href="#">USV Posts</a>
-        </div>
+        <p class="section_label">USV Posts</a>
         {% for post in featured_posts %}
             <div class="post">
                 <h1>
@@ -38,8 +36,11 @@
     </div>
 
     <div class="span8">
-        <div class="tag">
-            <a href="#">USV Community</a>
+        <div class="tags">
+            <p class="section_label">USV Community</p>
+            {% for tag in tags %}
+                <a href="#" class="tag">{{ tag.name }}</a>
+            {% end %}
         </div>
         {% for post in posts %}
             <div class="post">

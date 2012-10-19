@@ -33,9 +33,11 @@ class PostHandler(BaseHandler):
             })
         posts = Post.objects(featured=False, **query).order_by('-date_created')
         featured_posts = Post.objects(featured=True, **query).order_by('-date_created')
+        tags = Tag.objects()
         self.vars.update({
             'posts': posts,
             'featured_posts': featured_posts,
+            'tags': tags,
         })
         self.render('posts/index.html', **self.vars)
 
@@ -62,11 +64,12 @@ class PostHandler(BaseHandler):
         attributes = {k: v[0] for k, v in self.request.arguments.iteritems()}
 
         # Handle tags
-        tags = attributes.get('tags', '').split(',')
-        tags = [t for t in tags if t]
-        for name in tags:
-            tag = Tag.objects(name=name).first()
-            if tag:
+        tag_names = attributes.get('tags', '').split(',')
+        tag_names = [t.strip() for t in tag_names]
+        tag_names = [t for t in tag_names if t]
+        exising_names = [t.name for t in Tag.objects(name__in=tag_names)]
+        for name in tag_names:
+            if name in exising_names:
                 continue
             tag = Tag(name=name)
             tag.save()
@@ -81,7 +84,7 @@ class PostHandler(BaseHandler):
             'user': User(**self.get_current_user()),
             'body_html': body_html,
             'featured': True if attributes.get('featured') else False,
-            'tags': tags,
+            'tags': tag_names,
         })
 
         post = Post(**attributes)
