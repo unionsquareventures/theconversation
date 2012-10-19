@@ -39,7 +39,7 @@
         <div class="tags">
             <p class="section_label">USV Community</p>
             {% for tag in tags %}
-                <a href="/?tag={{ url_escape(tag.name) }}" class="tag">{{ tag.name }}</a>
+                <a href="/posts?tag={{ url_escape(tag.name) }}" class="tag">{{ tag.name }}</a>
             {% end %}
         </div>
         {% for post in posts %}
