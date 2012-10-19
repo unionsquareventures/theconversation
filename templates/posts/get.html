@@ -64,6 +64,7 @@
 {% end %}
 
 {% block content %}
+<div class="main container">
     <div class="post post_detail">
         <h1>
             <a href="/posts/{{ post.minified_id() }}">{{ post.title }}</a>
@@ -109,4 +110,5 @@
             </div>
         {% end %}
     </div>
+</div>
 {% end %}

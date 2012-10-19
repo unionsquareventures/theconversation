@@ -2,8 +2,30 @@
 
 {% block title %}Posts{% end %}
 
+{% block css %}
+<style type="text/css">
+.navbar .container {
+    width: 100% !important;
+    margin-left: 20px;
+}
+.nav-collapse {
+    float: right;
+    padding: 0px;
+    width: auto !important;
+}
+.nav {
+    margin: 0px 30px 0px 0px !important;
+    padding: 0px;
+    width: 100%;
+}
+</style>
+{% end %}
+
 {% block content %}
-    {% for post in all_posts %}
+<div class="container-fluid">
+<div class="row-fluid">
+    <div class="span4">
+    {% for post in featured_posts %}
         <div class="post">
             <h1>
                 <a href="/posts/{{ post.minified_id() }}">{{ post.title }}</a>
@@ -25,4 +47,33 @@
             </div>
         </div>
     {% end %}
+    </div>
+
+    <div class="span8">
+    {% for post in posts %}
+        <div class="post">
+            <h1>
+                <a href="/posts/{{ post.minified_id() }}">{{ post.title }}</a>
+            </h1>
+
+            <p class="post_info">
+                {% if post.user.auth_type == 'twitter' %}
+                    by: 
+                    <a href="http://twitter.com/{{ post.user.username }}">
+                        @{{ post.user.username }}
+                    </a>
+                {% end %}
+                on
+                <a href="#">{{ post.date_created.strftime("%B %d, %Y") }}</a>
+            </p>
+
+            <div class="post_content">
+                {% raw post.body_html %}
+            </div>
+        </div>
+    {% end %}
+    </div>
+
+</div>
+</div>
 {% end %}

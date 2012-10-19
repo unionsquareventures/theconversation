@@ -3,6 +3,7 @@
 {% block title %}Create a post{% end %}
 
 {% block content %}
+<div class="main container">
     <div id="content">
     <h1>Create a post</h1>
     <form action="/posts{{ ('/' + post_id) if post_id else '' }}" method="post">
@@ -74,4 +75,5 @@
         <input type="submit" value="Submit" />
       </form>
     </div>
+</div>
 {% end %}

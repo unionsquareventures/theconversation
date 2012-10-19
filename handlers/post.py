@@ -31,8 +31,12 @@ class PostHandler(BaseHandler):
             query.update({
                 'tags': tag,
             })
-        all_posts = Post.objects(**query).order_by('featured', 'date_created')
-        self.vars.update({'all_posts': all_posts})
+        posts = Post.objects(featured=False, **query).order_by('-date_created')
+        featured_posts = Post.objects(featured=True, **query).order_by('-date_created')
+        self.vars.update({
+            'posts': posts,
+            'featured_posts': featured_posts,
+        })
         self.render('posts/index.html', **self.vars)
 
     def detail(self, id):
