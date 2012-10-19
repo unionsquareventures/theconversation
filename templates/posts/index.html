@@ -9,7 +9,7 @@
 {% block content %}
 <div class="container-fluid">
 <div class="row-fluid">
-    <div class="span4">
+    <div class="span4 featured-posts">
         <p class="section_label">USV Posts</a>
         {% for post in featured_posts %}
             <div class="post">
@@ -35,7 +35,7 @@
         {% end %}
     </div>
 
-    <div class="span8">
+    <div class="span8 community-posts">
         <div class="tags">
             <p class="section_label">USV Community</p>
             {% for tag in tags %}

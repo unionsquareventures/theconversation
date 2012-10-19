@@ -22,3 +22,7 @@
     background: white;
     padding: 8px;
 }
+
+.community-posts .post {
+    padding: 15px 15px 15px 25px;
+}
