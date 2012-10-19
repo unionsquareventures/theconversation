@@ -1,0 +1,20 @@
+.navbar .container {
+    width: 100% !important;
+    margin-left: 20px;
+}
+.nav-collapse {
+    float: right;
+    padding: 0px;
+    width: auto !important;
+}
+.nav {
+    margin: 0px 30px 0px 0px !important;
+    padding: 0px;
+    width: 100%;
+}
+.tag {
+    background: white;
+    display: inline-block;
+    padding: 8px;
+
+}
