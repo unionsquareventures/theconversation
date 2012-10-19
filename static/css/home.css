@@ -24,5 +24,28 @@
 }
 
 .community-posts .post {
-    padding: 15px 15px 15px 25px;
+    padding: 10px 15px 15px 25px;
+    height: 55px;
+}
+.community-posts .post .contents {
+    float: left;
+}
+.community-posts .post .voting {
+    float: left;
+    width: 80px;
+    padding: 8px 10px 10px 10px;
+    margin: 10px 20px 10px 0px;
+    font-size: 20px;
+    text-align: center;
+    border: 1px solid black;
+}
+.voting .arrows {
+    font-size: 25px;
+    display: inline;
+    margin-left: 8px;
+}
+
+.voting .arrows a:hover {
+    font-size: 25px;
+    text-decoration: none;
 }

@@ -12,7 +12,7 @@
     <div class="span4 featured-posts">
         <p class="section_label">USV Posts</a>
         {% for post in featured_posts %}
-            <div class="post">
+                <div class="post">
                 <h1>
                     <a href="/posts/{{ post.minified_id() }}">{{ post.title }}</a>
                 </h1>
@@ -44,23 +44,32 @@
         </div>
         {% for post in posts %}
             <div class="post">
-                <h1>
-                    <a href="/posts/{{ post.minified_id() }}">{{ post.title }}</a>
-                </h1>
+                <div class="voting">
+                    <a href="#">357</a>
+                    <div class="arrows">
+                        <a href="#">&uarr;</a>
+                        <a href="#">&darr;</a>
+                    </div>
+                </div>
 
-                <p class="post_info">
-                    {% if post.user.auth_type == 'twitter' %}
-                        by: 
-                        <a href="http://twitter.com/{{ post.user.username }}">
-                            @{{ post.user.username }}
-                        </a>
-                    {% end %}
-                    on
-                    <a href="#">{{ post.date_created.strftime("%B %d, %Y") }}</a>
-                    &nbsp;
-                    <a href="/posts/{{ post.minified_id() }}#disqus_thread"></a>
-                </p>
+                <div class="contents">
+                    <h1>
+                        <a href="/posts/{{ post.minified_id() }}">{{ post.title }}</a>
+                    </h1>
 
+                    <p class="post_info">
+                        {% if post.user.auth_type == 'twitter' %}
+                            by: 
+                            <a href="http://twitter.com/{{ post.user.username }}">
+                                @{{ post.user.username }}
+                            </a>
+                        {% end %}
+                        on
+                        <a href="#">{{ post.date_created.strftime("%B %d, %Y") }}</a>
+                        &nbsp;
+                        <a href="/posts/{{ post.minified_id() }}#disqus_thread"></a>
+                    </p>
+                </div>
             </div>
         {% end %}
     </div>
