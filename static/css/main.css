@@ -115,12 +115,12 @@ body a:hover {
 }
 
 textarea {
-    width: 500px;
+    width: 560px;
     height: 300px;
 }
 
 input[type=text] {
-    width: 500px;
+    width: 560px;
     font-size: 18px;
 }
 
@@ -190,7 +190,7 @@ form input[type=submit] {
 }
 
 #content {
-  width: 530px;
+  width: 600px;
   margin: 20px auto 40px auto;
   background: none #FFF;
   padding: 50px;
