@@ -23,6 +23,10 @@
     padding: 8px;
 }
 
+.post {
+  margin-top: 15px;
+}
+
 .community-posts .post {
     padding: 10px 15px 15px 25px;
     height: 55px;
@@ -42,10 +46,15 @@
 .voting .arrows {
     font-size: 25px;
     display: inline;
-    margin-left: 8px;
+    margin-left: 30px;
 }
 
 .voting .arrows a:hover {
     font-size: 25px;
     text-decoration: none;
+}
+
+body {
+  /*background: url('/static/images/bg.png') repeat;
+  background-color: #605C68;*/
 }

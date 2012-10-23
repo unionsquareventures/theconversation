@@ -10,17 +10,13 @@ from collections import defaultdict
 import json
 
 from base import BaseHandler
-from minifier import Minifier
 
 import mongoengine
 from models import Post, User, Question
 
-minifier = Minifier()
-
 class EmailHandler(BaseHandler):
     def __init__(self, *args, **kwargs):
         super(EmailHandler, self).__init__(*args, **kwargs)
-        self.vars['minifier'] = minifier
 
     def check_xsrf_cookie(self):
         pass

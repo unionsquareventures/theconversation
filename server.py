@@ -30,6 +30,7 @@ if __name__ == '__main__':
         (r'/auth/twitter/', TwitterLoginHandler),
         # Posts
         (r'/posts$', PostHandler),
+        (r'/posts/(?P<action>upvote)$', PostHandler),
         (r'/posts/(?P<action>new)$', PostHandler),
         (r'/posts/(?P<id>[A-z0-9]+$)', PostHandler),
         (r'/posts/(?P<id>[A-z0-9]+)/(?P<action>.*)$', PostHandler),

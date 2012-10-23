@@ -8,10 +8,6 @@ from question import Question
 from annotation import Annotation
 from user import User
 
-from minifier import Minifier
-
-minifier = Minifier()
-
 class Post(Document):
     id = IntField(primary_key=True)
     title = StringField(required=True, max_length=1000)
@@ -23,6 +19,8 @@ class Post(Document):
     annotations = ListField(EmbeddedDocumentField(Annotation))
     tags = ListField(StringField())
     featured = BooleanField(default=False)
+    votes = IntField(default=0)
+    voted_users = ListField(EmbeddedDocumentField(User))
 
     labels = {
         'body_raw': 'body',
@@ -39,9 +37,6 @@ class Post(Document):
                                                                 upsert=True, new=True)
         id = counter['value']
         self._data['id'] = id
-
-    def minified_id(self):
-        return minifier.int_to_base62(self.id)
 
     def save(self, *args, **kwargs):
         if kwargs.get('force_insert') or '_id' not in self.to_mongo():

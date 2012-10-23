@@ -14,7 +14,7 @@
         {% for post in featured_posts %}
                 <div class="post">
                 <h1>
-                    <a href="/posts/{{ post.minified_id() }}">{{ post.title }}</a>
+                    <a href="/posts/{{ post.id }}">{{ post.title }}</a>
                 </h1>
 
                 <p class="post_info">
@@ -45,16 +45,15 @@
         {% for post in posts %}
             <div class="post">
                 <div class="voting">
-                    <a href="#">357</a>
+                    <a href="#">{{ post.votes }}</a>
                     <div class="arrows">
-                        <a href="#">&uarr;</a>
-                        <a href="#">&darr;</a>
+                        <a href="/posts/{{ post.id }}/upvote">&uarr;</a>
                     </div>
                 </div>
 
                 <div class="contents">
                     <h1>
-                        <a href="/posts/{{ post.minified_id() }}">{{ post.title }}</a>
+                        <a href="/posts/{{ post.id }}">{{ post.title }}</a>
                     </h1>
 
                     <p class="post_info">
@@ -67,7 +66,7 @@
                         on
                         <a href="#">{{ post.date_created.strftime("%B %d, %Y") }}</a>
                         &nbsp;
-                        <a href="/posts/{{ post.minified_id() }}#disqus_thread"></a>
+                        <a href="/posts/{{ post.id }}#disqus_thread"></a>
                     </p>
                 </div>
             </div>

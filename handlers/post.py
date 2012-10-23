@@ -11,17 +11,13 @@ from itertools import groupby
 from operator import itemgetter
 
 from base import BaseHandler
-from minifier import Minifier
 
 import mongoengine
 from models import Post, User, Question, Tag
 
-minifier = Minifier()
-
 class PostHandler(BaseHandler):
     def __init__(self, *args, **kwargs):
         super(PostHandler, self).__init__(*args, **kwargs)
-        self.vars['minifier'] = minifier
 
     def index(self):
         # list posts
@@ -31,7 +27,7 @@ class PostHandler(BaseHandler):
             query.update({
                 'tags': tag,
             })
-        posts = Post.objects(featured=False, **query).order_by('-date_created')
+        posts = Post.objects(featured=False, **query).order_by('-votes')
         featured_posts = Post.objects(featured=True).order_by('-date_created')
         tags = Tag.objects()
         self.vars.update({
@@ -42,7 +38,6 @@ class PostHandler(BaseHandler):
         self.render('posts/index.html', **self.vars)
 
     def detail(self, id):
-        id = minifier.base62_to_int(id)
         post = Post.objects(id=id).first()
         if not post:
             raise tornado.web.HTTPError(404)
@@ -112,22 +107,42 @@ class PostHandler(BaseHandler):
             q = Question(**q)
             post.update(push__questions=q)
 
-        self.redirect('/posts/%s' % minifier.int_to_base62(post.id))
+        self.redirect('/posts/%s' % post.id)
 
     # Update a post
     @tornado.web.authenticated
     def edit(self, id):
-        id = minifier.base62_to_int(id)
+        id = id
         post = Post.objects(id=id).first()
         if not post:
             raise tornado.web.HTTPError(404)
 
         self.vars.update({
             'model':  post,
-            'post_id': post.minified_id(),
+            'post_id': post.id,
         })
         self.render('posts/new.html', **self.vars)
 
     @tornado.web.authenticated
     def update(self, id):
         pass
+
+    def get(self, id='', action=''):
+        if action == 'upvote' and id:
+            self.upvote(id)
+        else:
+            super(PostHandler, self).get(id, action)
+
+    @tornado.web.authenticated
+    def upvote(self, id):
+        username = self.get_current_user()['username']
+        user_q = {'$elemMatch': {'username': username}}
+        post = Post.objects(id=id).fields(voted_users=user_q).first()
+        if not post:
+            raise tornado.web.HTTPError(404)
+        if post.voted_users:
+            self.redirect('/posts?error')
+            return
+        post.update(inc__votes=1)
+        post.update(push__voted_users=User(**self.get_current_user()))
+        self.redirect('/posts')
