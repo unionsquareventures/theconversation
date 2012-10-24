@@ -79,6 +79,10 @@ body {
     background-color: #E8E8E8;
 }
 
+.community-posts .pagination {
+    float: right;
+}
+
 .post {
     margin: 0px 0px 20px 0px;
 }
