@@ -2,12 +2,12 @@
     width: 100% !important;
     margin-left: 20px;
 }
-.nav-collapse {
+.navbar .nav-collapse {
     float: right;
     padding: 0px;
     width: auto !important;
 }
-.nav {
+.navbar .nav {
     margin: 0px 30px 0px 0px !important;
     padding: 0px;
     width: 100%;
@@ -21,6 +21,11 @@
     display: inline;
     background: white;
     padding: 8px;
+    float: left;
+    margin: 0px 10px 0px 0px;
+}
+.tags .nav {
+    display: inline;
 }
 
 .post {
@@ -57,4 +62,23 @@
 body {
   /*background: url('/static/images/bg.png') repeat;
   background-color: #605C68;*/
+}
+.top-bar {
+    height: 40px;
+}
+.community-posts .top-bar {
+}
+.community-posts .top-bar .btn-group {
+    float: right;
+}
+.community-posts .top-bar .dropdown-menu {
+    min-width: auto;
+}
+.community-posts .top-bar li.active a {
+    color: black;
+    background-color: #E8E8E8;
+}
+
+.post {
+    margin: 0px 0px 20px 0px;
 }

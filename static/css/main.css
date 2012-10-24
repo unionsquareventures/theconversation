@@ -18,14 +18,14 @@ body a:hover {
     text-decoration: underline;
 }
 
-.nav a {
+.navbar .nav a {
   padding-top: 14px !important;
 }
 
-.nav a:hover {
+.navbar .nav a:hover {
   background: none #F5F7CE !important;
 }
-.nav {
+.navbar .nav {
   background: none white;
   margin-left: 400px !important;
 }

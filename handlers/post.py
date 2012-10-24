@@ -34,6 +34,7 @@ class PostHandler(BaseHandler):
             'posts': posts,
             'featured_posts': featured_posts,
             'tags': tags,
+            'current_tag': tag,
         })
         self.render('posts/index.html', **self.vars)
 
