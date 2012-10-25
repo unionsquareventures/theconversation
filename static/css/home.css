@@ -60,8 +60,8 @@
 }
 
 body {
-  /*background: url('/static/images/bg.png') repeat;
-  background-color: #605C68;*/
+  background: url('/static/images/bg2.png') repeat;
+  background-color: #605C68;
 }
 .top-bar {
     height: 40px;

@@ -10,7 +10,6 @@ from user import User
 class Content(Document):
     id = IntField(primary_key=True)
     title = StringField(required=True, max_length=1000)
-    body_raw = StringField(required=True)
     date_created = DateTimeField(required=True)
     user = EmbeddedDocumentField(User, required=True)
     questions = ListField(EmbeddedDocumentField(Question))

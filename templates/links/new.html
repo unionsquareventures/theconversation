@@ -1,0 +1,40 @@
+{% extends "../base.html" %}
+
+{% block title %}Create a link{% end %}
+
+{% block content %}
+<div class="main container">
+    <div id="content">
+    <h1>Create a link</h1>
+    <form action="/links{{ ('/' + link_id) if link_id else '' }}" method="post">
+        {% module xsrf_form_html() %}
+
+        {% for name, label, html, field_errors in model.form_fields(errors) %}
+                <label for="{{ name }}">
+                    {{ label }}
+                </label>
+                {% if field_errors %}
+                    <i>{{ field_errors.message }}</i>
+                    <br/>
+                {% end %}
+                {% raw html %}
+                <br/>
+                <br/>
+        {% end %}
+
+        <div class="post_checkbox">
+            <input type="checkbox" name="featured" value="true" />
+            <p>Featured</p>
+        </div>
+        <br/>
+        <br/>
+
+        <label>Tags</label>
+        <p class="label_description">(separate with commas)</p>
+        <input type="text" name="tags" />
+        <br/>
+        <input type="submit" value="Submit" />
+      </form>
+    </div>
+</div>
+{% end %}
