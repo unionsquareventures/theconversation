@@ -36,6 +36,7 @@
 
         <br/><br/>
         <!--<a href="{{ link.url }}">{{ link.url }}</a>-->
+        <div class="post_content">{% raw (link.body_html or '') %}</div>
 
         <br/>
         {% if len(link.tags) %}

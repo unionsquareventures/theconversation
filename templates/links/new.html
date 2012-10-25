@@ -32,6 +32,45 @@
         <label>Tags</label>
         <p class="label_description">(separate with commas)</p>
         <input type="text" name="tags" />
+
+        <label>Questions</label>
+        <div id="questions">
+            <div id="questions_template">
+                <input type="text" value="" name="text" />
+                <a href="javascript:void(0);" class="plus">+</a>
+                <a href="javascript:void(0);" class="minus">-</a>
+            </div>
+
+        </div>
+
+        <script src="/static/js/jquery-dynamic-form.js"></script>
+        <script type="text/javascript">
+            $(function() {
+                var template = $('#questions_template').clone();
+                $('#questions_template').remove();
+
+                var handle_add = function (e) {
+                    var newq = template.clone();
+                    $('#questions').append(newq);
+                    $.each(newq.children('input'), function(i, o) {
+                        var n = 'question' + '[' + newq.index() + ']' + '[' + $(this).attr('name') + ']';
+                        $(this).attr('name', n);
+                    });
+                    newq.children('.plus').on("click", handle_add);
+                    newq.children('.minus').on("click", handle_remove);
+                    if(e) {
+                        e.stopPropagation();
+                    }
+                };
+                var handle_remove = function (e) {
+                    $(this).parent().remove();
+                    e.stopPropagation();
+                };
+                handle_add();
+                $('#questions_template .minus').first().remove();
+            });
+        </script>
+
         <br/>
         <input type="submit" value="Submit" />
       </form>
