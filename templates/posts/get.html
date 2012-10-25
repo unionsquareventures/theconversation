@@ -72,12 +72,12 @@
 
         <p class="post_info">
             {% if post.user.auth_type == 'twitter' %}
-                by: 
+                <span class="icon-user"></span> 
                 <a href="http://twitter.com/{{ post.user.username }}">
                     @{{ post.user.username }}
                 </a>
             {% end %}
-            on
+            <span class="icon-calendar"></span>
             <a href="#">{{ post.date_created.strftime("%B %d, %Y") }}</a>
         </p>
 

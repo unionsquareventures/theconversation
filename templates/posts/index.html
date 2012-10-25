@@ -21,7 +21,7 @@
 
                 <p class="post_info">
                     {% if post.user.auth_type == 'twitter' %}
-                        by: 
+                        <span class="icon-user"></span> 
                         <a href="http://twitter.com/{{ post.user.username }}">
                             @{{ post.user.username }}
                         </a>
@@ -41,9 +41,9 @@
         <div class="top-bar">
           <div class="tags span10">
               <p class="section_label">USV Community</p>
-              <ul class="nav nav-pills">
+              <ul class="nav nav-pills cloud">
                 {% for tag in tags %}
-                  <li class="{{ "active "if tag.name == current_tag else "" }}">
+                  <li class="{{ "active "if tag.name == current_tag else "" }} tag">
                     <a href="/posts?tag={{ url_escape(tag.name) }}" class="tag">{{ tag.name }}</a>
                   </li>
                 {% end %}
@@ -65,12 +65,12 @@
         <br/>
         {% for post in posts %}
             <div class="post">
-                <div class="voting">
-                    <a href="#">{{ post.votes }}</a>
-                    <div class="arrows">
-                        <a href="/posts/{{ post.id }}/upvote">&uarr;</a>
-                    </div>
-                </div>
+                <ul class="{{ "voted" if post.voted_users else "voting" }}">
+                    <li>
+                        <span class="green"><div class="icon-arrow-up">&nbsp;</div></span>
+                        <a href="/posts/{{ post.id }}/upvote">{{ post.votes }}</a>
+                    </li>
+                </ul>
 
                 <div class="contents">
                     <h1>
@@ -79,15 +79,16 @@
 
                     <p class="post_info">
                         {% if post.user.auth_type == 'twitter' %}
-                            by: 
+                            <span class="icon-user"></span> 
                             <a href="http://twitter.com/{{ post.user.username }}">
                                 @{{ post.user.username }}
                             </a>
                         {% end %}
-                        on
+                        &nbsp;
+                        <span class="icon-calendar"></span>
                         <a href="#">{{ post.date_created.strftime("%B %d, %Y") }}</a>
                         &nbsp;
-                        <a href="/posts/{{ post.id }}#disqus_thread"></a>
+                        <span class="icon-comment"></span>&nbsp;<a href="/posts/{{ post.id }}#disqus_thread"></a>
                     </p>
                 </div>
             </div>
