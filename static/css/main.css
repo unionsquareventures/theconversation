@@ -1,5 +1,6 @@
 html, body {
     margin: 0px;
+    height: 100% !important;
 }
 
 body {
@@ -7,7 +8,6 @@ body {
     background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ededff), color-stop(100%,white)) !important;
     background: -moz-linear-gradient(center top, white 0%, #ededff 100%) !important;
     font-family: "Arial", sans-serif;
-    min-height: 2000px;
 }
 
 body a {
