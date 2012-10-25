@@ -1,39 +1,3 @@
-.navbar .container {
-    width: 100% !important;
-    margin-left: 20px;
-    background: none;
-    height: 100% !important;
-}
-.navbar-inner {
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#FFFFFF), color-stop(100%,#F2F2F2)) !important;
-    background: -moz-linear-gradient(center top, #F2F2F2 0%, #FFFFFF 100%) !important;
-    -webkit-box-shadow: 0px 2px 0px 0px rgba(255,255,255,0.57)inset, 0px 1px 1px 0px rgba(0,0,0,1) !important;
-    border: solid 1px rgba(0,0,0,0.15) !important; 
-}
-.navbar .nav-collapse {
-    float: right;
-    padding: 0px;
-    width: auto !important;
-}
-.navbar .nav {
-    margin: 0px 30px 0px 0px !important;
-    padding: 0px;
-    width: 100%;
-    background: none;
-    text-shadow: 0 1px 0 rgba(255,255,255,0.65);
-    -webkit-border-radius: 0 3px 3px 0;
-    -moz-border-radius: 0 3px 3px 0;
-    border-radius: 0 3px 3px 0;
-}
-.navbar .nav li { height: 50px !important; }
-.navbar .nav li a { text-shadow: 1px 1px 0px white; height: 25px !important; }
-.navbar .nav li a:hover {
-    background: none !important;
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,255,255,0.3)), color-stop(100%,rgba(143,176,82,0.57))) !important;
-    background: -moz-linear-gradient(center top, white 50%, #83a01c 100%) !important;
-    text-shadow: 0px 1px 0px white !important;
-}
-
 .tag {
     display: inline;
     padding: 8px;
