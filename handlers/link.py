@@ -9,11 +9,15 @@ import re
 from collections import defaultdict
 from itertools import groupby
 from operator import itemgetter
+import os
 
 from base import BaseHandler
 
 import mongoengine
 from models import Link, User, Question, Tag
+
+import subprocess
+from multiprocessing import Process
 
 class LinkHandler(BaseHandler):
     def __init__(self, *args, **kwargs):
@@ -85,6 +89,17 @@ class LinkHandler(BaseHandler):
         # Add a default question
         q = Question(text="Discussion")
         link.update(push__questions=q)
+
+        # Generate thumbnail
+        thumb_path = "static/images/link_thumbnails/%s.png" % str(link.id)
+        thumb_path = os.path.join(settings.PROJECT_ROOT,  thumb_path)
+        script_path = os.path.join(settings.PROJECT_ROOT, "scripts/rasterize.js")
+
+        def generate_thumb(*args):
+            subprocess.call(['/usr/bin/phantomjs'] + list(args))
+
+        p = Process(target=generate_thumb, args=(script_path, link.url, thumb_path))
+        p.start()
 
         self.redirect('/links/%s' % link.id)
 

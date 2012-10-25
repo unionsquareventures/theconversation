@@ -7,6 +7,8 @@
 {% end %}
 
 {% block content %}
+<div class="container-fluid">
+<div class="row-fluid">
     <div class="community-posts">
         <div class="top-bar">
           <div class="tags span10">
@@ -34,47 +36,49 @@
         </div>
         <br/>
         {% for link in links %}
-            <div class="post">
-                <ul class="{{ "voted" if link.voted_users else "voting" }}">
-                    <li>
-                        <span class="green"><div class="icon-arrow-up">&nbsp;</div></span>
-                        <a href="/links/{{ link.id }}/upvote">{{ link.votes }}</a>
-                    </li>
-                </ul>
-
+            <div class="post" style="width: 220px; display: inline-block;
+                float: left;
+                min-height: 300px; height: auto; padding-top: 25px; margin: 20px;">
                 <div class="contents">
-                    <h1>
-                        <a href="/links/{{ link.id }}">{{ link.title }}</a>
-                    </h1>
+                    <a href="/links/{{ link.id }}">
+                        <img src="/static/images/link_thumbnails/{{ link.id }}.png" alt="" style="width: 202px; height: 176px;" />
+                    </a>
+                    <br/>
+                    <div style="display: block; margin: 15px 0px 15px 0px;">
+                        <a href="/links/{{ link.id }}" style="font-size: 18px !important; line-height: 25px;">
+                            {{ link.title }}
+                        </a>
+                    </div>
 
-                    <p class="post_info">
+                    <ul class="{{ "voted" if link.voted_users else "voting" }}"
+                        style="float: left;">
+                        <li>
+                            <span class="green"><div class="icon-arrow-up">&nbsp;</div></span>
+                            <a href="/links/{{ link.id }}/upvote">{{ link.votes }}</a>
+                        </li>
+                    </ul>
+                    <p class="post_info" style="float: left; width: 120px;">
                         {% if link.user.auth_type == 'twitter' %}
                             <span class="icon-user"></span> 
                             <a href="http://twitter.com/{{ link.user.username }}">
                                 @{{ link.user.username }}
                             </a>
                         {% end %}
-                        &nbsp;
+                        <br/>
                         <span class="icon-calendar"></span>
                         <a href="#">{{ link.date_created.strftime("%B %d, %Y") }}</a>
-                        &nbsp;
+                        <br/>
                         <span class="icon-comment"></span>&nbsp;<a href="/links/{{ link.id }}#disqus_thread"></a>
-                    </p>
+                </p>
+
+
+
                 </div>
             </div>
         {% end %}
-        <div class="pagination">
-          <ul>
-            <li><a href="#">Prev</a></li>
-            <li><a href="#">1</a></li>
-            <li><a href="#">2</a></li>
-            <li><a href="#">3</a></li>
-            <li><a href="#">4</a></li>
-            <li><a href="#">Next</a></li>
-          </ul>
-        </div>
     </div>
-
+</div>
+</div>
 <script type="text/javascript">
 /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
 var disqus_shortname = 'usv'; // required: replace example with your forum shortname

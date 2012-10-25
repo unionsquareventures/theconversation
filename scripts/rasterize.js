@@ -9,7 +9,7 @@ if (system.args.length < 3 || system.args.length > 5) {
 } else {
     address = system.args[1];
     output = system.args[2];
-    page.viewportSize = { width: 600, height: 600 };
+    page.viewportSize = { width: 1024, height: 768 };
     if (system.args.length > 4) {
         page.zoomFactor = system.args[4];
     }
@@ -19,7 +19,12 @@ if (system.args.length < 3 || system.args.length > 5) {
             console.log('Unable to load the address!');
         } else {
             window.setTimeout(function () {
-                page.clipRect = { top: 0, left: 0, width: 800, height: 600 };
+                page.clipRect = {
+                                                top: 0,
+                                                left: 0,
+                                                width: 1024,
+                                                height: 768
+                                };
                 page.render(output);
                 phantom.exit();
             }, 200);

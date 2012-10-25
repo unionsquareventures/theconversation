@@ -4,13 +4,13 @@ import tornado.auth
 import tornado.httpserver
 
 from base import BaseHandler
-from models import Post
+from models import Content
 
 class DisqusHandler(BaseHandler):
 
     def get(self):
-        post = Post.objects(id=self.get_argument('post_id')).first()
-        if not post:
+        content = Content.objects(id=self.get_argument('content_id')).first()
+        if not content:
             raise tornado.web.HTTPError(404)
 
         try:
@@ -21,7 +21,7 @@ class DisqusHandler(BaseHandler):
             secondary_id = 'annotation' + str(int(a_number))
 
         self.vars.update({
-            'post': post,
+            'content': content,
             'secondary_id': secondary_id,
         })
         self.render('disqus/index.html', **self.vars)

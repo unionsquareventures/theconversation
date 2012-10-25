@@ -25,7 +25,7 @@
                                 var disqus_frame = '<div class="annotation">'
                                     + '<h3>"' + annotation['quote'] + '"</h3><br/>'
                                     + '<iframe class="disqus"'
-                                     + 'src="/disqus?post_id=' + ids[0] + '&annotation_number='
+                                     + 'src="/disqus?content_id=' + ids[0] + '&annotation_number='
                                             + ids[1] + '"></iframe></div>';
                                 $(field).html(disqus_frame);
                               
@@ -99,7 +99,7 @@
                 {% for counter in range(len(post.questions)) %}
                     <div class="question">
                         <h3 class="question">{{ post.questions[counter].text }}</h3>
-                        <iframe class="disqus" src="/disqus?post_id={{ post.id }}&question_number={{ counter+1 }}"></iframe>
+                        <iframe class="disqus" src="/disqus?content_id={{ post.id }}&question_number={{ counter+1 }}"></iframe>
                     </div>
                 {% end %}
                 <script type="text/javascript">
