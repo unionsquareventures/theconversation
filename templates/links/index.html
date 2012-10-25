@@ -1,6 +1,6 @@
 {% extends "../base.html" %}
 
-{% block title %}Posts{% end %}
+{% block title %}Links{% end %}
 
 {% block css %}
 <link href="/static/css/home.css" rel="stylesheet">
@@ -14,7 +14,7 @@
               <ul class="nav nav-pills">
                 {% for tag in tags %}
                   <li class="{{ "active "if tag.name == current_tag else "" }}">
-                    <a href="/posts?tag={{ url_escape(tag.name) }}" class="tag">{{ tag.name }}</a>
+                    <a href="/links?tag={{ url_escape(tag.name) }}" class="tag">{{ tag.name }}</a>
                   </li>
                 {% end %}
               </ul>
