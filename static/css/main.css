@@ -1,5 +1,8 @@
 html, body {
     margin: 0px;
+}
+
+html {
     height: 100% !important;
 }
 

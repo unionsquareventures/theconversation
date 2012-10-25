@@ -11,14 +11,14 @@
 {% end %}
 
 {% block content %}
-<div class="container-fluid">
-<div class="row-fluid">
+<div class="container-fluid" style="height: 100%; padding: 0px; margin: 0px;">
+<div class="row-fluid" style="height: 100%;">
     <div class="span7" style="height: 90%;">
         <iframe src="{{ link.url }}" style="width: 100%; height: 100%; border: 0px;">{{ link.url }}</iframe>
     </div>
 
-<div class="main container span5" style="margin: 0px 0px 0px 20px; height: 100% !important;">
-    <div class="post post_detail" style="height: 100% !important;">
+    <div class="span5"  style="height: 90%; margin: 0px; padding: 0px 20px 0px 20px;">
+    <div class="post post_detail" style="height: 90% !important; margin: 0px 0px 0px 0px; width: 90%;">
         <h1>
             <a href="/links/{{ link.id }}">{{ link.title }}</a>
         </h1>
@@ -36,7 +36,6 @@
 
         <br/><br/>
         <a href="{{ link.url }}">{{ link.url }}</a>
-
 
         <br/>
         {% if len(link.tags) %}
@@ -63,8 +62,13 @@
                 </script>
             </div>
         {% end %}
+        </div>
     </div>
 </div>
 </div>
-</div>
+<script type="text/javascript">
+$(function() {
+    $('.span5').height($('.span7').height());
+});
+</script>
 {% end %}
