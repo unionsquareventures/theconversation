@@ -8,6 +8,8 @@ from question import Question
 from user import User
 
 class Content(Document):
+    body_raw = StringField(required=True)
+    body_html = StringField(required=True)
     id = IntField(primary_key=True)
     title = StringField(required=True, max_length=1000)
     date_created = DateTimeField(required=True)
@@ -23,7 +25,7 @@ class Content(Document):
     labels = {
         'body_raw': 'body',
     }
-    ignored_fields = []
+    ignored_fields = ['body_html']
 
     def hook_date_created(self):
         self._data['date_created'] = dt.datetime.now()

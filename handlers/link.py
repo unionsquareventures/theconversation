@@ -72,9 +72,15 @@ class LinkHandler(BaseHandler):
             tag = Tag(name=name)
             tag.save()
 
+        # Content
+        video_ext = VideoExtension(configs={})
+        body_raw = attributes.get('body_raw', '')
+        body_html = markdown(body_raw, extensions=[video_ext],
+                                    output_format='html5', safe_mode=False)
+
         attributes.update({
             'user': User(**self.get_current_user()),
-            #'body_html': body_html,
+            'body_html': body_html,
             'featured': True if attributes.get('featured') else False,
             'tags': tag_names,
         })
