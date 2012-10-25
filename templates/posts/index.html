@@ -65,7 +65,7 @@
         <br/>
         {% for post in posts %}
             <div class="post">
-                <ul class="{{ "voted" if post.voted_users else "voting" }}">
+                <ul class="{{ "voted" if user['username'] in [u['username'] for u in post.voted_users] else "voting" }}">
                     <li>
                         <span class="green"><div class="icon-arrow-up">&nbsp;</div></span>
                         <a href="/posts/{{ post.id }}/upvote">{{ post.votes }}</a>
