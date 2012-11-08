@@ -13,13 +13,7 @@
         <div class="top-bar">
           <div class="tags span10">
               <p class="section_label">USV Community</p>
-              <ul class="nav nav-pills cloud">
-                {% for tag in tags %}
-                  <li class="{{ "active "if tag.name == current_tag else "" }} tag">
-                    <a href="/links?tag={{ url_escape(tag.name) }}" class="tag">{{ tag.name }}</a>
-                  </li>
-                {% end %}
-              </ul>
+              {% module Template("components/tags_view.html", objects=tags, current_tag=current_tag) %}
           </div>
           <div class="submit span2">
             <div class="btn-group">
