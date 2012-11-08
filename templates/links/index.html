@@ -35,47 +35,7 @@
           </div>
         </div>
         <br/>
-        {% for link in links %}
-            <div class="post" style="width: 220px; display: inline-block;
-                float: left;
-                min-height: 300px; height: auto; padding-top: 25px; margin: 20px;">
-                <div class="contents">
-                    <a href="/links/{{ link.id }}">
-                        <img src="/static/images/link_thumbnails/{{ link.id }}.png" alt="" style="width: 202px; height: 176px;" />
-                    </a>
-                    <br/>
-                    <div style="display: block; margin: 15px 0px 15px 0px;">
-                        <a href="/links/{{ link.id }}" style="font-size: 18px !important; line-height: 25px;">
-                            {{ link.title }}
-                        </a>
-                    </div>
-
-                    <ul class="{{ "voted" if user['username'] in [u['username'] for u in link.voted_users] else "voting" }}"
-                        style="float: left;">
-                        <li>
-                            <span class="green"><div class="icon-arrow-up">&nbsp;</div></span>
-                            <a href="/links/{{ link.id }}/upvote">{{ link.votes }}</a>
-                        </li>
-                    </ul>
-                    <p class="post_info" style="float: left; width: 120px;">
-                        {% if link.user.auth_type == 'twitter' %}
-                            <span class="icon-user"></span> 
-                            <a href="http://twitter.com/{{ link.user.username }}">
-                                @{{ link.user.username }}
-                            </a>
-                        {% end %}
-                        <br/>
-                        <span class="icon-calendar"></span>
-                        <a href="#">{{ link.date_created.strftime("%B %d, %Y") }}</a>
-                        <br/>
-                        <span class="icon-comment"></span>&nbsp;<a href="/links/{{ link.id }}#disqus_thread"></a>
-                </p>
-
-
-
-                </div>
-            </div>
-        {% end %}
+        {% module Template("components/box_view.html", objects=links, user=user) %}
     </div>
 </div>
 </div>

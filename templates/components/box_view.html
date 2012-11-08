@@ -1,0 +1,69 @@
+<style type="text/css">
+.post {
+    width: 220px;
+    display: inline-block;
+    float: left;
+    min-height: 300px;
+    height: auto;
+    padding-top: 25px;
+    margin: 20px;
+}
+.post img {
+    width: 202px;
+    height: 176px;
+}
+.post .title {
+    display: block;
+    margin: 15px 0px 15px 0px;
+    font-size: 18px !important;
+    line-height: 25px;
+}
+.post .vote {
+    float: left;
+}
+.post_info {
+    float: left;
+    width: 120px;
+}
+</style>
+
+{% for link in objects %}
+    <div class="post">
+        <div class="contents">
+            <a href="/links/{{ link.id }}">
+                <img src="/static/images/link_thumbnails/{{ link.id }}.png" alt="" />
+            </a>
+            <br/>
+            <a href="/links/{{ link.id }}" class="title">
+                {{ link.title }}
+            </a>
+
+            <ul class="vote {{ "voted" if user['username'] in [u['username'] for u in link.voted_users] else "voting" }}">
+                <li>
+                    <span class="green">
+                        <div class="icon-arrow-up">&nbsp;</div>
+                    </span>
+                    <a href="/links/{{ link.id }}/upvote">
+                        {{ link.votes }}
+                    </a>
+                </li>
+            </ul>
+
+            <p class="post_info">
+                {% if link.user.auth_type == 'twitter' %}
+                    <span class="icon-user"></span> 
+                    <a href="http://twitter.com/{{ link.user.username }}">
+                        @{{ link.user.username }}
+                    </a>
+                {% end %}
+                <br/>
+                <span class="icon-calendar"></span>
+                <a href="#">{{ link.date_created.strftime("%B %d, %Y") }}</a>
+                <br/>
+                <span class="icon-comment"></span>
+                &nbsp;
+                <a href="/links/{{ link.id }}#disqus_thread"></a>
+            </p>
+        </div>
+    </div>
+{% end %}
