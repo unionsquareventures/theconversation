@@ -14,7 +14,7 @@ import os
 from base import BaseHandler
 
 import mongoengine
-from models import Link, User, Question, Tag
+from models import Link, User, Question, Tag, Post
 
 import subprocess
 from multiprocessing import Process
@@ -37,6 +37,7 @@ class LinkHandler(BaseHandler):
             'links': links,
             'tags': tags,
             'current_tag': tag,
+            'posts': Post.objects(featured=True).order_by('-date_created')
         })
         self.render('links/index.html', **self.vars)
 
