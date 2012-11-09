@@ -1,15 +1,29 @@
 <script type="text/javascript">
     $(document).ready(function() {
         $(".post .title").ellipsis();
+
+        $(".{{ name }}").masonry({
+            itemSelector: '.post',
+            columnWidth: 295,
+            gutterWidth: 30,
+            isAnimated: true,
+        });
+
     });
 </script>
 
 <style type="text/css">
+.container-fluid {
+  margin: 0px;
+  padding: 0px;
+}
+.row-fluid {
+}
 .post {
     width: 220px;
     display: inline-block;
     float: left;
-    margin: 20px;
+    margin: 40px 0px 0px 0px;
     height: 310px;
     padding: 10px 15px 15px 25px;
     padding-top: 25px;

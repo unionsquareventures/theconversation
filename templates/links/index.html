@@ -10,7 +10,8 @@
 <style type="text/css">
 .top-bar {
     height: 70px;
-}
+  }
+
 </style>
 
 <div class="container-fluid">
@@ -40,6 +41,7 @@
     </div>
 
 <div>
+{#
     <div class="frame" style="border: 1px solid black; height: 450px; padding:
         0px; margin: 5px 20px 20px 20px;">
         <div class="frame_label" style="float: left; text-align: left;
@@ -50,7 +52,8 @@
         </div>
         {% module Template("components/box_view.html", objects=posts, name="posts", user=user) %}
     </div>
-        {% module Template("components/box_view.html", objects=links, name="links", user=user) %}
+#}
+      {% module Template("components/box_view.html", objects=links, name="links", user=user) %}
 </div>
 
 <script type="text/javascript">
