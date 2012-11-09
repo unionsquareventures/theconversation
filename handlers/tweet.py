@@ -8,7 +8,7 @@ from collections import defaultdict
 from itertools import groupby
 from operator import itemgetter
 import os
-
+import pytz
 from base import BaseHandler
 
 import mongoengine
@@ -22,7 +22,10 @@ class TweetHandler(BaseHandler):
         tweet = Tweet.objects(id=id).first()
         if not tweet:
             raise tornado.web.HTTPError(404)
-        self.vars.update({'tweet': tweet})
+        self.vars.update({
+            'tweet': tweet,
+            'pytz': pytz,
+        })
         self.render('tweets/get.html', **self.vars)
 
     @tornado.web.authenticated
