@@ -58,17 +58,18 @@
         </div>
         <br/>
         {% for post in posts %}
+            {% set path = '%ss' % post._class_name.split('.')[1].lower() %}
             <div class="post">
                 <ul class="{{ "voted" if user['username'] in [u['username'] for u in post.voted_users] else "voting" }}">
                     <li>
                         <span class="green"><div class="icon-arrow-up">&nbsp;</div></span>
-                        <a href="/posts/{{ post.id }}/upvote">{{ post.votes }}</a>
+                        <a href="/{{ path }}/{{ post.id }}/upvote">{{ post.votes }}</a>
                     </li>
                 </ul>
 
                 <div class="contents">
                     <h1>
-                        <a href="/posts/{{ post.id }}">{{ post.title }}</a>
+                        <a href="/{{ path }}/{{ post.id }}">{{ post.title }}</a>
                     </h1>
 
                     <p class="post_info">
@@ -82,7 +83,7 @@
                         <span class="icon-calendar"></span>
                         <a href="#">{{ post.date_created.strftime("%B %d, %Y") }}</a>
                         &nbsp;
-                        <span class="icon-comment"></span>&nbsp;<a href="/posts/{{ post.id }}#disqus_thread"></a>
+                        <span class="icon-comment"></span>&nbsp;<a href="/{{ path }}/{{ post.id }}#disqus_thread"></a>
                     </p>
                 </div>
             </div>
