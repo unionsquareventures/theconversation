@@ -1,19 +1,30 @@
-<div class="post">
+<script type="text/javascript">
+    // TODO ADD ELLIPSIS jquery call here, once javascript is abstracted from templates
+    // see [#view_note]
+</script>
+<style type="text/css">
+.tweet .body {
+    min-height: 225px;
+    display: block;
+    text-decoration: none;
+    font-weight: lighter;
+    font-size: 15px;
+    overflow: hidden;
+}
+</style>
+<div class="post tweet">
     <div class="contents">
-        <a href="/links/{{ object.id }}">
+        <a href="/tweets/{{ object.id }}" class="body">
             {{ object.body_raw }}
         </a>
         <br/>
-        <a href="/links/{{ object.id }}" class="title">
-            {{ object.title }}
-        </a>
         <div class="details">
             <ul class="vote {{ "voted" if user['username'] in [u['username'] for u in object.voted_users] else "voting" }}">
                 <li>
                     <span class="green">
                         <div class="icon-arrow-up">&nbsp;</div>
                     </span>
-                    <a href="/links/{{ object.id }}/upvote">
+                    <a href="/tweets/{{ object.id }}/upvote">
                         {{ object.votes }}
                     </a>
                 </li>
@@ -32,7 +43,7 @@
                 <br/>
                 <span class="icon-comment"></span>
                 &nbsp;
-                <a href="/links/{{ object.id }}#disqus_thread"></a>
+                <a href="/tweets/{{ object.id }}#disqus_thread"></a>
             </p>
         </div>
     </div>
