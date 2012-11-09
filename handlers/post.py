@@ -13,7 +13,7 @@ from operator import itemgetter
 from base import BaseHandler
 
 import mongoengine
-from models import Post, User, Question, Tag
+from models import Post, User, Question, Tag, Content
 
 class PostHandler(BaseHandler):
     def __init__(self, *args, **kwargs):
@@ -27,7 +27,7 @@ class PostHandler(BaseHandler):
             query.update({
                 'tags': tag,
             })
-        posts = Post.objects(featured=False, **query).order_by('-votes')
+        posts = Content.objects(featured=False, **query).order_by('-votes')
         featured_posts = Post.objects(featured=True).order_by('-date_created')
         tags = Tag.objects()
         self.vars.update({
