@@ -12,6 +12,7 @@ import ssl
 from handlers.base import BaseHandler
 from handlers.post import PostHandler
 from handlers.link import LinkHandler
+from handlers.tweet import TweetHandler
 from handlers.disqus import DisqusHandler
 from handlers.annotation import AnnotationHandler
 from handlers.auth import TwitterLoginHandler
@@ -41,6 +42,9 @@ if __name__ == '__main__':
         (r'/links/(?P<action>new)$', LinkHandler),
         (r'/links/(?P<id>[A-z0-9]+$)', LinkHandler),
         (r'/links/(?P<id>[A-z0-9]+)/(?P<action>.*)$', LinkHandler),
+        # Tweets
+        (r'/tweets/(?P<action>upvote)$', TweetHandler),
+        (r'/tweets/(?P<id>[A-z0-9]+$)', TweetHandler),
         # Disqus
         (r'/disqus', DisqusHandler),
         # Annotations

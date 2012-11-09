@@ -11,7 +11,7 @@ from pytz import timezone
 import datetime as dt
 
 import mongoengine
-from models import Tweet, User, Tag
+from models import Tweet, User, Tag, Question
 
 import c_t
 sjson = c_t.ex
@@ -33,6 +33,7 @@ for tweet in sjson['results']:
         tweet_id = tweet['id_str'],
         featured = False,
         date_created = date_created,
+        questions = [Question(text="What do you think?")],
     )
     tweet.save()
 
