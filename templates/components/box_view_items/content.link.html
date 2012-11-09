@@ -1,0 +1,40 @@
+<div class="post">
+    <div class="contents">
+        <a href="/links/{{ object.id }}">
+            <img src="/static/images/link_thumbnails/{{ object.id }}.png" alt="" />
+        </a>
+        <br/>
+        <a href="/links/{{ object.id }}" class="title">
+            {{ object.title }}
+        </a>
+        <div class="details">
+            <ul class="vote {{ "voted" if user['username'] in [u['username'] for u in object.voted_users] else "voting" }}">
+                <li>
+                    <span class="green">
+                        <div class="icon-arrow-up">&nbsp;</div>
+                    </span>
+                    <a href="/links/{{ object.id }}/upvote">
+                        {{ object.votes }}
+                    </a>
+                </li>
+            </ul>
+
+            <p class="post_info">
+                {% if object.user.auth_type == 'twitter' %}
+                    <span class="icon-user"></span> 
+                    <a href="http://twitter.com/{{ object.user.username }}">
+                        @{{ object.user.username }}
+                    </a>
+                {% end %}
+                <br/>
+                <span class="icon-calendar"></span>
+                <a href="#">{{ object.date_created.strftime("%b %d, %Y") }}</a>
+                <br/>
+                <span class="icon-comment"></span>
+                &nbsp;
+                <a href="/links/{{ object.id }}#disqus_thread"></a>
+            </p>
+        </div>
+    </div>
+</div>
+

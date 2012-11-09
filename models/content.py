@@ -28,7 +28,8 @@ class Content(Document):
     ignored_fields = ['body_html']
 
     def hook_date_created(self):
-        self._data['date_created'] = dt.datetime.now()
+        if not self._data.get('date_created'):
+            self._data['date_created'] = dt.datetime.now()
 
     def hook_id(self):
         counter_coll = self._get_collection_name() + 'Counter'

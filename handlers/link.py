@@ -25,13 +25,14 @@ class LinkHandler(BaseHandler):
 
     def index(self):
         # list posts
-        query = {}
+        query = {
+        }
         tag = self.get_argument('tag', '')
         if tag:
             query.update({
                 'tags': tag,
             })
-        links = Link.objects(featured=False, **query).order_by('-votes')
+        links = Content.objects(featured=False, **query).order_by('-votes')
         # ^ Also could be Content.objects
         tags = Tag.objects()
         self.vars.update({
