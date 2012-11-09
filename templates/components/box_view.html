@@ -4,7 +4,7 @@
 
         $(".{{ name }}").masonry({
             itemSelector: '.post',
-            columnWidth: 295,
+            columnWidth: 270,
             gutterWidth: 30,
             isAnimated: true,
         });
@@ -13,17 +13,20 @@
 </script>
 
 <style type="text/css">
-.container-fluid {
+.container-fluid-flush {
   margin: 0px;
   padding: 0px;
 }
 .row-fluid {
 }
+.box_view {
+  margin: 20px 0px 0px 40px;
+}
 .post {
     width: 220px;
     display: inline-block;
     float: left;
-    margin: 40px 0px 0px 0px;
+    margin: 0px 0px 40px 0px;
     height: 310px;
     padding: 10px 15px 15px 25px;
     padding-top: 25px;
@@ -64,7 +67,7 @@
 }
 </style>
 
-<div class="{{ name }}">
+<div class="{{ name }} box_view">
     {% for link in objects %}
         <div class="post">
             <div class="contents">

@@ -113,6 +113,9 @@ body {
 
 }
 
+.post h1 {
+    height: 35px;
+}
 
 /* VOTING BUTTONS */
 .voting li,

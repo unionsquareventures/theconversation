@@ -14,7 +14,7 @@ import os
 from base import BaseHandler
 
 import mongoengine
-from models import Link, User, Question, Tag, Post
+from models import Link, User, Question, Tag, Post, Content
 
 import subprocess
 from multiprocessing import Process
@@ -32,12 +32,12 @@ class LinkHandler(BaseHandler):
                 'tags': tag,
             })
         links = Link.objects(featured=False, **query).order_by('-votes')
+        # ^ Also could be Content.objects
         tags = Tag.objects()
         self.vars.update({
             'links': links,
             'tags': tags,
             'current_tag': tag,
-            'posts': Post.objects(featured=True).order_by('-date_created')
         })
         self.render('links/index.html', **self.vars)
 
