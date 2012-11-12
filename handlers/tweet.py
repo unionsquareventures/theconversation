@@ -12,7 +12,7 @@ import pytz
 from base import BaseHandler
 
 import mongoengine
-from models import Tweet
+from models import Tweet, User
 
 class TweetHandler(BaseHandler):
     def __init__(self, *args, **kwargs):
@@ -28,6 +28,12 @@ class TweetHandler(BaseHandler):
         })
         self.render('tweets/get.html', **self.vars)
 
+    def get(self, id='', action=''):
+        if action == 'upvote' and id:
+            self.upvote(id)
+        else:
+            super(TweetHandler, self).get(id, action)
+
     @tornado.web.authenticated
     def upvote(self, id):
         username = self.get_current_user()['username']
@@ -35,9 +41,13 @@ class TweetHandler(BaseHandler):
         tweet = Tweet.objects(id=id).fields(voted_users=user_q).first()
         if not tweet:
             raise tornado.web.HTTPError(404)
+        detail = self.get_argument('detail', '')
         if tweet.voted_users:
-            self.redirect('/tweets?error')
+            self.redirect(('/tweets/%s?error' % tweet.id) if detail else '/links?error')
             return
+
+
         tweet.update(inc__votes=1)
         tweet.update(push__voted_users=User(**self.get_current_user()))
-        self.redirect('/links')
+
+        self.redirect(('/tweets/%s' % tweet.id) if detail else '/links')

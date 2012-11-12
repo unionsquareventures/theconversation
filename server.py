@@ -45,6 +45,7 @@ if __name__ == '__main__':
         # Tweets
         (r'/tweets/(?P<action>upvote)$', TweetHandler),
         (r'/tweets/(?P<id>[A-z0-9]+$)', TweetHandler),
+        (r'/tweets/(?P<id>[A-z0-9]+)/(?P<action>.*)$', TweetHandler),
         # Disqus
         (r'/disqus', DisqusHandler),
         # Annotations

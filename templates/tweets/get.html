@@ -3,7 +3,8 @@
 {% block title %}{{ tweet.title }}{% end %}
 
 {% block css %}
-    <link rel="stylesheet" type="text/css" href="/static/css/annotator.min.css" />
+<link rel="stylesheet" type="text/css" href="/static/css/annotator.min.css" />
+<link rel="stylesheet" type="text/css" href="/static/css/voting.css" />
 {% end %}
 
 {% block javascript %}
@@ -38,6 +39,18 @@
 <script src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
         </div>
 
+        <div style="width: 90px; height: 50px; margin: 40px 0px 0px 0px;">
+          <ul class="vote {{ "voted" if user['username'] in [u['username'] for u in tweet.voted_users] else "voting" }}">
+            <li>
+                <span class="green">
+                    <div class="icon-arrow-up">&nbsp;</div>
+                </span>
+                <a href="/tweets/{{ tweet.id }}/upvote?detail=true">
+                    {{ tweet.votes }}
+                </a>
+            </li>
+          </ul>
+      </div>
 
         <br/>
         {% if len(tweet.tags) %}
