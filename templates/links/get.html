@@ -9,6 +9,59 @@
 {% block javascript %}
 <script src="/static/js/annotator-full.min.js"></script>
 <script type="text/javascript">
+        $(document).ready(function(){
+
+          Annotator.Plugin.Disqus = function (element) {
+                var disqusPlugin = {};
+                disqusPlugin.pluginInit = function () {
+                        this.annotator
+                        .subscribe("annotationViewerShown", function(viewer, annotations) {
+                            //$(viewer.element).children().children(".annotator-item:not(:last)").remove()
+                        });
+
+                        this.annotator
+                        .subscribe("annotationViewerTextField", function (field, annotation) {
+                                var ids = annotation['id'].split('_');
+                                var disqus_frame = '<div class="annotation">'
+                                    + '<h3>"' + annotation['quote'] + '"</h3><br/>'
+                                    + '<iframe class="disqus"'
+                                     + 'src="/disqus?content_id=' + ids[0] + '&annotation_number='
+                                            + ids[1] + '"></iframe></div>';
+                                $(field).html(disqus_frame);
+                              
+                            });
+                };
+                return disqusPlugin;
+            };
+
+          var a = $(".post_content").annotator();
+          a.annotator('addPlugin', 'Disqus');
+          var url = window.location.href;
+          var arr = url.split("/");
+          var prefix = arr[0] + "//" + arr[2];
+          a.annotator('addPlugin', 'Store', {
+              // The endpoint of the store on your server.
+              prefix: prefix,
+
+              // Attach the uri of the current page to all annotations to allow search.
+              annotationData: {
+                'post_id': '{{ link.id }}'
+              },
+
+              // This will perform a "search" action rather than "read" when the plugin
+              // loads. Will request the last 20 annotations for the current url.
+              // eg. /store/endpoint/search?limit=20&uri=http://this/document/only
+              loadFromSearch: {
+                'limit': 20,
+                'post_id': '{{ link.id }}'
+              },
+              urls: {
+                search: '/annotations',
+              }
+          });
+        });
+</script>
+<script type="text/javascript">
 $(function() {
     $(".embed_frame").jScroll({top: 70});
 });
@@ -18,11 +71,15 @@ $(function() {
 {% block content %}
 <div class="container-fluid" style="height: 100%; padding: 0px; margin: 0px;">
 <div class="row-fluid" style="height: 100%;">
-    <div class="embed_frame" style="width: 50%; height: 90%; float: left;">
-        <iframe src="{{ link.url }}" style="width: 100%; height: 90%; border: 0px;">{{ link.url }}</iframe>
-    </div>
+  {% if link.left_url %}
+  <div class="embed_frame" style="width: 50%; height: 90%; float: left;">
+        <iframe src="{{ link.left_url }}" style="width: 100%; height: 90%; border: 0px;">{{ link.left_url }}</iframe>
+  </div>
+  {% end %}
 
-    <div class=""  style="width: 50%; height: 90%; margin: 0px; padding: 0px 0px 0px 0px; float: left;">
+  <div class=""  style="width: {{ "50%" if link.left_url else "1000px" }}; height: 90%;
+                          margin: {{ "0px" if link.left_url else "0px auto !important" }};
+                          padding: 0px 0px 0px 0px; {{ "float: left;" if link.left_url else "" }}">
     <div class="post post_detail" style="height: 90% !important; margin: 0px 10px 0px 10px;">
         <h1>
             <a href="/links/{{ link.id }}">{{ link.title }}</a>
@@ -30,14 +87,22 @@ $(function() {
 
         <p class="post_info">
             {% if link.user.auth_type == 'twitter' %}
-                by: 
+                <span class="icon-user"></span> 
                 <a href="http://twitter.com/{{ link.user.username }}">
                     @{{ link.user.username }}
                 </a>
             {% end %}
-            on
+            <span class="icon-calendar"></span>
             <a href="#">{{ link.date_created.strftime("%B %d, %Y") }}</a>
-        </p>
+            {% if link.url %}
+                <br/><span class="icon-share-alt"></span>
+                <a href="{{ link.url }}" style="font-style: italic;">
+                    {{ link.url }}
+                  </a>
+            {% end %}
+         </p>
+
+
 
         <br/><br/>
         <!--<a href="{{ link.url }}">{{ link.url }}</a>-->
@@ -46,27 +111,13 @@ $(function() {
         <br/>
         {% if len(link.tags) %}
             <p id="post_tags">
-                <b>Category: </b>
-                {% for tag in link.tags %}
-                    <a href="/links?tag={{ url_escape(tag) }}">{{ tag }}</a>
-                {% end %}
+            <b>Category: </b>
+                {% module Template("components/tags_view.html", objects=link.tags, view_type="links", current_tag="", fix=True) %}
             </p>
         {% end %}
         <br/>
-        {% if len(link.questions) %}
-            <div id="questions">
-                {% for counter in range(len(link.questions)) %}
-                    <div class="question">
-                        <h3 class="question">{{ link.questions[counter].text }}</h3>
-                        <iframe class="disqus" src="/disqus?content_id={{ link.id }}&question_number={{ counter+1 }}"></iframe>
-                    </div>
-                {% end %}
-                <script type="text/javascript">
-                    $(".question").on("click", function(e) {
-                        $(this).children("iframe").toggle();
-                    });
-                </script>
-            </div>
+        {% if link.bottom_url %}
+        <div class="question"><iframe class="disqus" src="{{ link.bottom_url }}"></iframe></div>
         {% end %}
         </div>
     </div>

@@ -110,7 +110,7 @@ $(function() {
                           'body_raw': 'Body, should this be optional?',
                           'tags': 'Categories (optional, separate by commas)',
             }%}
-            {% for name, label, html, field_errors in model.form_fields(errors, order=['title', 'url', 'body_raw', 'tags'],
+            {% for name, label, html, field_errors in model.form_fields(errors, order=['title', 'url', 'body_raw'],
                                                                                   placeholders=placeholders) %}
                     {% if field_errors %}
                         <i>{{ field_errors.message }}</i>
@@ -118,7 +118,7 @@ $(function() {
                     {% end %}
                     {% raw html %}
             {% end %}
-
+            <input type="text" name="tags" placeholder="Categories (optional, separate by commas)" />
 
           <!--<input type="text" name="title" placeholder="Title..." />
           <input type="text" name="url" placeholder="* Linked URL (optional)" class="post_url" />

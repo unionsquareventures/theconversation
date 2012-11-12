@@ -6,6 +6,7 @@ import datetime as dt
 from mongoengine import *
 from question import Question
 from user import User
+from annotation import Annotation
 
 class Content(Document):
     body_raw = StringField(required=True)
@@ -19,6 +20,7 @@ class Content(Document):
     featured = BooleanField(default=False)
     votes = IntField(default=0)
     voted_users = ListField(EmbeddedDocumentField(User))
+    annotations = ListField(EmbeddedDocumentField(Annotation))
 
     meta = {'allow_inheritance': True}
 

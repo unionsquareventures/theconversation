@@ -6,7 +6,7 @@ import datetime as dt
 import json
 
 from base import BaseHandler
-from models import Post, Annotation, AnnotationRange
+from models import Post, Annotation, AnnotationRange, Content
 
 # TODO: Annotation authentication and xsrf cookies
 
@@ -14,7 +14,7 @@ class AnnotationHandler(BaseHandler):
 
     def index(self):
         post_id = int(self.get_argument('post_id'))
-        post = Post.objects(id=post_id).first()
+        post = Content.objects(id=post_id).first()
         if not post:
             raise tornado.web.HTTPError(404)
         annotations = []
@@ -35,7 +35,7 @@ class AnnotationHandler(BaseHandler):
         post_id = int(ids[0])
         annotation_num = int(ids[1])
 
-        post = Post.objects(id=post_id).first()
+        post = Content.objects(id=post_id).first()
         if not post:
             raise tornado.web.HTTPError(404)
         a = annotation[annotation_num]
@@ -47,7 +47,7 @@ class AnnotationHandler(BaseHandler):
         req['post_id'] = int(req['post_id'])
         post_id = int(req['post_id'])
 
-        post = Post.objects(id=post_id).first()
+        post = Content.objects(id=post_id).first()
         if not post:
             raise tornado.web.HTTPError(404)
 
@@ -64,7 +64,7 @@ class AnnotationHandler(BaseHandler):
         post_id = int(params[0])
         annotation_num = int(params[1])
 
-        post = Post.objects(id=post_id).first()
+        post = Content.objects(id=post_id).first()
         if not post:
             raise tornado.web.HTTPError(404)
 

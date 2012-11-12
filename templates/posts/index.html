@@ -50,7 +50,7 @@
           <div class="tags span12 navbar-inner">
               <p class="section_label">USV Community</p>
               <input type="text" name="search" value="Search..." class="search-query content_search" />
-              {% module Template("components/tags_view.html", objects=tags, current_tag=current_tag, view_type="posts") %}
+              {% module Template("components/tags_view.html", objects=tags, current_tag=current_tag, view_type="posts", fix=False) %}
           </div>
         </div>
         <br/>

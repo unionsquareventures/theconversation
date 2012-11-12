@@ -10,4 +10,4 @@ from user import User
 from content import Content
 
 class Post(Content):
-    annotations = ListField(EmbeddedDocumentField(Annotation))
+    pass
