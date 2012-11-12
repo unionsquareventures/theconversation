@@ -29,11 +29,22 @@ $(function() {
         $(".embed_frame .well_-linked-url").removeClass("disabled");
       }
     });
+
+    $(".widget_chooser button").on("click", function(e) {
+      var elem = $(e.srcElement);
+      if(elem.attr('name')=="empty") {
+        elem.closest('.well').children('.inner_well').children('.well_value').hide();
+      } else {
+        elem.closest('.well').children('.inner_well').children('.well_value').show();
+      }
+      e.preventDefault();
+    });
 });
 </script>
 {% end %}
 
 {% block content %}
+<form action="/links{{ ('/' + link_id) if link_id else '' }}" method="post" class="post_form">
 <div class="container-fluid" style="height: 100%; padding: 0px; margin: 0px;">
   <div class="row-fluid" style="height: 100%;">
     <div class="embed_frame" style="width: 50%; float: left; height: 90%; height: 800px !important;">
@@ -59,7 +70,6 @@ $(function() {
       </div>
 
       <div class="post post_detail" style="margin: 0px 10px 0px 10px; padding-left: 40px;">
-        <form action="/links{{ ('/' + link_id) if link_id else '' }}" method="post" class="post_form">
           {% module xsrf_form_html() %}
             {% set placeholders= {
                           'url': '* Linked URL (optional)',
@@ -92,9 +102,9 @@ $(function() {
             {% module Template("components/widget_well.html", name="bottom_url", height="300px",
                                                                 center_height="125px", options=options) %}
           </div>
-        </form>
       </div>
     </div>
   </div>
 </div>
+</form>
 {% end %}

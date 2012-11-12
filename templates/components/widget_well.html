@@ -15,11 +15,12 @@
 </style>
 
 <div class="well well_{{ name }}" style="height: {{ height }}; width: 100%;">
-  <div style="text-align: center; margin-top: {{ center_height }};">
+  <div style="text-align: center; margin-top: {{ center_height }};" class="inner_well">
         <div class="btn-group widget_chooser">
             {% for option in options %}
-                <button class="btn {{ "disabled" if option.get('disabled') else "" }}
-                                {{ "well_" + option.get('name').lower().replace(" ", "-").replace("*", "") }}">
+                {% set option_name = option.get('name').lower().replace(" ", "-").replace("*", "") %}
+                <button name="{{ option_name }}" class="btn {{ "disabled" if option.get('disabled') else "" }}
+                                {{ "well_" + option_name }}">
                     <div class="{{ option.get('icon') or 'icon-plus' }}"></div>
                     {{ option.get('name') }}
                 </button>
@@ -27,7 +28,7 @@
         </div>
         <div class="well_value">
             <p class="well_input_label">URL</p>
-            <input type="text" name="{{ name }}" placeholder="" value="" class="well_input" />
+            <input type="text" name="{{ name }}_url" placeholder="" value="" class="well_input" />
         </div>
   </div>
 </div>
