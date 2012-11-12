@@ -8,17 +8,22 @@
 
 {% block javascript %}
 <script src="/static/js/annotator-full.min.js"></script>
+<script type="text/javascript">
+$(function() {
+    $(".embed_frame").jScroll();
+});
+</script>
 {% end %}
 
 {% block content %}
 <div class="container-fluid" style="height: 100%; padding: 0px; margin: 0px;">
 <div class="row-fluid" style="height: 100%;">
-    <div class="span7" style="height: 90%;">
-        <iframe src="{{ link.url }}" style="width: 100%; height: 100%; border: 0px;">{{ link.url }}</iframe>
+    <div class="embed_frame" style="width: 50%; height: 90%; float: left;">
+        <iframe src="{{ link.url }}" style="width: 100%; height: 90%; border: 0px;">{{ link.url }}</iframe>
     </div>
 
-    <div class="span5"  style="height: 90%; margin: 0px; padding: 0px 20px 0px 20px;">
-    <div class="post post_detail" style="height: 90% !important; margin: 0px 0px 0px 0px; width: 90%;">
+    <div class=""  style="width: 50%; height: 90%; margin: 0px; padding: 0px 0px 0px 0px; float: left;">
+    <div class="post post_detail" style="height: 90% !important; margin: 0px 10px 0px 10px; width: 85%;">
         <h1>
             <a href="/links/{{ link.id }}">{{ link.title }}</a>
         </h1>
