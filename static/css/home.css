@@ -64,10 +64,6 @@
     font-size: 20px;
     text-align: center;
 }
-.community-posts .post .tweet_container {
-  width: 100% !important;
-  display: block !important;
-}
 .community-posts .post .tweet_title {
   overflow: hidden !important;
   text-overflow: ellipsis !important;
@@ -77,6 +73,16 @@
   padding: 0px;
   width: 100% !important;
   font-weight: normal !important;
+}
+
+.community-posts .post h1 {
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+  display: block;
+  margin: 0px 0px 0px 0px;
+  padding: 0px;
+  width: 100% !important;
 }
 
 /*
@@ -418,4 +424,16 @@ background-image: url("../img/glyphicons-halflings-white.png") !important;
 
 .top-bar .tags {
     padding-top: 10px;
+}
+
+.top-bar .content_search {
+  width: 150px;
+  display: inline !important;
+  float: left;
+  margin: 7px 0px 5px 10px;
+}
+
+.top-bar .tags {
+  height: 60px;
+  overflow: hidden !important;
 }

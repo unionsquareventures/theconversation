@@ -49,6 +49,7 @@
         <div class="top-bar">
           <div class="tags span10">
               <p class="section_label">USV Community</p>
+              <input type="text" name="search" value="Search..." class="search-query content_search" />
               {% module Template("components/tags_view.html", objects=tags, current_tag=current_tag, view_type="posts") %}
           </div>
           <div class="submit span2">
@@ -76,16 +77,14 @@
                 </ul>
 
                 <div class="contents">
-                    {% if post.title %}
+                  {% if post.title %}
                       <h1>
                         <a href="/{{ path }}/{{ post.id }}">{{ post.title }}</a>
                       </h1>
                     {% else %}
-                    <div class="tweet_container">
                       <a href="/{{ path }}/{{ post.id }}" class="tweet_title">
                         {{ post.body_raw }}
                       </a>
-                    </div>
                     {% end %}
 
                     <p class="post_info">
