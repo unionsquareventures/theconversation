@@ -172,6 +172,7 @@ textarea {
 input[type=text] {
     width: 100%;
     font-size: 18px;
+    line-height: 20px !important;
 }
 
 form label {

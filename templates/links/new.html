@@ -3,6 +3,12 @@
 {% block title %}Submit{% end %}
 
 {% block css %}
+<style type="text/css">
+.widget_chooser .btn {
+  height: 50px;
+  min-width: 50px;
+}
+</style>
 {% end %}
 
 {% block javascript %}
@@ -21,31 +27,30 @@ $(function() {
 
 {% block content %}
 <div class="container-fluid" style="height: 100%; padding: 0px; margin: 0px;">
-<div class="row-fluid" style="height: 100%;">
-    <div class="embed_frame" style="width: 50%; height: 90%; float: left;">
-      <div>
-        left content
+  <div class="row-fluid" style="height: 100%;">
+    <div class="embed_frame" style="width: 50%; float: left; height: 90%; height: 800px !important;">
+      <div class="well_container" style="margin: 40px 50px 0px 0px; height: 100%;">
+        {% module Template("components/widget_well.html", height="100%", center_height="100px") %}
       </div>
     </div>
 
     <div class="" style="width: 50%; height: 90%; margin: 0px; padding: 0px 0px 0px 0px; float: left;">
       <div class="post_submit_bar" style="height: 40px; margin-right: 10px;">
-          <div class="btn" style="margin: 0px 0px 0px 0px; float:right;">
-            <div class="icon-plus-sign" style="margin-right: 5px;"></div>
-            Submit this content
-          </div>
+        <div class="btn" style="margin: 0px 0px 0px 0px; float:right;">
+          <div class="icon-plus-sign" style="margin-right: 5px;"></div>
+          Submit this content
+        </div>
       </div>
-      <div class="post post_detail" style="height: 90% !important; margin: 0px 10px 0px 10px;">
-          <input type="text" name="title" placeholder="Title..." />
-          <input type="text" name="url" placeholder="URL (optional)" />
-          <div class="post_content">
-            <textarea name="body_raw" placeholder="Body, should this be optional?"></textarea>
-          </div>
-          <input type="text" name="url" placeholder="Categories (optional, separate by commas)" />
-          <div>bottom url</div>
+      <div class="post post_detail" style="margin: 0px 10px 0px 10px; padding-left: 40px;">
+        <input type="text" name="title" placeholder="Title..." />
+        <input type="text" name="url" placeholder="URL (optional)" />
+        <textarea name="body_raw" placeholder="Body, should this be optional?"></textarea>
+        <input type="text" name="url" placeholder="Categories (optional, separate by commas)" />
+        <div class="well_container" style="margin-right: 25px;">
+          {% module Template("components/widget_well.html", height="300px", center_height="125px") %}
+        </div>
       </div>
     </div>
-</div>
+  </div>
 </div>
 {% end %}
-
