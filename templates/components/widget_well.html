@@ -1,25 +1,33 @@
-<div class="well" style="height: {{ height }}; width: 100%;">
+<style type="text/css">
+.well_input {
+    width: 200px !important;
+    margin: 5px 0px 0px 0px;
+}
+.well_input_label {
+    display: inline;
+    margin: 5px 10px 0px 0px;
+    font-weight: bolder;
+
+}
+.well_value {
+    margin-top: 15px;
+}
+</style>
+
+<div class="well well_{{ name }}" style="height: {{ height }}; width: 100%;">
   <div style="text-align: center; margin-top: {{ center_height }};">
-      <div class="btn-group widget_chooser">
-            <button class="btn disabled">
-                <div class="icon-plus"></div>
-                My Link
-            </button>
-
-            <button class="btn">
-                <div class="icon-plus"></div>
-                GDOC
-            </button>
-
-            <button class="btn">
-                <div class="icon-plus"></div>
-                HackPad
-            </button>
-
-            <button class="btn">
-                <div class="icon-ban-circle"></div>
-                Empty
-            </button>
-      </div>
+        <div class="btn-group widget_chooser">
+            {% for option in options %}
+                <button class="btn {{ "disabled" if option.get('disabled') else "" }}
+                                {{ "well_" + option.get('name').lower().replace(" ", "-").replace("*", "") }}">
+                    <div class="{{ option.get('icon') or 'icon-plus' }}"></div>
+                    {{ option.get('name') }}
+                </button>
+            {% end %}
+        </div>
+        <div class="well_value">
+            <p class="well_input_label">URL</p>
+            <input type="text" name="{{ name }}" placeholder="" value="" class="well_input" />
+        </div>
   </div>
 </div>

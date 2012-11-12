@@ -21,6 +21,14 @@ $(function() {
     $('.post_submit_bar .btn').on("click", function(e) {
        window.location = "/links/new";
     });
+
+    $(".post_form .post_url").keyup(function(e) {
+      if(!$(this).val()) {
+        $(".embed_frame .well_-linked-url").addClass("disabled");
+      } else {
+        $(".embed_frame .well_-linked-url").removeClass("disabled");
+      }
+    });
 });
 </script>
 {% end %}
@@ -30,25 +38,61 @@ $(function() {
   <div class="row-fluid" style="height: 100%;">
     <div class="embed_frame" style="width: 50%; float: left; height: 90%; height: 800px !important;">
       <div class="well_container" style="margin: 40px 50px 0px 0px; height: 100%;">
-        {% module Template("components/widget_well.html", height="100%", center_height="100px") %}
+        {% set options = [
+                              {'name': 'GDOC'},
+                              {'name': 'HackPad'},
+                              {'name': 'Empty', 'icon': 'icon-ban-circle'},
+                              {'name': '* Linked URL', 'disabled': True},
+        ]%}
+        {% module Template("components/widget_well.html", name="left_url", height="100%",
+                                                            center_height="100px", options=options) %}
       </div>
     </div>
 
     <div class="" style="width: 50%; height: 90%; margin: 0px; padding: 0px 0px 0px 0px; float: left;">
       <div class="post_submit_bar" style="height: 40px; margin-right: 10px;">
         <div class="btn" style="margin: 0px 0px 0px 0px; float:right;">
-          <div class="icon-plus-sign" style="margin-right: 5px;"></div>
+          <div class="icon-plus-sign" style="margin-right: 5px;">
+          </div>
           Submit this content
         </div>
       </div>
+
       <div class="post post_detail" style="margin: 0px 10px 0px 10px; padding-left: 40px;">
-        <input type="text" name="title" placeholder="Title..." />
-        <input type="text" name="url" placeholder="URL (optional)" />
-        <textarea name="body_raw" placeholder="Body, should this be optional?"></textarea>
-        <input type="text" name="url" placeholder="Categories (optional, separate by commas)" />
-        <div class="well_container" style="margin-right: 25px;">
-          {% module Template("components/widget_well.html", height="300px", center_height="125px") %}
-        </div>
+        <form action="/links{{ ('/' + link_id) if link_id else '' }}" method="post" class="post_form">
+          {% module xsrf_form_html() %}
+            {% set placeholders= {
+                          'url': '* Linked URL (optional)',
+                          'title': 'Title...',
+                          'body_raw': 'Body, should this be optional?',
+                          'tags': 'Categories (optional, separate by commas)',
+            }%}
+            {% for name, label, html, field_errors in model.form_fields(errors, order=['title', 'url', 'body_raw', 'tags'],
+                                                                                  placeholders=placeholders) %}
+                    {% if field_errors %}
+                        <i>{{ field_errors.message }}</i>
+                        <br/>
+                    {% end %}
+                    {% raw html %}
+            {% end %}
+
+
+          <!--<input type="text" name="title" placeholder="Title..." />
+          <input type="text" name="url" placeholder="* Linked URL (optional)" class="post_url" />
+          <textarea name="body_raw" placeholder="Body, should this be optional?"></textarea>
+          <input type="text" name="tags" placeholder="Categories (optional, separate by commas)" />
+          -->
+          <div class="well_container" style="margin-right: 25px;">
+            {% set options = [
+                                {'name': 'Disqus'},
+                                {'name': 'GDOC'},
+                                {'name': 'HackPad'},
+                                {'name': 'Empty', 'icon': 'icon-ban-circle'},
+            ]%}
+            {% module Template("components/widget_well.html", name="bottom_url", height="300px",
+                                                                center_height="125px", options=options) %}
+          </div>
+        </form>
       </div>
     </div>
   </div>
