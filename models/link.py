@@ -29,7 +29,7 @@ class Link(Content):
                 field_html = '<textarea name="{name}" class="post_{name}"' \
                                             ' placeholder="{placeholder}">{value}</textarea>'
             if field.__class__ == StringField and field.max_length:
-                field_html = '<input name="{name}" type="text"' \
+                field_html = '<input name="{name}" type="text" class="post_{name}"' \
                                                 ' placeholder="{placeholder}" value="{value}" />'
 
             if not field_html:

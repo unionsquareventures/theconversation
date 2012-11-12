@@ -19,7 +19,7 @@ $(function() {
     $(".submit_content").hide();
 
     $('.post_submit_bar .btn').on("click", function(e) {
-       window.location = "/links/new";
+       $('.post_form').submit();
     });
 
     $(".post_form .post_url").keyup(function(e) {
