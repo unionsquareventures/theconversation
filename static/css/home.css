@@ -56,6 +56,13 @@
    padding: 0px;
    width: 75%;
 }
+.community-posts .post .post_info {
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+  display: block;
+  width: 100% !important;
+}
 .community-posts .post .voting, .community-posts .post .voted {
     float: left;
     width: 80px;
