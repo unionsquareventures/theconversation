@@ -40,7 +40,7 @@
         </div>
 
         <div style="width: 90px; height: 50px; margin: 40px 0px 0px 0px;">
-          <ul class="vote {{ "voted" if user['username'] in [u['username'] for u in tweet.voted_users] else "voting" }}">
+          <ul class="vote {{ "voted" if user.get('username') in [u['username'] for u in tweet.voted_users] else "voting" }}">
             <li>
                 <span class="green">
                     <div class="icon-arrow-up">&nbsp;</div>

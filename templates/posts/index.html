@@ -57,7 +57,7 @@
         {% for post in posts %}
             {% set path = '%ss' % post._class_name.split('.')[1].lower() %}
             <div class="post">
-                <ul class="{{ "voted" if user['username'] in [u['username'] for u in post.voted_users] else "voting" }}">
+                <ul class="{{ "voted" if user.get('username') in [u['username'] for u in post.voted_users] else "voting" }}">
                     <li>
                         <span class="green"><div class="icon-arrow-up">&nbsp;</div></span>
                         <a href="/{{ path }}/{{ post.id }}/upvote">{{ post.votes }}</a>
