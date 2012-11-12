@@ -22,8 +22,32 @@ $(function() {
        $('.post_form').submit();
     });
 
+    function syncLinkedURL() {
+      var val = $(".post_form .post_url").val();
+      var widget_type = $(".embed_frame .widget_chooser .active");
+      if(widget_type.attr('name') == '-linked-url') {
+        $(".embed_frame .well_input").val(val);
+      }
+    };
+
+    $(".embed_frame .widget_chooser button").on("click", function() {
+      if($(this).attr('name') == '-linked-url') {
+          var val = $(".post_form .post_url").val();
+          var widget_type = $(".embed_frame .widget_chooser .active");
+          $(".embed_frame .well_input").val(val);
+      }
+    });
+
+
+    $(".post_form .post_url").on("focus blur", function(e) {
+      syncLinkedURL();
+    });
+
     $(".post_form .post_url").keyup(function(e) {
-      if(!$(this).val()) {
+      syncLinkedURL();
+      var val = $(this).val();
+
+      if(!val) {
         $(".embed_frame .well_-linked-url").addClass("disabled");
       } else {
         $(".embed_frame .well_-linked-url").removeClass("disabled");
@@ -32,10 +56,17 @@ $(function() {
 
     $(".widget_chooser button").on("click", function(e) {
       var elem = $(e.srcElement);
+      elem.closest('.btn-group').children('button').removeClass('active');
+      elem.addClass('active');
+
+      var inner_well = elem.closest('.well').children('.inner_well');
+      var well_value = inner_well.children('.well_value');
+
       if(elem.attr('name')=="empty") {
-        elem.closest('.well').children('.inner_well').children('.well_value').hide();
+        well_value.hide();
+        well_value.children(".well_input").val("");
       } else {
-        elem.closest('.well').children('.inner_well').children('.well_value').show();
+        well_value.show();
       }
       e.preventDefault();
     });
