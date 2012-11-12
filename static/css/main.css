@@ -87,7 +87,11 @@ body a:hover {
     border-radius: 0 3px 3px 0;
 }
 .navbar .nav li { height: 50px !important; }
-.navbar .nav li a { text-shadow: 1px 1px 0px white; height: 25px !important; margin-top: 3px;}
+.navbar .nav li a {
+  text-shadow: 1px 1px 0px white;
+  height: 25px !important;
+  margin-top: 5px;
+}
 .navbar .nav li a:hover {
     background: none !important;
     text-shadow: 0px 1px 0px white !important;
