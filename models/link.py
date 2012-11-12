@@ -11,3 +11,5 @@ from content import Content
 
 class Link(Content):
     url = StringField(required=True, max_length=65000)
+    left_url = StringField(required=True, max_length=65000)
+    bottom_url = StringField(required=True, max_length=65000)
