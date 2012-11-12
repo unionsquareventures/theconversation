@@ -84,7 +84,7 @@
 <ul class="tags_list">
     {% for tag in objects %}
         <li class="{{ "active "if tag.name == current_tag else "" }} tag">
-            <a href="/links?tag={{ url_escape(tag.name) }}" class="tag">{{ tag.name }}</a>
+          <a href="/{{ view_type }}?tag={{ url_escape(tag.name) }}" class="tag">{{ tag.name }}</a>
         </li>
     {% end %}
 </ul>

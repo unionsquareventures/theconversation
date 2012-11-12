@@ -46,7 +46,7 @@ $(function() {
         <br/>
         {% if len(link.tags) %}
             <p id="post_tags">
-                <b>Tags: </b>
+                <b>Category: </b>
                 {% for tag in link.tags %}
                     <a href="/links?tag={{ url_escape(tag) }}">{{ tag }}</a>
                 {% end %}

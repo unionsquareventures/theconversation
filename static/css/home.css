@@ -42,19 +42,41 @@
 }
 
 .community-posts .post {
-    padding: 10px 15px 15px 25px;
-    height: 55px;
+    padding: 0px 15px 15px 25px;
+    height: 50px;
 }
+.community-posts .post h1 {
+  font-size: 18px !important;
+  height: 30px;
+}
+
 .community-posts .post .contents {
     float: left;
+    margin: 3px 0px 0px 0px;
+   padding: 0px;
+   width: 75%;
 }
 .community-posts .post .voting, .community-posts .post .voted {
     float: left;
     width: 80px;
     padding: 0px;
-    margin: 10px 20px 10px 0px;
+    margin: 13px 10px 10px 0px;
     font-size: 20px;
     text-align: center;
+}
+.community-posts .post .tweet_container {
+  width: 100% !important;
+  display: block !important;
+}
+.community-posts .post .tweet_title {
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+  display: block;
+  margin: 10px 0px 0px 0px;
+  padding: 0px;
+  width: 100% !important;
+  font-weight: normal !important;
 }
 
 /*
@@ -75,6 +97,7 @@ body {
 }
 .top-bar {
     height: 40px;
+    margin-bottom: 15px;
 }
 .community-posts .top-bar {
 }
