@@ -64,7 +64,7 @@ $(function() {
 
       well_value.children(".well_input_type").val(elem.attr("name"));
 
-      if(elem.attr('name')=="empty") {
+      if(elem.attr('name')=="empty" || elem.attr('name')=="disqus") {
         well_value.hide();
         well_value.children(".well_input").val("");
       } else {
