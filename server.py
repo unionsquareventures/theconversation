@@ -22,6 +22,7 @@ log = settings.log
 
 # Main page
 class IndexHandler(BaseHandler):
+    @tornado.web.authenticated
     def get(self):
         self.redirect('/posts')
 
