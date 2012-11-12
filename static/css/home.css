@@ -430,7 +430,7 @@ background-image: url("../img/glyphicons-halflings-white.png") !important;
   width: 150px;
   display: inline !important;
   float: left;
-  margin: 7px 0px 5px 10px;
+  margin: 7px 0px 5px 20px;
 }
 
 .top-bar .tags {
