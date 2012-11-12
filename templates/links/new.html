@@ -62,6 +62,8 @@ $(function() {
       var inner_well = elem.closest('.well').children('.inner_well');
       var well_value = inner_well.children('.well_value');
 
+      well_value.children(".well_input_type").val(elem.attr("name"));
+
       if(elem.attr('name')=="empty") {
         well_value.hide();
         well_value.children(".well_input").val("");

@@ -94,34 +94,20 @@ class LinkHandler(BaseHandler):
             self.new(model=link, errors=e.errors)
             return
 
-        # Obtain questions
-        questions_data = defaultdict(dict)
-        for key, value in attributes.iteritems():
-            if not key.startswith('question['):
-                continue
-            m = re.search(r"question\[([0-9]+)\]\[([A-z0-9\_]+)\]", key)
-            index = int(m.group(1))
-            field = m.group(2)
-            questions_data[index][field] = value
-
-        # Create questions
-        for q in questions_data.values():
-            # Ignore empty questions
-            if not q["text"]:
-                continue
-            q = Question(**q)
-            link.update(push__questions=q)
+        q = Question(text="Discussion")
+        link.update(push__questions=q)
 
         # Generate thumbnail
-        thumb_path = "static/images/link_thumbnails/%s.png" % str(link.id)
-        thumb_path = os.path.join(settings.PROJECT_ROOT,  thumb_path)
-        script_path = os.path.join(settings.PROJECT_ROOT, "scripts/rasterize.js")
+        if link.url:
+            thumb_path = "static/images/link_thumbnails/%s.png" % str(link.id)
+            thumb_path = os.path.join(settings.PROJECT_ROOT,  thumb_path)
+            script_path = os.path.join(settings.PROJECT_ROOT, "scripts/rasterize.js")
 
-        def generate_thumb(*args):
-            subprocess.call(['/usr/bin/phantomjs'] + list(args))
+            def generate_thumb(*args):
+                subprocess.call(['/usr/bin/phantomjs'] + list(args))
 
-        p = Process(target=generate_thumb, args=(script_path, link.url, thumb_path))
-        p.start()
+            p = Process(target=generate_thumb, args=(script_path, link.url, thumb_path))
+            p.start()
 
         self.redirect('/links/%s' % link.id)
 
