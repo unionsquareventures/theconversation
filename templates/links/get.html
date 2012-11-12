@@ -110,10 +110,9 @@ $(function() {
 
         <br/>
         {% if len(link.tags) %}
-            <p id="post_tags">
-            <b>Category: </b>
-                {% module Template("components/tags_view.html", objects=link.tags, view_type="links", current_tag="", fix=True) %}
-            </p>
+        <br/><b>Category:</b>
+            {% module Template("components/tags_view.html", objects=link.tags, view_type="links", current_tag="", fix=True) %}
+            <br/><br/>
         {% end %}
         <br/>
         {% if link.bottom_url %}
