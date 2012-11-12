@@ -94,6 +94,7 @@ class LinkHandler(BaseHandler):
             self.new(model=link, errors=e.errors)
             return
 
+        # Question (to be removed)
         q = Question(text="Discussion")
         link.update(push__questions=q)
 
