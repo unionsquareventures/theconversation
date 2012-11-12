@@ -12,7 +12,7 @@
             {{ object.title }}
         </a>
         <div class="details">
-            <ul class="vote {{ "voted" if user.get('username') in [u['username'] for u in object.voted_users] else "voting" }}">
+            <ul class="vote {{ "voted" if user['username'] in [u['username'] for u in object.voted_users] else "voting" }}">
                 <li>
                     <span class="green">
                         <div class="icon-arrow-up">&nbsp;</div>
