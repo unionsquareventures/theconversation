@@ -24,7 +24,7 @@
         {% for post in featured_posts %}
                 <div class="post">
                 <h1>
-                    <a href="/posts/{{ post.id }}">{{ post.title }}</a>
+                    <a href="/links/{{ post.id }}">{{ post.title }}</a>
                 </h1>
 
                 <p class="post_info">
@@ -35,7 +35,7 @@
                         </a>
                     {% end %}
                     on
-                    <a href="/posts/{{ post.id }}">{{ post.date_created.strftime("%B %d, %Y") }}</a>
+                    <a href="/links/{{ post.id }}">{{ post.date_created.strftime("%B %d, %Y") }}</a>
                 </p>
 
                 <div class="post_content">

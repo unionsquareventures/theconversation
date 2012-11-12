@@ -80,7 +80,7 @@ $(function() {
 <form action="/links{{ ('/' + link_id) if link_id else '' }}" method="post" class="post_form">
 <div class="container-fluid" style="height: 100%; padding: 0px; margin: 0px;">
   <div class="row-fluid" style="height: 100%;">
-    <div class="embed_frame" style="width: 50%; float: left; height: 90%; height: 800px !important;">
+    <div class="embed_frame" style="width: 50%; float: left; height: 90%; height: 840px !important;">
       <div class="well_container" style="margin: 40px 50px 0px 0px; height: 100%;">
         {% set options = [
                               {'name': 'GDOC'},
@@ -135,6 +135,9 @@ $(function() {
             {% module Template("components/widget_well.html", name="bottom", height="300px",
                                                                 center_height="125px", options=options) %}
           </div>
+          <input type="checkbox" name="featured" value="true" style="float: left;" />
+          <p style="float: left; margin: 0px 0px 0px 5px;">Featured</p>
+          <br/>
       </div>
     </div>
   </div>

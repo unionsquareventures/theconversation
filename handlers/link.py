@@ -32,7 +32,8 @@ class LinkHandler(BaseHandler):
             query.update({
                 'tags': tag,
             })
-        links = Content.objects(featured=False, **query).order_by('-votes', '-date_created')
+        links = Content.objects(**query).order_by('-votes', '-date_created')
+        print len(links)
         # ^ Also could be Content.objects
         tags = Tag.objects()
         self.vars.update({
