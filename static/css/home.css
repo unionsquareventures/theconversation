@@ -33,6 +33,14 @@
   overflow: hidden;
 }
 
+.featured-posts .post h1 {
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+  display: block;
+  width: 100% !important;
+}
+
 .tags .nav {
     display: inline;
 }
