@@ -23,7 +23,7 @@ $(function() {
     </div>
 
     <div class=""  style="width: 50%; height: 90%; margin: 0px; padding: 0px 0px 0px 0px; float: left;">
-    <div class="post post_detail" style="height: 90% !important; margin: 0px 10px 0px 10px; width: 85%;">
+    <div class="post post_detail" style="height: 90% !important; margin: 0px 10px 0px 10px;">
         <h1>
             <a href="/links/{{ link.id }}">{{ link.title }}</a>
         </h1>
@@ -72,9 +72,4 @@ $(function() {
     </div>
 </div>
 </div>
-<script type="text/javascript">
-$(function() {
-    $('.span5').height($('.span7').height());
-});
-</script>
 {% end %}
