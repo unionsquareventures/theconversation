@@ -17,8 +17,8 @@
 {% block content %}
 <div class="container-fluid">
 <div class="row-fluid">
-   <div class="span4 featured-posts">
-        <div class="top-bar">
+   <div class="span4 featured-posts navbar">
+        <div class="navbar-inner" style="margin: 0px 0px 15px 0px; height: 58px;">
           <p class="section_label">Featured Posts</a>
         </div>
         {% for post in featured_posts %}
@@ -46,23 +46,11 @@
     </div>
 
     <div class="span8 community-posts">
-        <div class="top-bar">
-          <div class="tags span10">
+        <div class="top-bar navbar">
+          <div class="tags span12 navbar-inner">
               <p class="section_label">USV Community</p>
               <input type="text" name="search" value="Search..." class="search-query content_search" />
               {% module Template("components/tags_view.html", objects=tags, current_tag=current_tag, view_type="posts") %}
-          </div>
-          <div class="submit span2">
-            <div class="btn-group">
-              <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
-                Submit content
-                <span class="caret"></span>
-              </a>
-              <ul class="dropdown-menu">
-                <a href="/posts/new">Submit a post</a>
-                <a href="/links/new">Submit a link</a>
-              </ul>
-            </div>
           </div>
         </div>
         <br/>
