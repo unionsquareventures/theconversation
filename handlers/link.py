@@ -94,9 +94,10 @@ class LinkHandler(BaseHandler):
             self.new(model=link, errors=e.errors)
             return
 
-        # Question (to be removed)
-        q = Question(text="Discussion")
-        link.update(push__questions=q)
+        # Generate disqus URL
+        if attributes.get('bottom_url_type')=='disqus':
+            bottom_url = "/disqus?content_id=%i&question_number=1" % link.id
+            link.update(set__bottom_url=bottom_url)
 
         # Generate thumbnail
         if link.url:
