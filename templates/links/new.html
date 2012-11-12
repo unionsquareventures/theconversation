@@ -107,7 +107,7 @@ $(function() {
             {% set placeholders= {
                           'url': '* Linked URL (optional)',
                           'title': 'Title...',
-                          'body_raw': 'Body, should this be optional?',
+                          'body_raw': 'Body',
                           'tags': 'Categories (optional, separate by commas)',
             }%}
             {% for name, label, html, field_errors in model.form_fields(errors, order=['title', 'url', 'body_raw'],
