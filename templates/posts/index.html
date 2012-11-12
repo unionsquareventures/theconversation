@@ -6,6 +6,14 @@
 <link href="/static/css/home.css" rel="stylesheet">
 {% end %}
 
+{% block javascript %}
+<script type="text/javascript">
+    $(document).ready(function() {
+        $(".post .post_content").ellipsis();
+    });
+</script>
+{% end %}
+
 {% block content %}
 <div class="container-fluid">
 <div class="row-fluid">
@@ -27,7 +35,7 @@
                         </a>
                     {% end %}
                     on
-                    <a href="#">{{ post.date_created.strftime("%B %d, %Y") }}</a>
+                    <a href="/posts/{{ post.id }}">{{ post.date_created.strftime("%B %d, %Y") }}</a>
                 </p>
 
                 <div class="post_content">

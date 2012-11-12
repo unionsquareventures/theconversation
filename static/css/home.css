@@ -28,6 +28,10 @@
 .featured-posts .section_label {
     margin: 10px;
 }
+.featured-posts .post_content {
+  height: 100px;
+  overflow: hidden;
+}
 
 .tags .nav {
     display: inline;
