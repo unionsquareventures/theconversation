@@ -10,7 +10,7 @@
     <link href="/static/css/bootstrap.min.css" rel="stylesheet">
     <style>
       body {
-        padding-top: 80px; /* 60px to make the container go all the way to the bottom of the topbar */
+        padding-top: 90px; /* 60px to make the container go all the way to the bottom of the topbar */
       }
       .navbar-static-top {
         /*margin-bottom: 30px;*/
@@ -33,6 +33,15 @@
     <script src="/static/js/jquery.autoellipsis.min.js"></script>
     <script src="/static/js/jquery.masonry.min.js"></script>
     <script src="/static/js/jquery.jscroll.min.js"></script>
+
+    <script type="text/javascript">
+      $(function () {
+          $('.submit_content').on("click", function(e) {
+              window.location = "/links/new";
+          });
+      });
+    </script>
+
     {% block javascript %}
     {% end %}
 
@@ -58,6 +67,12 @@
               <li><a href="http://www.usv.com/investments/">Our Investments</a></li>
               <li><a href="http://www.usv.com/focus/">Our Focus</a></li>
               <li><a href="http://www.usv.com/jobs/">Jobs</a></li>
+              <li>
+                  <div class="btn submit_content" style="margin: 10px 5px 10px 20px;">
+                      <div class="icon-plus-sign" style="margin-right: 5px;"></div>
+                      Submit
+                  </div>
+              </li>
             </ul>
           </div>
         </div>
