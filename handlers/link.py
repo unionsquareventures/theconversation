@@ -130,9 +130,13 @@ class LinkHandler(BaseHandler):
         link = Link.objects(id=id).fields(voted_users=user_q).first()
         if not link:
             raise tornado.web.HTTPError(404)
+        detail = self.get_argument('detail', '')
         if link.voted_users:
-            self.redirect('/links?error')
+            self.redirect(('/links/%s?error' % link.id) if detail else '/links?error')
             return
+
+
         link.update(inc__votes=1)
         link.update(push__voted_users=User(**self.get_current_user()))
-        self.redirect('/links')
+
+        self.redirect(('/links/%s' % link.id) if detail else '/links')

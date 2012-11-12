@@ -3,7 +3,8 @@
 {% block title %}{{ link.title }}{% end %}
 
 {% block css %}
-    <link rel="stylesheet" type="text/css" href="/static/css/annotator.min.css" />
+<link rel="stylesheet" type="text/css" href="/static/css/annotator.min.css" />
+<link rel="stylesheet" type="text/css" href="/static/css/voting.css" />
 {% end %}
 
 {% block javascript %}
@@ -83,7 +84,21 @@ $(function() {
     <div class="post post_detail" style="height: 90% !important; margin: 0px 10px 0px 10px;">
         <h1>
             <a href="/links/{{ link.id }}">{{ link.title }}</a>
-        </h1>
+          </h1>
+
+        <div style="margin-top: 10px;">
+        <div style="width: 90px; height: 50px; float: left; margin: 0px 15px 0px 0px;">
+          <ul class="vote {{ "voted" if user['username'] in [u['username'] for u in link.voted_users] else "voting" }}">
+            <li>
+                <span class="green">
+                    <div class="icon-arrow-up">&nbsp;</div>
+                </span>
+                <a href="/links/{{ link.id }}/upvote?detail=true">
+                    {{ link.votes }}
+                </a>
+            </li>
+          </ul>
+        </div>
 
         <p class="post_info">
             {% if link.user.auth_type == 'twitter' %}
@@ -100,7 +115,8 @@ $(function() {
                     {{ link.url }}
                   </a>
             {% end %}
-         </p>
+        </p>
+       </div>
 
 
 
