@@ -118,6 +118,7 @@ class LinkHandler(BaseHandler):
     def update(self, id):
         pass
 
+    @tornado.web.authenticated
     def get(self, id='', action=''):
         if action == 'upvote' and id:
             self.upvote(id)
