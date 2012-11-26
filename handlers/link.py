@@ -40,6 +40,7 @@ class LinkHandler(BaseHandler):
             'links': links,
             'tags': tags,
             'current_tag': tag,
+            "test": {"a": "one"},
         })
         self.render('links/index.html', **self.vars)
 
