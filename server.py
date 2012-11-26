@@ -17,6 +17,7 @@ from handlers.disqus import DisqusHandler
 from handlers.annotation import AnnotationHandler
 from handlers.auth import TwitterLoginHandler
 from handlers.email import EmailHandler
+import ui
 
 log = settings.log
 
@@ -27,6 +28,9 @@ class IndexHandler(BaseHandler):
         self.redirect('/posts')
 
 if __name__ == '__main__':
+    log.info('Bundling CSS/JS')
+    ui.template_processors.bundle_styles()
+    ui.template_processors.bundle_javascript()
     log.info('Starting server')
     application = tornado.web.Application([
         (r'/', IndexHandler),
