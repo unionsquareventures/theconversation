@@ -11,9 +11,8 @@
 
     });
 </script>
-{% set test["a"] = "two" %}
-{{ test }}
-{% block css2 %}
+
+<style type="text/css">
 .container-fluid-flush {
   margin: 0px;
   padding: 0px;
@@ -66,7 +65,7 @@
 .post .details {
     margin-top: 5px;
 }
-{% end %}
+</style>
 
 <div class="{{ name }} box_view">
     {% for object in objects %}
@@ -75,3 +74,4 @@
                                 object=object, user=user) %}
     {% end %}
 </div>
+
