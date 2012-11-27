@@ -22,7 +22,7 @@
                     USV Community
                 </p>
                 <input type="text" name="search" value="Search..." class="search-query content_search" />
-                {% module Template("components/tags_view.html", objects=tags, current_tag=current_tag, view_type="links", fix=False) %}
+                {% module tags_view(objects=tags, current_tag=current_tag, view_type="links", fix=False) %}
             </div>
         </div>
     </div>
@@ -37,10 +37,10 @@
                 USV Posts
             </p>
         </div>
-        {% module Template("components/box_view.html", objects=posts, name="posts", user=user) %}
+        {% module box_view(objects=posts, name="posts", user=user) %}
     </div>
 #}
-      {% module Template("components/box_view.html", objects=links, name="links", user=user, test=test) %}
+      {% module box_view(objects=links, name="links", user=user, test=test) %}
 
 <script type="text/javascript">
 /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */

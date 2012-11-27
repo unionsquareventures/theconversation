@@ -1,1 +1,1 @@
-methods = {}
+template_methods = {}

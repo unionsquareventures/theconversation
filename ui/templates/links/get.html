@@ -127,7 +127,7 @@ $(function() {
         <br/>
         {% if len(link.tags) %}
         <br/><b>Category:</b>
-            {% module Template("components/tags_view.html", objects=link.tags, view_type="links", current_tag="", fix=True) %}
+            {% module tags_view(objects=link.tags, view_type="links", current_tag="", fix=True) %}
             <br/><br/>
         {% end %}
         <br/>

@@ -58,7 +58,9 @@ if __name__ == '__main__':
         (r'/annotations/(?P<id>\d+$)', AnnotationHandler),
         # Email
         (r'/email$', EmailHandler),
-    ], **settings.tornado_config)
+    ], ui_modules = ui.template_modules,
+        ui_methods = ui.template_methods,
+         **settings.tornado_config)
 
     if settings.server_port == 443:
         log.info('SSL enabled')

@@ -88,8 +88,7 @@ $(function() {
                               {'name': 'Empty', 'icon': 'icon-ban-circle'},
                               {'name': '* Linked URL', 'disabled': True},
         ]%}
-        {% module Template("components/widget_well.html", name="left", height="100%",
-                                                            center_height="100px", options=options) %}
+        {% module widget_well(name="left", height="100%", center_height="100px", options=options) %}
       </div>
     </div>
 
@@ -132,8 +131,7 @@ $(function() {
                                 {'name': 'HackPad'},
                                 {'name': 'Empty', 'icon': 'icon-ban-circle'},
             ]%}
-            {% module Template("components/widget_well.html", name="bottom", height="300px",
-                                                                center_height="125px", options=options) %}
+            {% module widget_well(name="bottom", height="300px", center_height="125px", options=options) %}
           </div>
           <input type="checkbox" name="featured" value="true" style="float: left;" />
           <p style="float: left; margin: 0px 0px 0px 5px;">Featured</p>

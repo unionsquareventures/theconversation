@@ -1,6 +1,8 @@
 import os
 import sys
 from tornado.web import UIModule
+
+sys.path.append('../')
 import settings
 
 """
@@ -8,10 +10,9 @@ Iterate through the _modules folder, creating UIModules for each module.
 If javascript for the module exists, ensure it's wrapper method is called.
 """
 
-modules = {}
-moduledir = os.path.join(settings.tornado_config['template_path'], '_modules')
+template_modules = {}
 
-class BaseUIModule(tornado.web.UIModule):
+class BaseUIModule(UIModule):
     name = ''
     wrap_javascript = False
 
@@ -24,11 +25,11 @@ class BaseUIModule(tornado.web.UIModule):
 
     def render(self, *args, **kwargs):
         relpath = "{name}/main.html".format(name=self.name)
-        filepath = os.path.join(moduledir, relpath)
+        filepath = os.path.join(settings.module_dir, relpath)
         return self.render_string(filepath, *args, **kwargs)
 
-for file in os.listdir(moduledir):
-    path = os.path.join(moduledir, folder)
+for filename in os.listdir(settings.module_dir):
+    path = os.path.join(settings.module_dir, filename)
     if not os.path.isdir(path):
         continue
     # Create a module using the folder name
@@ -44,7 +45,7 @@ for file in os.listdir(moduledir):
     except IOError:
         pass
 
-    modules[name] = type("UI_%s" % name, (BaseUIModule,), {
-        'name': name,
+    template_modules[filename] = type("UI_%s" % filename, (BaseUIModule,), {
+        'name': filename,
         'wrap_javascript': wrap
     })
