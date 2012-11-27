@@ -1,7 +1,7 @@
 <div class="{{ name }} box_view">
     {% for object in objects %}
         {%set obj_template = object._class_name.lower() %}
-        {% module Template("_modules/box_view/box_view_items/%s.html" % obj_template,
+        {% module Template("_modules/box_view/items/%s.html" % obj_template,
                                 object=object, user=user) %}
     {% end %}
 </div>
