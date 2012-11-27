@@ -35,50 +35,12 @@
     <script src="/static/js/jquery.jscroll.min.js"></script>
     <script src="/static/js/modules_bundle.js"></script>
 
-    <script type="text/javascript">
-      $(function () {
-          $('.navbar .submit_content').on("click", function(e) {
-              window.location = "/links/new";
-          });
-      });
-    </script>
-
     {% block javascript %}
     {% end %}
-
-
   </head>
 
   <body>
-
-    <div class="navbar navbar-fixed-top">
-      <div class="navbar-inner">
-        <div class="container" style="height: 40px">
-          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </a>
-
-          <a href="/" class="brand"><img src="/static/images/usv.png" style="height: 30px;" /></a>
-
-          <div class="nav-collapse collapse">
-            <ul class="nav">
-              <li><a href="http://www.usv.com/team/">Our Team</a></li>
-              <li><a href="http://www.usv.com/investments/">Our Investments</a></li>
-              <li><a href="http://www.usv.com/focus/">Our Focus</a></li>
-              <li><a href="http://www.usv.com/jobs/">Jobs</a></li>
-              <li>
-                  <div class="btn submit_content" style="margin: 10px 5px 10px 20px;">
-                      <div class="icon-plus-sign" style="margin-right: 5px;"></div>
-                      Submit
-                  </div>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
+    {% module nav_bar() %}
 
     {% block content %}
     {% end %}
