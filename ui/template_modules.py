@@ -33,9 +33,18 @@ for file in os.listdir(moduledir):
         continue
     # Create a module using the folder name
     js_file = os.path.join(path, "main.js")
-    # todo: open JS file, check for contents, set wrap_javascript
+    # open JS file, check for contents
+    # if it's not empty then wrap
+    wrap = False
+    try:
+        f = open(js_file, 'r')
+        if f.read().strip():
+            wrap = True
+        f.close()
+    except IOError:
+        pass
 
     modules[name] = type("UI_%s" % name, (BaseUIModule,), {
         'name': name,
-        'wrap_javascript': 
+        'wrap_javascript': wrap
     })
