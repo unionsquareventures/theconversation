@@ -2,6 +2,7 @@ import settings
 import tornado.web
 import tornado.auth
 from tornado.httpserver import HTTPServer
+from tornado.options import define, options, logging
 import sys
 import os
 import mimetypes
@@ -19,19 +20,21 @@ from handlers.auth import TwitterLoginHandler
 from handlers.email import EmailHandler
 import ui
 
-log = settings.log
-
 # Main page
 class IndexHandler(BaseHandler):
     @tornado.web.authenticated
     def get(self):
         self.redirect('/posts')
 
+define("port", default=8888, help="run on the given port", type=int)
+
 if __name__ == '__main__':
-    log.info('Bundling CSS/JS')
+    tornado.options.parse_command_line()
+    logging.info('Bundling CSS/JS')
     ui.template_processors.bundle_styles()
     ui.template_processors.bundle_javascript()
-    log.info('Starting server')
+
+    logging.info('Starting server on port %s' % options.port)
     application = tornado.web.Application([
         (r'/', IndexHandler),
         (r'/auth/twitter/', TwitterLoginHandler),
@@ -62,16 +65,5 @@ if __name__ == '__main__':
         ui_methods = ui.template_methods,
          **settings.tornado_config)
 
-    if settings.server_port == 443:
-        log.info('SSL enabled')
-        server = HTTPServer(application, ssl_options=dict(
-            certfile="keys/server.crt",
-            keyfile="keys/server.key",
-            cert_reqs=ssl.CERT_NONE,
-        ))
-        server.listen(settings.server_port)
-    else:
-        log.info('SSL disabled')
-        application.listen(settings.server_port)
-
+    application.listen(options.port)
     tornado.ioloop.IOLoop.instance().start()
