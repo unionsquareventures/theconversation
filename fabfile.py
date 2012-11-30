@@ -35,8 +35,8 @@ def deploy():
         run('sudo chmod -R 777 ../usv_ssl')
         with cd('/data/apps/usv_ssl'):
             # Switch Prod port for SSL
-            initial = "server_port = 80"
-            new = "server_port = 443"
+            initial = "server_port = 22280"
+            new = "server_port = 222443"
             run('sed -i "s/%s/%s/g" %s' % (clean(initial),
                                             clean(new),
                                             "server_setup/deployment/prod.py"))
