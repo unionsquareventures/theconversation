@@ -40,16 +40,7 @@
         </div>
 
         <div style="width: 90px; height: 50px; margin: 40px 0px 0px 0px;">
-          <ul class="vote {{ "voted" if user['username'] in [u['username'] for u in tweet.voted_users] else "voting" }}">
-            <li>
-                <span class="green">
-                    <div class="icon-arrow-up">&nbsp;</div>
-                </span>
-                <a href="/tweets/{{ tweet.id }}/upvote?detail=true">
-                    {{ tweet.votes }}
-                </a>
-            </li>
-          </ul>
+            {% module vote_button(object=tweet, user=user) %}
       </div>
 
         <br/>

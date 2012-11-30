@@ -50,7 +50,6 @@ class LinkHandler(BaseHandler):
         self.vars.update({'link': link})
         self.render('links/get.html', **self.vars)
 
-    @tornado.web.authenticated
     def new(self, model=Link(), errors={}):
         # Create a link
         self.vars.update({
@@ -60,7 +59,6 @@ class LinkHandler(BaseHandler):
         })
         self.render('links/new.html', **self.vars)
 
-    @tornado.web.authenticated
     def create(self):
         attributes = {k: v[0] for k, v in self.request.arguments.iteritems()}
 
@@ -114,7 +112,6 @@ class LinkHandler(BaseHandler):
 
         self.redirect('/links/%s' % link.id)
 
-    @tornado.web.authenticated
     def update(self, id):
         pass
 
@@ -125,7 +122,6 @@ class LinkHandler(BaseHandler):
         else:
             super(LinkHandler, self).get(id, action)
 
-    @tornado.web.authenticated
     def upvote(self, id):
         username = self.get_current_user()['username']
         user_q = {'$elemMatch': {'username': username}}

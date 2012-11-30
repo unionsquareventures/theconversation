@@ -35,7 +35,6 @@ class PostHandler(BaseHandler):
             'featured_posts': featured_posts,
             'tags': tags,
             'current_tag': tag,
-            'user': self.get_current_user() or {},
         })
         self.render('posts/index.html', **self.vars)
 
@@ -46,7 +45,6 @@ class PostHandler(BaseHandler):
         self.vars.update({'post': post})
         self.render('posts/get.html', **self.vars)
 
-    @tornado.web.authenticated
     def new(self, model=Post(), errors={}):
         # Create a post
         self.vars.update({
@@ -56,7 +54,6 @@ class PostHandler(BaseHandler):
         })
         self.render('posts/new.html', **self.vars)
 
-    @tornado.web.authenticated
     def create(self):
         attributes = {k: v[0] for k, v in self.request.arguments.iteritems()}
 
@@ -111,7 +108,6 @@ class PostHandler(BaseHandler):
 
         self.redirect('/posts/%s' % post.id)
 
-    # Update a post
     @tornado.web.authenticated
     def edit(self, id):
         id = id
@@ -125,17 +121,16 @@ class PostHandler(BaseHandler):
         })
         self.render('posts/new.html', **self.vars)
 
-    @tornado.web.authenticated
     def update(self, id):
         pass
 
+    @tornado.web.authenticated
     def get(self, id='', action=''):
         if action == 'upvote' and id:
             self.upvote(id)
         else:
             super(PostHandler, self).get(id, action)
 
-    @tornado.web.authenticated
     def upvote(self, id):
         username = self.get_current_user()['username']
         user_q = {'$elemMatch': {'username': username}}

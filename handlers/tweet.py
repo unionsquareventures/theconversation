@@ -28,13 +28,13 @@ class TweetHandler(BaseHandler):
         })
         self.render('tweets/get.html', **self.vars)
 
+    @tornado.web.authenticated
     def get(self, id='', action=''):
         if action == 'upvote' and id:
             self.upvote(id)
         else:
             super(TweetHandler, self).get(id, action)
 
-    @tornado.web.authenticated
     def upvote(self, id):
         username = self.get_current_user()['username']
         user_q = {'$elemMatch': {'username': username}}

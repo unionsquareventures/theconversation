@@ -24,12 +24,14 @@ class BaseHandler(tornado.web.RequestHandler):
         if not user_json: return None
         return tornado.escape.json_decode(user_json)
 
+    @tornado.web.authenticated
     def post(self, id='', action=''):
         if id:
             self.update(id)
         else:
             self.create()
 
+    @tornado.web.authenticated
     def get(self, id='', action=''):
         if action == 'new' and not id:
             self.new()

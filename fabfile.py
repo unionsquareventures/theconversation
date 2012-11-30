@@ -5,7 +5,7 @@ from fabric.api import *
 
 env.user = 'ubuntu'
 env.hosts = [
-    'ec2-184-72-183-210.compute-1.amazonaws.com'
+    'ec2-54-234-57-239.compute-1.amazonaws.com'
 ]
 
 def deploy():
@@ -25,7 +25,7 @@ def deploy():
 
         # Switch Prod config
         initial = "server_address = 'insert_address_here'"
-        new = "server_address = 'https://ec2-184-72-183-210.compute-1.amazonaws.com'"
+        new = "server_address = 'https://ec2-54-234-57-239.compute-1.amazonaws.com'"
         run('sed -i "s/%s/%s/g" %s' % (clean(initial),
                                         clean(new),
                                         "server_setup/deployment/prod.py"))

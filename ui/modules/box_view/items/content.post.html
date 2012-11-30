@@ -8,16 +8,7 @@
             {{ object.title }}
         </a>
         <div class="details">
-            <ul class="vote {{ "voted" if user['username'] in [u['username'] for u in object.voted_users] else "voting" }}">
-                <li>
-                    <span class="green">
-                        <div class="icon-arrow-up">&nbsp;</div>
-                    </span>
-                    <a href="/posts/{{ object.id }}/upvote">
-                        {{ object.votes }}
-                    </a>
-                </li>
-            </ul>
+            {% module vote_button(object=object, user=user) %}
 
             <p class="post_info">
                 {% if object.user.auth_type == 'twitter' %}

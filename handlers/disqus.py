@@ -7,7 +7,7 @@ from base import BaseHandler
 from models import Content
 
 class DisqusHandler(BaseHandler):
-
+    @tornado.web.authenticated
     def get(self):
         content = Content.objects(id=self.get_argument('content_id')).first()
         if not content:

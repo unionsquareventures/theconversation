@@ -1,0 +1,15 @@
+{% if user %}
+    {% set username = user.get('username') %}
+
+    {% set voted_users = [u['username'] for u in object.voted_users] %}
+    {% set user_voted = username in voted_users %}
+
+    {% set path = '%ss' % object._class_name.split('.')[1].lower() %}
+
+    <ul class="{{ "voted" if user_voted else "voting" }}">
+        <li>
+            <span class="green"><div class="icon-arrow-up">&nbsp;</div></span>
+            <a href="/{{ path }}/{{ object.id }}/upvote">{{ object.votes }}</a>
+        </li>
+    </ul>
+{% end %}

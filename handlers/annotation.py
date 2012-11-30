@@ -59,6 +59,7 @@ class AnnotationHandler(BaseHandler):
         a['id'] = '%i_%i' % (post_id, annotation_num)
         self.render_json(a)
 
+    @tornado.web.authenticated
     def delete(self, id):
         ids = id.split('_')
         post_id = int(params[0])

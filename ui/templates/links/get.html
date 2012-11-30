@@ -88,16 +88,7 @@ $(function() {
 
         <div style="margin-top: 10px;">
         <div style="width: 90px; height: 50px; float: left; margin: 0px 15px 0px 0px;">
-          <ul class="vote {{ "voted" if user['username'] in [u['username'] for u in link.voted_users] else "voting" }}">
-            <li>
-                <span class="green">
-                    <div class="icon-arrow-up">&nbsp;</div>
-                </span>
-                <a href="/links/{{ link.id }}/upvote?detail=true">
-                    {{ link.votes }}
-                </a>
-            </li>
-          </ul>
+            {% module vote_button(object=link, user=user) %}
         </div>
 
         <p class="post_info">
