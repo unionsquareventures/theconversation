@@ -6,7 +6,7 @@
 
     {% set path = '%ss' % object._class_name.split('.')[1].lower() %}
 
-    <ul class="{{ "voted" if user_voted else "voting" }}">
+    <ul class="{{ "voted" if user_voted else "voting" }} hidden-phone">
         <li>
             <span class="green"><div class="icon-arrow-up">&nbsp;</div></span>
             <a href="/{{ path }}/{{ object.id }}/upvote">{{ object.votes }}</a>
