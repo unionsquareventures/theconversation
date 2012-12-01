@@ -31,4 +31,4 @@ def deploy():
                                         "server_setup/deployment/prod.py"))
 
         # Restart server processes
-        run('sudo supervisorctl restart usv')
+        run('sudo supervisorctl restart usv:*')
