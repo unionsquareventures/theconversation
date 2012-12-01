@@ -43,11 +43,11 @@ class TweetHandler(BaseHandler):
             raise tornado.web.HTTPError(404)
         detail = self.get_argument('detail', '')
         if tweet.voted_users:
-            self.redirect(('/tweets/%s?error' % tweet.id) if detail else '/links?error')
+            self.redirect(('/tweets/%s?error' % tweet.id) if detail else '/posts?error')
             return
 
 
         tweet.update(inc__votes=1)
         tweet.update(push__voted_users=User(**self.get_current_user()))
 
-        self.redirect(('/tweets/%s' % tweet.id) if detail else '/links')
+        self.redirect(('/tweets/%s' % tweet.id) if detail else '/posts')

@@ -7,6 +7,16 @@ from base import BaseHandler
 
 allowed_usernames = [
     '_zachary',
+    "alexandermpease",
+    "bwats",
+    "garychou",
+    "aweissman",
+    "fredwilson",
+    "albertwenger",
+    "BradUSV",
+    "christinacaci",
+    "usv",
+    "igniter",
 ]
 
 class TwitterLoginHandler(BaseHandler, tornado.auth.TwitterMixin):
