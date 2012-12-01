@@ -4,6 +4,7 @@ import tornado.auth
 import tornado.httpserver
 from markdown import markdown
 from lib.markdown.mdx_video import VideoExtension
+from lib.htmltruncate import truncate
 import datetime as dt
 import re
 from collections import defaultdict
@@ -28,7 +29,11 @@ class PostHandler(BaseHandler):
                 'tags': tag,
             })
         posts = Content.objects(featured=False, **query).order_by('-votes', '-date_created')
-        featured_posts = Content.objects(featured=True).order_by('-date_created')
+        featured_posts = list(Content.objects(featured=True).order_by('-date_created'))
+
+        for post in featured_posts:
+            post['body_html'] = truncate(post['body_html'], 500, ellipsis='')
+
         tags = Tag.objects()
         self.vars.update({
             'posts': posts,
