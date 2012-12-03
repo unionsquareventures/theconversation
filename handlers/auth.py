@@ -13,7 +13,7 @@ allowed_usernames = [
     "aweissman",
     "fredwilson",
     "albertwenger",
-    "BradUSV",
+    "bradusv",
     "christinacaci",
     "usv",
     "igniter",
