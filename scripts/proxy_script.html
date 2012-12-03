@@ -1,0 +1,55 @@
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
+<script src="/static/js/annotator-full.min.js"></script>
+<script type="text/javascript">
+        $(document).ready(function(){
+
+          Annotator.Plugin.Disqus = function (element) {
+                var disqusPlugin = {};
+                disqusPlugin.pluginInit = function () {
+                        this.annotator
+                        .subscribe("annotationViewerShown", function(viewer, annotations) {
+                            //$(viewer.element).children().children(".annotator-item:not(:last)").remove()
+                        });
+
+                        this.annotator
+                        .subscribe("annotationViewerTextField", function (field, annotation) {
+                                var ids = annotation['id'].split('_');
+                                var disqus_frame = '<div class="annotation">'
+                                    + '<h3>"' + annotation['quote'] + '"</h3><br/>'
+                                    + '<iframe class="disqus"'
+                                     + 'src=http://" + window.location.host + "/disqus?content_id=' + ids[0] + '&annotation_number='
+                                            + ids[1] + '"></iframe></div>';
+                                $(field).html(disqus_frame);
+                              
+                            });
+                };
+                return disqusPlugin;
+            };
+
+          var a = $(".post_content").annotator();
+          a.annotator('addPlugin', 'Disqus');
+          var url = window.location.href;
+          var arr = url.split("/");
+          var prefix = arr[0] + "//" + arr[2];
+          a.annotator('addPlugin', 'Store', {
+              // The endpoint of the store on your server.
+              prefix: prefix,
+
+              // Attach the uri of the current page to all annotations to allow search.
+              annotationData: {
+                'post_id': '{{ link.id }}'
+              },
+
+              // This will perform a "search" action rather than "read" when the plugin
+              // loads. Will request the last 20 annotations for the current url.
+              // eg. /store/endpoint/search?limit=20&uri=http://this/document/only
+              loadFromSearch: {
+                'limit': 20,
+                'post_id': '{{ link.id }}'
+              },
+              urls: {
+                search: '/annotations',
+              }
+          });
+        });
+</script>

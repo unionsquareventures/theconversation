@@ -8,7 +8,7 @@
 
     {% set detail_url = '?detail=true' if globals().get('detail') else '' %}
 
-    <ul class="{{ "voted" if user_voted else "voting" }} hidden-phone vote_button">
+    <ul class="{{ "voted" if user_voted else "voting" }} vote_button">
         <li>
             <span class="green"><div class="icon-arrow-up">&nbsp;</div></span>
             <a href="/{{ path }}/{{ object.id }}/upvote{{ detail_url }}">{{ object.votes }}</a>
