@@ -74,7 +74,9 @@ $(function() {
 <div class="row-fluid" style="height: 100%;">
   {% if link.left_url %}
   <div class="embed_frame" style="width: 50%; height: 90%; float: left;">
-        <iframe src="{{ link.left_url }}" style="width: 100%; height: 90%; border: 0px;">{{ link.left_url }}</iframe>
+      <iframe src="/node_proxy?dest={{ url_escape(link.left_url) }}&post_id_num={{ link.id }}" style="width: 100%; height: 90%; border: 0px;">
+      /node_proxy?dest={{ url_escape(link.left_url) }}&post_id_num={{ link.id }}
+      </iframe>
   </div>
   {% end %}
 

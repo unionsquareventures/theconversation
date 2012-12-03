@@ -3,10 +3,19 @@ import sys
 
 from fabric.api import *
 
-env.user = 'ubuntu'
-env.hosts = [
-    'ec2-54-234-57-239.compute-1.amazonaws.com'
-]
+def prod():
+    env.deployment_stage = 'production'
+    env.user = 'ubuntu'
+    env.hosts = [
+        'ec2-54-234-57-239.compute-1.amazonaws.com'
+    ]
+
+def staging():
+    env.deployment_stage = 'staging'
+    env.user = 'ubuntu'
+    env.hosts = [
+        'ec2-184-72-195-237.compute-1.amazonaws.com',
+    ]
 
 def deploy():
     deploy_path = '/data/apps/usv'
@@ -20,12 +29,12 @@ def deploy():
 
         # Switch settings to production
         initial = 'DEPLOYMENT_STAGE = "local"'
-        new = 'DEPLOYMENT_STAGE = "production"'
+        new = 'DEPLOYMENT_STAGE = "%s"' % env.deployment_stage
         run('sed -i "s/%s/%s/g" %s' % (clean(initial), clean(new), "settings.py"))
 
         # Switch Prod config
         initial = "server_address = 'insert_address_here'"
-        new = "server_address = 'https://ec2-54-234-57-239.compute-1.amazonaws.com'"
+        new = "server_address = 'https://%s'" % env.hosts[0]
         run('sed -i "s/%s/%s/g" %s' % (clean(initial),
                                         clean(new),
                                         "server_setup/deployment/prod.py"))

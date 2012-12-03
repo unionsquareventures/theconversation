@@ -3,10 +3,9 @@ var url = require('url');
 var fs = require('fs');
 
 // Open script file
-var scriptTags = fs.readFileSync('proxy_script.html');
+var scriptTags = String(fs.readFileSync('proxy_script.html'));
 
 httpProxy.createServer(function(req, res, proxy) {
-
   var isHtml = false,
       write = res.write,
       writeHead = res.writeHead,
@@ -19,6 +18,7 @@ httpProxy.createServer(function(req, res, proxy) {
 
   req.headers['host'] = destination.host;
   req.headers['url'] = destination.href;
+  req['url'] = destination.href;
 
   delete req.headers['accept-encoding'];
 
@@ -33,7 +33,9 @@ httpProxy.createServer(function(req, res, proxy) {
 
       var baseTag = '<base href="' + (dest.replace(/\/$/, '') || '') + '"/>';
 
-      str = str.replace(/(<head[^>]*>)/, "$1" + "\n" + scriptTags + "\n" + baseTag);
+      var scripTagsFmt = scriptTags.replace(new RegExp("POST_ID_NUM", "g"), Number(params.post_id_num));
+
+      str = str.replace(/(<head[^>]*>)/, "$1" + "\n" + scripTagsFmt + "\n" + baseTag);
 
       data = new Buffer(str);
     }
@@ -45,6 +47,6 @@ httpProxy.createServer(function(req, res, proxy) {
     host: destination.host,
     port: 80,
   });
-}).listen(9000, function () {
+}).listen(9100, function () {
   console.log("Waiting for requests...");
 });

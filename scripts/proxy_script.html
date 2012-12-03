@@ -1,7 +1,15 @@
+<link rel="stylesheet" type="text/css" href="http://ec2-184-72-195-237.compute-1.amazonaws.com/static/css/annotator.min.css" />
+<style type="text/css">
+.annotation .disqus {
+    width: 500px;
+    height: 500px;
+}
+</style>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
-<script src="/static/js/annotator-full.min.js"></script>
+<script src="http://ec2-184-72-195-237.compute-1.amazonaws.com/static/js/annotator-full.min.js"></script>
 <script type="text/javascript">
-        $(document).ready(function(){
+  $.noConflict();
+        jQuery(document).ready(function($){
 
           Annotator.Plugin.Disqus = function (element) {
                 var disqusPlugin = {};
@@ -17,7 +25,7 @@
                                 var disqus_frame = '<div class="annotation">'
                                     + '<h3>"' + annotation['quote'] + '"</h3><br/>'
                                     + '<iframe class="disqus"'
-                                     + 'src=http://" + window.location.host + "/disqus?content_id=' + ids[0] + '&annotation_number='
+                                     + 'src="http://' + window.location.host + '/disqus?content_id=' + ids[0] + '&annotation_number='
                                             + ids[1] + '"></iframe></div>';
                                 $(field).html(disqus_frame);
                               
@@ -26,7 +34,7 @@
                 return disqusPlugin;
             };
 
-          var a = $(".post_content").annotator();
+          var a = $("body").annotator();
           a.annotator('addPlugin', 'Disqus');
           var url = window.location.href;
           var arr = url.split("/");
@@ -37,7 +45,7 @@
 
               // Attach the uri of the current page to all annotations to allow search.
               annotationData: {
-                'post_id': '{{ link.id }}'
+                'post_id': 'POST_ID_NUM'
               },
 
               // This will perform a "search" action rather than "read" when the plugin
@@ -45,7 +53,7 @@
               // eg. /store/endpoint/search?limit=20&uri=http://this/document/only
               loadFromSearch: {
                 'limit': 20,
-                'post_id': '{{ link.id }}'
+                'post_id': 'POST_ID_NUM'
               },
               urls: {
                 search: '/annotations',
