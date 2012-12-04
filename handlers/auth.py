@@ -17,6 +17,7 @@ allowed_usernames = [
     "christinacaci",
     "usv",
     "igniter",
+    "nickgrossman",
 ]
 
 class TwitterLoginHandler(BaseHandler, tornado.auth.TwitterMixin):
