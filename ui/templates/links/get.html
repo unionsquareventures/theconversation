@@ -126,9 +126,7 @@ $(function() {
 
   {% if link.left_url %}
   <div class="embed_frame" style="width: 50%; height: 90%; float: left;">
-      <iframe src="{{ link.left_url }}" style="width: 100%; height: 90%; border: 0px;">
-          {{ link.left_url }}
-      </iframe>
+    {% module content_frame(link=link) %}
   </div>
   {% end %}
 </div>
