@@ -2,15 +2,6 @@
 
 {% block title %}Submit{% end %}
 
-{% block css %}
-<style type="text/css">
-.widget_chooser .btn {
-  height: 50px;
-  min-width: 50px;
-}
-</style>
-{% end %}
-
 {% block javascript %}
 <script type="text/javascript">
 $(function() {
@@ -20,38 +11,6 @@ $(function() {
 
     $('.post_submit_bar .btn').on("click", function(e) {
        $('.post_form').submit();
-    });
-
-    function syncLinkedURL() {
-      var val = $(".post_form .post_url").val();
-      var widget_type = $(".embed_frame .widget_chooser .active");
-      if(widget_type.attr('name') == '-linked-url') {
-        $(".embed_frame .well_input").val(val);
-      }
-    };
-
-    $(".embed_frame .widget_chooser button").on("click", function() {
-      if($(this).attr('name') == '-linked-url') {
-          var val = $(".post_form .post_url").val();
-          var widget_type = $(".embed_frame .widget_chooser .active");
-          $(".embed_frame .well_input").val(val);
-      }
-    });
-
-
-    $(".post_form .post_url").on("focus blur", function(e) {
-      syncLinkedURL();
-    });
-
-    $(".post_form .post_url").keyup(function(e) {
-      syncLinkedURL();
-      var val = $(this).val();
-
-      if(!val) {
-        $(".embed_frame .well_-linked-url").addClass("disabled");
-      } else {
-        $(".embed_frame .well_-linked-url").removeClass("disabled");
-      }
     });
 
     $(".widget_chooser button").on("click", function(e) {
@@ -64,7 +23,7 @@ $(function() {
 
       well_value.children(".well_input_type").val(elem.attr("name"));
 
-      if(elem.attr('name')=="empty" || elem.attr('name')=="disqus") {
+      if(elem.attr('name')=="none" || elem.attr('name')=="disqus") {
         well_value.hide();
         well_value.children(".well_input").val("");
       } else {
@@ -88,10 +47,9 @@ $(function() {
     <div class="embed_frame" style="width: 50%; float: left; height: 90%; height: 840px !important;">
       <div class="well_container" style="margin: 40px 50px 0px 0px; height: 100%;">
         {% set options = [
-                              {'name': 'GDOC'},
-                              {'name': 'HackPad'},
-                              {'name': 'Empty', 'icon': 'icon-ban-circle'},
-                              {'name': '* Linked URL', 'disabled': True},
+                              {'name': 'HackPad', 'icon': 'icon-edit'},
+                              {'name': 'Linked URL', 'icon': 'icon-bookmark'},
+                              {'name': 'None', 'icon': 'icon-remove'},
         ]%}
         {% module widget_well(name="left", height="100%", center_height="100px", options=options) %}
       </div>
