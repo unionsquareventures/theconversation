@@ -93,23 +93,6 @@ class LinkHandler(BaseHandler):
             self.new(model=link, errors=e.errors)
             return
 
-        # Generate disqus URL
-        if attributes.get('bottom_content_type')=='disqus':
-            bottom_url = "/disqus?content_id=%i&question_number=1" % link.id
-            link.update(set__bottom_url=bottom_url)
-
-        # Generate thumbnail
-        if link.url:
-            thumb_path = "static/images/link_thumbnails/%s.png" % str(link.id)
-            thumb_path = os.path.join(settings.PROJECT_ROOT,  thumb_path)
-            script_path = os.path.join(settings.PROJECT_ROOT, "scripts/rasterize.js")
-
-            def generate_thumb(*args):
-                subprocess.call(['/usr/bin/phantomjs'] + list(args))
-
-            p = Process(target=generate_thumb, args=(script_path, link.url, thumb_path))
-            p.start()
-
         self.redirect('/links/%s' % link.id)
 
     def update(self, id):
