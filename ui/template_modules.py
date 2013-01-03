@@ -6,11 +6,14 @@ sys.path.append('../')
 import settings
 
 """
-Iterate through the _modules folder, creating UIModules for each module.
-If javascript for the module exists, ensure it's wrapper method is called.
-"""
+    Iterate through the modules folder, creating UIModules for each module.
 
-template_modules = {}
+    - JavaScript for each module is externally bundled and loaded into the page.
+    - The embedded_javascript method of BaseUIModule is called when a module is
+    used in a template. It provides additional JavaScript for the page to
+    contain. Modules with JavaScript will invoke their externally bundled
+    JavaScript by injecting a call to it into the parent template.
+"""
 
 class BaseUIModule(UIModule):
     name = ''
@@ -20,7 +23,7 @@ class BaseUIModule(UIModule):
         super(BaseUIModule, self).__init__(*args, **kwargs)
 
     def embedded_javascript(self):
-        if self.wrap_javascript:
+        if self.has_javascript:
             return "%s();\n" % self.name
 
     def render(self, *args, **kwargs):
@@ -28,24 +31,29 @@ class BaseUIModule(UIModule):
         filepath = os.path.join(settings.module_dir, relpath)
         return self.render_string(filepath, *args, **kwargs)
 
-for filename in os.listdir(settings.module_dir):
-    path = os.path.join(settings.module_dir, filename)
-    if not os.path.isdir(path):
-        continue
-    # Create a module using the folder name
-    js_file = os.path.join(path, "main.js")
-    # open JS file, check for contents
-    # if it's not empty then wrap
-    wrap = False
-    try:
-        f = open(js_file, 'r')
-        if f.read().strip():
-            wrap = True
-        f.close()
-    except IOError:
-        pass
+# Create modules using the folder name as the module name
+def template_modules():
+    modules = {}
+    for filename in os.listdir(settings.module_dir):
+        path = os.path.join(settings.module_dir, filename)
+        if not os.path.isdir(path):
+            continue
 
-    template_modules[filename] = type("UI_%s" % filename, (BaseUIModule,), {
-        'name': filename,
-        'wrap_javascript': wrap
-    })
+        # Open JS file, check for contents
+        js_file = os.path.join(path, "main.js")
+        has_javascript = False
+        try:
+            f = open(js_file, 'r')
+            if f.read().strip():
+                has_javascript = True
+            f.close()
+        except IOError:
+            pass
+
+        # Create a UIModule object for this module
+        modules[filename] = type("UI_%s" % filename, (BaseUIModule,), {
+            'name': filename,
+            'has_javascript': has_javascript
+        })
+    return modules
+

@@ -94,7 +94,7 @@ class LinkHandler(BaseHandler):
             return
 
         # Generate disqus URL
-        if attributes.get('bottom_url_type')=='disqus':
+        if attributes.get('bottom_content_type')=='disqus':
             bottom_url = "/disqus?content_id=%i&question_number=1" % link.id
             link.update(set__bottom_url=bottom_url)
 

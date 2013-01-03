@@ -1,6 +1,9 @@
 import tempfile
 import os
 import sys
+from collections import defaultdict
+import functools
+import tornado.ioloop
 
 sys.path.append('../')
 import settings
@@ -8,6 +11,10 @@ import settings
 styles_bundle = os.path.join(settings.tornado_config['static_path'], 'css/modules_bundle.css')
 javascript_bundle = os.path.join(settings.tornado_config['static_path'], 'js/modules_bundle.js')
 
+paths = defaultdict(list)
+
+# Obtain a given file (module_file) from each module.
+# Also store the found files in the paths dictionary.
 def gather(module_file):
     for module_name in os.listdir(settings.module_dir):
         path = os.path.join(settings.module_dir, module_name)
@@ -18,10 +25,12 @@ def gather(module_file):
             f = open(module_file_path, 'r')
             contents = f.read().strip()
             if contents:
+                paths[module_file].append(module_file_path)
                 yield module_name, contents
         except IOError:
             pass
 
+# Aggregate/bundle the CSS for the modules into the styles_bundle file.
 def bundle_styles():
     contents = ["/* %s */\n%s\n" % (n, c) for n, c in gather('main.less')]
     contents = ''.join(contents)
@@ -33,6 +42,7 @@ def bundle_styles():
     os.system('lessc -x "%s" > "%s"' % (tmpname, styles_bundle))
     os.remove(tmpname)
 
+# Aggregate/bundle the JavaScript for the modules into the javascript_bundle file.
 def bundle_javascript():
     contents = ["function %s() {\n%s\n};\n" % (n, c) for n, c in gather('main.js')]
     contents = ''.join(contents)
@@ -43,3 +53,45 @@ def bundle_javascript():
     tmpf.close()
     os.system('uglifyjs "%s" > "%s"' % (tmpname, javascript_bundle))
     os.remove(tmpname)
+
+
+"""
+    Watch all the JS and LESS files for changes.
+    Re-create the bundles when a change occurs.
+"""
+
+def _file_changed(modify_times, path):
+    # Check modification time
+    try:
+        modified = os.stat(path).st_mtime
+    except Exception:
+        return False
+    # First run
+    if path not in modify_times:
+        modify_times[path] = modified
+        return False
+    # Check for change since last run
+    if modify_times[path] != modified:
+        modify_times[path] = modified
+        return True
+    return False
+
+def _check_styles(modify_times):
+    for path in paths['main.less']:
+        if _file_changed(modify_times, path):
+            bundle_styles()
+
+def _check_javascript(modify_times):
+    for path in paths['main.js']:
+        if _file_changed(modify_times, path):
+            bundle_javascript()
+
+def watch_modules(io_loop, check_time=500):
+    modify_times = {}
+    callback = functools.partial(_check_styles, modify_times)
+    scheduler = tornado.ioloop.PeriodicCallback(callback, check_time, io_loop=io_loop)
+    scheduler.start()
+
+    callback = functools.partial(_check_javascript, modify_times)
+    scheduler = tornado.ioloop.PeriodicCallback(callback, check_time, io_loop=io_loop)
+    scheduler.start()

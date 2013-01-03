@@ -11,8 +11,8 @@ from content import Content
 
 class Link(Content):
     url = StringField(max_length=65000)
-    left_url = StringField(max_length=65000)
-    bottom_url = StringField(max_length=65000)
+    content = StringField(max_length=65000)
+    content_type = StringField(max_length=250)
 
     def form_fields(self, form_errors=None, placeholders={}, order=[]):
         if order:

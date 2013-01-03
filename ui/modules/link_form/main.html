@@ -1,0 +1,30 @@
+<div class="link_form">
+    {% module xsrf_form_html() %}
+    {% set placeholders= {
+                  'url': '* Linked URL (optional)',
+                  'title': 'Title...',
+                  'body_raw': 'Body',
+                  'tags': 'Categories (optional, separate by commas)',
+    }%}
+    {% for name, label, html, field_errors in model.form_fields(errors, order=['title', 'url', 'body_raw'],
+                                                                          placeholders=placeholders) %}
+            {% if field_errors %}
+                <i>{{ field_errors.message }}</i>
+                <br/>
+            {% end %}
+            {% raw html %}
+    {% end %}
+    <input type="text" name="tags" placeholder="Categories (optional, separate by commas)" />
+
+    <input type="checkbox" name="featured" value="true" style="float: left;" />
+    <p style="float: left; margin: 0px 0px 0px 5px;">Featured</p>
+    <br/>
+
+    <div class="post_submit_bar">
+      <div class="btn">
+        <div class="icon-plus-sign">
+        </div>
+        Submit this content
+      </div>
+    </div>
+</div>
