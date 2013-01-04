@@ -41,10 +41,12 @@ class Link(Content):
                                         ' value="true" id="post_{name}" %s />'\
                                                         % ('checked' if form_field['value'] else '')
                 field_html = field_html.format(**form_field)
-                if form_field.has_key('label'):
-                    label = '<label for="post_{name}" data-selected="{label_selected}">{label}</label>'
-                    form_field['label_selected'] = form_field.get('label_selected', '').replace('"', "'")
-                    field_html += label.format(**form_field)
+
+            # Add label
+            if form_field.has_key('label'):
+                label = '<label for="post_{name}" data-selected="{label_selected}">{label}</label>'
+                form_field['label_selected'] = form_field.get('label_selected', '').replace('"', "'")
+                field_html += label.format(**form_field)
 
             if not field_html:
                 continue
