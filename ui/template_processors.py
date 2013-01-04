@@ -4,6 +4,7 @@ import sys
 from collections import defaultdict
 import functools
 import tornado.ioloop
+from tornado.options import logging
 
 sys.path.append('../')
 import settings
@@ -79,12 +80,16 @@ def _file_changed(modify_times, path):
 def _check_styles(modify_times):
     for path in paths['main.less']:
         if _file_changed(modify_times, path):
+            logging.info('Rebundling styles...')
             bundle_styles()
+            logging.info('Done.')
 
 def _check_javascript(modify_times):
     for path in paths['main.js']:
         if _file_changed(modify_times, path):
+            logging.info('Rebundling JavaScript...')
             bundle_javascript()
+            logging.info('Done.')
 
 def watch_modules(io_loop, check_time=500):
     modify_times = {}

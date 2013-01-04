@@ -73,6 +73,8 @@ if __name__ == '__main__':
 
     # Watch the modules JS and CSS files for changes.
     # Re-bundle the JS/CSS accordingly upon modification.
-    ui.watch_modules(io_loop)
+    if settings.tornado_config['debug']:
+        logging.info('Watching UI modules for changes...')
+        ui.watch_modules(io_loop)
 
     io_loop.start()
