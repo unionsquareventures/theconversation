@@ -1,12 +1,18 @@
 <div class="link_form">
     {% module xsrf_form_html() %}
+    {% set link_icon = lambda x: '<div class="input-prepend"><span class="add-on">'\
+                                        '<i class="icon-bookmark"></i></span>%s</div>' % x
+    %}
     {% set placeholders= {
                   'title': 'Title...',
+                  'url': ('Linked URL (optional)', link_icon),
+                  'has_hackpad': '<i class="icon-edit"></i>&nbsp;Attach a Hackpad?',
                   'body_raw': 'Body',
                   'tags': 'Categories (optional, separate by commas)',
     }%}
-    {% for name, label, html, field_errors in model.form_fields(errors, order=['title', 'body_raw'],
-                                                                          placeholders=placeholders) %}
+    {% for name, label, html, field_errors in \
+            model.form_fields(errors, order=['title', 'url', 'has_hackpad', 'body_raw'],
+                                                                    placeholders=placeholders) %}
             {% if field_errors %}
                 <i>{{ field_errors.message }}</i>
                 <br/>
@@ -15,8 +21,8 @@
     {% end %}
     <input type="text" name="tags" placeholder="Categories (optional, separate by commas)" />
 
-    <input type="checkbox" name="featured" value="true" style="float: left;" />
-    <p style="float: left; margin: 0px 0px 0px 5px;">Featured</p>
+    <input type="checkbox" name="featured" id="post_featured" value="true" />
+    <label for="post_featured">Featured</label>
     <br/>
 
     <div class="post_submit_bar">

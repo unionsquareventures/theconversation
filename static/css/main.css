@@ -103,15 +103,6 @@ input[type=text] {
     line-height: 20px !important;
 }
 
-form label {
-    font-size: 18px;
-    font-family: Arial, sans-serif;
-    font-weight: bold;
-    display: block;
-    padding: 0px;
-    margin: 10px 0px 10px 0px;
-}
-
 form input[type=submit] {
     margin: 15px 0px 0px 470px;
 }

@@ -11,8 +11,8 @@ from content import Content
 
 class Link(Content):
     url = StringField(max_length=65000)
-    content = StringField(max_length=65000)
-    content_type = StringField(max_length=250)
+    hackpad_id = StringField(max_length=65000)
+    has_hackpad = BooleanField()
 
     def form_fields(self, form_errors=None, placeholders={}, order=[]):
         if order:
@@ -32,13 +32,33 @@ class Link(Content):
                 field_html = '<input name="{name}" type="text" class="post_{name}"' \
                                                 ' placeholder="{placeholder}" value="{value}" />'
 
+            if field.__class__ == BooleanField:
+                """
+                field_html = '<input name="{name}" type="checkbox" class="post_{name}"' \
+                                        ' value="true" id="post_{name}"/>'\
+                                        '<label for="post_{name}">{placeholder}</label>'
+
+                """
+                field_html = '<button class="btn btn-large btn-block" type="button">{placeholder}</button>'
+
             if not field_html:
                 continue
 
             value = self._data.get(name)
             value = value.replace('"', '\\"') if value else ''
-            field_html = field_html.format(name=name, value=value,
-                                           placeholder=placeholders.get(name, ''))
+
+            placeholder = placeholders.get(name, '')
+            wrapper = lambda x: x
+            if isinstance(placeholder, tuple):
+                wrapper = placeholder[1]
+                placeholder = placeholder[0]
+            try:
+                print wrapper('')
+            except:
+                import pdb
+                pdb.set_trace()
+            field_html = wrapper(field_html.format(name=name, value=value,
+                                                                placeholder=placeholder))
             label = self.labels.get(name, name).title()
             field_errors = form_errors.get(name)
 
