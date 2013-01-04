@@ -23,10 +23,6 @@ class Content(Document):
     annotations = ListField(EmbeddedDocumentField(Annotation))
 
     meta = {'allow_inheritance': True}
-
-    labels = {
-        'body_raw': 'body',
-    }
     ignored_fields = ['body_html']
 
     def hook_date_created(self):

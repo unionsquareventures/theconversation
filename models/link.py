@@ -14,54 +14,44 @@ class Link(Content):
     hackpad_id = StringField(max_length=65000)
     has_hackpad = BooleanField()
 
-    def form_fields(self, form_errors=None, placeholders={}, order=[]):
-        if order:
-            ffields = [(fname, self._fields.get(fname)) for fname in order]
-        else:
-            ffields = self._fields.iteritems()
-
-        for name, field in ffields:
-            if name == self._meta['id_field'] or name in self.ignored_fields:
+    def form_fields(self, form_errors=None, form_fields=[]):
+        for form_field in form_fields:
+            field = self._fields[form_field['name']]
+            # Ignore ID field and ignored fields
+            if form_field['name'] == self._meta['id_field'] or form_field['name'] in self.ignored_fields:
                 continue
 
+            # Fill value
+            value = self._data.get(form_field['name'])
+            value = value.replace('"', '\\"') if value else ''
+            form_field['value'] = value
+
+            # Generate the correct HTML
             field_html = ''
             if field.__class__ == StringField and not field.max_length:
-                field_html = '<div class="text_wrapper"><textarea name="{name}" class="post_{name}"' \
-                                            'placeholder="{placeholder}">{value}</textarea></div>'
+                field_html = '<textarea name="{name}" class="post_{name}"' \
+                                            'placeholder="{placeholder}">{value}</textarea>'
+                field_html = field_html.format(**form_field)
             if field.__class__ == StringField and field.max_length:
-                field_html = '<div class="text_wrapper"><input name="{name}" type="text" class="post_{name}"' \
-                                                ' placeholder="{placeholder}" value="{value}" /></div>'
-
+                field_html = '<input name="{name}" type="text" class="post_{name}"' \
+                                                ' placeholder="{placeholder}" value="{value}" />'
+                field_html = field_html.format(**form_field)
             if field.__class__ == BooleanField:
-                """
                 field_html = '<input name="{name}" type="checkbox" class="post_{name}"' \
-                                        ' value="true" id="post_{name}"/>'\
-                                        '<label for="post_{name}">{placeholder}</label>'
-
-                """
-                field_html = '<button type="button" data-toggle="button"'\
-                                'class="btn btn-large btn-block">'\
-                                    '{placeholder}</button><input type="hidden" name="{name}" value="true"/>'
+                                        ' value="true" id="post_{name}" checked/>'
+                field_html = field_html.format(**form_field)
+                if form_field.has_key('label'):
+                    label = '<label for="post_{name}" data-selected="{label_selected}">{label}</label>'
+                    form_field['label_selected'] = form_field.get('label_selected', '').replace('"', "'")
+                    field_html += label.format(**form_field)
 
             if not field_html:
                 continue
 
-            value = self._data.get(name)
-            value = value.replace('"', '\\"') if value else ''
+            # Wrap the element with the provided wrapping function
+            wrapper = form_field.get('wrapper', lambda x: x)
+            field_html = wrapper(field_html)
 
-            placeholder = placeholders.get(name, '')
-            wrapper = lambda x: x
-            if isinstance(placeholder, tuple):
-                wrapper = placeholder[1]
-                placeholder = placeholder[0]
-            try:
-                print wrapper('')
-            except:
-                import pdb
-                pdb.set_trace()
-            field_html = wrapper(field_html.format(name=name, value=value,
-                                                                placeholder=placeholder))
-            label = self.labels.get(name, name).title()
-            field_errors = form_errors.get(name)
-
-            yield (name, label, field_html, field_errors)
+            # Handle errors and return
+            field_errors = form_errors.get(form_field['name'])
+            yield (form_field['name'], field_html, field_errors)
