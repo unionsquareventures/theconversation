@@ -26,11 +26,11 @@ class Link(Content):
 
             field_html = ''
             if field.__class__ == StringField and not field.max_length:
-                field_html = '<textarea name="{name}" class="post_{name}"' \
-                                            ' placeholder="{placeholder}">{value}</textarea>'
+                field_html = '<div class="text_wrapper"><textarea name="{name}" class="post_{name}"' \
+                                            'placeholder="{placeholder}">{value}</textarea></div>'
             if field.__class__ == StringField and field.max_length:
-                field_html = '<input name="{name}" type="text" class="post_{name}"' \
-                                                ' placeholder="{placeholder}" value="{value}" />'
+                field_html = '<div class="text_wrapper"><input name="{name}" type="text" class="post_{name}"' \
+                                                ' placeholder="{placeholder}" value="{value}" /></div>'
 
             if field.__class__ == BooleanField:
                 """
@@ -39,7 +39,9 @@ class Link(Content):
                                         '<label for="post_{name}">{placeholder}</label>'
 
                 """
-                field_html = '<button class="btn btn-large btn-block" type="button">{placeholder}</button>'
+                field_html = '<button type="button" data-toggle="button"'\
+                                'class="btn btn-large btn-block">'\
+                                    '{placeholder}</button><input type="hidden" name="{name}" value="true"/>'
 
             if not field_html:
                 continue
