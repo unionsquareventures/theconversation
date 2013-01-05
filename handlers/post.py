@@ -10,7 +10,7 @@ import re
 from collections import defaultdict
 from itertools import groupby
 from operator import itemgetter
-
+from lib.sanitize import html_sanitize_preview
 from base import BaseHandler
 
 import mongoengine
@@ -32,8 +32,12 @@ class PostHandler(BaseHandler):
         featured_posts = list(Content.objects(featured=True).order_by('-date_created'))
 
         for post in featured_posts:
-            post['body_html'] = truncate(post['body_html'], 500, ellipsis='')
-
+            try:
+                post['body_html'] = html_sanitize_preview(post['body_html'])
+                post['body_html'] = truncate(post['body_html'], 500, ellipsis='')
+            except:
+                import pdb
+                pdb.set_trace()
         tags = Tag.objects()
         self.vars.update({
             'posts': posts,

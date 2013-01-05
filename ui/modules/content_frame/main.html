@@ -1,13 +1,13 @@
-{% if link.content_type == 'url' %}
-    <iframe src="{{ link.content }}" style="width: 100%; height: 90%; border: 0px;">
-      {{ link.content }}
+{% if content_type == 'url' %}
+    <iframe src="{{ content }}" style="width: 100%; height: 90%; border: 0px;">
+      {{ content }}
     </iframe>
-{% elif link.content_type == 'hackpad' %}
+{% elif content_type == 'hackpad' %}
     {% set url = 'https://usvdev.hackpad.com/ep/api/embed-pad?padId=%s&subDomain=usvdev'\
                         '&clientId=3Ak9Sxym3CLfPIBdQIDCbs&timestamp=0&name=%s&email=%s'\
-                    % [url_escape(e) for e in ('abcdef', 'zach cimafonte', 'zachcimafonte@gmail.com')]
+                    % [url_escape(e) for e in (content, user['username'], user['username'])]
     %}
-    <iframe src="{{ link.content }}" style="width: 100%; height: 90%; border: 0px;">
-      {{ link.content }}
+    <iframe src="{{ url }}" style="width: 100%; height: 90%; border: 0px;">
+      {{ url }}
     </iframe>
 {% end %}

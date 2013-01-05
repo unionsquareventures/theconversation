@@ -24,14 +24,14 @@
       {
         'name': 'body_raw',
         'placeholder': 'Body',
-        'wrapper': wrap_text,
       },
       {
-        'name': 'featured',
-        'label': '<i class="icon-star"></i>&nbsp;Feature this post?',
-        'label_selected': '<i class="icon-remove"></i>&nbsp;Un-feature this post',
-      },
-      ]%}
+                'name': 'featured',
+                'label': '<i class="icon-star"></i>&nbsp;Feature this post?',
+                'label_selected': '<i class="icon-remove"></i>&nbsp;Un-feature this post',
+      }]
+      %}
+
       {% for name, html, field_errors in model.form_fields(errors, form_fields=form_fields) %}
               {% if field_errors %}
                   <i>{{ field_errors.message }}</i>

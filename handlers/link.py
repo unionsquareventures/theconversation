@@ -10,7 +10,7 @@ from collections import defaultdict
 from itertools import groupby
 from operator import itemgetter
 import os
-
+from lib.sanitize import html_sanitize
 from base import BaseHandler
 
 import mongoengine
@@ -74,10 +74,13 @@ class LinkHandler(BaseHandler):
             tag.save()
 
         # Content
-        video_ext = VideoExtension(configs={})
         body_raw = attributes.get('body_raw', '')
-        body_html = markdown(body_raw, extensions=[video_ext],
-                                    output_format='html5', safe_mode=False)
+        body_html = html_sanitize(body_raw)
+
+        # Handle Hackpad
+        if attributes.get('has_hackpad'):
+            attributes['has_hackpad'] = True
+            #attributes['hackpad_id'] =
 
         attributes.update({
             'user': User(**self.get_current_user()),

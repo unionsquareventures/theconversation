@@ -22,29 +22,30 @@ class Link(Content):
                 continue
 
             # Fill value
-            value = self._data.get(form_field['name'])
-            value = value.replace('"', '\\"') if value else ''
+            value = self._data.get(form_field['name']) or ''
+            if isinstance(value, str):
+                value = value.replace('"', '\\"')
             form_field['value'] = value
 
             # Generate the correct HTML
             field_html = ''
             if field.__class__ == StringField and not field.max_length:
-                field_html = '<textarea name="{name}" class="post_{name}"' \
+                field_html = '<textarea name="{name}" class="link_{name}"' \
                                         'placeholder="{placeholder}">{value}</textarea>'
                 field_html = field_html.format(**form_field)
             if field.__class__ == StringField and field.max_length:
-                field_html = '<input name="{name}" type="text" class="post_{name}"' \
+                field_html = '<input name="{name}" type="text" class="link_{name}"' \
                                         ' placeholder="{placeholder}" value="{value}" />'
                 field_html = field_html.format(**form_field)
             if field.__class__ == BooleanField:
-                field_html = '<input name="{name}" type="checkbox" class="post_{name}"' \
-                                        ' value="true" id="post_{name}" %s />'\
+                field_html = '<input name="{name}" type="checkbox" class="link_{name}"' \
+                                        ' value="true" id="link_{name}" %s />'\
                                                         % ('checked' if form_field['value'] else '')
                 field_html = field_html.format(**form_field)
 
             # Add label
             if form_field.has_key('label'):
-                label = '<label for="post_{name}" data-selected="{label_selected}">{label}</label>'
+                label = '<label for="link_{name}" data-selected="{label_selected}">{label}</label>'
                 form_field['label_selected'] = form_field.get('label_selected', '').replace('"', "'")
                 field_html += label.format(**form_field)
 

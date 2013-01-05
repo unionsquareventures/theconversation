@@ -5,21 +5,6 @@ import tornado.httpserver
 
 from base import BaseHandler
 
-allowed_usernames = [
-    '_zachary',
-    "alexandermpease",
-    "bwats",
-    "garychou",
-    "aweissman",
-    "fredwilson",
-    "albertwenger",
-    "bradusv",
-    "christinacaci",
-    "usv",
-    "igniter",
-    "nickgrossman",
-]
-
 class TwitterLoginHandler(BaseHandler, tornado.auth.TwitterMixin):
     @tornado.web.asynchronous
     def get(self):
@@ -33,7 +18,7 @@ class TwitterLoginHandler(BaseHandler, tornado.auth.TwitterMixin):
             raise tornado.web.HTTPError(500, "Twitter authentication failed.")
 
         print user_obj
-        if not user_obj['username'].lower() in allowed_usernames:
+        if not user_obj['username'].lower() in settings.admin_users:
             raise tornado.web.HTTPError(401, "Not authorized.")
 
         user = {

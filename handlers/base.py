@@ -9,6 +9,7 @@ class BaseHandler(tornado.web.RequestHandler):
         super(BaseHandler, self).__init__(*args, **kwargs)
         self.vars = {
                         'user': self.get_current_user(),
+                        'settings': settings,
                     }
 
     def render_json(self, obj):
