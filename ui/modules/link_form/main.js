@@ -67,7 +67,7 @@ $(function() {
     theme_advanced_statusbar_location: "none",
 
     // Example content CSS (should be your site CSS)
-    //content_css : "css/content.css",
+    content_css : "/static/css/tinymce_content.css",
 
     // Drop lists for link/image/media/template dialogs
     template_external_list_url : "lists/template_list.js",

@@ -39,16 +39,16 @@ $(function() {
 
 {% block content %}
 <form action="/links{{ ('/' + link_id) if link_id else '' }}" method="post" class="post_form">
-<div class="container-fluid" style="height: 100%; padding: 0px; margin: 0px;">
+<div class="container-fluid" style="height: 200%; padding: 0px; margin: 0px;">
   <div class="row-fluid" style="height: 100%; text-align: center;display: table;
   border-collapse: collapse;
   width: 100%;">
-
-      <div style="width: 50%; height: 100%; margin: 0px; padding: 0px; display: table-cell;">
+  <div style="width: 900px; display: block; margin: 0px auto;">
+      <div style="width: 900px; height: 100%; margin: 0px; padding: 0px; display: table-cell;">
               {% module link_form(user=user, model=model, errors=errors, settings=settings) %}
-    </div>
+      </div>
 
-    <div class="" style="width: 50%; display: table-cell; height: 100%;" id="hackpad">
+    <div class="" style="width: 950px; display: table-cell; height: 800px; float: left; margin-bottom: 100px;" id="hackpad">
       <div class="well_container" style="margin: 40px 50px 0px 0px; height: 100%;">
           <div class="well" id="side_well" style="height: 100%;">
               <div>
