@@ -28,7 +28,12 @@ class PostHandler(BaseHandler):
             query.update({
                 'tags': tag,
             })
-        posts = Content.objects(featured=False, **query).order_by('-votes', '-date_created')
+        ordering = {
+            'votes': ('-votes', '-date_created'),
+            'recent': ('-date_created', '-votes')
+        }
+        sort_by = self.get_argument('sort_by', 'votes')
+        posts = Content.objects(featured=False, **query).order_by(*ordering[sort_by])
         featured_posts = list(Content.objects(featured=True).order_by('-date_created'))
 
         for post in featured_posts:

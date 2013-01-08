@@ -47,11 +47,16 @@
 
     <div class="span7 community-posts">
         <div class="top-bar navbar">
-          <div class="tags span12 navbar-inner">
-              <p class="section_label">USV Community</p>
-              <input type="text" name="search" value="Search..." class="search-query content_search" />
-              {% module tags_view(objects=tags, current_tag=current_tag, view_type="posts", fix=False) %}
-          </div>
+            <div class="tags span12 navbar-inner">
+                <p class="section_label">USV Community</p>
+                <input type="text" name="search" value="Search..." class="search-query content_search" />
+                <div style="margin: 10px; float: left;">
+                    <b>&nbsp;Sort by:&nbsp;</b>
+                    <a href="/posts?sort_by=votes">Top Rated</a>
+                    &nbsp;&nbsp;
+                    <a href="/posts?sort_by=recent">Recent</a>
+                </div>
+            </div>
         </div>
         <br/>
         {% for post in posts %}
