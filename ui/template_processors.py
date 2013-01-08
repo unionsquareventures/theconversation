@@ -3,6 +3,7 @@ import os
 import sys
 from collections import defaultdict
 import functools
+import subprocess
 import tornado.ioloop
 from tornado.options import logging
 
@@ -40,7 +41,12 @@ def bundle_styles():
     tmpf = os.fdopen(tmpfd, 'w')
     tmpf.write(contents)
     tmpf.close()
-    os.system('lessc -x "%s" > "%s"' % (tmpname, styles_bundle))
+    s = subprocess.Popen(['lessc', '-x', tmpname],
+                            stderr=subprocess.STDOUT,
+                            stdout=subprocess.PIPE).communicate()[0]
+    f = open(styles_bundle, 'w')
+    f.write(s)
+    f.close()
     os.remove(tmpname)
 
 # Aggregate/bundle the JavaScript for the modules into the javascript_bundle file.
@@ -52,7 +58,12 @@ def bundle_javascript():
     tmpf = os.fdopen(tmpfd, 'w')
     tmpf.write(contents)
     tmpf.close()
-    os.system('uglifyjs "%s" > "%s"' % (tmpname, javascript_bundle))
+    s = subprocess.Popen(['uglifyjs', tmpname],
+                            stderr=subprocess.STDOUT,
+                            stdout=subprocess.PIPE).communicate()[0]
+    f = open(javascript_bundle, 'w')
+    f.write(s)
+    f.close()
     os.remove(tmpname)
 
 

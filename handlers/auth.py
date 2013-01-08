@@ -17,7 +17,6 @@ class TwitterLoginHandler(BaseHandler, tornado.auth.TwitterMixin):
         if not user_obj:
             raise tornado.web.HTTPError(500, "Twitter authentication failed.")
 
-        print user_obj
         if not user_obj['username'].lower() in settings.admin_users:
             raise tornado.web.HTTPError(401, "Not authorized.")
 
