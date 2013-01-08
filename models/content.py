@@ -9,6 +9,11 @@ from user import User
 from annotation import Annotation
 
 class Content(Document):
+    meta = {
+        'allow_inheritance': True,
+        'indexes': ['votes', 'date_created', 'tags'],
+    }
+
     body_raw = StringField(required=True)
     body_html = StringField(required=True)
     id = IntField(primary_key=True)
@@ -22,7 +27,6 @@ class Content(Document):
     voted_users = ListField(EmbeddedDocumentField(User))
     annotations = ListField(EmbeddedDocumentField(Annotation))
 
-    meta = {'allow_inheritance': True}
     ignored_fields = ['body_html']
 
     def hook_date_created(self):
