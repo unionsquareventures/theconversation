@@ -38,7 +38,6 @@ $(function() {
 {% end %}
 
 {% block content %}
-<form action="/links{{ ('/' + link_id) if link_id else '' }}" method="post" class="post_form">
 <div class="container-fluid" style="height: 200%; padding: 0px; margin: 0px;">
   <div class="row-fluid" style="height: 100%; text-align: center;display: table;
   border-collapse: collapse;
@@ -64,10 +63,8 @@ $(function() {
           </div>
       </div>
     </div>
-    
   </div>
 </div>
-</form>
 
 <script type="text/javascript">
     $(function() {

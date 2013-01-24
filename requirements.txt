@@ -5,3 +5,5 @@ mongoengine
 fabric
 pytz
 bleach
+raven
+

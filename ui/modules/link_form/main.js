@@ -10,7 +10,8 @@ $(function() {
     label.remove();
     checkbox.hide();
 
-    var button = '<button type="button" data-toggle="button" class="btn btn-large btn-block">';
+    var button = '<button type="button" data-toggle="button" class="btn btn-large btn-block check_button" ' +
+                            'id="' + checkbox.attr('id') + '_button">';
     button += label_unselected;
     button += '</button>';
     button = $(button);
@@ -35,20 +36,40 @@ $(function() {
     $(this).after(button);
   });
 
+    $('').on('click', function(e) {
+      if(checkbox.attr('checked')) {
+        // Uncheck
+        checkbox.attr('checked', false).change();
+        button.html(label_unselected);
+      } else {
+        // Check
+        checkbox.attr('checked', true).change();
+        button.html(label_selected);
+      }
+    });
+
+  // Hackpad chooser
+  $('#link_has_hackpad_button').on('click', function(e) {
+    // Clear radio button values
+    var choice = $('input[name="hackpad_type"]:checked').prop('checked', false);
+    
+    
+    
+    $('#hackpad_modal').modal();
+    e.stopPropagation();
+  });
+
+  // Save hackpad settings change
+  $("#save_hackpad_btn").on('click', function(e) {
+    alert(choice);
+  });
+
   // Render hackpad
   if($('#link_has_hackpad').attr('checked')) {
     $('#hackpad').show();
   } else {
     $('#hackpad').hide();
   }
-
-  $('#link_has_hackpad').change(function(e) {
-    if($(this).attr('checked')) {
-      $('#hackpad').show();
-    } else {
-      $('#hackpad').hide();
-    }
-  });
 
   // Setup TinyMCE
   $('.link_body_raw').tinymce({

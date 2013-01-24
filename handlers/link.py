@@ -11,6 +11,7 @@ from itertools import groupby
 from operator import itemgetter
 import os
 from lib.sanitize import html_sanitize
+from lib.hackpad import HackpadAPI
 from base import BaseHandler
 
 import mongoengine
@@ -49,14 +50,23 @@ class LinkHandler(BaseHandler):
         self.vars.update({'link': link})
         self.render('links/get.html', **self.vars)
 
+    @tornado.web.asynchronous
     def new(self, model=Link(), errors={}):
-        # Create a link
-        self.vars.update({
-            'model': model,
-            'link_id': '',
-            'errors': errors,
-        })
-        self.render('links/new.html', **self.vars)
+        hackpad_api = HackpadAPI(settings.hackpad['oauth_client_id'],
+                                            settings.hackpad['oauth_secret'],
+                                            domain=settings.hackpad['domain'])
+        def hpad_created(hpad_json):
+            model.hackpad_url = 'https://%s.hackpad.com/%s'\
+                                            % (settings.hackpad['domain'], hpad_json['padId'])
+            # Link creation page
+            self.vars.update({
+                'model': model,
+                'errors': errors,
+            })
+            self.render('links/new.html', **self.vars)
+
+        hackpad_api.create(hpad_created)
+
 
     def create(self):
         attributes = {k: v[0] for k, v in self.request.arguments.iteritems()}
@@ -74,7 +84,7 @@ class LinkHandler(BaseHandler):
 
         # Content
         body_raw = attributes.get('body_raw', '')
-        body_html = html_sanitize(body_raw)
+        body_html = html_sanitize(linkify(body_raw))
 
         # Handle Hackpad
         if attributes.get('has_hackpad'):

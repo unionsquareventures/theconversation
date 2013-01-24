@@ -12,7 +12,7 @@ from content import Content
 class Link(Content):
     url = StringField(max_length=65000)
     hackpad_id = StringField(max_length=65000)
-    has_hackpad = BooleanField()
+    hackpad_url = StringField(max_length=65000)
 
     def form_fields(self, form_errors=None, form_fields=[]):
         for form_field in form_fields:
@@ -29,19 +29,20 @@ class Link(Content):
 
             # Generate the correct HTML
             field_html = ''
-            if field.__class__ == StringField and not field.max_length:
+            if form_field.get('hidden'):
+                field_html = '<input name="{name}" type="hidden" class="link_{name}"' \
+                                                            ' value="{value}" />'
+            elif field.__class__ == StringField and not field.max_length:
                 field_html = '<textarea name="{name}" class="link_{name}"' \
                                         'placeholder="{placeholder}">{value}</textarea>'
-                field_html = field_html.format(**form_field)
-            if field.__class__ == StringField and field.max_length:
+            elif field.__class__ == StringField and field.max_length:
                 field_html = '<input name="{name}" type="text" class="link_{name}"' \
                                         ' placeholder="{placeholder}" value="{value}" />'
-                field_html = field_html.format(**form_field)
-            if field.__class__ == BooleanField:
+            elif field.__class__ == BooleanField:
                 field_html = '<input name="{name}" type="checkbox" class="link_{name}"' \
                                         ' value="true" id="link_{name}" %s />'\
                                                         % ('checked' if form_field['value'] else '')
-                field_html = field_html.format(**form_field)
+            field_html = field_html.format(**form_field)
 
             # Add label
             if form_field.has_key('label'):
