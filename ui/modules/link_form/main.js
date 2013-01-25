@@ -65,11 +65,13 @@ $(function() {
   });
 
   // Render hackpad
+  /*
   if($('#link_has_hackpad').attr('checked')) {
     $('#hackpad').show();
   } else {
     $('#hackpad').hide();
   }
+ */
 
   // Setup TinyMCE
   $('.link_body_raw').tinymce({

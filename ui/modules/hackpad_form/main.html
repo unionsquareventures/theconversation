@@ -1,0 +1,16 @@
+<div class="well_container" style="margin: 40px 50px 0px 0px; height: 100%;">
+  <div class="well" id="side_well" style="height: 100%;">
+    <input type="text" name="modify_hackpad_url" id="modify_hackpad_url" placeholder="Hackpad URL" />
+      <div>
+        {% set hp_url = 'https://usvdev.hackpad.com/ep/api/embed-pad?padId=%s&subDomain=usvdev'\
+                            '&clientId=3Ak9Sxym3CLfPIBdQIDCbs&timestamp=0&name=%s&email=%s'\
+                        % ('www', user['username'], user['username'])
+        %}
+
+            <iframe src="{{ hp_url }}" style="width: 100%;height: 100%; border:
+                0px;" id="hackpad_iframe">
+              {{ hp_url }}
+            </iframe>
+      </div>
+  </div>
+</div>
