@@ -65,7 +65,7 @@ class LinkHandler(BaseHandler):
             })
             self.render('links/new.html', **self.vars)
 
-        hackpad_api.list_all(hpad_created)
+        hackpad_api.create(hpad_created)
 
 
     def create(self):
