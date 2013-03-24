@@ -14,7 +14,7 @@ def staging():
     env.deployment_stage = 'staging'
     env.user = 'ubuntu'
     env.hosts = [
-        'ec2-184-72-195-237.compute-1.amazonaws.com',
+        '54.225.158.156',
     ]
 
 def deploy():
