@@ -1,0 +1,22 @@
+#post_tags a {
+    font-weight: normal !important;
+}
+
+#content {
+    margin-top: 29px;
+}
+
+textarea {
+    width: 100%;
+    height: 300px;
+}
+
+input[type=text] {
+    width: 100%;
+    font-size: 18px;
+    line-height: 20px !important;
+}
+
+form input[type=submit] {
+    margin: 15px 0px 0px 470px;
+}
