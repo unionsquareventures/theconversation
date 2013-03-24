@@ -45,22 +45,23 @@
         </div>
 
         <div id="post_stream">
-
-            <div class="post">
-                <img src="/static/images/fred.jpg" class="img-circle avatar" alt="fred" />
-                <div class="info">
-                    <a href="/post.html" class="title">
-                        <p>
-                            Peer Progress and Regulation 2.0
-                        </p>
-                    </a>
-                    <a href="#" class="site">sciencemag.org</a>
-                    <br/>
-                    <a href="#" class="user"><i class="icon-twitter icon"></i>@fredwilson</a>
-                    <a href="#" class="comments"><i class="icon-comment icon"></i>12 comments</a>
-                    <a href="#" class="votes"><i class="icon-arrow-up icon"></i>23 upvotes</a>
+            {% for post in posts %}
+                <div class="post">
+                    <img src="/static/images/fred.jpg" class="img-circle avatar" alt="fred" />
+                    <div class="info">
+                        <a href="/post.html" class="title">
+                            <p>
+                                {{ post.title }}
+                            </p>
+                        </a>
+                        <a href="#" class="site">sciencemag.org</a>
+                        <br/>
+                        <a href="#" class="user"><i class="icon-twitter icon"></i>@{{ post.user.username }}</a>
+                        <a href="#" class="comments"><i class="icon-comment icon"></i>12 comments</a>
+                        <a href="#" class="votes"><i class="icon-arrow-up icon"></i>{{ post.votes }} votes</a>
+                    </div>
                 </div>
-            </div>
+            {% end %}
         </div>
     </div>
 
