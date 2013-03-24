@@ -16,6 +16,7 @@ from base import BaseHandler
 import mongoengine
 from models import Post, User, Question, Tag, Content
 from urlparse import urlparse
+from BeautifulSoup import BeautifulSoup
 
 class PostHandler(BaseHandler):
     def __init__(self, *args, **kwargs):
@@ -38,11 +39,14 @@ class PostHandler(BaseHandler):
         featured_posts = list(Content.objects(featured=True).order_by('-date_created'))
 
         for post in featured_posts:
-                try:
-                    post['body_html'] = truncate(post['body_html'], 500, ellipsis='')
-                except:
-                    pass
-                post['body_html'] = html_sanitize_preview(post['body_html'])
+            soup = BeautifulSoup(post['body_html'])
+            post['body_html'] = soup.prettify()
+            #try:
+            #    post['body_html'] = truncate(post['body_html'], 500, ellipsis='...')
+            #except:
+            #    pass
+            #post['body_html'] = html_sanitize_preview(post['body_html'])
+
         tags = Tag.objects()
         self.vars.update({
             'posts': posts,

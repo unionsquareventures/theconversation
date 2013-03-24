@@ -68,9 +68,9 @@
                                     {{ post.title }}
                                 </p>
                             </a>
-                            <p class="content">
-                                {{ post.body_html }}
-                            </p>
+                            <div class="content">
+                            {% raw post.body_html %}
+                            </div>
                             <a href="/{{ path }}/{{ post.id }}" class="continue_button">Continue</a>
                             <div class="featured_info">
                                 <a href="#" class="user">@bwatts</a>
