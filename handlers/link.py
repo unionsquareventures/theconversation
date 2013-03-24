@@ -19,6 +19,7 @@ from models import Link, User, Question, Tag, Post, Content
 
 import subprocess
 from multiprocessing import Process
+from urlparse import urlparse
 
 class LinkHandler(BaseHandler):
     def __init__(self, *args, **kwargs):
@@ -47,6 +48,8 @@ class LinkHandler(BaseHandler):
         link = Link.objects(id=id).first()
         if not link:
             raise tornado.web.HTTPError(404)
+        if link.url:
+            link.url_domain = urlparse(link.url).netloc
         self.vars.update({'link': link})
         self.render('links/get.html', **self.vars)
 

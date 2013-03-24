@@ -37,54 +37,6 @@
 
     <!--<script src="/static/js/modules_bundle.js"></script>-->
 
-
-    <script type="text/javascript">
-       function adjust_post() {
-         $('.post').each(function(i, o) {
-             var h = $(this).height();
-             console.log(h);
-             h = h / 2 - 38;
-             $(this).closest('.post').children('.avatar').css({'margin-top': h});
-
-             if($(this).height() == 100) {
-              $(this).closest('.post').children('.info').css({'margin-top': 22});
-             }
-         });
-       };
-
-       function fix_scrolling_streams() {
-         // Fix featured and non-featured post stream
-          var top_height = $('#navigation_bar').height() + $('#featured_posts_bar').height() + 25;
-          $('#featured_post_stream').height($(window).innerHeight() - top_height);
-          $('#post_stream').height($(window).innerHeight() - top_height);
-       }
-
-      $(window).resize(function() { 
-          adjust_post();
-          fix_scrolling_streams();
-      });
-
-      $(function() {
-          // Fix featured post borders
-          $('.post.featured').prev().css({'border-bottom': 'none'});
-          // Fix left featured post stream height
-          fix_scrolling_streams();
-          // Fix mobile Safari quirks
-          $('#myimage').click(function() { return false; });
-          $('#myimage').off('click');
-          $("#navigation_button").tappable(function() {
-            $("#navigation_button").toggleClass("active");
-            $("#navigation_items").collapse('toggle');
-           });
-
-          // Hide iPhone URL bar
-          window.scrollTo(0, 1);
-
-          // Fixup avatars and title
-          adjust_post();
-       });
-    </script>
-
     {% block javascript %}
     {% end %}
   </head>

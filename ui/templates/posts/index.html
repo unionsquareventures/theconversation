@@ -3,6 +3,52 @@
 {% block title %}Posts{% end %}
 
 {% block javascript %}
+    <script type="text/javascript">
+       function adjust_post() {
+         $('.post').each(function(i, o) {
+             var h = $(this).height();
+             console.log(h);
+             h = h / 2 - 38;
+             $(this).closest('.post').children('.avatar').css({'margin-top': h});
+
+             if($(this).height() == 100) {
+              $(this).closest('.post').children('.info').css({'margin-top': 22});
+             }
+         });
+       };
+
+       function fix_scrolling_streams() {
+         // Fix featured and non-featured post stream
+          var top_height = $('#navigation_bar').height() + $('#featured_posts_bar').height() + 25;
+          $('#featured_post_stream').height($(window).innerHeight() - top_height);
+          $('#post_stream').height($(window).innerHeight() - top_height);
+       }
+
+      $(window).resize(function() { 
+          adjust_post();
+          fix_scrolling_streams();
+      });
+
+      $(function() {
+          // Fix featured post borders
+          $('.post.featured').prev().css({'border-bottom': 'none'});
+          // Fix left featured post stream height
+          fix_scrolling_streams();
+          // Fix mobile Safari quirks
+          $('#myimage').click(function() { return false; });
+          $('#myimage').off('click');
+          $("#navigation_button").tappable(function() {
+            $("#navigation_button").toggleClass("active");
+            $("#navigation_items").collapse('toggle');
+           });
+
+          // Hide iPhone URL bar
+          window.scrollTo(0, 1);
+
+          // Fixup avatars and title
+          adjust_post();
+       });
+    </script>
 {% end %}
 
 {% block content %}
@@ -13,9 +59,11 @@
 
           <div id="featured_post_stream">
                 {% for post in featured_posts %}
+                    {% set path = '%ss' % post._class_name.split('.')[1].lower() %}
+
                     <div class="post featured">
                         <div class="info">
-                            <a href="#" class="title">
+                            <a href="/{{ path }}/{{ post.id }}" class="title">
                                 <p>
                                     {{ post.title }}
                                 </p>
@@ -23,11 +71,11 @@
                             <p class="content">
                                 {{ post.body_html }}
                             </p>
-                            <a href="#" class="continue_button">Continue</a>
+                            <a href="/{{ path }}/{{ post.id }}" class="continue_button">Continue</a>
                             <div class="featured_info">
                                 <a href="#" class="user">@bwatts</a>
                                 <p class="featured_info_divider">/</p>
-                                <a href="#" class="votes">{{ post.date_created.strftime("%d %b %Y") }}</a>
+                                <a href="#" class="date">{{ post.date_created.strftime("%d %b %Y") }}</a>
                                 <p class="featured_info_divider">/</p>
                                 <a href="#" class="replies"><i class="icon-comment icon"></i>&nbsp;12</a>
                             </div>
@@ -46,19 +94,21 @@
 
         <div id="post_stream">
             {% for post in posts %}
+                {% set path = '%ss' % post._class_name.split('.')[1].lower() %}
+
                 <div class="post">
                     <img src="/static/images/fred.jpg" class="img-circle avatar" alt="fred" />
                     <div class="info">
-                        <a href="/post.html" class="title">
+                        <a href="/{{ path }}/{{ post.id }}" class="title">
                             <p>
                                 {{ post.title }}
                             </p>
                         </a>
-                        <a href="#" class="site">sciencemag.org</a>
+                        <a href="/{{ path }}/{{ post.id }}" class="site">sciencemag.org</a>
                         <br/>
-                        <a href="#" class="user"><i class="icon-twitter icon"></i>@{{ post.user.username }}</a>
-                        <a href="#" class="comments"><i class="icon-comment icon"></i>12 comments</a>
-                        <a href="#" class="votes"><i class="icon-arrow-up icon"></i>{{ post.votes }} votes</a>
+                        <a href="/{{ path }}/{{ post.id }}" class="user"><i class="icon-twitter icon"></i>@{{ post.user.username }}</a>
+                        <a href="/{{ path }}/{{ post.id }}" class="comments"><i class="icon-comment icon"></i>12 comments</a>
+                        <a href="/{{ path }}/{{ post.id }}" class="votes"><i class="icon-arrow-up icon"></i>{{ post.votes }} votes</a>
                     </div>
                 </div>
             {% end %}

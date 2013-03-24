@@ -8,127 +8,141 @@
 {% end %}
 
 {% block javascript %}
-<script src="/static/js/annotator-full.min.js"></script>
-<script type="text/javascript">
-        $(document).ready(function(){
+    <script type="text/javascript">
+       function adjust_post() {
+         $('.info').each(function(i, o) {
+             var h = $(this).height();
+             console.log(h);
+             h = h / 2 - 26;
+             $(this).closest('.post').children('.avatar').css({'margin-top': h});
+         });
+       };
 
-          Annotator.Plugin.Disqus = function (element) {
-                var disqusPlugin = {};
-                disqusPlugin.pluginInit = function () {
-                        this.annotator
-                        .subscribe("annotationViewerShown", function(viewer, annotations) {
-                            //$(viewer.element).children().children(".annotator-item:not(:last)").remove()
-                        });
+      $(window).resize(function() { 
+          adjust_post();
+      });
 
-                        this.annotator
-                        .subscribe("annotationViewerTextField", function (field, annotation) {
-                                var ids = annotation['id'].split('_');
-                                var disqus_frame = '<div class="annotation">'
-                                    + '<h3>"' + annotation['quote'] + '"</h3><br/>'
-                                    + '<iframe class="disqus"'
-                                     + 'src="/disqus?content_id=' + ids[0] + '&annotation_number='
-                                            + ids[1] + '"></iframe></div>';
-                                $(field).html(disqus_frame);
-                              
-                            });
-                };
-                return disqusPlugin;
-            };
+      $(function() {
+          // Fix mobile Safari quirks
+          $('#navigation_button').click(function() { return false; });
+          $('#navigation_button').off('click');
+          $("#navigation_button").tappable(function() {
+            $("#navigation_button").toggleClass("active");
+            $("#navigation_items").collapse('toggle');
+           });
 
-          var a = $(".post_content").annotator();
-          a.annotator('addPlugin', 'Disqus');
-          var url = window.location.href;
-          var arr = url.split("/");
-          var prefix = arr[0] + "//" + arr[2];
-          a.annotator('addPlugin', 'Store', {
-              // The endpoint of the store on your server.
-              prefix: prefix,
+          // Hide iPhone URL bar
+          window.scrollTo(0, 1);
 
-              // Attach the uri of the current page to all annotations to allow search.
-              annotationData: {
-                'post_id': '{{ link.id }}'
-              },
-
-              // This will perform a "search" action rather than "read" when the plugin
-              // loads. Will request the last 20 annotations for the current url.
-              // eg. /store/endpoint/search?limit=20&uri=http://this/document/only
-              loadFromSearch: {
-                'limit': 20,
-                'post_id': '{{ link.id }}'
-              },
-              urls: {
-                search: '/annotations',
-              }
-          });
-        });
-</script>
-<script type="text/javascript">
-$(function() {
-    $(".embed_frame").jScroll({top: 70});
-});
-</script>
+          // Fixup avatars and title
+          adjust_post();
+       });
+    </script>
 {% end %}
 
 {% block content %}
-<div class="container-fluid" style="height: 100%; padding: 0px; margin: 0px;">
-<div class="row-fluid" style="height: 100%;">
-
-
-  <div class=""  style="width: {{ "50%" if link.left_url else "1000px" }}; height: 90%;
-                          margin: {{ "0px" if link.left_url else "0px auto !important" }};
-                          padding: 0px 0px 0px 0px; {{ "float: left;" if link.left_url else "" }}">
-    <div class="post post_detail" style="height: 90% !important; margin: 0px 10px 0px 10px;">
-        <h1>
-            <a href="/links/{{ link.id }}">{{ link.title }}</a>
-          </h1>
-
-        <div style="margin-top: 10px;">
-        <div style="width: 90px; height: 50px; float: left; margin: 0px 15px 0px 0px;">
-            {% module vote_button(object=link, user=user, detail=True) %}
-        </div>
-
-        <p class="post_info">
-            {% if link.user.auth_type == 'twitter' %}
-                <span class="icon-user"></span> 
-                <a href="http://twitter.com/{{ link.user.username }}">
-                    @{{ link.user.username }}
-                </a>
-            {% end %}
-            <span class="icon-calendar"></span>
-            <a href="#">{{ link.date_created.strftime("%B %d, %Y") }}</a>
-            {% if link.url %}
-                <br/><span class="icon-share-alt"></span>
-                <a href="{{ link.url }}" style="font-style: italic;">
-                    {{ link.url }}
-                  </a>
-            {% end %}
-        </p>
+    <div id="post_stream_bar" class="detail column_header">
+      <div class="buttons_container">
+        <div class="post_buttons">
+          <!--
+          <button type="submit" class="btn upvote"><i class="icon-arrow-up icon"></i>&nbsp;&nbsp;Upvote</button>
+          <button type="submit" class="btn share"><i class="icon-share icon"></i>&nbsp;&nbsp;Share</button>
+          -->
+         <a href="#"><i class="icon-arrow-up icon"></i>&nbsp;&nbsp;({{ link.votes }}) Upvote</a>
+         <a href="#"><i class="icon-share icon"></i>&nbsp;&nbsp;Share</a>
+         <a href="#"><i class="icon-pencil icon"></i>&nbsp;&nbsp;Edit</a>
        </div>
 
+        <!--
+         <a href="#"><i class="icon-arrow-up icon"></i>&nbsp;&nbsp;(23) Upvote</a>
+         <a href="#"><i class="icon-share icon"></i>&nbsp;&nbsp;Share</a>
+         <a href="#"><i class="icon-pencil icon"></i>&nbsp;&nbsp;Edit</a>
+         -->
+        
+        <div class="share_buttons">
+              <div class="share_button twitter">
+                <a href="https://twitter.com/share" class="twitter-share-button" data-via="usv">Tweet</a>
+                <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+              </div>
+              <div class="share_button tumblr">
+                <script src="http://platform.tumblr.com/v1/share.js"></script>
+                <a href="http://www.tumblr.com/share" title="Share on Tumblr" style="display:inline-block; text-indent:-9999px; overflow:hidden; width:81px; height:20px; background:url('http://platform.tumblr.com/v1/share_1.png') top left no-repeat transparent;">Share on Tumblr</a>
+              </div>
 
-
-        <br/><br/>
-        <!--<a href="{{ link.url }}">{{ link.url }}</a>-->
-        <div class="post_content">{% raw (link.body_html or '') %}</div>
-
-        <br/>
-        {% if len(link.tags) %}
-        <br/><b>Category:</b>
-            {% module tags_view(objects=link.tags, view_type="links", current_tag="", fix=True) %}
-            <br/><br/>
-        {% end %}
-        <br/>
-        {% if link.bottom_url %}
-        <div class="question"><iframe class="disqus" src="{{ link.bottom_url }}"></iframe></div>
-        {% end %}
+              <div class="share_button facebook">
+                <div id="fb-root"></div>
+                <script>(function(d, s, id) {
+                  var js, fjs = d.getElementsByTagName(s)[0];
+                  if (d.getElementById(id)) return;
+                  js = d.createElement(s); js.id = id;
+                  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=308096535964850";
+                  fjs.parentNode.insertBefore(js, fjs);
+                  }(document, 'script', 'facebook-jssdk'));</script>
+                <div class="fb-like" data-send="false" data-layout="button_count" data-width="450" data-show-faces="false" data-font="arial" data-colorscheme="dark"></div>
+              </div>
         </div>
-  </div>
+      </div>
 
-  {% if link.left_url %}
-  <div class="embed_frame" style="width: 50%; height: 90%; float: left;">
-    {% module content_frame(link=link) %}
-  </div>
-  {% end %}
-</div>
-</div>
+      <!--
+      <div class="post_buttons">
+         <button type="submit" class="btn"><i class="icon-share icon"></i>&nbsp;&nbsp;Share</button>
+         <button type="submit" class="btn"><i class="icon-arrow-up icon"></i>&nbsp;&nbsp;Upvote</button>
+         <button type="submit" class="btn"><i class="icon-pencil icon"></i>&nbsp;&nbsp;Edit</button>
+       </div>
+       -->
+    </div>
+
+    <div id="content">
+      {% set path = '%ss' % link._class_name.split('.')[1].lower() %}
+      <div class="post detail">
+        <img src="/static/images/fred.jpg" class="img-circle avatar" alt="fred" />
+        <div class="info">
+          <a href="{{ link.url or "/%s/%s" % (path, link.id) }}" class="title">
+            <p>
+              {{ link.title }}
+            </p>
+          </a>
+          <div class="metadata">
+            {% if link.url %}
+              <a href="link.url" class="site"><i class="icon-link icon"></i>{{ link.url_domain }}</a>
+            {% end %}
+            <a href="#" class="user"><i class="icon-user icon"></i>@{{ link.user.username }}</a>
+            <a href="#" class="date"><i class="icon-calendar icon"></i>{{ link.date_created.strftime("%B %d, %Y") }}</a>
+            <a href="#" class="comments"><i class="icon-comment icon"></i>12 comments</a>
+            <a href="#" class="votes"><i class="icon-arrow-up icon"></i>{{ link.votes }} votes</a>
+          </div>
+        </div>
+
+        <div class="content">
+          {% raw link.body_html %}
+      <hr/>
+          <div class="hackpad">
+            <b><i class="icon-edit icon"></i> Hackpad: </b>
+            <a href="#" class="hackpad_link">Re-Imagining the Book</a>
+          </div>
+      <hr/>
+        </div>
+        <div class="byline">
+        </div>
+      <div id="disqus_thread"></div>
+      <script type="text/javascript">
+           (function() {
+              var disqus_shortname = 'usv'; // required: replace example with your forum shortname
+              var disqus_developer = 1; // developer mode is on
+              var disqus_identifier = "{{ link.id }}_0";
+              var disqus_url = "/posts/{{ link.id }}#0";
+
+              (function() {
+                  var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                  dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+                  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+              })();
+          })();
+      </script>
+      <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+      <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+
+      </div>
+    </div>
 {% end %}
