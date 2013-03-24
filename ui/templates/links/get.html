@@ -116,12 +116,14 @@
 
         <div class="content">
           {% raw link.body_html %}
-      <hr/>
-          <div class="hackpad">
-            <b><i class="icon-edit icon"></i> Hackpad: </b>
-            <a href="{{ link.hackpad_url }}#" class="hackpad_link">{{ link.hackpad_url.split('/')[-1] }}</a>
-          </div>
-      <hr/>
+          <hr/>
+          {% if link.hackpad_url %}
+            <div class="hackpad">
+              <b><i class="icon-edit icon"></i> Hackpad: </b>
+              <a href="{{ link.hackpad_url }}#" class="hackpad_link">{{ link.hackpad_url.split('/')[-1] }}</a>
+            </div>
+            <hr/>
+          {% end %}
         </div>
         <div class="byline">
         </div>
