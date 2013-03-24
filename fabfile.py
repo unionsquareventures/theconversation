@@ -7,7 +7,7 @@ def prod():
     env.deployment_stage = 'production'
     env.user = 'ubuntu'
     env.hosts = [
-        'beta.usv.com'
+        '23.21.41.77'
     ]
 
 def staging():
