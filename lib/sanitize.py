@@ -1,10 +1,14 @@
 import bleach
 
-allowed_tags = ['a', 'b', 'p', 'i', 'blockquote', 'span', 'ul', 'li', 'img', 'strong', 'pre']
+allowed_tags = ['a', 'b', 'p', 'i', 'blockquote', 'span', 'ul', 'li', 'img',
+                'strong', 'pre', 'iframe', 'object', 'embed']
 allowed_attrs = {
     '*': ['style', 'class'],
     'a': ['href', 'rel'],
     'img': ['src', 'alt', 'width', 'height'],
+    'iframe': ['src', 'frameborder', 'width', 'height'],
+    'embed': ['src', 'type', 'width', 'height'],
+    'object': ['data', 'type', 'width', 'height'],
 }
 allowed_styles = ['text-decoration']
 
@@ -19,6 +23,10 @@ def html_sanitize(input):
 
 allowed_preview_tags = list(allowed_tags)
 allowed_preview_tags.remove('img')
+allowed_preview_tags.remove('iframe')
+allowed_preview_tags.remove('object')
+allowed_preview_tags.remove('embed')
+
 def html_sanitize_preview(input):
     return bleach.clean(input, tags=[], attributes=[], styles=[], strip=True)
 

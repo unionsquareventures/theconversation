@@ -87,7 +87,7 @@ class LinkHandler(BaseHandler):
 
         # Content
         body_raw = attributes.get('body_raw', '')
-        body_html = html_sanitize(linkify(body_raw))
+        body_html = html_sanitize(body_raw)
 
         # Handle Hackpad
         if attributes.get('has_hackpad'):
