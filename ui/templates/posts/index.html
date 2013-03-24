@@ -99,12 +99,16 @@
                 <div class="post">
                     <img src="/static/images/fred.jpg" class="img-circle avatar" alt="fred" />
                     <div class="info">
-                        <a href="/{{ path }}/{{ post.id }}" class="title">
+                        <a href="{{ post.url or "/%s/%s" % (path, post.id) }}" class="title">
                             <p>
                                 {{ post.title }}
                             </p>
                         </a>
-                        <a href="/{{ path }}/{{ post.id }}" class="site">sciencemag.org</a>
+                        {% if post.url %}
+                            <a href="{{ post.url }}" class="site">{{ urlparse(post.url).netloc }}</a>
+                        {% else %}
+                            <a href="{{ "/%s/%s" % (path, post.id) }}" class="site">usv.com</a>
+                        {% end %}
                         <br/>
                         <a href="/{{ path }}/{{ post.id }}" class="user"><i class="icon-twitter icon"></i>@{{ post.user.username }}</a>
                         <a href="/{{ path }}/{{ post.id }}" class="comments"><i class="icon-comment icon"></i>12 comments</a>

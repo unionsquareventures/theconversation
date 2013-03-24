@@ -15,6 +15,7 @@ from base import BaseHandler
 
 import mongoengine
 from models import Post, User, Question, Tag, Content
+from urlparse import urlparse
 
 class PostHandler(BaseHandler):
     def __init__(self, *args, **kwargs):
@@ -45,6 +46,7 @@ class PostHandler(BaseHandler):
             'featured_posts': featured_posts,
             'tags': tags,
             'current_tag': tag,
+            'urlparse': urlparse,
         })
         self.render('posts/index.html', **self.vars)
 
