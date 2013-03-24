@@ -37,8 +37,8 @@ class PostHandler(BaseHandler):
         featured_posts = list(Content.objects(featured=True).order_by('-date_created'))
 
         for post in featured_posts:
-                post['body_html'] = html_sanitize_preview(post['body_html'])
                 post['body_html'] = truncate(post['body_html'], 500, ellipsis='')
+                post['body_html'] = html_sanitize_preview(post['body_html'])
         tags = Tag.objects()
         self.vars.update({
             'posts': posts,

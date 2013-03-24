@@ -16,7 +16,7 @@
   background-color: #eeeedd;
   padding: 10px;
   width: 210px;
-  height: 290px;
+  padding-bottom: 90px;
   margin: 0px auto 10px auto;
 }
 #featured_posts .post.featured a:hover {
@@ -35,6 +35,8 @@
   font-size: 12px;
   line-height: 16px;
   padding: 10px 10px 0px 10px;
+  height: 128px;
+  overflow: hidden;
 }
 #featured_posts .post.featured .continue_button {
   line-height: 20px;

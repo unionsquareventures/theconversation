@@ -21,13 +21,13 @@
                                 </p>
                             </a>
                             <p class="content">
-                                We recently created the USV Portfolio Timeline so that we could better understand how our approach to investing has evolved with the market. We often reflect on these trends, and we wanted to create an alternate view of the USV portfolio that organizes our...
+                                {{ post.body_html }}
                             </p>
                             <a href="#" class="continue_button">Continue</a>
                             <div class="featured_info">
                                 <a href="#" class="user">@bwatts</a>
                                 <p class="featured_info_divider">/</p>
-                                <a href="#" class="votes">30 Nov 2012</a>
+                                <a href="#" class="votes">{{ post.date_created.strftime("%d %b %Y") }}</a>
                                 <p class="featured_info_divider">/</p>
                                 <a href="#" class="replies"><i class="icon-comment icon"></i>&nbsp;12</a>
                             </div>

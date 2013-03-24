@@ -16,7 +16,5 @@ def html_sanitize(input):
 allowed_preview_tags = allowed_tags
 allowed_preview_tags.remove('img')
 def html_sanitize_preview(input):
-    return bleach.clean(input, tags=allowed_preview_tags,
-                         attributes=allowed_attrs,
-                         styles=allowed_styles, strip=True)
+    return bleach.clean(input, tags=[], attributes=[], styles=[], strip=True)
 
