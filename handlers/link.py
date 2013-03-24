@@ -10,7 +10,7 @@ from collections import defaultdict
 from itertools import groupby
 from operator import itemgetter
 import os
-from lib.sanitize import html_sanitize
+from lib.sanitize import html_sanitize, linkify
 from lib.hackpad import HackpadAPI
 from base import BaseHandler
 

@@ -2,15 +2,20 @@
 
 {% block title %}Submit{% end %}
 
+{% block css %}
+<link rel="stylesheet" type="text/css" href="/static/css/new_new.css" />
+<style type="text/css">
+    .container-fluid {
+        margin-top: 50px !important;
+    }
+</style>
+{% end %}
+
 {% block javascript %}
 <script type="text/javascript" src="/static/js/tiny_mce/jquery.tinymce.js"></script>
 
 <script type="text/javascript">
 $(function() {
-    $(".embed_frame").jScroll({top: 70});
-
-    $(".submit_content").hide();
-
     $('.post_submit_bar .btn').on("click", function(e) {
        $('.post_form').submit();
     });
@@ -46,11 +51,6 @@ $(function() {
       <div style="width: 900px; height: 100%; margin: 0px; padding: 0px; display: table-cell;">
               {% module link_form(user=user, model=model, errors=errors, settings=settings) %}
       </div>
-
-    <div class="" style="width: 950px; display: table-cell; height: 800px; float: left; margin-bottom: 100px;" id="hackpad">
-        {% module hackpad_form(user=user) %}
-    </div>
-
   </div>
 </div>
 

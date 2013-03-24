@@ -97,7 +97,7 @@
                 {% set path = '%ss' % post._class_name.split('.')[1].lower() %}
 
                 <div class="post">
-                    <img src="/static/images/fred.jpg" class="img-circle avatar" alt="fred" />
+                    <img src="http://api.twitter.com/1/users/profile_image?screen_name={{ post.user.username }}&size=original" class="img-circle avatar" alt="avatar" />
                     <div class="info">
                         <a href="{{ post.url or "/%s/%s" % (path, post.id) }}" class="title">
                             <p>
