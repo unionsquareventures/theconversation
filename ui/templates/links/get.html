@@ -41,6 +41,8 @@
 {% end %}
 
 {% block content %}
+  {% set path = '%ss' % link._class_name.split('.')[1].lower() %}
+
     <div id="post_stream_bar" class="detail column_header">
       <div class="buttons_container">
         <div class="post_buttons">
@@ -48,7 +50,7 @@
           <button type="submit" class="btn upvote"><i class="icon-arrow-up icon"></i>&nbsp;&nbsp;Upvote</button>
           <button type="submit" class="btn share"><i class="icon-share icon"></i>&nbsp;&nbsp;Share</button>
           -->
-         <a href="#"><i class="icon-arrow-up icon"></i>&nbsp;&nbsp;({{ link.votes }}) Upvote</a>
+         <a href="/{{ path }}/{{ link.id }}/upvote?detail=true"><i class="icon-arrow-up icon"></i>&nbsp;&nbsp;({{ link.votes }}) Upvote</a>
          <a href="#"><i class="icon-share icon"></i>&nbsp;&nbsp;Share</a>
          <a href="#"><i class="icon-pencil icon"></i>&nbsp;&nbsp;Edit</a>
        </div>
@@ -93,7 +95,6 @@
     </div>
 
     <div id="content">
-      {% set path = '%ss' % link._class_name.split('.')[1].lower() %}
       <div class="post detail">
         <img src="/static/images/fred.jpg" class="img-circle avatar" alt="fred" />
         <div class="info">
