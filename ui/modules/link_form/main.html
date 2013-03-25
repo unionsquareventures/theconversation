@@ -26,6 +26,10 @@
   <form action="/links{{ ('/' + model.id) if model.id else '' }}" method="post" class="post_form">
       <div class="form_contents">
           {% module xsrf_form_html() %}
+          {% set hackpad_icon = lambda x: '<div class="input-prepend hackpad_input"><span class="add-on">'\
+                                              '<img src="/static/images/hackpad_icon.png" alt="hackpad"></span>%s</div>' % x
+                                          %}
+
           {% set link_icon = lambda x: '<div class="input-prepend"><span class="add-on">'\
                                               '<i class="icon-bookmark"></i></span>%s</div>' % x
           %}
@@ -48,7 +52,7 @@
           {
             'name': 'hackpad_url',
             'placeholder': 'Hackpad URL',
-            'wrapper': wrap_text,
+            'wrapper': hackpad_icon,
           },
           {
             'name': 'featured',
