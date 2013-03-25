@@ -73,7 +73,7 @@
                             </div>
                             <a href="/{{ path }}/{{ post.id }}" class="continue_button">Continue</a>
                             <div class="featured_info">
-                                <a href="#" class="user">@bwatts</a>
+                                <a href="#" class="user">{{ post.user.username }}</a>
                                 <p class="featured_info_divider">/</p>
                                 <a href="#" class="date">{{ post.date_created.strftime("%d %b %Y") }}</a>
                                 <p class="featured_info_divider">/</p>
