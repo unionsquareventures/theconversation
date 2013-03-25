@@ -34,7 +34,7 @@
 .link_form .form_contents .check_button{margin:0px 0px 10px 0px;}
 .link_form .form_contents .input-prepend{display:block;padding:0px 37px 0px 0px;}.link_form .form_contents .input-prepend .add-on{height:24px;}
 .link_form .form_contents .input-prepend .text_wrapper{padding:0px;display:inline-block;width:100%;}
-.link_form .form_contents .hackpad_input{padding:0px !important;margin-bottom:10px;width:818px !important;}.link_form .form_contents .hackpad_input input{margin:0px !important;padding:6px 4px !important;width:756px !important;}
+.link_form .form_contents .hackpad_input{padding:0px !important;margin-bottom:9px;width:818px !important;}.link_form .form_contents .hackpad_input input{margin:0px !important;padding:6px 4px !important;width:756px !important;}
 .link_form .form_contents .text_wrapper{padding:0px 10px 0px 0px;}
 .link_form #hackpad_modal .modal-body{text-align:left;}
 .link_form #hackpad_modal label{display:inline;margin:10px 5px;}
