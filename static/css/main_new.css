@@ -86,6 +86,7 @@
   position: absolute;
   top: 52px;
   left: 0px;
+  z-index: -5;
 }
 #post_stream {
   overflow: auto !important;
@@ -203,6 +204,9 @@
   height: 32px;
   text-align: center;
   color: #777;
+}
+#navigation_bar #navigation_items {
+  z-index: -4;
 }
 #navigation_bar #navigation_items li a:hover {
   text-decoration: none;
