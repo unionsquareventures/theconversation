@@ -92,7 +92,6 @@ class LinkHandler(BaseHandler):
         # Handle Hackpad
         if attributes.get('has_hackpad'):
             attributes['has_hackpad'] = True
-            #attributes['hackpad_id'] =
 
         attributes.update({
             'user': User(**self.get_current_user()),
@@ -111,7 +110,68 @@ class LinkHandler(BaseHandler):
         self.redirect('/links/%s' % link.id)
 
     def update(self, id):
-        pass
+        link = Link.objects(id=id).first()
+        if not link:
+            raise tornado.web.HTTPError(404)
+
+        if not self.get_current_user()['username'] == link.user['username']:
+            raise tornado.web.HTTPError(401)
+
+        attributes = {k: v[0] for k, v in self.request.arguments.iteritems()}
+        # Handle tags
+        tag_names = attributes.get('tags', '').split(',')
+        tag_names = [t.strip() for t in tag_names]
+        tag_names = [t for t in tag_names if t]
+        exising_names = [t.name for t in Tag.objects(name__in=tag_names)]
+        for name in tag_names:
+            if name in exising_names:
+                continue
+            tag = Tag(name=name)
+            tag.save()
+
+        # Content
+        body_raw = attributes.get('body_raw', '')
+        body_html = html_sanitize(body_raw)
+
+        # Handle Hackpad
+        if attributes.get('has_hackpad'):
+            attributes['has_hackpad'] = True
+
+        attributes.update({
+            'user': User(**self.get_current_user()),
+            'body_html': body_html,
+            'featured': True if attributes.get('featured') else False,
+            'tags': tag_names,
+        })
+
+        if attributes['_xsrf']:
+            del attributes['_xsrf']
+
+        attributes = {('set__%s' % k): v for k, v in attributes.iteritems()}
+        link.update(**attributes)
+        try:
+            link.save()
+        except mongoengine.ValidationError, e:
+            self.edit(link.id, errors=e.errors)
+            return
+
+        self.redirect('/links/%s' % link.id)
+
+    def edit(self, id, errors={}):
+        link = Link.objects(id=id).first()
+        if not link:
+            raise tornado.web.HTTPError(404)
+
+        if not self.get_current_user()['username'] == link.user['username']:
+            raise tornado.web.HTTPError(401)
+
+        # Link modification page
+        self.vars.update({
+            'model': link,
+            'errors': errors,
+        })
+        self.render('links/new.html', **self.vars)
+
 
     @tornado.web.authenticated
     def get(self, id='', action=''):
