@@ -26,6 +26,7 @@ class Content(Document):
     votes = IntField(default=0)
     voted_users = ListField(EmbeddedDocumentField(User))
     annotations = ListField(EmbeddedDocumentField(Annotation))
+    deleted = BooleanField(default=False)
 
     ignored_fields = ['body_html']
 
