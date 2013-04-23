@@ -89,7 +89,11 @@
             {% end %}
             <a href="http://twitter.com/{{ link.user.username }}" class="user" target="_blank"><i class="icon-user icon"></i>@{{ link.user.username }}</a>
             <a href="#" class="date"><i class="icon-calendar icon"></i>{{ link.date_created.strftime("%B %d, %Y") }}</a>
-            <a href="#" class="comments"><i class="icon-comment icon"></i>12 comments</a>
+            <span class="comments">
+              <i class="icon-comment icon"></i>
+              <a href="/{{ path }}/{{ link.id }}#disqus_thread" class="sub-comments" target="_blank">0</a>
+              <a href="/{{ path }}/{{ link.id }}" class="sub-comments" target="_blank">comments</a>
+            </span>
             <a href="#" class="votes"><i class="icon-arrow-up icon"></i>{{ link.votes }} votes</a>
           </div>
         </div>
@@ -134,8 +138,7 @@
             s.src = '//' + disqus_shortname + '.disqus.com/count.js';
             (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
         }());
-        </script>
-
+      </script>
 
       </div>
     </div>

@@ -31,10 +31,10 @@ class PostHandler(BaseHandler):
                 'tags': tag,
             })
         ordering = {
-            'votes': ('-votes', '-date_created'),
-            'recent': ('-date_created', '-votes')
+            'hot': ('-votes', '-date_created'),
+            'new': ('-date_created', '-votes')
         }
-        sort_by = self.get_argument('sort_by', 'recent')
+        sort_by = self.get_argument('sort_by', 'hot')
         posts = Content.objects(featured=False, **query).order_by(*ordering[sort_by])
         featured_posts = list(Content.objects(featured=True).order_by('-date_created'))
 
@@ -49,6 +49,7 @@ class PostHandler(BaseHandler):
 
         tags = Tag.objects()
         self.vars.update({
+            'sort_by': sort_by,
             'posts': posts,
             'featured_posts': featured_posts,
             'tags': tags,

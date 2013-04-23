@@ -1,5 +1,10 @@
 #featured_posts_bar {
 }
+a.sub-comments {
+  display: inline;
+  margin: 0px;
+  padding: 0px;
+}
 @featured_posts_width: 35%;
 #featured_posts {
   width: @featured_posts_width;
@@ -38,7 +43,7 @@
       line-height: 16px;
       padding: 10px 10px 0px 10px;
       width: 90%;
-      a {
+      a, span.comments {
         color: #88AA44;
       }
     }
@@ -74,7 +79,7 @@
       margin: 0px 2px;
       color: #acaca3;
     }
-    .replies {
+    .replies a, .replies {
       color: #88aa44 !important;
       margin: 0px;
       line-height: 13px;
@@ -108,7 +113,7 @@
       float: left;
       margin: 10px 15px 12px 20px;
     }
-    a {
+    a, span.comments {
       font-size: 12px;
       color: #888 !important;
       line-height: 18px;
@@ -292,7 +297,7 @@
       float: left;
       margin: 14px 20px 0px 0px;
     }
-    a {
+    a, span.comments {
       color: #383838;
       .icon {
         color: #383838;

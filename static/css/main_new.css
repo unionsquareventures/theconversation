@@ -1,3 +1,8 @@
+a.sub-comments {
+  display: inline;
+  margin: 0px;
+  padding: 0px;
+}
 #featured_posts {
   width: 35%;
   height: 1000px;
@@ -37,7 +42,8 @@
   padding: 10px 10px 0px 10px;
   width: 90%;
 }
-#featured_posts .post.featured .content a {
+#featured_posts .post.featured .content a,
+#featured_posts .post.featured .content span.comments {
   color: #88AA44;
 }
 #featured_posts .post.featured .continue_button {
@@ -72,6 +78,7 @@
   margin: 0px 2px;
   color: #acaca3;
 }
+#featured_posts .post.featured .replies a,
 #featured_posts .post.featured .replies {
   color: #88aa44 !important;
   margin: 0px;
@@ -104,7 +111,8 @@
   float: left;
   margin: 10px 15px 12px 20px;
 }
-#post_stream .post a {
+#post_stream .post a,
+#post_stream .post span.comments {
   font-size: 12px;
   color: #888 !important;
   line-height: 18px;
@@ -277,10 +285,12 @@
   float: left;
   margin: 14px 20px 0px 0px;
 }
-#content .post.detail a {
+#content .post.detail a,
+#content .post.detail span.comments {
   color: #383838;
 }
-#content .post.detail a .icon {
+#content .post.detail a .icon,
+#content .post.detail span.comments .icon {
   color: #383838;
 }
 #content .post.detail .metadata {
