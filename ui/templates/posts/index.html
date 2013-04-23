@@ -96,6 +96,36 @@
         </div>
 
         <div id="post_stream">
+            <div id="pinned_featured_posts">
+            {% for post in featured_posts[:5] %}
+                {% set path = '%ss' % post._class_name.split('.')[1].lower() %}
+
+                <div class="post featured">
+                    <img src="http://api.twitter.com/1/users/profile_image?screen_name={{ post.user.username }}&size=original" class="img-circle avatar" alt="avatar" />
+                    <div class="info">
+                        <a href="{{ post.url or "/%s/%s" % (path, post.id) }}" class="title" target="_blank">
+                            <p>
+                                {{ post.title }}
+                            </p>
+                        </a>
+                        {% if post.url %}
+                            <a href="{{ post.url }}" class="site" target="_blank">{{ urlparse(post.url).netloc }}</a>
+                        {% else %}
+                            <a href="{{ "/%s/%s" % (path, post.id) }}" class="site" target="_blank">usv.com</a>
+                        {% end %}
+                        <br/>
+                        <a href="http://twitter.com/{{ post.user.username }}" class="user" target="_blank"><i class="icon-twitter icon"></i>@{{ post.user.username }}</a>
+                        <span class="comments">
+                          <i class="icon-comment icon"></i>
+                          <a href="/{{ path }}/{{ post.id }}#disqus_thread" class="sub-comments" target="_blank">0</a>
+                          <a href="/{{ path }}/{{ post.id }}" class="sub-comments" target="_blank">comments</a>
+                        </span>
+                        <a href="/{{ path }}/{{ post.id }}" class="votes" target="_blank"><i class="icon-arrow-up icon"></i>{{ post.votes }} votes</a>
+                    </div>
+                </div>
+              {% end %}
+              </div>
+
             {% for post in posts %}
                 {% set path = '%ss' % post._class_name.split('.')[1].lower() %}
 

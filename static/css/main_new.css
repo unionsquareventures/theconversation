@@ -3,6 +3,9 @@ a.sub-comments {
   margin: 0px;
   padding: 0px;
 }
+#pinned_featured_posts {
+  display: none;
+}
 #featured_posts {
   width: 35%;
   height: 1000px;
@@ -344,6 +347,9 @@ a.sub-comments {
   margin-top: 20px;
 }
 @media (max-width: 874px) {
+  #pinned_featured_posts {
+    display: block;
+  }
   .post.detail .avatar {
     display: none;
   }
@@ -352,6 +358,9 @@ a.sub-comments {
   }
   .post.detail .info {
     margin: 0px !important;
+  }
+  #post_stream {
+    padding-top: 0px;
   }
   #post_stream .post .title p {
     padding: 0px 10px 0px 0px !important;
@@ -403,6 +412,9 @@ a.sub-comments {
   }
 }
 @media (min-width: 875px) {
+  #pinned_featured_posts {
+    display: none;
+  }
   #post_stream .post .title p {
     padding: 0px 40px 0px 0px !important;
   }
@@ -437,11 +449,17 @@ a.sub-comments {
   }
 }
 @media (max-width: 450px) {
+  #pinned_featured_posts {
+    display: block;
+  }
   .logo {
     margin-left: 10px !important;
   }
   #post_stream_bar {
     padding-left: 10px !important;
+  }
+  #post_stream {
+    padding-top: 0px;
   }
   #post_stream .post .avatar {
     display: none;
