@@ -49,7 +49,7 @@ class LinkHandler(BaseHandler):
         if not link:
             raise tornado.web.HTTPError(404)
         if link.deleted:
-            self.render_string("Deleted.")
+            self.write("Deleted.")
             return
         if link.url:
             link.url_domain = urlparse(link.url).netloc
