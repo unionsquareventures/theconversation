@@ -46,7 +46,7 @@ class LinkHandler(BaseHandler):
 
     def detail(self, id):
         link = Link.objects(id=id).first()
-        if not link:
+        if not link or link.deleted:
             raise tornado.web.HTTPError(404)
         if link.url:
             link.url_domain = urlparse(link.url).netloc
