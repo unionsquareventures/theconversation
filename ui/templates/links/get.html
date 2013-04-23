@@ -8,6 +8,8 @@
 {% end %}
 
 {% block javascript %}
+    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=xa-5176062660ab12cf"></script>
+
     <script type="text/javascript">
        function adjust_post() {
          $('.info').each(function(i, o) {
@@ -50,8 +52,17 @@
           <button type="submit" class="btn upvote"><i class="icon-arrow-up icon"></i>&nbsp;&nbsp;Upvote</button>
           <button type="submit" class="btn share"><i class="icon-share icon"></i>&nbsp;&nbsp;Share</button>
           -->
-         <a href="/{{ path }}/{{ link.id }}/upvote?detail=true"><i class="icon-arrow-up icon"></i>&nbsp;&nbsp;({{ link.votes }}) Upvote</a>
-         <a href="#"><i class="icon-share icon"></i>&nbsp;&nbsp;Share</a>
+         <a href="/{{ path }}/{{ link.id }}/upvote?detail=true">
+            <i class="icon-arrow-up icon"></i>&nbsp;&nbsp;({{ link.votes }}) Upvote
+         </a>
+         <a href="#" class="" onclick="javascript:addthis_sendto('more');">
+           <i class="icon-share icon"></i>&nbsp;&nbsp;Share
+         </a>
+
+
+<!-- AddThis Button BEGIN -->
+<!-- AddThis Button END -->
+
          <a href="/{{ path }}/{{ link.id }}/edit"><i class="icon-pencil icon"></i>&nbsp;&nbsp;Edit</a>
        </div>
 

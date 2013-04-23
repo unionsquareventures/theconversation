@@ -1,26 +1,26 @@
 #featured_posts_bar {
 }
+@featured_posts_width: 35%;
 #featured_posts {
-  width: 800px;
+  width: @featured_posts_width;
   height: 1000px;
   position: fixed;
-  border-left: 8px solid #333333;
+  border-right: 8px solid #333333;
   top: 52px;
-  right: 0px;
+  left: 0px;
   z-index: 1000;
   background-color: white;
   #featured_post_stream {
     overflow: auto !important;
-    padding-top: 10px;
+    padding: 10px 0px 0px 0px;
     height: 400px;
   }
   .post.featured {
     cursor: pointer !important;
     background-color: #eeeedd;
     padding: 10px;
-    width: 760px;
     padding-bottom: 90px;
-    margin: 0px auto 10px auto;
+    margin: 0px 10px 10px 10px;
 
     a:hover {
       text-decoration: none;
@@ -38,7 +38,7 @@
       font-size: 12px;
       line-height: 16px;
       padding: 10px 10px 0px 10px;
-      width: 725px !important;
+      width: 90%;
       a {
         color: #88AA44;
       }
@@ -89,7 +89,7 @@
   display: block;
   position: absolute;
   top: 52px;
-  left: 0px;
+  left: @featured_posts_width;
   z-index: -5;
 }
 
