@@ -3,8 +3,8 @@
 {% block title %}Posts{% end %}
 
 {% block javascript %}
-<script type="text/javascript">
-      function adjust_post() {
+    <script type="text/javascript">
+       function adjust_post() {
          $('.post').each(function(i, o) {
              var h = $(this).height();
              console.log(h);
@@ -24,7 +24,7 @@
           $('#post_stream').height($(window).innerHeight() - top_height);
        }
 
-      $(window).resize(function() {
+      $(window).resize(function() { 
           adjust_post();
           fix_scrolling_streams();
       });
@@ -44,6 +44,7 @@
 
           // Hide iPhone URL bar
           window.scrollTo(0, 1);
+
           // Fixup avatars and title
           adjust_post();
        });
@@ -110,7 +111,10 @@
                         {% end %}
                         <br/>
                         <a href="http://twitter.com/{{ post.user.username }}" class="user" target="_blank"><i class="icon-twitter icon"></i>@{{ post.user.username }}</a>
-                        <a href="/{{ path }}/{{ post.id }}" class="comments" target="_blank"><i class="icon-comment icon"></i>12 comments</a>
+                        <a href="/{{ path }}/{{ post.id }}" class="comments" target="_blank">
+                          <i class="icon-comment icon"></i>
+                          <a href="/{{ path }}/{{ post.id }}#disqus_thread" target="_blank">0 comments</a>
+                        </a>
                         <a href="/{{ path }}/{{ post.id }}" class="votes" target="_blank"><i class="icon-arrow-up icon"></i>{{ post.votes }} votes</a>
                     </div>
                 </div>
@@ -118,18 +122,16 @@
         </div>
     </div>
 
-    <div id="disqus_thread"></div>
     <script type="text/javascript">
-        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
-        var disqus_shortname = 'usvgamma'; // required: replace example with your forum shortname
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'usvgamma'; // required: replace example with your forum shortname
 
-        /* * * DON'T EDIT BELOW THIS LINE * * */
-        (function() {
-            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-        })();
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
     </script>
-    <br/><br/>
 {% end %}
-
