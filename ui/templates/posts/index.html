@@ -4,11 +4,7 @@
 
 {% block javascript %}
 <script type="text/javascript">
-      $(document).ready(function(){
-        $(this).scrollTop(0);
-      });
-
-       function adjust_post() {
+      function adjust_post() {
          $('.post').each(function(i, o) {
              var h = $(this).height();
              console.log(h);
@@ -28,7 +24,7 @@
           $('#post_stream').height($(window).innerHeight() - top_height);
        }
 
-      $(window).resize(function() { 
+      $(window).resize(function() {
           adjust_post();
           fix_scrolling_streams();
       });
@@ -48,7 +44,7 @@
 
           // Hide iPhone URL bar
           window.scrollTo(0, 1);
-
+          $(document).scrollTop(0);
           // Fixup avatars and title
           adjust_post();
        });
