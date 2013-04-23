@@ -16,7 +16,6 @@
     height: 400px;
   }
   .post.featured {
-    cursor: pointer !important;
     background-color: #eeeedd;
     padding: 10px;
     padding-bottom: 90px;
@@ -220,9 +219,11 @@
 
 #post_stream_bar.detail {
   /* adjust for buttons */
-  margin: 52px 0px 0px 0px;
   padding: 0px;
   height: 35px;
+  position: fixed;
+  top: 52px;
+  width: 100%;
 
   .buttons_container {
     width: 75%;
@@ -283,7 +284,7 @@
 #content {
   width: 75%;
   max-width: 800px;
-  margin: 20px auto 0px auto;
+  margin: 110px auto 0px auto;
   .post.detail {
     .avatar {
       width: 75px;

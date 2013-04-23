@@ -63,7 +63,7 @@
 
                     <div class="post featured">
                         <div class="info">
-                            <a href="/{{ path }}/{{ post.id }}" class="title">
+                            <a href="/{{ path }}/{{ post.id }}" class="title" target="_blank">
                                 <p>
                                     {{ post.title }}
                                 </p>
@@ -71,13 +71,13 @@
                             <div class="content">
                             {% raw post.body_html %}
                             </div>
-                            <a href="/{{ path }}/{{ post.id }}" class="continue_button">Continue</a>
+                            <a href="/{{ path }}/{{ post.id }}" class="continue_button" target="_blank">Continue</a>
                             <div class="featured_info">
-                                <a href="#" class="user">{{ post.user.username }}</a>
+                                <a href="http://twitter.com/{{ post.user.username }}" class="user" target="_blank">{{ post.user.username }}</a>
                                 <p class="featured_info_divider">/</p>
-                                <a href="#" class="date">{{ post.date_created.strftime("%d %b %Y") }}</a>
+                                <a href="/{{ path }}/{{ post.id }}" class="date" target="_blank">{{ post.date_created.strftime("%d %b %Y") }}</a>
                                 <p class="featured_info_divider">/</p>
-                                <a href="#" class="replies"><i class="icon-comment icon"></i>&nbsp;12</a>
+                                <a href="/{{ path }}/{{ post.id }}" class="replies" target="_blank"><i class="icon-comment icon"></i>&nbsp;12</a>
                             </div>
                         </div>
                     </div>
@@ -99,20 +99,20 @@
                 <div class="post">
                     <img src="http://api.twitter.com/1/users/profile_image?screen_name={{ post.user.username }}&size=original" class="img-circle avatar" alt="avatar" />
                     <div class="info">
-                        <a href="{{ post.url or "/%s/%s" % (path, post.id) }}" class="title">
+                        <a href="{{ post.url or "/%s/%s" % (path, post.id) }}" class="title" target="_blank">
                             <p>
                                 {{ post.title }}
                             </p>
                         </a>
                         {% if post.url %}
-                            <a href="{{ post.url }}" class="site">{{ urlparse(post.url).netloc }}</a>
+                            <a href="{{ post.url }}" class="site" target="_blank">{{ urlparse(post.url).netloc }}</a>
                         {% else %}
-                            <a href="{{ "/%s/%s" % (path, post.id) }}" class="site">usv.com</a>
+                            <a href="{{ "/%s/%s" % (path, post.id) }}" class="site" target="_blank">usv.com</a>
                         {% end %}
                         <br/>
-                        <a href="/{{ path }}/{{ post.id }}" class="user"><i class="icon-twitter icon"></i>@{{ post.user.username }}</a>
-                        <a href="/{{ path }}/{{ post.id }}" class="comments"><i class="icon-comment icon"></i>12 comments</a>
-                        <a href="/{{ path }}/{{ post.id }}" class="votes"><i class="icon-arrow-up icon"></i>{{ post.votes }} votes</a>
+                        <a href="http://twitter.com/{{ post.user.username }}" class="user" target="_blank"><i class="icon-twitter icon"></i>@{{ post.user.username }}</a>
+                        <a href="/{{ path }}/{{ post.id }}" class="comments" target="_blank"><i class="icon-comment icon"></i>12 comments</a>
+                        <a href="/{{ path }}/{{ post.id }}" class="votes" target="_blank"><i class="icon-arrow-up icon"></i>{{ post.votes }} votes</a>
                     </div>
                 </div>
             {% end %}
