@@ -3,7 +3,11 @@
 {% block title %}Posts{% end %}
 
 {% block javascript %}
-    <script type="text/javascript">
+<script type="text/javascript">
+      $(document).ready(function(){
+        $(this).scrollTop(0);
+      });
+
        function adjust_post() {
          $('.post').each(function(i, o) {
              var h = $(this).height();
