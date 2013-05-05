@@ -85,7 +85,7 @@
           </a>
           <div class="metadata">
             {% if link.url %}
-              <a href="link.url" class="site"><i class="icon-link icon"></i>{{ link.url_domain }}</a>
+              <a href="{{ link.url }}" class="site"><i class="icon-link icon"></i>{{ link.url_domain }}</a>
             {% end %}
             <a href="http://twitter.com/{{ link.user.username }}" class="user" target="_blank"><i class="icon-user icon"></i>@{{ link.user.username }}</a>
             <a href="#" class="date"><i class="icon-calendar icon"></i>{{ link.date_created.strftime("%B %d, %Y") }}</a>
