@@ -4,9 +4,7 @@ from lib.markdown.mdx_video import VideoExtension
 import datetime as dt
 
 from mongoengine import *
-from question import Question
 from user import User
-from annotation import Annotation
 
 class Content(Document):
     meta = {
@@ -20,12 +18,10 @@ class Content(Document):
     title = StringField(required=True, max_length=1000)
     date_created = DateTimeField(required=True)
     user = EmbeddedDocumentField(User, required=True)
-    questions = ListField(EmbeddedDocumentField(Question))
     tags = ListField(StringField())
     featured = BooleanField(default=False)
     votes = IntField(default=0)
     voted_users = ListField(EmbeddedDocumentField(User))
-    annotations = ListField(EmbeddedDocumentField(Annotation))
     deleted = BooleanField(default=False)
 
     ignored_fields = ['body_html']

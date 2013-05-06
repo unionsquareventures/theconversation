@@ -3,7 +3,6 @@ import tornado.web
 import tornado.auth
 import tornado.httpserver
 from markdown import markdown
-from lib.markdown.mdx_video import VideoExtension
 import datetime as dt
 import re
 from collections import defaultdict
@@ -14,7 +13,7 @@ from lib.sanitize import html_sanitize, linkify
 from lib.hackpad import HackpadAPI
 from base import BaseHandler
 import mongoengine
-from models import Link, User, Question, Tag, Post, Content
+from models import Link, User, Tag, Content
 
 from urlparse import urlparse
 from BeautifulSoup import BeautifulSoup
