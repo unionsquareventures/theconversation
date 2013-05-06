@@ -215,7 +215,7 @@ a.sub-comments {
   color: #777;
 }
 #navigation_bar #navigation_items {
-  z-index: 1000;
+  z-index: 1001;
 }
 #navigation_bar #navigation_items li a:hover {
   text-decoration: none;
@@ -228,6 +228,7 @@ a.sub-comments {
   position: fixed;
   top: 52px;
   width: 100%;
+  padding-left: 0px !important;
 }
 #post_stream_bar.detail .buttons_container {
   width: 75%;
