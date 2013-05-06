@@ -94,7 +94,7 @@ a.sub-comments {
   position: absolute;
   top: 52px;
   left: 35%;
-  z-index: -5;
+  z-index: 999;
 }
 #post_stream {
   overflow: auto !important;
@@ -215,7 +215,7 @@ a.sub-comments {
   color: #777;
 }
 #navigation_bar #navigation_items {
-  z-index: -4;
+  z-index: 1000;
 }
 #navigation_bar #navigation_items li a:hover {
   text-decoration: none;
