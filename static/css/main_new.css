@@ -348,6 +348,9 @@ a.sub-comments {
   margin-top: 20px;
 }
 @media (min-width: 875px) {
+  #post_column {
+    width: 65%;
+  }
   #pinned_featured_posts {
     display: none;
   }

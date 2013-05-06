@@ -342,7 +342,6 @@ a.sub-comments {
       margin: 30px 0px 0px 0px;
       a {
         color: #628b0b;
-        //border-bottom: 1px dotted #690;
       }
       a:hover {
         text-decoration: none;
@@ -358,6 +357,9 @@ a.sub-comments {
 }
 
 @media (min-width: 875px) {
+  #post_column {
+    width: 100% - @featured_posts_width;
+  }
   #pinned_featured_posts {
     display: none;
   }
