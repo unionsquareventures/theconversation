@@ -25,7 +25,7 @@ class LinkHandler(BaseHandler):
     def index(self):
         # list posts
         query = {}
-        tag = self.get_argument('tag', '')
+        tag = self.get_argument('tag', '').lower()
         if tag:
             query.update({
                 'tags': tag,
@@ -93,7 +93,7 @@ class LinkHandler(BaseHandler):
 
         # Handle tags
         tag_names = attributes.get('tags', '').split(',')
-        tag_names = [t.strip() for t in tag_names]
+        tag_names = [t.strip().lower() for t in tag_names]
         tag_names = [t for t in tag_names if t]
         exising_names = [t.name for t in Tag.objects(name__in=tag_names)]
         for name in tag_names:
@@ -137,7 +137,7 @@ class LinkHandler(BaseHandler):
         attributes = {k: v[0] for k, v in self.request.arguments.iteritems()}
         # Handle tags
         tag_names = attributes.get('tags', '').split(',')
-        tag_names = [t.strip() for t in tag_names]
+        tag_names = [t.strip().lower() for t in tag_names]
         tag_names = [t for t in tag_names if t]
         exising_names = [t.name for t in Tag.objects(name__in=tag_names)]
         for name in tag_names:
