@@ -34,12 +34,12 @@
 .link_form .form_contents .check_button{margin:0px 0px 10px 0px;}
 .link_form .form_contents .input-prepend{display:block;padding:0px 37px 0px 0px;}.link_form .form_contents .input-prepend .add-on{height:24px;}
 .link_form .form_contents .input-prepend .text_wrapper{padding:0px;display:inline-block;width:100%;}
-.link_form .form_contents .hackpad_input{padding:0px !important;margin-bottom:9px;width:818px !important;}.link_form .form_contents .hackpad_input input{margin:0px !important;padding:6px 4px !important;width:756px !important;}
+.link_form .form_contents .hackpad_input{padding:0px !important;margin-bottom:9px;}.link_form .form_contents .hackpad_input input{width:80%;margin:0px !important;padding:6px 4px !important;}
 .link_form .form_contents .text_wrapper{padding:0px 10px 0px 0px;}
 .link_form #hackpad_modal .modal-body{text-align:left;}
 .link_form #hackpad_modal label{display:inline;margin:10px 5px;}
 .link_form #hackpad_modal input[type=radio]{margin-bottom:10px;}
-.link_form #hackpad_modal input[type=text]{width:80%;margin:5px 0px 10px 10%;}
+.link_form #hackpad_modal input[type=text]{margin:5px 0px 10px 10%;}
 .tags_list{margin:0px 0px 0px 15px;padding:0;list-style:none;display:inline-block;}
 .tags_list .tag{margin:4px 10px 5px 10px padding: 0;float:left;position:relative;display:block;overflow:hidden;}
 .tags_list .tag a{font:bold 11px/22px 'Lucida Grande',Arial,Sans-serif;margin:1px;display:block;text-decoration:none;background:#fecd62;color:#a97837;padding:0 11px 0 22px;background:#fcc65e;background:-webkit-gradient(linear, left top, left bottom, from(#fede82), to(#fcc65e));background:-moz-linear-gradient(top, #fede82, #fcc65e);text-shadow:0 1px 0 rgba(255, 255, 255, 0.65);-webkit-border-radius:3px;-moz-border-radius:3px;border-radius:3px;-webkit-box-shadow:0 1px 0 0 rgba(255, 255, 255, 0.4) inset,0 -1px 0 0 #eebd55,0 1px 0 0 #daa03b,1px 0 0 0 #e2af47;-moz-box-shadow:0 1px 0 0 rgba(255, 255, 255, 0.4) inset,0 -1px 0 0 #eebd55,0 1px 0 0 #daa03b,1px 0 0 0 #e2af47;box-shadow:0 1px 0 0 rgba(255, 255, 255, 0.4) inset,0 -1px 0 0 #eebd55,0 1px 0 0 #daa03b,1px 0 0 0 #e2af47;}

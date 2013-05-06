@@ -37,10 +37,6 @@
           // Fix mobile Safari quirks
           $('#myimage').click(function() { return false; });
           $('#myimage').off('click');
-          $("#navigation_button").tappable(function() {
-            $("#navigation_button").toggleClass("active");
-            $("#navigation_items").collapse('toggle');
-           });
 
           // Hide iPhone URL bar
           window.scrollTo(0, 1);

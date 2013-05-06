@@ -1,28 +1,4 @@
 <div class="link_form">
-
-    <div class="hackpad_modal_container">
-        <div id="hackpad_modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-            <h3>Change Hackpad</h3>
-          </div>
-          <div class="modal-body">
-              <input type="radio" name="hackpad_type" id="hackpad_type_new" value="new" />
-              <label for="hackpad_type_new">New Hackpad</label>
-              <br/>
-              <input type="radio" name="hackpad_type" id="hackpad_type_url" value="url" />
-              <label for="hackpad_type_url">Hackpad by URL</label>
-              <input type="text" name="hackpad_url" placeholder="Hackpad URL" />
-              <br/>
-              <input type="radio" name="hackpad_type" id="hackpad_type_empty" value="empty" />
-              <label for="hackpad_type_empty">Empty</label>
-          </div>
-          <div class="modal-footer">
-            <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-            <button class="btn btn-primary" id="save_hackpad_btn">Save changes</button>
-          </div>
-        </div>
-    </div>
   <form action="/links{{ ('/' + str(model.id)) if model.id else '' }}" method="post" class="post_form">
       <div class="form_contents">
           {% module xsrf_form_html() %}
