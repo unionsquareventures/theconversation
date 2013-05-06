@@ -36,7 +36,7 @@ class LinkHandler(BaseHandler):
         }
         sort_by = self.get_argument('sort_by', 'hot')
         posts = Content.objects(featured=False, deleted=False, **query).order_by(*ordering[sort_by])
-        featured_posts = list(Content.objects(featured=True, deleted=False).order_by('-date_created'))
+        featured_posts = list(Content.objects(featured=True, deleted=False, **query).order_by('-date_created'))
 
         for post in featured_posts:
             soup = BeautifulSoup(post['body_html'])
