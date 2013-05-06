@@ -1,0 +1,61 @@
+{% extends "../base.html" %}
+
+{% block title %}Submit{% end %}
+
+{% block css %}
+<link rel="stylesheet" type="text/css" href="/static/css/new_new.css" />
+<style type="text/css">
+    .container-fluid {
+        margin-top: 50px !important;
+    }
+</style>
+{% end %}
+
+{% block javascript %}
+<script type="text/javascript" src="/static/js/tiny_mce/jquery.tinymce.js"></script>
+
+<script type="text/javascript">
+$(function() {
+    $('.post_submit_bar .btn').on("click", function(e) {
+       $('.post_form').submit();
+    });
+
+    $(".widget_chooser button").on("click", function(e) {
+      var elem = $(e.srcElement);
+      elem.closest('.btn-group').children('button').removeClass('active');
+      elem.addClass('active');
+
+      var inner_well = elem.closest('.well').children('.inner_well');
+      var well_value = inner_well.children('.well_value');
+
+      well_value.children(".well_input_type").val(elem.attr("name"));
+
+      if(elem.attr('name')=="none" || elem.attr('name')=="disqus") {
+        well_value.hide();
+        well_value.children(".well_input").val("");
+      } else {
+        well_value.show();
+      }
+      e.preventDefault();
+    });
+});
+</script>
+{% end %}
+
+{% block content %}
+<div class="container-fluid" style="height: 200%; padding: 0px; margin: 0px;">
+  <div class="row-fluid" style="height: 100%; text-align: center;display: table;
+  border-collapse: collapse;
+  width: 100%;">
+  <div style="width: 900px; display: block; margin: 0px auto;">
+      <div style="width: 900px; height: 100%; margin: 0px; padding: 0px; display: table-cell;">
+              {% module link_form(user=user, model=model, errors=errors, settings=settings) %}
+      </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+    $(function() {
+    });
+</script>
+{% end %}

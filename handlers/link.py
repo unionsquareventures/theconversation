@@ -13,13 +13,11 @@ import os
 from lib.sanitize import html_sanitize, linkify
 from lib.hackpad import HackpadAPI
 from base import BaseHandler
-
 import mongoengine
 from models import Link, User, Question, Tag, Post, Content
 
-import subprocess
-from multiprocessing import Process
 from urlparse import urlparse
+from BeautifulSoup import BeautifulSoup
 
 class LinkHandler(BaseHandler):
     def __init__(self, *args, **kwargs):
@@ -27,20 +25,37 @@ class LinkHandler(BaseHandler):
 
     def index(self):
         # list posts
-        query = {
-        }
+        query = {}
         tag = self.get_argument('tag', '')
         if tag:
             query.update({
                 'tags': tag,
             })
-        links = Content.objects(**query).order_by('-votes', '-date_created')
+        ordering = {
+            'hot': ('-votes', '-date_created'),
+            'new': ('-date_created', '-votes')
+        }
+        sort_by = self.get_argument('sort_by', 'hot')
+        posts = Content.objects(featured=False, deleted=False, **query).order_by(*ordering[sort_by])
+        featured_posts = list(Content.objects(featured=True, deleted=False).order_by('-date_created'))
+
+        for post in featured_posts:
+            soup = BeautifulSoup(post['body_html'])
+            post['body_html'] = soup.prettify()
+            #try:
+            #    post['body_html'] = truncate(post['body_html'], 500, ellipsis='...')
+            #except:
+            #    pass
+            #post['body_html'] = html_sanitize_preview(post['body_html'])
+
         tags = Tag.objects()
         self.vars.update({
-            'links': links,
+            'sort_by': sort_by,
+            'posts': posts,
+            'featured_posts': featured_posts,
             'tags': tags,
             'current_tag': tag,
-            "test": {"a": "one"},
+            'urlparse': urlparse,
         })
         self.render('links/index.html', **self.vars)
 

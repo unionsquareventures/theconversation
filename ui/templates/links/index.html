@@ -1,56 +1,171 @@
 {% extends "../base.html" %}
 
-{% block title %}Links{% end %}
+{% block title %}Posts{% end %}
 
-{% block css %}
-<link href="/static/css/home.css" rel="stylesheet">
+{% block javascript %}
+    <script type="text/javascript">
+       function adjust_post() {
+         $('.post').each(function(i, o) {
+             var h = $(this).height();
+             console.log(h);
+             h = h / 2 - 38;
+             $(this).closest('.post').children('.avatar').css({'margin-top': h});
+
+             if($(this).height() == 100) {
+              $(this).closest('.post').children('.info').css({'margin-top': 22});
+             }
+         });
+       };
+
+       function fix_scrolling_streams() {
+         // Fix featured and non-featured post stream
+          var top_height = $('#navigation_bar').height() + $('#featured_posts_bar').height() + 25;
+          $('#featured_post_stream').height($(window).innerHeight() - top_height);
+          $('#post_stream').height($(window).innerHeight() - top_height);
+       }
+
+      $(window).resize(function() { 
+          adjust_post();
+          fix_scrolling_streams();
+      });
+
+      $(function() {
+          // Fix featured post borders
+          $('.post.featured').prev().css({'border-bottom': 'none'});
+          // Fix left featured post stream height
+          fix_scrolling_streams();
+          // Fix mobile Safari quirks
+          $('#myimage').click(function() { return false; });
+          $('#myimage').off('click');
+          $("#navigation_button").tappable(function() {
+            $("#navigation_button").toggleClass("active");
+            $("#navigation_items").collapse('toggle');
+           });
+
+          // Hide iPhone URL bar
+          window.scrollTo(0, 1);
+
+          // Fixup avatars and title
+          adjust_post();
+       });
+    </script>
 {% end %}
 
 {% block content %}
-<style type="text/css">
-.top-bar {
-    height: 70px;
-  }
-</style>
+    <div id="featured_posts">
+          <div id="featured_posts_bar" class="column_header">
+            <p>Featured Posts</p>
+          </div>
 
-<div class="container-fluid" style="padding: 0px 20px;">
-    <div class="row-fluid">
-        <div class="top-bar navbar">
-            <div class="tags span12 navbar-inner">
-                <p class="section_label">
-                    USV Community
-                </p>
-                <input type="text" name="search" value="Search..." class="search-query content_search" />
-                {% module tags_view(objects=tags, current_tag=current_tag, view_type="links", fix=False) %}
-            </div>
+          <div id="featured_post_stream">
+                {% for post in featured_posts %}
+                    {% set path = '%ss' % post._class_name.split('.')[1].lower() %}
+
+                    <div class="post featured">
+                        <div class="info">
+                            <a href="/{{ path }}/{{ post.id }}" class="title" target="_blank">
+                                <p>
+                                    {{ post.title }}
+                                </p>
+                            </a>
+                            <div class="content">
+                            {% raw post.body_html %}
+                            </div>
+                            <a href="/{{ path }}/{{ post.id }}" class="continue_button" target="_blank">Continue</a>
+                            <div class="featured_info">
+                                <a href="http://twitter.com/{{ post.user.username }}" class="user" target="_blank">{{ post.user.username }}</a>
+                                <p class="featured_info_divider">/</p>
+                                <a href="/{{ path }}/{{ post.id }}" class="date" target="_blank">{{ post.date_created.strftime("%d %b %Y") }}</a>
+                                <p class="featured_info_divider">/</p>
+                                <span class="replies">
+                                  <i class="icon-comment icon"></i>&nbsp;
+                                  <a href="/{{ path }}/{{ post.id }}#disqus_thread" class="sub-comments" target="_blank">0</a>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                {% end %}
+          </div>
+    </div>
+
+    <div id="post_column">
+        <div id="post_stream_bar" class="column_header">
+          <p>Posts Stream</p>
+          <a href="?sort_by=hot" class="{{ 'selected' if sort_by == 'hot' else '' }}">hot</a>
+          <a href="?sort_by=new" class="{{ 'selected' if sort_by == 'new' else '' }}">new</a>
+        </div>
+
+        <div id="post_stream">
+            <div id="pinned_featured_posts">
+            {% for post in featured_posts[:5] %}
+                {% set path = '%ss' % post._class_name.split('.')[1].lower() %}
+
+                <div class="post featured">
+                    <img src="http://api.twitter.com/1/users/profile_image?screen_name={{ post.user.username }}&size=original" class="img-circle avatar" alt="avatar" />
+                    <div class="info">
+                        <a href="{{ post.url or "/%s/%s" % (path, post.id) }}" class="title" target="_blank">
+                            <p>
+                                {{ post.title }}
+                            </p>
+                        </a>
+                        {% if post.url %}
+                            <a href="{{ post.url }}" class="site" target="_blank">{{ urlparse(post.url).netloc }}</a>
+                        {% else %}
+                            <a href="{{ "/%s/%s" % (path, post.id) }}" class="site" target="_blank">usv.com</a>
+                        {% end %}
+                        <br/>
+                        <a href="http://twitter.com/{{ post.user.username }}" class="user" target="_blank"><i class="icon-twitter icon"></i>@{{ post.user.username }}</a>
+                        <span class="comments">
+                          <i class="icon-comment icon"></i>
+                          <a href="/{{ path }}/{{ post.id }}#disqus_thread" class="sub-comments" target="_blank">0</a>
+                          <a href="/{{ path }}/{{ post.id }}" class="sub-comments" target="_blank">comments</a>
+                        </span>
+                        <a href="/{{ path }}/{{ post.id }}" class="votes" target="_blank"><i class="icon-arrow-up icon"></i>{{ post.votes }} votes</a>
+                    </div>
+                </div>
+              {% end %}
+              </div>
+
+            {% for post in posts %}
+                {% set path = '%ss' % post._class_name.split('.')[1].lower() %}
+
+                <div class="post">
+                    <img src="http://api.twitter.com/1/users/profile_image?screen_name={{ post.user.username }}&size=original" class="img-circle avatar" alt="avatar" />
+                    <div class="info">
+                        <a href="{{ post.url or "/%s/%s" % (path, post.id) }}" class="title" target="_blank">
+                            <p>
+                                {{ post.title }}
+                            </p>
+                        </a>
+                        {% if post.url %}
+                            <a href="{{ post.url }}" class="site" target="_blank">{{ urlparse(post.url).netloc }}</a>
+                        {% else %}
+                            <a href="{{ "/%s/%s" % (path, post.id) }}" class="site" target="_blank">usv.com</a>
+                        {% end %}
+                        <br/>
+                        <a href="http://twitter.com/{{ post.user.username }}" class="user" target="_blank"><i class="icon-twitter icon"></i>@{{ post.user.username }}</a>
+                        <span class="comments">
+                          <i class="icon-comment icon"></i>
+                          <a href="/{{ path }}/{{ post.id }}#disqus_thread" class="sub-comments" target="_blank">0</a>
+                          <a href="/{{ path }}/{{ post.id }}" class="sub-comments" target="_blank">comments</a>
+                        </span>
+                        <a href="/{{ path }}/{{ post.id }}" class="votes" target="_blank"><i class="icon-arrow-up icon"></i>{{ post.votes }} votes</a>
+                    </div>
+                </div>
+            {% end %}
         </div>
     </div>
-</div>
 
-{#
-    <div class="frame" style="border: 1px solid black; height: 450px; padding:
-        0px; margin: 5px 20px 20px 20px;">
-        <div class="frame_label" style="float: left; text-align: left;
-            margin: 15px 10px 0px 20px; width: 100%;">
-            <p class="section_label" style="margin: 0px;">
-                USV Posts
-            </p>
-        </div>
-        {% module box_view(objects=posts, name="posts", user=user) %}
-    </div>
-#}
-      {% module box_view(objects=links, name="links", user=user, test=test) %}
+    <script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'usvgamma'; // required: replace example with your forum shortname
 
-<script type="text/javascript">
-/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
-var disqus_shortname = 'usv'; // required: replace example with your forum shortname
-
-/* * * DON'T EDIT BELOW THIS LINE * * */
-(function () {
-    var s = document.createElement('script'); s.async = true;
-    s.type = 'text/javascript';
-    s.src = 'http://' + disqus_shortname + '.disqus.com/count.js';
-    (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
-}());
-</script>
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+    </script>
 {% end %}

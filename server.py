@@ -21,12 +21,6 @@ from handlers.auth import TwitterLoginHandler
 from handlers.email import EmailHandler
 import ui
 
-# Main page
-class IndexHandler(BaseHandler):
-    @tornado.web.authenticated
-    def get(self):
-        self.redirect('/posts')
-
 define("port", default=8888, help="run on the given port", type=int)
 
 if __name__ == '__main__':
@@ -39,7 +33,7 @@ if __name__ == '__main__':
 
     logging.info('Starting server on port %s' % options.port)
     application = tornado.web.Application([
-            (r'/', IndexHandler),
+            (r'/', LinkHandler),
             (r'/auth/twitter/', TwitterLoginHandler),
             # Posts
             (r'/posts$', PostHandler),
