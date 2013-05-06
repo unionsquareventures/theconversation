@@ -51,6 +51,12 @@
 
           // Fixup avatars and title
           adjust_post();
+
+          // Share button handler
+          $('.addthis_share_button').click(function(e) {
+              addthis_sendto('more');
+              e.stopPropagation();
+          });
        });
     </script>
 {% end %}
@@ -64,7 +70,7 @@
          <a href="/{{ path }}/{{ link.id }}/upvote?detail=true">
             <i class="icon-arrow-up icon"></i>&nbsp;&nbsp;({{ link.votes }}) Upvote
          </a>
-         <a href="#" class="" onclick="javascript:addthis_sendto('more');">
+         <a href="#" class="addthis_share_button">
            <i class="icon-share icon"></i>&nbsp;&nbsp;Share
          </a>
          <a href="/{{ path }}/{{ link.id }}/edit">
