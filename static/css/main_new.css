@@ -460,6 +460,9 @@ a.sub-comments {
   }
 }
 @media (max-width: 450px) {
+  .post_buttons {
+    float: none !important;
+  }
   #pinned_featured_posts {
     display: block;
   }
