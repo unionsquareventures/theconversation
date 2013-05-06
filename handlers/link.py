@@ -82,6 +82,7 @@ class LinkHandler(BaseHandler):
             self.vars.update({
                 'model': model,
                 'errors': errors,
+                'edit_mode': False,
             })
             self.render('links/new.html', **self.vars)
 
@@ -186,6 +187,7 @@ class LinkHandler(BaseHandler):
         self.vars.update({
             'model': link,
             'errors': errors,
+            'edit_mode': True,
         })
         self.render('links/new.html', **self.vars)
 

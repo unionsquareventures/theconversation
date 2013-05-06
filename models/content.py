@@ -12,8 +12,8 @@ class Content(Document):
         'indexes': ['votes', 'date_created', 'tags'],
     }
 
-    body_raw = StringField(required=True)
-    body_html = StringField(required=True)
+    body_raw = StringField(required=False)
+    body_html = StringField(required=False)
     id = IntField(primary_key=True)
     title = StringField(required=True, max_length=1000)
     date_created = DateTimeField(required=True)

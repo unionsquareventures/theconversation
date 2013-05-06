@@ -1,5 +1,5 @@
 <div class="link_form">
-  <form action="/links{{ ('/' + str(model.id)) if model.id else '' }}" method="post" class="post_form">
+  <form action="/links{{ ('/' + str(model.id)) if edit_mode else '' }}" method="post" class="post_form">
       <div class="form_contents">
           {% module xsrf_form_html() %}
           {% set hackpad_icon = lambda x: '<div class="input-prepend hackpad_input"><span class="add-on">'\
@@ -37,7 +37,7 @@
           }]
           %}
 
-          {% if model.id %}
+          {% if edit_mode %}
               {% set form_fields = form_fields + [{
                 'name': 'deleted',
                 'label': '<i class="icon-remove"></i>&nbsp;Delete this post?',
