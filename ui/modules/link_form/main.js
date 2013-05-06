@@ -80,13 +80,16 @@ $(function() {
 
     // General options
     theme : "advanced",
-    plugins : "autoresize,autolink,lists,pagebreak,style,layer,table,save,advhr,advimage,advlink,emotions,iespell,inlinepopups,insertdatetime,preview,media,searchreplace,print,contextmenu,paste,directionality,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras,template,advlist",
+    plugins : "autoresize,autolink,lists,pagebreak,style,layer,table,save,advhr,advimage,advlink," + 
+                "emotions,iespell,inlinepopups,insertdatetime,preview,media,searchreplace,print,contextmenu," + 
+                "paste,directionality,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras,template,advlist",
 
     width: '100%',
 
     // Theme options
-    theme_advanced_buttons1 : "bold,italic,underline,strikethrough,|,bullist,numlist,blockquote,pagebreak,|,link,unlink,image,|" +
+    theme_advanced_buttons1 : "bold,italic,underline,|,bullist,numlist,blockquote,|,link,unlink,image,|" +
                               "|,iespell,media,emotions,|,fullscreen",
+
     theme_advanced_resizing : true,
     theme_advanced_toolbar_align : "center",
     theme_advanced_statusbar_location: "none",

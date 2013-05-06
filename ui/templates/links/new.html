@@ -8,6 +8,14 @@
     .container-fluid {
         margin-top: 50px !important;
     }
+    #navigation_bar {
+        position: static !important;
+    }
+    @media (max-width: 874px) {
+        .container-fluid {
+            margin-top: 0px !important;
+        }
+    }
 </style>
 {% end %}
 
@@ -43,10 +51,5 @@ $(function() {
 {% end %}
 
 {% block content %}
-<div class="container-fluid" style="height: 200%; padding: 0px; margin: 0px;">
-  <div class="row-fluid" style="height: 100%; text-align: center;display: table;
-  border-collapse: collapse;
-  width: 100%;">
               {% module link_form(user=user, model=model, errors=errors, settings=settings) %}
-</div>
 {% end %}
