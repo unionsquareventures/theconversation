@@ -5,7 +5,7 @@ from collections import defaultdict
 import functools
 import subprocess
 import tornado.ioloop
-from tornado.options import logging
+import logging
 
 sys.path.append('../')
 import settings

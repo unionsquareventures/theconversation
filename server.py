@@ -2,7 +2,8 @@ import settings
 import tornado.web
 import tornado.auth
 from tornado.httpserver import HTTPServer
-from tornado.options import define, options, logging
+import logging
+from tornado.options import define, options
 import sys
 import os
 import mimetypes
