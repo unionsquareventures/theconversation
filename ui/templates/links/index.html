@@ -125,7 +125,7 @@
                 {% set path = '%ss' % post._class_name.split('.')[1].lower() %}
 
                 <div class="post">
-                    <img src="http://api.twitter.com/1/users/profile_image?screen_name={{ post.user.username }}&size=original" class="img-circle avatar" alt="avatar" />
+                    <img src="{{ post.user.profile_image_url }}" class="img-circle avatar" alt="avatar" />
                     <div class="info">
                         <a href="{{ post.url or "/%s/%s" % (path, post.id) }}" class="title" target="_blank">
                             <p>
@@ -153,7 +153,7 @@
 
     <script type="text/javascript">
     /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
-    var disqus_shortname = 'usvgamma'; // required: replace example with your forum shortname
+    var disqus_shortname = 'usvgamma';
 
     /* * * DON'T EDIT BELOW THIS LINE * * */
     (function () {

@@ -78,7 +78,7 @@
 
     <div id="content">
       <div class="post detail">
-        <img src="http://api.twitter.com/1/users/profile_image?screen_name={{ link.user.username }}&size=original" class="img-circle avatar" alt="avatar" />
+        <img src="{{ link.user.profile_image_url }}" class="img-circle avatar" alt="avatar" />
         <div class="info">
           <a href="{{ link.url or "/%s/%s" % (path, link.id) }}" class="title">
             <p>
