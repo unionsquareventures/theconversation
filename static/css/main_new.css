@@ -235,10 +235,6 @@ a.sub-comments {
   max-width: 800px;
   margin: 5px auto 10px auto;
 }
-#post_stream_bar.detail .share_buttons {
-  float: right;
-  display: none;
-}
 #post_stream_bar.detail .post_buttons {
   text-align: center;
   float: left;
@@ -272,16 +268,21 @@ a.sub-comments {
   background-color: #A09F9F;
   color: white;
 }
-#post_stream_bar.detail .share_button {
-  float: left;
-}
-#post_stream_bar.detail .share_button.tumblr {
-  margin-right: 40px;
-}
 #content {
   width: 75%;
   max-width: 800px;
   margin: 110px auto 0px auto;
+}
+#content .post.detail .share_buttons {
+  float: right;
+  width: 254px;
+}
+#content .post.detail .share_buttons .share_button {
+  margin-left: 8px;
+  display: inline;
+}
+#content .post.detail .share_buttons .addthis_toolbox {
+  display: inline-block;
 }
 #content .post.detail .avatar {
   width: 75px;

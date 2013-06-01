@@ -21,8 +21,6 @@
 {% end %}
 
 {% block javascript %}
-    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=xa-5176062660ab12cf"></script>
-
     <script type="text/javascript">
        function adjust_post() {
          $('.info').each(function(i, o) {
@@ -47,12 +45,6 @@
 
           // Fixup avatars and title
           adjust_post();
-
-          // Share button handler
-          $('.addthis_share_button').click(function(e) {
-              addthis_sendto('more');
-              e.stopPropagation();
-          });
        });
     </script>
 {% end %}
@@ -63,12 +55,6 @@
     <div id="post_stream_bar" class="detail column_header">
       <div class="buttons_container">
         <div class="post_buttons">
-         <a href="/{{ path }}/{{ link.id }}/upvote?detail=true">
-            <i class="icon-arrow-up icon"></i>&nbsp;&nbsp;({{ link.votes }}) Upvote
-         </a>
-         <a href="#" class="addthis_share_button">
-           <i class="icon-share icon"></i>&nbsp;&nbsp;Share
-         </a>
          <a href="/{{ path }}/{{ link.id }}/edit">
            <i class="icon-pencil icon"></i>&nbsp;&nbsp;Edit
          </a>
@@ -96,22 +82,32 @@
               <a href="/{{ path }}/{{ link.id }}#disqus_thread" class="sub-comments" target="_blank">0</a>
               <a href="/{{ path }}/{{ link.id }}" class="sub-comments" target="_blank">comments</a>
             </span>
-            <a href="#" class="votes"><i class="icon-arrow-up icon"></i>{{ link.votes }} votes</a>
+            <a href="/{{ path }}/{{ link.id }}/upvote?detail=true" class="votes"><i class="icon-arrow-up icon"></i>{{ link.votes }} votes</a>
           </div>
         </div>
 
         <div class="content">
           {% raw link.body_html %}
           <hr/>
+          <div class="share_buttons">
+            <div class="share_button">
+              <a href="http://www.tumblr.com/share" title="Share on Tumblr" style="display:inline-block; overflow:hidden; width:81px; height:20px; background:url('http://platform.tumblr.com/v1/share_1.png') top left no-repeat transparent;"></a>
+            </div>
+            <div class="share_button">
+              <div class="fb-like" data-send="false" data-layout="button_count" data-width="450" data-show-faces="true" data-font="arial"></div>
+            </div>
+            <div class="share_button">
+              <a href="https://twitter.com/share" class="twitter-share-button" data-count="none">Tweet</a>
+              <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+            </div>
+          </div>
           {% if link.hackpad_url %}
             <div class="hackpad">
               <b><i class="icon-edit icon"></i> Hackpad: </b>
               <a href="{{ link.hackpad_url }}#" class="hackpad_link">{{ link.hackpad_url.split('/')[-1] }}</a>
             </div>
-            <hr/>
           {% end %}
-        </div>
-        <div class="byline">
+          <hr/>
         </div>
 
         <div id="disqus_thread"></div>
@@ -144,4 +140,19 @@
 
       </div>
     </div>
+
+  <!-- Sharing buttons -->
+  <div id="fb-root"></div>
+  <script>(function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));</script>
+
+  <script src="http://platform.tumblr.com/v1/share.js"></script>
+
+  <script type="text/javascript">var addthis_config = {"data_track_addressbar":true};</script>
+  <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-513cfdb001f17091"></script>
 {% end %}
