@@ -9,4 +9,6 @@ Requirements:
 	- LESS and UglifyJS are also required.
 		LESS: npm install -g less
 		UglifyJS: npm install -g uglify-js
- 
+
+Deployment:
+    - `fab <deployment_location> deploy` - Where <deployment_location> is `staging` or `prod`. For more info see fabfile.py in the root directory of the project.

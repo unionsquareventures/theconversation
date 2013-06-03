@@ -57,9 +57,12 @@
           </div>
           <div class="post_submit_bar">
             <div class="btn">
-              <div class="icon-plus-sign">
-              </div>
-              Submit this content
+              <div class="icon-plus-sign"></div>
+              {% if model.id %}
+                Save this content
+              {% else %}
+                Submit this content
+              {% end %}
             </div>
           </div>
       </div>

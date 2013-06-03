@@ -192,7 +192,6 @@ a.sub-comments {
   border: 1px solid #606060;
   border-right: none !important;
   border-left: none !important;
-
   position: fixed;
   top: 0px;
   left: 0px;
@@ -284,12 +283,16 @@ a.sub-comments {
   margin: 110px auto 0px auto;
   .post.detail {
     .share_buttons {
+      float: right;
+      margin-right: 8px;
       .share_button {
         margin-left: 8px;
-        display: inline;
+        display: inline-block;
       }
-      float: right;
-      width: 254px;
+      #share_button_facebook {
+        overflow: hidden !important;
+        width: 48px !important;
+      }
       .addthis_toolbox {
         display: inline-block;
       }
@@ -351,6 +354,7 @@ a.sub-comments {
     }
     .hackpad {
       margin-top: 20px;
+      margin-left: 8px;
     }
   }
 }

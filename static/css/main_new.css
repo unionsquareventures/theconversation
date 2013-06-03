@@ -275,11 +275,15 @@ a.sub-comments {
 }
 #content .post.detail .share_buttons {
   float: right;
-  width: 254px;
+  margin-right: 8px;
 }
 #content .post.detail .share_buttons .share_button {
   margin-left: 8px;
-  display: inline;
+  display: inline-block;
+}
+#content .post.detail .share_buttons #share_button_facebook {
+  overflow: hidden !important;
+  width: 48px !important;
 }
 #content .post.detail .share_buttons .addthis_toolbox {
   display: inline-block;
@@ -347,6 +351,7 @@ a.sub-comments {
 }
 #content .post.detail .hackpad {
   margin-top: 20px;
+  margin-left: 8px;
 }
 @media (min-width: 875px) {
   #post_column {
