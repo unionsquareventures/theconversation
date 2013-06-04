@@ -188,6 +188,12 @@ a.sub-comments {
 .column_header a:hover {
   text-decoration: none;
 }
+#user_modal {
+  outline: none !important;
+}
+.btn {
+  outline: none !important;
+}
 #navigation_bar {
   border: 1px solid #606060;
   border-right: none !important;
