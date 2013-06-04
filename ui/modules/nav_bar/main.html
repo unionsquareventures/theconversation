@@ -1,3 +1,16 @@
+<div id="user_modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="user_modal_label" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="user_modal_label">Logout</h3>
+  </div>
+  <div class="modal-body">
+    <p>Do you want to logout of USV.com?</p>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+    <a class="btn" href="/auth/logout">Logout</a>
+  </div>
+</div>
 <div id="navigation_bar">
         <a href="/">
           <img src="/static/images/logo.png" alt="Union Square Ventures" class="logo" />
@@ -7,25 +20,28 @@
           <span class="icon-list"></span>
         </button>
 
-    <ul id="navigation_items" class="collapse">
+      <ul id="navigation_items" class="collapse">
       <li><a href="http://www.usv.com/team/" target="_blank">Our Team</a></li>
       <li><a href="http://www.usv.com/investments/" target="_blank">Our Investments</a></li>
       <li><a href="http://www.usv.com/focus/" target="_blank">Our Focus</a></li>
       <li><a href="http://www.usv.com/jobs/" target="_blank">Jobs</a></li>
       <li>
-          <!--
-          <div class="btn dropdown-toggle" data-toggle="dropdown">
-            <img src="http://a0.twimg.com/profile_images/3428823565/9c49c693a9b7527b3fb7e36f6bba627f_normal.png" alt="" style="width: 18px; height: 18px; border: 1px solid gray;" class="img-rounded" />
+          {% if user %}
+          <div class="btn" data-toggle="modal" role="dropdown" href="#user_modal">
+            <img src="{{ user['profile_image_url'] }}" alt="" style="width: 18px; height: 18px; border: 1px solid gray;" class="img-rounded" />
             &nbsp;
-            <a href="#">@_zachary</a>
+            <a href="#">@{{ user['username'] }}</a>
           </div>
-          -->
 
           <div class="btn submit_content">
             <div class="icon-plus-sign" style="margin-right: 5px;"></div>
             Submit
           </div>
+          {% else %}
+            <a class="btn" href="/auth/twitter/">
+              Login
+            </a>
+          {% end %}
       </li>
-    </ul>
     </ul>
 </div>

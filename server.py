@@ -14,7 +14,7 @@ import functools
 
 from handlers.base import BaseHandler
 from handlers.link import LinkHandler
-from handlers.auth import TwitterLoginHandler
+from handlers.auth import TwitterLoginHandler, LogoutHandler
 import ui
 
 define("port", default=8888, help="run on the given port", type=int)
@@ -30,6 +30,7 @@ if __name__ == '__main__':
     logging.info('Starting server on port %s' % options.port)
     application = tornado.web.Application([
             (r'/auth/twitter/', TwitterLoginHandler),
+            (r'/auth/logout/?', LogoutHandler),
             # Links
             (r'/', LinkHandler),
             (r'/links$', LinkHandler),

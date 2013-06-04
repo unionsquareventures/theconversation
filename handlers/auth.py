@@ -30,3 +30,10 @@ class TwitterLoginHandler(BaseHandler, tornado.auth.TwitterMixin):
         self.set_secure_cookie("user", tornado.escape.json_encode(user))
         self.set_secure_cookie("user_token", tornado.escape.json_encode({'twitter': user_obj['access_token']}))
         self.redirect("/")
+
+class LogoutHandler(BaseHandler):
+    @tornado.web.asynchronous
+    def get(self):
+        self.clear_cookie("user")
+        self.clear_cookie("user_token")
+        self.redirect("/")
