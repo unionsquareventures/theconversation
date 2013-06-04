@@ -21,27 +21,28 @@
         </button>
 
       <ul id="navigation_items" class="collapse">
-      <li><a href="http://www.usv.com/team/" target="_blank">Our Team</a></li>
-      <li><a href="http://www.usv.com/investments/" target="_blank">Our Investments</a></li>
-      <li><a href="http://www.usv.com/focus/" target="_blank">Our Focus</a></li>
-      <li><a href="http://www.usv.com/jobs/" target="_blank">Jobs</a></li>
+      <li class="nav_item"><a href="http://www.usv.com/team/" target="_blank">Our Team</a></li>
+      <li class="nav_item"><a href="http://www.usv.com/investments/" target="_blank">Our Investments</a></li>
+      <li class="nav_item"><a href="http://www.usv.com/focus/" target="_blank">Our Focus</a></li>
+      <li class="nav_item"><a href="http://www.usv.com/jobs/" target="_blank">Jobs</a></li>
       <li>
-          {% if user %}
-            <div class="btn" data-toggle="modal" role="dropdown" href="#user_modal">
-              <img src="{{ twitter_avatar_size(user['profile_image_url'], 'normal') }}" alt="" style="width: 18px; height: 18px; border: 1px solid gray;" class="img-rounded" />
-              &nbsp;
-              <a href="#">@{{ user['username'] }}</a>
-            </div>
+            <div id="nav_buttons">
+              {% if user %}
+                <a class="btn account_settings_btn" data-toggle="modal" role="dropdown" href="#user_modal">
+                  <img src="{{ twitter_avatar_size(user['profile_image_url'], 'normal') }}" alt="" class="img-rounded" />
+                  @{{ user['username'] }}
+                </a>
 
-            <div class="btn submit_content">
-              <div class="icon-plus-sign" style="margin-right: 5px;"></div>
-              Submit
+                <a class="btn submit_content_btn" href="/links/new">
+                  <i class="icon-plus-sign" style="margin-right: 5px;"></i>
+                  Submit
+                </a>
+              {% else %}
+                <a class="btn" href="/auth/twitter/">
+                  Login
+                </a>
+              {% end %}
             </div>
-          {% else %}
-            <a class="btn" href="/auth/twitter/">
-              Login
-            </a>
-          {% end %}
       </li>
     </ul>
 </div>

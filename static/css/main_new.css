@@ -217,6 +217,22 @@ a.sub-comments {
 #navigation_bar #navigation_items {
   z-index: 1001;
 }
+#navigation_bar #navigation_items #nav_buttons {
+  display: inline;
+}
+#navigation_bar #navigation_items .account_settings_btn {
+  margin-left: 10px;
+}
+#navigation_bar #navigation_items .account_settings_btn img {
+  width: 18px;
+  height: 18px;
+  border: 1px solid gray;
+  margin-right: 10px;
+}
+#navigation_bar #navigation_items .submit_content_btn {
+  color: #333;
+  margin-left: 10px;
+}
 #navigation_bar #navigation_items li a:hover {
   text-decoration: none;
 }
@@ -375,9 +391,6 @@ a.sub-comments {
     float: right;
     list-style-type: none;
   }
-  #navigation_items .submit_content {
-    margin-left: 10px;
-  }
   #navigation_items li {
     display: inline;
     margin: 0px 10px;
@@ -446,21 +459,21 @@ a.sub-comments {
   #navigation_items li:first-child {
     margin-top: 30px;
   }
-  #navigation_items li {
-    display: block;
-  }
-  #navigation_items li a {
+  #navigation_items li.nav_item a {
     display: block;
     margin: 20px 20px 20px 20px;
     padding: 20px;
     color: #D3D3D3;
     background-color: #333;
   }
-  #navigation_items li a:hover {
+  #navigation_items li.nav_item a:hover {
     text-decoration: none;
     background-color: #444;
   }
-  #navigation_items li .submit_content {
+  #navigation_items li {
+    display: block;
+  }
+  #navigation_items li #nav_buttons {
     float: right;
     margin: 10px 20px 20px 20px;
   }

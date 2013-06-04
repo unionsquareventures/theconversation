@@ -216,6 +216,22 @@ a.sub-comments {
   }
   #navigation_items {
     z-index: 1001;
+    #nav_buttons {
+        display: inline;
+    }
+    .account_settings_btn {
+        img {
+            width: 18px;
+            height: 18px;
+            border: 1px solid gray;
+            margin-right: 10px;
+        }
+        margin-left: 10px;
+    }
+    .submit_content_btn {
+      color: #333;
+      margin-left: 10px;
+    }
     li {
       a:hover {
         text-decoration: none;
@@ -382,9 +398,6 @@ a.sub-comments {
     height: auto !important;
     float: right;
     list-style-type: none;
-    .submit_content {
-      margin-left: 10px;
-    }
     li {
       a {
         color: #777;
@@ -457,7 +470,7 @@ a.sub-comments {
     li:first-child {
       margin-top: 30px;
     }
-    li {
+    li.nav_item {
       a {
         display: block;
         margin: 20px 20px 20px 20px;
@@ -469,8 +482,10 @@ a.sub-comments {
         text-decoration: none;
         background-color: #444;
       }
+    }
+    li {
       display: block;
-      .submit_content {
+      #nav_buttons {
         float: right;
         margin: 10px 20px 20px 20px;
       }
