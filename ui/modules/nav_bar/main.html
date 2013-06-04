@@ -27,16 +27,16 @@
       <li><a href="http://www.usv.com/jobs/" target="_blank">Jobs</a></li>
       <li>
           {% if user %}
-          <div class="btn" data-toggle="modal" role="dropdown" href="#user_modal">
-            <img src="{{ user['profile_image_url'] }}" alt="" style="width: 18px; height: 18px; border: 1px solid gray;" class="img-rounded" />
-            &nbsp;
-            <a href="#">@{{ user['username'] }}</a>
-          </div>
+            <div class="btn" data-toggle="modal" role="dropdown" href="#user_modal">
+              <img src="{{ twitter_avatar_size(user['profile_image_url'], 'normal') }}" alt="" style="width: 18px; height: 18px; border: 1px solid gray;" class="img-rounded" />
+              &nbsp;
+              <a href="#">@{{ user['username'] }}</a>
+            </div>
 
-          <div class="btn submit_content">
-            <div class="icon-plus-sign" style="margin-right: 5px;"></div>
-            Submit
-          </div>
+            <div class="btn submit_content">
+              <div class="icon-plus-sign" style="margin-right: 5px;"></div>
+              Submit
+            </div>
           {% else %}
             <a class="btn" href="/auth/twitter/">
               Login
