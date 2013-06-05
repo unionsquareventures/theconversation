@@ -327,6 +327,10 @@ a.sub-comments {
 #content .post.detail .metadata {
   margin-top: 5px;
 }
+#content .post.detail .metadata span,
+#content .post.detail .metadata a {
+  display: inline-block;
+}
 #content .post.detail .title {
   display: inline !important;
   font-weight: bold;

@@ -6,16 +6,14 @@
 <link rel="stylesheet" type="text/css" href="/static/css/annotator.min.css" />
 <link rel="stylesheet" type="text/css" href="/static/css/voting.css" />
 <style type="text/css">
-@media(max-width: 450px) {
-  #post_stream_bar.detail {
-    position: static;
-  }
-  #navigation_bar {
-    position: static;
-  }
-  #content {
-    margin-top: 10px;
-  }
+#post_stream_bar.detail {
+  position: static;
+}
+#navigation_bar {
+  position: static !important;
+}
+#content {
+  margin-top: 10px;
 }
 </style>
 {% end %}
@@ -64,7 +62,7 @@
 
     <div id="content">
       <div class="post detail">
-        <img src="{{ twitter_avatar_size(link.user.profile_image_url, 'bigger') }}" class="img-circle avatar" alt="avatar" />
+        <img src="{{ twitter_avatar_size(link.user.profile_image_url, 'original') }}" class="img-circle avatar" alt="avatar" />
         <div class="info">
           <a href="{{ link.url or "/%s/%s" % (path, link.id) }}" class="title">
             <p>

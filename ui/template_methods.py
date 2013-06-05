@@ -8,5 +8,8 @@ def template_methods():
 # Twitter URLs are stored as their 'normal' size
 # eg. http://a0.twimg.com/profile_images/3428823565/9c49c693a9b7527b3fb7e36f6bba627f_normal.png
 def twitter_avatar_size(handler, url, size):
-    url = url.replace('_normal', '_%s' % size)
+    if size == 'original':
+        url = url.replace('_normal', '')
+    else:
+        url = url.replace('_normal', '_%s' % size)
     return url
