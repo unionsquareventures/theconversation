@@ -23,16 +23,16 @@
         </button>
 
       <ul id="navigation_items" class="collapse">
-      <li class="nav_item"><a href="http://www.usv.com/team/" target="_blank">Our Team</a></li>
-      <li class="nav_item"><a href="http://www.usv.com/investments/" target="_blank">Our Investments</a></li>
-      <li class="nav_item"><a href="http://www.usv.com/focus/" target="_blank">Our Focus</a></li>
+      <li class="nav_item"><a href="http://www.usv.com/team/" target="_blank">Team</a></li>
+      <li class="nav_item"><a href="http://www.usv.com/investments/" target="_blank">Investments</a></li>
+      <li class="nav_item"><a href="http://www.usv.com/focus/" target="_blank">Focus</a></li>
       <li class="nav_item"><a href="http://www.usv.com/jobs/" target="_blank">Jobs</a></li>
       <li>
             <div id="nav_buttons">
               {% if user %}
                 <a class="btn account_settings_btn" data-toggle="modal" role="dropdown" href="#user_modal">
                   <img src="{{ twitter_avatar_size(user['profile_image_url'], 'normal') }}" alt="" class="img-rounded" />
-                  @{{ user['username'] }}
+                  <p>{{ user['username'] }}</p>
                 </a>
 
                 <a class="btn submit_content_btn" href="/links/new">
