@@ -23,7 +23,6 @@
        function adjust_post() {
          $('.info').each(function(i, o) {
              var h = $(this).height();
-             console.log(h);
              h = h / 2 - 26;
              $(this).closest('.post').children('.avatar').css({'margin-top': h});
          });

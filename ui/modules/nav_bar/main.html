@@ -30,12 +30,12 @@
       <li>
             <div id="nav_buttons">
               {% if user %}
-                <a class="btn account_settings_btn" data-toggle="modal" role="dropdown" href="#user_modal">
+              <a class="btn" id="account_settings_btn">
                   <img src="{{ twitter_avatar_size(user['profile_image_url'], 'normal') }}" alt="" class="img-rounded" />
                   <p>{{ user['username'] }}</p>
-                </a>
+              </a>
 
-                <a class="btn submit_content_btn" href="/links/new">
+                <a class="btn" id="submit_content_btn" href="/links/new">
                   <i class="icon-plus-sign" style="margin-right: 5px;"></i>
                   Submit
                 </a>

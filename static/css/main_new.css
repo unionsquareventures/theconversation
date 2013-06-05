@@ -1,3 +1,6 @@
+.btn {
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0) !important;
+}
 a.sub-comments {
   display: inline;
   margin: 0px;

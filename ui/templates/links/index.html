@@ -7,7 +7,6 @@
        function adjust_post() {
          $('.post').each(function(i, o) {
              var h = $(this).height();
-             console.log(h);
              h = h / 2 - 38;
              $(this).closest('.post').children('.avatar').css({'margin-top': h});
 
@@ -97,7 +96,7 @@
                 {% set path = '%ss' % post._class_name.split('.')[1].lower() %}
 
                 <div class="post featured">
-                    <img src="http://api.twitter.com/1/users/profile_image?screen_name={{ post.user.username }}&size=original" class="img-circle avatar" alt="avatar" />
+                    <img src="{{ twitter_avatar_size(post.user.profile_image_url, 'bigger') }}" class="img-circle avatar" alt="avatar" />
                     <div class="info">
                         <a href="{{ post.url or "/%s/%s" % (path, post.id) }}" class="title" target="_blank">
                             <p>
