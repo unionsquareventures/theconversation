@@ -22,7 +22,7 @@ def deploy():
     run('sudo mkdir -p %s' % deploy_path)
     run('sudo chmod -R 777 %s' % deploy_path)
     local('find . -name "*.pyc" -exec rm -rf {} \;')
-    local('scp -r -i usv.pem *'
+    local('rsync -r -i usv.pem *'
                         ' ubuntu@%s:%s' % (env.hosts[0], deploy_path))
     with cd(deploy_path):
         clean = lambda x: x.replace('/', '\\\\/').replace('"', '\\\\"')
