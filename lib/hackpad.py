@@ -49,6 +49,6 @@ class HackpadAPI(object):
     def create(self, user_callback):
         self._oauth_request('pad/create', user_callback,
                                 method='POST', headers={'Content-Type': 'text/plain'},
-                                body="Test\nTest")
+                                body="Hackpad Title\nHackpad contents.")
 
     # More methods can be added (see docs)
