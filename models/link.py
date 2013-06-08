@@ -6,5 +6,5 @@ from user import User
 from content import Content
 
 class Link(Content):
-    url = StringField(max_length=65000, required=True)
+    url = StringField(max_length=65000, required=True, min_length=3)
 

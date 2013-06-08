@@ -1,6 +1,5 @@
 import settings
 from markdown import markdown
-from lib.markdown.mdx_video import VideoExtension
 import datetime as dt
 
 from mongoengine import *
@@ -13,8 +12,8 @@ class Content(Document):
     }
 
     id = IntField(primary_key=True)
-    title = StringField(required=True, max_length=1000)
     date_created = DateTimeField(required=True)
+    title = StringField(required=True, max_length=1000, min_length=5)
     user = EmbeddedDocumentField(User, required=True)
     tags = ListField(StringField())
     votes = IntField(default=0)
@@ -37,11 +36,13 @@ class Content(Document):
         self._data['id'] = id
 
     def save(self, *args, **kwargs):
-        if kwargs.get('force_insert') or '_id' not in self.to_mongo():
-            if self.hook_id:
-                self.hook_id()
+        if kwargs.get('force_insert') or '_id' not in self.to_mongo() or self._created:
             if self.hook_date_created:
                 self.hook_date_created()
+            self._data['id'] = 0
+            self.validate()
+            if self.hook_id:
+                  self.hook_id()
         super(Content, self).save(*args, **kwargs)
 
     def form_fields(self, form_errors=None, form_fields=[]):

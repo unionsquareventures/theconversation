@@ -44,7 +44,6 @@ class PostHandler(BaseHandler):
 
         hackpad_api.create(hpad_created)
 
-
     def create(self):
         attributes = {k: v[0] for k, v in self.request.arguments.iteritems()}
 
@@ -73,7 +72,6 @@ class PostHandler(BaseHandler):
             'featured': True if attributes.get('featured') else False,
             'tags': tag_names,
         })
-
         post = Post(**attributes)
         try:
             post.save()
