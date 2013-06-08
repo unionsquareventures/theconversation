@@ -156,16 +156,15 @@ class PostHandler(BaseHandler):
     def upvote(self, id):
         username = self.get_current_user()['username']
         user_q = {'$elemMatch': {'username': username}}
-        link = Link.objects(id=id).fields(voted_users=user_q).first()
-        if not link:
+        post = Post.objects(id=id).fields(voted_users=user_q).first()
+        if not post:
             raise tornado.web.HTTPError(404)
         detail = self.get_argument('detail', '')
-        if link.voted_users:
-            self.redirect(('/posts/%s?error' % link.id) if detail else '/?error')
+        if post.voted_users:
+            self.redirect(('/posts/%s?error' % post.id) if detail else '/?error')
             return
 
+        post.update(inc__votes=1)
+        post.update(push__voted_users=User(**self.get_current_user()))
 
-        link.update(inc__votes=1)
-        link.update(push__voted_users=User(**self.get_current_user()))
-
-        self.redirect(('/posts/%s' % link.id) if detail else '/')
+        self.redirect(('/posts/%s' % post.id) if detail else '/')

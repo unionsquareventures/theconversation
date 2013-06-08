@@ -123,7 +123,6 @@ class LinkHandler(BaseHandler):
         })
         self.render('links/new.html', **self.vars)
 
-
     @tornado.web.authenticated
     def get(self, id='', action=''):
         if action == 'upvote' and id:
@@ -141,7 +140,6 @@ class LinkHandler(BaseHandler):
         if link.voted_users:
             self.redirect(('/links/%s?error' % link.id) if detail else '/?error')
             return
-
 
         link.update(inc__votes=1)
         link.update(push__voted_users=User(**self.get_current_user()))
