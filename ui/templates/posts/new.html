@@ -75,13 +75,41 @@ $(function() {
     $('.post_submit_bar .btn').on("click", function(e) {
        $('.post_form').submit();
     });
+
+  // Setup TinyMCE
+  $('.link_body_raw').tinymce({
+    // Location of TinyMCE script
+    script_url : '/static/js/tiny_mce/tiny_mce.js',
+
+    // General options
+    theme : "advanced",
+    plugins : "autoresize,autolink,lists,pagebreak,style,layer,table,save,advhr,advimage,advlink,emotions,iespell,inlinepopups,insertdatetime,preview,media,searchreplace,print,contextmenu,paste,directionality,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras,template,advlist",
+
+    width: '100%',
+
+    // Theme options
+    theme_advanced_buttons1 : "bold,italic,underline,strikethrough,|,bullist,numlist,blockquote,pagebreak,|,link,unlink,image,|" +
+                              "|,iespell,media,emotions,|,fullscreen",
+    theme_advanced_resizing : true,
+    theme_advanced_toolbar_align : "center",
+    theme_advanced_statusbar_location: "none",
+
+    // Example content CSS (should be your site CSS)
+    content_css : "/static/css/tinymce_content.css",
+
+    // Drop lists for link/image/media/template dialogs
+    template_external_list_url : "lists/template_list.js",
+    external_link_list_url : "lists/link_list.js",
+    external_image_list_url : "lists/image_list.js",
+    media_external_list_url : "lists/media_list.js",
+  });
 });
 </script>
 {% end %}
 
 {% block content %}
 <div class="link_form">
-  <form action="/links{{ ('/' + str(model.id)) if model.id else '' }}" method="post" class="post_form">
+  <form action="/posts{{ ('/' + str(model.id)) if model.id else '' }}" method="post" class="post_form">
       <div class="form_contents">
           {% module xsrf_form_html() %}
           {% set hackpad_icon = lambda x: '<div class="input-prepend hackpad_input"><span class="add-on">'\
@@ -99,17 +127,26 @@ $(function() {
             'wrapper': wrap_text,
           },
           {
-            'name': 'url',
-            'placeholder': 'URL',
-            'wrapper': link_icon,
+            'name': 'body_raw',
+            'placeholder': 'Body',
+          },
+          {
+            'name': 'hackpad_url',
+            'placeholder': 'Hackpad URL',
+            'wrapper': hackpad_icon,
+          },
+          {
+            'name': 'featured',
+            'label': '<i class="icon-star"></i>&nbsp;Feature this post?',
+            'label_selected': '<i class="icon-remove"></i>&nbsp;Un-feature this post',
           }]
           %}
 
           {% if model.id %}
               {% set form_fields = form_fields + [{
                 'name': 'deleted',
-                'label': '<i class="icon-remove"></i>&nbsp;Delete this link?',
-                'label_selected': '<i class="icon-remove"></i>&nbsp;Un-delete this link',
+                'label': '<i class="icon-remove"></i>&nbsp;Delete this post?',
+                'label_selected': '<i class="icon-remove"></i>&nbsp;Un-delete this post',
               }]%}
           {% end %}
 

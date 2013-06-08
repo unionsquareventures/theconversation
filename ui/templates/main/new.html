@@ -1,0 +1,35 @@
+{% extends "../base.html" %}
+
+{% block title %}Submit{% end %}
+
+{% block css %}
+<link rel="stylesheet" type="text/css" href="/static/css/new_new.css" />
+<style type="text/css">
+    .container-fluid {
+        margin-top: 50px !important;
+    }
+    #navigation_bar {
+        position: static !important;
+    }
+    @media (max-width: 874px) {
+        .container-fluid {
+            margin-top: 0px !important;
+        }
+    }
+</style>
+{% end %}
+
+{% block javascript %}
+<script type="text/javascript" src="/static/js/tiny_mce/jquery.tinymce.js"></script>
+
+<script type="text/javascript">
+$(function() {
+    $('.post_submit_bar .btn').on("click", function(e) {
+       $('.post_form').submit();
+    });
+});
+</script>
+{% end %}
+
+{% block content %}
+{% end %}

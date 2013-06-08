@@ -4,38 +4,46 @@ import tornado.auth
 import tornado.httpserver
 import os
 from lib.sanitize import html_sanitize, linkify
+from lib.hackpad import HackpadAPI
 from base import BaseHandler
 import mongoengine
-from models import Link, User, Tag, Content
+from models import User, Tag, Content, Post
 
 from urlparse import urlparse
 from BeautifulSoup import BeautifulSoup
 
-class LinkHandler(BaseHandler):
+class PostHandler(BaseHandler):
     def __init__(self, *args, **kwargs):
-        super(LinkHandler, self).__init__(*args, **kwargs)
+        super(PostHandler, self).__init__(*args, **kwargs)
 
     def detail(self, id):
-        link = Link.objects(id=id).first()
-        if not link:
+        post = Post.objects(id=id).first()
+        if not post:
             raise tornado.web.HTTPError(404)
-        if link.deleted:
+        if post.deleted:
             self.write("Deleted.")
             return
-        if link.url:
-            link.url_domain = urlparse(link.url).netloc
-        self.vars.update({'link': link})
-        self.render('links/get.html', **self.vars)
+        self.vars.update({'post': post})
+        self.render('posts/get.html', **self.vars)
 
     @tornado.web.asynchronous
-    def new(self, model=Link(), errors={}):
-        # Link creation page
-        self.vars.update({
-            'model': model,
-            'errors': errors,
-            'edit_mode': False,
-        })
-        self.render('links/new.html', **self.vars)
+    def new(self, model=Post(), errors={}):
+        hackpad_api = HackpadAPI(settings.hackpad['oauth_client_id'],
+                                            settings.hackpad['oauth_secret'],
+                                            domain=settings.hackpad['domain'])
+        def hpad_created(hpad_json):
+            model.hackpad_url = 'https://%s.hackpad.com/%s'\
+                                            % (settings.hackpad['domain'], hpad_json['padId'])
+            # Link creation page
+            self.vars.update({
+                'model': model,
+                'errors': errors,
+                'edit_mode': False,
+            })
+            self.render('posts/new.html', **self.vars)
+
+        hackpad_api.create(hpad_created)
+
 
     def create(self):
         attributes = {k: v[0] for k, v in self.request.arguments.iteritems()}
@@ -51,27 +59,36 @@ class LinkHandler(BaseHandler):
             tag = Tag(name=name)
             tag.save()
 
+        # Content
+        body_raw = attributes.get('body_raw', '')
+        body_html = html_sanitize(body_raw)
+
+        # Handle Hackpad
+        if attributes.get('has_hackpad'):
+            attributes['has_hackpad'] = True
+
         attributes.update({
             'user': User(**self.get_current_user()),
-            'featured': False,
+            'body_html': body_html,
+            'featured': True if attributes.get('featured') else False,
             'tags': tag_names,
         })
 
-        link = Link(**attributes)
+        post = Post(**attributes)
         try:
-            link.save()
+            post.save()
         except mongoengine.ValidationError, e:
-            self.new(model=link, errors=e.errors)
+            self.new(model=post, errors=e.errors)
             return
 
-        self.redirect('/links/%s' % link.id)
+        self.redirect('/posts/%s' % post.id)
 
     def update(self, id):
-        link = Link.objects(id=id).first()
-        if not link:
+        post = Post.objects(id=id).first()
+        if not post:
             raise tornado.web.HTTPError(404)
 
-        if not self.get_current_user()['username'] == link.user['username']:
+        if not self.get_current_user()['username'] == post.user['username']:
             raise tornado.web.HTTPError(401)
 
         attributes = {k: v[0] for k, v in self.request.arguments.iteritems()}
@@ -86,42 +103,49 @@ class LinkHandler(BaseHandler):
             tag = Tag(name=name)
             tag.save()
 
+        # Content
+        body_raw = attributes.get('body_raw', '')
+        body_html = html_sanitize(body_raw)
+
+        # Handle Hackpad
+        if attributes.get('has_hackpad'):
+            attributes['has_hackpad'] = True
+
         attributes.update({
             'user': User(**self.get_current_user()),
-            'featured': False,
+            'body_html': body_html,
+            'featured': True if attributes.get('featured') else False,
             'tags': tag_names,
         })
 
-        protected_attributes = ['_xsrf', 'user', 'votes', 'voted_users']
-        for attribute in protected_attributes:
-            if attributes.get('attribute'):
-                del attributes[attribute]
+        if attributes['_xsrf']:
+            del attributes['_xsrf']
 
         attributes = {('set__%s' % k): v for k, v in attributes.iteritems()}
-        link.update(**attributes)
+        post.update(**attributes)
         try:
-            link.save()
+            post.save()
         except mongoengine.ValidationError, e:
-            self.edit(link.id, errors=e.errors)
+            self.edit(post.id, errors=e.errors)
             return
 
-        self.redirect('/links/%s' % link.id)
+        self.redirect('/posts/%s' % post.id)
 
     def edit(self, id, errors={}):
-        link = Link.objects(id=id).first()
-        if not link:
+        post = Post.objects(id=id).first()
+        if not post:
             raise tornado.web.HTTPError(404)
 
-        if not self.get_current_user()['username'] == link.user['username']:
+        if not self.get_current_user()['username'] == post.user['username']:
             raise tornado.web.HTTPError(401)
 
-        # Link modification page
+        # Modification page
         self.vars.update({
-            'model': link,
+            'model': post,
             'errors': errors,
             'edit_mode': True,
         })
-        self.render('links/new.html', **self.vars)
+        self.render('posts/new.html', **self.vars)
 
 
     @tornado.web.authenticated
@@ -129,7 +153,7 @@ class LinkHandler(BaseHandler):
         if action == 'upvote' and id:
             self.upvote(id)
         else:
-            super(LinkHandler, self).get(id, action)
+            super(PostHandler, self).get(id, action)
 
     def upvote(self, id):
         username = self.get_current_user()['username']
@@ -139,11 +163,11 @@ class LinkHandler(BaseHandler):
             raise tornado.web.HTTPError(404)
         detail = self.get_argument('detail', '')
         if link.voted_users:
-            self.redirect(('/links/%s?error' % link.id) if detail else '/?error')
+            self.redirect(('/posts/%s?error' % link.id) if detail else '/?error')
             return
 
 
         link.update(inc__votes=1)
         link.update(push__voted_users=User(**self.get_current_user()))
 
-        self.redirect(('/links/%s' % link.id) if detail else '/')
+        self.redirect(('/posts/%s' % link.id) if detail else '/')

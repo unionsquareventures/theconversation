@@ -98,16 +98,12 @@
                 <div class="post featured">
                     <img src="{{ twitter_avatar_size(post.user.profile_image_url, 'bigger') }}" class="img-circle avatar" alt="avatar" />
                     <div class="info">
-                        <a href="{{ post.url or "/%s/%s" % (path, post.id) }}" class="title" target="_blank">
+                        <a href="{{ "/%s/%s" % (path, post.id) }}" class="title" target="_blank">
                             <p>
                                 {{ post.title }}
                             </p>
                         </a>
-                        {% if post.url %}
-                            <a href="{{ post.url }}" class="site" target="_blank">{{ urlparse(post.url).netloc }}</a>
-                        {% else %}
-                            <a href="{{ "/%s/%s" % (path, post.id) }}" class="site" target="_blank">usv.com</a>
-                        {% end %}
+                        <a href="{{ "/%s/%s" % (path, post.id) }}" class="site" target="_blank">usv.com</a>
                         <br/>
                         <a href="http://twitter.com/{{ post.user.username }}" class="user" target="_blank"><i class="icon-twitter icon"></i>@{{ post.user.username }}</a>
                         <span class="comments">
@@ -121,20 +117,26 @@
               </div>
 
             {% for post in posts %}
-                {% set path = '%ss' % post._class_name.split('.')[1].lower() %}
+                {% set post_type = post._class_name.split('.')[1].lower() %}
+                {% set path = '%ss' % post_type %}
 
                 <div class="post">
                     <img src="{{ twitter_avatar_size(post.user.profile_image_url, 'bigger') }}" class="img-circle avatar" alt="avatar" />
                     <div class="info">
-                        <a href="{{ post.url or "/%s/%s" % (path, post.id) }}" class="title" target="_blank">
-                            <p>
-                                {{ post.title }}
-                            </p>
-                        </a>
-                        {% if post.url %}
+                        {% if post_type == 'link' %}
+                            <a href="{{ post.url }}" class="title" target="_blank">
+                                <p>
+                                    {{ post.title }}
+                                </p>
+                            </a>
                             <a href="{{ post.url }}" class="site" target="_blank">{{ urlparse(post.url).netloc }}</a>
                         {% else %}
-                            <a href="{{ "/%s/%s" % (path, post.id) }}" class="site" target="_blank">usv.com</a>
+                            <a href="{{ "/%s/%s" % (path, post.id) }}" class="title" target="_blank">
+                                <p>
+                                    {{ post.title }}
+                                </p>
+                            </a>
+                            <a href=""{{ "/%s/%s" % (path, post.id) }} class="site" target="_blank">usv.com</a>
                         {% end %}
                         <br/>
                         <a href="http://twitter.com/{{ post.user.username }}" class="user" target="_blank"><i class="icon-twitter icon"></i>@{{ post.user.username }}</a>

@@ -1,6 +1,6 @@
 {% extends "../base.html" %}
 
-{% block title %}{{ link.title }}{% end %}
+{% block title %}{{ post.title }}{% end %}
 
 {% block css %}
 <link rel="stylesheet" type="text/css" href="/static/css/annotator.min.css" />
@@ -47,12 +47,12 @@
 {% end %}
 
 {% block content %}
-  {% set path = '%ss' % link._class_name.split('.')[1].lower() %}
+  {% set path = '%ss' % post._class_name.split('.')[1].lower() %}
 
     <div id="post_stream_bar" class="detail column_header">
       <div class="buttons_container">
         <div class="post_buttons">
-         <a href="/{{ path }}/{{ link.id }}/edit">
+         <a href="/{{ path }}/{{ post.id }}/edit">
            <i class="icon-pencil icon"></i>&nbsp;&nbsp;Edit
          </a>
        </div>
@@ -61,30 +61,28 @@
 
     <div id="content">
       <div class="post detail">
-        <img src="{{ twitter_avatar_size(link.user.profile_image_url, 'original') }}" class="img-circle avatar" alt="avatar" />
+        <img src="{{ twitter_avatar_size(post.user.profile_image_url, 'original') }}" class="img-circle avatar" alt="avatar" />
         <div class="info">
-          <a href="{{ link.url or "/%s/%s" % (path, link.id) }}" class="title">
+          <a href="{{ "/%s/%s" % (path, post.id) }}" class="title">
             <p>
-              {{ link.title }}
+              {{ post.title }}
             </p>
           </a>
           <div class="metadata">
-            {% if link.url %}
-              <a href="{{ link.url }}" class="site"><i class="icon-link icon"></i>{{ link.url_domain }}</a>
-            {% end %}
-            <a href="http://twitter.com/{{ link.user.username }}" class="user" target="_blank"><i class="icon-user icon"></i>@{{ link.user.username }}</a>
-            <a href="#" class="date"><i class="icon-calendar icon"></i>{{ link.date_created.strftime("%B %d, %Y") }}</a>
+            <a href="http://twitter.com/{{ post.user.username }}" class="user" target="_blank"><i class="icon-user icon"></i>@{{ post.user.username }}</a>
+            <a href="#" class="date"><i class="icon-calendar icon"></i>{{ post.date_created.strftime("%B %d, %Y") }}</a>
             <span class="comments">
               <i class="icon-comment icon"></i>
-              <a href="/{{ path }}/{{ link.id }}#disqus_thread" class="sub-comments" target="_blank">0</a>
-              <a href="/{{ path }}/{{ link.id }}" class="sub-comments" target="_blank">comments</a>
+              <a href="/{{ path }}/{{ post.id }}#disqus_thread" class="sub-comments" target="_blank">0</a>
+              <a href="/{{ path }}/{{ post.id }}" class="sub-comments" target="_blank">comments</a>
             </span>
-            <a href="/{{ path }}/{{ link.id }}/upvote?detail=true" class="votes"><i class="icon-arrow-up icon"></i>{{ link.votes }} votes</a>
+            <a href="/{{ path }}/{{ post.id }}/upvote?detail=true" class="votes"><i class="icon-arrow-up icon"></i>{{ post.votes }} votes</a>
           </div>
         </div>
 
         <div class="content">
-          {% module post_footer(link=link, hackpad_url=None) %}
+          {% raw post.body_html %}
+          {% module post_footer(object=post, hackpad_url=post.hackpad_url) %}
         </div>
 
         <div id="disqus_thread"></div>
