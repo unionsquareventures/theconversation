@@ -2,7 +2,7 @@ import bleach
 
 allowed_tags = ['a', 'b', 'p', 'i', 'blockquote', 'span', 'ul', 'li', 'img',
                 'strong', 'pre', 'iframe', 'object', 'embed', 'em', 'h1', 'h2',
-                'h3', 'h4', 'h5', 'h6']
+                'h3', 'h4', 'h5', 'h6', 'sub', 'sup', 'ol']
 allowed_attrs = {
     '*': ['style', 'class'],
     'a': ['href', 'rel'],

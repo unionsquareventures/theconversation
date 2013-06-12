@@ -116,8 +116,10 @@ class PostHandler(BaseHandler):
             'tags': tag_names,
         })
 
-        if attributes['_xsrf']:
-            del attributes['_xsrf']
+        protected_attributes = ['_xsrf', 'user', 'votes', 'voted_users']
+        for attribute in protected_attributes:
+            if attributes.get('attribute'):
+                del attributes[attribute]
 
         attributes = {('set__%s' % k): v for k, v in attributes.iteritems()}
         post.update(**attributes)
