@@ -11,6 +11,7 @@ import json
 import urlparse
 import ssl
 import functools
+from raven.contrib.tornado import AsyncSentryClient
 
 from handlers.base import BaseHandler
 from handlers.post import PostHandler
@@ -51,6 +52,9 @@ if __name__ == '__main__':
         ], ui_modules = ui.template_modules(),
             ui_methods = ui.template_methods(),
             **settings.tornado_config)
+
+    # Initialize Sentry
+    application.sentry_client = AsyncSentryClient(settings.sentry_dsn)
 
     application.listen(options.port)
     io_loop = tornado.ioloop.IOLoop.instance()

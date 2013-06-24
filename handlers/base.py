@@ -3,8 +3,9 @@ import tornado.web
 import tornado.auth
 import tornado.httpserver
 import json
+from raven.contrib.tornado import SentryMixin
 
-class BaseHandler(tornado.web.RequestHandler):
+class BaseHandler(SentryMixin, tornado.web.RequestHandler):
     def __init__(self, *args, **kwargs):
         super(BaseHandler, self).__init__(*args, **kwargs)
         self.vars = {
