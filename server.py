@@ -18,6 +18,7 @@ from handlers.post import PostHandler
 from handlers.link import LinkHandler
 from handlers.main import MainHandler
 from handlers.auth import TwitterLoginHandler, LogoutHandler
+from handlers.fake_error import FakeErrorHandler
 import ui
 
 define("port", default=8888, help="run on the given port", type=int)
@@ -34,6 +35,8 @@ if __name__ == '__main__':
     application = tornado.web.Application([
             (r'/auth/twitter/', TwitterLoginHandler),
             (r'/auth/logout/?', LogoutHandler),
+
+            (r'/fake_error/?', FakeErrorHandler),
 
             (r'/', MainHandler),
             (r'/(?P<action>new)$', MainHandler),
