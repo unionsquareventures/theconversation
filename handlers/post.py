@@ -148,13 +148,13 @@ class PostHandler(BaseHandler):
         self.render('posts/new.html', **self.vars)
 
 
-    @tornado.web.authenticated
     def get(self, id='', action=''):
         if action == 'upvote' and id:
             self.upvote(id)
         else:
             super(PostHandler, self).get(id, action)
 
+    @tornado.web.authenticated
     def upvote(self, id):
         username = self.get_current_user()['username']
         user_q = {'$elemMatch': {'username': username}}
