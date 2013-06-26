@@ -34,6 +34,9 @@ class PostHandler(BaseHandler):
         def hpad_created(hpad_json):
             model.hackpad_url = 'https://%s.hackpad.com/%s'\
                                             % (settings.hackpad['domain'], hpad_json['padId'])
+            render()
+
+        def render():
             # Link creation page
             self.vars.update({
                 'model': model,
@@ -42,7 +45,11 @@ class PostHandler(BaseHandler):
             })
             self.render('posts/new.html', **self.vars)
 
-        hackpad_api.create(hpad_created)
+        if not errors:
+            hackpad_api.create(hpad_created)
+        else:
+            render()
+
 
     def create(self):
         attributes = {k: v[0] for k, v in self.request.arguments.iteritems()}
@@ -118,7 +125,7 @@ class PostHandler(BaseHandler):
 
         protected_attributes = ['_xsrf', 'user', 'votes', 'voted_users']
         for attribute in protected_attributes:
-            if attributes.get('attribute'):
+            if attributes.get(attribute):
                 del attributes[attribute]
 
         attributes = {('set__%s' % k): v for k, v in attributes.iteritems()}

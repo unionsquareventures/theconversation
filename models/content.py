@@ -4,6 +4,7 @@ import datetime as dt
 
 from mongoengine import *
 from user import User
+from custom_fields import ImprovedStringField
 
 class Content(Document):
     meta = {
@@ -13,9 +14,9 @@ class Content(Document):
 
     id = IntField(primary_key=True)
     date_created = DateTimeField(required=True)
-    title = StringField(required=True, max_length=1000, min_length=5)
+    title = ImprovedStringField(required=True, max_length=1000, min_length=5)
     user = EmbeddedDocumentField(User, required=True)
-    tags = ListField(StringField())
+    tags = ListField(ImprovedStringField())
     votes = IntField(default=0)
     voted_users = ListField(EmbeddedDocumentField(User))
     featured = BooleanField(default=False)
@@ -63,10 +64,10 @@ class Content(Document):
             if form_field.get('hidden'):
                 field_html = '<input name="{name}" type="hidden" class="link_{name}"' \
                                                             ' value="{value}" />'
-            elif field.__class__ == StringField and not field.max_length:
+            elif isinstance(field, StringField) and not field.max_length:
                 field_html = '<textarea name="{name}" class="link_{name}"' \
                                         'placeholder="{placeholder}">{value}</textarea>'
-            elif field.__class__ == StringField and field.max_length:
+            elif isinstance(field, StringField) and field.max_length:
                 field_html = '<input name="{name}" type="text" class="link_{name}"' \
                                         ' placeholder="{placeholder}" value="{value}" />'
             elif field.__class__ == BooleanField:

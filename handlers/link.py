@@ -94,7 +94,7 @@ class LinkHandler(BaseHandler):
 
         protected_attributes = ['_xsrf', 'user', 'votes', 'voted_users']
         for attribute in protected_attributes:
-            if attributes.get('attribute'):
+            if attributes.get(attribute):
                 del attributes[attribute]
 
         attributes = {('set__%s' % k): v for k, v in attributes.iteritems()}

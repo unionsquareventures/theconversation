@@ -19,6 +19,7 @@ from handlers.link import LinkHandler
 from handlers.main import MainHandler
 from handlers.auth import TwitterLoginHandler, LogoutHandler
 from handlers.fake_error import FakeErrorHandler
+from handlers.deleted_content import DeletedContentHandler
 import ui
 
 define("port", default=8888, help="run on the given port", type=int)
@@ -37,6 +38,7 @@ if __name__ == '__main__':
             (r'/auth/logout/?', LogoutHandler),
 
             (r'/fake_error/?', FakeErrorHandler),
+            (r'/deleted_content/?', DeletedContentHandler),
 
             (r'/', MainHandler),
             (r'/(?P<action>new)$', MainHandler),
