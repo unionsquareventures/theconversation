@@ -4,9 +4,10 @@
     </head>
 
     <body>
+        <h1>Deleted Content</h1>
         <ul>
             {% for content in deleted_content %}
-                <li><a href="#">{{ content.title }}</a></li>
+                <li><a href="/{{ content._class_name.split('.')[1].lower() }}s/{{ content.id }}/edit">{{ content.title }}</a></li>
             {% end %}
         </ul>
     </body>

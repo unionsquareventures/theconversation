@@ -120,6 +120,7 @@ class PostHandler(BaseHandler):
             'user': User(**self.get_current_user()),
             'body_html': body_html,
             'featured': True if attributes.get('featured') else False,
+            'deleted': True if attributes.get('deleted') else False,
             'tags': tag_names,
         })
 

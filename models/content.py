@@ -19,8 +19,8 @@ class Content(Document):
     tags = ListField(ImprovedStringField())
     votes = IntField(default=0)
     voted_users = ListField(EmbeddedDocumentField(User))
-    featured = BooleanField(default=False)
     deleted = BooleanField(default=False)
+    featured = BooleanField(default=False)
 
     ignored_fields = []
 
