@@ -74,10 +74,14 @@ class PostHandler(BaseHandler):
             if attributes.get(attribute):
                 del attributes[attribute]
 
+        featured = False
+        if self.get_current_user()['username'].lower() in settings.admin_users and attributes.get('featured'):
+            featured = True
+
         attributes.update({
             'user': User(**self.get_current_user()),
             'body_html': body_html,
-            'featured': True if attributes.get('featured') else False,
+            'featured': featured,
             'tags': tag_names,
         })
 
@@ -95,7 +99,7 @@ class PostHandler(BaseHandler):
         if not post:
             raise tornado.web.HTTPError(404)
 
-        if not self.get_current_user()['username'] == post.user['username']:
+        if not self.get_current_user()['username'].lower() == post.user['username']:
             raise tornado.web.HTTPError(401)
 
         attributes = {k: v[0] for k, v in self.request.arguments.iteritems()}
@@ -119,10 +123,14 @@ class PostHandler(BaseHandler):
             if attributes.get(attribute):
                 del attributes[attribute]
 
+        featured = post.featured
+        if self.get_current_user()['username'].lower() in settings.admin_users:
+            featured = True if attributes.get('featured') else False
+
         attributes.update({
             'user': User(**self.get_current_user()),
             'body_html': body_html,
-            'featured': True if attributes.get('featured') else False,
+            'featured': featured,
             'deleted': True if attributes.get('deleted') else False,
             'tags': tag_names,
         })
@@ -142,7 +150,7 @@ class PostHandler(BaseHandler):
         if not post:
             raise tornado.web.HTTPError(404)
 
-        username = self.get_current_user()['username']
+        username = self.get_current_user()['username'].lower()
         if not username == post.user['username'] and not username in settings.admin_users:
             raise tornado.web.HTTPError(401)
 
@@ -163,7 +171,7 @@ class PostHandler(BaseHandler):
 
     @tornado.web.authenticated
     def upvote(self, id):
-        username = self.get_current_user()['username']
+        username = self.get_current_user()['username'].lower()
         user_q = {'$elemMatch': {'username': username}}
         post = Post.objects(id=id).fields(voted_users=user_q).first()
         if not post:

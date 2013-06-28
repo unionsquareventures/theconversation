@@ -76,7 +76,7 @@ class LinkHandler(BaseHandler):
         if not link:
             raise tornado.web.HTTPError(404)
 
-        if not self.get_current_user()['username'] == link.user['username']:
+        if not self.get_current_user()['username'].lower() == link.user['username']:
             raise tornado.web.HTTPError(401)
 
         attributes = {k: v[0] for k, v in self.request.arguments.iteritems()}
@@ -117,7 +117,7 @@ class LinkHandler(BaseHandler):
         if not link:
             raise tornado.web.HTTPError(404)
 
-        if not self.get_current_user()['username'] == link.user['username']:
+        if not self.get_current_user()['username'].lower() == link.user['username']:
             raise tornado.web.HTTPError(401)
 
         # Link modification page
@@ -136,7 +136,7 @@ class LinkHandler(BaseHandler):
             super(LinkHandler, self).get(id, action)
 
     def upvote(self, id):
-        username = self.get_current_user()['username']
+        username = self.get_current_user()['username'].lower()
         user_q = {'$elemMatch': {'username': username}}
         link = Link.objects(id=id).fields(voted_users=user_q).first()
         if not link:
