@@ -25,7 +25,7 @@ class Post(Content):
                 errors['hackpad_url'] = ValidationError('Invalid Hackpad URL', field_name='hackpad_url')
 
         try:
-            super(Post, self).validate(clean=True)
+            super(Post, self).validate(clean=clean)
         except ValidationError, e:
             errors.update(e.errors)
 

@@ -99,6 +99,7 @@ class LinkHandler(BaseHandler):
         attributes.update({
             'user': User(**self.get_current_user()),
             'featured': False,
+            'deleted': True if attributes.get('deleted') else False,
             'tags': tag_names,
         })
 
