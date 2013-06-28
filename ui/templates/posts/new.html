@@ -134,13 +134,18 @@ $(function() {
             'name': 'hackpad_url',
             'placeholder': 'Hackpad URL',
             'wrapper': hackpad_icon,
-          },
-          {
-            'name': 'featured',
-            'label': '<i class="icon-star"></i>&nbsp;Feature this post?',
-            'label_selected': '<i class="icon-remove"></i>&nbsp;Un-feature this post',
           }]
           %}
+
+          {% if user['username'] in settings.admin_users %}
+            {%
+                set form_fields = form_fields + [{
+                    'name': 'featured',
+                    'label': '<i class="icon-star"></i>&nbsp;Feature this post?',
+                    'label_selected': '<i class="icon-remove"></i>&nbsp;Un-feature this post',
+                }]
+            %}
+          {% end %}
 
           {% if not model._created %}
               {% set form_fields = form_fields + [{

@@ -69,9 +69,10 @@ class PostHandler(BaseHandler):
         body_raw = attributes.get('body_raw', '')
         body_html = html_sanitize(body_raw)
 
-        # Handle Hackpad
-        if attributes.get('has_hackpad'):
-            attributes['has_hackpad'] = True
+        protected_attributes = ['_xsrf', 'user', 'votes', 'voted_users']
+        for attribute in protected_attributes:
+            if attributes.get(attribute):
+                del attributes[attribute]
 
         attributes.update({
             'user': User(**self.get_current_user()),
@@ -79,6 +80,7 @@ class PostHandler(BaseHandler):
             'featured': True if attributes.get('featured') else False,
             'tags': tag_names,
         })
+
         post = Post(**attributes)
         try:
             post.save()
@@ -112,9 +114,10 @@ class PostHandler(BaseHandler):
         body_raw = attributes.get('body_raw', '')
         body_html = html_sanitize(body_raw)
 
-        # Handle Hackpad
-        if attributes.get('has_hackpad'):
-            attributes['has_hackpad'] = True
+        protected_attributes = ['_xsrf', 'user', 'votes', 'voted_users']
+        for attribute in protected_attributes:
+            if attributes.get(attribute):
+                del attributes[attribute]
 
         attributes.update({
             'user': User(**self.get_current_user()),
@@ -123,11 +126,6 @@ class PostHandler(BaseHandler):
             'deleted': True if attributes.get('deleted') else False,
             'tags': tag_names,
         })
-
-        protected_attributes = ['_xsrf', 'user', 'votes', 'voted_users']
-        for attribute in protected_attributes:
-            if attributes.get(attribute):
-                del attributes[attribute]
 
         attributes = {('set__%s' % k): v for k, v in attributes.iteritems()}
         post.update(**attributes)
@@ -144,7 +142,8 @@ class PostHandler(BaseHandler):
         if not post:
             raise tornado.web.HTTPError(404)
 
-        if not self.get_current_user()['username'] == post.user['username']:
+        username = self.get_current_user()['username']
+        if not username == post.user['username'] and not username in settings.admin_users:
             raise tornado.web.HTTPError(401)
 
         # Modification page
@@ -170,7 +169,7 @@ class PostHandler(BaseHandler):
         if not post:
             raise tornado.web.HTTPError(404)
         detail = self.get_argument('detail', '')
-        if post.voted_users:
+        if post.voted_users and not username in settings.admin_users:
             self.redirect(('/posts/%s?error' % post.id) if detail else '/?error')
             return
 

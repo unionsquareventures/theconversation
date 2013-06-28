@@ -51,6 +51,11 @@ class LinkHandler(BaseHandler):
             tag = Tag(name=name)
             tag.save()
 
+        protected_attributes = ['_xsrf', 'user', 'votes', 'voted_users']
+        for attribute in protected_attributes:
+            if attributes.get(attribute):
+                del attributes[attribute]
+
         attributes.update({
             'user': User(**self.get_current_user()),
             'featured': False,
@@ -86,16 +91,16 @@ class LinkHandler(BaseHandler):
             tag = Tag(name=name)
             tag.save()
 
+        protected_attributes = ['_xsrf', 'user', 'votes', 'voted_users']
+        for attribute in protected_attributes:
+            if attributes.get(attribute):
+                del attributes[attribute]
+
         attributes.update({
             'user': User(**self.get_current_user()),
             'featured': False,
             'tags': tag_names,
         })
-
-        protected_attributes = ['_xsrf', 'user', 'votes', 'voted_users']
-        for attribute in protected_attributes:
-            if attributes.get(attribute):
-                del attributes[attribute]
 
         attributes = {('set__%s' % k): v for k, v in attributes.iteritems()}
         link.update(**attributes)
