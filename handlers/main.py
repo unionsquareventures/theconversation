@@ -3,7 +3,6 @@ import tornado.web
 import tornado.auth
 import tornado.httpserver
 from base import BaseHandler
-import mongoengine
 from models import Link, User, Tag, Content
 from BeautifulSoup import BeautifulSoup
 from urlparse import urlparse
@@ -26,7 +25,7 @@ class MainHandler(BaseHandler):
         }
         sort_by = self.get_argument('sort_by', 'hot')
         posts = Content.objects(featured=False, deleted=False, **query).order_by(*ordering[sort_by])
-        featured_posts = list(Content.objects(featured=True, deleted=False, **query).order_by('-date_created'))
+        featured_posts = list(Content.objects(featured=True, deleted=False, **query).order_by('-date_featured'))
 
         for post in featured_posts:
             soup = BeautifulSoup(post['body_html'])

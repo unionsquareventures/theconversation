@@ -26,6 +26,12 @@ class BaseHandler(SentryMixin, tornado.web.RequestHandler):
         if not user_json: return {}
         return tornado.escape.json_decode(user_json)
 
+    def is_admin(self):
+        user = self.get_current_user()
+        if user and user['username'].lower() in settings.admin_users:
+            return True
+        return False
+
     @tornado.web.authenticated
     def post(self, id='', action=''):
         if id:

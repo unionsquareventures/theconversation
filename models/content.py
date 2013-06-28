@@ -21,6 +21,7 @@ class Content(Document):
     voted_users = ListField(EmbeddedDocumentField(User))
     deleted = BooleanField(default=False)
     featured = BooleanField(default=False)
+    date_featured = DateTimeField(required=False)
 
     ignored_fields = []
 
@@ -70,7 +71,7 @@ class Content(Document):
             elif isinstance(field, StringField) and field.max_length:
                 field_html = '<input name="{name}" type="text" class="link_{name}"' \
                                         ' placeholder="{placeholder}" value="{value}" />'
-            elif field.__class__ == BooleanField:
+            elif isinstance(field, BooleanField):
                 field_html = '<input name="{name}" type="checkbox" class="link_{name}"' \
                                         ' value="true" id="link_{name}" %s />'\
                                                         % ('checked' if form_field['value'] else '')

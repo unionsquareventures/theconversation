@@ -143,7 +143,7 @@ class LinkHandler(BaseHandler):
         if not link:
             raise tornado.web.HTTPError(404)
         detail = self.get_argument('detail', '')
-        if link.voted_users:
+        if link.voted_users and not self.is_admin():
             self.redirect(('/links/%s?error' % link.id) if detail else '/?error')
             return
 

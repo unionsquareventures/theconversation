@@ -12,6 +12,7 @@ from models import User, Tag, Content, Post
 from urlparse import urlparse
 from BeautifulSoup import BeautifulSoup
 from lib.auth import admin_only
+from datetime import datetime
 
 class PostHandler(BaseHandler):
     def __init__(self, *args, **kwargs):
@@ -76,13 +77,16 @@ class PostHandler(BaseHandler):
                 del attributes[attribute]
 
         featured = False
-        if self.get_current_user()['username'].lower() in settings.admin_users and attributes.get('featured'):
+        date_featured = None
+        if self.is_admin() and attributes.get('featured'):
             featured = True
+            date_featured = datetime.now()
 
         attributes.update({
             'user': User(**self.get_current_user()),
             'body_html': body_html,
             'featured': featured,
+            'date_featured': date_featured,
             'tags': tag_names,
         })
 
@@ -125,13 +129,19 @@ class PostHandler(BaseHandler):
                 del attributes[attribute]
 
         featured = post.featured
-        if self.get_current_user()['username'].lower() in settings.admin_users:
-            featured = True if attributes.get('featured') else False
+        date_featured = post.date_featured
+        if self.is_admin() and attributes.get('featured') and not featured:
+            featured = True
+            date_featured = datetime.now()
+        if self.is_admin() and not attributes.get('featured'):
+            featured = False
+            date_featured = None
 
         attributes.update({
             'user': User(**self.get_current_user()),
             'body_html': body_html,
             'featured': featured,
+            'date_featured': date_featured,
             'deleted': True if attributes.get('deleted') else False,
             'tags': tag_names,
         })
@@ -152,7 +162,7 @@ class PostHandler(BaseHandler):
             raise tornado.web.HTTPError(404)
 
         username = self.get_current_user()['username'].lower()
-        if not username == post.user['username'].lower() and not username in settings.admin_users:
+        if not username == post.user['username'].lower() and not self.is_admin():
             raise tornado.web.HTTPError(401)
 
         # Modification page
@@ -179,8 +189,10 @@ class PostHandler(BaseHandler):
             post = Post.objects.get(id=id)
         except Post.DoesNotExist:
             raise tornado.web.HTTPError(404)
-        post.featured = True
-        post.save()
+        if not post.featured:
+            post.featured = True
+            post.date_featured = datetime.now()
+            post.save()
         self.redirect('/')
 
     @tornado.web.authenticated
@@ -191,7 +203,7 @@ class PostHandler(BaseHandler):
         if not post:
             raise tornado.web.HTTPError(404)
         detail = self.get_argument('detail', '')
-        if post.voted_users and not username in settings.admin_users:
+        if post.voted_users and not self.is_admin():
             self.redirect(('/posts/%s?error' % post.id) if detail else '/?error')
             return
 
