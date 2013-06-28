@@ -76,7 +76,7 @@ class LinkHandler(BaseHandler):
         if not link:
             raise tornado.web.HTTPError(404)
 
-        if not self.get_current_user()['username'].lower() == link.user['username']:
+        if not self.get_current_user()['username'].lower() == link.user['username'].lower():
             raise tornado.web.HTTPError(401)
 
         attributes = {k: v[0] for k, v in self.request.arguments.iteritems()}
@@ -117,7 +117,7 @@ class LinkHandler(BaseHandler):
         if not link:
             raise tornado.web.HTTPError(404)
 
-        if not self.get_current_user()['username'].lower() == link.user['username']:
+        if not self.get_current_user()['username'].lower() == link.user['username'].lower():
             raise tornado.web.HTTPError(401)
 
         # Link modification page

@@ -99,7 +99,7 @@ class PostHandler(BaseHandler):
         if not post:
             raise tornado.web.HTTPError(404)
 
-        if not self.get_current_user()['username'].lower() == post.user['username']:
+        if not self.get_current_user()['username'].lower() == post.user['username'].lower():
             raise tornado.web.HTTPError(401)
 
         attributes = {k: v[0] for k, v in self.request.arguments.iteritems()}
@@ -151,7 +151,7 @@ class PostHandler(BaseHandler):
             raise tornado.web.HTTPError(404)
 
         username = self.get_current_user()['username'].lower()
-        if not username == post.user['username'] and not username in settings.admin_users:
+        if not username == post.user['username'].lower() and not username in settings.admin_users:
             raise tornado.web.HTTPError(401)
 
         # Modification page

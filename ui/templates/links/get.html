@@ -51,11 +51,13 @@
 
     <div id="post_stream_bar" class="detail column_header">
       <div class="buttons_container">
-        <div class="post_buttons">
-         <a href="/{{ path }}/{{ link.id }}/edit">
-           <i class="icon-pencil icon"></i>&nbsp;&nbsp;Edit
-         </a>
-       </div>
+          <div class="post_buttons">
+              {% if user.get('username', '').lower() in settings.admin_users or user.get('username', '').lower() in link.user['username'].lower() %}
+                 <a href="/{{ path }}/{{ link.id }}/edit">
+                   <i class="icon-pencil icon"></i>&nbsp;&nbsp;Edit
+                 </a>
+              {% end %}
+          </div>
       </div>
     </div>
 
