@@ -11,6 +11,7 @@ from models import User, Tag, Content, Post
 
 from urlparse import urlparse
 from BeautifulSoup import BeautifulSoup
+from lib.auth import admin_only
 
 class PostHandler(BaseHandler):
     def __init__(self, *args, **kwargs):
@@ -166,8 +167,21 @@ class PostHandler(BaseHandler):
     def get(self, id='', action=''):
         if action == 'upvote' and id:
             self.upvote(id)
+        elif action == 'feature' and id:
+            self.feature(id)
         else:
             super(PostHandler, self).get(id, action)
+
+    @tornado.web.authenticated
+    @admin_only
+    def feature(self, id):
+        try:
+            post = Post.objects.get(id=id)
+        except Post.DoesNotExist:
+            raise tornado.web.HTTPError(404)
+        post.featured = True
+        post.save()
+        self.redirect('/')
 
     @tornado.web.authenticated
     def upvote(self, id):

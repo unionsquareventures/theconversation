@@ -147,6 +147,9 @@
                         </span>
                         <a href="/{{ path }}/{{ post.id }}" class="date" target="_blank"><i class="icon-calendar icon"></i>{{ post.date_created.strftime("%B %d, %Y") }}</a>
                         <a href="/{{ path }}/{{ post.id }}/upvote" class="votes"><i class="icon-arrow-up icon"></i>{{ post.votes }} votes</a>
+                        {% if post_type == 'post' %}
+                            <a href="/{{ path }}/{{ post.id }}/feature"><i class="icon-star icon"></i>Feature</a>
+                        {% end %}
                     </div>
                 </div>
             {% end %}
