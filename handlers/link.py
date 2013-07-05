@@ -10,10 +10,14 @@ from models import Link, User, Tag, Content
 
 from urlparse import urlparse
 from BeautifulSoup import BeautifulSoup
+from lib.recaptcha import RecaptchaMixin
 
-class LinkHandler(BaseHandler):
+class LinkHandler(BaseHandler, RecaptchaMixin):
     def __init__(self, *args, **kwargs):
         super(LinkHandler, self).__init__(*args, **kwargs)
+        self.vars.update({
+            'recaptcha_render': self.recaptcha_render
+        })
 
     def detail(self, id):
         link = Link.objects(id=id).first()
@@ -28,16 +32,21 @@ class LinkHandler(BaseHandler):
         self.render('links/get.html', **self.vars)
 
     @tornado.web.asynchronous
-    def new(self, model=Link(), errors={}):
+    def new(self, model=Link(), errors={}, recaptcha_error=False):
         # Link creation page
         self.vars.update({
             'model': model,
             'errors': errors,
             'edit_mode': False,
+            'recaptcha_error': recaptcha_error,
         })
         self.render('links/new.html', **self.vars)
 
+    @tornado.web.asynchronous
     def create(self):
+        self.recaptcha_validate(self._on_validate)
+
+    def _on_validate(self, recaptcha_response):
         attributes = {k: v[0] for k, v in self.request.arguments.iteritems()}
 
         # Handle tags
@@ -63,6 +72,10 @@ class LinkHandler(BaseHandler):
         })
 
         link = Link(**attributes)
+        if not recaptcha_response:
+            self.new(model=link, recaptcha_error=True)
+            return
+
         try:
             link.save()
         except mongoengine.ValidationError, e:
@@ -102,9 +115,7 @@ class LinkHandler(BaseHandler):
             'deleted': True if attributes.get('deleted') else False,
             'tags': tag_names,
         })
-
-        attributes = {('set__%s' % k): v for k, v in attributes.iteritems()}
-        link.update(**attributes)
+        link.set_fields(**attributes)
         try:
             link.save()
         except mongoengine.ValidationError, e:

@@ -37,6 +37,13 @@ class Content(Document):
         id = counter['value']
         self._data['id'] = id
 
+    def set_fields(self, **kwargs):
+        print kwargs
+        for fname in self._fields.keys():
+            if kwargs.get(fname):
+                setattr(self, fname, kwargs[fname])
+        print self.title
+
     def save(self, *args, **kwargs):
         if kwargs.get('force_insert') or '_id' not in self.to_mongo() or self._created:
             if self.hook_date_created:

@@ -13,10 +13,14 @@ from urlparse import urlparse
 from BeautifulSoup import BeautifulSoup
 from lib.auth import admin_only
 from datetime import datetime
+from lib.recaptcha import RecaptchaMixin
 
-class PostHandler(BaseHandler):
+class PostHandler(BaseHandler, RecaptchaMixin):
     def __init__(self, *args, **kwargs):
         super(PostHandler, self).__init__(*args, **kwargs)
+        self.vars.update({
+            'recaptcha_render': self.recaptcha_render,
+        })
 
     def detail(self, id):
         post = Post.objects(id=id).first()
@@ -29,7 +33,7 @@ class PostHandler(BaseHandler):
         self.render('posts/get.html', **self.vars)
 
     @tornado.web.asynchronous
-    def new(self, model=Post(), errors={}):
+    def new(self, model=Post(), errors={}, recaptcha_error=False):
         hackpad_api = HackpadAPI(settings.hackpad['oauth_client_id'],
                                             settings.hackpad['oauth_secret'],
                                             domain=settings.hackpad['domain'])
@@ -44,6 +48,7 @@ class PostHandler(BaseHandler):
                 'model': model,
                 'errors': errors,
                 'edit_mode': False,
+                'recaptcha_error': recaptcha_error,
             })
             self.render('posts/new.html', **self.vars)
 
@@ -52,8 +57,11 @@ class PostHandler(BaseHandler):
         else:
             render()
 
-
+    @tornado.web.asynchronous
     def create(self):
+        self.recaptcha_validate(self._on_validate)
+
+    def _on_validate(self, recaptcha_response):
         attributes = {k: v[0] for k, v in self.request.arguments.iteritems()}
 
         # Handle tags
@@ -91,6 +99,10 @@ class PostHandler(BaseHandler):
         })
 
         post = Post(**attributes)
+        if not recaptcha_response:
+            self.new(model=post, recaptcha_error=True)
+            return
+
         try:
             post.save()
         except mongoengine.ValidationError, e:
@@ -145,9 +157,7 @@ class PostHandler(BaseHandler):
             'deleted': True if attributes.get('deleted') else False,
             'tags': tag_names,
         })
-
-        attributes = {('set__%s' % k): v for k, v in attributes.iteritems()}
-        post.update(**attributes)
+        post.set_fields(**attributes)
         try:
             post.save()
         except mongoengine.ValidationError, e:

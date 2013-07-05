@@ -12,8 +12,8 @@ class Link(Content):
 
     def validate(self, clean=True):
         errors = {}
-        link = Link.objects(url=self._data['url'])
-        if link:
+        link = Link.objects(url=self._data['url']).first()
+        if link and (link.id != self._data['id'] or self._created):
             errors['url'] = ValidationError('This URL has already been submitted', field_name='url')
 
         try:
