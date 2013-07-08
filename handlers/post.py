@@ -4,7 +4,6 @@ import tornado.auth
 import tornado.httpserver
 import os
 from lib.sanitize import html_sanitize, linkify
-from lib.hackpad import HackpadAPI
 from base import BaseHandler
 import mongoengine
 from models import User, Tag, Content, Post
@@ -33,28 +32,14 @@ class PostHandler(BaseHandler, RecaptchaMixin):
 
     @tornado.web.asynchronous
     def new(self, model=Post(), errors={}, recaptcha_error=False):
-        hackpad_api = HackpadAPI(settings.hackpad['oauth_client_id'],
-                                            settings.hackpad['oauth_secret'],
-                                            domain=settings.hackpad['domain'])
-        def hpad_created(hpad_json):
-            model.hackpad_url = 'https://%s.hackpad.com/%s'\
-                                            % (settings.hackpad['domain'], hpad_json['padId'])
-            render()
-
-        def render():
-            # Link creation page
-            self.vars.update({
-                'model': model,
-                'errors': errors,
-                'edit_mode': False,
-                'recaptcha_error': recaptcha_error,
-            })
-            self.render('posts/new.html', **self.vars)
-
-        if not errors:
-            hackpad_api.create(hpad_created)
-        else:
-            render()
+        # Link creation page
+        self.vars.update({
+            'model': model,
+            'errors': errors,
+            'edit_mode': False,
+            'recaptcha_error': recaptcha_error,
+        })
+        self.render('posts/new.html', **self.vars)
 
     @tornado.web.asynchronous
     def create(self):

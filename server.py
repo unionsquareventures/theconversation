@@ -20,6 +20,7 @@ from handlers.main import MainHandler
 from handlers.auth import TwitterLoginHandler, LogoutHandler
 from handlers.fake_error import FakeErrorHandler
 from handlers.deleted_content import DeletedContentHandler
+from handlers.hackpad import HackpadHandler
 import ui
 
 define("port", default=8888, help="run on the given port", type=int)
@@ -54,7 +55,8 @@ if __name__ == '__main__':
             (r'/posts/(?P<action>new)$', PostHandler),
             (r'/posts/(?P<id>[A-z0-9]+$)', PostHandler),
             (r'/posts/(?P<id>[A-z0-9]+)/(?P<action>.*)$', PostHandler),
-        ], ui_modules = ui.template_modules(),
+            (r'/get_hackpad/?', HackpadHandler),
+            ], ui_modules = ui.template_modules(),
             ui_methods = ui.template_methods(),
             **settings.tornado_config)
 
