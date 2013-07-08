@@ -11,7 +11,6 @@ from models import User, Tag, Content, Post
 
 from urlparse import urlparse
 from BeautifulSoup import BeautifulSoup
-from lib.auth import admin_only
 from datetime import datetime
 from lib.recaptcha import RecaptchaMixin
 
@@ -116,8 +115,9 @@ class PostHandler(BaseHandler, RecaptchaMixin):
         if not post:
             raise tornado.web.HTTPError(404)
 
-        if not self.get_current_user()['username'].lower() == post.user['username'].lower():
-            raise tornado.web.HTTPError(401)
+        id_str = self.get_current_user()['id_str']
+        if not (self.is_admin() or id_str == post.user['id_str']):
+            raise tornado.web.HTTPError(403)
 
         attributes = {k: v[0] for k, v in self.request.arguments.iteritems()}
         # Handle tags
@@ -171,9 +171,9 @@ class PostHandler(BaseHandler, RecaptchaMixin):
         if not post:
             raise tornado.web.HTTPError(404)
 
-        username = self.get_current_user()['username'].lower()
-        if not username == post.user['username'].lower() and not self.is_admin():
-            raise tornado.web.HTTPError(401)
+        id_str = self.get_current_user()['id_str']
+        if not (id_str == post.user['id_str'] or self.is_admin()):
+            raise tornado.web.HTTPError(403)
 
         # Modification page
         self.vars.update({
@@ -193,8 +193,10 @@ class PostHandler(BaseHandler, RecaptchaMixin):
             super(PostHandler, self).get(id, action)
 
     @tornado.web.authenticated
-    @admin_only
     def feature(self, id):
+        if not self.is_admin():
+            raise tornado.web.HTTPError(403)
+
         try:
             post = Post.objects.get(id=id)
         except Post.DoesNotExist:
@@ -207,8 +209,8 @@ class PostHandler(BaseHandler, RecaptchaMixin):
 
     @tornado.web.authenticated
     def upvote(self, id):
-        username = self.get_current_user()['username'].lower()
-        user_q = {'$elemMatch': {'username': username}}
+        id_str = self.get_current_user()['id_str']
+        user_q = {'$elemMatch': {'id_str': id_str}}
         post = Post.objects(id=id).fields(voted_users=user_q).first()
         if not post:
             raise tornado.web.HTTPError(404)
@@ -218,6 +220,7 @@ class PostHandler(BaseHandler, RecaptchaMixin):
             return
 
         post.update(inc__votes=1)
-        post.update(push__voted_users=User(**self.get_current_user()))
+        if not post.voted_users:
+            post.update(push__voted_users=User(**self.get_current_user()))
 
         self.redirect(('/posts/%s' % post.id) if detail else '/')

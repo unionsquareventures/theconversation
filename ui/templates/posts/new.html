@@ -137,7 +137,7 @@ $(function() {
           }]
           %}
 
-          {% if user['username'] in settings.admin_users %}
+          {% if is_admin() %}
             {%
                 set form_fields = form_fields + [{
                     'name': 'featured',

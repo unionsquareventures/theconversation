@@ -1,6 +1,7 @@
 from mongoengine import *
 
 class User(EmbeddedDocument):
+    id_str = StringField(required=True)
     auth_type = StringField(required=True)
     username = StringField(required=True)
     screen_name = StringField(required=True)

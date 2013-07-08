@@ -11,6 +11,7 @@ class BaseHandler(SentryMixin, tornado.web.RequestHandler):
         self.vars = {
                         'user': self.get_current_user(),
                         'settings': settings,
+                        'is_admin': self.is_admin,
                     }
 
     def render_json(self, obj):
@@ -28,7 +29,7 @@ class BaseHandler(SentryMixin, tornado.web.RequestHandler):
 
     def is_admin(self):
         user = self.get_current_user()
-        if user and user['username'].lower() in settings.admin_users:
+        if user and user['id_str'] in settings.admin_user_ids:
             return True
         return False
 

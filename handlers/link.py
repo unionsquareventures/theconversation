@@ -89,8 +89,9 @@ class LinkHandler(BaseHandler, RecaptchaMixin):
         if not link:
             raise tornado.web.HTTPError(404)
 
-        if not self.get_current_user()['username'].lower() == link.user['username'].lower():
-            raise tornado.web.HTTPError(401)
+        id_str = self.get_current_user()['id_str']
+        if not (id_str == link.user['id_str'] or self.is_admin()):
+            raise tornado.web.HTTPError(403)
 
         attributes = {k: v[0] for k, v in self.request.arguments.iteritems()}
         # Handle tags
@@ -129,8 +130,9 @@ class LinkHandler(BaseHandler, RecaptchaMixin):
         if not link:
             raise tornado.web.HTTPError(404)
 
-        if not self.get_current_user()['username'].lower() == link.user['username'].lower():
-            raise tornado.web.HTTPError(401)
+        id_str = self.get_current_user()['id_str']
+        if not (self.is_admin() or id_str == link.user['id_str']):
+            raise tornado.web.HTTPError(403)
 
         # Link modification page
         self.vars.update({
@@ -148,8 +150,8 @@ class LinkHandler(BaseHandler, RecaptchaMixin):
             super(LinkHandler, self).get(id, action)
 
     def upvote(self, id):
-        username = self.get_current_user()['username'].lower()
-        user_q = {'$elemMatch': {'username': username}}
+        id_str = self.get_current_user()['id_str']
+        user_q = {'$elemMatch': {'id_str': id_str}}
         link = Link.objects(id=id).fields(voted_users=user_q).first()
         if not link:
             raise tornado.web.HTTPError(404)
@@ -159,6 +161,7 @@ class LinkHandler(BaseHandler, RecaptchaMixin):
             return
 
         link.update(inc__votes=1)
-        link.update(push__voted_users=User(**self.get_current_user()))
+        if not link.voted_users:
+            link.update(push__voted_users=User(**self.get_current_user()))
 
         self.redirect(('/links/%s' % link.id) if detail else '/')

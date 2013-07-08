@@ -1,10 +1,12 @@
 from base import BaseHandler
-from lib.auth import admin_only
 from models import Content
+import tornado.web
 
 class DeletedContentHandler(BaseHandler):
-    @admin_only
     def get(self):
+        if not self.is_admin():
+            raise tornado.web.HTTPError(403)
+
         cur_page = 0
         length = 50
         deleted_content = Content.objects(deleted=True).order_by('-date_created')[cur_page*length:cur_page+length]
