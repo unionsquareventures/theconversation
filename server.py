@@ -55,7 +55,7 @@ if __name__ == '__main__':
             (r'/posts/(?P<action>new)$', PostHandler),
             (r'/posts/(?P<id>[A-z0-9]+$)', PostHandler),
             (r'/posts/(?P<id>[A-z0-9]+)/(?P<action>.*)$', PostHandler),
-            (r'/get_hackpad/?', HackpadHandler),
+            (r'/generate_hackpad/?', HackpadHandler),
             ], ui_modules = ui.template_modules(),
             ui_methods = ui.template_methods(),
             **settings.tornado_config)

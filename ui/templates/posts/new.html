@@ -103,6 +103,15 @@ $(function() {
     external_image_list_url : "lists/image_list.js",
     media_external_list_url : "lists/media_list.js",
   });
+
+  // Fill the Hackpad URL
+  if(!$('.link_hackpad_url').val()) {
+    $.ajax('/generate_hackpad', {
+      success: function(data) {
+        $('.link_hackpad_url').val(data);
+      }
+    });
+  }
 });
 </script>
 {% end %}
