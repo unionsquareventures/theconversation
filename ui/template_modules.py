@@ -1,6 +1,7 @@
 import os
 import sys
 from tornado.web import UIModule
+import imp
 
 sys.path.append('../')
 import settings
@@ -50,10 +51,17 @@ def template_modules():
         except IOError:
             pass
 
-        # Create a UIModule object for this module
-        modules[filename] = type("UI_%s" % filename, (BaseUIModule,), {
-            'name': filename,
-            'has_javascript': has_javascript
-        })
+        # A UIModule must be loaded or created to interface with Tornado's
+        # templating system. A UIModule named MainModule may be provided in
+        # the module's main.py file. Otherwise, a UIModule is created.
+        pyfile = os.path.join(path, "main.py")
+        if os.path.exists(pyfile):
+            module = imp.load_source("UI_%s" % filename, pyfile)
+            modules[filename] = module.MainModule
+        else:
+            modules[filename] = type("UI_%s" % filename, (BaseUIModule,), {
+                'name': filename,
+                'has_javascript': has_javascript
+            })
     return modules
 
