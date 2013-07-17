@@ -15,8 +15,6 @@ from raven.contrib.tornado import AsyncSentryClient
 
 from handlers.base import BaseHandler
 from handlers.post import PostHandler
-from handlers.link import LinkHandler
-from handlers.main import MainHandler
 from handlers.auth import TwitterLoginHandler, LogoutHandler
 from handlers.fake_error import FakeErrorHandler
 from handlers.deleted_content import DeletedContentHandler
@@ -41,15 +39,7 @@ if __name__ == '__main__':
             (r'/fake_error/?', FakeErrorHandler),
             (r'/deleted_content/?', DeletedContentHandler),
 
-            (r'/', MainHandler),
-            (r'/(?P<action>new)$', MainHandler),
-
-            (r'/links/?', LinkHandler),
-            (r'/links/(?P<action>upvote)$', LinkHandler),
-            (r'/links/(?P<action>new)$', LinkHandler),
-            (r'/links/(?P<id>[A-z0-9]+$)', LinkHandler),
-            (r'/links/(?P<id>[A-z0-9]+)/(?P<action>.*)$', LinkHandler),
-
+            (r'/?', PostHandler),
             (r'/posts/?', PostHandler),
             (r'/posts/(?P<action>upvote)$', PostHandler),
             (r'/posts/(?P<action>new)$', PostHandler),

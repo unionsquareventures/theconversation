@@ -6,7 +6,7 @@ import os
 from lib.sanitize import html_sanitize, linkify
 from base import BaseHandler
 import mongoengine
-from models import User, Tag, Content, Post
+from models import User, Tag, Post
 
 from urlparse import urlparse
 from BeautifulSoup import BeautifulSoup
@@ -20,6 +20,49 @@ class PostHandler(BaseHandler, RecaptchaMixin):
             'recaptcha_render': self.recaptcha_render,
         })
 
+    def index(self):
+        # list posts
+        query = {}
+        tag = self.get_argument('tag', '').lower()
+        if tag:
+            query.update({
+                'tags': tag,
+            })
+        ordering = {
+            'hot': ('-votes', '-date_created'),
+            'new': ('-date_created', '-votes')
+        }
+        per_page = 50
+        sort_by = self.get_argument('sort_by', 'hot')
+        page = abs(int(self.get_argument('page', '1')))
+        posts = Post.objects(featured=False, deleted=False, **query).order_by(*ordering[sort_by])
+        posts = posts[(page - 1) * per_page:(page - 1) * per_page + (per_page -1)]
+        post_count = Post.objects(featured=False, deleted=False, **query).count()
+        featured_posts = list(Post.objects(featured=True, deleted=False, **query).order_by('-date_featured'))
+
+        for post in featured_posts:
+            soup = BeautifulSoup(post['body_html'])
+            post['body_html'] = soup.prettify()
+            #try:
+            #    post['body_html'] = truncate(post['body_html'], 500, ellipsis='...')
+            #except:
+            #    pass
+            #post['body_html'] = html_sanitize_preview(post['body_html'])
+
+        tags = Tag.objects()
+        self.vars.update({
+            'sort_by': sort_by,
+            'posts': posts,
+            'post_count': post_count,
+            'page': page,
+            'per_page': per_page,
+            'featured_posts': featured_posts,
+            'tags': tags,
+            'current_tag': tag,
+            'urlparse': urlparse,
+        })
+        self.render('post/index.html', **self.vars)
+
     def detail(self, id):
         post = Post.objects(id=id).first()
         if not post:
@@ -28,7 +71,7 @@ class PostHandler(BaseHandler, RecaptchaMixin):
             self.write("Deleted.")
             return
         self.vars.update({'post': post})
-        self.render('posts/get.html', **self.vars)
+        self.render('post/get.html', **self.vars)
 
     @tornado.web.asynchronous
     def new(self, model=Post(), errors={}, recaptcha_error=False):
@@ -39,7 +82,7 @@ class PostHandler(BaseHandler, RecaptchaMixin):
             'edit_mode': False,
             'recaptcha_error': recaptcha_error,
         })
-        self.render('posts/new.html', **self.vars)
+        self.render('post/new.html', **self.vars)
 
     @tornado.web.asynchronous
     def create(self):
@@ -166,7 +209,7 @@ class PostHandler(BaseHandler, RecaptchaMixin):
             'errors': errors,
             'edit_mode': True,
         })
-        self.render('posts/new.html', **self.vars)
+        self.render('post/new.html', **self.vars)
 
 
     def get(self, id='', action=''):

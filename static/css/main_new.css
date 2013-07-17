@@ -1,6 +1,74 @@
 .btn {
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0) !important;
 }
+.post_form {
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+  border-radius: 4px;
+  margin-top: 20px;
+  border: 1px solid #CECECE;
+  background: #F6F6F6;
+  padding: 30px;
+}
+.post_form .form_contents .post_submit_bar {
+  height: 20px;
+  margin-right: 0px;
+  width: 100%;
+}
+.post_form .form_contents .post_submit_bar .btn {
+  margin: 0px 0px 0px 0px;
+  float: right;
+}
+.post_form .form_contents .post_submit_bar .btn .icon-plus-sign {
+  margin-right: 5px;
+}
+.post_form .form_contents .post_submit_bar {
+  margin-top: 10px;
+}
+.post_form .form_contents input[type=checkbox] {
+  float: left;
+}
+.post_form .form_contents input[type=text],
+.post_form .form_contents textarea {
+  padding: 6px 4px;
+}
+.post_form .form_contents textarea {
+  margin: 0px 0px 5px 0px;
+}
+.post_form .form_contents .mceLayout {
+  margin: 10px 0px;
+}
+.post_form .form_contents label {
+  float: left;
+  margin: 0px 0px 10px 5px;
+}
+.post_form .form_contents .check_button {
+  margin: 0px 0px 10px 0px;
+}
+.post_form .form_contents .input-prepend {
+  display: block;
+  padding: 0px 37px 0px 0px;
+}
+.post_form .form_contents .input-prepend .add-on {
+  height: 24px;
+}
+.post_form .form_contents .input-prepend .text_wrapper {
+  padding: 0px;
+  display: inline-block;
+  width: 100%;
+}
+.post_form .form_contents .hackpad_input {
+  padding: 0px 72px 0px 0px !important;
+  margin-bottom: 9px;
+}
+.post_form .form_contents .hackpad_input input {
+  margin: 0px 0px 0px 0px !important;
+  padding: 6px 4px !important;
+}
+.post_form .form_contents .text_wrapper {
+  padding: 0px 10px 0px 0px;
+}
 a.sub-comments {
   display: inline;
   margin: 0px;
@@ -247,21 +315,6 @@ a.sub-comments {
   max-width: 800px;
   margin: 110px auto 0px auto;
 }
-#content .post.detail .share_buttons {
-  float: right;
-  margin-right: 8px;
-}
-#content .post.detail .share_buttons .share_button {
-  margin-left: 8px;
-  display: inline-block;
-}
-#content .post.detail .share_buttons #share_button_facebook {
-  overflow: hidden !important;
-  width: 48px !important;
-}
-#content .post.detail .share_buttons .addthis_toolbox {
-  display: inline-block;
-}
 #content .post.detail .avatar {
   width: 75px;
   height: 75px;
@@ -326,10 +379,6 @@ a.sub-comments {
 }
 #content .post.detail #disqus_thread {
   margin-top: 20px;
-}
-#content .post.detail .hackpad {
-  margin-top: 20px;
-  margin-left: 8px;
 }
 @media (min-width: 875px) {
   #post_column {

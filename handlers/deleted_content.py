@@ -1,5 +1,5 @@
 from base import BaseHandler
-from models import Content
+from models import Post
 import tornado.web
 
 class DeletedContentHandler(BaseHandler):
@@ -9,7 +9,7 @@ class DeletedContentHandler(BaseHandler):
 
         cur_page = 0
         length = 50
-        deleted_content = Content.objects(deleted=True).order_by('-date_created')[cur_page*length:cur_page+length]
+        deleted_content = Post.objects(deleted=True).order_by('-date_created')[cur_page*length:cur_page+length]
         self.vars.update({
             'deleted_content': deleted_content,
         })
