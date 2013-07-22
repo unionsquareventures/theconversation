@@ -1,6 +1,5 @@
 import settings
 from markdown import markdown
-import datetime as dt
 from mongoengine import *
 from user import User
 from custom_fields import ImprovedStringField, ImprovedURLField
@@ -17,6 +16,7 @@ class Post(Document):
     user = EmbeddedDocumentField(User, required=True)
     tags = ListField(ImprovedStringField())
     votes = IntField(default=0)
+    score = FloatField(default=0.0)
     voted_users = ListField(EmbeddedDocumentField(User))
     deleted = BooleanField(default=False)
     featured = BooleanField(default=False)
@@ -27,10 +27,6 @@ class Post(Document):
     body_html = ImprovedStringField(required=True)
 
     ignored_fields = ['body_html']
-
-    def hook_date_created(self):
-        if not self._data.get('date_created'):
-            self._data['date_created'] = dt.datetime.now()
 
     def hook_id(self):
         counter_coll = self._get_collection_name() + 'Counter'
@@ -49,8 +45,6 @@ class Post(Document):
 
     def save(self, *args, **kwargs):
         if kwargs.get('force_insert') or '_id' not in self.to_mongo() or self._created:
-            if self.hook_date_created:
-                self.hook_date_created()
             self._data['id'] = 0
             self.validate()
             if self.hook_id:

@@ -1,0 +1,220 @@
+{% extends "../base.html" %}
+
+{% block title %}Submit{% end %}
+
+{% block css %}
+<link rel="stylesheet" type="text/css" href="/static/css/new_new.css" />
+<style type="text/css">
+    .container-fluid {
+        margin-top: 50px !important;
+    }
+    #navigation_bar {
+        position: static !important;
+    }
+    @media (max-width: 874px) {
+        .container-fluid {
+            margin-top: 0px !important;
+        }
+    }
+    #post_tags a {
+        font-weight: normal !important;
+    }
+
+    #content {
+        margin-top: 29px;
+    }
+
+    textarea {
+        width: 100%;
+        height: 300px;
+    }
+
+    input[type=text] {
+        width: 100%;
+        font-size: 18px;
+        line-height: 20px !important;
+    }
+
+    form input[type=submit] {
+        margin: 15px 0px 0px 470px;
+    }
+</style>
+{% end %}
+
+{% block javascript %}
+<script type="text/javascript" src="/static/js/tiny_mce/jquery.tinymce.js"></script>
+
+<script type="text/javascript">
+$(function() {
+  // Transform checkboxes into labeled buttons
+  $('.post_form input[type=checkbox]').each(function(i, o) {
+    var checkbox = $(this);
+    // Extract label
+    var label = $(".post_form label[for='"+checkbox.attr('id')+"']");
+    var label_unselected = label.html();
+    var label_selected = label.attr('data-selected');
+    // Hide
+    label.remove();
+    checkbox.hide();
+
+    var button = '<button type="button" data-toggle="button" class="btn btn-large btn-block check_button" ' +
+                            'id="' + checkbox.attr('id') + '_button">';
+    button += label_unselected;
+    button += '</button>';
+    button = $(button);
+
+    if(checkbox.attr('checked')) {
+      button.addClass('active');
+      button.html(label_selected);
+    }
+
+    button.on('click', function(e) {
+      if(checkbox.attr('checked')) {
+        // Uncheck
+        checkbox.attr('checked', false).change();
+        button.html(label_unselected);
+      } else {
+        // Check
+        checkbox.attr('checked', true).change();
+        button.html(label_selected);
+      }
+    });
+
+    $(this).after(button);
+  });
+
+    $('').on('click', function(e) {
+      if(checkbox.attr('checked')) {
+        // Uncheck
+        checkbox.attr('checked', false).change();
+        button.html(label_unselected);
+      } else {
+        // Check
+        checkbox.attr('checked', true).change();
+        button.html(label_selected);
+      }
+    });
+    $('.post_submit_bar .btn').on("click", function(e) {
+       $('.post_form').submit();
+    });
+
+  // Setup TinyMCE
+  $('.post_body_raw').tinymce({
+    // Location of TinyMCE script
+    script_url : '/static/js/tiny_mce/tiny_mce.js',
+
+    // General options
+    theme : "advanced",
+    plugins : "autoresize,autolink,lists,pagebreak,style,layer,table,save,advhr,advimage,advlink,emotions,iespell,inlinepopups,insertdatetime,preview,media,searchreplace,print,contextmenu,paste,directionality,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras,template,advlist",
+
+    width: '100%',
+
+    // Theme options
+    theme_advanced_buttons1 : "bold,italic,underline,strikethrough,|,bullist,numlist,blockquote,pagebreak,|,link,unlink,image,|" +
+                              "|,iespell,media,emotions,|,fullscreen",
+    theme_advanced_resizing : true,
+    theme_advanced_toolbar_align : "center",
+    theme_advanced_statusbar_location: "none",
+
+    // Example content CSS (should be your site CSS)
+    content_css : "/static/css/tinymce_content.css",
+
+    // Drop lists for link/image/media/template dialogs
+    template_external_list_url : "lists/template_list.js",
+    external_link_list_url : "lists/link_list.js",
+    external_image_list_url : "lists/image_list.js",
+    media_external_list_url : "lists/media_list.js",
+  });
+
+  // Fill the Hackpad URL
+  if(!$('.post_hackpad_url').val()) {
+    $.ajax('/generate_hackpad', {
+      success: function(data) {
+        $('.post_hackpad_url').val(data);
+      }
+    });
+  }
+});
+</script>
+{% end %}
+
+{% block content %}
+  <form action="/posts{{ ('/' + str(model.id)) if not model._created else '' }}" method="post" class="post_form">
+      <div class="form_contents">
+          {% module xsrf_form_html() %}
+          {% set hackpad_icon = lambda x: '<div class="input-prepend hackpad_input"><span class="add-on">'\
+                                              '<img src="/static/images/hackpad_icon.png" alt="hackpad"></span>%s</div>' % x
+                                          %}
+          {% set link_icon = lambda x: '<div class="input-prepend"><span class="add-on">'\
+                                              '<i class="icon-bookmark"></i></span>%s</div>' % x
+          %}
+          {% set wrap_text = lambda x: '<div class="text_wrapper">%s</div>' % x %}
+          {% set form_fields = [
+          {
+            'name': 'title',
+            'placeholder': 'Title...',
+            'wrapper': wrap_text,
+          },
+          {
+            'name': 'url',
+            'placeholder': 'Link...',
+            'wrapper': link_icon,
+          },
+          {
+            'name': 'body_raw',
+            'placeholder': 'Body',
+          },
+          {
+            'name': 'hackpad_url',
+            'placeholder': 'Hackpad URL',
+            'wrapper': hackpad_icon,
+          }]
+          %}
+
+          {% if is_admin() %}
+            {%
+                set form_fields = form_fields + [{
+                    'name': 'featured',
+                    'label': '<i class="icon-star"></i>&nbsp;Feature this post?',
+                    'label_selected': '<i class="icon-remove"></i>&nbsp;Un-feature this post',
+                }]
+            %}
+          {% end %}
+
+          {% if not model._created %}
+              {% set form_fields = form_fields + [{
+                'name': 'deleted',
+                'label': '<i class="icon-remove"></i>&nbsp;Delete this post?',
+                'label_selected': '<i class="icon-remove"></i>&nbsp;Un-delete this post',
+              }]%}
+          {% end %}
+
+          {% for name, html, field_errors in model.form_fields(errors, form_fields=form_fields) %}
+                  {% if field_errors %}
+                      <i>&darr;&nbsp;{{ field_errors.message }}</i>
+                      <br/>
+                  {% end %}
+                  {% raw html %}
+          {% end %}
+          <div class="text_wrapper">
+            <input type="text" name="tags" placeholder="Categories (optional, separate by commas)" />
+          </div>
+          {% if model._created %}
+              {% if recaptcha_error %}
+                <i>&darr;&nbsp;Invalid CAPTCHA code. Please try again.</i>
+              {% end %}
+              {% raw recaptcha_render() %}
+          {% end %}
+          <div class="post_submit_bar">
+            <div class="btn">
+              <div class="icon-plus-sign"></div>
+              {% if model._created %}
+                Submit
+              {% else %}
+                Save
+              {% end %}
+            </div>
+          </div>
+      </div>
+  </form>
+{% end %}

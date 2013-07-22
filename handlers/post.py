@@ -12,6 +12,8 @@ from urlparse import urlparse
 from BeautifulSoup import BeautifulSoup
 from datetime import datetime
 from lib.recaptcha import RecaptchaMixin
+from lib.score import calculate_score
+import datetime as dt
 
 class PostHandler(BaseHandler, RecaptchaMixin):
     def __init__(self, *args, **kwargs):
@@ -29,8 +31,8 @@ class PostHandler(BaseHandler, RecaptchaMixin):
                 'tags': tag,
             })
         ordering = {
-            'hot': ('-votes', '-date_created'),
-            'new': ('-date_created', '-votes')
+            'hot': ('-score', '-date_created'),
+            'new': ('-date_created', '-score')
         }
         per_page = 50
         sort_by = self.get_argument('sort_by', 'hot')
@@ -106,7 +108,7 @@ class PostHandler(BaseHandler, RecaptchaMixin):
         body_raw = attributes.get('body_raw', '')
         body_html = html_sanitize(body_raw)
 
-        protected_attributes = ['_xsrf', 'user', 'votes', 'voted_users']
+        protected_attributes = ['date_created', '_xsrf', 'user', 'votes', 'voted_users']
         for attribute in protected_attributes:
             if attributes.get(attribute):
                 del attributes[attribute]
@@ -117,12 +119,17 @@ class PostHandler(BaseHandler, RecaptchaMixin):
             featured = True
             date_featured = datetime.now()
 
+        date_created = dt.datetime.now()
         attributes.update({
             'user': User(**self.get_current_user()),
             'body_html': body_html,
             'featured': featured,
             'date_featured': date_featured,
             'tags': tag_names,
+            'date_created': date_created,
+            'score': calculate_score(1, date_created),
+            'votes': 1,
+            'voted_users': [User(**self.get_current_user())]
         })
 
         post = Post(**attributes)
@@ -163,7 +170,7 @@ class PostHandler(BaseHandler, RecaptchaMixin):
         body_raw = attributes.get('body_raw', '')
         body_html = html_sanitize(body_raw)
 
-        protected_attributes = ['_xsrf', 'user', 'votes', 'voted_users']
+        protected_attributes = ['date_created', '_xsrf', 'user', 'votes', 'voted_users']
         for attribute in protected_attributes:
             if attributes.get(attribute):
                 del attributes[attribute]
@@ -184,6 +191,7 @@ class PostHandler(BaseHandler, RecaptchaMixin):
             'date_featured': date_featured,
             'deleted': True if attributes.get('deleted') else False,
             'tags': tag_names,
+            'score': calculate_score(post.votes, post.date_created),
         })
         post.set_fields(**attributes)
         try:
@@ -239,7 +247,7 @@ class PostHandler(BaseHandler, RecaptchaMixin):
     def upvote(self, id):
         id_str = self.get_current_user()['id_str']
         user_q = {'$elemMatch': {'id_str': id_str}}
-        post = Post.objects(id=id).fields(voted_users=user_q).first()
+        post = Post.objects(id=id).fields(voted_users=user_q, votes=True, date_created=True).first()
         if not post:
             raise tornado.web.HTTPError(404)
         detail = self.get_argument('detail', '')
@@ -247,7 +255,8 @@ class PostHandler(BaseHandler, RecaptchaMixin):
             self.redirect(('/posts/%s?error' % post.id) if detail else '/?error')
             return
 
-        post.update(inc__votes=1)
+        new_score = calculate_score(post.votes+1, post.date_created)
+        post.update(inc__votes=1, set__score=new_score)
         if not post.voted_users:
             post.update(push__voted_users=User(**self.get_current_user()))
 
