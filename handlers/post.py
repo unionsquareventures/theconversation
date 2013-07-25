@@ -55,8 +55,8 @@ class PostHandler(BaseHandler, RecaptchaMixin):
                     lua += "local rstart = rank + 1\n"
                     lua += "local rend = rank + 50\n"
                 else:
-                    lua += "local rstart = rank - 49\n"
-                    lua += "local rend = rank\n"
+                    lua += "local rstart = rank - 50 >= 0 and rank - 50 or 0\n"
+                    lua += "local rend = rank - 1 >= 0 and rank - 1 or 0\n"
             else:
                 lua = "local rank = 0\n"
                 lua += "local rstart = 0\n"
