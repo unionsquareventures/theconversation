@@ -36,11 +36,40 @@ class PostHandler(BaseHandler, RecaptchaMixin):
         }
         per_page = 50
         sort_by = self.get_argument('sort_by', 'hot')
-        page = abs(int(self.get_argument('page', '1')))
-        posts = Post.objects(featured=False, deleted=False, **query).order_by(*ordering[sort_by])
-        posts = posts[(page - 1) * per_page:(page - 1) * per_page + (per_page -1)]
-        post_count = Post.objects(featured=False, deleted=False, **query).count()
+
+        anchor = self.get_argument('anchor', None)
+        page = 1
         featured_posts = list(Post.objects(featured=True, deleted=False, **query).order_by('-date_featured'))
+        if sort_by == 'new':
+            page = int(self.get_argument('page', '1'))
+            posts = Post.objects(featured=False, deleted=False, **query).order_by(*ordering[sort_by])
+            posts = posts[(page - 1) * per_page:page * per_page]
+        else:
+            if anchor != None:
+                anchor = Post.objects(id=anchor).first()
+                if not anchor:
+                    raise HTTPError(400)
+                lua = "local rank = redis.call('ZREVRANK', 'hot', %i)\n" % (anchor.id)
+                action = self.get_argument('action')
+                if action == 'after':
+                    lua += "local rstart = rank + 1\n"
+                    lua += "local rend = rank + 50\n"
+                else:
+                    lua += "local rstart = rank - 49\n"
+                    lua += "local rend = rank\n"
+            else:
+                lua = "local rank = 0\n"
+                lua += "local rstart = 0\n"
+                lua += "local rend = 49\n"
+            redis = self.settings['redis']
+            lua += "local page = redis.call('ZREVRANGE', 'hot', rstart, rend)\n"\
+                   "return page"
+            print lua
+            get_posts = redis.register_script(lua)
+            ordered_ids = get_posts()
+            posts = Post.objects(id__in=ordered_ids)
+            posts = {p.id: p for p in posts}
+            posts = [posts[int(id)] for id in ordered_ids]
 
         for post in featured_posts:
             soup = BeautifulSoup(post['body_html'])
@@ -55,13 +84,13 @@ class PostHandler(BaseHandler, RecaptchaMixin):
         self.vars.update({
             'sort_by': sort_by,
             'posts': posts,
-            'post_count': post_count,
             'page': page,
             'per_page': per_page,
             'featured_posts': featured_posts,
             'tags': tags,
             'current_tag': tag,
             'urlparse': urlparse,
+            'anchor': anchor,
         })
         self.render('post/index.html', **self.vars)
 
@@ -108,7 +137,7 @@ class PostHandler(BaseHandler, RecaptchaMixin):
         body_raw = attributes.get('body_raw', '')
         body_html = html_sanitize(body_raw)
 
-        protected_attributes = ['date_created', '_xsrf', 'user', 'votes', 'voted_users']
+        protected_attributes = ['score', 'date_created', '_xsrf', 'user', 'votes', 'voted_users']
         for attribute in protected_attributes:
             if attributes.get(attribute):
                 del attributes[attribute]
@@ -120,6 +149,7 @@ class PostHandler(BaseHandler, RecaptchaMixin):
             date_featured = datetime.now()
 
         date_created = dt.datetime.now()
+        score = calculate_score(1, date_created)
         attributes.update({
             'user': User(**self.get_current_user()),
             'body_html': body_html,
@@ -127,7 +157,7 @@ class PostHandler(BaseHandler, RecaptchaMixin):
             'date_featured': date_featured,
             'tags': tag_names,
             'date_created': date_created,
-            'score': calculate_score(1, date_created),
+            'score': score,
             'votes': 1,
             'voted_users': [User(**self.get_current_user())]
         })
@@ -142,6 +172,9 @@ class PostHandler(BaseHandler, RecaptchaMixin):
         except mongoengine.ValidationError, e:
             self.new(model=post, errors=e.errors)
             return
+
+        redis = self.settings['redis']
+        redis.zadd('hot', score, post.id)
 
         self.redirect('/posts/%s' % post.id)
 
@@ -170,7 +203,7 @@ class PostHandler(BaseHandler, RecaptchaMixin):
         body_raw = attributes.get('body_raw', '')
         body_html = html_sanitize(body_raw)
 
-        protected_attributes = ['date_created', '_xsrf', 'user', 'votes', 'voted_users']
+        protected_attributes = ['score', 'date_created', '_xsrf', 'user', 'votes', 'voted_users']
         for attribute in protected_attributes:
             if attributes.get(attribute):
                 del attributes[attribute]
@@ -191,7 +224,6 @@ class PostHandler(BaseHandler, RecaptchaMixin):
             'date_featured': date_featured,
             'deleted': True if attributes.get('deleted') else False,
             'tags': tag_names,
-            'score': calculate_score(post.votes, post.date_created),
         })
         post.set_fields(**attributes)
         try:
@@ -259,5 +291,8 @@ class PostHandler(BaseHandler, RecaptchaMixin):
         post.update(inc__votes=1, set__score=new_score)
         if not post.voted_users:
             post.update(push__voted_users=User(**self.get_current_user()))
+
+        redis = self.settings['redis']
+        redis.zadd('hot', new_score, post.id)
 
         self.redirect(('/posts/%s' % post.id) if detail else '/')

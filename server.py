@@ -20,11 +20,16 @@ from handlers.fake_error import FakeErrorHandler
 from handlers.deleted_content import DeletedContentHandler
 from handlers.hackpad import HackpadHandler
 import ui
+from redis import StrictRedis
 
 define("port", default=8888, help="run on the given port", type=int)
 
 if __name__ == '__main__':
     tornado.options.parse_command_line()
+
+    # Connect to Redis with a 50 msec timeout
+    redis = StrictRedis(host=settings.redis_host,
+                    port=settings.redis_port, db=0, socket_timeout=.05)
 
     # Bundle JS/CSS
     logging.info('Bundling JS/CSS')
@@ -48,6 +53,7 @@ if __name__ == '__main__':
             (r'/generate_hackpad/?', HackpadHandler),
             ], ui_modules = ui.template_modules(),
             ui_methods = ui.template_methods(),
+            redis=redis,
             **settings.tornado_config)
 
     # Initialize Sentry

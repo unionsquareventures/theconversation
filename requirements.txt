@@ -7,3 +7,5 @@ pytz
 bleach
 raven
 BeautifulSoup
+redis
+hiredis
