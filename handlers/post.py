@@ -36,40 +36,37 @@ class PostHandler(BaseHandler, RecaptchaMixin):
         }
         per_page = 50
         sort_by = self.get_argument('sort_by', 'hot')
+        if not sort_by in ['hot', 'new']:
+            raise HTTPError(400)
 
         anchor = self.get_argument('anchor', None)
         page = 1
         featured_posts = list(Post.objects(featured=True, deleted=False, **query).order_by('-date_featured'))
-        if sort_by == 'new':
-            page = int(self.get_argument('page', '1'))
-            posts = Post.objects(featured=False, deleted=False, **query).order_by(*ordering[sort_by])
-            posts = posts[(page - 1) * per_page:page * per_page]
-        else:
-            if anchor != None:
-                anchor = Post.objects(id=anchor).first()
-                if not anchor:
-                    raise HTTPError(400)
-                lua = "local rank = redis.call('ZREVRANK', 'hot', %i)\n" % (anchor.id)
-                action = self.get_argument('action')
-                if action == 'after':
-                    lua += "local rstart = rank + 1\n"
-                    lua += "local rend = rank + 50\n"
-                else:
-                    lua += "local rstart = rank - 50 >= 0 and rank - 50 or 0\n"
-                    lua += "local rend = rank - 1 >= 0 and rank - 1 or 0\n"
+        if anchor != None:
+            anchor = Post.objects(id=anchor).first()
+            if not anchor:
+                raise HTTPError(400)
+            lua = "local rank = redis.call('ZREVRANK', '{sort_by}', {anchor.id})\n"
+            action = self.get_argument('action')
+            if action == 'after':
+                lua += "local rstart = rank + 1\n"
+                lua += "local rend = rank + {per_page}\n"
             else:
-                lua = "local rank = 0\n"
-                lua += "local rstart = 0\n"
-                lua += "local rend = 49\n"
-            redis = self.settings['redis']
-            lua += "local page = redis.call('ZREVRANGE', 'hot', rstart, rend)\n"\
-                   "return page"
-            print lua
-            get_posts = redis.register_script(lua)
-            ordered_ids = get_posts()
-            posts = Post.objects(id__in=ordered_ids)
-            posts = {p.id: p for p in posts}
-            posts = [posts[int(id)] for id in ordered_ids]
+                lua += "local rstart = rank - {per_page} >= 0 and rank - {per_page} or 0\n"
+                lua += "local rend = rank - 1 >= 0 and rank - 1 or 0\n"
+        else:
+            lua = "local rank = 0\n"
+            lua += "local rstart = 0\n"
+            lua += "local rend = {per_page} - 1\n"
+        redis = self.settings['redis']
+        lua += "local page = redis.call('ZREVRANGE', '{sort_by}', rstart, rend)\n"\
+               "return page"
+        lua = lua.format(per_page=per_page, sort_by=sort_by, anchor=anchor)
+        get_posts = redis.register_script(lua)
+        ordered_ids = get_posts()
+        posts = Post.objects(id__in=ordered_ids)
+        posts = {p.id: p for p in posts}
+        posts = [posts[int(id)] for id in ordered_ids]
 
         for post in featured_posts:
             soup = BeautifulSoup(post['body_html'])
@@ -175,6 +172,7 @@ class PostHandler(BaseHandler, RecaptchaMixin):
 
         redis = self.settings['redis']
         redis.zadd('hot', score, post.id)
+        redis.zadd('new', time.mktime(date_created.timetuple()), post.id)
 
         self.redirect('/posts/%s' % post.id)
 
