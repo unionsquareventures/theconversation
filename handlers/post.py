@@ -38,7 +38,7 @@ class PostHandler(BaseHandler, RecaptchaMixin):
         per_page = 50
         sort_by = self.get_argument('sort_by', 'hot')
         if not sort_by in ['hot', 'new']:
-            raise HTTPError(400)
+            raise tornado.web.HTTPError(400)
 
         anchor = self.get_argument('anchor', None)
         count = int(self.get_argument('count', 0))
@@ -48,7 +48,7 @@ class PostHandler(BaseHandler, RecaptchaMixin):
         if anchor != None:
             anchor = Post.objects(id=anchor).first()
             if not anchor:
-                raise HTTPError(400)
+                raise tornado.web.HTTPError(400)
             lua += "local rank = redis.call('ZREVRANK', '{sort_by}', {anchor.id})\n"
             lua += "local rank = rank >= {count} - 1 and rank or {count}\n"
             action = self.get_argument('action')

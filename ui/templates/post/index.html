@@ -112,6 +112,10 @@
               {% end %}
               </div>
 
+            {% if count == 0 and rstart != 0 %}
+                <a href="/?sort_by={{ sort_by }}">New posts ({{ rstart }})</p>
+            {% end %}
+
             {% for post in posts %}
                 <div class="post">
                     <img src="{{ twitter_avatar_size(post.user.profile_image_url, 'bigger') }}" class="img-circle avatar" alt="avatar" />
