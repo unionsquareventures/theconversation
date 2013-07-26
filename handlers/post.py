@@ -14,6 +14,7 @@ from datetime import datetime
 from lib.recaptcha import RecaptchaMixin
 from lib.score import calculate_score
 import datetime as dt
+import time
 
 class PostHandler(BaseHandler, RecaptchaMixin):
     def __init__(self, *args, **kwargs):
@@ -40,13 +41,16 @@ class PostHandler(BaseHandler, RecaptchaMixin):
             raise HTTPError(400)
 
         anchor = self.get_argument('anchor', None)
+        count = int(self.get_argument('count', 0))
         page = 1
         featured_posts = list(Post.objects(featured=True, deleted=False, **query).order_by('-date_featured'))
+        lua = "local num_posts = redis.call('ZCARD', '{sort_by}')\n"
         if anchor != None:
             anchor = Post.objects(id=anchor).first()
             if not anchor:
                 raise HTTPError(400)
-            lua = "local rank = redis.call('ZREVRANK', '{sort_by}', {anchor.id})\n"
+            lua += "local rank = redis.call('ZREVRANK', '{sort_by}', {anchor.id})\n"
+            lua += "local rank = rank >= {count} - 1 and rank or {count}\n"
             action = self.get_argument('action')
             if action == 'after':
                 lua += "local rstart = rank + 1\n"
@@ -55,15 +59,15 @@ class PostHandler(BaseHandler, RecaptchaMixin):
                 lua += "local rstart = rank - {per_page} >= 0 and rank - {per_page} or 0\n"
                 lua += "local rend = rank - 1 >= 0 and rank - 1 or 0\n"
         else:
-            lua = "local rank = 0\n"
+            lua += "local rank = 0\n"
             lua += "local rstart = 0\n"
             lua += "local rend = {per_page} - 1\n"
         redis = self.settings['redis']
-        lua += "local page = redis.call('ZREVRANGE', '{sort_by}', rstart, rend)\n"\
-               "return page"
-        lua = lua.format(per_page=per_page, sort_by=sort_by, anchor=anchor)
+        lua += "local ordered_ids = redis.call('ZREVRANGE', '{sort_by}', rstart, rend)\n"\
+               "return {{num_posts, rstart, rend, ordered_ids}}"
+        lua = lua.format(per_page=per_page, sort_by=sort_by, anchor=anchor, count=count)
         get_posts = redis.register_script(lua)
-        ordered_ids = get_posts()
+        num_posts, rstart, rend, ordered_ids = get_posts()
         posts = Post.objects(id__in=ordered_ids)
         posts = {p.id: p for p in posts}
         posts = [posts[int(id)] for id in ordered_ids]
@@ -88,6 +92,10 @@ class PostHandler(BaseHandler, RecaptchaMixin):
             'current_tag': tag,
             'urlparse': urlparse,
             'anchor': anchor,
+            'num_posts': num_posts,
+            'rstart': rstart,
+            'rend': rend,
+            'count': count,
         })
         self.render('post/index.html', **self.vars)
 

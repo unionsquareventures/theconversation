@@ -146,6 +146,14 @@
                     </div>
                 </div>
                 {% end %}
+                <div style="float: right;">
+                    {% if rstart > 0 %}
+                        <a href="?sort_by={{ sort_by }}&anchor={{ posts[0].id }}&action=before&count={{ count - per_page }}">Prev</a>
+                    {% end %}
+                    {% if rend < num_posts - 1 %}
+                        <a href="?sort_by={{sort_by }}&anchor={{ posts[-1].id }}&action=after&count={{ count + per_page }}">Next</a>
+                    {% end %}
+                </div>
         </div>
     </div>
 
