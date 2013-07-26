@@ -223,6 +223,15 @@ class PostHandler(BaseHandler, RecaptchaMixin):
             featured = False
             date_featured = None
 
+        if post.deleted == False and attributes.get('deleted'):
+            redis = self.settings['redis']
+            redis.zrem('hot', post.id)
+            redis.zrem('new', post.id)
+        elif post.deleted == True and not attributes.get('deleted'):
+            redis = self.settings['redis']
+            redis.zadd('hot', post.score, post.id)
+            redis.zadd('new', time.mktime(post.date_created.timetuple()), post.id)
+
         attributes.update({
             'user': User(**self.get_current_user()),
             'body_html': body_html,
