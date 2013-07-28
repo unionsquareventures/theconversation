@@ -1,0 +1,14 @@
+<html>
+    <head>
+        <title>USV.com - Deleted Posts</title>
+    </head>
+
+    <body>
+        <h1>Deleted Posts</h1>
+        <ul>
+            {% for post in deleted_posts %}
+                <li><a href="/posts/{{ post.id }}/edit">{{ post.title }}</a></li>
+            {% end %}
+        </ul>
+    </body>
+</html>
