@@ -16,7 +16,6 @@ class Post(Document):
     user = EmbeddedDocumentField(User, required=True)
     tags = ListField(ImprovedStringField())
     votes = IntField(default=0)
-    score = FloatField(default=0.0)
     voted_users = ListField(EmbeddedDocumentField(User))
     deleted = BooleanField(default=False)
     featured = BooleanField(default=False)
@@ -37,11 +36,9 @@ class Post(Document):
         self._data['id'] = id
 
     def set_fields(self, **kwargs):
-        print kwargs
         for fname in self._fields.keys():
-            if kwargs.get(fname):
+            if kwargs.has_key(fname):
                 setattr(self, fname, kwargs[fname])
-        print self.title
 
     def save(self, *args, **kwargs):
         if kwargs.get('force_insert') or '_id' not in self.to_mongo() or self._created:

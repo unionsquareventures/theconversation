@@ -12,7 +12,6 @@ from urlparse import urlparse
 from BeautifulSoup import BeautifulSoup
 from datetime import datetime
 from lib.recaptcha import RecaptchaMixin
-from lib.score import calculate_score
 import datetime as dt
 import time
 
@@ -31,10 +30,6 @@ class PostHandler(BaseHandler, RecaptchaMixin):
             query.update({
                 'tags': tag,
             })
-        ordering = {
-            'hot': ('-score', '-date_created'),
-            'new': ('-date_created', '-score')
-        }
         per_page = 50
         sort_by = self.get_argument('sort_by', 'hot')
         if not sort_by in ['hot', 'new']:
@@ -142,7 +137,7 @@ class PostHandler(BaseHandler, RecaptchaMixin):
         body_raw = attributes.get('body_raw', '')
         body_html = html_sanitize(body_raw)
 
-        protected_attributes = ['score', 'date_created', '_xsrf', 'user', 'votes', 'voted_users']
+        protected_attributes = ['date_created', '_xsrf', 'user', 'votes', 'voted_users']
         for attribute in protected_attributes:
             if attributes.get(attribute):
                 del attributes[attribute]
@@ -154,7 +149,6 @@ class PostHandler(BaseHandler, RecaptchaMixin):
             date_featured = datetime.now()
 
         date_created = dt.datetime.now()
-        score = calculate_score(1, date_created)
         attributes.update({
             'user': User(**self.get_current_user()),
             'body_html': body_html,
@@ -162,7 +156,6 @@ class PostHandler(BaseHandler, RecaptchaMixin):
             'date_featured': date_featured,
             'tags': tag_names,
             'date_created': date_created,
-            'score': score,
             'votes': 1,
             'voted_users': [User(**self.get_current_user())]
         })
@@ -177,12 +170,25 @@ class PostHandler(BaseHandler, RecaptchaMixin):
         except mongoengine.ValidationError, e:
             self.new(model=post, errors=e.errors)
             return
-
-        redis = self.settings['redis']
-        redis.zadd('hot', score, post.id)
-        redis.zadd('new', time.mktime(date_created.timetuple()), post.id)
-
+        self.redis_add(post)
         self.redirect('/posts/%s' % post.id)
+
+    def redis_remove(self, post):
+        redis = self.settings['redis']
+        redis.zrem('hot', post.id)
+        redis.zrem('new', post.id)
+
+    def redis_add(self, post):
+        redis = self.settings['redis']
+        redis.zadd('new', time.mktime(post.date_created.timetuple()), post.id)
+        base_score = time.mktime(post.date_created.timetuple()) / 45000.0
+        lua = "local votes = redis.call('GET', 'post:{post.id}:votes')\n"
+        lua += "votes = math.log10(votes)\n"
+        lua += "local score = {base_score} + votes\n"
+        lua += "redis.call('ZADD', 'hot', score, {post.id})\n"
+        lua = lua.format(post=post, base_score=base_score)
+        incr_score = redis.register_script(lua)
+        incr_score()
 
     def update(self, id):
         post = Post.objects(id=id).first()
@@ -209,7 +215,7 @@ class PostHandler(BaseHandler, RecaptchaMixin):
         body_raw = attributes.get('body_raw', '')
         body_html = html_sanitize(body_raw)
 
-        protected_attributes = ['score', 'date_created', '_xsrf', 'user', 'votes', 'voted_users']
+        protected_attributes = ['date_created', '_xsrf', 'user', 'votes', 'voted_users']
         for attribute in protected_attributes:
             if attributes.get(attribute):
                 del attributes[attribute]
@@ -219,18 +225,16 @@ class PostHandler(BaseHandler, RecaptchaMixin):
         if self.is_admin() and attributes.get('featured') and not featured:
             featured = True
             date_featured = datetime.now()
+            self.redis_remove(post)
         if self.is_admin() and not attributes.get('featured'):
             featured = False
             date_featured = None
+            self.redis_add(post)
 
-        if post.deleted == False and attributes.get('deleted'):
-            redis = self.settings['redis']
-            redis.zrem('hot', post.id)
-            redis.zrem('new', post.id)
-        elif post.deleted == True and not attributes.get('deleted'):
-            redis = self.settings['redis']
-            redis.zadd('hot', post.score, post.id)
-            redis.zadd('new', time.mktime(post.date_created.timetuple()), post.id)
+        if attributes.get('deleted') and not post.deleted:
+            self.redis_remove(post)
+        elif attributes.get('deleted') and post.deleted:
+            self.redis_add(post)
 
         attributes.update({
             'user': User(**self.get_current_user()),
@@ -246,7 +250,6 @@ class PostHandler(BaseHandler, RecaptchaMixin):
         except mongoengine.ValidationError, e:
             self.edit(post.id, errors=e.errors)
             return
-
         self.redirect('/posts/%s' % post.id)
 
     def edit(self, id, errors={}):
@@ -279,7 +282,6 @@ class PostHandler(BaseHandler, RecaptchaMixin):
     def feature(self, id):
         if not self.is_admin():
             raise tornado.web.HTTPError(403)
-
         try:
             post = Post.objects.get(id=id)
         except Post.DoesNotExist:
@@ -288,6 +290,7 @@ class PostHandler(BaseHandler, RecaptchaMixin):
             post.featured = True
             post.date_featured = datetime.now()
             post.save()
+            self.redis_remove(post)
         self.redirect('/')
 
     @tornado.web.authenticated
@@ -302,12 +305,18 @@ class PostHandler(BaseHandler, RecaptchaMixin):
             self.redirect(('/posts/%s?error' % post.id) if detail else '/?error')
             return
 
-        new_score = calculate_score(post.votes+1, post.date_created)
-        post.update(inc__votes=1, set__score=new_score)
+        post.update(inc__votes=1)
         if not post.voted_users:
             post.update(push__voted_users=User(**self.get_current_user()))
 
+        base_score = time.mktime(post.date_created.timetuple()) / 45000.0
         redis = self.settings['redis']
-        redis.zadd('hot', new_score, post.id)
+        lua = "local votes = redis.call('INCR', 'post:{post.id}:votes')\n"
+        lua += "votes = math.log10(votes)\n"
+        lua += "local score = {base_score} + votes\n"
+        lua += "redis.call('ZADD', 'hot', score, {post.id})\n"
+        lua = lua.format(post=post, base_score=base_score)
+        incr_score = redis.register_script(lua)
+        incr_score()
 
         self.redirect(('/posts/%s' % post.id) if detail else '/')

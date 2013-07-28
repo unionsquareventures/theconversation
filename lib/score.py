@@ -13,5 +13,5 @@ def calculate_score(votes, date_created):
     sign = 1 if votes > 0 else 0
     age_factor = 45000.0 # ~12.5 hour increments
     timestamp = time.mktime(date_created.timetuple())
-    score = adjusted_votes + round(sign * timestamp / age_factor)
+    score = adjusted_votes + sign * timestamp / age_factor
     return score
