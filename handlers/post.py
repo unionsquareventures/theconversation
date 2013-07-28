@@ -170,6 +170,8 @@ class PostHandler(BaseHandler, RecaptchaMixin):
         except mongoengine.ValidationError, e:
             self.new(model=post, errors=e.errors)
             return
+        redis = self.settings['redis']
+        redis.set('post:%i:votes' % post.id, 1)
         self.redis_add(post)
         self.redirect('/posts/%s' % post.id)
 
