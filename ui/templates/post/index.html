@@ -143,9 +143,10 @@
                           <a href="/posts/{{ post.id }}" class="sub-comments" target="_blank">comments</a>
                         </span>
                         <a href="/posts/{{ post.id }}" class="date" target="_blank"><i class="icon-calendar icon"></i>{{ post.date_created.strftime("%B %d, %Y") }}</a>
-                        <a href="/posts/{{ post.id }}/upvote" class="votes"><i class="icon-arrow-up icon"></i>{{ post.votes }} votes</a>
+                        <a href="/posts/{{ post.id }}/upvote?sort_by={{ sort_by }}&anchor={{ anchor.id if anchor else '' }}&action={{ action }}&count={{ count }}"
+                            class="votes"><i class="icon-arrow-up icon"></i>{{ post.votes }} votes</a>
                         {% if is_admin() %}
-                            <a href="/posts/{{ post.id }}/feature"><i class="icon-star icon"></i>Feature</a>
+                          <a href="/posts/{{ post.id }}/feature"><i class="icon-star icon"></i>Feature</a>
                         {% end %}
                     </div>
                 </div>

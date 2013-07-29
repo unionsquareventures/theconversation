@@ -36,6 +36,7 @@ class PostHandler(BaseHandler, RecaptchaMixin):
             raise tornado.web.HTTPError(400)
 
         anchor = self.get_argument('anchor', None)
+        action = self.get_argument('action', '')
         count = int(self.get_argument('count', 0))
         page = 1
         featured_posts = list(Post.objects(featured=True, deleted=False, **query).order_by('-date_featured'))
@@ -49,7 +50,6 @@ class PostHandler(BaseHandler, RecaptchaMixin):
             else:
                 lua += "local rank = redis.call('ZREVRANK', '{sort_by}', {anchor.id})\n"
                 lua += "local rank = rank >= {count} - 1 and rank or {count}\n"
-            action = self.get_argument('action')
             if action == 'after':
                 lua += "local rstart = rank + 1\n"
                 lua += "local rend = rank + {per_page}\n"
@@ -94,6 +94,7 @@ class PostHandler(BaseHandler, RecaptchaMixin):
             'rstart': rstart,
             'rend': rend,
             'count': count,
+            'action': action,
         })
         self.render('post/index.html', **self.vars)
 
@@ -324,4 +325,13 @@ class PostHandler(BaseHandler, RecaptchaMixin):
         incr_score = redis.register_script(lua)
         incr_score()
 
-        self.redirect(('/posts/%s' % post.id) if detail else '/')
+        if detail:
+            self.redirect('/posts/%s' % post.id)
+        else:
+            sort_by = self.get_argument('sort_by', '')
+            anchor = self.get_argument('anchor', '')
+            count = self.get_argument('count', '')
+            action = self.get_argument('action', '')
+            self.redirect('/?sort_by=%s&anchor=%s&count=%s&action=%s'\
+                                        % (sort_by, anchor, count, action))
+
