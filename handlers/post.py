@@ -44,8 +44,11 @@ class PostHandler(BaseHandler, RecaptchaMixin):
             anchor = Post.objects(id=anchor).first()
             if not anchor:
                 raise tornado.web.HTTPError(400)
-            lua += "local rank = redis.call('ZREVRANK', '{sort_by}', {anchor.id})\n"
-            lua += "local rank = rank >= {count} - 1 and rank or {count}\n"
+            if anchor.featured:
+                lua += "local rank = {count}\n"
+            else:
+                lua += "local rank = redis.call('ZREVRANK', '{sort_by}', {anchor.id})\n"
+                lua += "local rank = rank >= {count} - 1 and rank or {count}\n"
             action = self.get_argument('action')
             if action == 'after':
                 lua += "local rstart = rank + 1\n"
