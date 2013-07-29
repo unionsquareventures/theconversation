@@ -18,6 +18,7 @@ from handlers.post import PostHandler
 from handlers.auth import TwitterLoginHandler, LogoutHandler
 from handlers.fake_error import FakeErrorHandler
 from handlers.deleted_posts import DeletedPostsHandler
+from handlers.featured_posts import FeaturedPostsHandler
 from handlers.hackpad import HackpadHandler
 import ui
 from redis import StrictRedis
@@ -43,6 +44,7 @@ if __name__ == '__main__':
 
             (r'/fake_error/?', FakeErrorHandler),
             (r'/deleted_posts/?', DeletedPostsHandler),
+            (r'/featured_posts/?', FeaturedPostsHandler),
 
             (r'/?', PostHandler),
             (r'/posts/?', PostHandler),

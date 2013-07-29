@@ -77,7 +77,8 @@
                             </div>
                         </div>
                     </div>
-                {% end %}
+                  {% end %}
+                  <a href="/featured_posts">More >></a>
           </div>
     </div>
 
@@ -113,7 +114,7 @@
               </div>
 
             {% if count == 0 and rstart != 0 %}
-                <a href="/?sort_by={{ sort_by }}">New posts ({{ rstart }})</p>
+                <a href="/?sort_by={{ sort_by }}" class="new_posts_link">New posts ({{ rstart }})</a>
             {% end %}
 
             {% for post in posts %}

@@ -39,7 +39,7 @@ class PostHandler(BaseHandler, RecaptchaMixin):
         action = self.get_argument('action', '')
         count = int(self.get_argument('count', 0))
         page = 1
-        featured_posts = list(Post.objects(featured=True, deleted=False, **query).order_by('-date_featured'))
+        featured_posts = list(Post.objects(featured=True, deleted=False, **query).order_by('-date_featured')[:5])
         lua = "local num_posts = redis.call('ZCARD', '{sort_by}')\n"
         if anchor != None:
             anchor = Post.objects(id=anchor).first()

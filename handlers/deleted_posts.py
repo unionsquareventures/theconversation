@@ -8,7 +8,7 @@ class DeletedPostsHandler(BaseHandler):
             raise tornado.web.HTTPError(403)
 
         cur_page = 0
-        length = 50
+        per_page = 20
         deleted_posts = Post.objects(deleted=True).order_by('-date_created')[cur_page*length:cur_page+length]
         self.vars.update({
             'deleted_posts': deleted_posts,
