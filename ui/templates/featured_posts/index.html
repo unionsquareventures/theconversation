@@ -1,0 +1,12 @@
+{% extends "../base.html" %}
+{% block title %}Featured Posts{% end %}
+
+{% block content %}
+    <h1>Featured Posts</h1>
+    <ul>
+        {% for post in featured_posts %}
+            <li><a href="/posts/{{ post.id }}">{{ post.title }}</a></li>
+        {% end %}
+    </ul>
+    {% module paginator(page, per_page, total_count, show_pages=True) %}
+{% end %}

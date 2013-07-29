@@ -1,14 +1,12 @@
-<html>
-    <head>
-        <title>USV.com - Deleted Posts</title>
-    </head>
+{% extends "../base.html" %}
+{% block title %}Deleted Posts{% end %}
 
-    <body>
-        <h1>Deleted Posts</h1>
-        <ul>
-            {% for post in deleted_posts %}
-                <li><a href="/posts/{{ post.id }}/edit">{{ post.title }}</a></li>
-            {% end %}
-        </ul>
-    </body>
-</html>
+{% block content %}
+    <h1>Deleted Posts</h1>
+    <ul>
+        {% for post in deleted_posts %}
+        <li><a href="/posts/{{ post.id }}/edit">{{ post.title }}</a></li>
+        {% end %}
+        {% module paginator(page, per_page, total_count, show_pages=True) %}
+    </ul>
+{% end %}

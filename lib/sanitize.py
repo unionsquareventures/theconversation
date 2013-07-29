@@ -1,4 +1,6 @@
 import bleach
+from BeautifulSoup import BeautifulSoup
+from htmltruncate import truncate as htmltruncate
 
 allowed_tags = ['a', 'b', 'p', 'i', 'blockquote', 'span', 'ul', 'li', 'img',
                 'strong', 'pre', 'iframe', 'object', 'embed', 'em', 'h1', 'h2',
@@ -31,3 +33,11 @@ allowed_preview_tags.remove('embed')
 def html_sanitize_preview(input):
     return bleach.clean(input, tags=[], attributes=[], styles=[], strip=True)
 
+def truncate(text, length):
+            soup = BeautifulSoup(text)
+            text = soup.prettify()
+            try:
+                text = htmltruncate(text, length, ellipsis='...')
+            except:
+                pass
+            text = html_sanitize_preview(text)

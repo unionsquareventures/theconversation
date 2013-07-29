@@ -18,12 +18,14 @@ class Post(Document):
     votes = IntField(default=0)
     voted_users = ListField(EmbeddedDocumentField(User))
     deleted = BooleanField(default=False)
+    date_deleted = DateTimeField(required=False)
     featured = BooleanField(default=False)
     date_featured = DateTimeField(required=False)
     url = ImprovedURLField(max_length=65000, required=False)
     hackpad_url = ImprovedURLField(max_length=65000, required=False)
     body_raw = ImprovedStringField(required=True, min_length=10)
     body_html = ImprovedStringField(required=True)
+    body_truncated = StringField(required=True)
 
     ignored_fields = ['body_html']
 

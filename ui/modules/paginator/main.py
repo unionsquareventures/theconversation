@@ -34,6 +34,20 @@ class MainModule(tornado.web.UIModule):
         next = page + 1 if page < pages else None
         previous = page - 1 if page > 1 else None
 
+        rstart = page - 5
+        if rstart < 1:
+            rstart = 1
+
+        rend = rstart + 9
+        if rend > pages:
+            rstart -= rend - pages
+            if rstart < 1:
+                rstart = 1
+            rend = pages
+
+
+        page_range = xrange(rstart, rend + 1)
+
         path = os.path.dirname(os.path.realpath(__file__))
         return self.render_string(os.path.join(path, 'main.html'), page=page, pages=pages, next=next,
-                previous=previous, get_page_url=get_page_url, show_pages=show_pages)
+                previous=previous, get_page_url=get_page_url, show_pages=show_pages, page_range=page_range)

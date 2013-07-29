@@ -3,13 +3,12 @@ import tornado.web
 import tornado.auth
 import tornado.httpserver
 import os
-from lib.sanitize import html_sanitize, linkify
+from lib.sanitize import html_sanitize, linkify, truncate
 from base import BaseHandler
 import mongoengine
 from models import User, Tag, Post
 
 from urlparse import urlparse
-from BeautifulSoup import BeautifulSoup
 from datetime import datetime
 from lib.recaptcha import RecaptchaMixin
 import datetime as dt
@@ -69,15 +68,6 @@ class PostHandler(BaseHandler, RecaptchaMixin):
         posts = Post.objects(id__in=ordered_ids)
         posts = {p.id: p for p in posts}
         posts = [posts[int(id)] for id in ordered_ids]
-
-        for post in featured_posts:
-            soup = BeautifulSoup(post['body_html'])
-            post['body_html'] = soup.prettify()
-            #try:
-            #    post['body_html'] = truncate(post['body_html'], 500, ellipsis='...')
-            #except:
-            #    pass
-            #post['body_html'] = html_sanitize_preview(post['body_html'])
 
         tags = Tag.objects()
         self.vars.update({
@@ -140,8 +130,9 @@ class PostHandler(BaseHandler, RecaptchaMixin):
         # Content
         body_raw = attributes.get('body_raw', '')
         body_html = html_sanitize(body_raw)
+        body_truncated = truncate(body_html, 500)
 
-        protected_attributes = ['date_created', '_xsrf', 'user', 'votes', 'voted_users']
+        protected_attributes = ['date_created', '_xsrf', 'user', 'votes', 'voted_users', 'deleted']
         for attribute in protected_attributes:
             if attributes.get(attribute):
                 del attributes[attribute]
@@ -156,6 +147,8 @@ class PostHandler(BaseHandler, RecaptchaMixin):
         attributes.update({
             'user': User(**self.get_current_user()),
             'body_html': body_html,
+            'body_raw': body_raw,
+            'body_truncated': body_truncated,
             'featured': featured,
             'date_featured': date_featured,
             'tags': tag_names,
@@ -220,6 +213,7 @@ class PostHandler(BaseHandler, RecaptchaMixin):
         # Content
         body_raw = attributes.get('body_raw', '')
         body_html = html_sanitize(body_raw)
+        body_truncated = truncate(body_html, 500)
 
         protected_attributes = ['date_created', '_xsrf', 'user', 'votes', 'voted_users']
         for attribute in protected_attributes:
@@ -239,12 +233,17 @@ class PostHandler(BaseHandler, RecaptchaMixin):
 
         if attributes.get('deleted') and not post.deleted:
             self.redis_remove(post)
+            attributes.update({
+                'date_deleted': dt.datetime.now(),
+            })
         elif attributes.get('deleted') and post.deleted:
             self.redis_add(post)
 
         attributes.update({
             'user': User(**self.get_current_user()),
             'body_html': body_html,
+            'body_raw': body_raw,
+            'body_truncated': body_truncated,
             'featured': featured,
             'date_featured': date_featured,
             'deleted': True if attributes.get('deleted') else False,

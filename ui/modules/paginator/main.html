@@ -4,7 +4,7 @@
       <li{% if previous %}><a href="{{ get_page_url(previous) }}">&laquo;</a>{% else %} class="disabled"><span>&laquo;</span></li>{% end %}  
 
       {% if show_pages == True %}
-          {% for page_num in xrange(1, pages + 1) %}{# 1-index range #}
+          {% for page_num in page_range %}
           <li{% if page_num != page %}><a href="{{ get_page_url(page_num) }}">{{ page_num }}</a>{% else %} class="active"><span>{{ page_num }}</span></li>{% end %}
           {% end %}
       {% end %}
