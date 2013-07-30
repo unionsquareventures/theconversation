@@ -67,6 +67,10 @@ class Post(Document):
             if base_domain not in valid_hackpad_domains:
                 errors['hackpad_url'] = ValidationError('Invalid Hackpad URL', field_name='hackpad_url')
 
+        raw = self._data.get('body_raw', '')
+        if raw:
+            pass
+
         try:
             super(Post, self).validate(clean=clean)
         except ValidationError, e:
