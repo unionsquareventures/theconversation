@@ -14,7 +14,7 @@ class BaseHandler(SentryMixin, tornado.web.RequestHandler):
                         'is_admin': self.is_admin,
                     }
 
-    def render_json(self, obj):
+    def write_json(self, obj):
         resp = json.dumps(obj)
         callback = self.get_argument("callback", None)
         if callback:

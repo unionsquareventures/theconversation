@@ -10,16 +10,12 @@ from models import User, Tag, Post
 
 from urlparse import urlparse
 from datetime import datetime
-from lib.recaptcha import RecaptchaMixin
 import datetime as dt
 import time
 
-class PostHandler(BaseHandler, RecaptchaMixin):
+class PostHandler(BaseHandler):
     def __init__(self, *args, **kwargs):
         super(PostHandler, self).__init__(*args, **kwargs)
-        self.vars.update({
-            'recaptcha_render': self.recaptcha_render,
-        })
 
     def index(self):
         # list posts
@@ -99,21 +95,17 @@ class PostHandler(BaseHandler, RecaptchaMixin):
         self.render('post/get.html', **self.vars)
 
     @tornado.web.asynchronous
-    def new(self, model=Post(), errors={}, recaptcha_error=False):
+    def new(self, model=Post(), errors={}):
         # Link creation page
         self.vars.update({
             'model': model,
             'errors': errors,
             'edit_mode': False,
-            'recaptcha_error': recaptcha_error,
         })
         self.render('post/new.html', **self.vars)
 
     @tornado.web.asynchronous
     def create(self):
-        self.recaptcha_validate(self._on_validate)
-
-    def _on_validate(self, recaptcha_response):
         attributes = {k: v[0] for k, v in self.request.arguments.iteritems()}
 
         # Handle tags
@@ -158,10 +150,6 @@ class PostHandler(BaseHandler, RecaptchaMixin):
         })
 
         post = Post(**attributes)
-        if not recaptcha_response:
-            self.new(model=post, recaptcha_error=True)
-            return
-
         try:
             post.save()
         except mongoengine.ValidationError, e:
@@ -302,12 +290,12 @@ class PostHandler(BaseHandler, RecaptchaMixin):
     def upvote(self, id):
         id_str = self.get_current_user()['id_str']
         user_q = {'$elemMatch': {'id_str': id_str}}
-        post = Post.objects(id=id).fields(voted_users=user_q, votes=True, date_created=True).first()
+        post = Post.objects(id=id).fields(voted_users=user_q, votes=True, date_created=True, featured=True).first()
         if not post:
             raise tornado.web.HTTPError(404)
         detail = self.get_argument('detail', '')
         if post.voted_users and not self.is_admin():
-            self.redirect(('/posts/%s?error' % post.id) if detail else '/?error')
+            self.write_json({'error': 'You have already upvoted this post.'})
             return
 
         post.update(inc__votes=1)
@@ -317,20 +305,12 @@ class PostHandler(BaseHandler, RecaptchaMixin):
         base_score = time.mktime(post.date_created.timetuple()) / 45000.0
         redis = self.settings['redis']
         lua = "local votes = redis.call('INCR', 'post:{post.id}:votes')\n"
-        lua += "votes = math.log10(votes)\n"
-        lua += "local score = {base_score} + votes\n"
-        lua += "redis.call('ZADD', 'hot', score, {post.id})\n"
-        lua = lua.format(post=post, base_score=base_score)
+        if not post.featured:
+            lua += "votes = math.log10(votes)\n"
+            lua += "local score = {base_score} + votes\n"
+            lua += "redis.call('ZADD', 'hot', score, {post.id})\n"
+            lua = lua.format(post=post, base_score=base_score)
         incr_score = redis.register_script(lua)
         incr_score()
 
-        if detail:
-            self.redirect('/posts/%s' % post.id)
-        else:
-            sort_by = self.get_argument('sort_by', '')
-            anchor = self.get_argument('anchor', '')
-            count = self.get_argument('count', '')
-            action = self.get_argument('action', '')
-            self.redirect('/?sort_by=%s&anchor=%s&count=%s&action=%s'\
-                                        % (sort_by, anchor, count, action))
-
+        self.write_json({'votes': post.votes + 1})

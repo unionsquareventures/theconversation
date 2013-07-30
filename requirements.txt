@@ -6,6 +6,6 @@ fabric
 pytz
 bleach
 raven
-BeautifulSoup
+bs4
 redis
 hiredis

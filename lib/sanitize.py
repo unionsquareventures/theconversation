@@ -1,5 +1,5 @@
 import bleach
-from BeautifulSoup import BeautifulSoup
+from bs4 import BeautifulSoup
 from htmltruncate import truncate as htmltruncate
 
 allowed_tags = ['a', 'b', 'p', 'i', 'blockquote', 'span', 'ul', 'li', 'img',
@@ -34,10 +34,15 @@ def html_sanitize_preview(input):
     return bleach.clean(input, tags=[], attributes=[], styles=[], strip=True)
 
 def truncate(text, length):
-            soup = BeautifulSoup(text)
-            text = soup.prettify()
-            try:
-                text = htmltruncate(text, length, ellipsis='...')
-            except:
-                pass
-            text = html_sanitize_preview(text)
+    soup = BeautifulSoup(text)
+    text = soup.get_text()
+    text = text[:500] + ('...' if len(text) > 500 else '')
+    return text
+    """
+    try:
+        text = htmltruncate(text, length, ellipsis='...')
+    except:
+        pass
+    text = html_sanitize_preview(text)
+    return text
+    """

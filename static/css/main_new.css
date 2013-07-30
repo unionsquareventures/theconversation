@@ -1,3 +1,33 @@
+.posts_listing {
+  margin: 0px;
+  padding: 0px;
+}
+.posts_listing li {
+  padding: 0px;
+  margin: 0px 0px 50px 0px;
+  list-style-type: none;
+}
+.posts_listing .info,
+.posts_listing .info a,
+.posts_listing .info i {
+  color: #888;
+}
+.posts_listing .info a,
+.posts_listing .avatar {
+  margin-right: 10px;
+}
+.posts_listing .title {
+  font-size: 20px;
+  color: #333;
+  font-weight: bold;
+}
+.posts_listing .preview {
+  margin: 10px 0px 20px 0px;
+}
+.posts_listing .preview a {
+  color: #888;
+  font-weight: bold;
+}
 .new_posts_link {
   border: 1px solid #ccc;
   color: #888;

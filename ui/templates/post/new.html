@@ -3,7 +3,6 @@
 {% block title %}Submit{% end %}
 
 {% block css %}
-<link rel="stylesheet" type="text/css" href="/static/css/new_new.css" />
 <style type="text/css">
     .container-fluid {
         margin-top: 50px !important;
@@ -199,12 +198,6 @@ $(function() {
           <div class="text_wrapper">
             <input type="text" name="tags" placeholder="Categories (optional, separate by commas)" />
           </div>
-          {% if model._created %}
-              {% if recaptcha_error %}
-                <i>&darr;&nbsp;Invalid CAPTCHA code. Please try again.</i>
-              {% end %}
-              {% raw recaptcha_render() %}
-          {% end %}
           <div class="post_submit_bar">
             <div class="btn">
               <div class="icon-plus-sign"></div>

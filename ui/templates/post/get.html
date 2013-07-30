@@ -71,10 +71,9 @@
             <a href="#" class="date"><i class="icon-calendar icon"></i>{{ post.date_created.strftime("%B %d, %Y") }}</a>
             <span class="comments">
               <i class="icon-comment icon"></i>
-              <a href="/posts/{{ post.id }}#disqus_thread" class="sub-comments" target="_blank">0</a>
-              <a href="/posts/{{ post.id }}" class="sub-comments" target="_blank">comments</a>
+              <a href="/posts/{{ post.id }}#disqus_thread" class="sub-comments" target="_blank">0 comments</a>
             </span>
-            <a href="/posts/{{ post.id }}/upvote?detail=true" class="votes"><i class="icon-arrow-up icon"></i>{{ post.votes }} votes</a>
+            {% module ajax_upvote_link(post=post) %}
           </div>
         </div>
 

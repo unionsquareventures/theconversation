@@ -25,7 +25,7 @@ class Post(Document):
     hackpad_url = ImprovedURLField(max_length=65000, required=False)
     body_raw = ImprovedStringField(required=True, min_length=10)
     body_html = ImprovedStringField(required=True)
-    body_truncated = StringField(required=True)
+    body_truncated = ImprovedStringField(required=True)
 
     ignored_fields = ['body_html']
 

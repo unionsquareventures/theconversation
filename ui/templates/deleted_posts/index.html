@@ -1,12 +1,43 @@
 {% extends "../base.html" %}
 {% block title %}Deleted Posts{% end %}
 
+{% block css %}
+<style type="text/css">
+#post_stream_bar.detail {
+  position: static;
+}
+#navigation_bar {
+  position: static !important;
+}
+#content {
+  margin-top: 10px;
+}
+</style>
+{% end %}
+
 {% block content %}
-    <h1>Deleted Posts</h1>
-    <ul>
-        {% for post in deleted_posts %}
-        <li><a href="/posts/{{ post.id }}/edit">{{ post.title }}</a></li>
-        {% end %}
+    <div id="content">
+        <br/><br/>
+        <h1>Deleted Posts</h1>
+        <hr/><br/>
+        <ul class="posts_listing">
+            {% for post in deleted_posts %}
+                <li>
+                    <a href="/posts/{{ post.id }}" class="title">{{ post.title }}</a>
+                    <p class="preview">{{ post.body_truncated }}<a href="/posts/{{ post.id }}">&nbsp;more &raquo;</a></p>
+                    <div class="info">
+                        <img src="{{ twitter_avatar_size(post.user.profile_image_url, 'normal') }}" class="avatar" alt="avatar" />
+                        <a href="http://twitter.com/{{ post.user.username }}" class="user" target="_blank"><i class="icon-twitter icon"></i>@{{ post.user.username }}</a>
+                        <span class="comments">
+                          <i class="icon-comment icon"></i>
+                          <a href="/posts/{{ post.id }}#disqus_thread" class="sub-comments" target="_blank">0 comments</a>
+                        </span>
+                        <a href="/posts/{{ post.id }}" class="date" target="_blank"><i class="icon-calendar icon"></i>{{ post.date_created.strftime("%B %d, %Y") }}</a>
+                    </div>
+                </li>
+            {% end %}
+        </ul>
         {% module paginator(page, per_page, total_count, show_pages=True) %}
-    </ul>
+    </div>
+    {% module disqus_count_js() %}
 {% end %}
