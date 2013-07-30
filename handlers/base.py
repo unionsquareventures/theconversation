@@ -13,6 +13,9 @@ class BaseHandler(SentryMixin, tornado.web.RequestHandler):
                         'settings': settings,
                         'is_admin': self.is_admin,
                     }
+        user = self.get_current_user()
+        if user and user.get('id_str') in settings.banned_user_ids:
+            raise tornado.web.HTTPError(401)
 
     def write_json(self, obj):
         resp = json.dumps(obj)
