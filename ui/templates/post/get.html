@@ -83,7 +83,7 @@
                 <a href="{{ post.url }}">Link</a>
                 <br/><br/>
             {% end %}
-            {% module post_footer(object=post, hackpad_url=post.hackpad_url) %}
+            {% module post_footer(post=post) %}
         </div>
 
         <div id="disqus_thread"></div>

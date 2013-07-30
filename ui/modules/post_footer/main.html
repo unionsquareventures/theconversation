@@ -1,8 +1,8 @@
 <div class="post_footer">
-  {% if hackpad_url %}
+  {% if post.has_hackpad and post.hackpad_url %}
     <div class="hackpad">
       <b><i class="icon-edit icon"></i> Hackpad: </b>
-      <a href="{{ hackpad_url }}#" class="hackpad_link">{{ hackpad_url.split('/')[-1] }}</a>
+      <a href="{{ post.hackpad_url }}#" class="hackpad_link">{{ post.hackpad_url.split('/')[-1] }}</a>
     </div>
   {% end %}
   <div class="share_buttons">

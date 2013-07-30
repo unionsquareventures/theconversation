@@ -1,3 +1,12 @@
+.column_link {
+  float: right;
+  margin: 20px 20px 20px 0px;
+  font-weight: bold;
+  color: #333;
+  border: 1px solid #333;
+  border-radius: 5px;
+  padding: 5px 10px;
+}
 .posts_listing {
   margin: 0px;
   padding: 0px;
@@ -101,13 +110,21 @@
   display: inline-block;
   width: 100%;
 }
-.post_form .form_contents .hackpad_input {
-  padding: 0px 72px 0px 0px !important;
-  margin-bottom: 9px;
+.post_form .form_contents .hackpad_checkbox {
+  display: block;
+  border: 1px solid #CCC;
+  border-radius: 5px 5px 0px 0px;
+  border-bottom: none;
+  margin: 12px 0px 0px 5px !important;
+  width: 95px;
+  height: 25px;
+  background-color: #ECECEC;
 }
-.post_form .form_contents .hackpad_input input {
-  margin: 0px 0px 0px 0px !important;
-  padding: 6px 4px !important;
+.post_form .form_contents .hackpad_checkbox input {
+  margin: 7px 10px 0px 10px;
+}
+.post_form .form_contents .hackpad_checkbox img {
+  margin: 2px 0px 0px 0px;
 }
 .post_form .form_contents .text_wrapper {
   padding: 0px 10px 0px 0px;
