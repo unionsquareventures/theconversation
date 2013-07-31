@@ -1,0 +1,55 @@
+{% extends "../base.html" %}
+{% block title %}Search{% end %}
+
+{% block css %}
+<style type="text/css">
+#post_stream_bar.detail {
+  position: static;
+}
+#navigation_bar {
+  position: static !important;
+}
+#content {
+  margin-top: 10px;
+}
+</style>
+{% end %}
+
+{% block content %}
+    <div id="content">
+        <br/><br/>
+        <h1>Search</h1>
+        <hr/>
+        <div class="search_box">
+            <form method="get" action="/search" class="form-search">
+                <div class="input-append">
+                    <input type="text" class="span2 search-query" value="{{ query }}" name="query" />
+                    <input type="submit" value="Search" class="btn" />
+                </div>
+            </form>
+        </div>
+        <hr/><br/>
+        <ul class="posts_listing">
+            {% for post in posts %}
+                <li>
+                    <a href="/posts/{{ post.id }}" class="title">{{ post.title }}</a>
+                    <p class="preview">{{ post.body_truncated }}<a href="/posts/{{ post.id }}">&nbsp;more &raquo;</a></p>
+                    <div class="info">
+                        <img src="{{ twitter_avatar_size(post.user.profile_image_url, 'normal') }}" class="avatar" alt="avatar" />
+                        <a href="http://twitter.com/{{ post.user.username }}" class="user" target="_blank"><i
+                                class="icon-twitter icon"></i>@{{ post.user.username }}</a>
+                        <span class="comments">
+                          <i class="icon-comment icon"></i>
+                          <a href="/posts/{{ post.id }}#disqus_thread" class="sub-comments" target="_blank">0 comments</a>
+                        </span>
+                        <a href="/posts/{{ post.id }}" class="date" target="_blank"><i class="icon-calendar icon"></i>{{ post.date_created.strftime("%B %d, %Y") }}</a>
+                        {% module ajax_upvote_link(post=post) %}
+                    </div>
+                </li>
+            {% end %}
+        </ul>
+        {% module paginator(page, per_page, total_count, show_pages=True) %}
+    </div>
+
+    {% module disqus_count_js() %}
+{% end %}

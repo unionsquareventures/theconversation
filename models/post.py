@@ -29,6 +29,7 @@ class Post(Document):
     body_raw = ImprovedStringField(required=True, min_length=10)
     body_html = ImprovedStringField(required=True)
     body_truncated = ImprovedStringField(required=True)
+    body_text = ImprovedStringField(required=True)
 
     ignored_fields = ['body_html']
 

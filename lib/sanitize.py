@@ -57,9 +57,12 @@ def html_sanitize(input, media=True):
 def html_sanitize_preview(input):
     return bleach.clean(input, tags=[], attributes=[], styles=[], strip=True)
 
-def truncate(text, length, ellipsis=True):
+def html_to_text(text):
     soup = BeautifulSoup(text)
     text = soup.get_text()
+    return text
+
+def truncate(text, length, ellipsis=True):
     text = text[:length]
     if ellipsis and len(text) > length:
         text += '...'

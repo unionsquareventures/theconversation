@@ -3,7 +3,7 @@ import tornado.web
 import tornado.auth
 import tornado.httpserver
 import os
-from lib.sanitize import html_sanitize, linkify, truncate
+import lib.sanitize as sanitize
 from base import BaseHandler
 import mongoengine
 from models import User, Tag, Post
@@ -121,8 +121,9 @@ class PostHandler(BaseHandler):
 
         # Content
         body_raw = attributes.get('body_raw', '')
-        body_html = html_sanitize(body_raw, media=self.is_admin())
-        body_truncated = truncate(body_html, 500)
+        body_html = sanitize.html_sanitize(body_raw, media=self.is_admin())
+        body_text = sanitize.html_to_text(body_html)
+        body_truncated = sanitize.truncate(body_text, 500)
 
         protected_attributes = ['date_created', '_xsrf', 'user', 'votes', 'voted_users', 'deleted']
         for attribute in protected_attributes:
@@ -141,6 +142,7 @@ class PostHandler(BaseHandler):
             'body_html': body_html,
             'body_raw': body_raw,
             'body_truncated': body_truncated,
+            'body_text': body_text,
             'featured': featured,
             'date_featured': date_featured,
             'tags': tag_names,
@@ -163,7 +165,10 @@ class PostHandler(BaseHandler):
         self.redis_add(post)
         if settings.notification_address and self.is_admin():
             sendgrid = self.settings['sendgrid']
-            subject = '%s wrote a new post (USV.com)' % post.user['username']
+            if post.url:
+                subject = '%s shared a link on USV.com' % post.user['username']
+            else:
+                subject = '%s wrote a new post on USV.com' % post.user['username']
             text = '"%s" by %s. Read it here: http://%s/posts/%s'\
                             % (post.title, post.user['username'],
                                             settings.base_url, post.id)
@@ -215,8 +220,9 @@ class PostHandler(BaseHandler):
 
         # Content
         body_raw = attributes.get('body_raw', '')
-        body_html = html_sanitize(body_raw, self.is_admin())
-        body_truncated = truncate(body_html, 500)
+        body_html = sanitize.html_sanitize(body_raw, self.is_admin())
+        body_text = sanitize.html_to_text(body_html)
+        body_truncated = sanitize.truncate(body_text, 500)
 
         protected_attributes = ['date_created', '_xsrf', 'user', 'votes', 'voted_users']
         for attribute in protected_attributes:
@@ -247,6 +253,7 @@ class PostHandler(BaseHandler):
             'body_html': body_html,
             'body_raw': body_raw,
             'body_truncated': body_truncated,
+            'body_text': body_text,
             'featured': featured,
             'date_featured': date_featured,
             'deleted': True if attributes.get('deleted') else False,

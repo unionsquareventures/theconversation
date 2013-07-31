@@ -21,6 +21,7 @@ from handlers.deleted_posts import DeletedPostsHandler
 from handlers.featured_posts import FeaturedPostsHandler
 from handlers.hackpad import HackpadHandler
 from handlers.delete_user import DeleteUserHandler
+from handlers.search import SearchHandler
 import ui
 from redis import StrictRedis
 from lib.sendgrid import Sendgrid
@@ -51,6 +52,7 @@ if __name__ == '__main__':
             (r'/delete_user/?', DeleteUserHandler),
             (r'/deleted_posts/?', DeletedPostsHandler),
             (r'/featured_posts/?', FeaturedPostsHandler),
+            (r'/search/?', SearchHandler),
 
             (r'/?', PostHandler),
             (r'/posts/?', PostHandler),
