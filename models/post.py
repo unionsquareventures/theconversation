@@ -5,13 +5,14 @@ from user import User
 from custom_fields import ImprovedStringField, ImprovedURLField
 from urlparse import urlparse
 from bs4 import BeautifulSoup
+from slugify import slugify
 
 class Post(Document):
     meta = {
         'indexes': ['votes', 'date_created', 'tags'],
     }
 
-    id = IntField(primary_key=True)
+    id = StringField(primary_key=True)
     date_created = DateTimeField(required=True)
     title = ImprovedStringField(required=True, max_length=1000, min_length=5)
     user = EmbeddedDocumentField(User, required=True)
@@ -32,12 +33,14 @@ class Post(Document):
     ignored_fields = ['body_html']
 
     def hook_id(self):
-        counter_coll = self._get_collection_name() + 'Counter'
-        counter = self._get_db()[counter_coll].find_and_modify(query={'_id': 'object_counter'},
+        slug = slugify(unicode(self._data['title']))
+        counter_coll = self._get_collection_name() + 'Slug'
+        counter = self._get_db()[counter_coll].find_and_modify(query={'_id': slug},
                                                                 update={'$inc': {'value': 1}},
                                                                 upsert=True, new=True)
-        id = counter['value']
-        self._data['id'] = id
+        if counter['value'] != 1:
+            slug = '%s-%i' % (counter['_id'], counter['value'])
+        self._data['id'] = slug
 
     def set_fields(self, **kwargs):
         for fname in self._fields.keys():
@@ -47,7 +50,7 @@ class Post(Document):
     def save(self, *args, **kwargs):
         self.body_length_limit = kwargs.get('body_length_limit', None)
         if kwargs.get('force_insert') or '_id' not in self.to_mongo() or self._created:
-            self._data['id'] = 0
+            self._data['id'] = ''
             self.validate()
             if self.hook_id:
                   self.hook_id()

@@ -9,3 +9,4 @@ raven
 bs4
 redis
 hiredis
+slugify

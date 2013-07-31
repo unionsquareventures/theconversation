@@ -14,7 +14,7 @@ class DeleteUserHandler(BaseHandler):
         self.render('delete_user/index.html', **self.vars)
 
     def post(self):
-        post_id = int(self.get_argument('post_id'))
+        post_id = self.get_argument('post_id')
         post = Post.objects(id=post_id).first()
         if not post:
             msg = "Post not found."

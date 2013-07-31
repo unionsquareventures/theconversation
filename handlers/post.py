@@ -63,7 +63,7 @@ class PostHandler(BaseHandler):
         num_posts, rstart, rend, ordered_ids = get_posts()
         posts = Post.objects(id__in=ordered_ids)
         posts = {p.id: p for p in posts}
-        posts = [posts[int(id)] for id in ordered_ids]
+        posts = [posts[id] for id in ordered_ids]
 
         tags = Tag.objects()
         self.vars.update({
@@ -159,7 +159,7 @@ class PostHandler(BaseHandler):
             self.new(model=post, errors=e.errors)
             return
         redis = self.settings['redis']
-        redis.set('post:%i:votes' % post.id, 1)
+        redis.set('post:%s:votes' % post.id, 1)
         self.redis_add(post)
         self.redirect('/posts/%s' % post.id)
 
@@ -175,7 +175,7 @@ class PostHandler(BaseHandler):
         lua = "local votes = redis.call('GET', 'post:{post.id}:votes')\n"
         lua += "votes = math.log10(votes)\n"
         lua += "local score = {base_score} + votes\n"
-        lua += "redis.call('ZADD', 'hot', score, {post.id})\n"
+        lua += "redis.call('ZADD', 'hot', score, '{post.id}')\n"
         lua = lua.format(post=post, base_score=base_score)
         incr_score = redis.register_script(lua)
         incr_score()
@@ -314,7 +314,7 @@ class PostHandler(BaseHandler):
         if not post.featured:
             lua += "votes = math.log10(votes)\n"
             lua += "local score = {base_score} + votes\n"
-            lua += "redis.call('ZADD', 'hot', score, {post.id})\n"
+            lua += "redis.call('ZADD', 'hot', score, '{post.id}')\n"
             lua = lua.format(post=post, base_score=base_score)
         incr_score = redis.register_script(lua)
         incr_score()
