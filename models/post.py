@@ -9,8 +9,20 @@ from slugify import slugify
 
 class Post(Document):
     meta = {
-        'indexes': ['votes', 'date_created', 'tags'],
+        'indexes': ['date_deleted', 'deleted', 'date_featured', 'featured'],
     }
+
+    # Full text search index
+    def __init__(self, *args, **kwargs):
+        super(Post, self).__init__(*args, **kwargs)
+        db = self._get_db()
+        pcoll = db['post']
+        pcoll.ensure_index([
+            ('body_text', 'text'),
+            ('title', 'text'),
+            ('user.username', 'text'),
+        ])
+
 
     id = StringField(primary_key=True)
     date_created = DateTimeField(required=True)
@@ -31,7 +43,6 @@ class Post(Document):
     body_truncated = ImprovedStringField(required=True)
     body_text = ImprovedStringField(required=True)
 
-    ignored_fields = ['body_html']
 
     def hook_id(self):
         slug = slugify(unicode(self._data['title']))
@@ -43,10 +54,12 @@ class Post(Document):
             slug = '%s-%i' % (counter['_id'], counter['value'])
         self._data['id'] = slug
 
+
     def set_fields(self, **kwargs):
         for fname in self._fields.keys():
             if kwargs.has_key(fname):
                 setattr(self, fname, kwargs[fname])
+
 
     def save(self, *args, **kwargs):
         self.body_length_limit = kwargs.get('body_length_limit', None)
@@ -56,6 +69,7 @@ class Post(Document):
             if self.hook_id:
                   self.hook_id()
         super(Post, self).save(*args, **kwargs)
+
 
     def validate(self, clean=True):
         errors = {}
@@ -94,12 +108,10 @@ class Post(Document):
             message = 'ValidationError (%s:%s) ' % (self._class_name, pk)
             raise ValidationError(message, errors=errors)
 
+
     def form_fields(self, form_errors=None, form_fields=[]):
         for form_field in form_fields:
             field = self._fields[form_field['name']]
-            # Ignore ID field and ignored fields
-            if form_field['name'] == self._meta['id_field'] or form_field['name'] in self.ignored_fields:
-                continue
 
             # Fill value
             value = self._data.get(form_field['name']) or ''
