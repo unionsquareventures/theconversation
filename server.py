@@ -20,6 +20,7 @@ from handlers.fake_error import FakeErrorHandler
 from handlers.deleted_posts import DeletedPostsHandler
 from handlers.featured_posts import FeaturedPostsHandler
 from handlers.hackpad import HackpadHandler
+from handlers.delete_user import DeleteUserHandler
 import ui
 from redis import StrictRedis
 
@@ -43,6 +44,7 @@ if __name__ == '__main__':
             (r'/auth/logout/?', LogoutHandler),
 
             (r'/fake_error/?', FakeErrorHandler),
+            (r'/delete_user/?', DeleteUserHandler),
             (r'/deleted_posts/?', DeletedPostsHandler),
             (r'/featured_posts/?', FeaturedPostsHandler),
 
