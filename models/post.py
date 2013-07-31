@@ -4,6 +4,7 @@ from mongoengine import *
 from user import User
 from custom_fields import ImprovedStringField, ImprovedURLField
 from urlparse import urlparse
+from bs4 import BeautifulSoup
 
 class Post(Document):
     meta = {
@@ -44,6 +45,7 @@ class Post(Document):
                 setattr(self, fname, kwargs[fname])
 
     def save(self, *args, **kwargs):
+        self.body_length_limit = kwargs.get('body_length_limit', None)
         if kwargs.get('force_insert') or '_id' not in self.to_mongo() or self._created:
             self._data['id'] = 0
             self.validate()
@@ -67,9 +69,12 @@ class Post(Document):
             if base_domain not in valid_hackpad_domains:
                 errors['hackpad_url'] = ValidationError('Invalid Hackpad URL', field_name='hackpad_url')
 
-        raw = self._data.get('body_raw', '')
-        if raw:
-            pass
+        if self.body_length_limit:
+            raw = self._data.get('body_raw', '')
+            soup = BeautifulSoup(raw)
+            if len(soup.get_text()) > self.body_length_limit:
+                errors['body_raw'] = ValidationError('Post content exceeds %i characters'\
+                                                % self.body_length_limit, field_name='body_raw')
 
         try:
             super(Post, self).validate(clean=clean)

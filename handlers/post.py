@@ -151,7 +151,10 @@ class PostHandler(BaseHandler):
 
         post = Post(**attributes)
         try:
-            post.save()
+            if self.is_admin():
+                post.save()
+            else:
+                post.save(body_length_limit=settings.post_char_limit)
         except mongoengine.ValidationError, e:
             self.new(model=post, errors=e.errors)
             return
@@ -239,7 +242,10 @@ class PostHandler(BaseHandler):
         })
         post.set_fields(**attributes)
         try:
-            post.save()
+            if self.is_admin():
+                post.save()
+            else:
+                post.save(body_length_limit=settings.post_char_limit)
         except mongoengine.ValidationError, e:
             self.edit(post.id, errors=e.errors)
             return
