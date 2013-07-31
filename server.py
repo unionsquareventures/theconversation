@@ -23,6 +23,7 @@ from handlers.hackpad import HackpadHandler
 from handlers.delete_user import DeleteUserHandler
 import ui
 from redis import StrictRedis
+from lib.sendgrid import Sendgrid
 
 define("port", default=8888, help="run on the given port", type=int)
 
@@ -32,6 +33,9 @@ if __name__ == '__main__':
     # Connect to Redis with a 50 msec timeout
     redis = StrictRedis(host=settings.redis_host,
                     port=settings.redis_port, db=0, socket_timeout=.05)
+
+    # Sendgrid API
+    sendgrid = Sendgrid(settings.sendgrid_user, settings.sendgrid_secret)
 
     # Bundle JS/CSS
     logging.info('Bundling JS/CSS')
@@ -58,6 +62,7 @@ if __name__ == '__main__':
             ], ui_modules = ui.template_modules(),
             ui_methods = ui.template_methods(),
             redis=redis,
+            sendgrid=sendgrid,
             **settings.tornado_config)
 
     # Initialize Sentry

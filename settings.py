@@ -9,8 +9,6 @@ if DEPLOYMENT_STAGE == 'production':
     from server_setup.deployment.prod import *
 elif DEPLOYMENT_STAGE == 'staging':
     from server_setup.deployment.staging import *
-elif DEPLOYMENT_STAGE == 'beta':
-    from server_setup.deployment.beta import *
 else:
     from server_setup.deployment.local import *
 
