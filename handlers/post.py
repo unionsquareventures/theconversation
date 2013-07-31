@@ -121,7 +121,7 @@ class PostHandler(BaseHandler):
 
         # Content
         body_raw = attributes.get('body_raw', '')
-        body_html = html_sanitize(body_raw)
+        body_html = html_sanitize(body_raw, media=self.is_admin())
         body_truncated = truncate(body_html, 500)
 
         protected_attributes = ['date_created', '_xsrf', 'user', 'votes', 'voted_users', 'deleted']
@@ -200,7 +200,7 @@ class PostHandler(BaseHandler):
 
         # Content
         body_raw = attributes.get('body_raw', '')
-        body_html = html_sanitize(body_raw)
+        body_html = html_sanitize(body_raw, self.is_admin())
         body_truncated = truncate(body_html, 500)
 
         protected_attributes = ['date_created', '_xsrf', 'user', 'votes', 'voted_users']

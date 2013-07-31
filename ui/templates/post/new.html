@@ -129,7 +129,7 @@ $(function() {
     theme : "modern",
     width: '100%',
 
-    valid_elements: "",
+    valid_elements: "{{ tinymce_valid_elements(media=is_admin()) }}",
     charcount_max_chars: {{ settings.post_char_limit }},
 
     // Styling
