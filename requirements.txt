@@ -6,7 +6,7 @@ fabric
 pytz
 bleach
 raven
-bs4
+BeautifulSoup4
 redis
 hiredis
 slugify
