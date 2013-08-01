@@ -204,7 +204,7 @@ class PostHandler(BaseHandler):
 
         id_str = self.get_current_user()['id_str']
         if not (self.is_admin() or id_str == post.user['id_str']):
-            raise tornado.web.HTTPError(403)
+            raise tornado.web.HTTPError(401)
 
         attributes = {k: v[0] for k, v in self.request.arguments.iteritems()}
         # Handle tags
@@ -277,7 +277,7 @@ class PostHandler(BaseHandler):
 
         id_str = self.get_current_user()['id_str']
         if not (id_str == post.user['id_str'] or self.is_admin()):
-            raise tornado.web.HTTPError(403)
+            raise tornado.web.HTTPError(401)
 
         # Modification page
         self.vars.update({
@@ -299,7 +299,7 @@ class PostHandler(BaseHandler):
     @tornado.web.authenticated
     def feature(self, id):
         if not self.is_admin():
-            raise tornado.web.HTTPError(403)
+            raise tornado.web.HTTPError(401)
         try:
             post = Post.objects.get(id=id)
         except Post.DoesNotExist:

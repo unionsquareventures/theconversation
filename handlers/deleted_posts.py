@@ -5,7 +5,7 @@ import tornado.web
 class DeletedPostsHandler(BaseHandler):
     def get(self):
         if not self.is_admin():
-            raise tornado.web.HTTPError(403)
+            raise tornado.web.HTTPError(401)
         page = abs(int(self.get_argument('page', '1')))
         per_page = abs(int(self.get_argument('per_page', '10')))
         deleted_posts = Post.objects(deleted=True).order_by('-date_deleted')
