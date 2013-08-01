@@ -88,10 +88,10 @@ class PostHandler(BaseHandler):
         post = Post.objects(id=id).first()
         if not post:
             raise tornado.web.HTTPError(404)
+        self.vars.update({'post': post})
         if post.deleted:
             self.render('post/deleted.html', **self.vars)
             return
-        self.vars.update({'post': post})
         self.render('post/get.html', **self.vars)
 
     @tornado.web.asynchronous
