@@ -1,0 +1,35 @@
+{% extends "../base.html" %}
+
+{% block title %}Deleted{% end %}
+
+{% block css %}
+<style type="text/css">
+#post_stream_bar.detail {
+  position: static;
+}
+#navigation_bar {
+  position: static !important;
+}
+#content {
+  margin-top: 10px;
+}
+</style>
+{% end %}
+
+{% block content %}
+    <div id="post_stream_bar" class="detail column_header">
+      <div class="buttons_container">
+          <div class="post_buttons">
+            {% if is_admin() or user.get('id_str', '') == post.user['id_str'] %}
+                 <a href="/posts/{{ post.id }}/edit">
+                   <i class="icon-pencil icon"></i>&nbsp;&nbsp;Edit
+                 </a>
+           {% end %}
+       </div>
+      </div>
+    </div>
+
+    <div id="content">
+        <p>This post has been deleted. Please contact <a href="mailto:info@usv.com">info@usv.com</a> for support.</p>
+    </div>        
+{% end %}

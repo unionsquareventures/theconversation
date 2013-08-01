@@ -89,7 +89,7 @@ class PostHandler(BaseHandler):
         if not post:
             raise tornado.web.HTTPError(404)
         if post.deleted:
-            self.write("Deleted.")
+            self.render('post/deleted.html', **self.vars)
             return
         self.vars.update({'post': post})
         self.render('post/get.html', **self.vars)
