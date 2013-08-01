@@ -1,7 +1,7 @@
 """determines deployment stage and import appropriate settings file"""
 import os
 
-DEPLOYMENT_STAGE = "local"
+DEPLOYMENT_STAGE = "staging"
 if os.path.exists("deployment_stage"):
     DEPLOYMENT_STAGE = open("deployment_stage").read().strip()
 
