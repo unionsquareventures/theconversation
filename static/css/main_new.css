@@ -213,7 +213,7 @@ a.sub-comments {
   display: block;
   clear: both;
   float: left;
-  margin: 15px 0px 0px 10px;
+  margin: 20px 0px 10px 10px;
   font-size: 12px;
 }
 #featured_posts .post.featured .featured_info a {
