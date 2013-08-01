@@ -77,8 +77,10 @@
                             </div>
                         </div>
                     </div>
-                  {% end %}
-                  <a href="/featured_posts" class="column_link">More &raquo;</a>
+                    {% end %}
+                {% if featured_posts %}
+                    <a href="/featured_posts" class="column_link">More &raquo;</a>
+                {% end %}
           </div>
     </div>
 
