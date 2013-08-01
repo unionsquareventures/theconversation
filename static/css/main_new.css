@@ -207,13 +207,13 @@ a.sub-comments {
   padding: 1px 20px 2px 10px;
   background: #88aa44 url(/static/images/arrow1.gif) no-repeat 108% 50%;
   border-bottom: 0;
-  margin: 17px 0px 0px 10px;
+  margin: 20px 0px 0px 10px;
 }
 #featured_posts .post.featured .featured_info {
   display: block;
   clear: both;
   float: left;
-  margin: 15px 0px 0px 10px;
+  margin: 17px 0px 0px 10px;
   font-size: 12px;
 }
 #featured_posts .post.featured .featured_info a {
