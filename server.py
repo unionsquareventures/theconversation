@@ -32,8 +32,7 @@ if __name__ == '__main__':
     tornado.options.parse_command_line()
 
     # Connect to Redis with a 50 msec timeout
-    redis = StrictRedis(host=settings.redis_host,
-                    port=settings.redis_port, db=0, socket_timeout=.05)
+    redis = StrictRedis.from_url(settings.redis_url, socket_timeout=.05)
 
     # Sendgrid API
     sendgrid = Sendgrid(settings.sendgrid_user, settings.sendgrid_secret)

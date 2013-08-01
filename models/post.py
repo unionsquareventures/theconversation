@@ -1,11 +1,13 @@
 import settings
 from markdown import markdown
-from mongoengine import *
 from user import User
-from custom_fields import ImprovedStringField, ImprovedURLField
 from urlparse import urlparse
 from bs4 import BeautifulSoup
 from slugify import slugify
+from mongoengine import *
+from custom_fields import ImprovedStringField, ImprovedURLField
+mongodb_db = urlparse(settings.mongodb_url).path[1:]
+connect(mongodb_db, host=settings.mongodb_url)
 
 class Post(Document):
     meta = {
