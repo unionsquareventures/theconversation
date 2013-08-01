@@ -137,6 +137,21 @@ a.sub-comments {
 #pinned_featured_posts {
   display: none;
 }
+#pinned_featured_posts .column_link {
+  display: block;
+  float: none;
+  background-color: #F3F5EE;
+  margin: 0px;
+  border-radius: 0px;
+  text-align: right;
+  padding: 10px 20px 10px 10px;
+  color: #383838;
+  border-color: #ABC07E;
+  border-top: 0px;
+}
+#pinned_featured_posts .column_link:hover {
+  text-decoration: none;
+}
 #featured_posts {
   width: 35%;
   height: 1000px;
