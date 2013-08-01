@@ -63,7 +63,7 @@ def html_to_text(text):
     return text
 
 def truncate(text, length, ellipsis=True):
-    text = text[:length]
+    truncated = text[:length]
     if ellipsis and len(text) > length:
-        text += '...'
-    return text
+        truncated += '...'
+    return truncated

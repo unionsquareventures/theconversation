@@ -28,7 +28,7 @@ class Post(Document):
 
     id = StringField(primary_key=True)
     date_created = DateTimeField(required=True)
-    title = ImprovedStringField(required=True, max_length=1000, min_length=5)
+    title = ImprovedStringField(required=True, max_length=1000, min_length=3)
     user = EmbeddedDocumentField(User, required=True)
     tags = ListField(ImprovedStringField())
     votes = IntField(default=0)
