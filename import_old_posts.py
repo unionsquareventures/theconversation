@@ -100,7 +100,11 @@ for entry in entries['RECORDS']:
 
 	print entry['entry_title']
 
-	entry_text = entry['entry_text'].replace('\n', '<br/>')
+	if entry['entry_text'].startswith('<br />'):
+		entry['entry_text'] = entry['entry_text'][6:]
+
+	entry_text = entry['entry_text'].replace('\n\n', '<br/><br/>')
+
 	soup = BeautifulSoup(entry_text)
 	d = parser.parser().parse(entry['entry_created_on'])
 	score = calculate_score(1, d)
