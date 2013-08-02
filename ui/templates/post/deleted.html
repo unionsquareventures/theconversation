@@ -20,7 +20,7 @@
     <div id="post_stream_bar" class="detail column_header">
       <div class="buttons_container">
           <div class="post_buttons">
-            {% if is_admin() or user.get('id_str', '') == post.user['id_str'] %}
+            {% if is_admin() or user_id_str == post.user['id_str'] %}
                  <a href="/posts/{{ post.id }}/edit">
                    <i class="icon-pencil icon"></i>&nbsp;&nbsp;Edit
                  </a>

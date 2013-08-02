@@ -6,7 +6,7 @@ import os
 import lib.sanitize as sanitize
 from base import BaseHandler
 import mongoengine
-from models import User, Tag, Post
+from models import Tag, Post, UserInfo, User, VotedUser
 
 from urlparse import urlparse
 from datetime import datetime
@@ -137,8 +137,10 @@ class PostHandler(BaseHandler):
             date_featured = datetime.now()
 
         date_created = dt.datetime.now()
+        user_id_str = self.get_current_user_id_str()
+        user_info = UserInfo.objects(user__id_str=user_id_str).first()
         attributes.update({
-            'user': User(**self.get_current_user()),
+            'user': user_info.user,
             'body_html': body_html,
             'body_raw': body_raw,
             'body_truncated': body_truncated,
@@ -148,7 +150,7 @@ class PostHandler(BaseHandler):
             'tags': tag_names,
             'date_created': date_created,
             'votes': 1,
-            'voted_users': [User(**self.get_current_user())]
+            'voted_users': [VotedUser(id=user_id_str)]
         })
 
         post = Post(**attributes)
@@ -202,7 +204,7 @@ class PostHandler(BaseHandler):
         if not post:
             raise tornado.web.HTTPError(404)
 
-        id_str = self.get_current_user()['id_str']
+        id_str = self.get_current_user_id_str()
         if not (self.is_admin() or id_str == post.user['id_str']):
             raise tornado.web.HTTPError(401)
 
@@ -249,7 +251,7 @@ class PostHandler(BaseHandler):
             self.redis_add(post)
 
         attributes.update({
-            'user': User(**self.get_current_user()),
+            'user': post.user,
             'body_html': body_html,
             'body_raw': body_raw,
             'body_truncated': body_truncated,
@@ -275,7 +277,7 @@ class PostHandler(BaseHandler):
         if not post:
             raise tornado.web.HTTPError(404)
 
-        id_str = self.get_current_user()['id_str']
+        id_str = self.get_current_user_id_str()
         if not (id_str == post.user['id_str'] or self.is_admin()):
             raise tornado.web.HTTPError(401)
 
@@ -313,19 +315,19 @@ class PostHandler(BaseHandler):
 
     @tornado.web.authenticated
     def upvote(self, id):
-        id_str = self.get_current_user()['id_str']
-        user_q = {'$elemMatch': {'id_str': id_str}}
-        post = Post.objects(id=id).fields(voted_users=user_q, votes=True, date_created=True, featured=True).first()
+        id_str = self.get_current_user_id_str()
+        user_q = {'$elemMatch': {'_id': id_str}}
+        post = Post.objects(id=id).fields(votes=True, date_created=True,
+                                        featured=True, voted_users=user_q).first()
         if not post:
             raise tornado.web.HTTPError(404)
-        detail = self.get_argument('detail', '')
         if post.voted_users and not self.is_admin():
             self.write_json({'error': 'You have already upvoted this post.'})
             return
 
         post.update(inc__votes=1)
         if not post.voted_users:
-            post.update(push__voted_users=User(**self.get_current_user()))
+            post.update(push__voted_users=VotedUser(id=id_str))
 
         base_score = time.mktime(post.date_created.timetuple()) / 45000.0
         redis = self.settings['redis']

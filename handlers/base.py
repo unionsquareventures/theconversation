@@ -9,12 +9,12 @@ class BaseHandler(SentryMixin, tornado.web.RequestHandler):
     def __init__(self, *args, **kwargs):
         super(BaseHandler, self).__init__(*args, **kwargs)
         self.vars = {
-                        'user': self.get_current_user(),
+                        'user_id_str': self.get_current_user_id_str(),
                         'settings': settings,
                         'is_admin': self.is_admin,
                     }
-        user = self.get_current_user()
-        if user and user.get('id_str') in settings.banned_user_ids:
+        user_id_str = self.get_current_user_id_str()
+        if user_id_str in settings.banned_user_ids:
             raise tornado.web.HTTPError(401)
 
     def write_json(self, obj):
@@ -26,13 +26,15 @@ class BaseHandler(SentryMixin, tornado.web.RequestHandler):
         self.finish()
 
     def get_current_user(self):
-        user_json = self.get_secure_cookie("user")
-        if not user_json: return {}
-        return tornado.escape.json_decode(user_json)
+        return self.get_secure_cookie('user_id_str')
+
+    def get_current_user_id_str(self):
+        user_id_str = self.get_secure_cookie('user_id_str') or ''
+        return user_id_str
 
     def is_admin(self):
-        user = self.get_current_user()
-        if user and user['id_str'] in settings.admin_user_ids:
+        user_id_str = self.get_current_user_id_str()
+        if user_id_str in settings.admin_user_ids:
             return True
         return False
 

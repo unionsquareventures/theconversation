@@ -1,4 +1,3 @@
 from post import Post
 from tag import Tag
-from user import User
-
+from user_info import UserInfo, User, AccessToken, VotedUser

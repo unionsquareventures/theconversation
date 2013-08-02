@@ -1,6 +1,6 @@
 import settings
 from markdown import markdown
-from user import User
+from user_info import User, VotedUser
 from urlparse import urlparse
 from bs4 import BeautifulSoup
 from slugify import slugify
@@ -11,7 +11,7 @@ connect(mongodb_db, host=settings.mongodb_url)
 
 class Post(Document):
     meta = {
-        'indexes': ['date_deleted', 'deleted', 'date_featured', 'featured'],
+        'indexes': ['date_deleted', 'deleted', 'date_featured', 'featured', 'voted_users'],
     }
 
     # Full text search index
@@ -32,7 +32,7 @@ class Post(Document):
     user = EmbeddedDocumentField(User, required=True)
     tags = ListField(ImprovedStringField())
     votes = IntField(default=0)
-    voted_users = ListField(EmbeddedDocumentField(User))
+    voted_users = ListField(EmbeddedDocumentField(VotedUser))
     deleted = BooleanField(default=False)
     date_deleted = DateTimeField(required=False)
     featured = BooleanField(default=False)
