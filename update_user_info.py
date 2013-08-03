@@ -21,7 +21,7 @@ import urlparse
 import urllib as urllib_parse
 import hmac
 import hashlib
-
+from raven.contrib.tornado import AsyncSentryClient
 
 def run():
     print "Starting..."
@@ -49,12 +49,13 @@ class UpdateUserInfo(object):
         self.twitter_consumer_secret = settings.tornado_config['twitter_consumer_secret']
         self.outbound_requests = 0
         self.io = io
+        self.sentry = AsyncSentryClient(settings.sentry_dsn)
 
     def start_update(self):
         user_info = UserInfo.objects.all().fields(access_token=True)
         for info in user_info:
             self.outbound_requests += 1
-            self.twitter_request('/users/show',
+            self.twitter_request('/users/sshow',
                     access_token=info.access_token._data,
                     user_id=info.access_token.user_id)
 
@@ -142,7 +143,10 @@ class UpdateUserInfo(object):
 
     def _on_twitter_request(self, response):
         if response.error:
-            raise AuthError("Error response %s fetching %s" % (response.error, response.request.url))
+            self.sentry.captureMessage("[Twitter] Error response %s fetching %s" % (response.error, response.request.url))
+            self.outbound_requests -= 1
+            if self.outbound_requests == 0:
+                self.io.stop()
             return
         self.update_user(escape.json_decode(response.body))
 
