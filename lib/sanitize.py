@@ -59,6 +59,8 @@ def html_sanitize_preview(input):
 
 def html_to_text(text):
     soup = BeautifulSoup(text)
+    for br in soup.find_all('br'):
+        br.string = ' '
     text = soup.get_text()
     return text
 

@@ -1,5 +1,6 @@
 import csv
 from bs4 import BeautifulSoup
+from lib.sanitize import html_to_text
 from models.post import Post
 from models.user_info import User, VotedUser
 import lib.sanitize as sanitize
@@ -57,7 +58,6 @@ for entry in entries['RECORDS']:
 
 	entry_text = entry['entry_text'].replace('\n\n', '<br/><br/>')
 
-	soup = BeautifulSoup(entry_text)
 	d = parser.parser().parse(entry['entry_created_on'])
 	score = calculate_score(1, d)
 	u = User(**users[str(entry['entry_author_id'])])
@@ -66,8 +66,8 @@ for entry in entries['RECORDS']:
 			title=entry['entry_title'],
 			body_raw=entry_text,
 			body_html=entry_text,
-			body_text=soup.get_text(),
-			body_truncated=sanitize.truncate(soup.get_text(), 500),
+			body_text=html_to_text(entry_text),
+			body_truncated=sanitize.truncate(html_to_text(entry_text), 500),
 			score=score,
 			date_created=d,
 			votes=1,
