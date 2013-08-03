@@ -38,9 +38,10 @@ if __name__ == '__main__':
     sendgrid = Sendgrid(settings.sendgrid_user, settings.sendgrid_secret)
 
     # Bundle JS/CSS
-    #logging.info('Bundling JS/CSS')
-    #ui.template_processors.bundle_styles()
-    #ui.template_processors.bundle_javascript()
+    if settings.tornado_config['debug']:
+        logging.info('Bundling JS/CSS')
+        ui.template_processors.bundle_styles()
+        ui.template_processors.bundle_javascript()
 
     logging.info('Starting server on port %s' % options.port)
     application = tornado.web.Application([
