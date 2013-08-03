@@ -55,7 +55,7 @@ class UpdateUserInfo(object):
         user_info = UserInfo.objects.all().fields(access_token=True)
         for info in user_info:
             self.outbound_requests += 1
-            self.twitter_request('/users/sshow',
+            self.twitter_request('/users/show',
                     access_token=info.access_token._data,
                     user_id=info.access_token.user_id)
 
@@ -143,12 +143,14 @@ class UpdateUserInfo(object):
 
     def _on_twitter_request(self, response):
         if response.error:
-            self.sentry.captureMessage("[Twitter] Error response %s fetching %s" % (response.error, response.request.url))
-            self.outbound_requests -= 1
-            if self.outbound_requests == 0:
-                self.io.stop()
+            self.sentry.captureMessage("[Twitter] Error response %s fetching %s" % (response.error, response.request.url), callback=self._on_sentry)
             return
         self.update_user(escape.json_decode(response.body))
+
+    def _on_sentry(self, response):
+        self.outbound_requests -= 1
+        if self.outbound_requests == 0:
+            self.io.stop()
 
 
 def _oauth_escape(val):
