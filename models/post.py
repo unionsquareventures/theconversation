@@ -12,7 +12,7 @@ connect(mongodb_db, host=settings.mongodb_url)
 class Post(Document):
     meta = {
         'indexes': ['date_deleted', 'deleted', 'date_featured',
-                            'featured', 'voted_users', 'user.id_str'],
+                            'featured', 'voted_users', 'user.id_str', 'slug'],
     }
 
     # Full text search index
@@ -27,9 +27,10 @@ class Post(Document):
         ])
 
 
-    id = StringField(primary_key=True)
     date_created = DateTimeField(required=True)
     title = ImprovedStringField(required=True, max_length=1000, min_length=3)
+    slugs = ListField(StringField())
+    slug = StringField(required=True)
     user = EmbeddedDocumentField(User, required=True)
     tags = ListField(ImprovedStringField())
     votes = IntField(default=0)
@@ -46,16 +47,17 @@ class Post(Document):
     body_truncated = ImprovedStringField(required=True)
     body_text = ImprovedStringField(required=True)
 
-
-    def hook_id(self):
-        slug = slugify(unicode(self._data['title']))
+    def add_slug(self, title):
+        slug = slugify(title)
         counter_coll = self._get_collection_name() + 'Slug'
         counter = self._get_db()[counter_coll].find_and_modify(query={'_id': slug},
                                                                 update={'$inc': {'value': 1}},
                                                                 upsert=True, new=True)
         if counter['value'] != 1:
             slug = '%s-%i' % (counter['_id'], counter['value'])
-        self._data['id'] = slug
+        self._data['slugs'] = self._data.get('slugs', []) + [slug]
+        self._data['slug'] = slug
+        return slug
 
 
     def set_fields(self, **kwargs):
@@ -66,11 +68,12 @@ class Post(Document):
 
     def save(self, *args, **kwargs):
         self.body_length_limit = kwargs.get('body_length_limit', None)
-        if kwargs.get('force_insert') or '_id' not in self.to_mongo() or self._created:
-            self._data['id'] = ''
-            self.validate()
-            if self.hook_id:
-                  self.hook_id()
+        old_title = kwargs.get('old_title')
+        if not self._data.get('slug'):
+            self._data['slug'] = '_'
+        self.validate()
+        if old_title != self._data['title'] and len(self._data.get('slugs', [])) < 6:
+            self.add_slug(unicode(self._data['title']))
         super(Post, self).save(*args, **kwargs)
 
 

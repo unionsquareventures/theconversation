@@ -157,7 +157,7 @@ $(function() {
 {% end %}
 
 {% block content %}
-  <form action="/posts{{ ('/' + str(model.id)) if not model._created else '' }}" method="post" class="post_form">
+  <form action="/posts{{ ('/' + str(post.slug)) if not post._created else '' }}" method="post" class="post_form">
       <div class="form_contents">
           {% module xsrf_form_html() %}
           {% set hackpad_icon = lambda x: '<div class="hackpad_checkbox"><span class="add-on">'\
@@ -204,7 +204,7 @@ $(function() {
             %}
           {% end %}
 
-          {% if not model._created %}
+          {% if not post._created %}
               {% set form_fields = form_fields + [{
                 'name': 'deleted',
                 'label': '<i class="icon-remove"></i>&nbsp;Delete this post?',
@@ -212,7 +212,7 @@ $(function() {
               }]%}
           {% end %}
 
-          {% for name, html, field_errors in model.form_fields(errors, form_fields=form_fields) %}
+          {% for name, html, field_errors in post.form_fields(errors, form_fields=form_fields) %}
                   {% if field_errors %}
                       <i>&darr;&nbsp;{{ field_errors.message }}</i>
                       <br/>
@@ -222,7 +222,7 @@ $(function() {
           <div class="post_submit_bar">
             <div class="btn">
               <div class="icon-plus-sign"></div>
-              {% if model._created %}
+              {% if post._created %}
                 Submit
               {% else %}
                 Save

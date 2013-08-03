@@ -56,7 +56,7 @@
                 {% for post in featured_posts %}
                     <div class="post featured">
                         <div class="info">
-                            <a href="/posts/{{ post.id }}" class="title" target="_blank">
+                            <a href="/posts/{{ post.slug }}" class="title" target="_blank">
                                 <p>
                                     {{ post.title }}
                                 </p>
@@ -64,15 +64,15 @@
                             <div class="content">
                             {% raw post.body_truncated %}
                             </div>
-                            <a href="/posts/{{ post.id }}" class="continue_button" target="_blank">Continue</a>
+                            <a href="/posts/{{ post.slug }}" class="continue_button" target="_blank">Continue</a>
                             <div class="featured_info">
                                 <a href="http://twitter.com/{{ post.user.username }}" class="user" target="_blank">{{ post.user.username }}</a>
                                 <p class="featured_info_divider">/</p>
-                                <a href="/posts/{{ post.id }}" class="date" target="_blank">{{ post.date_created.strftime("%d %b %Y") }}</a>
+                                <a href="/posts/{{ post.slug }}" class="date" target="_blank">{{ post.date_created.strftime("%d %b %Y") }}</a>
                                 <p class="featured_info_divider">/</p>
                                 <span class="replies">
                                   <i class="icon-comment icon"></i>&nbsp;
-                                  <a href="/posts/{{ post.id }}#disqus_thread" class="sub-comments" target="_blank">0</a>
+                                  <a href="/posts/{{ post.slug }}#disqus_thread" class="sub-comments" target="_blank">0</a>
                                 </span>
                             </div>
                         </div>
@@ -97,17 +97,17 @@
                 <div class="post featured">
                     <img src="{{ twitter_avatar_size(post.user.profile_image_url, 'bigger') }}" class="img-circle avatar" alt="avatar" />
                     <div class="info">
-                        <a href="{{ "/posts/%s" % (post.id) }}" class="title" target="_blank">
+                        <a href="{{ "/posts/%s" % (post.slug) }}" class="title" target="_blank">
                             <p>
                                 {{ post.title }}
                             </p>
                         </a>
-                        <a href="{{ "/posts/%s" % (post.id) }}" class="site" target="_blank">usv.com</a>
+                        <a href="{{ "/posts/%s" % (post.slug) }}" class="site" target="_blank">usv.com</a>
                         <br/>
                         <a href="http://twitter.com/{{ post.user.username }}" class="user" target="_blank"><i class="icon-twitter icon"></i>@{{ post.user.username }}</a>
                         <span class="comments">
                           <i class="icon-comment icon"></i>
-                          <a href="/posts/{{ post.id }}#disqus_thread" class="sub-comments" target="_blank">0 comments</a>
+                          <a href="/posts/{{ post.slug }}#disqus_thread" class="sub-comments" target="_blank">0 comments</a>
                         </span>
                     </div>
                 </div>
@@ -135,23 +135,23 @@
                             </a>
                             <a href="{{ post.url }}" class="site" target="_blank">{{ urlparse(post.url).netloc }}</a>
                         {% else %}
-                            <a href="{{ "/posts/%s" % (post.id) }}" class="title" target="_blank">
+                            <a href="{{ "/posts/%s" % (post.slug) }}" class="title" target="_blank">
                                 <p>
                                     {{ post.title }}
                                 </p>
                             </a>
-                            <a href=""{{ "/posts/%s" % (post.id) }} class="site" target="_blank">usv.com</a>
+                            <a href=""{{ "/posts/%s" % (post.slug) }} class="site" target="_blank">usv.com</a>
                         {% end %}
                         <br/>
                         <a href="http://twitter.com/{{ post.user.username }}" class="user" target="_blank"><i class="icon-twitter icon"></i>@{{ post.user.username }}</a>
                         <span class="comments">
                           <i class="icon-comment icon"></i>
-                          <a href="/posts/{{ post.id }}#disqus_thread" class="sub-comments" target="_blank">0 comments</a>
+                          <a href="/posts/{{ post.slug }}#disqus_thread" class="sub-comments" target="_blank">0 comments</a>
                         </span>
-                        <a href="/posts/{{ post.id }}" class="date" target="_blank"><i class="icon-calendar icon"></i>{{ post.date_created.strftime("%B %d, %Y") }}</a>
+                        <a href="/posts/{{ post.slug }}" class="date" target="_blank"><i class="icon-calendar icon"></i>{{ post.date_created.strftime("%B %d, %Y") }}</a>
                         {% module ajax_upvote_link(post=post) %}
                         {% if is_admin() %}
-                          <a href="/posts/{{ post.id }}/feature"><i class="icon-star icon"></i>Feature</a>
+                          <a href="/posts/{{ post.slug }}/feature"><i class="icon-star icon"></i>Feature</a>
                         {% end %}
                     </div>
                 </div>

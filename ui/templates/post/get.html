@@ -49,7 +49,7 @@
       <div class="buttons_container">
           <div class="post_buttons">
             {% if is_admin() or user_id_str == post.user['id_str'] %}
-                 <a href="/posts/{{ post.id }}/edit">
+                 <a href="/posts/{{ post.slug }}/edit">
                    <i class="icon-pencil icon"></i>&nbsp;&nbsp;Edit
                  </a>
            {% end %}
@@ -61,7 +61,7 @@
       <div class="post detail">
         <img src="{{ twitter_avatar_size(post.user.profile_image_url, 'original') }}" class="img-circle avatar" alt="avatar" />
         <div class="info">
-          <a href="{{ "/posts/%s" % (post.id) }}" class="title">
+          <a href="{{ "/posts/%s" % (post.slug) }}" class="title">
             <p>
               {{ post.title }}
             </p>
@@ -71,7 +71,7 @@
             <a href="#" class="date"><i class="icon-calendar icon"></i>{{ post.date_created.strftime("%B %d, %Y") }}</a>
             <span class="comments">
               <i class="icon-comment icon"></i>
-              <a href="/posts/{{ post.id }}#disqus_thread" class="sub-comments" target="_blank">0 comments</a>
+              <a href="/posts/{{ post.slug }}#disqus_thread" class="sub-comments" target="_blank">0 comments</a>
             </span>
             {% module ajax_upvote_link(post=post) %}
           </div>

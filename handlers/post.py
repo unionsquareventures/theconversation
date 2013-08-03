@@ -62,7 +62,7 @@ class PostHandler(BaseHandler):
         get_posts = redis.register_script(lua)
         num_posts, rstart, rend, ordered_ids = get_posts()
         posts = Post.objects(id__in=ordered_ids)
-        posts = {p.id: p for p in posts}
+        posts = {str(p.id): p for p in posts}
         posts = [posts[id] for id in ordered_ids]
 
         tags = Tag.objects()
@@ -85,7 +85,7 @@ class PostHandler(BaseHandler):
         self.render('post/index.html', **self.vars)
 
     def detail(self, id):
-        post = Post.objects(id=id).first()
+        post = Post.objects(slugs=id).first()
         if not post:
             raise tornado.web.HTTPError(404)
         self.vars.update({'post': post})
@@ -95,10 +95,10 @@ class PostHandler(BaseHandler):
         self.render('post/get.html', **self.vars)
 
     @tornado.web.asynchronous
-    def new(self, model=Post(), errors={}):
+    def new(self, post=Post(), errors={}):
         # Link creation page
         self.vars.update({
-            'model': model,
+            'post': post,
             'errors': errors,
             'edit_mode': False,
         })
@@ -125,7 +125,7 @@ class PostHandler(BaseHandler):
         body_text = sanitize.html_to_text(body_html)
         body_truncated = sanitize.truncate(body_text, 500)
 
-        protected_attributes = ['date_created', '_xsrf', 'user', 'votes', 'voted_users', 'deleted']
+        protected_attributes = ['date_created', '_xsrf', 'user', 'votes', 'voted_users', 'deleted', 'slugs']
         for attribute in protected_attributes:
             if attributes.get(attribute):
                 del attributes[attribute]
@@ -160,7 +160,7 @@ class PostHandler(BaseHandler):
             else:
                 post.save(body_length_limit=settings.post_char_limit)
         except mongoengine.ValidationError, e:
-            self.new(model=post, errors=e.errors)
+            self.new(post=post, errors=e.errors)
             return
         redis = self.settings['redis']
         redis.set('post:%s:votes' % post.id, 1)
@@ -173,14 +173,14 @@ class PostHandler(BaseHandler):
                 subject = '%s wrote a new post on USV.com' % post.user['username']
             text = '"%s" by %s. Read it here: http://%s/posts/%s'\
                             % (post.title, post.user['username'],
-                                            settings.base_url, post.id)
+                                            settings.base_url, post.slug)
             sendgrid.send_email(lambda x: None, **{
                 'from': 'info@usv.com',
                 'to': settings.notification_address,
                 'subject': subject,
                 'text': text,
             })
-        self.redirect('/posts/%s' % post.id)
+        self.redirect('/posts/%s' % post.slug)
 
     def redis_remove(self, post):
         redis = self.settings['redis']
@@ -200,7 +200,7 @@ class PostHandler(BaseHandler):
         incr_score()
 
     def update(self, id):
-        post = Post.objects(id=id).first()
+        post = Post.objects(slugs=id).first()
         if not post:
             raise tornado.web.HTTPError(404)
 
@@ -226,7 +226,7 @@ class PostHandler(BaseHandler):
         body_text = sanitize.html_to_text(body_html)
         body_truncated = sanitize.truncate(body_text, 500)
 
-        protected_attributes = ['date_created', '_xsrf', 'user', 'votes', 'voted_users']
+        protected_attributes = ['date_created', '_xsrf', 'user', 'votes', 'voted_users', 'slugs']
         for attribute in protected_attributes:
             if attributes.get(attribute):
                 del attributes[attribute]
@@ -261,19 +261,20 @@ class PostHandler(BaseHandler):
             'deleted': True if attributes.get('deleted') else False,
             'tags': tag_names,
         })
+        old_title = post.title
         post.set_fields(**attributes)
         try:
             if self.is_admin():
-                post.save()
+                post.save(old_title=old_title)
             else:
                 post.save(body_length_limit=settings.post_char_limit)
         except mongoengine.ValidationError, e:
-            self.edit(post.id, errors=e.errors)
+            self.edit(post.slug, errors=e.errors)
             return
-        self.redirect('/posts/%s' % post.id)
+        self.redirect('/posts/%s' % post.slug)
 
     def edit(self, id, errors={}):
-        post = Post.objects(id=id).first()
+        post = Post.objects(slugs=id).first()
         if not post:
             raise tornado.web.HTTPError(404)
 
@@ -283,7 +284,7 @@ class PostHandler(BaseHandler):
 
         # Modification page
         self.vars.update({
-            'model': post,
+            'post': post,
             'errors': errors,
             'edit_mode': True,
         })
@@ -303,7 +304,7 @@ class PostHandler(BaseHandler):
         if not self.is_admin():
             raise tornado.web.HTTPError(401)
         try:
-            post = Post.objects.get(id=id)
+            post = Post.objects.get(slugs=id)
         except Post.DoesNotExist:
             raise tornado.web.HTTPError(404)
         if not post.featured:
@@ -317,7 +318,7 @@ class PostHandler(BaseHandler):
     def upvote(self, id):
         id_str = self.get_current_user_id_str()
         user_q = {'$elemMatch': {'_id': id_str}}
-        post = Post.objects(id=id).fields(votes=True, date_created=True,
+        post = Post.objects(slugs=id).fields(votes=True, date_created=True,
                                         featured=True, voted_users=user_q).first()
         if not post:
             raise tornado.web.HTTPError(404)

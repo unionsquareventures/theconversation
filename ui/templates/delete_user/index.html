@@ -25,14 +25,14 @@
     {% end %}
     <h1>Delete a user's posts</h1>
     <br/>
-    <p>Delete all of the posts submitted by a user. Specify the ID (slug) of one post submitted
+    <p>Delete all of the posts submitted by a user. Specify the slug of one post submitted
     by a given user to delete <b>all</b> of their posts.</p>
     <br/>
     <form method="post" action="/delete_user" id="delete_form">
         {% module xsrf_form_html() %}
-        <label for="username">Post ID: </label>
+        <label for="username">Post slug: </label>
         <div class="input-append">
-            <input type="text" id="username" name="post_id" class="span2" />
+            <input type="text" id="username" name="post_slug" class="span2" />
             <input type="submit" value="Submit" class="btn btn-default" />
         </div>
     </form>

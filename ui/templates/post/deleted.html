@@ -21,7 +21,7 @@
       <div class="buttons_container">
           <div class="post_buttons">
             {% if is_admin() or user_id_str == post.user['id_str'] %}
-                 <a href="/posts/{{ post.id }}/edit">
+                 <a href="/posts/{{ post.slug }}/edit">
                    <i class="icon-pencil icon"></i>&nbsp;&nbsp;Edit
                  </a>
            {% end %}
