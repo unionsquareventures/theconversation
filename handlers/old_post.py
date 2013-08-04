@@ -8,4 +8,4 @@ class OldPostHandler(BaseHandler):
         if not new_url:
             raise tornado.web.HTTPError(404)
         else:
-            self.redirect(new_url)
+            self.redirect(new_url, permanent=True)
