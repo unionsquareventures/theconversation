@@ -30,7 +30,7 @@ class Post(Document):
     date_created = DateTimeField(required=True)
     title = ImprovedStringField(required=True, max_length=1000, min_length=3)
     slugs = ListField(StringField())
-    slug = StringField(required=True)
+    slug = StringField()
     user = EmbeddedDocumentField(User, required=True)
     tags = ListField(ImprovedStringField())
     votes = IntField(default=0)
@@ -68,12 +68,12 @@ class Post(Document):
 
     def save(self, *args, **kwargs):
         self.body_length_limit = kwargs.get('body_length_limit', None)
-        old_title = kwargs.get('old_title')
-        if not self._data.get('slug'):
-            self._data['slug'] = '_'
         self.validate()
-        if old_title != self._data['title'] and len(self._data.get('slugs', [])) < 6:
+        title_changed = hasattr(self, '_changed_fields') and 'title' in self._changed_fields
+        if (title_changed or not self._data.get('slug')) and len(self._data.get('slugs', [])) < 6:
             self.add_slug(unicode(self._data['title']))
+            if hasattr(self, '_changed_fields'):
+                self._changed_fields += ['slug', 'slugs']
         super(Post, self).save(*args, **kwargs)
 
 

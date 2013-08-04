@@ -205,7 +205,8 @@ class PostHandler(BaseHandler):
             raise tornado.web.HTTPError(404)
 
         id_str = self.get_current_user_id_str()
-        if not (self.is_admin() or id_str == post.user['id_str']):
+        op_rights = (id_str == post.user['id_str']) and not post.deleted
+        if not (self.is_admin() or op_rights):
             raise tornado.web.HTTPError(401)
 
         attributes = {k: v[0] for k, v in self.request.arguments.iteritems()}
@@ -265,7 +266,7 @@ class PostHandler(BaseHandler):
         post.set_fields(**attributes)
         try:
             if self.is_admin():
-                post.save(old_title=old_title)
+                post.save()
             else:
                 post.save(body_length_limit=settings.post_char_limit)
         except mongoengine.ValidationError, e:
@@ -279,7 +280,8 @@ class PostHandler(BaseHandler):
             raise tornado.web.HTTPError(404)
 
         id_str = self.get_current_user_id_str()
-        if not (id_str == post.user['id_str'] or self.is_admin()):
+        op_rights = (id_str == post.user['id_str']) and not post.deleted
+        if not (op_rights or self.is_admin()):
             raise tornado.web.HTTPError(401)
 
         # Modification page
