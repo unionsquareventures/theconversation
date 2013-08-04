@@ -22,9 +22,11 @@ from handlers.featured_posts import FeaturedPostsHandler
 from handlers.hackpad import HackpadHandler
 from handlers.delete_user import DeleteUserHandler
 from handlers.search import SearchHandler
+from handlers.old_post import OldPostHandler
 import ui
 from redis import StrictRedis
 from lib.sendgrid import Sendgrid
+import json
 
 define("port", default=8888, help="run on the given port", type=int)
 
@@ -43,6 +45,11 @@ if __name__ == '__main__':
         ui.template_processors.bundle_styles()
         ui.template_processors.bundle_javascript()
 
+    # Old post URLs mapping
+    f = open('old_post_urls.json', 'r')
+    old_post_urls = json.loads(f.read())
+    f.close()
+
     logging.info('Starting server on port %s' % options.port)
     application = tornado.web.Application([
             (r'/auth/twitter/', TwitterLoginHandler),
@@ -53,6 +60,8 @@ if __name__ == '__main__':
             (r'/deleted_posts/?', DeletedPostsHandler),
             (r'/featured_posts/?', FeaturedPostsHandler),
             (r'/search/?', SearchHandler),
+
+            (r'/(?P<year>[0-9]+)/(?P<month>[0-9]+)/(?P<slug>[\w\s-]+).php$', OldPostHandler),
 
             (r'/?', PostHandler),
             (r'/posts/?', PostHandler),
@@ -65,6 +74,7 @@ if __name__ == '__main__':
             ui_methods = ui.template_methods(),
             redis=redis,
             sendgrid=sendgrid,
+            old_post_urls=old_post_urls,
             **settings.tornado_config)
 
     # Initialize Sentry
