@@ -94,7 +94,7 @@
 
         <div id="post_stream">
             <div id="pinned_featured_posts">
-            {% for post in featured_posts[:5] %}
+            {% for post in featured_posts[:3] %}
                 <div class="post featured">
                     <img src="{{ twitter_avatar_size(post.user.profile_image_url, 'bigger') }}" class="img-circle avatar" alt="avatar" />
                     <div class="info">
