@@ -19,14 +19,42 @@ blockquote {
   margin: 0px 0px 50px 0px;
   list-style-type: none;
 }
+.posts_listing .info_wrapper {
+  display: table;
+  min-height: 45px;
+}
 .posts_listing .info,
 .posts_listing .info a,
 .posts_listing .info i {
   color: #888;
 }
-.posts_listing .info a,
-.posts_listing .avatar {
+.posts_listing .info a {
   margin-right: 10px;
+}
+.posts_listing .info {
+  display: table-cell;
+  vertical-align: middle;
+  margin-left: 63px;
+}
+.posts_listing .avatar {
+  width: 45px !important;
+  margin-right: 15px;
+  max-width: 45px;
+  min-width: 45px;
+  height: 45px;
+}
+.posts_listing .user,
+.posts_listing .comments,
+.posts_listing .date,
+.posts_listing .votes {
+  display: inline-block;
+  min-width: 100px;
+}
+.posts_listing .user i,
+.posts_listing .comments i,
+.posts_listing .date i,
+.posts_listing .votes i {
+  margin-right: 5px;
 }
 .posts_listing .title {
   font-size: 20px;
@@ -291,6 +319,13 @@ a.sub-comments {
 }
 #post_stream .post .info a:hover {
   text-decoration: none;
+}
+#post_stream .post .info .user,
+#post_stream .post .info .comments,
+#post_stream .post .info .date,
+#post_stream .post .info .votes,
+#post_stream .post .info .feature {
+  display: inline-block;
 }
 #post_stream .post .info .site {
   color: #628b0b !important;

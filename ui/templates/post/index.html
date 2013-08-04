@@ -152,7 +152,7 @@
                         <a href="/posts/{{ post.slug }}" class="date" target="_blank"><i class="icon-calendar icon"></i>{{ post.date_created.strftime("%B %d, %Y") }}</a>
                         {% module ajax_upvote_link(post=post) %}
                         {% if is_admin() %}
-                          <a href="/posts/{{ post.slug }}/feature"><i class="icon-star icon"></i>Feature</a>
+                          <a href="/posts/{{ post.slug }}/feature" class="feature"><i class="icon-star icon"></i>Feature</a>
                         {% end %}
                     </div>
                 </div>

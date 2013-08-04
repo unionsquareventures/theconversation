@@ -18,11 +18,36 @@ blockquote {
         margin: 0px 0px 50px 0px;
         list-style-type: none;
     }
+    .info_wrapper {
+        display: table;
+        min-height: 45px;
+    }
     .info, .info a, .info i {
         color: #888;
     }
-    .info a, .avatar {
+    .info a {
         margin-right: 10px;
+    }
+    .info {
+        display: table-cell;
+        vertical-align: middle;
+        margin-left: 63px;
+        a {
+        }
+    }
+    .avatar {
+        width: 45px !important;
+        margin-right: 15px;
+        max-width: 45px;
+        min-width: 45px;
+        height: 45px;
+    }
+    .user, .comments, .date, .votes {
+        display: inline-block;
+        min-width: 100px;
+        i {
+            margin-right: 5px;
+        }
     }
     .title {
         font-size: 20px;
@@ -295,6 +320,9 @@ a.sub-comments {
       padding-bottom: 20px !important;
       a:hover {
         text-decoration: none;
+      }
+      .user, .comments, .date, .votes, .feature {
+        display: inline-block;
       }
       .site {
         color: #628b0b !important;
