@@ -10,6 +10,7 @@ from math import log
 import json
 import redis
 import sys
+import urllib2
 
 users = {
 	'3': {'auth_type': 'twitter', 'fullname': 'Fred Wilson', 'username': u'fredwilson', 'screen_name': u'fredwilson', 'profile_image_url_https': u'https://si0.twimg.com/profile_images/3580641456/82c873940343750638b7caa04b4652fe_normal.jpeg', 'profile_image_url': u'https://si0.twimg.com/profile_images/3580641456/82c873940343750638b7caa04b4652fe_normal.jpeg', 'id_str': u'1000591'},
@@ -51,14 +52,12 @@ for entry in entries['RECORDS']:
 	if entry['entry_text_more']:
 		continue
 
-	print entry['entry_title']
-
 	if entry['entry_text'].startswith('<br />'):
 		entry['entry_text'] = entry['entry_text'][6:]
 
 	entry_text = entry['entry_text'].replace('\n\n', '<br/><br/>')
 
-	d = parser.parser().parse(entry['entry_created_on'])
+	d = parser.parser().parse(entry['entry_authored_on'])
 	score = calculate_score(1, d)
 	u = User(**users[str(entry['entry_author_id'])])
 	p = Post(
@@ -77,6 +76,23 @@ for entry in entries['RECORDS']:
 		)
 	p.save()
 	redis.set('post:%s:votes' % p.id, 1)
+	old_url = '/%i/%02i/%s.php' % (d.year, d.month, entry['entry_basename'].replace('_', '-'))
+	new_url = '/%s' % p.slug
+
+	# Verify that the old_url is correct
+	request = urllib2.Request('http://www.usv.com%s' % old_url)
+	request.add_header('User-Agent', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_8_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/28.0.1500.95 Safari/537.36')
+	opener = urllib2.build_opener()
+	try:
+		o = opener.open(request)
+	except:
+		print old_url
+		print p.title
+		print p.body_text
+		sys.exit(0)
+
+	print "{'%s': '%s'}" % (old_url, new_url)
+
 	#redis.zadd('hot', score, p.id)
 	#redis.zadd('new', time.mktime(d.timetuple()), p.id)
 
