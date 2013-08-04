@@ -179,6 +179,7 @@ a.sub-comments {
   color: #ABC07E;
   border-color: #ABC07E;
   border-top: 0px;
+  font-weight: normal;
 }
 #pinned_featured_posts .column_link:hover {
   text-decoration: none;
@@ -342,7 +343,9 @@ a.sub-comments {
 #post_stream .post.featured {
   box-sizing: border-box;
   border: 1px solid #abc07e;
-  background: #f3f5ee url('/static/images/featured_post.png') bottom right no-repeat;
+  /* background: #f3f5ee url('/static/images/featured_post.png') bottom right no-repeat; */
+
+  background-color: #f3f5ee;
   background-size: 52px 18px;
 }
 .column_header {
