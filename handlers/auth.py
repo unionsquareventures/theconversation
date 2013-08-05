@@ -9,10 +9,8 @@ class TwitterLoginHandler(BaseHandler, tornado.auth.TwitterMixin):
     @tornado.web.asynchronous
     def get(self):
         if self.get_argument("oauth_token", None):
-            print "== NO TOKEN =="
             self.get_authenticated_user(callback=self.async_callback(self._on_login))
             return
-        print "== TOKEN =="
         self.authorize_redirect()
 
     def _on_login(self, user_obj):
