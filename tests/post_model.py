@@ -87,12 +87,68 @@ class TestPost(unittest.TestCase):
         p.save()
         p = Post.objects(slug='qualified-small-business-stock').first()
         self.assertIsNotNone(p)
+        p = Post.objects(slugs='qualified-small-business-stock').first()
+        self.assertIsNotNone(p)
 
     # Test changing the post title
+    def test_update_title(self):
+        attrs = dict(self.test_post1_attrs)
+        p = Post(**attrs)
+        p.save()
+        p = Post.objects(slug='qualified-small-business-stock').first()
+        self.assertIsNotNone(p)
+        p = Post.objects(slugs='qualified-small-business-stock').first()
+        self.assertIsNotNone(p)
+        p.title = 'some-other-title'
+        p.save()
+        p = Post.objects(slug='some-other-title').first()
+        self.assertIsNotNone(p)
+        p = Post.objects(slugs='some-other-title').first()
+        self.assertIsNotNone(p)
+        p = Post.objects(slugs='qualified-small-business-stock').first()
+        self.assertIsNotNone(p)
+
     # Test creating a post with a pre-existing URL
-    # Test creating a post with a pre-existing slug
+    def test_update_url(self):
+        attrs = dict(self.test_post1_attrs)
+        attrs['url'] = 'http://www.usv.com/'
+        p = Post(**attrs)
+        p.save()
+        attrs = dict(self.test_post1_attrs)
+        attrs['url'] = 'www.usv.com'
+        p = Post(**attrs)
+        with self.assertRaises(mongoengine.ValidationError) as cm:
+            p.save()
+        self.assertIsNotNone(cm.exception.errors.get('url'))
+        self.assertEqual(len(cm.exception.errors), 1)
+
+    # Test creating posts with matching titles
+    def test_slug_with_matching_titles(self):
+        attrs = dict(self.test_post1_attrs)
+        p1 = Post(**attrs)
+        p1.save()
+        attrs = dict(self.test_post1_attrs)
+        p2 = Post(**attrs)
+        p2.save()
+        self.assertNotEqual(p1.slug, p2.slug)
+
     # Test body length limit
+    def test_body_length_limit(self):
+        attrs = dict(self.test_post1_attrs)
+        p1 = Post(**attrs)
+        with self.assertRaises(mongoengine.ValidationError) as cm:
+            p1.save(body_length_limit=1000)
+
     # Test invalid hackpad URL
+    def test_invalid_hackpad_url(self):
+        attrs = dict(self.test_post1_attrs)
+        p1 = Post(**attrs)
+        p1.has_hackpad = True
+        p1.hackpad_url = 'http://www.usv.com/'
+        with self.assertRaises(mongoengine.ValidationError) as cm:
+            p1.save()
+        self.assertIsNotNone(cm.exception.errors.get('hackpad_url'))
+        self.assertEqual(len(cm.exception.errors), 1)
 
     def tearDown(self):
         db = Post._get_db()
