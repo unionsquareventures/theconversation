@@ -78,7 +78,7 @@ def init_app(bundle=True):
 
 if __name__ == '__main__':
     tornado.options.parse_command_line()
-    app = init_app()
+    application = init_app()
     application.listen(options.port)
     io_loop = tornado.ioloop.IOLoop.instance()
 
