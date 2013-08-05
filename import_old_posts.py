@@ -31,14 +31,6 @@ users = {
 	'4': {'auth_type': 'twitter', 'fullname': 'Charlie O\'Donnell', 'username': u'ceonyc', 'screen_name': u'ceonyc', 'profile_image_url_https': u'https://si0.twimg.com/profile_images/3285145326/3487ffc0050a17990357399562ac1eba_normal.jpeg', 'profile_image_url': u'http://a0.twimg.com/profile_images/3285145326/3487ffc0050a17990357399562ac1eba_normal.jpeg', 'id_str': u'768632'},
 }
 
-def calculate_score(votes, date_created):
-    adjusted_votes = log(max(abs(votes), 1), 10)
-    sign = 1
-    age_factor = 45000.0 # ~12.5 hour increments
-    timestamp = time.mktime(date_created.timetuple())
-    score = adjusted_votes + round(sign * timestamp / age_factor)
-    return score
-
 #redis = redis.StrictRedis(host='localhost', port=6379, db=0)
 redis = redis.StrictRedis.from_url('redis://rediscloud:0eAMK9S4d0Z18930@pub-redis-19035.us-east-1-1.1.ec2.garantiadata.com:19035')
 
@@ -58,7 +50,6 @@ for entry in entries['RECORDS']:
 	entry_text = entry['entry_text'].replace('\n\n', '<br/><br/>')
 
 	d = parser.parser().parse(entry['entry_authored_on'])
-	score = calculate_score(1, d)
 	u = User(**users[str(entry['entry_author_id'])])
 	p = Post(
 			user=u,
@@ -67,7 +58,6 @@ for entry in entries['RECORDS']:
 			body_html=entry_text,
 			body_text=html_to_text(entry_text),
 			body_truncated=sanitize.truncate(html_to_text(entry_text), 500),
-			score=score,
 			date_created=d,
 			votes=1,
 			voted_users=[VotedUser(id=u.id_str)],

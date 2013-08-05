@@ -30,26 +30,20 @@ import json
 
 define("port", default=8888, help="run on the given port", type=int)
 
-if __name__ == '__main__':
-    tornado.options.parse_command_line()
-
+def init_app(bundle=True):
     # Connect to Redis with a 50 msec timeout
     redis = StrictRedis.from_url(settings.redis_url, socket_timeout=.05)
-
     # Sendgrid API
     sendgrid = Sendgrid(settings.sendgrid_user, settings.sendgrid_secret)
-
     # Bundle JS/CSS
-    if settings.tornado_config['debug']:
+    if settings.tornado_config['debug'] and bundle:
         logging.info('Bundling JS/CSS')
         ui.template_processors.bundle_styles()
         ui.template_processors.bundle_javascript()
-
     # Old post URLs mapping
     f = open('old_post_urls.json', 'r')
     old_post_urls = json.loads(f.read())
     f.close()
-
     logging.info('Starting server on port %s' % options.port)
     application = tornado.web.Application([
             (r'/auth/twitter/', TwitterLoginHandler),
@@ -76,10 +70,15 @@ if __name__ == '__main__':
             sendgrid=sendgrid,
             old_post_urls=old_post_urls,
             **settings.tornado_config)
-
     # Initialize Sentry
-    application.sentry_client = AsyncSentryClient(settings.sentry_dsn)
+    if settings.sentry_dsn:
+        application.sentry_client = AsyncSentryClient(settings.sentry_dsn)
+    return application
 
+
+if __name__ == '__main__':
+    tornado.options.parse_command_line()
+    app = init_app()
     application.listen(options.port)
     io_loop = tornado.ioloop.IOLoop.instance()
 

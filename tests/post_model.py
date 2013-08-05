@@ -11,6 +11,16 @@ import datetime as dt
 from mock_data import mock_data
 import time
 import mongoengine
+from math import log
+
+def calculate_score(votes, date_created):
+    adjusted_votes = log(max(abs(votes), 1), 10)
+    sign = 1
+    age_factor = 45000.0 # ~12.5 hour increments
+    timestamp = time.mktime(date_created.timetuple())
+    score = adjusted_votes + round(sign * timestamp / age_factor)
+    return score
+
 
 class TestPost(unittest.TestCase):
     def setUp(self):
@@ -43,6 +53,7 @@ class TestPost(unittest.TestCase):
                 body_truncated=mock_data('post', '1', 'truncated'),
         )
 
+
     # Test creating a post, ensure slug exists, etc.
     def test_create_post(self):
         p = Post(**self.test_post1_attrs)
@@ -69,6 +80,7 @@ class TestPost(unittest.TestCase):
         self.assertFalse(p.hackpad_url)
         self.assertFalse(p.has_hackpad)
 
+
     # Post without a body
     def test_create_no_body(self):
         attrs = dict(self.test_post1_attrs)
@@ -80,6 +92,7 @@ class TestPost(unittest.TestCase):
         with self.assertRaises(mongoengine.ValidationError) as cm:
             p.save()
 
+
     # Test query for a post by slug
     def test_slug_query(self):
         attrs = dict(self.test_post1_attrs)
@@ -89,6 +102,7 @@ class TestPost(unittest.TestCase):
         self.assertIsNotNone(p)
         p = Post.objects(slugs='qualified-small-business-stock').first()
         self.assertIsNotNone(p)
+
 
     # Test changing the post title
     def test_update_title(self):
@@ -108,6 +122,7 @@ class TestPost(unittest.TestCase):
         p = Post.objects(slugs='qualified-small-business-stock').first()
         self.assertIsNotNone(p)
 
+
     # Test creating a post with a pre-existing URL
     def test_update_url(self):
         attrs = dict(self.test_post1_attrs)
@@ -122,6 +137,7 @@ class TestPost(unittest.TestCase):
         self.assertIsNotNone(cm.exception.errors.get('url'))
         self.assertEqual(len(cm.exception.errors), 1)
 
+
     # Test creating posts with matching titles
     def test_slug_with_matching_titles(self):
         attrs = dict(self.test_post1_attrs)
@@ -132,12 +148,14 @@ class TestPost(unittest.TestCase):
         p2.save()
         self.assertNotEqual(p1.slug, p2.slug)
 
+
     # Test body length limit
     def test_body_length_limit(self):
         attrs = dict(self.test_post1_attrs)
         p1 = Post(**attrs)
         with self.assertRaises(mongoengine.ValidationError) as cm:
             p1.save(body_length_limit=1000)
+
 
     # Test invalid hackpad URL
     def test_invalid_hackpad_url(self):
@@ -149,6 +167,7 @@ class TestPost(unittest.TestCase):
             p1.save()
         self.assertIsNotNone(cm.exception.errors.get('hackpad_url'))
         self.assertEqual(len(cm.exception.errors), 1)
+
 
     def tearDown(self):
         db = Post._get_db()
