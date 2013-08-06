@@ -26,6 +26,8 @@ class BaseHandler(SentryMixin, tornado.web.RequestHandler):
         self.finish()
 
     def get_current_user(self):
+        if self.settings.get('auth_passthrough'):
+            return settings.test_user_info['user']['id_str']
         return self.get_secure_cookie('user_id_str')
 
     def get_current_user_id_str(self):

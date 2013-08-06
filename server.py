@@ -30,7 +30,7 @@ import json
 
 define("port", default=8888, help="run on the given port", type=int)
 
-def init_app(bundle=True):
+def init_app(bundle=True, auth_passthrough=False):
     # Connect to Redis with a 50 msec timeout
     redis = StrictRedis.from_url(settings.redis_url, socket_timeout=.05)
     # Sendgrid API
@@ -69,6 +69,7 @@ def init_app(bundle=True):
             redis=redis,
             sendgrid=sendgrid,
             old_post_urls=old_post_urls,
+            auth_passthrough=auth_passthrough,
             **settings.tornado_config)
     # Initialize Sentry
     if settings.sentry_dsn:
