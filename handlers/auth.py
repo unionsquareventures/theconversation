@@ -44,4 +44,8 @@ class LogoutHandler(BaseHandler):
     @tornado.web.asynchronous
     def get(self):
         self.clear_cookie("user_id_str")
+        self.clear_cookie("user")
+        self.clear_cookie("access_token")
+        self.clear_cookie("oauth_token")
+        self.clear_cookie("_oauth_request_token")
         self.redirect("/")
