@@ -11,3 +11,4 @@ redis
 hiredis
 slugify
 nose
+newrelic

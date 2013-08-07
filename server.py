@@ -28,6 +28,10 @@ from redis import StrictRedis
 from lib.sendgrid import Sendgrid
 import json
 
+import newrelic.agent
+path = os.path.join(settings.PROJECT_ROOT, 'server_setup/conf/newrelic.ini')
+newrelic.agent.initialize(path, settings.DEPLOYMENT_STAGE)
+
 define("port", default=8888, help="run on the given port", type=int)
 
 def init_app(bundle=True, auth_passthrough=False):
