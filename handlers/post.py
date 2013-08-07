@@ -165,18 +165,21 @@ class PostHandler(BaseHandler):
         redis = self.settings['redis']
         redis.set('post:%s:votes' % post.id, 1)
         self.redis_add(post)
-        if settings.notification_address and self.is_admin():
-            sendgrid = self.settings['sendgrid']
-            if post.url:
-                subject = '%s shared a link on USV.com' % post.user['username']
-            else:
-                subject = '%s wrote a new post on USV.com' % post.user['username']
-            text = '"%s" by %s. Read it here: http://%s/posts/%s'\
-                            % (post.title, post.user['username'],
-                                            settings.base_url, post.slug)
+        sendgrid = self.settings['sendgrid']
+        if post.url:
+            subject = '%s shared a link on USV.com' % post.user['username']
+        else:
+            subject = '%s wrote a new post on USV.com' % post.user['username']
+        text = '"%s" by %s. Read it here: http://%s/posts/%s'\
+                        % (post.title, post.user['username'],
+                                        settings.base_url, post.slug)
+        for user_id, address in settings.admin_user_emails.iteritems():
+            if user_id == post.user['id_str']:
+                continue
+            print 'sending to %s' % address
             sendgrid.send_email(lambda x: None, **{
                 'from': 'info@usv.com',
-                'to': settings.notification_address,
+                'to': address,
                 'subject': subject,
                 'text': text,
             })
