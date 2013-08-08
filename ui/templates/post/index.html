@@ -96,7 +96,7 @@
             <div id="pinned_featured_posts">
             {% for post in featured_posts[:3] %}
                 <div class="post featured">
-                    <img src="{{ twitter_avatar_size(post.user.profile_image_url, 'bigger') }}" class="img-circle avatar" alt="avatar" />
+                    <img src="{{ twitter_avatar_size(post.user.profile_image_url_https, 'bigger') }}" class="img-circle avatar" alt="avatar" />
                     <div class="info">
                         <a href="{{ "/posts/%s" % (post.slug) }}" class="title" target="_blank">
                             <p>
@@ -124,7 +124,7 @@
 
             {% for post in posts %}
                 <div class="post">
-                    <img src="{{ twitter_avatar_size(post.user.profile_image_url, 'bigger') }}" class="img-circle avatar" alt="avatar" />
+                    <img src="{{ twitter_avatar_size(post.user.profile_image_url_https, 'bigger') }}" class="img-circle avatar" alt="avatar" />
                     <div class="info">
                         {% if post.url %}
                             <a href="{{ post.url }}" class="title" target="_blank">

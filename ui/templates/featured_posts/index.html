@@ -26,7 +26,7 @@
                     <a href="/posts/{{ post.slug }}" class="title">{{ post.title }}</a>
                     <p class="preview">{{ post.body_truncated }}<a href="/posts/{{ post.slug }}">&nbsp;more &raquo;</a></p>
                     <div class="info_wrapper">
-                    <img src="{{ twitter_avatar_size(post.user.profile_image_url, 'normal') }}" class="avatar" alt="avatar" />
+                    <img src="{{ twitter_avatar_size(post.user.profile_image_url_https, 'normal') }}" class="avatar" alt="avatar" />
                     <div class="info">
                         <a href="http://twitter.com/{{ post.user.username }}" class="user" target="_blank"><i class="icon-twitter icon"></i>@{{ post.user.username }}</a>
                         <span class="comments">

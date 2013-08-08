@@ -59,7 +59,7 @@
 
     <div id="content">
       <div class="post detail">
-        <img src="{{ twitter_avatar_size(post.user.profile_image_url, 'original') }}" class="img-circle avatar" alt="avatar" />
+        <img src="{{ twitter_avatar_size(post.user.profile_image_url_https, 'original') }}" class="img-circle avatar" alt="avatar" />
         <div class="info">
           <a href="{{ "/posts/%s" % (post.slug) }}" class="title">
             <p>
