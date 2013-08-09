@@ -34,7 +34,7 @@ users = {
 #redis = redis.StrictRedis(host='localhost', port=6379, db=0)
 redis = redis.StrictRedis.from_url('redis://rediscloud:0eAMK9S4d0Z18930@pub-redis-19035.us-east-1-1.1.ec2.garantiadata.com:19035')
 
-f = open('/Users/zacim/Desktop/mt_entry.json', 'r')
+f = open('mt_entry.json', 'r')
 entries = json.loads(f.read())
 f.close()
 
