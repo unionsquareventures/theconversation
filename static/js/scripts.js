@@ -1,5 +1,4 @@
-(function($){
-	
+$(function() {
 	var jPM = $.jPanelMenu({
 		menu: '#mobile-menu',
 		trigger: '#menu-trigger',
@@ -44,5 +43,4 @@
 			$('#hackpad_url').hide();
 		}
 	});
-
-}(jQuery));
+});
