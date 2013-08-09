@@ -25,7 +25,7 @@ class PostHandler(BaseHandler):
             query.update({
                 'tags': tag,
             })
-        per_page = 50
+        per_page = 20
         sort_by = self.get_argument('sort_by', 'hot')
         if not sort_by in ['hot', 'new']:
             raise tornado.web.HTTPError(400)
@@ -34,7 +34,7 @@ class PostHandler(BaseHandler):
         action = self.get_argument('action', '')
         count = int(self.get_argument('count', 0))
         page = 1
-        featured_posts = list(Post.objects(featured=True, deleted=False, **query).order_by('-date_featured')[:5])
+        featured_posts = list(Post.objects(featured=True, deleted=False, **query).order_by('-date_featured')[:3])
         lua = "local num_posts = redis.call('ZCARD', '{sort_by}')\n"
         if anchor != None:
             anchor = Post.objects(id=anchor).first()
