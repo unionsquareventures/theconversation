@@ -43,7 +43,7 @@ class PostHandler(BaseHandler):
             if anchor.featured:
                 lua += "local rank = {count}\n"
             else:
-                lua += "local rank = redis.call('ZREVRANK', '{sort_by}', {anchor.id})\n"
+                lua += "local rank = redis.call('ZREVRANK', '{sort_by}', '{anchor.id}')\n"
                 lua += "local rank = rank >= {count} - 1 and rank or {count}\n"
             if action == 'after':
                 lua += "local rstart = rank + 1\n"

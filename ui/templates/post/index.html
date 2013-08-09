@@ -1,170 +1,222 @@
-{% extends "../base.html" %}
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>Union Square Ventures</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-{% block title %}Posts{% end %}
+    <link rel="stylesheet" href="/static/css/style.css">
+    <script src="/static/js/vendor/respond.min.js"></script>
+    <script type="text/javascript" src="//use.typekit.net/eim8cyk.js"></script>
+    <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+    <script src="/static/js/vendor/modernizr-2.6.2.min.js"></script>
+    <script src="/static/js/vendor/jquery-1.9.1.min.js"></script>
+    <script src="/static/js/plugins.js"></script>
+    <script src="/static/js/scripts.js"></script>
+    <script src="/static/js/modules_bundle.js"></script>
+</head>
+<body data-menu-position="closed">
+    <div class="shell">
 
-{% block javascript %}
-    <script type="text/javascript">
-       function adjust_post() {
-         $('.post').each(function(i, o) {
-             var h = $(this).height();
-             h = h / 2 - 38;
-             $(this).closest('.post').children('.avatar').css({'margin-top': h});
+        <div id="mobile-header">
+            <a id="menu-trigger" href="#">Open Menu</a>
+            <a id="mobile-logo" href="/">Union Square Ventures</a>
+            <a id="submit-trigger" href="#submit-form">Submit Post</a>
+        </div>
 
-             if($(this).height() == 100) {
-              $(this).closest('.post').children('.info').css({'margin-top': 22});
-             }
-         });
-       };
+        <div class="container">
 
-       function fix_scrolling_streams() {
-         // Fix featured and non-featured post stream
-          var top_height = $('#navigation_bar').height() + $('#featured_posts_bar').height() + 25;
-          $('#featured_post_stream').height($(window).innerHeight() - top_height);
-          $('#post_stream').height($(window).innerHeight() - top_height);
-       }
+            <header id="site-header">
+                <a id="logo" href="/">Union Square Ventures</a>
+                <ul id="main-nav">
+                  <li><a href="team.html">Team</a></li>
+                  <li><a href="investments.html">Investments</a></li>
+                  <li><a href="network.html">Network</a></li>
+                  <li><a href="about.html">About</a></li>
+                  <li><a href="jobs.html">Jobs</a></li>
+                </ul>
 
-      $(window).resize(function() { 
-          adjust_post();
-          fix_scrolling_streams();
-      });
+                <div class="header-search-container">
+                    <form action="/search" method="get">
+                      <input type="search" placeholder="Enter Keywords" name="query" />
+                    </form>
+                    <a class="submit-button" href="#"></a>
+                </div>
 
-      $(function() {
-          // Fix featured post borders
-          $('.post.featured').prev().css({'border-bottom': 'none'});
-          // Fix left featured post stream height
-          fix_scrolling_streams();
-          // Fix mobile Safari quirks
-          $('#myimage').click(function() { return false; });
-          $('#myimage').off('click');
+                <a href="#submit-form" class="header-submit-button">Submit</a>
+            </header><!--end of site-header-->
 
-          // Hide iPhone URL bar
-          window.scrollTo(0, 1);
-
-          // Fixup avatars and title
-          adjust_post();
-       });
-    </script>
-{% end %}
-
-{% block content %}
-    <div id="featured_posts">
-          <div id="featured_posts_bar" class="column_header">
-            <p>Featured Posts</p>
-          </div>
-
-          <div id="featured_post_stream">
-                {% for post in featured_posts %}
-                    <div class="post featured">
-                        <div class="info">
-                            <a href="/posts/{{ post.slug }}" class="title" target="_blank">
-                                <p>
-                                    {{ post.title }}
-                                </p>
-                            </a>
+            <div id="main" role="main">
+                <section class="featured-feed clearfix">
+                    <ul class="tabs">
+                        <li><a class="current" href="/featured_posts">Featured</a></li>
+                    </ul>
+                    <ul class="feed">
+                        {% for post in featured_posts %}
+                        <li>
                             <div class="content">
-                            {% raw post.body_truncated %}
+                              {% if post.url %}
+                                  <a class="title" href="{{ post.url }}">{{ post.title }}</a>
+                                  <a href="{{ post.url }}" class="source" target="_blank">{{ urlparse(post.url).netloc }}</a>
+                              {% else %}
+                                  <a class="title" href="/posts/{{ post.slug }}">{{ post.title }}</a>
+                                  <a href="/posts/{{ post.slug }}" class="source" target="_blank">usv.com</a>
+                              {% end %}
+                              <div class="excerpt">{{ post.body_truncated }}</div>
+                              <div class="meta">
+                                  <div class="thumbnail">
+                                    <a href="http://www.twitter.com/{{ post.user.username }}" target="_blank">
+                                      <img src="{{ twitter_avatar_size(post.user.profile_image_url_https, 'normal') }}" alt="thumbnail">
+                                    </a>
+                                  </div>
+                                  <a class="username" href="http://www.twitter.com/{{ post.user.username }}" target="_blank">@{{ post.user.username }}</a>
+                                  <span class="time">{{ post.date_created.strftime("%B %d, %Y") }}</span>
+                                  {% module ajax_upvote_link(post=post) %}
+                                  <a class="comments-count" href="/posts/{{ post.slug }}#disqus_thread">0 comments</a>
+                              </div>
                             </div>
-                            <a href="/posts/{{ post.slug }}" class="continue_button" target="_blank">Continue</a>
-                            <div class="featured_info">
-                                <a href="http://twitter.com/{{ post.user.username }}" class="user" target="_blank">{{ post.user.username }}</a>
-                                <p class="featured_info_divider">/</p>
-                                <a href="/posts/{{ post.slug }}" class="date" target="_blank">{{ post.date_created.strftime("%d %b %Y") }}</a>
-                                <p class="featured_info_divider">/</p>
-                                <span class="replies">
-                                  <i class="icon-comment icon"></i>&nbsp;
-                                  <a href="/posts/{{ post.slug
-                                      }}#disqus_thread" class="sub-comments" target="_blank">0 comments</a>
-                                </span>
+                        </li>
+                        {% end %}
+                    </ul><!--end of feed-->
+                    <a class="more-link" href="/featured_posts">Featured Posts</a>
+                </section><!--end of featured-feed-->
+
+                <section class="hot-newest-feed">
+                    <ul class="tabs">
+                      <li><a class="{{ 'current' if sort_by == 'hot' else '' }}" href="?sort_by=hot">Hot</a></li>
+                      <li><a class="{{ 'current' if sort_by == 'new' else '' }}" href="?sort_by=new">Newest</a></li>
+                    </ul>
+
+                    <ul class="feed">
+                        {% for post in posts %}
+                        <li>
+                            <div class="thumbnail">
+                              <a href="http://www.twitter.com/{{ post.user.username }}" target="_blank">
+                                <img src="{{ twitter_avatar_size(post.user.profile_image_url_https, 'normal') }}" alt="thumbnail">
+                              </a>
                             </div>
-                        </div>
-                    </div>
-                {% end %}
-                {% if featured_posts %}
-                    <a href="/featured_posts" class="column_link">More &raquo;</a>
-                {% end %}
-          </div>
-    </div>
+                            <div class="content">
+                              <a class="title" href="/posts/{{ post.slug }}">{{ post.title }}</a>
+                              {% if post.url %}
+                                  <a href="{{ post.url }}" class="source" target="_blank">{{ urlparse(post.url).netloc }}</a>
+                              {% else %}
+                                  <a href="/posts/{{ post.slug }}" class="source" target="_blank">usv.com</a>
+                              {% end %}
+                              <div class="meta">
+                                <a class="username" href="http://www.twitter.com/{{ post.user.username }}" target="_blank">@{{ post.user.username }}</a>
+                                  <span class="time">{{ post.date_created.strftime("%B %d, %Y") }}</span>
+                                  {% module ajax_upvote_link(post=post) %}
+                                  <a class="comments-count" href="/posts/{{ post.slug }}#disqus_thread">0 comments</a>
+                              </div>
+                            </div>
+                          </li>
+                          {% end %}
+                    </ul><!--end of feed-->
 
-    <div id="post_column">
-        <div id="post_stream_bar" class="column_header">
-          <p>Posts Stream</p>
-          <a href="?sort_by=hot" class="{{ 'selected' if sort_by == 'hot' else '' }}">hot</a>
-          <a href="?sort_by=new" class="{{ 'selected' if sort_by == 'new' else '' }}">new</a>
-        </div>
+                    <ul id="pagination">
+                      {% if rend < num_posts - 1 %}
+                        <li>
+                          <a href="?sort_by={{sort_by }}&anchor={{ posts[-1].id }}&action=after&count={{ count + per_page }}">Next</a>
+                        </li>
+                      {% end %}
+                      {% if rstart > 0 %}
+                        <li>
+                          <a href="?sort_by={{ sort_by }}&anchor={{ posts[0].id }}&action=before&count={{ count - per_page }}">Prev</a>
+                        </li>
+                      {% end %}
+                    </ul>
+                </section>
+            </div><!--end of main-->
 
-        <div id="post_stream">
-            <div id="pinned_featured_posts">
-            {% for post in featured_posts[:3] %}
-                <div class="post featured">
-                    <img src="{{ twitter_avatar_size(post.user.profile_image_url_https, 'bigger') }}" class="img-circle avatar" alt="avatar" />
-                    <div class="info">
-                        <a href="{{ "/posts/%s" % (post.slug) }}" class="title" target="_blank">
-                            <p>
-                                {{ post.title }}
-                            </p>
-                        </a>
-                        <a href="{{ "/posts/%s" % (post.slug) }}" class="site" target="_blank">usv.com</a>
-                        <br/>
-                        <a href="http://twitter.com/{{ post.user.username }}" class="user" target="_blank"><i class="icon-twitter icon"></i>@{{ post.user.username }}</a>
-                        <span class="comments">
-                          <i class="icon-comment icon"></i>
-                          <a href="/posts/{{ post.slug }}#disqus_thread" class="sub-comments" target="_blank">0 comments</a>
-                        </span>
-                    </div>
-                </div>
-              {% end %}
-              {% if featured_posts %}
-                  <a href="/featured_posts" class="column_link">more featured posts &nbsp;&raquo;</a>
-              {% end %}
-              </div>
+        </div><!--end of container-->
 
-            {% if count == 0 and rstart != 0 %}
-                <a href="/?sort_by={{ sort_by }}" class="new_posts_link">New posts ({{ rstart }})</a>
-            {% end %}
-
-            {% for post in posts %}
-                <div class="post">
-                    <img src="{{ twitter_avatar_size(post.user.profile_image_url_https, 'bigger') }}" class="img-circle avatar" alt="avatar" />
-                    <div class="info">
-                        {% if post.url %}
-                            <a href="{{ post.url }}" class="title" target="_blank">
-                                <p>
-                                    {{ post.title }}
-                                </p>
-                            </a>
-                            <a href="{{ post.url }}" class="site" target="_blank">{{ urlparse(post.url).netloc }}</a>
-                        {% else %}
-                            <a href="{{ "/posts/%s" % (post.slug) }}" class="title" target="_blank">
-                                <p>
-                                    {{ post.title }}
-                                </p>
-                            </a>
-                            <a href=""{{ "/posts/%s" % (post.slug) }} class="site" target="_blank">usv.com</a>
-                        {% end %}
-                        <br/>
-                        <a href="http://twitter.com/{{ post.user.username }}" class="user" target="_blank"><i class="icon-twitter icon"></i>@{{ post.user.username }}</a>
-                        <span class="comments">
-                          <i class="icon-comment icon"></i>
-                          <a href="/posts/{{ post.slug }}#disqus_thread" class="sub-comments" target="_blank">0 comments</a>
-                        </span>
-                        <a href="/posts/{{ post.slug }}" class="date" target="_blank"><i class="icon-calendar icon"></i>{{ post.date_created.strftime("%B %d, %Y") }}</a>
-                        {% module ajax_upvote_link(post=post) %}
-                        {% if is_admin() %}
-                          <a href="/posts/{{ post.slug }}/feature" class="feature"><i class="icon-star icon"></i>Feature</a>
-                        {% end %}
+        <footer id="site-footer">
+            <div class="container">
+                <div class="footer-search">
+                    <h4>Search Posts Archive</h4>
+                    <div class="footer-search-container">
+                        <form action="/search" method="get">
+                          <input type="search" placeholder="Enter Keywords" name="query" />
+                        </form>
+                        <a class="submit-button" href="/search"></a>
                     </div>
                 </div>
-                {% end %}
-                <div style="float: right;">
-                    {% if rend < num_posts - 1 %}
-                        <a href="?sort_by={{sort_by }}&anchor={{ posts[-1].id }}&action=after&count={{ count + per_page }}" class="column_link">Next</a>
-                    {% end %}
-                    {% if rstart > 0 %}
-                        <a href="?sort_by={{ sort_by }}&anchor={{ posts[0].id }}&action=before&count={{ count - per_page }}" class="column_link">Prev</a>
-                    {% end %}
-                </div>
-        </div>
-    </div>
 
-    {% module disqus_count_js() %}
-{% end %}
+                <div class="footer-content">
+                    <h4>Contact Us</h4>
+                    <div class="col-a">
+                        <p>If you would like to share your ideas, business, or feedback with us, please send us email at <a href="mailto:info@usv.com">info@usv.com</a>. All business plan submissions must include a clear description of your operations and current progress.</p>
+                    </div>
+                    <div class="col-b">
+                        <p class="address">
+                            <strong>Union Square Ventures</strong><br>
+                            915 Broadway, 19th Floor<br>
+                            New York, NY 10010
+                        </p>
+                        <p class="telephone">
+                            <strong>Tel</strong> &nbsp;&nbsp;(212) 914-7880<br>
+                            <strong>Fax</strong> &nbsp;&nbsp;(212) 914-7399<br>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </footer><!--end of footer-->
+
+    </div><!--end of shell-->
+
+	<nav id="mobile-menu">
+        <ul>
+        	<li class="heading">News</li>
+            <li><a href="home.html">Hot</a></li>
+            <li><a href="home-newest.html">Newest</a></li>
+            <li><a href="featured-posts-archive.html">Featured</a></li>
+            <li class="heading">UNION SQUARE VENTURES</li>
+            <li><a href="team.html">Team</a></li>
+            <li><a href="investments.html">Investments</a></li>
+            <li><a href="network.html">Network</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="jobs.html">Jobs</a></li>
+        </ul>
+    </nav>
+
+    <form id="submit-form" class="white-modal mfp-hide">
+        <span class="form-title">Post</span>
+        <fieldset>
+            <ol>
+                <li>
+                    <label for="title">Title</label>
+                    <input id="title" name="title" type="text" placeholder="Your Post Title" required="">
+                </li>
+                <li>
+                    <label for="link">Link</label>
+                    <input id="link" name="link" type="text" placeholder="http://example.com" required="">
+                </li>
+                <li>
+                    <label for="textarea">Textarea</label>
+                    <textarea id="textarea" rows="10"></textarea>
+                </li>
+                <li>
+                    <label for="categories">Categories <span>(optional, separate by commas)</span></label>
+                    <input id="categories" name="categories" type="text" placeholder="" required="">
+                </li>
+                <li class="hackpad">
+                    <div id="toggle-hackpad-url"></div>
+                    <label for="hackpad_url">Hackpad URL</label>
+                    <input id="hackpad_url" name="hackpad_url" type="text" value="https://usvdev.hackpad.com/zDycddVmkKT" required="">
+                </li>
+                <li>
+                    <button type="submit" class="submit-form-button">Submit</button>
+                </li>
+            </ol>
+        </fieldset>
+    </form>
+
+  {% module disqus_count_js() %}
+
+</body>
+</html>
