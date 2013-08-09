@@ -12,6 +12,11 @@
 
     <link rel="stylesheet" href="/static/css/style.css">
     <script src="/static/js/vendor/respond.min.js"></script>
+    <style type="text/css">
+        a {
+            color: #779734;
+        }
+    </style>
     {% block css %}
     {% end %}
 
@@ -22,6 +27,15 @@
     <script src="/static/js/plugins.js"></script>
     <script src="/static/js/scripts.js"></script>
     <script src="/static/js/modules_bundle.js"></script>
+    <script type="text/javascript">
+        $(function() {
+                $('.submit-button').on('click', function() {
+                    $(this).parent('form').submit();
+                    e.stopPropagation();
+                    e.preventDefault();
+                });
+        });
+    </script>
     {% block javascript %}
     {% end %}
 </head>
@@ -49,9 +63,9 @@
 
                 <div class="header-search-container">
                     <form action="/search" method="get">
-                      <input type="search" placeholder="Enter Keywords" name="query" />
+                      <input type="search" placeholder="Search" name="query" />
+                      <a class="submit-button" href="#"></a>
                     </form>
-                    <a class="submit-button" href="#"></a>
                 </div>
 
                 <a href="#submit-form" class="header-submit-button">Submit</a>
@@ -68,9 +82,9 @@
                     <h4>Search Posts Archive</h4>
                     <div class="footer-search-container">
                         <form action="/search" method="get">
-                          <input type="search" placeholder="Enter Keywords" name="query" />
+                          <input type="search" placeholder="Search" name="query" />
+                          <a class="submit-button" href="#"></a>
                         </form>
-                        <a class="submit-button" href="/search"></a>
                     </div>
                 </div>
 

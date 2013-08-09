@@ -1,201 +1,62 @@
-<!DOCTYPE html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>Union Square Ventures</title>
-    <meta name="description" content="">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+{% extends '../base.html' %}
 
-    <link rel="stylesheet" href="style.css">
-    <script src="js/vendor/respond.min.js"></script>
-    <script type="text/javascript" src="//use.typekit.net/bjw2von.js"></script>
-    <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
-    <script src="js/vendor/modernizr-2.6.2.min.js"></script>
-</head>
-<body data-menu-position="closed">
-    <div class="shell">
-        
-        <div id="mobile-header">
-            <a id="menu-trigger" href="#">Open Menu</a>
-            <a id="mobile-logo" href="/">Union Square Ventures</a>
-        </div>
+{% block content %}
+<div id="main" role="main">
+    <article class="article-post">
+    <h1>
+        {% if post.url %}
+        <a href="{{ post.url }}">{{ post.title }}</a>
+        {% else %}
+            {{ post.title }}
+        {% end %}
+    </h1>
 
-        <div class="container">
-            
-            <header id="site-header">
-                <a id="logo" href="/">Union Square Ventures</a>
-                <ul id="main-nav">
-                    <li><a href="team.html">Team</a></li><li><a href="investments.html">Investments</a></li><li><a href="network.html">Network</a></li><li><a href="about.html">About</a></li><li><a href="jobs.html">Jobs</a></li>
-                </ul>
-            </header><!--end of site-header-->
+        <span class="post-date">{{ post.date_created.strftime("%B %d, %Y") }}</span>
 
-            <div id="main" role="main">
-                <article class="article-post">
-                    <h1>Yahoo Acquires Tumblr</h1>
+        <div class="meta-wrapper clearfix">
+            <div class="profile-photo">
+                <a href="http://www.twitter.com/{{ post.user.username }}" target="_blank">
+                  <img src="{{ twitter_avatar_size(post.user.profile_image_url_https, 'original') }}" alt="thumbnail">
+                </a>
+                <span class="author-name">{{ post.user.fullname }}</span>
+            </div>
 
-                    <span class="post-date">March 12, 2013</span>
+            <div class="profile-links">
+                <span class="author">by {{ post.user.fullname }}</span>
+                {% module ajax_upvote_link(post=post) %}
+                <a href="/posts/{{ post.slug }}#disqus_thread" class="comments-button">0 comments</a>
 
-                    <div class="meta-wrapper clearfix">
-                        <div class="profile-photo">
-                            <img src="/img/fpo/team/Brad.jpg" alt="profile photo">
-                            <span class="author-name">Brad Burnham</span>
-                        </div>
-
-                        <div class="profile-links">
-                            <span class="author">by Brad Burnham</span>
-                            <a href="#" class="upvote-button">12 votes</a>
-                            <a href="#disqus_thread" class="comments-button">4 comments</a>
-
-                            <div class="share-widget">
-                                <span class="heading">Share Post</span>
-                                <div id="share-twitter" data-url="http://example.com/" data-text="Yahoo Acquires Tumblr"></div>
-                                <div id="share-tumblr" data-url="http://example.com/" data-text="Yahoo Acquires Tumblr"></div>
-                                <div id="share-facebook" data-url="http://example.com/" data-text="Yahoo Acquires Tumblr"></div>
-                                <div id="share-googleplus" data-url="http://example.com/" data-text="Yahoo Acquires Tumblr"></div>
-                                <img src="/img/fpo/share-widget.png">
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="post-body">
-                        <p>In September of 2007 we, together with Spark Capital, invested in a 3 person start-up founded by David Karp, a 21 year old coder who had not finished high school. At the time, our biggest challenge was convincing David to drop the four other projects he was working on to focus on Tumblr. Once he did, he quickly built one of the world's greatest platforms for self expression. Over the last five years, Tumblr became much more than that.</p>
-
-                        <p>Today we, as users, are all overwhelmed by the amount of content available on the Internet. It is no longer enough to know what we are searching for. More and more, we need a way to discover things we did not know we were looking for. Tumblr is one of the best, if not the best platform for discovering new ideas and inspiration on the Internet. It does this by combining creation, consumption and curation in a way that remains completely unique.</p>
-
-                        <blockquote><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus magna. Cras in mi at felis aliquet congue. Ut a est eget ligula molestie gravida. Curabitur massa. Donec eleifend, libero at sagittis mollis, tellus est malesuada tellus, at luctus turpis elit sit amet quam. Vivamus pretium ornare est.</p></blockquote>
-
-                        <p>David's intuitive genius for the medium built an enormous network of highly engaged users. Tumblr now has an opportunity to be the future of entertainment media, in much the same way Twitter can be the future of news. Tumblr was well on its way to becoming a large and important company, but the hard work of building a business around this huge network remained in front of us. When Yahoo expressed serious interest in Tumblr, David saw an opportunity to combine his ability to create a compelling user experience with Marissa Mayer's experience building businesses to Internet scale. Perhaps most importantly Marissa promised Yahoo "won't screw it up". http://bit.ly/18Y7rfy</p>
-
-                        <figure>
-                            <img src="/img/fpo/post-photo-example.jpg" alt="caption">
-                            <figcaption>Caption Goes Here</figcaption>
-                        </figure>
-
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus magna. Cras in mi at felis aliquet congue. Ut a est eget ligula molestie gravida.</p>
-
-                        <h2>Header Level 2</h2>
-                                   
-                        <ol>
-                           <li>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</li>
-                           <li>Aliquam tincidunt mauris eu risus.</li>
-                        </ol>
-
-                        <h3>Header Level 3</h3>
-
-                        <ul>
-                           <li>Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</li>
-                           <li>Aliquam tincidunt mauris eu risus.</li>
-                        </ul>
-
-                        <p><strong>Pellentesque habitant morbi tristique</strong> senectus et netus et malesuada fames ac turpis egestas. Vestibulum tortor quam, feugiat vitae, ultricies eget, tempor sit amet, ante. Donec eu libero sit amet quam egestas semper. <em>Aenean ultricies mi vitae est.</em> Mauris placerat eleifend leo. Quisque sit amet est et sapien ullamcorper pharetra. Vestibulum erat wisi, condimentum sed, <code>commodo vitae</code>, ornare sit amet, wisi. Aenean fermentum, elit eget tincidunt condimentum, eros ipsum rutrum orci, sagittis tempus lacus enim ac dui. <a href="#">Donec non enim</a> in turpis pulvinar facilisis. Ut felis.</p>
-                    </div><!--end of post-body-->
-
-                    <div class="comment-box">
-                        <div id="disqus_thread"></div>
-                        <script type="text/javascript">
-                            /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
-                            var disqus_shortname = 'usv-dev'; // required: replace example with your forum shortname
-
-                            /* * * DON'T EDIT BELOW THIS LINE * * */
-                            (function() {
-                                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-                                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-                                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-                            })();
-                        </script>
-                        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-                        <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
-                    </div><!--end of comment-box-->
-                </article>
-            </div><!--end of main-->
-
-        </div><!--end of container-->
-
-        <footer id="site-footer">
-            <div class="container">
-                <div class="footer-search">
-                    <h4>Search Posts Archive</h4>
-                    <div class="footer-search-container">
-                        <input type="search" placeholder="Enter Keywords" />
-                        <a class="submit-button" href="#"></a>
-                    </div>
-                </div>
-
-                <div class="footer-content">
-                    <h4>Contact Us</h4>
-                    <div class="col-a">
-                        <p>If you would like to share your ideas, business, or feedback with us, please send us email at <a href="mailto:info@usv.com">info@usv.com</a>. All business plan submissions must include a clear description of your operations and current progress.</p>
-                    </div>
-                    <div class="col-b">
-                        <p class="address">
-                            <strong>Union Square Ventures</strong><br>
-                            915 Broadway, 19th Floor<br>
-                            New York, NY 10010
-                        </p>
-                        <p class="telephone">
-                            <strong>Tel</strong> &nbsp;&nbsp;(212) 914-7880<br>
-                            <strong>Fax</strong> &nbsp;&nbsp;(212) 914-7399<br>
-                        </p>
-                    </div>
+                <div class="share-widget">
+                    <span class="heading">Share Post</span>
+                    <div id="share-twitter" data-url="http://example.com/" data-text="Yahoo Acquires Tumblr"></div>
+                    <div id="share-tumblr" data-url="http://example.com/" data-text="Yahoo Acquires Tumblr"></div>
+                    <div id="share-facebook" data-url="http://example.com/" data-text="Yahoo Acquires Tumblr"></div>
+                    <div id="share-googleplus" data-url="http://example.com/" data-text="Yahoo Acquires Tumblr"></div>
+                    <img src="/static/img/fpo/share-widget.png">
                 </div>
             </div>
-        </footer><!--end of footer-->
+        </div>
 
-    </div><!--end of shell-->
+        <div class="post-body">
+            {% raw post.body_html %}
+        </div><!--end of post-body-->
 
-	<nav id="mobile-menu">
-        <ul>
-        	<li class="heading">News</li>
-            <li><a href="home.html">Hot</a></li>
-            <li><a href="home-newest.html">Newest</a></li>
-            <li><a href="featured-posts-archive.html">Featured</a></li>
-            <li class="heading">UNION SQUARE VENTURES</li>
-            <li><a href="team.html">Team</a></li>
-            <li><a href="investments.html">Investments</a></li>
-            <li><a href="network.html">Network</a></li>
-            <li><a href="about.html">About</a></li>
-            <li><a href="jobs.html">Jobs</a></li>
-        </ul>
-    </nav>
+        <div class="comment-box">
+            <div id="disqus_thread"></div>
+            <script type="text/javascript">
+                /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+                var disqus_shortname = '{{ settings.disqus_apikey }}'; // required: replace example with your forum shortname
 
-    <form id="submit-form" class="white-modal mfp-hide">
-        <span class="form-title">Post</span>
-        <fieldset>
-            <ol>
-                <li>
-                    <label for="title">Title</label>
-                    <input id="title" name="title" type="text" placeholder="Your Post Title" required="">
-                </li>
-                <li>
-                    <label for="link">Link</label>
-                    <input id="link" name="link" type="text" placeholder="http://example.com" required="">
-                </li>
-                <li>
-                    <label for="textarea">Textarea</label>
-                    <textarea id="textarea" rows="10"></textarea>
-                </li>
-                <li>
-                    <label for="categories">Categories <span>(optional, separate by commas)</span></label>
-                    <input id="categories" name="categories" type="text" placeholder="" required="">
-                </li>
-                <li class="hackpad">
-                    <div id="toggle-hackpad-url"></div>
-                    <label for="hackpad_url">Hackpad URL</label>
-                    <input id="hackpad_url" name="hackpad_url" type="text" value="https://usvdev.hackpad.com/zDycddVmkKT" required="">
-                </li>
-                <li>
-                    <button type="submit" class="submit-form-button">Submit</button>
-                </li>
-            </ol>
-        </fieldset>
-    </form>
-
-	<script src="js/vendor/jquery-1.9.1.min.js"></script>
-    <script src="js/plugins.js"></script>
-    <script src="js/scripts.js"></script>
-</body>
-</html>
+                /* * * DON'T EDIT BELOW THIS LINE * * */
+                (function() {
+                    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+                })();
+            </script>
+            <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+            <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+        </div><!--end of comment-box-->
+    </article>
+</div><!--end of main-->
+{% end %}

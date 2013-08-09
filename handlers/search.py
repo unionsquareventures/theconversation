@@ -9,7 +9,8 @@ class SearchHandler(BaseHandler):
         query = self.get_argument('query', '')
         if not query:
             self.vars.update({
-                'query': ''
+                'query': '',
+                'total_count': 0,
             })
             self.render('search/index.html', **self.vars)
             return

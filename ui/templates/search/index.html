@@ -1,61 +1,45 @@
-{% extends "../base.html" %}
-{% block title %}Search{% end %}
-
-{% block css %}
-<style type="text/css">
-#post_stream_bar.detail {
-  position: static;
-}
-#navigation_bar {
-  position: static !important;
-}
-#content {
-  margin-top: 10px;
-}
-</style>
-{% end %}
+{% extends '../base.html' %}
 
 {% block content %}
-    <div id="content">
-        <br/><br/>
-        <h1>Search</h1>
-        <hr/>
-        <div class="search_box">
-            <form method="get" action="/search" class="form-search">
-                <div class="input-append">
-                    <input type="text" class="span2 search-query" value="{{ query }}" name="query" />
-                    <input type="submit" value="Search" class="btn" />
+<div id="main" role="main">
+    <section class="search-feed centered clearfix">
+    <h1 class="general-page-headline">{{ total_count }} Search Results for
+        <span class="search-term">“{{ query }}”</span>
+    </h1>
+
+    {% if total_count > 0 %}
+        <ul class="feed">
+            {% for post in posts %}
+            <li>
+                <div class="content">
+                    <a class="title" href="/posts/{{ post.slug }}">{{ post.title }}</a>
+                    {% if post.url %}
+                        <a href="{{ post.url }}" class="source" target="_blank">{{ urlparse(post.url).netloc }}</a>
+                    {% else %}
+                        <a href="/posts/{{ post.slug }}" class="source" target="_blank">usv.com</a>
+                    {% end %}
+                    <div class="excerpt">{{ post.body_truncated }}</div>
+                    <div class="meta">
+                        <div class="thumbnail">
+                            <a href="http://www.twitter.com/{{ post.user.username }}" targer="_blank">
+                                <img src="{{
+                                twitter_avatar_size(post.user.profile_image_url_https, 'normal') }}" alt="thumbnail">
+                            </a>
+                        </div>
+                        <a class="username" href="http://www.twitter.com/{{ post.user.username }}" targer="_blank">
+                            @{{ post.user.username }}
+                        </a>
+                        <span class="time">{{ post.date_created.strftime("%B %d, %Y") }}</span>
+                        {% module ajax_upvote_link(post=post) %}
+                        <a class="comments-count" href="/posts/{{ post.slug }}#disqus_thread">0 comments</a>
+                    </div>
                 </div>
-            </form>
-        </div>
-        <hr/><br/>
-        {% if query %}
-            <ul class="posts_listing">
-                {% if not posts %}
-                    <p>No results. Please try a different search query.</p>
-                {% end %}
-                {% for post in posts %}
-                    <li>
-                        <a href="/posts/{{ post.slug }}" class="title">{{ post.title }}</a>
-                        <p class="preview">{{ post.body_truncated }}<a href="/posts/{{ post.slug }}">&nbsp;more &raquo;</a></p>
-                        <div class="info_wrapper">
-                        <img src="{{ twitter_avatar_size(post.user.profile_image_url_https, 'normal') }}" class="avatar" alt="avatar" />
-                        <div class="info">
-                            <a href="http://twitter.com/{{ post.user.username }}" class="user" target="_blank"><i
-                                    class="icon-twitter icon"></i>@{{ post.user.username }}</a>
-                            <span class="comments">
-                              <i class="icon-comment icon"></i>
-                              <a href="/posts/{{ post.slug }}#disqus_thread" class="sub-comments" target="_blank">0 comments</a>
-                            </span>
-                            <a href="/posts/{{ post.slug }}" class="date" target="_blank"><i class="icon-calendar icon"></i>{{ post.date_created.strftime("%B %d, %Y") }}</a>
-                            {% module ajax_upvote_link(post=post) %}
-                        </div>
-                        </div>
-                    </li>
-                {% end %}
-            </ul>
-            {% module paginator(page, per_page, total_count, show_pages=True) %}
+            </li>
+            {% end %}
+        </ul><!--end of feed-->
+
+        {% module paginator(page, per_page, total_count, show_pages=True) %}
         {% end %}
-    </div>
-    {% module disqus_count_js() %}
+        </section><!--end of featured-feed-->
+</div><!--end of main-->
 {% end %}

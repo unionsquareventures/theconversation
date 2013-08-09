@@ -12,7 +12,11 @@ $('.ajax_upvote_link').on('click', function(e) {
                 alert(resp['error']);
                 return;
             }
-            upvote_link.children('.value').text(resp['votes'] + ' votes');
+            var plural = '';
+            if(resp['votes'] != 1) {
+                plural = 's';
+            }
+            upvote_link.children('.value').text(resp['votes'] + ' vote' + plural);
         }
     });
 });

@@ -1,4 +1,4 @@
-<a href="/posts/{{ post.slug }}/upvote" class="votes-count ajax_upvote_link">
+<a href="/posts/{{ post.slug }}/upvote" class="votes-count ajax_upvote_link upvote-button">
     <i class="icon-arrow-up icon"></i>
-    <span class="value">{{ post.votes }} votes</span>
+    <span class="value">{{ post.votes }} vote{{ 's' if post.votes != 1 else '' }}</span>
 </a>
