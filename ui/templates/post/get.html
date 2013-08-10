@@ -25,6 +25,9 @@
                 <span class="author">by {{ post.user.fullname }}</span>
                 {% module ajax_upvote_link(post=post) %}
                 <a href="/posts/{{ post.slug }}#disqus_thread" class="comments-button">0 comments</a>
+                {% if post.user.id_str == user_id_str or is_admin() %}
+                    <a href="/posts/{{ post.slug }}/edit" class="edit-post">Edit Post</a>
+                {% end %}
 
                 <div class="share-widget">
                     <span class="heading">Share Post</span>

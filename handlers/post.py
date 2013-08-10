@@ -33,6 +33,8 @@ class PostHandler(BaseHandler):
         anchor = self.get_argument('anchor', None)
         action = self.get_argument('action', '')
         count = int(self.get_argument('count', 0))
+        if count < 0:
+            count = 0
         page = 1
         featured_posts = list(Post.objects(featured=True, deleted=False, **query).order_by('-date_featured')[:3])
         lua = "local num_posts = redis.call('ZCARD', '{sort_by}')\n"
@@ -145,6 +147,7 @@ class PostHandler(BaseHandler):
             'body_raw': body_raw,
             'body_truncated': body_truncated,
             'body_text': body_text,
+            'has_hackpad': True if attributes.get('has_hackpad') else False,
             'featured': featured,
             'date_featured': date_featured,
             'tags': tag_names,
@@ -259,6 +262,7 @@ class PostHandler(BaseHandler):
             'body_html': body_html,
             'body_raw': body_raw,
             'body_truncated': body_truncated,
+            'has_hackpad': True if attributes.get('has_hackpad') else False,
             'body_text': body_text,
             'featured': featured,
             'date_featured': date_featured,

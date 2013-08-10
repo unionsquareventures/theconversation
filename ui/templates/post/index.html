@@ -41,6 +41,10 @@
         </ul>
 
         <ul class="feed">
+            {% if count == 0 and rstart != 0 %}
+                <a href="/?sort_by={{ sort_by }}" class="new_posts_link">New posts ({{ rstart }})</a>
+            {% end %}
+
             {% for post in posts %}
             <li>
                 <div class="thumbnail">

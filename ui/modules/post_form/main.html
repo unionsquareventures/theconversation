@@ -1,0 +1,54 @@
+{% set action = '/posts/' + str(post.slug) if not post._created else '' %}
+
+<form id="{{ id }}" class="{{ classes }}" action="{{ action }}" method="POST">
+    {% module xsrf_form_html() %}
+
+    <span class="form-title">Post</span>
+    <fieldset>
+        <ol>
+            <li>
+                <label for="title">Title</label>
+                <div class="field-errors">{{ field_errors(errors, 'title') }}</div>
+                <input id="post_title" name="title" type="text"
+                            placeholder="Your Post Title" required="" value="{{ post.title or '' }}">
+            </li>
+            <li>
+                <label for="url">Link</label>
+                <div class="field-errors">{{ field_errors(errors, 'url') }}</div>
+                <input id="post_url" name="url" type="text" placeholder="http://example.com" value="{{ post.url or '' }}">
+            </li>
+            <li>
+                <label for="body_raw">Body</label>
+                <div class="field-errors">{{ field_errors(errors, 'body_raw') }}</div>
+                <input type="text" id="post_body_raw" name="body_raw" value="{{ post.body_raw or '' }}" />
+            </li>
+            <li class="hackpad">
+                <div id="toggle-hackpad-url" class="{{ 'checked' if post.has_hackpad else '' }}"></div>
+                <input id="post_has_hackpad" name="has_hackpad" type="hidden" value="{{ 'true' if post.has_hackpad else '' }}">
+                <label for="hackpad_url">Hackpad URL</label>
+                <div class="field-errors">{{ field_errors(errors, 'hackpad_url') }}</div>
+                <input id="post_hackpad_url" name="hackpad_url" type="text" value="{{ post.hackpad_url or '' }}"
+                                        style="display: {{'block' if post.has_hackpad else 'none' }};" />
+            </li>
+            <li>
+                {% if handler.is_admin() %}
+                        <label for="post_featured">Featured</label>
+                        <div class="field-errors">{{ field_errors(errors, 'featured') }}</div>
+                        <input type="checkbox" id="post_featured" name="featured" value="true"
+                                                {{ 'checked' if post.featured else '' }} />
+                {% end %}
+            </li>
+            <li>
+                {% if not post._created %}
+                        <label for="post_deleted">Deleted</label>
+                        <div class="field-errors">{{ field_errors(errors, 'deleted') }}</div>
+                        <input type="checkbox" id="post_deleted" name="deleted" value="true"
+                                                {{ 'checked' if post.deleted else '' }} />
+                {% end %}
+            </li>
+            <li>
+                <button type="submit" class="submit-form-button">Submit</button>
+            </li>
+        </ol>
+    </fieldset>
+</form>

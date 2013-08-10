@@ -18,13 +18,12 @@
 
 {% block content %}
 <div id="content">
+    <h1>Delete a user's posts</h1>
     {% if msg %}
         <div class="alert">
-            {{ msg }}
+            <b>{{ msg }}</b>
         </div>
     {% end %}
-    <h1>Delete a user's posts</h1>
-    <br/>
     <p>Delete all of the posts submitted by a user. Specify the slug of one post submitted
     by a given user to delete <b>all</b> of their posts.</p>
     <br/>

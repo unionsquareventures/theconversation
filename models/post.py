@@ -128,16 +128,16 @@ class Post(Document):
             # Generate the correct HTML
             field_html = ''
             if form_field.get('hidden'):
-                field_html = '<input name="{name}" type="hidden" class="post_{name}"' \
+                field_html = '<input name="{name}" type="hidden" id="post_{name}"' \
                                                             ' value="{value}" />'
             elif isinstance(field, StringField) and not field.max_length:
-                field_html = '<textarea name="{name}" class="post_{name}"' \
+                field_html = '<textarea name="{name}" id="post_{name}"' \
                                         'placeholder="{placeholder}">{value}</textarea>'
             elif isinstance(field, StringField) and field.max_length:
-                field_html = '<input name="{name}" type="text" class="post_{name}"' \
+                field_html = '<input name="{name}" type="text" id="post_{name}"' \
                                         ' placeholder="{placeholder}" value="{value}" />'
             elif isinstance(field, BooleanField):
-                field_html = '<input name="{name}" type="checkbox" class="post_{name}"' \
+                field_html = '<input name="{name}" type="checkbox" id="post_{name}"' \
                                         ' value="true" id="post_{name}" %s />'\
                                                         % ('checked' if form_field['value'] else '')
             field_html = field_html.format(**form_field)
