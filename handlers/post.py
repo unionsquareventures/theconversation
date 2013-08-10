@@ -35,6 +35,11 @@ class PostHandler(BaseHandler):
         count = int(self.get_argument('count', 0))
         if count < 0:
             count = 0
+
+        original_count = count
+        if action == 'before':
+            count += per_page
+
         page = 1
         featured_posts = list(Post.objects(featured=True, deleted=False, **query).order_by('-date_featured')[:3])
         lua = "local num_posts = redis.call('ZCARD', '{sort_by}')\n"
@@ -47,6 +52,7 @@ class PostHandler(BaseHandler):
             else:
                 lua += "local rank = redis.call('ZREVRANK', '{sort_by}', '{anchor.id}')\n"
                 lua += "local rank = rank >= {count} - 1 and rank or {count}\n"
+
             if action == 'after':
                 lua += "local rstart = rank + 1\n"
                 lua += "local rend = rank + {per_page}\n"
@@ -81,7 +87,7 @@ class PostHandler(BaseHandler):
             'num_posts': num_posts,
             'rstart': rstart,
             'rend': rend,
-            'count': count,
+            'count': original_count,
             'action': action,
         })
         self.render('post/index.html', **self.vars)

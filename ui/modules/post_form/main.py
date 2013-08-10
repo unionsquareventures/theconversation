@@ -3,7 +3,6 @@ import tornado.web
 from models.post import Post
 
 def field_errors(errors, field):
-    print errors
     errors = errors.get(field)
     if not errors:
         return ''
