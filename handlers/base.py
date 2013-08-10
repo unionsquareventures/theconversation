@@ -4,6 +4,7 @@ import tornado.auth
 import tornado.httpserver
 import json
 from raven.contrib.tornado import SentryMixin
+from urlparse import urlparse
 
 class BaseHandler(SentryMixin, tornado.web.RequestHandler):
     def __init__(self, *args, **kwargs):
@@ -12,6 +13,7 @@ class BaseHandler(SentryMixin, tornado.web.RequestHandler):
                         'user_id_str': self.get_current_user_id_str(),
                         'settings': settings,
                         'is_admin': self.is_admin,
+                        'urlparse': urlparse,
                     }
         user_id_str = self.get_current_user_id_str()
         if user_id_str in settings.banned_user_ids:
