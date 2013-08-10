@@ -4,9 +4,6 @@ import logging
 
 DEPLOYMENT_STAGE = os.environ.get('DEPLOYMENT_STAGE', 'local')
 
-if os.path.exists("deployment_stage"):
-    DEPLOYMENT_STAGE = open("deployment_stage").read().strip()
-
 if DEPLOYMENT_STAGE == 'production':
     from server_setup.deployment.prod import *
 elif DEPLOYMENT_STAGE == 'staging':
