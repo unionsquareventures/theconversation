@@ -88,10 +88,10 @@ h1.mobile-page-headline {
 	display: block;
 	float: left;
 	@include hide-text;
-	background: transparent url(img/icon-menu.png) no-repeat center center;
+	background: transparent url(/static/img/icon-menu.png) no-repeat center center;
 	
 	@include hidpi {
-		background: transparent url(img/icon-menu_2x.png) no-repeat center center;
+		background: transparent url(/static/img/icon-menu_2x.png) no-repeat center center;
 		background-size: 22px 17px;
 	}
 }
@@ -102,10 +102,10 @@ h1.mobile-page-headline {
 	display: block;
 	float: right;
 	@include hide-text;
-	background: transparent url(img/icon-submit.png) no-repeat center center;
+	background: transparent url(/static/img/icon-submit.png) no-repeat center center;
 	
 	@include hidpi {
-		background: transparent url(img/icon-submit_2x.png) no-repeat center center;
+		background: transparent url(/static/img/icon-submit_2x.png) no-repeat center center;
 		background-size: 18px 18px;
 	}
 }
@@ -117,10 +117,10 @@ h1.mobile-page-headline {
 	left: 50%;
 	margin-left: -30px;
 	@include hide-text;
-	background: transparent url(img/logo-mobile.png) no-repeat center center;
+	background: transparent url(/static/img/logo-mobile.png) no-repeat center center;
 	
 	@include hidpi {
-		background: transparent url(img/logo-mobile_2x.png) no-repeat center center;
+		background: transparent url(/static/img/logo-mobile_2x.png) no-repeat center center;
 		background-size: 61px 44px;
 	}
 }
@@ -200,10 +200,10 @@ h1.mobile-page-headline {
 	margin-top: 20px;
 	float: left;
 	@include hide-text;
-	background: transparent url(img/logo.png) no-repeat center center;
+	background: transparent url(/static/img/logo.png) no-repeat center center;
 	
 	@include hidpi {
-		background: transparent url(img/logo_2x.png) no-repeat center center;
+		background: transparent url(/static/img/logo_2x.png) no-repeat center center;
 		background-size: 212px 109px;
 	}
 }
@@ -265,9 +265,9 @@ h1.mobile-page-headline {
 		width: 32px;
 		height: 32px;
 		&:hover { opacity: 1; }
-		background: transparent url(/img/icon-search.png) no-repeat center center;
+		background: transparent url(/static/img/icon-search.png) no-repeat center center;
 		@include hidpi {
-			background: transparent url(/img/icon-search_2x.png) no-repeat center center;
+			background: transparent url(/static/img/icon-search_2x.png) no-repeat center center;
 			background-size: 16px 16px;
 		}
 	}
@@ -407,18 +407,18 @@ html.lt-ie8 {
 
 	.votes-count {
 		padding-left: 15px;
-		background: transparent url(/img/icon-upvote.png) no-repeat 0 center;
+		background: transparent url(/static/img/icon-upvote.png) no-repeat 0 center;
 		@include hidpi {
-			background: transparent url(/img/icon-upvote_2x.png) no-repeat 0 center;
+			background: transparent url(/static/img/icon-upvote_2x.png) no-repeat 0 center;
 			background-size: 10px 6px;
 		}
 	}
 
 	.comments-count {
 		padding-left: 15px;
-		background: transparent url(/img/icon-comment-small.png) no-repeat 0 center;
+		background: transparent url(/static/img/icon-comment-small.png) no-repeat 0 center;
 		@include hidpi {
-			background: transparent url(/img/icon-comment-small_2x.png) no-repeat 0 center;
+			background: transparent url(/static/img/icon-comment-small_2x.png) no-repeat 0 center;
 			background-size: 12px 11px;
 		}
 	}
@@ -445,7 +445,7 @@ html.lt-ie8 {
 	float: right;
 	padding-right: 15px;
 	margin-top: 10px;
-	background: transparent url(/img/icon-right-pointer.png) no-repeat center right;
+	background: transparent url(/static/img/icon-right-pointer.png) no-repeat center right;
 	display: none;
 	
 	&:hover {
@@ -453,7 +453,7 @@ html.lt-ie8 {
 	}
 
 	@include hidpi {
-		background: transparent url(/img/icon-right-pointer_2x.png) no-repeat center right;
+		background: transparent url(/static/img/icon-right-pointer_2x.png) no-repeat center right;
 		background-size: 6px 6px;
 	}
 }
@@ -488,9 +488,9 @@ html.lt-ie8 {
 		&.newer {
 			border: none;
 			padding-left: 15px;
-			background: transparent url(/img/icon-left-pointer.png) no-repeat 0 center;
+			background: transparent url(/static/img/icon-left-pointer.png) no-repeat 0 center;
 			@include hidpi {
-				background: transparent url(/img/icon-left-pointer_2x.png) no-repeat 0 center;
+				background: transparent url(/static/img/icon-left-pointer_2x.png) no-repeat 0 center;
 				background-size: 6px 6px;
 			}
 		}
@@ -498,9 +498,9 @@ html.lt-ie8 {
 		&.older {
 			border: none;
 			padding-right: 15px;
-			background: transparent url(/img/icon-right-pointer.png) no-repeat right center;
+			background: transparent url(/static/img/icon-right-pointer.png) no-repeat right center;
 			@include hidpi {
-				background: transparent url(/img/icon-right-pointer_2x.png) no-repeat right center;
+				background: transparent url(/static/img/icon-right-pointer_2x.png) no-repeat right center;
 				background-size: 6px 6px;
 			}
 		}
@@ -1071,14 +1071,14 @@ article.page {
 			color: $green;
 			padding-left: 15px;
 			margin: 6px 0 0 0;
-			background: transparent url(/img/icon-right-pointer-green.png) no-repeat 0 center;
+			background: transparent url(/static/img/icon-right-pointer-green.png) no-repeat 0 center;
 			
 			&:hover {
 				text-decoration: underline;
 			}
 
 			@include hidpi {
-				background: transparent url(/img/icon-right-pointer-green_2x.png) no-repeat 0 center;
+				background: transparent url(/static/img/icon-right-pointer-green_2x.png) no-repeat 0 center;
 				background-size: 6px 6px;
 			}
 		}
@@ -1517,9 +1517,9 @@ article.page {
 			width: 32px;
 			height: 32px;
 			&:hover { opacity: 1; }
-			background: transparent url(/img/icon-search.png) no-repeat center center;
+			background: transparent url(/static/img/icon-search.png) no-repeat center center;
 			@include hidpi {
-				background: transparent url(/img/icon-search_2x.png) no-repeat center center;
+				background: transparent url(/static/img/icon-search_2x.png) no-repeat center center;
 				background-size: 16px 16px;
 			}
 		}
