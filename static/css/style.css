@@ -1367,9 +1367,26 @@ html.lt-ie8 #main-nav a {
     padding: 0; }
   #pagination li {
     padding: 0 2px;
-    margin: 0;
-    display: inline;
+    margin: 0 0 0 2px;
+    display: inline-block;
+    vertical-align: baseline;
+    zoom: 1;
+    *display: inline;
+    *vertical-align: auto;
     list-style: none; }
+  #pagination li.disabled {
+    padding: 2px 3px 1px 3px;
+    color: gray;
+    font-size: 1em;
+    line-height: 1;
+    border: 1px solid #ccc; }
+  #pagination li.active {
+    padding: 2px 3px 1px 3px;
+    color: #fff;
+    background-color: #222;
+    font-size: 1em;
+    line-height: 1;
+    border: 1px solid #222; }
   #pagination a {
     display: inline-block;
     vertical-align: baseline;
@@ -1986,141 +2003,143 @@ article.page {
       right: 0;
       width: 188px; } }
 
-.article-post h1 {
-  margin: 0 0 10px 0;
-  font-size: 1.5em;
-  line-height: 1.2; }
-.article-post h2 {
-  margin: 10px 0; }
-.article-post .post-body {
-  margin-bottom: 40px; }
-  .article-post .post-body a {
-    text-decoration: none;
-    color: #779734; }
-    .article-post .post-body a:hover {
-      text-decoration: underline; }
-  .article-post .post-body blockquote {
-    margin: 0;
-    padding: 0 0 0 20px;
-    border-left: 4px solid gray;
-    font-size: 1.25em; }
-  .article-post .post-body img, .article-post .post-body figure img {
-    width: 100%;
-    max-width: 100%;
-    height: auto; }
-  .article-post .post-body figcaption {
+.article-post {
+  min-height: 600px; }
+  .article-post h1 {
+    margin: 0 0 10px 0;
+    font-size: 1.5em;
+    line-height: 1.2; }
+  .article-post h2 {
+    margin: 10px 0; }
+  .article-post .post-body {
+    margin-bottom: 40px; }
+    .article-post .post-body a {
+      text-decoration: none;
+      color: #779734; }
+      .article-post .post-body a:hover {
+        text-decoration: underline; }
+    .article-post .post-body blockquote {
+      margin: 0;
+      padding: 0 0 0 20px;
+      border-left: 4px solid gray;
+      font-size: 1.25em; }
+    .article-post .post-body img, .article-post .post-body figure img {
+      width: 100%;
+      max-width: 100%;
+      height: auto; }
+    .article-post .post-body figcaption {
+      font-size: 0.85em;
+      color: #333333;
+      margin-top: 5px; }
+  .article-post .post-date {
     font-size: 0.85em;
-    color: #333333;
-    margin-top: 5px; }
-.article-post .post-date {
-  font-size: 0.85em;
-  color: gray; }
-.article-post .meta-wrapper {
-  margin-top: 10px; }
-.article-post .author {
-  font-weight: 600;
-  color: #000;
-  display: block; }
-.article-post .author-name {
-  display: none;
-  font-weight: 600;
-  color: #000;
-  padding-top: 10px; }
-.article-post .profile-photo {
-  width: 30%;
-  margin-right: 5%;
-  float: left; }
-  .article-post .profile-photo img {
-    width: 100%;
-    height: auto; }
-  .article-post .profile-photo a {
-    opacity: 1; }
-    .article-post .profile-photo a:hover {
-      opacity: 0.85; }
-.article-post .profile-links {
-  float: left;
-  width: 47%; }
-.article-post .upvote-button, .article-post .comments-button {
-  text-decoration: none;
-  color: #86aa3b;
-  margin: 5px 0 0 0;
-  padding-left: 22px;
-  font-weight: 600;
-  display: block; }
-  .article-post .upvote-button:hover, .article-post .comments-button:hover {
-    text-decoration: underline; }
-.article-post .upvote-button {
-  background: transparent url(/static/img/icon-upvote-big.png) no-repeat 0 center; }
-  @media only screen and (-webkit-min-device-pixel-ratio: 1.3), only screen and (min--moz-device-pixel-ratio: 1.3), only screen and (-o-min-device-pixel-ratio: 1.3 / 1), only screen and (min-resolution: 125dpi), only screen and (min-resolution: 1.3dppx) {
-    .article-post .upvote-button {
-      background: transparent url(/static/img/icon-upvote-big_2x.png) no-repeat 0 center;
-      background-size: 12px 6px; } }
-.article-post .comments-button {
-  background: transparent url(/static/img/icon-comment-big.png) no-repeat 0 center; }
-  @media only screen and (-webkit-min-device-pixel-ratio: 1.3), only screen and (min--moz-device-pixel-ratio: 1.3), only screen and (-o-min-device-pixel-ratio: 1.3 / 1), only screen and (min-resolution: 125dpi), only screen and (min-resolution: 1.3dppx) {
-    .article-post .comments-button {
-      background: transparent url(/static/img/icon-comment-big_2x.png) no-repeat 0 center;
-      background-size: 16px 14px; } }
-.article-post .share-widget {
-  display: none;
-  margin-top: 20px; }
-  .article-post .share-widget .heading {
-    display: block;
+    color: gray; }
+  .article-post .meta-wrapper {
+    margin-top: 10px; }
+  .article-post .author {
     font-weight: 600;
     color: #000;
-    margin-bottom: 10px; }
-@media only screen and (min-width: 769px) {
-  .article-post {
-    padding-left: 220px;
-    position: relative; }
-    .article-post h1 {
-      font-size: 2em; }
-    .article-post .post-body {
-      font-size: 1.125em; }
-    .article-post .author {
-      display: none; }
-    .article-post .author-name {
-      display: block; }
-    .article-post .profile-photo {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 188px;
-      margin-right: 30px; }
-      .article-post .profile-photo img {
-        width: 188px;
-        height: auto; }
-    .article-post .profile-links {
-      position: absolute;
-      top: 188px;
-      left: 0;
-      width: 188px;
-      margin-top: 40px; }
-    .article-post .share-widget {
-      display: block; } }
-@media only screen and (min-width: 1100px) {
-  .article-post {
-    position: relative;
-    width: 620px;
-    padding: 0 220px; }
-    .article-post .meta-wrapper {
-      margin: 0; }
-      .article-post .meta-wrapper .author {
+    display: block; }
+  .article-post .author-name {
+    display: none;
+    font-weight: 600;
+    color: #000;
+    padding-top: 10px; }
+  .article-post .profile-photo {
+    width: 30%;
+    margin-right: 5%;
+    float: left; }
+    .article-post .profile-photo img {
+      width: 100%;
+      height: auto; }
+    .article-post .profile-photo a {
+      opacity: 1; }
+      .article-post .profile-photo a:hover {
+        opacity: 0.85; }
+  .article-post .profile-links {
+    float: left;
+    width: 47%; }
+  .article-post .upvote-button, .article-post .comments-button {
+    text-decoration: none;
+    color: #86aa3b;
+    margin: 5px 0 0 0;
+    padding-left: 22px;
+    font-weight: 600;
+    display: block; }
+    .article-post .upvote-button:hover, .article-post .comments-button:hover {
+      text-decoration: underline; }
+  .article-post .upvote-button {
+    background: transparent url(/static/img/icon-upvote-big.png) no-repeat 0 center; }
+    @media only screen and (-webkit-min-device-pixel-ratio: 1.3), only screen and (min--moz-device-pixel-ratio: 1.3), only screen and (-o-min-device-pixel-ratio: 1.3 / 1), only screen and (min-resolution: 125dpi), only screen and (min-resolution: 1.3dppx) {
+      .article-post .upvote-button {
+        background: transparent url(/static/img/icon-upvote-big_2x.png) no-repeat 0 center;
+        background-size: 12px 6px; } }
+  .article-post .comments-button {
+    background: transparent url(/static/img/icon-comment-big.png) no-repeat 0 center; }
+    @media only screen and (-webkit-min-device-pixel-ratio: 1.3), only screen and (min--moz-device-pixel-ratio: 1.3), only screen and (-o-min-device-pixel-ratio: 1.3 / 1), only screen and (min-resolution: 125dpi), only screen and (min-resolution: 1.3dppx) {
+      .article-post .comments-button {
+        background: transparent url(/static/img/icon-comment-big_2x.png) no-repeat 0 center;
+        background-size: 16px 14px; } }
+  .article-post .share-widget {
+    display: none;
+    margin-top: 20px; }
+    .article-post .share-widget .heading {
+      display: block;
+      font-weight: 600;
+      color: #000;
+      margin-bottom: 10px; }
+  @media only screen and (min-width: 769px) {
+    .article-post {
+      padding-left: 220px;
+      position: relative; }
+      .article-post h1 {
+        font-size: 2em; }
+      .article-post .post-body {
+        font-size: 1.125em; }
+      .article-post .author {
         display: none; }
-    .article-post h1 {
-      margin-bottom: 20px; }
-    .article-post .profile-photo {
-      width: 188px; }
-      .article-post .profile-photo img {
+      .article-post .author-name {
+        display: block; }
+      .article-post .profile-photo {
+        position: absolute;
+        top: 0;
+        left: 0;
         width: 188px;
-        height: auto; }
-    .article-post .profile-links {
-      position: absolute;
-      top: 0;
-      left: auto;
-      right: 0;
-      width: 188px;
-      margin-top: 0; } }
+        margin-right: 30px; }
+        .article-post .profile-photo img {
+          width: 188px;
+          height: auto; }
+      .article-post .profile-links {
+        position: absolute;
+        top: 188px;
+        left: 0;
+        width: 188px;
+        margin-top: 40px; }
+      .article-post .share-widget {
+        display: block; } }
+  @media only screen and (min-width: 1100px) {
+    .article-post {
+      position: relative;
+      width: 620px;
+      padding: 0 220px; }
+      .article-post .meta-wrapper {
+        margin: 0; }
+        .article-post .meta-wrapper .author {
+          display: none; }
+      .article-post h1 {
+        margin-bottom: 20px; }
+      .article-post .profile-photo {
+        width: 188px; }
+        .article-post .profile-photo img {
+          width: 188px;
+          height: auto; }
+      .article-post .profile-links {
+        position: absolute;
+        top: 0;
+        left: auto;
+        right: 0;
+        width: 188px;
+        margin-top: 0; } }
 
 .comment-box {
   margin-top: 40px; }

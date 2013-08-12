@@ -474,9 +474,26 @@ html.lt-ie8 {
 	
 	li {
 		padding: 0 2px;
-		margin: 0;
-		display: inline;
+		margin: 0 0 0 2px;
+		@include inline-block;
 		list-style: none;
+	}
+
+	li.disabled {
+		padding: 2px 3px 1px 3px;
+		color: $grey;
+		font-size: 1em;
+		line-height: 1;
+		border: 1px solid #ccc;
+	}
+
+	li.active {
+		padding: 2px 3px 1px 3px;
+		color: #fff;
+		background-color: #222;
+		font-size: 1em;
+		line-height: 1;
+		border: 1px solid #222;
 	}
 
 	a {
@@ -1217,6 +1234,8 @@ article.page {
 }
 
 .article-post {
+	min-height: 600px;
+
 	h1 {
 		margin: 0 0 10px 0;
 		font-size: 1.5em;
