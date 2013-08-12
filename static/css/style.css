@@ -1988,7 +1988,8 @@ article.page {
 
 .article-post h1 {
   margin: 0 0 10px 0;
-  font-size: 1.5em; }
+  font-size: 1.5em;
+  line-height: 1.2; }
 .article-post h2 {
   margin: 10px 0; }
 .article-post .post-body {
