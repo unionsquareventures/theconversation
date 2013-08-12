@@ -2165,6 +2165,8 @@ article.page {
   margin: 0 20px 0 0;
   padding: 10px 0 3px 0;
   list-style: none; }
+#submit-form li.tinymce-textbox {
+  margin: 0 4px 0 0; }
 #submit-form label {
   font-size: 1em;
   font-weight: 700;

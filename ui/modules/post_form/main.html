@@ -17,7 +17,7 @@
                 <div class="field-errors">{{ field_errors(errors, 'url') }}</div>
                 <input id="post_url" name="url" type="text" placeholder="http://example.com" value="{{ post.url or '' }}">
             </li>
-            <li>
+            <li class="tinymce-textbox">
                 <label for="body_raw">Body</label>
                 <div class="field-errors">{{ field_errors(errors, 'body_raw') }}</div>
                 <input type="text" id="post_body_raw" name="body_raw" value="{{ post.body_raw or '' }}" />
