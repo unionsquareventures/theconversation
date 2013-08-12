@@ -25,11 +25,20 @@ $light-grey: #dfdfdf; //was #cbcbcb
 
 /* ================================ Defaults ================================ */
 
+html {
+	background-color: #333;
+}
+
 body {
+	background-color: #333;
 	font-family: $proxima;
 	font-style: normal;
 	font-weight: 400;
 	-webkit-font-smoothing: antialiased;
+}
+
+.shell {
+	background-color: #fff;
 }
 
 .container {
@@ -458,9 +467,10 @@ html.lt-ie8 {
 }
 
 #pagination {
-	margin: 30px auto 0 auto;
-	padding: 0;
-	width: 270px;
+	@include clearfix;
+	margin: 30px 0 0 0;
+	
+	ul { float: none; margin: 0; padding: 0; }
 	
 	li {
 		padding: 0 2px;
@@ -482,26 +492,6 @@ html.lt-ie8 {
 		&:hover {
 			color: #000;
 			border: 1px solid #000;
-		}
-
-		&.newer {
-			border: none;
-			padding-left: 15px;
-			background: transparent url(/static/img/icon-left-pointer.png) no-repeat 0 center;
-			@include hidpi {
-				background: transparent url(/static/img/icon-left-pointer_2x.png) no-repeat 0 center;
-				background-size: 6px 6px;
-			}
-		}
-
-		&.older {
-			border: none;
-			padding-right: 15px;
-			background: transparent url(/static/img/icon-right-pointer.png) no-repeat right center;
-			@include hidpi {
-				background: transparent url(/static/img/icon-right-pointer_2x.png) no-repeat right center;
-				background-size: 6px 6px;
-			}
 		}
 	}
 }
@@ -1590,6 +1580,8 @@ article.page {
 			font-size: 1.6875em;
 		}
 	}
+
+	#pagination ul { float: right; }
 }
 
 //kindle

@@ -945,11 +945,18 @@ img.mfp-img {
 
 /* ================================ Variables =============================== */
 /* ================================ Defaults ================================ */
+html {
+  background-color: #333; }
+
 body {
+  background-color: #333;
   font-family: "proxima-nova-n4", "proxima-nova", sans-serif;
   font-style: normal;
   font-weight: 400;
   -webkit-font-smoothing: antialiased; }
+
+.shell {
+  background-color: #fff; }
 
 .container {
   *zoom: 1;
@@ -1347,9 +1354,17 @@ html.lt-ie8 #main-nav a {
       background-size: 6px 6px; } }
 
 #pagination {
-  margin: 30px auto 0 auto;
-  padding: 0;
-  width: 270px; }
+  *zoom: 1;
+  margin: 30px 0 0 0; }
+  #pagination:before, #pagination:after {
+    content: " ";
+    display: table; }
+  #pagination:after {
+    clear: both; }
+  #pagination ul {
+    float: none;
+    margin: 0;
+    padding: 0; }
   #pagination li {
     padding: 0 2px;
     margin: 0;
@@ -1373,22 +1388,6 @@ html.lt-ie8 #main-nav a {
     #pagination a:hover {
       color: #000;
       border: 1px solid #000; }
-    #pagination a.newer {
-      border: none;
-      padding-left: 15px;
-      background: transparent url(/static/img/icon-left-pointer.png) no-repeat 0 center; }
-      @media only screen and (-webkit-min-device-pixel-ratio: 1.3), only screen and (min--moz-device-pixel-ratio: 1.3), only screen and (-o-min-device-pixel-ratio: 1.3 / 1), only screen and (min-resolution: 125dpi), only screen and (min-resolution: 1.3dppx) {
-        #pagination a.newer {
-          background: transparent url(/static/img/icon-left-pointer_2x.png) no-repeat 0 center;
-          background-size: 6px 6px; } }
-    #pagination a.older {
-      border: none;
-      padding-right: 15px;
-      background: transparent url(/static/img/icon-right-pointer.png) no-repeat right center; }
-      @media only screen and (-webkit-min-device-pixel-ratio: 1.3), only screen and (min--moz-device-pixel-ratio: 1.3), only screen and (-o-min-device-pixel-ratio: 1.3 / 1), only screen and (min-resolution: 125dpi), only screen and (min-resolution: 1.3dppx) {
-        #pagination a.older {
-          background: transparent url(/static/img/icon-right-pointer_2x.png) no-repeat right center;
-          background-size: 6px 6px; } }
 
 #pagination-next-prev {
   *zoom: 1;
@@ -2292,7 +2291,10 @@ input[type="email"], input[type="number"], input[type="password"], input[type="s
     font-size: 1.3125em; }
 
   .featured-feed .title, .search-feed .title {
-    font-size: 1.6875em; } }
+    font-size: 1.6875em; }
+
+  #pagination ul {
+    float: right; } }
 @media only screen and (min-width: 720px) {
   .feed li {
     padding: 10px 0 15px 0;
