@@ -5,7 +5,6 @@
         <ul class="tabs">
             <li><a class="current" href="/featured_posts">Featured</a></li>
         </ul>
-        <div id="new-post-notification"></div>
         <ul class="feed">
             {% for post in featured_posts %}
             <li>
@@ -43,7 +42,9 @@
 
         <ul class="feed">
             {% if count == 0 and rstart != 0 %}
+              <li class="new_posts_notification">
                 <a href="/?sort_by={{ sort_by }}" class="new_posts_link">New posts ({{ rstart }})</a>
+              </li>
             {% end %}
 
             {% for post in posts %}

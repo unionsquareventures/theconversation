@@ -1268,6 +1268,10 @@ html.lt-ie8 #main-nav a {
     list-style: none;
     position: relative;
     border-bottom: 1px solid #dfdfdf; }
+  .feed li.new_posts_notification {
+    margin: 0;
+    padding: 0;
+    border: none; }
   .feed .thumbnail {
     display: none; }
   .feed .title {
@@ -1329,6 +1333,27 @@ html.lt-ie8 #main-nav a {
       .feed .comments-count {
         background: transparent url(/static/img/icon-comment-small_2x.png) no-repeat 0 center;
         background-size: 12px 11px; } }
+
+.new_posts_link {
+  display: inline-block;
+  vertical-align: baseline;
+  zoom: 1;
+  *display: inline;
+  *vertical-align: auto;
+  text-decoration: none;
+  margin: 15px 0 10px 0;
+  padding: 5px 25px 5px 10px;
+  font-size: 0.85em;
+  background: #dfebc6 url(/static/img/icon-top-pointer-green.png) no-repeat right 11px;
+  background-color: #dfebc6;
+  border-radius: 2px;
+  color: #68842e; }
+  @media only screen and (-webkit-min-device-pixel-ratio: 1.3), only screen and (min--moz-device-pixel-ratio: 1.3), only screen and (-o-min-device-pixel-ratio: 1.3 / 1), only screen and (min-resolution: 125dpi), only screen and (min-resolution: 1.3dppx) {
+    .new_posts_link {
+      background: #dfebc6 url(/static/img/icon-top-pointer-green_2x.png) no-repeat right 11px;
+      background-size: 16px 6px; } }
+  .new_posts_link:hover {
+    background-color: #eaf2d9; }
 
 .featured-feed .thumbnail, .search-feed .thumbnail {
   display: none; }

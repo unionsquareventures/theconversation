@@ -368,6 +368,12 @@ html.lt-ie8 {
 		border-bottom: 1px solid #dfdfdf;
 	}
 
+	li.new_posts_notification {
+		margin: 0;
+		padding: 0;
+		border: none;
+	}
+
 	.thumbnail {
 		display: none;
 	}
@@ -429,6 +435,27 @@ html.lt-ie8 {
 			background: transparent url(/static/img/icon-comment-small_2x.png) no-repeat 0 center;
 			background-size: 12px 11px;
 		}
+	}
+}
+
+.new_posts_link {
+	@include inline-block;
+	text-decoration: none;
+	margin: 15px 0 10px 0;
+	padding: 5px 25px 5px 10px;
+	font-size: 0.85em;
+	background: lighten($green, 40%) url(/static/img/icon-top-pointer-green.png) no-repeat right 11px;
+	background-color: lighten($green, 40%);
+	border-radius: 2px;
+	color: darken($green, 10%);
+
+	@include hidpi {
+		background: lighten($green, 40%) url(/static/img/icon-top-pointer-green_2x.png) no-repeat right 11px;
+		background-size: 16px 6px;
+	}
+
+	&:hover {
+		background-color: lighten($green, 45%);
 	}
 }
 
@@ -1604,8 +1631,6 @@ article.page {
 	border: 1px solid $light-grey;
 	border-radius: 3px;
 }
-
-
 
 /* ================================ Media Quries ========================== */
 
