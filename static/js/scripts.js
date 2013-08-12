@@ -81,8 +81,8 @@ $(function() {
 				} else {
 					this.st.focus = '#name';
 				}
-                USV_setup_tinymce();
-                USV_fill_hackpad_url();
+        USV_setup_tinymce();
+        USV_fill_hackpad_url();
 			}
 		}
 	});
