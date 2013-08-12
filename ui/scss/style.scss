@@ -1498,18 +1498,18 @@ article.page {
 		cursor: pointer;
 		width: 17px;
 		height: 17px;
-		background: transparent url(img/icon-check-uncheck.png) no-repeat -17px 0;
+		background: transparent url(/static/img/icon-check-uncheck.png) no-repeat -17px 0;
 
 		@include hidpi {
-			background: transparent url(img/icon-check-uncheck_2x.png) no-repeat -17px 0;
+			background: transparent url(/static/img/icon-check-uncheck_2x.png) no-repeat -17px 0;
 			background-size: 34px 17px;
 		}
 
 		&.checked {
-			background: transparent url(img/icon-check-uncheck.png) no-repeat 0 0;
+			background: transparent url(/static/img/icon-check-uncheck.png) no-repeat 0 0;
 
 			@include hidpi {
-				background: transparent url(img/icon-check-uncheck_2x.png) no-repeat 0 0;
+				background: transparent url(/static/img/icon-check-uncheck_2x.png) no-repeat 0 0;
 				background-size: 34px 17px;
 			}
 		}
