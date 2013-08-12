@@ -506,6 +506,42 @@ html.lt-ie8 {
 	}
 }
 
+#pagination-next-prev {
+	@include clearfix;
+	margin: 20px 0 0 0;
+
+	a {
+		@include inline-block;
+		padding: 10px 3px 10px 3px;
+		text-decoration: none;
+		color: $grey;
+		font-size: 1em;
+		line-height: 1;
+		@include transition(all 0.15s ease-out);
+		&:hover { color: #000; }
+	}
+
+	.next-page {
+		float: right;
+		padding-right: 15px;
+		background: transparent url(/static/img/icon-right-pointer.png) no-repeat right center;
+		@include hidpi {
+			background: transparent url(/static/img/icon-right-pointer_2x.png) no-repeat right center;
+			background-size: 6px 6px;
+		}
+	}
+
+	.prev-page {
+		float: left;
+		padding-left: 15px;
+		background: transparent url(/static/img/icon-left-pointer.png) no-repeat 0 center;
+		@include hidpi {
+			background: transparent url(/static/img/icon-left-pointer_2x.png) no-repeat 0 center;
+			background-size: 6px 6px;
+		}
+	}
+}
+
 article.page {
 	position: relative;
 

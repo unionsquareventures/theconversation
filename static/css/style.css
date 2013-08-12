@@ -1390,6 +1390,47 @@ html.lt-ie8 #main-nav a {
           background: transparent url(/static/img/icon-right-pointer_2x.png) no-repeat right center;
           background-size: 6px 6px; } }
 
+#pagination-next-prev {
+  *zoom: 1;
+  margin: 20px 0 0 0; }
+  #pagination-next-prev:before, #pagination-next-prev:after {
+    content: " ";
+    display: table; }
+  #pagination-next-prev:after {
+    clear: both; }
+  #pagination-next-prev a {
+    display: inline-block;
+    vertical-align: baseline;
+    zoom: 1;
+    *display: inline;
+    *vertical-align: auto;
+    padding: 10px 3px 10px 3px;
+    text-decoration: none;
+    color: gray;
+    font-size: 1em;
+    line-height: 1;
+    -webkit-transition: all 0.15s ease-out;
+    -moz-transition: all 0.15s ease-out;
+    transition: all 0.15s ease-out; }
+    #pagination-next-prev a:hover {
+      color: #000; }
+  #pagination-next-prev .next-page {
+    float: right;
+    padding-right: 15px;
+    background: transparent url(/static/img/icon-right-pointer.png) no-repeat right center; }
+    @media only screen and (-webkit-min-device-pixel-ratio: 1.3), only screen and (min--moz-device-pixel-ratio: 1.3), only screen and (-o-min-device-pixel-ratio: 1.3 / 1), only screen and (min-resolution: 125dpi), only screen and (min-resolution: 1.3dppx) {
+      #pagination-next-prev .next-page {
+        background: transparent url(/static/img/icon-right-pointer_2x.png) no-repeat right center;
+        background-size: 6px 6px; } }
+  #pagination-next-prev .prev-page {
+    float: left;
+    padding-left: 15px;
+    background: transparent url(/static/img/icon-left-pointer.png) no-repeat 0 center; }
+    @media only screen and (-webkit-min-device-pixel-ratio: 1.3), only screen and (min--moz-device-pixel-ratio: 1.3), only screen and (-o-min-device-pixel-ratio: 1.3 / 1), only screen and (min-resolution: 125dpi), only screen and (min-resolution: 1.3dppx) {
+      #pagination-next-prev .prev-page {
+        background: transparent url(/static/img/icon-left-pointer_2x.png) no-repeat 0 center;
+        background-size: 6px 6px; } }
+
 article.page {
   position: relative; }
   article.page .grey {
