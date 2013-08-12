@@ -8,7 +8,7 @@ function USV_fill_hackpad_url() {
     }
 }
 function USV_setup_tinymce() {
-    if($('.mce-tinymce').length == 0) {
+    if($('.mce-tinymce').length === 0) {
         // Setup TinyMCE
         var tinymce_plugins = "advlist, autolink, autosave, code, fullscreen, link, paste, preview";
         var tinymce_toolbar = "undo redo | bold italic strikethrough bullist numlist | blockquote link unlink | code";
@@ -53,6 +53,7 @@ $(function() {
 		menu: '#mobile-menu',
 		trigger: '#menu-trigger',
 		animated: false,
+    keyboardShortcuts: false,
 		closeOnContentClick: false,
 		beforeOpen: function(){
 			$('#jPanelMenu-menu').css("visibility","visible");
