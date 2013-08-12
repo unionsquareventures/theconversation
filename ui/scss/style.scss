@@ -1298,19 +1298,19 @@ article.page {
 	}
 
 	.upvote-button {
-		background: transparent url(img/icon-upvote-big.png) no-repeat 0 center;
+		background: transparent url(/static/img/icon-upvote-big.png) no-repeat 0 center;
 
 		@include hidpi {
-			background: transparent url(img/icon-upvote-big_2x.png) no-repeat 0 center;
+			background: transparent url(/static/img/icon-upvote-big_2x.png) no-repeat 0 center;
 			background-size: 12px 6px;
 		}
 	}
 
 	.comments-button {
-		background: transparent url(img/icon-comment-big.png) no-repeat 0 center;
+		background: transparent url(/static/img/icon-comment-big.png) no-repeat 0 center;
 
 		@include hidpi {
-			background: transparent url(img/icon-comment-big_2x.png) no-repeat 0 center;
+			background: transparent url(/static/img/icon-comment-big_2x.png) no-repeat 0 center;
 			background-size: 16px 14px;
 		}
 	}
