@@ -1488,14 +1488,24 @@ article.page {
 	}
 
 	li.hackpad {
+		margin-top: 20px;
 		position: relative;
+	}
+
+	li.featured, li.deleted {
+		position: relative;
+	}
+
+	li.for-submit {
+		padding-top: 0;
+		padding-bottom: 0;
 	}
 
 	#hackpad_url {
 		display: none;
 	}
 
-	#toggle-hackpad-url {
+	#toggle-hackpad-url, #toggle-featured, #toggle-deleted {
 		position: absolute;
 		top: 0.75em;
 		left: 110px;
@@ -1517,6 +1527,14 @@ article.page {
 				background-size: 34px 17px;
 			}
 		}
+	}
+
+	#toggle-featured {
+		left: 80px;
+	}
+
+	#toggle-deleted {
+		left: 70px;
 	}
 }
 
@@ -1586,6 +1604,8 @@ article.page {
 	border: 1px solid $light-grey;
 	border-radius: 3px;
 }
+
+
 
 /* ================================ Media Quries ========================== */
 
@@ -1758,6 +1778,36 @@ article.page {
 			width: 34%;
 		}
 	}
+}
+
+/* ================================ Zach =============================== */
+
+a {
+    color: #779734;
+    text-decoration: none;
+}
+.edit-post {
+    text-decoration: none;
+    margin: 5px 0px 0px 0px;
+    padding-left: 22px;
+    font-weight: 600;
+    display: block;
+    color: #86aa3b;
+    background: transparent url(/static/img/icon-edit-big.png) no-repeat 0 center;
+}
+.mce-charcount {
+    position: absolute !important;
+    top: 0 !important;
+    right: 0 !important;
+    padding: 8px !important;
+}
+.mce-charcount-overflow {
+    font-weight: bold !important;
+    color: red !important;
+}
+.field-errors {
+    margin: 0px 0px 10px 0px;
+    color: #980010;
 }
 
 /* ================================ Helpers =============================== */

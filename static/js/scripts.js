@@ -100,4 +100,13 @@ $(function() {
 			$('#post_hackpad_url').hide();
 		}
 	});
+
+  $('#toggle-featured').click(function(){
+    $(this).toggleClass('checked');
+  });
+
+  $('#toggle-deleted').click(function(){
+    $(this).toggleClass('checked');
+  });
+
 });

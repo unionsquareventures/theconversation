@@ -2215,10 +2215,16 @@ article.page {
   #submit-form .submit-form-button:hover {
     background-color: #86aa3b; }
 #submit-form li.hackpad {
+  margin-top: 20px;
   position: relative; }
+#submit-form li.featured, #submit-form li.deleted {
+  position: relative; }
+#submit-form li.for-submit {
+  padding-top: 0;
+  padding-bottom: 0; }
 #submit-form #hackpad_url {
   display: none; }
-#submit-form #toggle-hackpad-url {
+#submit-form #toggle-hackpad-url, #submit-form #toggle-featured, #submit-form #toggle-deleted {
   position: absolute;
   top: 0.75em;
   left: 110px;
@@ -2227,15 +2233,19 @@ article.page {
   height: 17px;
   background: transparent url(/static/img/icon-check-uncheck.png) no-repeat -17px 0; }
   @media only screen and (-webkit-min-device-pixel-ratio: 1.3), only screen and (min--moz-device-pixel-ratio: 1.3), only screen and (-o-min-device-pixel-ratio: 1.3 / 1), only screen and (min-resolution: 125dpi), only screen and (min-resolution: 1.3dppx) {
-    #submit-form #toggle-hackpad-url {
+    #submit-form #toggle-hackpad-url, #submit-form #toggle-featured, #submit-form #toggle-deleted {
       background: transparent url(/static/img/icon-check-uncheck_2x.png) no-repeat -17px 0;
       background-size: 34px 17px; } }
-  #submit-form #toggle-hackpad-url.checked {
+  #submit-form #toggle-hackpad-url.checked, #submit-form #toggle-featured.checked, #submit-form #toggle-deleted.checked {
     background: transparent url(/static/img/icon-check-uncheck.png) no-repeat 0 0; }
     @media only screen and (-webkit-min-device-pixel-ratio: 1.3), only screen and (min--moz-device-pixel-ratio: 1.3), only screen and (-o-min-device-pixel-ratio: 1.3 / 1), only screen and (min-resolution: 125dpi), only screen and (min-resolution: 1.3dppx) {
-      #submit-form #toggle-hackpad-url.checked {
+      #submit-form #toggle-hackpad-url.checked, #submit-form #toggle-featured.checked, #submit-form #toggle-deleted.checked {
         background: transparent url(/static/img/icon-check-uncheck_2x.png) no-repeat 0 0;
         background-size: 34px 17px; } }
+#submit-form #toggle-featured {
+  left: 80px; }
+#submit-form #toggle-deleted {
+  left: 70px; }
 
 /* ================================ Site Footer =========================== */
 #site-footer {
@@ -2434,6 +2444,34 @@ input[type="email"], input[type="number"], input[type="password"], input[type="s
     .footer-content .col-b {
       float: left;
       width: 34%; } }
+/* ================================ Zach =============================== */
+a {
+  color: #779734;
+  text-decoration: none; }
+
+.edit-post {
+  text-decoration: none;
+  margin: 5px 0px 0px 0px;
+  padding-left: 22px;
+  font-weight: 600;
+  display: block;
+  color: #86aa3b;
+  background: transparent url(/static/img/icon-edit-big.png) no-repeat 0 center; }
+
+.mce-charcount {
+  position: absolute !important;
+  top: 0 !important;
+  right: 0 !important;
+  padding: 8px !important; }
+
+.mce-charcount-overflow {
+  font-weight: bold !important;
+  color: red !important; }
+
+.field-errors {
+  margin: 0px 0px 10px 0px;
+  color: #980010; }
+
 /* ================================ Helpers =============================== */
 /* ==========================================================================
    Helper classes

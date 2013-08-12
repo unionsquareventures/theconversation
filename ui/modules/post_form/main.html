@@ -30,23 +30,29 @@
                 <input id="post_hackpad_url" name="hackpad_url" type="text" value="{{ post.hackpad_url or '' }}"
                                         style="display: {{'block' if post.has_hackpad else 'none' }};" />
             </li>
-            <li>
-                {% if handler.is_admin() %}
-                        <label for="post_featured">Featured</label>
-                        <div class="field-errors">{{ field_errors(errors, 'featured') }}</div>
-                        <input type="checkbox" id="post_featured" name="featured" value="true"
-                                                {{ 'checked' if post.featured else '' }} />
-                {% end %}
+            
+            {% if handler.is_admin() %}
+            <li class="featured">
+                    <div id="toggle-featured"></div>
+                    <label for="post_featured">Featured</label>
+                    <div class="field-errors">{{ field_errors(errors, 'featured') }}</div>
+                    <input type="checkbox" id="post_featured" name="featured" value="true"
+                                            {{ 'checked' if post.featured else '' }} />
             </li>
-            <li>
-                {% if not post._created %}
-                        <label for="post_deleted">Deleted</label>
-                        <div class="field-errors">{{ field_errors(errors, 'deleted') }}</div>
-                        <input type="checkbox" id="post_deleted" name="deleted" value="true"
-                                                {{ 'checked' if post.deleted else '' }} />
-                {% end %}
+            {% end %}
+            
+            
+            {% if not post._created %}
+            <li class="deleted">
+                    <div id="toggle-deleted"></div>
+                    <label for="post_deleted">Deleted</label>
+                    <div class="field-errors">{{ field_errors(errors, 'deleted') }}</div>
+                    <input type="checkbox" id="post_deleted" name="deleted" value="true"
+                                            {{ 'checked' if post.deleted else '' }} />
             </li>
-            <li>
+            {% end %}
+            
+            <li class="for-submit">
                 <button type="submit" class="submit-form-button">Submit</button>
             </li>
         </ol>
