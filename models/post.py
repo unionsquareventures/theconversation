@@ -87,7 +87,7 @@ class Post(Document):
                 errors['url'] = ValidationError('This URL has already been submitted', field_name='url')
 
         hackpad = self._data.get('hackpad_url', '')
-        if hackpad:
+        if hackpad and self._data.get('has_hackpad'):
             base_domain = urlparse(hackpad).netloc
             valid_hackpad_domains = ['hackpad.com', 'www.hackpad.com', '%s.hackpad.com' % settings.hackpad['domain']]
             if base_domain not in valid_hackpad_domains:
