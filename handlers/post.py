@@ -103,7 +103,12 @@ class PostHandler(BaseHandler):
         self.render('post/get.html', **self.vars)
 
     @tornado.web.asynchronous
-    def new(self, post=Post(), errors={}):
+    def new(self, post=None, errors={}):
+        if post == None:
+            post = Post()
+            post.url = self.get_argument('url', '')
+            post.title = self.get_argument('title', '')
+
         # Link creation page
         self.vars.update({
             'post': post,
