@@ -11,7 +11,7 @@
         {% end %}
     </h1>
 
-        <span class="post-date">{{ post.date_created.strftime("%B %d, %Y") }}</span>
+        <span class="post-date">{{ pretty_date(post.date_created) }}</span>
 
         <div class="meta-wrapper clearfix">
             <div class="profile-photo">

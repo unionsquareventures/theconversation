@@ -23,7 +23,7 @@
                         </a>
                       </div>
                       <a class="username" href="http://www.twitter.com/{{ post.user.username }}" target="_blank">@{{ post.user.username }}</a>
-                      <span class="time">{{ post.date_created.strftime("%B %d, %Y") }}</span>
+                      <span class="time">{{ pretty_date(post.date_created) }}</span>
                       {% module ajax_upvote_link(post=post) %}
                       <a class="comments-count" href="/posts/{{ post.slug }}#disqus_thread">0 comments</a>
                   </div>
@@ -62,7 +62,7 @@
                   {% end %}
                   <div class="meta">
                     <a class="username" href="http://www.twitter.com/{{ post.user.username }}" target="_blank">@{{ post.user.username }}</a>
-                      <span class="time">{{ post.date_created.strftime("%B %d, %Y") }}</span>
+                      <span class="time">{{ pretty_date(post.date_created) }}</span>
                       {% module ajax_upvote_link(post=post) %}
                       <a class="comments-count" href="/posts/{{ post.slug }}#disqus_thread">0 comments</a>
                   </div>
