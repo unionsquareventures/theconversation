@@ -1,17 +1,29 @@
 import settings
+import tornado.escape
 import tornado.web
 import tornado.auth
 import tornado.httpserver
 from models.user_info import UserInfo, User, AccessToken
 from base import BaseHandler
+import urlparse
 
 class TwitterLoginHandler(BaseHandler, tornado.auth.TwitterMixin):
+    def get_next(self):
+        next = self.get_argument('next', '/')
+        if next == self.request.path:
+            next = '/'
+        next = urlparse.urljoin(settings.base_url, next)
+        return next
+
     @tornado.web.asynchronous
     def get(self):
+        callback_uri = urlparse.urljoin(settings.base_url, '/auth/twitter/')
+        callback_uri += '?next=%s' % tornado.escape.url_escape(self.get_next())
+
         if self.get_argument("oauth_token", None):
             self.get_authenticated_user(callback=self.async_callback(self._on_login))
             return
-        self.authorize_redirect()
+        self.authorize_redirect(callback_uri=callback_uri)
 
     def _on_login(self, user_obj):
         if not user_obj:
@@ -39,7 +51,7 @@ class TwitterLoginHandler(BaseHandler, tornado.auth.TwitterMixin):
         else:
             u = UserInfo(user=User(**user), access_token=AccessToken(**access_token))
         u.save()
-        self.redirect("/")
+        self.redirect(self.get_next())
 
 class LogoutHandler(BaseHandler):
     @tornado.web.asynchronous
