@@ -1,16 +1,19 @@
+upstream tornado {
+  server 127.0.0.1:7777;
+}
+
 server {
   server_name       localhost;
   listen            <%= ENV['PORT'] %>;
-
-  upstream tornado {
-    server 127.0.0.1:7777;
-  }
 
   # USV.com Tornado server #
   location ~ ^/(posts|auth|static|fake_error|delete_user|deleted_posts|featured_posts|search|generate_hackpad)((/?$)|((/|\?).*$)) {
     proxy_pass http://tornado;
   }
   location ~ ^/(?P<year>[0-9]+)/(?P<month>[0-9]+)/(?P<slug>[\w\s-]+).php$ {
+    proxy_pass http://tornado;
+  }
+  location / {
     proxy_pass http://tornado;
   }
 
