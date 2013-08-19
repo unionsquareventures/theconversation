@@ -2059,8 +2059,38 @@ article.page {
   .article-post .post-date {
     font-size: 0.85em;
     color: gray; }
+  .article-post .shared-link {
+    margin-bottom: 10px;
+    display: block;
+    background-color: #eaf2d9;
+    padding: 25px;
+    text-align: center;
+    font-size: 21px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -o-text-overflow: ellipsis; }
+    .article-post .shared-link:hover {
+      background-color: #dfebc6; }
+  .article-post .post-body-hackpad-link {
+    display: inline-block;
+    vertical-align: baseline;
+    zoom: 1;
+    *display: inline;
+    *vertical-align: auto;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 2px;
+    background-color: #6188CC;
+    vertical-align: middle;
+    color: #fff !important;
+    text-decoration: none !important; }
+    .article-post .post-body-hackpad-link:hover {
+      background-color: #7497d2; }
   .article-post .meta-wrapper {
-    margin-top: 10px; }
+    margin-top: 10px;
+    margin-bottom: 10px; }
   .article-post .author {
     font-weight: 600;
     color: #000;
@@ -2119,6 +2149,10 @@ article.page {
       position: relative; }
       .article-post h1 {
         font-size: 2em; }
+      .article-post .shared-link {
+        font-size: 28px; }
+      .article-post .meta-wrapper {
+        margin-bottom: 0; }
       .article-post .post-body {
         font-size: 1.125em; }
       .article-post .author {
@@ -2153,6 +2187,8 @@ article.page {
           display: none; }
       .article-post h1 {
         margin-bottom: 20px; }
+      .article-post .post-body {
+        margin-top: 10px; }
       .article-post .profile-photo {
         width: 188px; }
         .article-post .profile-photo img {
