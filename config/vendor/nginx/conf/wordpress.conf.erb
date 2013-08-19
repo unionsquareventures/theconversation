@@ -2,6 +2,11 @@ server {
   server_name       localhost;
   listen            <%= ENV['PORT'] %>;
 
+  # USV.com Tornado server
+  location ~ ^/posts/(.*)$ {
+    proxy_pass http://localhost:7777;
+  }
+
   # Some basic cache-control for static files to be sent to the browser
   location ~ \.(html|htm|rtf|rtx|svg|svgz|txt|xsd|xsl|xml)$ {
     try_files       $uri =404;
