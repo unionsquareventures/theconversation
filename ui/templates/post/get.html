@@ -25,6 +25,7 @@
                 <span class="author">by {{ post.user.fullname }}</span>
                 {% module ajax_upvote_link(post=post) %}
                 <a href="/posts/{{ post.slug }}#disqus_thread" class="comments-button">0 comments</a>
+                <a href="/posts/{{ post.slug }}/edit" class="edit-post">Edit Post</a>
                 {% if post.user.id_str == user_id_str or is_admin() %}
                     <a href="/posts/{{ post.slug }}/edit" class="edit-post">Edit Post</a>
                 {% end %}
@@ -45,9 +46,9 @@
                 <span>apple.com/example-of-very-long-url-slug &rarr;</span>
             </a>
 
-            <p>Lorem ipsum. Share your thoughts here: <a class="post-body-hackpad-link" target="_blank" href="#">Hackpad</a></p>
-
             {% raw post.body_html %}
+
+            <p>Lorem ipsum. Share your thoughts here: <a class="post-body-hackpad-link" target="_blank" href="#">Hackpad &rarr;</a></p>
         </div><!--end of post-body-->
 
         <div class="comment-box">

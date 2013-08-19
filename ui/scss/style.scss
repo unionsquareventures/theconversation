@@ -1344,7 +1344,7 @@ article.page {
 	.author-name { display: none; font-weight: 600; color: #000; padding-top: 10px; }
 
 	.profile-photo {
-		width: 30%;
+		width: 35%;
 		margin-right: 5%;
 		float: left;
 		img { width: 100%; height: auto; }
@@ -1360,7 +1360,7 @@ article.page {
 		width: 47%;
 	}
 
-	.upvote-button, .comments-button {
+	.upvote-button, .comments-button, .edit-post {
 		text-decoration: none;
 		color: $green;
 		margin: 5px 0 0 0;
@@ -1369,6 +1369,15 @@ article.page {
 		display: block;
 
 		&:hover { text-decoration: underline; }
+	}
+
+	.edit-post {
+    	background: transparent url(/static/img/icon-edit-big.png) no-repeat 0 center;
+
+    	@include hidpi {
+			background: transparent url(/static/img/icon-edit-big_2x.png) no-repeat 0 center;
+			background-size: 15px 14px;
+		}
 	}
 
 	.upvote-button {
@@ -1852,15 +1861,7 @@ a {
     color: #779734;
     text-decoration: none;
 }
-.edit-post {
-    text-decoration: none;
-    margin: 5px 0px 0px 0px;
-    padding-left: 22px;
-    font-weight: 600;
-    display: block;
-    color: #86aa3b;
-    background: transparent url(/static/img/icon-edit-big.png) no-repeat 0 center;
-}
+
 .mce-charcount {
     position: absolute !important;
     top: 0 !important;

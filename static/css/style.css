@@ -2101,7 +2101,7 @@ article.page {
     color: #000;
     padding-top: 10px; }
   .article-post .profile-photo {
-    width: 30%;
+    width: 35%;
     margin-right: 5%;
     float: left; }
     .article-post .profile-photo img {
@@ -2114,15 +2114,21 @@ article.page {
   .article-post .profile-links {
     float: left;
     width: 47%; }
-  .article-post .upvote-button, .article-post .comments-button {
+  .article-post .upvote-button, .article-post .comments-button, .article-post .edit-post {
     text-decoration: none;
     color: #86aa3b;
     margin: 5px 0 0 0;
     padding-left: 22px;
     font-weight: 600;
     display: block; }
-    .article-post .upvote-button:hover, .article-post .comments-button:hover {
+    .article-post .upvote-button:hover, .article-post .comments-button:hover, .article-post .edit-post:hover {
       text-decoration: underline; }
+  .article-post .edit-post {
+    background: transparent url(/static/img/icon-edit-big.png) no-repeat 0 center; }
+    @media only screen and (-webkit-min-device-pixel-ratio: 1.3), only screen and (min--moz-device-pixel-ratio: 1.3), only screen and (-o-min-device-pixel-ratio: 1.3 / 1), only screen and (min-resolution: 125dpi), only screen and (min-resolution: 1.3dppx) {
+      .article-post .edit-post {
+        background: transparent url(/static/img/icon-edit-big_2x.png) no-repeat 0 center;
+        background-size: 15px 14px; } }
   .article-post .upvote-button {
     background: transparent url(/static/img/icon-upvote-big.png) no-repeat 0 center; }
     @media only screen and (-webkit-min-device-pixel-ratio: 1.3), only screen and (min--moz-device-pixel-ratio: 1.3), only screen and (-o-min-device-pixel-ratio: 1.3 / 1), only screen and (min-resolution: 125dpi), only screen and (min-resolution: 1.3dppx) {
@@ -2509,15 +2515,6 @@ input[type="email"], input[type="number"], input[type="password"], input[type="s
 a {
   color: #779734;
   text-decoration: none; }
-
-.edit-post {
-  text-decoration: none;
-  margin: 5px 0px 0px 0px;
-  padding-left: 22px;
-  font-weight: 600;
-  display: block;
-  color: #86aa3b;
-  background: transparent url(/static/img/icon-edit-big.png) no-repeat 0 center; }
 
 .mce-charcount {
   position: absolute !important;
