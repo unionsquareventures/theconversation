@@ -12,7 +12,7 @@ server {
     proxy_pass http://127.0.0.1:7777;
     }
   # '/' or '/?sort_by=hot' etc.
-  location ~ /(\?(.*)?)?$ {
+  location ~ ^/(\?(.*)?)?$ {
     proxy_pass http://127.0.0.1:7777;
   }
 
