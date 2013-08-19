@@ -25,18 +25,15 @@
                 <span class="author">by {{ post.user.fullname }}</span>
                 {% module ajax_upvote_link(post=post) %}
                 <a href="/posts/{{ post.slug }}#disqus_thread" class="comments-button">0 comments</a>
-                <a href="/posts/{{ post.slug }}/edit" class="edit-post">Edit Post</a>
                 {% if post.user.id_str == user_id_str or is_admin() %}
                     <a href="/posts/{{ post.slug }}/edit" class="edit-post">Edit Post</a>
                 {% end %}
 
                 <div class="share-widget">
                     <span class="heading">Share Post</span>
-                    <div id="share-twitter" data-url="http://example.com/" data-text="Yahoo Acquires Tumblr"></div>
-                    <div id="share-tumblr" data-url="http://example.com/" data-text="Yahoo Acquires Tumblr"></div>
-                    <div id="share-facebook" data-url="http://example.com/" data-text="Yahoo Acquires Tumblr"></div>
-                    <div id="share-googleplus" data-url="http://example.com/" data-text="Yahoo Acquires Tumblr"></div>
-                    <img src="/static/img/fpo/share-widget.png">
+                    <div class="share-twitter" data-url="http://sharrre.com/" data-text="Yahoo Acquires Tumblr"></div>
+                    <div class="share-facebook" data-url="http://sharrre.com/" data-text="Yahoo Acquires Tumblr"></div>
+                    <div class="share-googleplus" data-url="http://sharrre.com/" data-text="Yahoo Acquires Tumblr"></div>
                 </div>
             </div>
         </div>
@@ -50,6 +47,13 @@
 
             <p>Lorem ipsum. Share your thoughts here: <a class="post-body-hackpad-link" target="_blank" href="#">Hackpad &rarr;</a></p>
         </div><!--end of post-body-->
+
+        <div class="share-widget for-mobile">
+            <span class="heading">Share Post</span>
+            <div class="share-twitter" data-url="http://sharrre.com/" data-text="Yahoo Acquires Tumblr"></div>
+            <div class="share-facebook" data-url="http://sharrre.com/" data-text="Yahoo Acquires Tumblr"></div>
+            <div class="share-googleplus" data-url="http://sharrre.com/" data-text="Yahoo Acquires Tumblr"></div>
+        </div>
 
         <div class="comment-box">
             <div id="disqus_thread"></div>

@@ -1402,6 +1402,75 @@ article.page {
 		display: none;
 		margin-top: 20px;
 		.heading { display: block; font-weight: 600; color: #000; margin-bottom: 10px; }
+
+		.sharrre {
+			margin-bottom: 5px;
+
+			a {
+				display: block;
+				width: 36px;
+				border-radius: 2px;
+				color: #fff !important;
+				text-decoration: none;
+				font-size: 0.85em;
+				font-weight: 600;
+				vertical-align: middle;
+				padding: 2px 4px 2px 28px;
+				background-repeat: no-repeat;
+				background-position: 5px 7px;
+
+				&:hover { opacity: 0.85; }
+			}
+		}
+
+		.share-twitter a { 
+			background-color: #1DACEC;
+			background-image: url(/static/img/icon-twitter.png);
+
+			@include hidpi {
+				background-image: url(/static/img/icon-twitter_2x.png);
+				background-size: 12px 10px;
+			}
+		}
+		.share-facebook a { 
+			background-color: #314B82;
+			background-image: url(/static/img/icon-facebook.png);
+			background-position: 4px 6px;
+
+			@include hidpi {
+				background-image: url(/static/img/icon-facebook_2x.png);
+				background-size: 14px 12px;
+			}
+		}
+		.share-googleplus a { 
+			background-color: #DD4A39;
+			background-image: url(/static/img/icon-googleplus.png);
+			background-position: 5px 6px;
+
+			@include hidpi {
+				background-image: url(/static/img/icon-googleplus_2x.png);
+				background-size: 14px 12px;
+			}
+		}
+	}
+
+	.share-widget.for-mobile {
+		display: block;
+		padding: 10px 0 15px 0;
+		border-top: 1px solid #ccc;
+		border-bottom: 1px solid #ccc;
+
+		.sharrre {
+			@include inline-block;
+			margin-right: 5px;
+		}
+	}
+
+	@media only screen and (min-width: 600px) {
+		.profile-photo {
+			width: 20%;
+			margin-right: 3%;
+		}
 	}
 
 	@media only screen and (min-width: 769px) {
@@ -1445,6 +1514,7 @@ article.page {
 		}
 
 		.share-widget { display: block; }
+		.share-widget.for-mobile { display: none; }
 	}
 
 	@media only screen and (min-width: 1100px) {
