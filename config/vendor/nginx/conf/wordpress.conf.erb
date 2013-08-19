@@ -4,7 +4,7 @@ server {
 
   # USV.com Tornado server
   location ~ ^/posts/(.*)$ {
-    proxy_pass http://localhost:7777;
+    proxy_pass http://127.0.0.1:7777;
   }
 
   # Some basic cache-control for static files to be sent to the browser
