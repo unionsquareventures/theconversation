@@ -3,10 +3,16 @@ server {
   listen            <%= ENV['PORT'] %>;
 
   # USV.com Tornado server #
+  # From server.py
   location ~ ^/(posts|auth|static|fake_error|delete_user|deleted_posts|featured_posts|search|generate_hackpad)((/?$)|((/|\?).*$)) {
     proxy_pass http://127.0.0.1:7777;
-  }
+    }
+  # Old style URLs, eg. /2012/03/example-post.php
   location ~ ^/(?P<year>[0-9]+)/(?P<month>[0-9]+)/(?P<slug>[\w\s-]+).php$ {
+    proxy_pass http://127.0.0.1:7777;
+    }
+  # '/' or '/?sort_by=hot' etc.
+  location ~ /(\?(.*)?)?$ {
     proxy_pass http://127.0.0.1:7777;
   }
 
