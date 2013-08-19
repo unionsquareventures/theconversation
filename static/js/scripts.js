@@ -7,6 +7,13 @@ function USV_fill_hackpad_url() {
       });
     }
 }
+
+function USV_remove_tinymce() {
+    if($('.mce-tinymce').length > 0) {
+        $('#post_body_raw').tinymce().remove();
+    }
+}
+
 function USV_setup_tinymce() {
     if($('.mce-tinymce').length == 0) {
         // Setup TinyMCE
@@ -74,12 +81,13 @@ $(function() {
 		focus: '#post_title',
 
 		callbacks: {
-			beforeOpen: function() {
+			open: function() {
 				if($(window).width() < 700) {
 					this.st.focus = false;
 				} else {
 					this.st.focus = '#name';
 				}
+                USV_remove_tinymce();
                 USV_setup_tinymce();
                 USV_fill_hackpad_url();
 			}
