@@ -39,13 +39,16 @@
         </div>
 
         <div class="post-body">
+          {#
             <a class="shared-link" href="http://apple.com/example-of-very-long-url-slug" target="_blank" title="Source: http://apple.com/example-of-very-long-url-slug">
                 <span>apple.com/example-of-very-long-url-slug &rarr;</span>
             </a>
-
+          #}
             {% raw post.body_html %}
 
+            {#
             <p>Lorem ipsum. Share your thoughts here: <a class="post-body-hackpad-link" target="_blank" href="#">Hackpad &rarr;</a></p>
+            #}
         </div><!--end of post-body-->
 
         <div class="share-widget for-mobile">
