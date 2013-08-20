@@ -31,18 +31,29 @@
 
                 <div class="share-widget">
                     <span class="heading">Share Post</span>
-                    <div id="share-twitter" data-url="http://example.com/" data-text="Yahoo Acquires Tumblr"></div>
-                    <div id="share-tumblr" data-url="http://example.com/" data-text="Yahoo Acquires Tumblr"></div>
-                    <div id="share-facebook" data-url="http://example.com/" data-text="Yahoo Acquires Tumblr"></div>
-                    <div id="share-googleplus" data-url="http://example.com/" data-text="Yahoo Acquires Tumblr"></div>
-                    <img src="/static/img/fpo/share-widget.png">
+                    <div class="share-twitter" data-url="http://sharrre.com/" data-text="Yahoo Acquires Tumblr"></div>
+                    <div class="share-facebook" data-url="http://sharrre.com/" data-text="Yahoo Acquires Tumblr"></div>
+                    <div class="share-googleplus" data-url="http://sharrre.com/" data-text="Yahoo Acquires Tumblr"></div>
                 </div>
             </div>
         </div>
 
         <div class="post-body">
+            <a class="shared-link" href="http://apple.com/example-of-very-long-url-slug" target="_blank" title="Source: http://apple.com/example-of-very-long-url-slug">
+                <span>apple.com/example-of-very-long-url-slug &rarr;</span>
+            </a>
+
             {% raw post.body_html %}
+
+            <p>Lorem ipsum. Share your thoughts here: <a class="post-body-hackpad-link" target="_blank" href="#">Hackpad &rarr;</a></p>
         </div><!--end of post-body-->
+
+        <div class="share-widget for-mobile">
+            <span class="heading">Share Post</span>
+            <div class="share-twitter" data-url="http://sharrre.com/" data-text="Yahoo Acquires Tumblr"></div>
+            <div class="share-facebook" data-url="http://sharrre.com/" data-text="Yahoo Acquires Tumblr"></div>
+            <div class="share-googleplus" data-url="http://sharrre.com/" data-text="Yahoo Acquires Tumblr"></div>
+        </div>
 
         <div class="comment-box">
             <div id="disqus_thread"></div>

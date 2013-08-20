@@ -15,7 +15,7 @@ function USV_remove_tinymce() {
 }
 
 function USV_setup_tinymce() {
-    if($('.mce-tinymce').length == 0) {
+    if($('.mce-tinymce').length === 0) {
         // Setup TinyMCE
         var tinymce_plugins = "advlist, autolink, autosave, code, fullscreen, link, paste, preview";
         var tinymce_toolbar = "undo redo | bold italic strikethrough bullist numlist | blockquote link unlink | code";
@@ -60,6 +60,7 @@ $(function() {
 		menu: '#mobile-menu',
 		trigger: '#menu-trigger',
 		animated: false,
+    keyboardShortcuts: false,
 		closeOnContentClick: false,
 		beforeOpen: function(){
 			$('#jPanelMenu-menu').css("visibility","visible");
@@ -87,9 +88,9 @@ $(function() {
 				} else {
 					this.st.focus = '#name';
 				}
-                USV_remove_tinymce();
-                USV_setup_tinymce();
-                USV_fill_hackpad_url();
+        USV_remove_tinymce();
+        USV_setup_tinymce();
+        USV_fill_hackpad_url();
 			}
 		}
 	});
@@ -107,4 +108,51 @@ $(function() {
 			$('#post_hackpad_url').hide();
 		}
 	});
+
+  $('#toggle-featured').click(function(){
+    $(this).toggleClass('checked');
+  });
+
+  $('#toggle-deleted').click(function(){
+    $(this).toggleClass('checked');
+  });
+
+  //share widget
+  $('.share-twitter').sharrre({
+    share: {
+      twitter: true
+    },
+    enableHover: false,
+    enableTracking: true,
+    click: function(api, options){
+      api.simulateClick();
+      api.openPopup('twitter');
+    }
+  });
+
+  $('.share-facebook').sharrre({
+    share: {
+      facebook: true
+    },
+    enableHover: false,
+    enableTracking: true,
+    click: function(api, options){
+      api.simulateClick();
+      api.openPopup('facebook');
+    }
+  });
+
+  $('.share-googleplus').sharrre({
+    share: {
+      googlePlus: true
+    },
+    enableHover: false,
+    enableTracking: true,
+    urlCurl: '',
+    click: function(api, options){
+      api.simulateClick();
+      api.openPopup('googlePlus');
+    }
+  });
+
 });

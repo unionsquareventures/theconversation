@@ -42,7 +42,9 @@
 
         <ul class="feed">
             {% if count == 0 and rstart != 0 %}
+              <li class="new_posts_notification">
                 <a href="/?sort_by={{ sort_by }}" class="new_posts_link">New posts ({{ rstart }})</a>
+              </li>
             {% end %}
 
             {% for post in posts %}
@@ -71,18 +73,14 @@
               {% end %}
         </ul><!--end of feed-->
 
-        <ul id="pagination">
+        <div id="pagination-next-prev">
           {% if rstart > 0 %}
-            <li>
-              <a href="?sort_by={{ sort_by }}&anchor={{ posts[0].id }}&action=before&count={{ count - per_page }}">Prev</a>
-            </li>
+              <a class="prev-page" href="?sort_by={{ sort_by }}&anchor={{ posts[0].id }}&action=before&count={{ count - per_page }}">Prev</a>
           {% end %}
           {% if rend < num_posts - 1 %}
-            <li>
-              <a href="?sort_by={{sort_by }}&anchor={{ posts[-1].id }}&action=after&count={{ count + per_page }}">Next</a>
-            </li>
+              <a class="next-page" href="?sort_by={{sort_by }}&anchor={{ posts[-1].id }}&action=after&count={{ count + per_page }}">Next</a>
           {% end %}
-        </ul>
+        </div>
     </section>
   </div><!--end of main-->
 {% end %}

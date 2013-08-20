@@ -12,35 +12,7 @@
 
     <link rel="stylesheet" href="/static/css/style.css">
     <script src="/static/js/vendor/respond.min.js"></script>
-    <style type="text/css">
-        a {
-            color: #779734;
-            text-decoration: none;
-        }
-        .edit-post {
-            text-decoration: none;
-            margin: 5px 0px 0px 0px;
-            padding-left: 22px;
-            font-weight: 600;
-            display: block;
-            color: #86aa3b;
-            background: transparent url(/static/img/icon-edit-big.png) no-repeat 0 center;
-        }
-        .mce-charcount {
-            position: absolute !important;
-            top: 0 !important;
-            right: 0 !important;
-            padding: 8px !important;
-        }
-        .mce-charcount-overflow {
-            font-weight: bold !important;
-            color: red !important;
-        }
-        .field-errors {
-            margin: 0px 0px 10px 0px;
-            color: #980010;
-        }
-    </style>
+
     {% block css %}
     {% end %}
 
@@ -90,12 +62,7 @@
                   <li><a href="/jobs/">Jobs</a></li>
                 </ul>
 
-                <div class="header-search-container">
-                    <form action="/search" method="get">
-                      <input type="search" placeholder="Search" name="query" />
-                      <a class="submit-button" href="#"></a>
-                    </form>
-                </div>
+                
 
                 <a href="#submit-form" class="header-submit-button">Submit</a>
             </header><!--end of site-header-->
