@@ -71,7 +71,10 @@ class Post(Document):
         self.validate()
         title_changed = hasattr(self, '_changed_fields') and 'title' in self._changed_fields
         if (title_changed or not self._data.get('slug')) and len(self._data.get('slugs', [])) < 6:
-            self.add_slug(unicode(self._data['title']))
+            try:
+                self.add_slug(unicode(self._data['title']))
+            except:
+                self.add_slug(unicode(self._data['title'].decode('utf-8')))
             if hasattr(self, '_changed_fields'):
                 self._changed_fields += ['slug', 'slugs']
         super(Post, self).save(*args, **kwargs)
