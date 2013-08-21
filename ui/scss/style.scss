@@ -1643,6 +1643,8 @@ article.page {
 		position: relative;
 	}
 
+	#post_featured, #post_deleted { display: none; }
+
 	li.for-submit {
 		padding-top: 0;
 		padding-bottom: 0;
@@ -1694,7 +1696,7 @@ article.page {
 	padding: 30px 0;
 	color: $light-grey;
 
-	h4 { font-size: 1em; margin: 0; }
+	h4 { font-size: 1em; margin: 0; line-height: 1.2; }
 
 	.address, .telephone {
 		display: block;

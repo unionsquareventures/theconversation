@@ -2343,6 +2343,8 @@ article.page {
   position: relative; }
 #submit-form li.featured, #submit-form li.deleted {
   position: relative; }
+#submit-form #post_featured, #submit-form #post_deleted {
+  display: none; }
 #submit-form li.for-submit {
   padding-top: 0;
   padding-bottom: 0; }
@@ -2380,7 +2382,8 @@ article.page {
   color: #dfdfdf; }
   #site-footer h4 {
     font-size: 1em;
-    margin: 0; }
+    margin: 0;
+    line-height: 1.2; }
   #site-footer .address, #site-footer .telephone {
     display: block; }
     #site-footer .address a, #site-footer .telephone a {
