@@ -1361,8 +1361,6 @@ html.lt-ie8 #main-nav a {
   display: none; }
 .featured-feed .content, .search-feed .content {
   margin-left: 0; }
-.featured-feed .excerpt, .search-feed .excerpt {
-  display: none; }
 
 .more-link {
   text-decoration: none;
