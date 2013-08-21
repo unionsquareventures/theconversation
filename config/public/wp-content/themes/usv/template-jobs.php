@@ -100,27 +100,27 @@ Template Name: Jobs
 						<h2>Categories</h2>
 						<div id="yo">
 							<ul class="side-nav" id="in">
-								<? foreach ($position as $key=>$value) { ?>
+								<?php foreach ($position as $key=>$value) { ?>
 									<li><a href="#in,<?=create_slug($key);?>"><?=$key;?></a></li>
-								<? } ?>
+								<?php } ?>
 							</ul>
 
 							<ul class="side-nav" id="location">
-								<? foreach ($location as $key=>$value) { ?>
+								<?php foreach ($location as $key=>$value) { ?>
 									<li><a href="#location,<?=create_slug($key);?>"><?=$key;?></a></li>
-								<? } ?>
+								<?php } ?>
 							</ul>
 
 							<ul class="side-nav" id="company">
-								<? foreach ($company as $key=>$value) { ?>
+								<?php foreach ($company as $key=>$value) { ?>
 									<li><a href="#company,<?=create_slug($key);?>"><?=$key;?></a></li>
-								<? } ?>
+								<?php } ?>
 							</ul>
 
 							<ul class="side-nav" id="title">
-								<? foreach ($title as $key=>$value) { ?>
+								<?php foreach ($title as $key=>$value) { ?>
 									<li><a href="#title,<?=create_slug($key);?>"><?=$key;?></a></li>
-								<? } ?>
+								<?php } ?>
 							</ul>
 						</div>
 					</div>
