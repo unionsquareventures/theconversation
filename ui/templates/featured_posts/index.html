@@ -27,8 +27,10 @@
                             @{{ post.user.username }}
                         </a>
                         <span class="time">{{ post.date_created.strftime("%B %d, %Y") }}</span>
-                        {% module ajax_upvote_link(post=post) %}
-                        <a class="comments-count" href="/posts/{{ post.slug }}#disqus_thread">0 comments</a>
+                        <span class="votes-and-comments">
+                            {% module ajax_upvote_link(post=post) %}
+                            <a class="comments-count" href="/posts/{{ post.slug }}#disqus_thread">0 comments</a>
+                        </span>
                     </div>
                 </div>
             </li>

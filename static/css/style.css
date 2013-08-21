@@ -1319,6 +1319,8 @@ html.lt-ie8 #main-nav a {
       *display: inline;
       *vertical-align: auto;
       margin-right: 10px; }
+    .feed .meta span.votes-and-comments {
+      display: block; }
   .feed .votes-count {
     padding-left: 15px;
     background: transparent url(/static/img/icon-upvote.png) no-repeat 0 center; }
@@ -2450,6 +2452,12 @@ input[type="email"], input[type="number"], input[type="password"], input[type="s
 
   .feed .title {
     font-size: 1.3125em; }
+  .feed .meta span.votes-and-comments {
+    display: inline-block;
+    vertical-align: baseline;
+    zoom: 1;
+    *display: inline;
+    *vertical-align: auto; }
 
   .featured-feed .title, .search-feed .title {
     font-size: 1.6875em; }

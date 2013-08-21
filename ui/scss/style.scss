@@ -417,6 +417,10 @@ html.lt-ie8 {
 			@include inline-block;
 			margin-right: 10px;
 		}
+
+		span.votes-and-comments {
+			display: block;
+		}
 	}
 
 	.votes-count {
@@ -1767,6 +1771,10 @@ article.page {
 
 	.feed {
 		.title { font-size: 1.3125em; }
+
+		.meta span.votes-and-comments {
+			@include inline-block;
+		}
 	}
 
 	.featured-feed, .search-feed {
