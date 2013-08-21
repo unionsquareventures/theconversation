@@ -1775,7 +1775,11 @@ article.page {
 		}
 	}
 
-	#pagination ul { float: right; }
+	#pagination {
+		text-align: center;
+		margin: 30px auto 0 auto;
+		width: 300px;
+	}
 }
 
 //kindle
