@@ -2462,8 +2462,10 @@ input[type="email"], input[type="number"], input[type="password"], input[type="s
   .featured-feed .title, .search-feed .title {
     font-size: 1.6875em; }
 
-  #pagination ul {
-    float: right; } }
+  #pagination {
+    text-align: center;
+    margin: 30px auto 0 auto;
+    width: 300px; } }
 @media only screen and (min-width: 720px) {
   .feed li {
     padding: 10px 0 15px 0;
