@@ -2379,13 +2379,15 @@ article.page {
   padding: 30px 0;
   color: #dfdfdf; }
   #site-footer h4 {
-    font-size: 1.125em;
+    font-size: 1em;
     margin: 0; }
   #site-footer .address, #site-footer .telephone {
     display: block; }
     #site-footer .address a, #site-footer .telephone a {
       text-decoration: none;
       color: #86aa3b; }
+  #site-footer .col-a p, #site-footer .col-b p {
+    margin: 10px 0 1em 0; }
   #site-footer .col-a a {
     color: #86aa3b;
     text-decoration: none;

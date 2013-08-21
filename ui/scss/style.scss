@@ -1694,12 +1694,15 @@ article.page {
 	padding: 30px 0;
 	color: $light-grey;
 
-	h4 { font-size: 1.125em; margin: 0; }
+	h4 { font-size: 1em; margin: 0; }
 
 	.address, .telephone {
 		display: block;
-
 		a { text-decoration: none; color: $green; }
+	}
+
+	.col-a p, .col-b p {
+		margin: 10px 0 1em 0;
 	}
 
 	.col-a a {
