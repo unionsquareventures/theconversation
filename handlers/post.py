@@ -184,7 +184,7 @@ class PostHandler(BaseHandler):
             subject = '%s shared a link on USV.com' % post.user['username']
         else:
             subject = '%s wrote a new post on USV.com' % post.user['username']
-        text = '"%s" by %s. Read it here: http://%s/posts/%s'\
+        text = '"%s" submitted by %s. Read it here: http://%s/posts/%s'\
                         % (post.title, post.user['username'],
                                         settings.base_url, post.slug)
         for user_id, address in settings.admin_user_emails.iteritems():
