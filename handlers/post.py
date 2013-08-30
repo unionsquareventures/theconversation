@@ -41,7 +41,7 @@ class PostHandler(BaseHandler):
             count += per_page
 
         page = 1
-        featured_posts = list(Post.objects(featured=True, deleted=False, **query).order_by('-date_featured')[:5])
+        featured_posts = list(Post.objects(featured=True, deleted=False, **query).order_by('-date_featured')[:7])
         lua = "local num_posts = redis.call('ZCARD', '{sort_by}')\n"
         if anchor != None:
             anchor = Post.objects(id=anchor).first()
