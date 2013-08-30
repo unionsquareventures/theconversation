@@ -417,6 +417,10 @@ html.lt-ie8 {
 			@include inline-block;
 			margin-right: 10px;
 		}
+
+		span.votes-and-comments {
+			display: block;
+		}
 	}
 
 	.votes-count {
@@ -468,9 +472,9 @@ html.lt-ie8 {
 		margin-left: 0;
 	}
 
-	.excerpt {
-		display: none;
-	}
+	// .excerpt {
+	// 	display: none;
+	// }
 }
 
 .more-link {
@@ -1643,6 +1647,8 @@ article.page {
 		position: relative;
 	}
 
+	#post_featured, #post_deleted { display: none; }
+
 	li.for-submit {
 		padding-top: 0;
 		padding-bottom: 0;
@@ -1694,12 +1700,15 @@ article.page {
 	padding: 30px 0;
 	color: $light-grey;
 
-	h4 { font-size: 1.125em; margin: 0; }
+	h4 { font-size: 1em; margin: 0; line-height: 1.2; }
 
 	.address, .telephone {
 		display: block;
-
 		a { text-decoration: none; color: $green; }
+	}
+
+	.col-a p, .col-b p {
+		margin: 10px 0 1em 0;
 	}
 
 	.col-a a {
@@ -1762,6 +1771,10 @@ article.page {
 
 	.feed {
 		.title { font-size: 1.3125em; }
+
+		.meta span.votes-and-comments {
+			@include inline-block;
+		}
 	}
 
 	.featured-feed, .search-feed {
@@ -1770,7 +1783,11 @@ article.page {
 		}
 	}
 
-	#pagination ul { float: right; }
+	#pagination {
+		text-align: center;
+		margin: 30px auto 0 auto;
+		width: 300px;
+	}
 }
 
 //kindle

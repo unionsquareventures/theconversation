@@ -31,7 +31,7 @@
                                         style="display: {{'block' if post.has_hackpad else 'none' }};" />
             </li>
             
-            {% if handler.is_admin() %}
+            
             <li class="featured">
                     <div id="toggle-featured"></div>
                     <label for="post_featured">Featured</label>
@@ -39,10 +39,10 @@
                     <input type="checkbox" id="post_featured" name="featured" value="true"
                                             {{ 'checked' if post.featured else '' }} />
             </li>
-            {% end %}
             
             
-            {% if not post._created %}
+            
+            
             <li class="deleted">
                     <div id="toggle-deleted"></div>
                     <label for="post_deleted">Deleted</label>
@@ -50,7 +50,7 @@
                     <input type="checkbox" id="post_deleted" name="deleted" value="true"
                                             {{ 'checked' if post.deleted else '' }} />
             </li>
-            {% end %}
+            
             
             <li class="for-submit">
                 <button type="submit" class="submit-form-button">Submit</button>
