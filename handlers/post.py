@@ -192,7 +192,7 @@ class PostHandler(BaseHandler):
                 continue
             print 'sending to %s' % address
             sendgrid.send_email(lambda x: None, **{
-                'from': 'info@usv.com',
+                'from': 'web@usv.com',
                 'to': address,
                 'subject': subject,
                 'text': text,
