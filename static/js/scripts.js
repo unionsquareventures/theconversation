@@ -76,6 +76,9 @@ $(function() {
 		}
 	}).resize();
 
+  USV_remove_tinymce();
+  USV_setup_tinymce();
+
 	$('.header-submit-button, #submit-trigger').magnificPopup({
 		type: 'inline',
 		preloader: false,
