@@ -112,13 +112,35 @@ $(function() {
 		}
 	});
 
-  $('#toggle-featured').click(function(){
-    $(this).toggleClass('checked');
+
+  function toggleCheckbox(fakebox, realbox) {
+    if($(realbox).attr('checked')) {
+        $(realbox).removeAttr('checked');
+        $(fakebox).removeClass('checked');
+    } else {
+        $(realbox).attr('checked', 'true');
+        $(fakebox).addClass('checked');
+    }
+  }
+
+  $('#toggle-featured').on('click', function () {
+      toggleCheckbox('#toggle-featured', '#post_featured');
   });
 
-  $('#toggle-deleted').click(function(){
-    $(this).toggleClass('checked');
+  $('#toggle-deleted').on('click', function() {
+      toggleCheckbox('#toggle-deleted', '#post_deleted');
   });
+
+  function initCheckbox(fakebox, realbox) {
+    if($(realbox).attr('checked')) {
+        $(fakebox).addClass('checked');
+    } else {
+        $(fakebox).removeClass('checked');
+    }
+  }
+
+  initCheckbox('#toggle-featured', '#post_featured');
+  initCheckbox('#toggle-deleted', '#post_deleted');
 
   //share widget
   $('.share-twitter').sharrre({
