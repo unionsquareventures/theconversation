@@ -303,18 +303,6 @@ h1.mobile-page-headline {
 	@include clearfix;
 }
 
-.hot-newest-feed {
-	width: 100%;
-}
-
-.featured-feed {
-	margin-bottom: 20px;
-}
-
-.featured-feed, .search-feed {
-	width: 100%;
-}
-
 .tabs {
 	margin: 0 0 10px 0;
 	padding: 0;
@@ -340,95 +328,6 @@ h1.mobile-page-headline {
 			color: $green;
 			font-weight: 700;
 		}
-	}
-}
-
-.feed {
-	margin: 0;
-	padding: 0;
-
-	li {
-		margin: 0;
-		padding: 8px 0 5px 0;
-		list-style: none;
-		position: relative;
-		border-bottom: 1px solid #dfdfdf;
-	}
-
-	.thumbnail {
-		display: none;
-	}
-
-	.title {
-		text-decoration: none;
-		line-height: 1;
-		font-weight: 700;
-		color: #000;
-		margin-right: 5px;
-		@include transition(color 0.15s ease-out);
-		&:link { color: #000; }
-		&:hover { color: $green; }
-	}
-
-	.excerpt {
-		color: #000;
-		padding: 7px 0 10px 0;
-	}
-
-	.source {
-		color: $grey;
-		font-size: 0.75em;
-		@include inline-block;
-	}
-
-	.meta {
-		color: $grey;
-		font-size: 0.85em;
-
-		a {
-			@include inline-block;
-			margin-right: 10px;
-			text-decoration: none;
-			color: $green;
-			&:hover { text-decoration: underline; }
-		}
-
-		span {
-			@include inline-block;
-			margin-right: 10px;
-		}
-	}
-
-	.votes-count {
-		padding-left: 15px;
-		background: transparent url(img/icon-upvote.png) no-repeat 0 center;
-		@include hidpi {
-			background: transparent url(img/icon-upvote_2x.png) no-repeat 0 center;
-			background-size: 10px 6px;
-		}
-	}
-
-	.comments-count {
-		padding-left: 15px;
-		background: transparent url(img/icon-comment-small.png) no-repeat 0 center;
-		@include hidpi {
-			background: transparent url(img/icon-comment-small_2x.png) no-repeat 0 center;
-			background-size: 12px 11px;
-		}
-	}
-}
-
-.featured-feed, .search-feed {
-	.thumbnail {
-		display: none;
-	}
-
-	.content {
-		margin-left: 0;
-	}
-
-	.excerpt {
-		display: none;
 	}
 }
 
@@ -1026,7 +925,6 @@ article.page {
 
 		.profile-links {
 			position: absolute;
-			margin-top: 10px;
 			top: 0;
 			left: auto;
 			right: 0;
@@ -1162,7 +1060,6 @@ article.page {
 
 		.profile-links {
 			position: absolute;
-			margin-top: 10px;
 			top: 0;
 			left: auto;
 			right: 0;
@@ -1173,7 +1070,7 @@ article.page {
 
 .investments-profile, .team-profile {
 	.profile-links {
-		margin-top: 20px;
+		margin-top: 10px;
 
 		.sidebar-link {
 			display: block;
@@ -1196,6 +1093,10 @@ article.page {
 	}
 
 	.rssmore { text-decoration: none; color: #222; }
+
+	@media only screen and (min-width: 1100px) {
+		.profile-links { margin-top: 0; }
+	}
 }
 
 .article-post {
@@ -1600,12 +1501,15 @@ article.page {
 	padding: 30px 0;
 	color: $light-grey;
 
-	h4 { font-size: 1.125em; margin: 0; }
+	h4 { font-size: 1em; margin: 0; line-height: 1.2; }
 
 	.address, .telephone {
 		display: block;
-
 		a { text-decoration: none; color: $green; }
+	}
+
+	.col-a p, .col-b p {
+		margin: 10px 0 1em 0;
 	}
 
 	.col-a a {

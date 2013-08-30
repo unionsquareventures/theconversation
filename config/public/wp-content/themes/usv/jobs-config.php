@@ -1,4 +1,4 @@
-<?php
+<?
 
 // where the script is installed
 

@@ -819,15 +819,6 @@ h1.mobile-page-headline {
   #main:after {
     clear: both; }
 
-.hot-newest-feed {
-  width: 100%; }
-
-.featured-feed {
-  margin-bottom: 20px; }
-
-.featured-feed, .search-feed {
-  width: 100%; }
-
 .tabs {
   margin: 0 0 10px 0;
   padding: 0;
@@ -846,84 +837,6 @@ h1.mobile-page-headline {
     .tabs a.current {
       color: #86aa3b;
       font-weight: 700; }
-
-.feed {
-  margin: 0;
-  padding: 0; }
-  .feed li {
-    margin: 0;
-    padding: 8px 0 5px 0;
-    list-style: none;
-    position: relative;
-    border-bottom: 1px solid #dfdfdf; }
-  .feed .thumbnail {
-    display: none; }
-  .feed .title {
-    text-decoration: none;
-    line-height: 1;
-    font-weight: 700;
-    color: #000;
-    margin-right: 5px;
-    -webkit-transition: color 0.15s ease-out;
-    -moz-transition: color 0.15s ease-out;
-    transition: color 0.15s ease-out; }
-    .feed .title:link {
-      color: #000; }
-    .feed .title:hover {
-      color: #86aa3b; }
-  .feed .excerpt {
-    color: #000;
-    padding: 7px 0 10px 0; }
-  .feed .source {
-    color: gray;
-    font-size: 0.75em;
-    display: inline-block;
-    vertical-align: baseline;
-    zoom: 1;
-    *display: inline;
-    *vertical-align: auto; }
-  .feed .meta {
-    color: gray;
-    font-size: 0.85em; }
-    .feed .meta a {
-      display: inline-block;
-      vertical-align: baseline;
-      zoom: 1;
-      *display: inline;
-      *vertical-align: auto;
-      margin-right: 10px;
-      text-decoration: none;
-      color: #86aa3b; }
-      .feed .meta a:hover {
-        text-decoration: underline; }
-    .feed .meta span {
-      display: inline-block;
-      vertical-align: baseline;
-      zoom: 1;
-      *display: inline;
-      *vertical-align: auto;
-      margin-right: 10px; }
-  .feed .votes-count {
-    padding-left: 15px;
-    background: transparent url(img/icon-upvote.png) no-repeat 0 center; }
-    @media only screen and (-webkit-min-device-pixel-ratio: 1.3), only screen and (min--moz-device-pixel-ratio: 1.3), only screen and (-o-min-device-pixel-ratio: 1.3 / 1), only screen and (min-resolution: 125dpi), only screen and (min-resolution: 1.3dppx) {
-      .feed .votes-count {
-        background: transparent url(img/icon-upvote_2x.png) no-repeat 0 center;
-        background-size: 10px 6px; } }
-  .feed .comments-count {
-    padding-left: 15px;
-    background: transparent url(img/icon-comment-small.png) no-repeat 0 center; }
-    @media only screen and (-webkit-min-device-pixel-ratio: 1.3), only screen and (min--moz-device-pixel-ratio: 1.3), only screen and (-o-min-device-pixel-ratio: 1.3 / 1), only screen and (min-resolution: 125dpi), only screen and (min-resolution: 1.3dppx) {
-      .feed .comments-count {
-        background: transparent url(img/icon-comment-small_2x.png) no-repeat 0 center;
-        background-size: 12px 11px; } }
-
-.featured-feed .thumbnail, .search-feed .thumbnail {
-  display: none; }
-.featured-feed .content, .search-feed .content {
-  margin-left: 0; }
-.featured-feed .excerpt, .search-feed .excerpt {
-  display: none; }
 
 .more-link {
   text-decoration: none;
@@ -1419,7 +1332,6 @@ article.page {
         height: auto; }
     .team-profile .profile-links {
       position: absolute;
-      margin-top: 10px;
       top: 0;
       left: auto;
       right: 0;
@@ -1531,14 +1443,13 @@ article.page {
         height: auto; }
     .investments-profile .profile-links {
       position: absolute;
-      margin-top: 10px;
       top: 0;
       left: auto;
       right: 0;
       width: 188px; } }
 
 .investments-profile .profile-links, .team-profile .profile-links {
-  margin-top: 20px; }
+  margin-top: 10px; }
   .investments-profile .profile-links .sidebar-link, .team-profile .profile-links .sidebar-link {
     display: block;
     text-decoration: none;
@@ -1556,6 +1467,9 @@ article.page {
 .investments-profile .rssmore, .team-profile .rssmore {
   text-decoration: none;
   color: #222; }
+@media only screen and (min-width: 1100px) {
+  .investments-profile .profile-links, .team-profile .profile-links {
+    margin-top: 0; } }
 
 .article-post h1 {
   margin: 0 0 10px 0;
@@ -1955,13 +1869,16 @@ article.page {
   padding: 30px 0;
   color: #dfdfdf; }
   #site-footer h4 {
-    font-size: 1.125em;
-    margin: 0; }
+    font-size: 1em;
+    margin: 0;
+    line-height: 1.2; }
   #site-footer .address, #site-footer .telephone {
     display: block; }
     #site-footer .address a, #site-footer .telephone a {
       text-decoration: none;
       color: #86aa3b; }
+  #site-footer .col-a p, #site-footer .col-b p {
+    margin: 10px 0 1em 0; }
   #site-footer .col-a a {
     color: #86aa3b;
     text-decoration: none;

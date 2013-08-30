@@ -34,11 +34,18 @@ function sp_add_scripts() {
 	wp_enqueue_script( 'sp_scripts', get_bloginfo( 'template_url' ).'/js/scripts.js', null, true );
 }
 
+/* Hide these menu items from admin panel if user is not the ADMIN */
+function hide_admin_menu() {
+    echo '<style type="text/css">#menu-comments{display:none;}</style>';
+    echo '<style type="text/css">#menu-posts{display:none !important;}</style>';
+}
+
 
 //add actions
 add_action( 'wp_enqueue_scripts', 'sp_add_typekit' );
 add_action( 'wp_enqueue_scripts', 'sp_add_modernizr' );
 add_action( 'wp_footer', 'sp_add_scripts' );
+add_action('admin_head', 'hide_admin_menu');
 
 
 //remove junk from wp_head

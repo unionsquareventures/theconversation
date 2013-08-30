@@ -72,10 +72,10 @@ Template Name: Jobs
         		<div class="job-search">
 					<form id="jobform" METHOD='GET' action='http://www.indeed.com/jobs'>
 						<div class='form-row'>
-							<input type='text' name='q' value='' size='25' id='q' placeholder='job title or keywords'>
+							<input type='text' name='q' value='' size='25' id='q' placeholder='Job Title or Keywords'>
 						</div>
 						<div class='form-row'>
-							<input type='text' name='l' value='' size='' id='l' placeholder='city, state or zip'>
+							<input type='text' name='l' value='' size='' id='l' placeholder='City, State or Zip'>
 						</div>
 						<div class='form-button'>
 							<input type='submit' value='Search' name=''>

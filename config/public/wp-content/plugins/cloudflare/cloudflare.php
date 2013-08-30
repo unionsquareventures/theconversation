@@ -246,8 +246,8 @@ CloudFlare is a service that makes websites load faster and protects sites from 
 
     <?php if ($curl_installed) { ?>
     <div style="font-family: 'Courier New', Courier, mono; font-size: 1.5em;">
-    <input type="radio" name="dev_mode" value="0" <? if ($dev_mode == "off") echo "checked"; ?>> Off
-    <input type="radio" name="dev_mode" value="1" <? if ($dev_mode == "on") echo "checked"; ?>> On
+    <input type="radio" name="dev_mode" value="0" <?php if ($dev_mode == "off") echo "checked"; ?>> Off
+    <input type="radio" name="dev_mode" value="1" <?php if ($dev_mode == "on") echo "checked"; ?>> On
     </div>
     <?php } else { ?>
     You cannot toggle development mode because cURL is not installed for your domain.  Please contact a server administrator for assistance with installing cURL.
