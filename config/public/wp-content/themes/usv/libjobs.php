@@ -1,4 +1,4 @@
-<?
+<?php
 	require_once("jobs-config.php");
 
 	// If the company name has a space, we wrap it in quotes
