@@ -9,7 +9,11 @@ $('.ajax_upvote_link').on('click', function(e) {
         success: function(data, status, jqxhr) {
             var resp = $.parseJSON(data);
             if(resp['error']) {
-                alert(resp['error']);
+                if(resp['redirect']) {
+                  window.location = '/auth/twitter/';
+                } else {
+                  alert(resp['error']);
+                }
                 return;
             }
             var plural = '';

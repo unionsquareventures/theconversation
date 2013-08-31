@@ -335,8 +335,10 @@ class PostHandler(BaseHandler):
             self.redis_remove(post)
         self.redirect('/')
 
-    @tornado.web.authenticated
     def upvote(self, id):
+        if not self.get_current_user():
+            self.write_json({'error': 'You must be logged in to upvote.', 'redirect': True})
+            return
         id_str = self.get_current_user_id_str()
         user_q = {'$elemMatch': {'_id': id_str}}
         post = Post.objects(slugs=id).fields(votes=True, date_created=True,
