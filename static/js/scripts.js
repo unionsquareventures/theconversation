@@ -14,6 +14,14 @@ function USV_remove_tinymce() {
     }
 }
 
+function hide_extra_posts() {
+  if($(window).width() < 769) {
+    $('.featured-feed .feed li').slice(2).hide();
+  } else {
+    $('.featured-feed .feed li').slice(2).show();
+  }
+}
+
 function USV_setup_tinymce() {
     if($('.mce-tinymce').length === 0) {
         // Setup TinyMCE
@@ -56,6 +64,11 @@ function USV_setup_tinymce() {
 }
 
 $(function() {
+    if($('.featured-feed')) {
+      hide_extra_posts();
+      $(window).on('resize', hide_extra_posts);
+    }
+
     var jPM = $.jPanelMenu({
 		menu: '#mobile-menu',
 		trigger: '#menu-trigger',
