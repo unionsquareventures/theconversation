@@ -46,9 +46,9 @@
           #}
             {% raw post.body_html %}
 
-            {#
-            <p>Lorem ipsum. Share your thoughts here: <a class="post-body-hackpad-link" target="_blank" href="#">Hackpad &rarr;</a></p>
-            #}
+            {% if post.has_hackpad and post.hackpad_url %}
+              <p><a class="post-body-hackpad-link" target="_blank" href="{{ post.hackpad_url }}">Hackpad &rarr;</a></p>
+            {% end %}
         </div><!--end of post-body-->
 
         <div class="share-widget for-mobile">
