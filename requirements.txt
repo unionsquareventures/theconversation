@@ -14,3 +14,4 @@ nose
 newrelic
 dateutils
 gspread
+gunicorn
