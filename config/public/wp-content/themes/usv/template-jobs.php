@@ -47,7 +47,21 @@ Template Name: Jobs
 
 	get_header();
 
-?>
+?>  
+
+<script>
+ $(document).ready(function() {
+ 
+ 	// Setup Search Box
+	var companies = 'company:("10gen" OR "AMEE" OR "Auxmoney" OR "Boxee" OR "Brewster" OR "C2FO" OR "Canvas" OR "CircleUp" OR "Codecademy" OR "Coinbase" OR "Covestor" OR "Disqus" OR "DuckDuckGo" OR "Duolingo" OR "Dwolla" OR "Edmodo" OR "Etsy" OR "Firebase" OR "Flurry" OR "Foursquare" OR "Funding Circle" OR "GetGlue" OR "Hailo" OR "Heyzap" OR "Kickstarter" OR "Kik" OR "Kitchensurfing" OR "Lending Club" OR "Meetup" OR "Return Path" OR "Science Exchange" OR "Shapeways" OR "SiftScience" OR "SigFig" OR "Simulmedia" OR "Skillshare" OR "SoundCloud" OR "Stack Exchange" OR "TargetSpot" OR "Turntable.fm" OR "Twilio" OR "Twitter" OR "Wattpad" OR "Work Market" OR "YieldMo" OR "YouNow" OR "Zemanta")';
+
+	$('#jobform').submit(function() {
+		var query = $('input#q').val();
+	$('input#q').val(query+companies);
+	});
+ 
+ });
+</script>
 
     <div id="main" role="main">
         <h1 class="mobile-page-headline">Jobs</h1>
