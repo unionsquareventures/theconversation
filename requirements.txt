@@ -13,4 +13,3 @@ slugify
 nose
 newrelic
 dateutils
-gspread
