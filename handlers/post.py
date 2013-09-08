@@ -26,6 +26,7 @@ class PostHandler(BaseHandler):
                 'tags': tag,
             })
         per_page = 20
+        sort_by_specified = self.get_argument('sort_by', '')
         sort_by = self.get_argument('sort_by', 'hot')
         if not sort_by in ['hot', 'new']:
             raise tornado.web.HTTPError(400)
@@ -76,6 +77,7 @@ class PostHandler(BaseHandler):
         tags = Tag.objects()
         self.vars.update({
             'sort_by': sort_by,
+            'sort_by_specified': sort_by_specified,
             'posts': posts,
             'page': page,
             'per_page': per_page,

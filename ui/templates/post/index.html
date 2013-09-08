@@ -1,7 +1,7 @@
 {% extends '../base.html' %}
 {% block content %}
 <div id="main" role="main">
-    <section class="featured-feed clearfix">
+    <section class="featured-feed clearfix{{ ' mobile-hidden' if (rstart > 0) or sort_by_specified else '' }}">
         <ul class="tabs">
             <li><a class="current" href="/featured_posts">Featured</a></li>
         </ul>

@@ -17,8 +17,12 @@ function USV_remove_tinymce() {
 function hide_extra_posts() {
   if($(window).width() < 769) {
     $('.featured-feed .feed li').slice(2).hide();
+    if($('.featured-feed').hasClass('mobile-hidden')) {
+        $('.featured-feed').hide();
+    }
   } else {
     $('.featured-feed .feed li').slice(2).show();
+    $('.featured-feed').show();
   }
 }
 
