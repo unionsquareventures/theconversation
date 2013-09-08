@@ -58,12 +58,12 @@ def bundle_javascript():
     tmpf = os.fdopen(tmpfd, 'w')
     tmpf.write(contents)
     tmpf.close()
-    s = subprocess.Popen(['uglifyjs', tmpname],
-                            stderr=subprocess.STDOUT,
-                            stdout=subprocess.PIPE).communicate()[0]
-    f = open(javascript_bundle, 'w')
-    f.write(s)
-    f.close()
+    #s = subprocess.Popen(['uglifyjs', tmpname],
+    #                        stderr=subprocess.STDOUT,
+    #                        stdout=subprocess.PIPE).communicate()[0]
+    #f = open(javascript_bundle, 'w')
+    #f.write(s)
+    #f.close()
     os.remove(tmpname)
 
 
