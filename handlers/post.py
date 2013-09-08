@@ -15,9 +15,6 @@ import datetime as dt
 import time
 import re
 import urllib
-import sys
-reload(sys)
-sys.setdefaultencoding('utf-8')
 
 class PostHandler(BaseHandler):
     def __init__(self, *args, **kwargs):
@@ -105,7 +102,7 @@ class PostHandler(BaseHandler):
                 text = text.decode('utf-8')
             except:
                 text = text
-            jsonp = "%s('%s')" % (self.get_argument('callback'), text)
+            jsonp = "%s('%s')" % (self.get_argument('callback'), unicode(text))
             self.write(jsonp)
             return
         else:
