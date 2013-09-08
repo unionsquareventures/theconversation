@@ -1,46 +1,21 @@
 {% for post in posts %}
 <li>
-		  <article class="post clearfix">
-			<span class="avatar"><img class="avatar" src="{{ twitter_avatar_size(post.user.profile_image_url_https, 'normal') }}"></span>
-			<span class="author">@{{ post.user.username }}</span>
-			<span class="date nobreak">{{ pretty_date(post.date_created) }}</span>
-			<h4 class="post-title">
-				{% if post.url %}
-				  <a class="link" href="{{ post.url }}">{{ post.title }} <span class="source">{{ urlparse(post.url).netloc }}</span></a>
-				  {% else %}
-					  <a class="title" href="/posts/{{ post.slug }}" target="_blank">{{ post.title }}</a>
-					  <a href="/posts/{{ post.slug }}" class="source" target="_blank">usv.com</a>
-				  {% end %}
-			</h4>
-							<div class="actions">
-			  <a href="#" class="likes"><img src="images/heart-empty.png">&nbsp;42</a>
-			  <a href="#" class="comments"><img src="images/balloon.png">&nbsp;17</a>
-			</div>
-			</article>
-		  </li>
-
-
-
-<li>
-	<div class="thumbnail">
-	  <a href="http://www.twitter.com/{{ post.user.username }}" target="_blank">
-		<img src="{{ twitter_avatar_size(post.user.profile_image_url_https, 'normal') }}" alt="thumbnail">
-	  </a>
-	</div>
-	<div class="content">
-	  {% if post.url %}
-		  <a class="title" href="{{ post.url }}" target="_blank">{{ post.title }}</a>
-		  <a href="{{ post.url }}" class="source" target="_blank">{{ urlparse(post.url).netloc }}</a>
-	  {% else %}
-		  <a class="title" href="/posts/{{ post.slug }}" target="_blank">{{ post.title }}</a>
-		  <a href="/posts/{{ post.slug }}" class="source" target="_blank">usv.com</a>
-	  {% end %}
-	  <div class="meta">
-		<a class="username" href="http://www.twitter.com/{{ post.user.username }}" target="_blank">@{{ post.user.username }}</a>
-		  <span class="time">{{ pretty_date(post.date_created) }}</span>
-		  {% module ajax_upvote_link(post=post) %}
-		  <a class="comments-count" href="/posts/{{ post.slug }}#disqus_thread" target="_blank">0 comments</a>
-	  </div>
-	</div>
-  </li>
-  {% end %}
+	  <article class="post clearfix">
+		<span class="avatar"><img class="avatar" src="{{ twitter_avatar_size(post.user.profile_image_url_https, 'normal') }}"></span>
+		<span class="author">@{{ post.user.username }}</span>
+		<span class="date nobreak">{{ pretty_date(post.date_created) }}</span>
+		<h4 class="post-title">
+			{% if post.url %}
+			  <a class="link" href="{{ post.url }}">{{ post.title }} <span class="source">{{ urlparse(post.url).netloc }}</span></a>
+			  {% else %}
+				  <a class="title" href="/posts/{{ post.slug }}" target="_blank">{{ post.title }}</a>
+				  <span class="source">usv.com</span>
+			  {% end %}
+		</h4>
+		<div class="actions">
+		  <a href="#" class="likes"><img src="images/heart-empty.png">&nbsp;42</a>
+		  <a href="#" class="comments"><img src="images/balloon.png">&nbsp;17</a>
+		</div>
+	</article>
+</li>
+{% end %}
