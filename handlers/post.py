@@ -99,6 +99,7 @@ class PostHandler(BaseHandler):
             text = text.replace('\n', ' ').replace('\r', '')
             text = re.escape(text)
             jsonp = "%s('%s')" % (self.get_argument('callback'), text.decode('utf-8'))
+            jsonp = jsonp.encode('utf-8')
             self.write(jsonp)
             return
         else:
