@@ -15,6 +15,9 @@ import datetime as dt
 import time
 import re
 import urllib
+import sys
+reload(sys)
+sys.setdefaultencoding('utf-8')
 
 class PostHandler(BaseHandler):
     def __init__(self, *args, **kwargs):
