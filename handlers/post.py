@@ -2,22 +2,24 @@ import settings
 import tornado.web
 import tornado.auth
 import tornado.httpserver
+from tornado.httpclient import *
 import os
 import lib.sanitize as sanitize
 from base import BaseHandler
 import mongoengine
 from models import Tag, Post, UserInfo, User, VotedUser
-
+import json
 from urlparse import urlparse
 from datetime import datetime
 import datetime as dt
 import time
+import re
 
 class PostHandler(BaseHandler):
     def __init__(self, *args, **kwargs):
         super(PostHandler, self).__init__(*args, **kwargs)
 
-    def index(self):
+    def index(self):        
         # list posts
         query = {}
         tag = self.get_argument('tag', '').lower()
@@ -90,7 +92,15 @@ class PostHandler(BaseHandler):
             'count': original_count,
             'action': action,
         })
-        self.render('post/index.html', **self.vars)
+        
+        if 'callback' in self.request.arguments:
+            text = self.render_string('../modules/posts_list/main.html', **self.vars)
+            text = text.replace('\n', ' ').replace('\r', '')
+            jsonp = "%s(%s)" % (self.get_argument('callback'), text)
+            self.write(jsonp)
+            return
+        else:
+            self.render('post/index.html', **self.vars)
 
     def detail(self, id):
         post = Post.objects(slugs=id).first()
@@ -173,6 +183,29 @@ class PostHandler(BaseHandler):
                 post.save()
             else:
                 post.save(body_length_limit=settings.post_char_limit)
+            
+            def handle_request(response):
+                if response.error:
+                    print "Error:", response.error
+                else:
+                    print response.body
+            
+            data = {
+                'title': 'here is a link',
+                'url': 'http://foo.bar',
+                'body': "hello there",
+                'tags': "foo, bar",
+                'domain': 'foo.bar',
+                'username': 'nickgrossman' 
+            }
+            params = {
+                'url': 'http://0.0.0.0:5000/api/v1/add_link',
+                'method': 'GET'
+            }
+            request = HTTPRequest(**params)
+            http_client = AsyncHTTPClient()
+            http_client.fetch("http://0.0.0.0:5000", handle_request)
+            
         except mongoengine.ValidationError, e:
             self.new(post=post, errors=e.errors)
             return
