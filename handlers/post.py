@@ -98,8 +98,7 @@ class PostHandler(BaseHandler):
             text = self.render_string('../modules/posts_list/main.html', **self.vars)
             text = text.replace('\n', ' ').replace('\r', '')
             text = re.escape(text)
-            jsonp = "%s('%s')" % (self.get_argument('callback'), text.decode('utf-8'))
-            jsonp = jsonp.encode('utf-8')
+            jsonp = "%s('%s')" % (self.get_argument('callback'), text)
             self.write(jsonp)
             return
         else:
