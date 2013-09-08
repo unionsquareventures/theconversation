@@ -96,7 +96,7 @@ class PostHandler(BaseHandler):
         if 'callback' in self.request.arguments:
             text = self.render_string('../modules/posts_list/main.html', **self.vars)
             text = text.replace('\n', ' ').replace('\r', '')
-            jsonp = "%s(%s)" % (self.get_argument('callback').decode('utf-8'), text)
+            jsonp = "%s(%s)" % (self.get_argument('callback'), text.decode('utf-8'))
             self.write(jsonp)
             return
         else:
