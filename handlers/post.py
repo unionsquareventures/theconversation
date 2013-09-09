@@ -178,6 +178,7 @@ class PostHandler(BaseHandler):
         user_id_str = self.get_current_user_id_str()
         user_info = UserInfo.objects(user__id_str=user_id_str).first()
         attributes.update({
+            'title': unicode(attributes['title'].decode('utf-8')),
             'user': user_info.user,
             'body_html': body_html,
             'body_raw': body_raw,
@@ -211,7 +212,8 @@ class PostHandler(BaseHandler):
             subject = '%s wrote a new post on USV.com' % post.user['username']
         relation = 'shared' if post.url else 'written'
         text = '"%s" %s by %s. Read it here: http://%s/posts/%s'\
-                        % (post.title, relation, post.user['username'],
+                        % (post.title.encode('ascii', errors='ignore'),
+                                relation, post.user['username'].encode('ascii', errors='ignore'),
                                         settings.base_url, post.slug)
         for user_id, address in settings.admin_user_emails.iteritems():
             if user_id == post.user['id_str']:
@@ -294,6 +296,7 @@ class PostHandler(BaseHandler):
             self.redis_add(post)
 
         attributes.update({
+            'title': unicode(attributes['title'].decode('utf-8')),
             'user': post.user,
             'body_html': body_html,
             'body_raw': body_raw,
