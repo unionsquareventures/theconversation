@@ -24,7 +24,8 @@
             <div class="profile-links">
                 <span class="author">by {{ post.user.fullname }}</span>
                 {% module ajax_upvote_link(post=post) %}
-                <a href="/posts/{{ post.slug }}#disqus_thread" class="comments-button">0 comments</a>
+                <a href="/posts/{{ post.slug }}#disqus_thread" class="comments-button"
+                                        data-disqus-identifier="{{ post.id }}">0 comments</a>
                 {% if post.user.id_str == user_id_str or is_admin() %}
                     <a href="/posts/{{ post.slug }}/edit" class="edit-post">Edit Post</a>
                 {% end %}
@@ -62,7 +63,9 @@
             <div id="disqus_thread"></div>
             <script type="text/javascript">
                 /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
-                var disqus_shortname = '{{ settings.disqus_apikey }}'; // required: replace example with your forum shortname
+                var disqus_shortname = "{{ settings.disqus_apikey }}"; // required: replace example with your forum shortname
+                var disqus_identifier = "{{ post.id }}";
+                var disqus_title = "{{ post.title }}";
 
                 /* * * DON'T EDIT BELOW THIS LINE * * */
                 (function() {

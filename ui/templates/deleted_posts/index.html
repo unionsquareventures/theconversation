@@ -27,7 +27,8 @@
                             @{{ post.user.username }}
                         </a>
                         <span class="time">{{ pretty_date(post.date_created) }}</span>
-                        <a class="comments-count" href="/posts/{{ post.slug }}#disqus_thread">0 comments</a>
+                        <a class="comments-count" href="/posts/{{ post.slug }}#disqus_thread"
+                            data-disqus-identifier="{{ post.id }}">0 comments</a>
                     </div>
                 </div>
             </li>
