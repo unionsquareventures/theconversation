@@ -61,7 +61,9 @@
 
         <div class="comment-box">
             <div id="disqus_thread"></div>
+            {#
             {% raw disqus_sso %}
+            #}
             <script type="text/javascript">
                 /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
                 var disqus_shortname = "{{ settings.disqus_apikey }}"; // required: replace example with your forum shortname
