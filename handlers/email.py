@@ -53,6 +53,7 @@ class EmailHandler(BaseHandler):
             'text': "Navigate to this link to verify your address: %s" % self.link,
         })
 
+    @tornado.web.asynchronous
     def _on_sendgrid(self, success):
         if not success:
             raise tornado.web.HTTPError(500)
