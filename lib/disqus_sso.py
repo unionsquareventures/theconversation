@@ -8,11 +8,6 @@ import settings
 def get_disqus_sso(user_id, username, email, avatar, url):
     # create a JSON packet of our data attributes
     data = json.dumps({
-        'id': user_id,
-        'username': username,
-        'email': email,
-        'avatar': avatar,
-        'url': url,
     })
     # encode the data to base64
     message = base64.b64encode(data)
