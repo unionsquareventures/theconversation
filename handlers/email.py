@@ -72,4 +72,3 @@ class EmailHandler(BaseHandler):
             'status': 'verification_email',
         })
         self.render('email/index.html', **self.vars)
-        self.finish()
