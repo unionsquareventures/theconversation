@@ -1,4 +1,4 @@
-{% set action = '/posts/' + str(post.slug) if not post._created else '' %}
+{% set action = '/posts/' + str(post.slug) if not post._created else '/posts/' %}
 
 <form id="{{ id }}" class="{{ classes }}" action="{{ action }}" method="POST">
     {% module xsrf_form_html() %}

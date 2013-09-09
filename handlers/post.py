@@ -120,9 +120,16 @@ class PostHandler(BaseHandler):
         if not self.get_secure_cookie('email_address'):
             self.redirect('/auth/email/?next=%2Fposts%2Fnew')
 
+        print errors
+
         if post == None:
             post = Post()
             post.url = self.get_argument('url', '')
+            if post.url:
+                post = Post.objects(url=post.url).first()
+                if post:
+                    errors['url'] = 'This URL has already been submitted'
+
             post.title = self.get_argument('title', '')
 
         # Link creation page
