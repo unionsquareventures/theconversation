@@ -103,9 +103,9 @@ class PostHandler(BaseHandler):
             #except:
             #    text = text
             #jsonp = "%s('%s')" % (self.get_argument('callback'), text)
-            callback = unicode(self.get_argument('callback'))
-            jsonp = callback + u"('" + text + u"')"
-            self.write(jsonp)
+            #callback = unicode(self.get_argument('callback'))
+            #jsonp = callback + u"('" + text + u"')"
+            self.write(text)
             return
         else:
             self.render('post/index.html', **self.vars)
