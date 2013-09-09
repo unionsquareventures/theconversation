@@ -98,11 +98,13 @@ class PostHandler(BaseHandler):
             text = self.render_string('../modules/posts_list/main.html', **self.vars)
             text = text.replace('\n', ' ').replace('\r', '')
             text = re.escape(text)
-            try:
-                text = text.decode('utf-8')
-            except:
-                text = text
-            jsonp = "%s('%s')" % (self.get_argument('callback'), unicode(text))
+            #try:
+            #    text = text.decode('utf-8')
+            #except:
+            #    text = text
+            #jsonp = "%s('%s')" % (self.get_argument('callback'), text)
+            callback = unicode(self.get_argument('callback'))
+            jsonp = callback + u"('" + text + u"')"
             self.write(jsonp)
             return
         else:
