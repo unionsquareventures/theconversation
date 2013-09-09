@@ -5,7 +5,7 @@ import json
 import time
 import settings
 
-def get_disqus_sso(user_id, username, email, avatar, url):
+def get_disqus_sso(user_id, username, email, avatar, url, html=False):
     # create a JSON packet of our data attributes
     data = json.dumps({
         'id': user_id,
@@ -21,8 +21,9 @@ def get_disqus_sso(user_id, username, email, avatar, url):
     # generate our hmac signature
     sig = hmac.HMAC(settings.disqus_secret_key, '%s %s' % (message, timestamp), hashlib.sha1).hexdigest()
 
-# return a script tag to insert the sso message
-    return """
+    if html:
+        # return a script tag to insert the sso message
+        return """
 <script type="text/javascript">
     var disqus_config = function() {
         this.page.remote_auth_s3 = "%(message)s %(sig)s %(timestamp)s";
@@ -33,4 +34,10 @@ def get_disqus_sso(user_id, username, email, avatar, url):
         timestamp=timestamp,
         sig=sig,
         pub_key=settings.disqus_public_key,
-    )
+        )
+    else:
+        return "%(message)s %(sig)s %(timestamp)s" % dict(
+                message=message,
+                timestamp=timestamp,
+                sig=sig,
+        )

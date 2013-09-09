@@ -105,7 +105,7 @@ class PostHandler(BaseHandler):
             u = UserInfo.objects.get(user__id_str=id_str)
             user_url = 'http://www.twitter.com/%s' % u.user.screen_name
             sso = get_disqus_sso(id_str, u.user.username, u.email_address,
-                                    u.user.profile_image_url, user_url)
+                                    u.user.profile_image_url, user_url, html=True)
         self.vars.update({
             'post': post,
             'disqus_sso': sso,
