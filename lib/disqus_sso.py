@@ -1,13 +1,13 @@
 import base64
 import hashlib
 import hmac
-import simplejson
+import json
 import time
 import settings
 
 def get_disqus_sso(user_id, username, email, avatar, url):
     # create a JSON packet of our data attributes
-    data = simplejson.dumps({
+    data = json.dumps({
         'id': user_id,
         'username': username,
         'email': email,
