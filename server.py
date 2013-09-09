@@ -23,10 +23,12 @@ from handlers.hackpad import HackpadHandler
 from handlers.delete_user import DeleteUserHandler
 from handlers.search import SearchHandler
 from handlers.old_post import OldPostHandler
+from handlers.email import EmailHandler
 import ui
 from redis import StrictRedis
 from lib.sendgrid import Sendgrid
 import json
+
 
 import newrelic.agent
 path = os.path.join(settings.PROJECT_ROOT, 'server_setup/conf/newrelic.ini')
@@ -52,6 +54,7 @@ def init_app(bundle=True, auth_passthrough=False):
     application = tornado.web.Application([
             (r'/auth/twitter/', TwitterLoginHandler),
             (r'/auth/logout/?', LogoutHandler),
+            (r'/auth/email/?', EmailHandler),
 
             (r'/fake_error/?', FakeErrorHandler),
             (r'/delete_user/?', DeleteUserHandler),

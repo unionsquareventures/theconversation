@@ -51,6 +51,12 @@ class TwitterLoginHandler(BaseHandler, tornado.auth.TwitterMixin):
         else:
             u = UserInfo(user=User(**user), access_token=AccessToken(**access_token))
         u.save()
+        if not u.email_address:
+            email_uri = '/auth/email/'
+            email_uri += '?next=%s' % tornado.escape.url_escape(self.get_next())
+            self.redirect(email_uri)
+        else:
+            self.set_secure_cookie('email_address', u.email_address)
         self.redirect(self.get_next())
 
 class LogoutHandler(BaseHandler):

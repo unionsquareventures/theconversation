@@ -102,15 +102,21 @@ $(function() {
 		focus: '#post_title',
 
 		callbacks: {
+            beforeOpen: function() {
+                if(!USV_user_id_str) {
+                    window.location.href = '/auth/twitter/?next=%2Fposts%2Fnew';
+                    this.close();
+                }
+            },
 			open: function() {
 				if($(window).width() < 700) {
 					this.st.focus = false;
 				} else {
 					this.st.focus = '#name';
 				}
-        USV_remove_tinymce();
-        USV_setup_tinymce();
-        USV_fill_hackpad_url();
+                USV_remove_tinymce();
+                USV_setup_tinymce();
+                USV_fill_hackpad_url();
 			}
 		}
 	});

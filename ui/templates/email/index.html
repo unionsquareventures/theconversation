@@ -1,0 +1,50 @@
+{% extends "../base.html" %}
+
+{% block javascript %}
+
+<script type="text/javascript">
+$(function() {
+        USV_setup_tinymce();
+        $('.header-submit-button').hide();
+        $('#submit-trigger').hide();
+        $('.header-search-container').css({right: '0px'});
+});
+</script>
+{% end %}
+
+{% block content %}
+
+    {% if status == 'enter_email' %}
+    <form id="submit-form" class="" action="/auth/email/" method="POST">
+        {% module xsrf_form_html() %}
+        <input type="hidden" name="next" value="{{ next }}" />
+
+        <span class="form-title">Enter your email address</span>
+        <fieldset>
+            <ol>
+                <li>
+                    <label for="email">Email</label>
+                    <div class="field-errors">{{ errors }}</div>
+                    <input id="email" name="email" type="text"
+                                placeholder="john@gmail.com" required="" value="{{ email }}">
+                    <p>This email address will not be shared or displayed.</p>
+                </li>
+                
+                <li class="for-submit">
+                    <button type="submit" class="submit-form-button">Submit</button>
+                </li>
+            </ol>
+        </fieldset>
+    </form>
+    {% end %}
+    {% if status == 'verification_email' %}
+        <p>An email verification link has been sent to <b>{{ email }}</b>. Please check your inbox.</p>
+    {% end %}
+    {% if status == 'email_verified' %}
+        <p>Your email address (<b>{{ email }}</b>) has been verified. 
+        Please <a href="{{ next or '/' }}">click here</a> to proceed.</p>
+    {% end %}
+
+
+
+{% end %}

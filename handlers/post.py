@@ -106,6 +106,9 @@ class PostHandler(BaseHandler):
 
     @tornado.web.asynchronous
     def new(self, post=None, errors={}):
+        if not self.get_secure_cookie('email_address'):
+            self.redirect('/auth/email/?next=%2Fposts%2Fnew')
+
         if post == None:
             post = Post()
             post.url = self.get_argument('url', '')
@@ -121,6 +124,9 @@ class PostHandler(BaseHandler):
 
     @tornado.web.asynchronous
     def create(self):
+        if not self.get_secure_cookie('email_address'):
+            self.redirect('/auth/email/?next=%2Fposts%2Fnew')
+
         attributes = {k: v[0] for k, v in self.request.arguments.iteritems()}
 
         # Handle tags
@@ -193,7 +199,6 @@ class PostHandler(BaseHandler):
         for user_id, address in settings.admin_user_emails.iteritems():
             if user_id == post.user['id_str']:
                 continue
-            print 'sending to %s' % address
             sendgrid.send_email(lambda x: None, **{
                 'from': 'web@usv.com',
                 'to': address,
