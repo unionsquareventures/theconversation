@@ -12,6 +12,7 @@ from urlparse import urlparse
 from datetime import datetime
 import datetime as dt
 import time
+from lib.disqus_sso import get_disqus_sso
 
 class PostHandler(BaseHandler):
     def __init__(self, *args, **kwargs):
@@ -98,7 +99,17 @@ class PostHandler(BaseHandler):
         post = Post.objects(slugs=id).first()
         if not post:
             raise tornado.web.HTTPError(404)
-        self.vars.update({'post': post})
+        sso = ''
+        id_str = self.get_current_user_id_str()
+        if id_str:
+            u = UserInfo.objects.get(user__id_str=id_str)
+            user_url = 'http://www.twitter.com/%s' % u.user.screen_name
+            sso = get_disqus_sso(id_str, u.user.fullname, u.email_address,
+                                    u.user.profile_image_url, user_url)
+        self.vars.update({
+            'post': post,
+            'disqus_sso': sso,
+        })
         if post.deleted:
             self.render('post/deleted.html', **self.vars)
             return
