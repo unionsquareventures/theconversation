@@ -116,20 +116,19 @@ class PostHandler(BaseHandler):
         self.render('post/get.html', **self.vars)
 
     @tornado.web.asynchronous
-    def new(self, post=None, errors={}):
+    def new(self, post=None, errors=None):
         if not self.get_secure_cookie('email_address'):
             self.redirect('/auth/email/?next=%2Fposts%2Fnew')
 
-        print errors
+        if not errors:
+            errors = {}
 
         if post == None:
             post = Post()
             post.url = self.get_argument('url', '')
-            if post.url:
-                post = Post.objects(url=post.url).first()
-                if post:
-                    errors['url'] = 'This URL has already been submitted'
-
+            if post.url and Post.objects(url=post.url).first():
+                    errors['url'] = mongoengine.ValidationError('This URL has already been submitted',
+                                                                field_name='url')
             post.title = self.get_argument('title', '')
 
         # Link creation page
@@ -318,10 +317,13 @@ class PostHandler(BaseHandler):
             return
         self.redirect('/posts/%s' % post.slug)
 
-    def edit(self, id, errors={}):
+    def edit(self, id, errors=None):
         post = Post.objects(slugs=id).first()
         if not post:
             raise tornado.web.HTTPError(404)
+
+        if not errors:
+            errors = {}
 
         id_str = self.get_current_user_id_str()
         op_rights = (id_str == post.user['id_str']) and not post.deleted
