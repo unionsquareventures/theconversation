@@ -21,7 +21,7 @@ class SearchHandler(BaseHandler):
         results = results['results']
         total_count = len(results)
         results = results[(page-1)*per_page:(page-1)*per_page+per_page]
-        posts = [Post(**r['obj']) for r in results]
+        posts = [Post(id=r['obj']['_id'],**r['obj']) for r in results]
         self.vars.update({
             'posts': posts,
             'total_count': total_count,
