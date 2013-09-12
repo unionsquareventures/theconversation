@@ -50,7 +50,7 @@ class EmailHandler(BaseHandler):
             'from': 'no_reply@usv.com',
             'to': self.email,
             'subject': "USV.com - Please verify your email address",
-            'text': "Navigate to this link to verify your address: %s" % self.link,
+            'text': "Please verify your email address by navigating to this link: %s" % self.link,
         })
 
     @tornado.web.asynchronous
