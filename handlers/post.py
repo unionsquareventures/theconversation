@@ -205,14 +205,24 @@ class PostHandler(BaseHandler):
         redis = self.settings['redis']
         redis.set('post:%s:votes' % post.id, 1)
         self.redis_add(post)
+
+        if not self.is_admin():
+            self.redirect('/posts/%s' % post.slug)
+            return
+
         sendgrid = self.settings['sendgrid']
         if post.url:
             subject = '%s shared a link on USV.com' % post.user['username']
         else:
             subject = '%s wrote a new post on USV.com' % post.user['username']
-        relation = 'shared' if post.url else 'written'
-        text = '"%s" %s by %s. Read it here: http://%s/posts/%s'\
-                        % (post.title.encode('ascii', errors='ignore'),
+        if post.url:
+            relation = 'shared'
+            post_link = '( %s )' % post.url
+        else:
+            relation = 'written'
+            post_link = ''
+        text = '"%s" %s %s by %s. On USV.com: http://%s/posts/%s'\
+                        % (post.title.encode('ascii', errors='ignore'), post_link,
                                 relation, post.user['username'].encode('ascii', errors='ignore'),
                                         settings.base_url, post.slug)
         for user_id, address in settings.admin_user_emails.iteritems():
