@@ -21,7 +21,6 @@ class Post(Document):
         super(Post, self).__init__(*args, **kwargs)
         db = self._get_db()
         pcoll = db['post']
-        pcoll.drop_indexes()
 
         pcoll.ensure_index([
             ('body_text', 'text'),
