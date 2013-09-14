@@ -1,4 +1,5 @@
 import settings
+from redis import StrictRedis
 import tornado.web
 import tornado.auth
 import tornado.httpserver
@@ -65,7 +66,7 @@ class PostHandler(BaseHandler):
             lua += "local rank = 0\n"
             lua += "local rstart = 0\n"
             lua += "local rend = {per_page} - 1\n"
-        redis = self.settings['redis']
+        redis = StrictRedis.from_url(settings.redis_url, socket_timeout=.1)
         lua += "local ordered_ids = redis.call('ZREVRANGE', '{sort_by}', rstart, rend)\n"\
                "return {{num_posts, rstart, rend, ordered_ids}}"
         lua = lua.format(per_page=per_page, sort_by=sort_by, anchor=anchor, count=count)
@@ -202,7 +203,7 @@ class PostHandler(BaseHandler):
         except mongoengine.ValidationError, e:
             self.new(post=post, errors=e.errors)
             return
-        redis = self.settings['redis']
+        redis = StrictRedis.from_url(settings.redis_url, socket_timeout=.1)
         redis.set('post:%s:votes' % post.id, 1)
         self.redis_add(post)
 
@@ -237,12 +238,12 @@ class PostHandler(BaseHandler):
         self.redirect('/posts/%s' % post.slug)
 
     def redis_remove(self, post):
-        redis = self.settings['redis']
+        redis = StrictRedis.from_url(settings.redis_url, socket_timeout=.1)
         redis.zrem('hot', post.id)
         redis.zrem('new', post.id)
 
     def redis_add(self, post):
-        redis = self.settings['redis']
+        redis = StrictRedis.from_url(settings.redis_url, socket_timeout=.1)
         redis.zadd('new', time.mktime(post.date_created.timetuple()), post.id)
         base_score = time.mktime(post.date_created.timetuple()) / 45000.0
         lua = "local votes = redis.call('GET', 'post:{post.id}:votes')\n"
@@ -394,7 +395,7 @@ class PostHandler(BaseHandler):
             post.update(push__voted_users=VotedUser(id=id_str))
 
         base_score = time.mktime(post.date_created.timetuple()) / 45000.0
-        redis = self.settings['redis']
+        redis = StrictRedis.from_url(settings.redis_url, socket_timeout=.1)
         lua = "local votes = redis.call('INCR', 'post:{post.id}:votes')\n"
         if not post.featured:
             lua += "votes = math.log10(votes)\n"

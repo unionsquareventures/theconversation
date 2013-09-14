@@ -38,7 +38,6 @@ define("port", default=8888, help="run on the given port", type=int)
 
 def init_app(bundle=True, auth_passthrough=False):
     # Connect to Redis with a 100 msec timeout
-    redis = StrictRedis.from_url(settings.redis_url, socket_timeout=.1)
     # Sendgrid API
     sendgrid = Sendgrid(settings.sendgrid_user, settings.sendgrid_secret)
     # Bundle JS/CSS
@@ -73,7 +72,6 @@ def init_app(bundle=True, auth_passthrough=False):
             (r'/generate_hackpad/?', HackpadHandler),
             ], ui_modules = ui.template_modules(),
             ui_methods = ui.template_methods(),
-            redis=redis,
             sendgrid=sendgrid,
             old_post_urls=old_post_urls,
             auth_passthrough=auth_passthrough,
