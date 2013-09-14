@@ -54,6 +54,12 @@
             {% if post.has_hackpad and post.hackpad_url %}
               <p><a class="post-body-hackpad-link" target="_blank" href="{{ post.hackpad_url }}">Hackpad &rarr;</a></p>
             {% end %}
+            {% if post.tags %}
+                <b>Tags:</b>
+                {% for count, tag in enumerate(post.tags) %}
+                    <a href="/search?tag={{ url_escape(tag) }}">{{ tag }}</a>{% if count < len(post.tags) -1 %}, {% end %}
+                {% end %}
+            {% end %}
         </div><!--end of post-body-->
 
         <div class="share-widget for-mobile">

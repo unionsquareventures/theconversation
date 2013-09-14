@@ -12,7 +12,8 @@ connect(mongodb_db, host=settings.mongodb_url)
 class Post(Document):
     meta = {
         'indexes': ['-date_deleted', 'deleted', '-date_featured',
-                            'featured', 'voted_users', 'user.id_str', 'slug', 'slugs', 'url'],
+                            'featured', 'voted_users', 'user.id_str', 'slug',
+                            'slugs', 'url', 'tags'],
     }
 
     # Full text search index
@@ -20,9 +21,12 @@ class Post(Document):
         super(Post, self).__init__(*args, **kwargs)
         db = self._get_db()
         pcoll = db['post']
+        pcoll.drop_indexes()
+
         pcoll.ensure_index([
             ('body_text', 'text'),
             ('title', 'text'),
+            ('tags', 'text'),
             ('user.username', 'text'),
         ])
 

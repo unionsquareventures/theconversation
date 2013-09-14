@@ -3,8 +3,8 @@
 {% block content %}
 <div id="main" role="main">
     <section class="search-feed centered clearfix">
-    <h1 class="general-page-headline">{{ total_count }} Search Results for
-        <span class="search-term">“{{ query }}”</span>
+    <h1 class="general-page-headline">{{ total_count }} {{ 'Tag' if tag else 'Search' }} Results for
+        <span class="search-term"> “{{ tag or query }}”</span>
     </h1>
 
     {% if total_count > 0 %}

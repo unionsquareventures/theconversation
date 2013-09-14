@@ -22,6 +22,12 @@
                 <div class="field-errors">{{ field_errors(errors, 'body_raw') }}</div>
                 <input type="text" id="post_body_raw" name="body_raw" value="{{ post.body_raw or '' }}" />
             </li>
+            <li>
+                <label for="url">Tags</label>
+                <div class="field-errors">{{ field_errors(errors, 'tags') }}</div>
+                <input id="post_tags" name="tags" type="text" placeholder="pitch, meta, health, mobile, education"
+                                        value="{{ ', '.join(post.tags) if post.tags else '' }}">
+            </li>
             <li class="hackpad">
                 <div id="toggle-hackpad-url" class="{{ 'checked' if post.has_hackpad else '' }}"></div>
                 <input id="post_has_hackpad" name="has_hackpad" type="hidden" value="{{ 'true' if post.has_hackpad else '' }}">
