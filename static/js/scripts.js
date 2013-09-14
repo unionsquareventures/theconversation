@@ -29,7 +29,7 @@ function hide_extra_posts() {
 function USV_setup_tinymce() {
     if($('.mce-tinymce').length === 0) {
         // Setup TinyMCE
-        var tinymce_plugins = "advlist, autolink, autosave, code, fullscreen, link, paste, preview";
+        var tinymce_plugins = "advlist, autolink, autosave, code, link, paste, preview";
         var tinymce_toolbar = "undo redo | bold italic strikethrough bullist numlist | blockquote link unlink | code";
         if(USV_is_admin) {
             tinymce_plugins += ", image, media";
@@ -37,7 +37,6 @@ function USV_setup_tinymce() {
         } else {
           tinymce_plugins += ", charcount";
         }
-        tinymce_toolbar += ", | fullscreen";
 
         if(/Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent)) {
             tinymce_toolbar = false;
