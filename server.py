@@ -38,7 +38,7 @@ define("port", default=8888, help="run on the given port", type=int)
 
 def init_app(bundle=True, auth_passthrough=False):
     sentry_client = AsyncSentryClient(settings.sentry_dsn)
-    sendgrid = Sendgrid(settings.sendgrid_user, settings.sendgrid_secret)
+    sendgrid = Sendgrid(settings.sendgrid_user, settings.sendgrid_secret, sentry_client)
     disqus = Disqus(settings.disqus_public_key, settings.disqus_secret_key,
                     settings.disqus_apikey, sentry_client)
     # Bundle JS/CSS

@@ -1,14 +1,14 @@
 import base64
 import urllib
 import functools
-import logging
 from tornado import httpclient, escape
 import hashlib
 import hmac
 import json
 import time
 import settings
-
+import raven
+import logging
 
 class Disqus(object):
     """Base Disqus object"""
@@ -31,14 +31,22 @@ class Disqus(object):
         post_body = urllib.urlencode(info)
         http = httpclient.HTTPClient()
         request = httpclient.HTTPRequest(api_url, method='POST', body=post_body)
-        http.fetch(request, callback=functools.partial(self._on_subscribe, callback))
+        try:
+            http.fetch(request, callback=functools.partial(self._on_subscribe,
+                                                    callback, thread_id, user_info))
+        except httpclient.HTTPError:
+            pass
 
-    def _on_subscribe(self, callback, result):
+    def _on_subscribe(self, callback, thread_id, user_info, result):
         result = escape.json_decode(result.body)
         if int(result.get('code')):
             # Sentry error
+            logging.warning('[Disqus API] "subscribe" error %s: "%s" %s' %
+                                        (str(result.get('code')), thread_id, str(user_info)))
             self._sentry_client.captureMessage('[Disqus API] "subscribe" error: %s' %
                                                         str(result.get('code')),
+                                                        thread_id=thread_id,
+                                                        user_info=user_info,
                                                         disqus_response=result.get('response', ''))
             callback(None)
             return
@@ -55,14 +63,23 @@ class Disqus(object):
         post_body = urllib.urlencode(thread_info)
         http = httpclient.HTTPClient()
         request = httpclient.HTTPRequest(api_url, method='POST', body=post_body)
-        http.fetch(request, callback=functools.partial(self._on_create, callback))
+        try:
+            http.fetch(request, callback=functools.partial(self._on_create, callback, thread_info))
+        except httpclient.HTTPError:
+            pass
 
-    def _on_create(self, callback, result):
-        result = escape.json_decode(result.body)
+    def _on_create(self, callback, thread_info, response):
+        result = escape.json_decode(response.body)
         if int(result.get('code')):
             # Sentry error
+            def test(*args, **kwargs):
+                print "== test =="
+                print args, kwargs
+            logging.warning('[Disqus API] "create" error %s: %s' %
+                                            (str(result.get('code')), str(thread_info)))
             self._sentry_client.captureMessage('[Disqus API] "create" Error: %s' %
                                                         str(result.get('code')),
+                                                        thread_info=thread_info,
                                                         disqus_response=result.get('response', ''))
             callback(None)
             return
