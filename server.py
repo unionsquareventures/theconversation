@@ -27,8 +27,8 @@ from handlers.email import EmailHandler
 import ui
 from redis import StrictRedis
 from lib.sendgrid import Sendgrid
+from lib.disqus import Disqus
 import json
-
 
 import newrelic.agent
 path = os.path.join(settings.PROJECT_ROOT, 'server_setup/conf/newrelic.ini')
@@ -37,9 +37,10 @@ newrelic.agent.initialize(path, settings.DEPLOYMENT_STAGE)
 define("port", default=8888, help="run on the given port", type=int)
 
 def init_app(bundle=True, auth_passthrough=False):
-    # Connect to Redis with a 100 msec timeout
-    # Sendgrid API
+    sentry_client = AsyncSentryClient(settings.sentry_dsn)
     sendgrid = Sendgrid(settings.sendgrid_user, settings.sendgrid_secret)
+    disqus = Disqus(settings.disqus_public_key, settings.disqus_secret_key,
+                    settings.disqus_apikey, sentry_client)
     # Bundle JS/CSS
     if settings.tornado_config['debug'] and bundle:
         logging.info('Bundling JS/CSS')
@@ -73,12 +74,11 @@ def init_app(bundle=True, auth_passthrough=False):
             ], ui_modules = ui.template_modules(),
             ui_methods = ui.template_methods(),
             sendgrid=sendgrid,
+            disqus=disqus,
             old_post_urls=old_post_urls,
             auth_passthrough=auth_passthrough,
             **settings.tornado_config)
-    # Initialize Sentry
-    if settings.sentry_dsn:
-        application.sentry_client = AsyncSentryClient(settings.sentry_dsn)
+    application.sentry_client = sentry_client
     return application
 
 

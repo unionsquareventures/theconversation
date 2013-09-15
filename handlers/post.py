@@ -13,7 +13,6 @@ from urlparse import urlparse
 from datetime import datetime
 import datetime as dt
 import time
-from lib.disqus_sso import get_disqus_sso
 
 class PostHandler(BaseHandler):
     def __init__(self, *args, **kwargs):
@@ -105,8 +104,14 @@ class PostHandler(BaseHandler):
         if id_str:
             u = UserInfo.objects.get(user__id_str=id_str)
             user_url = 'http://www.twitter.com/%s' % u.user.screen_name
-            sso = get_disqus_sso(id_str, u.user.username, u.email_address,
-                                    u.user.profile_image_url, user_url, html=True)
+            user_info = {
+                    'id': id_str,
+                    'username': u.user.username,
+                    'email': u.email_address,
+                    'avatar': u.user.profile_image_url,
+                    'url': user_url,
+            }
+            sso = self.settings['disqus'].get_sso(True, user_info)
         self.vars.update({
             'post': post,
             'disqus_sso': sso,
@@ -177,10 +182,10 @@ class PostHandler(BaseHandler):
 
         date_created = dt.datetime.now()
         user_id_str = self.get_current_user_id_str()
-        user_info = UserInfo.objects(user__id_str=user_id_str).first()
+        u = UserInfo.objects(user__id_str=user_id_str).first()
         attributes.update({
             'title': unicode(attributes['title'].decode('utf-8')),
-            'user': user_info.user,
+            'user': u.user,
             'body_html': body_html,
             'body_raw': body_raw,
             'body_truncated': body_truncated,
@@ -206,6 +211,28 @@ class PostHandler(BaseHandler):
         redis = StrictRedis.from_url(settings.redis_url, socket_timeout=.1)
         redis.set('post:%s:votes' % post.id, 1)
         self.redis_add(post)
+
+        # Attempt to create the post's thread
+        user_url = 'http://www.twitter.com/%s' % u.user.screen_name
+        user_info = {
+                'id': u.user.id_str,
+                'username': u.user.username,
+                'email': u.email_address,
+                'avatar': u.user.profile_image_url,
+                'url': user_url,
+        }
+        # Subscribe the OP to the thread
+        disqus = self.settings['disqus']
+        def _created(response):
+            if not response:
+                return
+            thread_id = response['id']
+            disqus.subscribe(lambda x: None, user_info, thread_id)
+        thread_info = {
+                'title': post.title,
+                'identifier': post.id,
+        }
+        disqus.create_thread(_created, user_info, thread_info)
 
         if not self.is_admin():
             self.redirect('/posts/%s' % post.slug)
