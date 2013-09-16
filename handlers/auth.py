@@ -17,8 +17,24 @@ class TwitterLoginHandler(BaseHandler, tornado.auth.TwitterMixin):
 
     @tornado.web.asynchronous
     def get(self):
+        email_required = self.get_argument('email_required', '')
+        close_popup = self.get_argument('close_popup', '')
+
+        # The user is logged in but an email address is required.
+        print self.get_current_user_id_str()
+        if self.get_current_user_id_str()\
+                and not self.get_secure_cookie('email_address')\
+                and email_required:
+            email_uri = '/auth/email/'
+            email_uri += '?next=%s' % tornado.escape.url_escape(self.get_next())
+            self.redirect(email_uri)
+            return
+
         callback_uri = urlparse.urljoin(settings.base_url, '/auth/twitter/')
         callback_uri += '?next=%s' % tornado.escape.url_escape(self.get_next())
+        callback_uri += '&email_required=1' if email_required else ''
+        callback_uri += '&close_popup=1' if close_popup else ''
+
 
         if self.get_argument("oauth_token", None):
             self.get_authenticated_user(callback=self.async_callback(self._on_login))
@@ -51,12 +67,15 @@ class TwitterLoginHandler(BaseHandler, tornado.auth.TwitterMixin):
         else:
             u = UserInfo(user=User(**user), access_token=AccessToken(**access_token))
         u.save()
-        if not u.email_address:
+        if u.email_address:
+            self.set_secure_cookie('email_address', u.email_address)
+            if self.get_argument('close_popup', ''):
+                self.redirect('/auth/close_popup/')
+                return
+        if not u.email_address and self.get_argument('email_required', ''):
             email_uri = '/auth/email/'
             email_uri += '?next=%s' % tornado.escape.url_escape(self.get_next())
             self.redirect(email_uri)
-        else:
-            self.set_secure_cookie('email_address', u.email_address)
         self.redirect(self.get_next())
 
 
@@ -65,6 +84,7 @@ class LogoutHandler(BaseHandler):
         self.clear_cookie("user_id_str")
         self.clear_cookie("debug_username")
         self.clear_cookie("user")
+        self.clear_cookie("email_address")
         self.clear_cookie("access_token")
         self.clear_cookie("oauth_token")
         self.clear_cookie("_oauth_request_token")

@@ -1,6 +1,7 @@
 import settings
 import tornado.web
 import tornado.auth
+import tornado.escape
 import tornado.httpserver
 import os
 import lib.sanitize as sanitize
@@ -123,9 +124,6 @@ class PostHandler(BaseHandler):
 
     @tornado.web.asynchronous
     def new(self, post=None, errors=None):
-        if not self.get_secure_cookie('email_address'):
-            self.redirect('/auth/email/?next=%2Fposts%2Fnew')
-
         if not errors:
             errors = {}
 
@@ -147,9 +145,6 @@ class PostHandler(BaseHandler):
 
     @tornado.web.asynchronous
     def create(self):
-        if not self.get_secure_cookie('email_address'):
-            self.redirect('/auth/email/?next=%2Fposts%2Fnew')
-
         attributes = {k: v[0] for k, v in self.request.arguments.iteritems()}
 
         # Handle tags
@@ -211,6 +206,12 @@ class PostHandler(BaseHandler):
         redis = self.settings['redis']
         redis.set('post:%s:votes' % post.id, 1)
         self.redis_add(post)
+
+        post_url = '/posts/%s' % post.slug
+        if not u.email_address:
+            self.redirect('/auth/email/?subscribe_to=%s&next=%s' % (str(post.id),
+                                                tornado.escape.url_escape(post_url)))
+            return
 
         # Attempt to create the post's thread
         user_url = 'http://www.twitter.com/%s' % u.user.screen_name

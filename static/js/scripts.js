@@ -102,7 +102,7 @@ $(function() {
 
 		callbacks: {
             beforeOpen: function() {
-                if(!USV_user_id_str || !USV_user_email_address) {
+                if(!USV_user_id_str) {
                     window.location.href = '/auth/twitter/?next=%2Fposts%2Fnew';
                     this.close();
                 }

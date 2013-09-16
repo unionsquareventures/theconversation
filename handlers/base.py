@@ -52,6 +52,7 @@ class BaseHandler(SentryMixin, tornado.web.RequestHandler):
         else:
             self.create()
 
+    @tornado.web.authenticated
     def get(self, id='', action=''):
         if action == 'new' and not id:
             self.new()

@@ -10,7 +10,7 @@ $('.ajax_upvote_link').on('click', function(e) {
             var resp = $.parseJSON(data);
             if(resp['error']) {
                 if(resp['redirect']) {
-                  window.location = '/auth/twitter/';
+                  window.location = '/auth/twitter/?next=' + encodeURIComponent(window.location.pathname + window.location.search);
                 } else {
                   alert(resp['error']);
                 }

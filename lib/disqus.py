@@ -72,14 +72,42 @@ class Disqus(object):
         result = escape.json_decode(response.body)
         if int(result.get('code')):
             # Sentry error
-            def test(*args, **kwargs):
-                print "== test =="
-                print args, kwargs
             logging.warning('[Disqus API] "create" error %s: %s' %
                                             (str(result.get('code')), str(thread_info)))
             self._sentry_client.captureMessage('[Disqus API] "create" Error: %s' %
                                                         str(result.get('code')),
                                                         thread_info=thread_info,
+                                                        disqus_response=result.get('response', ''))
+            callback(None)
+            return
+        callback(result['response'])
+
+
+    def thread_details(self, callback, thread_identifier):
+        info = {
+            'thread:ident': thread_identifier,
+            'forum': self._forum,
+            'api_secret': self._secret,
+        }
+        api_url = "%s%s" % (self._BASE_URL, 'threads/details.json')
+        post_body = urllib.urlencode(info)
+        api_url += '?' + post_body
+        http = httpclient.HTTPClient()
+        request = httpclient.HTTPRequest(api_url, method='GET')
+        try:
+            http.fetch(request, callback=functools.partial(self._on_details, callback, thread_identifier))
+        except httpclient.HTTPError:
+            pass
+
+    def _on_details(self, callback, thread_identifier, response):
+        result = escape.json_decode(response.body)
+        if int(result.get('code')):
+            # Sentry error
+            logging.warning('[Disqus API] "details" error %s: %s' %
+                                            (str(result.get('code')), str(thread_identifier)))
+            self._sentry_client.captureMessage('[Disqus API] "details" Error: %s' %
+                                                        str(result.get('code')),
+                                                        thread_info=thread_identifier,
                                                         disqus_response=result.get('response', ''))
             callback(None)
             return

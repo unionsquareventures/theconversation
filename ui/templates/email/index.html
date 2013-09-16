@@ -18,9 +18,15 @@ $(function() {
     <form id="submit-form" class="" action="/auth/email/" method="POST">
         {% module xsrf_form_html() %}
         <input type="hidden" name="next" value="{{ next }}" />
+        <input type="hidden" name="subscribe_to" value="{{ subscribe_to }}" />
 
         <span class="form-title">Enter your email address</span>
-        <p>An email address is required for submissions and comments.</p>
+        <p>You email address will be used to verify your identity. It will also
+        be used to notify you regarding:</p>
+        <ul>
+            <li>Comments on submissions you create.</li>
+            <li>Replies to your comments.</li>
+        </ul>
         <fieldset>
             <ol>
                 <li>

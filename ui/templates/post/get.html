@@ -81,10 +81,11 @@
                           name: "USV",
                           button: "{{ 'http://%s/%s' % (settings.base_url, 'static/img/disqus-sso-login-button.png') }}",
                           icon: "{{ 'http://%s/%s' % (settings.base_url, 'static/favicon.png') }}",
-                          url: "{{ 'http://%s/%s%s' % (settings.base_url, 'auth/twitter/?next=', '/auth/close_popup/') }}",
-                          logout: "{{ 'http://%s/%s%s' % (settings.base_url, 'auth/logout/?next=', url_escape(handler.request.path)) }}",
+                          url: "{% raw 'http://%s/%s%s' % (settings.base_url, 'auth/twitter/?email_required=1&close_popup=1'\
+                                                                                        '&next=', url_escape(handler.request.path)) %}",
+                          logout: "{% raw 'http://%s/%s%s' % (settings.base_url, 'auth/logout/?next=', url_escape(handler.request.path)) %}",
                           width: "600",
-                          height: "400"
+                          height: "600"
                     };
             };
             </script>
