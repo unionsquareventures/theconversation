@@ -15,7 +15,7 @@ from raven.contrib.tornado import AsyncSentryClient
 
 from handlers.base import BaseHandler
 from handlers.post import PostHandler
-from handlers.auth import TwitterLoginHandler, LogoutHandler
+from handlers.auth import TwitterLoginHandler, LogoutHandler, CloseHandler
 from handlers.fake_error import FakeErrorHandler
 from handlers.deleted_posts import DeletedPostsHandler
 from handlers.featured_posts import FeaturedPostsHandler
@@ -55,6 +55,7 @@ def init_app(bundle=True, auth_passthrough=False):
             (r'/auth/twitter/', TwitterLoginHandler),
             (r'/auth/logout/?', LogoutHandler),
             (r'/auth/email/?', EmailHandler),
+            (r'/auth/close_popup/?', CloseHandler),
 
             (r'/fake_error/?', FakeErrorHandler),
             (r'/delete_user/?', DeleteUserHandler),

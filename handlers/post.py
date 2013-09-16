@@ -103,15 +103,16 @@ class PostHandler(BaseHandler):
         id_str = self.get_current_user_id_str()
         if id_str:
             u = UserInfo.objects.get(user__id_str=id_str)
-            user_url = 'http://www.twitter.com/%s' % u.user.screen_name
-            user_info = {
-                    'id': id_str,
-                    'username': u.user.username,
-                    'email': u.email_address,
-                    'avatar': u.user.profile_image_url,
-                    'url': user_url,
-            }
-            sso = self.settings['disqus'].get_sso(True, user_info)
+            if u.email_address:
+                user_url = 'http://www.twitter.com/%s' % u.user.screen_name
+                user_info = {
+                        'id': id_str,
+                        'username': u.user.username,
+                        'email': u.email_address,
+                        'avatar': u.user.profile_image_url,
+                        'url': user_url,
+                }
+                sso = self.settings['disqus'].get_sso(True, user_info)
         self.vars.update({
             'post': post,
             'disqus_sso': sso,
@@ -229,7 +230,7 @@ class PostHandler(BaseHandler):
             thread_id = response['id']
             disqus.subscribe(lambda x: None, user_info, thread_id)
         thread_info = {
-                'title': post.title,
+                'title': post.title.encode('utf-8'),
                 'identifier': post.id,
         }
         disqus.create_thread(_created, user_info, thread_info)

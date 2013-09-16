@@ -98,17 +98,11 @@ class Disqus(object):
 
         if format_html:
             # return a script tag to insert the sso message
-            return """
-    <script type="text/javascript">
-        var disqus_config = function() {
-            this.page.remote_auth_s3 = "%(message)s %(sig)s %(timestamp)s";
-            this.page.api_key = "%(pub_key)s";
-        }
-    </script>""" % dict(
-            message=message,
-            timestamp=timestamp,
-            sig=sig,
-            pub_key=self._public,
+            return """this.page.remote_auth_s3 = "%(message)s %(sig)s %(timestamp)s";""" % dict(
+                message=message,
+                timestamp=timestamp,
+                sig=sig,
+                pub_key=self._public,
             )
         else:
             return "%(message)s %(sig)s %(timestamp)s" % dict(

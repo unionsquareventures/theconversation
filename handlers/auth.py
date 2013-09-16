@@ -59,8 +59,8 @@ class TwitterLoginHandler(BaseHandler, tornado.auth.TwitterMixin):
             self.set_secure_cookie('email_address', u.email_address)
         self.redirect(self.get_next())
 
+
 class LogoutHandler(BaseHandler):
-    @tornado.web.asynchronous
     def get(self):
         self.clear_cookie("user_id_str")
         self.clear_cookie("debug_username")
@@ -68,4 +68,10 @@ class LogoutHandler(BaseHandler):
         self.clear_cookie("access_token")
         self.clear_cookie("oauth_token")
         self.clear_cookie("_oauth_request_token")
-        self.redirect("/")
+        next = self.get_argument('next', '/')
+        self.redirect(next)
+
+
+class CloseHandler(BaseHandler):
+    def get(self):
+        self.render('auth/close_popup.html')
