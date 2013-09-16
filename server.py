@@ -41,6 +41,8 @@ def init_app(bundle=True, auth_passthrough=False):
     sendgrid = Sendgrid(settings.sendgrid_user, settings.sendgrid_secret, sentry_client)
     disqus = Disqus(settings.disqus_public_key, settings.disqus_secret_key,
                     settings.disqus_apikey, sentry_client)
+    # Connect to Redis with a 200 msec timeout
+    redis = StrictRedis.from_url(settings.redis_url, socket_timeout=.2)
     # Bundle JS/CSS
     if settings.tornado_config['debug'] and bundle:
         logging.info('Bundling JS/CSS')
@@ -74,6 +76,7 @@ def init_app(bundle=True, auth_passthrough=False):
             (r'/generate_hackpad/?', HackpadHandler),
             ], ui_modules = ui.template_modules(),
             ui_methods = ui.template_methods(),
+            redis=redis,
             sendgrid=sendgrid,
             disqus=disqus,
             old_post_urls=old_post_urls,
