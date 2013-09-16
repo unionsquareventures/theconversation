@@ -85,11 +85,25 @@ class EmailHandler(BaseHandler):
     @tornado.web.asynchronous
     def post(self):
         self.next = self.get_argument('next', '')
-        self.email = self.get_argument('email')
+        self.email = self.get_argument('email', '')
         self.subscribe_to = self.get_argument('subscribe_to', '')
         self.token = str(uuid.uuid4())
         self.link = 'http://%s/auth/email/?token=%s' % (settings.base_url, self.token)
-
+        # Clear the existing email address
+        if not self.email:
+            id_str = self.get_current_user_id_str()
+            u = UserInfo.objects.get(user__id_str=id_str)
+            u.email_address = ''
+            u.save()
+            self.vars.update({
+                'email': '',
+                'errors': '',
+                'next': self.next,
+                'subscribe_to': self.subscribe_to,
+                'status': 'enter_email_cleared',
+            })
+            self.render('email/index.html', **self.vars)
+            return
         sendgrid = self.settings['sendgrid']
         sendgrid.send_email(self._on_sendgrid, **{
             'from': 'no_reply@usv.com',

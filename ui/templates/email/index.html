@@ -14,7 +14,7 @@ $(function() {
 
 {% block content %}
 
-    {% if status == 'enter_email' %}
+    {% if status == 'enter_email' or status == 'enter_email_cleared' %}
     <form id="submit-form" class="" action="/auth/email/" method="POST">
         {% module xsrf_form_html() %}
         <input type="hidden" name="next" value="{{ next }}" />
@@ -27,6 +27,9 @@ $(function() {
             <li>Comments on submissions you create.</li>
             <li>Replies to your comments.</li>
         </ul>
+        {% if status == 'enter_email_cleared' %}
+            <b>Your email address has been cleared.</b>
+        {% end %}
         <fieldset>
             <ol>
                 <li>
