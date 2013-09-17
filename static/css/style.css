@@ -2604,10 +2604,16 @@ a:hover { color: #86aa3b; }
 #site-header {
   padding-bottom: 32px;
   margin-bottom: 0px;
-  background: linear-gradient(to bottom, rgba(160,184,110,1) 0%,rgba(141,160,80,1) 100%);
+  /* green */
+  /*background: linear-gradient(to bottom, rgba(160,184,110,1) 0%,rgba(141,160,80,1) 100%);*/
+  /* black */
   background: linear-gradient(to bottom, rgba(85,85,85,1) 0%,rgba(68,68,68,1) 100%);
+  /* gray */
+  /*background: linear-gradient(to bottom, rgba(221,221,221,1) 0%,rgba(204,204,204,1) 100%);*/
+  background: #eee;
   border-bottom: 0;
-  box-shadow: 0 2px 0 rgba(0,0,0,0.25);
+  /*box-shadow: 0 1px 0 rgba(0,0,0,0.25);*/
+  border-bottom: 1px solid #ddd;
 }
 
 h1.general-page-headline .search-term,
@@ -2652,6 +2658,7 @@ h1.general-page-headline .search-term,
 #main-nav a {
   color: #606652;
   color: #ddd;
+  color: #777;
   font-size: 1em;
   text-transform: uppercase;
   font-weight: 700;
@@ -2659,7 +2666,8 @@ h1.general-page-headline .search-term,
 #main-nav a:hover {
   background-color: #88a04b;
   background-color: #333;
-  color: #eee;
+  background-color: #ddd;
+  color: #999;
 }
 
 #main-nav a.current {
@@ -2878,6 +2886,7 @@ a.sort.btn {
   text-align: center;
   font-size: .8em;
   color: #bbb;
+  display: none;
 }
 
 #tools a {
@@ -3067,7 +3076,7 @@ a.sort.btn {
   #logo {
     width: 302px;
     height: 48px;
-    background: transparent url(/static/img/usv-logo-text-302x48-white.png) 0 0 no-repeat scroll; 
+    background: transparent url(/static/img/usv-logo-text-302x48-black.png) 0 0 no-repeat scroll; 
     background-size: 302px 48px; 
     margin-bottom: -30px;
     /*margin-top: 25px; */
