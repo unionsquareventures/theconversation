@@ -2,17 +2,20 @@
 
 {% block precontent %}
 <div id="tools">
-    <b>Welcome!</b> Grab the bookmarklet:
-    <a href="javascript:var d%3Ddocument,w%3Dwindow,e%3Dw.getSelection,k%3Dd.getSelection,x%3Dd.selection,s%3D(e%3Fe():(k)%3Fk():(x%3Fx.createRange().text:0)),f%3D%27http://beta.usv.com/posts/new%27,l%3Dd.location,e%3DencodeURIComponent,p%3D%27%3Fv%3D3%26url%3D%27%2Be(l.href) %2B%27%26title%3D%27%2Be(d.title) %2B%27%26s%3D%27%2Be(s),u%3Df%2Bp%3Btry%7Bif(!/%5E(.*%5C.)%3Ftumblr%5B%5E.%5D*%24/.test(l.host))throw(0)%3Btstbklt()%3B%7Dcatch(z)%7Ba %3Dfunction()%7Bif(!w.open(u,%27t%27,%27toolbar%3D0,resizable%3D0,status%3D1,width%3D450,height%3D430%27))l.href%3Du%3B%7D%3Bif(/Firefox/.test(navigator.userAgent))setTimeout(a,0)%3Belse a()%3B%7Dvoid(0)">Post to USV.com</a> (&larr; drag to your bookmarks bar), the <a href="https://chrome.google.com/webstore/detail/usvcom/ikpfoekojmeibidkolkbbocepjfdmgol" target="_blank" >Chrome extension</a>, and the <a href="https://play.google.com/store/apps/details?id=com.connectedio.usvmobile" target="_blank">Android app</a>.
+    <div class="container">
+<div class="hidden-xs" style=""><b>Welcome!</b>  Grab the the <a href="https://chrome.google.com/webstore/detail/usvcom/ikpfoekojmeibidkolkbbocepjfdmgol" target="_blank" >Chrome extension</a> or the bookmarklet:
+<a href="javascript:var d%3Ddocument,w%3Dwindow,e%3Dw.getSelection,k%3Dd.getSelection,x%3Dd.selection,s%3D(e%3Fe():(k)%3Fk():(x%3Fx.createRange().text:0)),f%3D%27http://beta.usv.com/posts/new%27,l%3Dd.location,e%3DencodeURIComponent,p%3D%27%3Fv%3D3%26url%3D%27%2Be(l.href) %2B%27%26title%3D%27%2Be(d.title) %2B%27%26s%3D%27%2Be(s),u%3Df%2Bp%3Btry%7Bif(!/%5E(.*%5C.)%3Ftumblr%5B%5E.%5D*%24/.test(l.host))throw(0)%3Btstbklt()%3B%7Dcatch(z)%7Ba %3Dfunction()%7Bif(!w.open(u,%27t%27,%27toolbar%3D0,resizable%3D0,status%3D1,width%3D450,height%3D430%27))l.href%3Du%3B%7D%3Bif(/Firefox/.test(navigator.userAgent))setTimeout(a,0)%3Belse a()%3B%7Dvoid(0)">Post to USV.com</a> (&larr; drag to your bookmarks bar).</div>
+
+<div class="visible-xs"><b>Welcome!</b> Get the <a href="https://play.google.com/store/apps/details?id=com.connectedio.usvmobile" target="_blank">Android app</a>.</div></div>
 </div>
 {% end %}
 
 {% block content %}
 <div id="main" role="main">
     <section class="featured-feed clearfix{{ ' mobile-hidden' if (rstart > 0) or sort_by_specified else '' }}">
-        <ul class="tabs">
+        <!--<ul class="tabs">
             <li><a class="current" href="/featured_posts">Featured</a></li>
-        </ul>
+        </ul>-->
         <ul class="feed">
             {% for post in featured_posts %}
             <li>
@@ -46,8 +49,9 @@
 
     <section class="hot-newest-feed">
         <ul class="tabs">
-          <li><a class="{{ 'current' if sort_by == 'hot' else '' }}" href="?sort_by=hot">Hot</a></li>
-          <li><a class="{{ 'current' if sort_by == 'new' else '' }}" href="?sort_by=new">Newest</a></li>
+          <li class="{{ 'is-active' if sort_by == 'hot' else '' }}"><a class="sort btn" href="?sort_by=hot">Hot</a></li>
+          <li class="{{ 'is-active' if sort_by == 'new' else '' }}"><a class="sort btn" href="?sort_by=new">Newest</a></li>
+          <li class="submit-btn"><a class="btn btn-primary" href="">Post a link</a></li>
         </ul>
 
         <ul class="feed">
@@ -59,29 +63,30 @@
 
             {% for post in posts %}
             <li>
-                <div class="thumbnail">
-                  <a href="http://www.twitter.com/{{ post.user.username }}" target="_blank">
-                    <img src="{{ twitter_avatar_size(post.user.profile_image_url_https, 'normal') }}" alt="thumbnail">
-                  </a>
+              <div class="avatar">
+                <a href="http://www.twitter.com/{{ post.user.username }}" target="_blank">
+                <img src="{{ twitter_avatar_size(post.user.profile_image_url_https, 'normal') }}" alt="thumbnail">
+                </a>
+              </div>
+              <div class="content">
+            
+                {% if post.url %}
+                    <a class="title" href="{{ post.url }}" target="_blank">{{ post.title }}</a>
+                    <a href="{{ post.url }}" class="source" target="_blank">{{ urlparse(post.url).netloc }}</a>
+                {% else %}
+                    <a class="title" href="/posts/{{ post.slug }}" target="_blank">{{ post.title }}</a>
+                    <a href="/posts/{{ post.slug }}" class="source" target="_blank">usv.com</a>
+                {% end %}
+            
+                <div class="meta">
+                  <a class="username" href="http://www.twitter.com/{{ post.user.username }}" target="_blank">@{{ post.user.username }}</a>
+                  <span class="time">{{ pretty_date(post.date_created) }}</span>
+                  {% module ajax_upvote_link(post=post) %}                
+                  <a class="comments-count" href="/posts/{{ post.slug }}" data-disqus-identifier="{{ post.id }}" target="_blank">0 comments</a>
                 </div>
-                <div class="content">
-                  {% if post.url %}
-                      <a class="title" href="{{ post.url }}" target="_blank">{{ post.title }}</a>
-                      <a href="{{ post.url }}" class="source" target="_blank">{{ urlparse(post.url).netloc }}</a>
-                  {% else %}
-                      <a class="title" href="/posts/{{ post.slug }}" target="_blank">{{ post.title }}</a>
-                      <a href="/posts/{{ post.slug }}" class="source" target="_blank">usv.com</a>
-                  {% end %}
-                  <div class="meta">
-                    <a class="username" href="http://www.twitter.com/{{ post.user.username }}" target="_blank">@{{ post.user.username }}</a>
-                      <span class="time">{{ pretty_date(post.date_created) }}</span>
-                      {% module ajax_upvote_link(post=post) %}
-                      <a class="comments-count" href="/posts/{{ post.slug }}" target="_blank"
-                          data-disqus-identifier="{{ post.id }}">0 comments</a>
-                  </div>
-                </div>
-              </li>
-              {% end %}
+              </div>
+              </li>              
+            {% end %}
         </ul><!--end of feed-->
 
         <div id="pagination-next-prev">
