@@ -2876,8 +2876,8 @@ a.sort.btn {
 }
 
 #tools {
-  background: #444;
-  /*border: 1px solid #ddd;*/
+  background: #eee;
+  border-bottom: 1px solid #ddd;
   border-top: none;
 /*  background: #e1e1e1;*/
   /*background: #ddd;*/
@@ -2886,12 +2886,12 @@ a.sort.btn {
   margin-bottom: 0px;
   text-align: center;
   font-size: .8em;
-  color: #ccc;
+  color: #555;
 }
 
 #tools a {
   /*font-weight: bold;*/
-  color: #a8b57d;
+  color: #7e8e39;
 }
 
 .featured-title {
@@ -3074,13 +3074,13 @@ a.sort.btn {
   }
 
   #logo {
-    width: 300px;
-    height: 48px;
-    background: transparent url(/static/img/usv-logo-text-300x48-white.png?v=2) 0 0 no-repeat scroll; 
-    background-size: 300px 48px; 
+    width: 313px;
+    height: 26px;
+    background: transparent url(/static/img/usv-logo-text-white-313x26.png?v=3) 0 0 no-repeat scroll; 
+    background-size: 313px 26px; 
     margin-bottom: -30px;
     /*margin-top: 25px; */
-    margin-top: 0px;
+    margin-top: 10px;
   }
 
 }
