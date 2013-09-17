@@ -51,7 +51,7 @@ class TwitterLoginHandler(BaseHandler, tornado.auth.TwitterMixin):
         #sh = gc.open_by_url("https://docs.google.com/a/usv.com/spreadsheet/ccc?key=0Ao-LVWqLOcQEdGNpcW1INVkxTS0yZnpNR05Ud0d6U3c")
         #worksheet = sh.get_worksheet(0)
         #testers = worksheet.col_values(1)
-        allowed_users = testers + settings.staff_twitter_handles
+        # allowed_users = testers + settings.staff_twitter_handles
         
         # FIXME this is a hack
         # give ourselves a sec for the google spreadsheet to come back
