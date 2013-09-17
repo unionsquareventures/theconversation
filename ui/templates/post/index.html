@@ -17,8 +17,8 @@
             <li><a class="current" href="/featured_posts">Featured</a></li>
         </ul>-->
         <ul class="feed">
-            {% for post in featured_posts %}
-            <li>
+            {% for i, post in enumerate(featured_posts) %}
+            <li {% if i > 0 %}class="hidden-xs"{% end %}>
                 <div class="content">
                   {% if post.url %}
                       <a class="title" href="{{ post.url }}" target="_blank">{{ post.title }}</a>
