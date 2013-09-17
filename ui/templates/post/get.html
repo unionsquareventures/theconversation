@@ -6,25 +6,96 @@
 
 {% block content %}
 <div id="main" role="main">
-    <article class="article-post">
-    <h1>
-        {% if post.url %}
-        <a href="{{ post.url }}" target="_blank">{{ post.title }}</a>
-        {% else %}
-            {{ post.title }}
-        {% end %}
-    </h1>
-
-        <span class="post-date">{{ pretty_date(post.date_created) }}</span>
-
-        <div class="meta-wrapper clearfix">
+    
+    <div class="row article-post single">
+        <div class="col-sm-3">
             <div class="profile-photo">
                 <a href="http://www.twitter.com/{{ post.user.username }}" target="_blank">
                   <img src="{{ twitter_avatar_size(post.user.profile_image_url_https, 'original') }}" alt="thumbnail">
                 </a>
                 <span class="author-name">{{ post.user.fullname }}</span>
             </div>
-
+        </div><!-- /.col3 -->
+        <div class="col-sm-6">
+            <article class="">
+                <h1>
+                    {% if post.url %}
+                    <a href="{{ post.url }}" target="_blank">{{ post.title }}</a>
+                    {% else %}
+                        {{ post.title }}
+                    {% end %}
+                </h1>
+            <span class="post-date">{{ pretty_date(post.date_created) }}</span> 
+            
+            <div class="post-body">
+              {#
+                <a class="shared-link" href="http://apple.com/example-of-very-long-url-slug" target="_blank" title="Source: http://apple.com/example-of-very-long-url-slug">
+                    <span>apple.com/example-of-very-long-url-slug &rarr;</span>
+                </a>
+              #}
+                {% raw post.body_html %}
+            
+                {% if post.has_hackpad and post.hackpad_url %}
+                  <p><a class="post-body-hackpad-link" target="_blank" href="{{ post.hackpad_url }}">Hackpad &rarr;</a></p>
+                {% end %}
+                {% if post.tags %}
+                    <b>Tags:</b>
+                    {% for count, tag in enumerate(post.tags) %}
+                        <a href="/search?tag={{ url_escape(tag) }}">{{ tag }}</a>{% if count < len(post.tags) -1 %}, {% end %}
+                    {% end %}
+                {% end %}
+            </div><!--end of post-body-->
+            
+            <div class="share-widget for-mobile">
+                <span class="heading">Share Post</span>
+                <div class="share-twitter" data-url="{{ 'http://%s/posts/%s' % (settings.base_url, post.slug) }}" data-text="{{ post.title }}"></div>
+                <div class="share-facebook" data-url="{{ 'http://%s/posts/%s' % (settings.base_url, post.slug) }}" data-text="{{ post.title }}"></div>
+                <div class="share-googleplus" data-url="{{ 'http://%s/posts/%s' % (settings.base_url, post.slug) }}" data-text="{{ post.title }}"></div>
+            </div>
+            
+            <div class="comment-box">
+                <div id="disqus_thread"></div>
+            
+                <script type="text/javascript">
+                    var disqus_config = function() {
+                        {% raw disqus_sso %}
+                        this.page.api_key = '{{ settings.disqus_public_key }}';
+            
+                        this.sso = {
+                              name: "USV",
+                              button: "{{ 'http://%s/%s' % (settings.base_url, 'static/img/disqus-sso-login-button.png') }}",
+                              icon: "{{ 'http://%s/%s' % (settings.base_url, 'static/favicon.png') }}",
+                              url: "{% raw 'http://%s/%s%s' % (settings.base_url, 'auth/twitter/?email_required=1&close_popup=1'\
+                                                                                            '&next=', url_escape(handler.request.path)) %}",
+                              logout: "{% raw 'http://%s/%s%s' % (settings.base_url, 'auth/logout/?next=', url_escape(handler.request.path)) %}",
+                              width: "600",
+                              height: "600"
+                        };
+                };
+                </script>
+            
+                <script type="text/javascript">
+                    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+                    var disqus_shortname = "{{ settings.disqus_apikey }}"; // required: replace example with your forum shortname
+                    var disqus_identifier = "{{ post.id }}";
+                    var disqus_title = "{{ post.title }}";
+            
+                    /* * * DON'T EDIT BELOW THIS LINE * * */
+                    (function() {
+                        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+                    })();
+                </script>
+                <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+                <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+            </div><!--end of comment-box-->
+            
+        </article>
+            
+        </div><!-- /.col6 -->
+        
+        <div class="col-sm-3">
             <div class="profile-links">
                 <span class="author">by {{ post.user.fullname }}</span>
                 {% module ajax_upvote_link(post=post) %}
@@ -33,7 +104,7 @@
                 {% if post.user.id_str == user_id_str or is_admin() %}
                     <a href="/posts/{{ post.slug }}/edit" class="edit-post">Edit Post</a>
                 {% end %}
-
+            
                 <div class="share-widget">
                     <span class="heading">Share Post</span>
                     <div class="share-twitter" data-url="{{ 'http://%s/posts/%s' % (settings.base_url, post.slug) }}" data-text="{{ post.title }}"></div>
@@ -41,71 +112,10 @@
                     <div class="share-googleplus" data-url="{{ 'http://%s/posts/%s' % (settings.base_url, post.slug) }}" data-text="{{ post.title }}"></div>
                 </div>
             </div>
-        </div>
+        </div><!-- /col3 -->
+        
+        
+    </div><!-- /.row -->
 
-        <div class="post-body">
-          {#
-            <a class="shared-link" href="http://apple.com/example-of-very-long-url-slug" target="_blank" title="Source: http://apple.com/example-of-very-long-url-slug">
-                <span>apple.com/example-of-very-long-url-slug &rarr;</span>
-            </a>
-          #}
-            {% raw post.body_html %}
-
-            {% if post.has_hackpad and post.hackpad_url %}
-              <p><a class="post-body-hackpad-link" target="_blank" href="{{ post.hackpad_url }}">Hackpad &rarr;</a></p>
-            {% end %}
-            {% if post.tags %}
-                <b>Tags:</b>
-                {% for count, tag in enumerate(post.tags) %}
-                    <a href="/search?tag={{ url_escape(tag) }}">{{ tag }}</a>{% if count < len(post.tags) -1 %}, {% end %}
-                {% end %}
-            {% end %}
-        </div><!--end of post-body-->
-
-        <div class="share-widget for-mobile">
-            <span class="heading">Share Post</span>
-            <div class="share-twitter" data-url="{{ 'http://%s/posts/%s' % (settings.base_url, post.slug) }}" data-text="{{ post.title }}"></div>
-            <div class="share-facebook" data-url="{{ 'http://%s/posts/%s' % (settings.base_url, post.slug) }}" data-text="{{ post.title }}"></div>
-            <div class="share-googleplus" data-url="{{ 'http://%s/posts/%s' % (settings.base_url, post.slug) }}" data-text="{{ post.title }}"></div>
-        </div>
-
-        <div class="comment-box">
-            <div id="disqus_thread"></div>
-
-            <script type="text/javascript">
-                var disqus_config = function() {
-                    {% raw disqus_sso %}
-                    this.page.api_key = '{{ settings.disqus_public_key }}';
-
-                    this.sso = {
-                          name: "USV",
-                          button: "{{ 'http://%s/%s' % (settings.base_url, 'static/img/disqus-sso-login-button.png') }}",
-                          icon: "{{ 'http://%s/%s' % (settings.base_url, 'static/favicon.png') }}",
-                          url: "{% raw 'http://%s/%s%s' % (settings.base_url, 'auth/twitter/?email_required=1&close_popup=1'\
-                                                                                        '&next=', url_escape(handler.request.path)) %}",
-                          logout: "{% raw 'http://%s/%s%s' % (settings.base_url, 'auth/logout/?next=', url_escape(handler.request.path)) %}",
-                          width: "600",
-                          height: "600"
-                    };
-            };
-            </script>
-
-            <script type="text/javascript">
-                /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
-                var disqus_shortname = "{{ settings.disqus_apikey }}"; // required: replace example with your forum shortname
-                var disqus_identifier = "{{ post.id }}";
-                var disqus_title = "{{ post.title }}";
-
-                /* * * DON'T EDIT BELOW THIS LINE * * */
-                (function() {
-                    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-                    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-                    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-                })();
-            </script>
-            <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-            <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
-        </div><!--end of comment-box-->
-    </article>
 </div><!--end of main-->
 {% end %}

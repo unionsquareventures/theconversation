@@ -1913,10 +1913,14 @@ ul.filter li.active a {
     margin-bottom: 10px; }
 @media only screen and (min-width: 769px) {
   .article-post {
-    padding-left: 220px;
-    position: relative; }
+     }
     .article-post h1 {
-      font-size: 2em; }
+      font-size: 2em; 
+      font-weight: bold;
+      }
+    .article-post h1 a {
+      color: #000;
+    }
     .article-post .post-body {
       font-size: 1.125em; }
     .article-post .author {
@@ -1942,9 +1946,7 @@ ul.filter li.active a {
       display: block; } }
 @media only screen and (min-width: 1100px) {
   .article-post {
-    position: relative;
-    width: 620px;
-    padding: 0 220px; }
+     }
     .article-post .meta-wrapper {
       margin: 0; }
       .article-post .meta-wrapper .author {
