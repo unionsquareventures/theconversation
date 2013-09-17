@@ -3076,7 +3076,7 @@ a.sort.btn {
   #logo {
     width: 300px;
     height: 48px;
-    background: transparent url(/static/img/usv-logo-text-300x48-white.png) 0 0 no-repeat scroll; 
+    background: transparent url(/static/img/usv-logo-text-300x48-white.png?v=2) 0 0 no-repeat scroll; 
     background-size: 300px 48px; 
     margin-bottom: -30px;
     /*margin-top: 25px; */
