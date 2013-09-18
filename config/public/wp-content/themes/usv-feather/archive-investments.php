@@ -7,7 +7,7 @@
 			
 			
 			<div id="portfolio-filter" data-spy="affix" data-offset-top="125">
-				<p class="text-muted" style="margin-top: 0;">By Location:</p>
+				<p class="text-muted" style="margin-top: 0;">By location:</p>
 				<ul class="filter-tabs" id="locations">
 					<li class="all active"><a href="#" usv:filter="all">All</a></li>
 				</ul>

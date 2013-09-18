@@ -85,7 +85,7 @@
                 if ($.inArray(year, year_options) == -1) {
                     // we haven't seen this one yet
                     if (year != "" && typeof(year) != "undefined") {
-                        city_options.push(year);
+                        year_options.push(year);
                     }
                 }
             });
