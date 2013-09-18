@@ -2743,16 +2743,18 @@ h1.general-page-headline .search-term,
   -webkit-border-radius: 2px 2px 0 0;
      -moz-border-radius: 2px 2px 0 0;
           border-radius: 2px 2px 0 0;
-  
 }
-
-
 
 .featured-feed .feed .excerpt {
   color: #000;
 }
 .hot-newest-feed .tabs {
   margin: 4px 0 16px;
+}
+@media only screen and (max-width: 480px) {
+  .hot-newest-feed .tabs {
+    margin-bottom: 0px; 
+  }
 }
 .hot-newest-feed .tabs li {
   padding-right: 0;
