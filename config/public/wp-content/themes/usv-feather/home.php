@@ -214,9 +214,9 @@
 	</section><!--end of featured-feed-->
 	<section class="hot-newest-feed">
 	<ul class="tabs">
-	  <li class="is-active"><a class="btn" href="?sort_by=hot">Hot</a></li>
-	  <li><a class="btn" href="?sort_by=new">Newest</a></li>
-	  <li class="submit-btn"><a class="btn btn-primary" href="">Submit a post</a></li>
+	  <li class="is-active"><a class="sort btn" href="?sort_by=hot">Hot</a></li>
+	  <li><a class="sort btn" href="?sort_by=new">Newest</a></li>
+	  <li class="submit-btn"><a class="btn" href="">Submit a post</a></li>
 	</ul>
 	<ul class="feed">
 	
