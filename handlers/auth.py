@@ -6,7 +6,7 @@ import tornado.httpserver
 from models.user_info import UserInfo, User, AccessToken
 from base import BaseHandler
 import urlparse
-import gspread
+#import gspread
 import time
 
 class TwitterLoginHandler(BaseHandler, tornado.auth.TwitterMixin):

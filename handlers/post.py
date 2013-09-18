@@ -21,7 +21,7 @@ class PostHandler(BaseHandler):
     def __init__(self, *args, **kwargs):
         super(PostHandler, self).__init__(*args, **kwargs)
 
-    def index(self):        
+    def index(self):
         # list posts
         query = {}
         tag = self.get_argument('tag', '').lower()
@@ -96,7 +96,7 @@ class PostHandler(BaseHandler):
             'count': original_count,
             'action': action,
         })
-        
+
         if 'callback' in self.request.arguments:
             text = self.render_string('../modules/posts_list/main.html', **self.vars)
             text = text.replace('\n', ' ').replace('\r', '')
