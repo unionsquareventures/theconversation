@@ -909,11 +909,22 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
     border-bottom: 1px solid #dfdfdf; 
 
     }
-  .featured-feed .feed li {
+  .featured-feed .feed .featured-post {
     background: #eee;
     padding: 20px;
     margin-bottom: 25px;
     border-bottom: 1px solid #ccc;
+  }
+  .swipe .featured-post {
+    height: 120px;
+    margin-bottom: 10px !important;
+    position: relative;
+  }
+  .swipe .featured-post .meta {
+    position: absolute;
+    width: 100%;
+    left: 0;
+    bottom: 5px;
   }
   .feed li.new_posts_notification {
     margin: 0;
