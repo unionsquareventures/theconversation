@@ -2749,7 +2749,7 @@ h1.general-page-headline .search-term,
   color: #000;
 }
 .hot-newest-feed .tabs {
-  margin: 4px 0 16px;
+  margin: 4px 0 28px;
 }
 .hot-newest-feed span.username {
   display: none !important;
@@ -2966,7 +2966,7 @@ a.sort.btn {
   padding: 0 0 10px;
   /*box-shadow: 0 1px 0 rgba(0,0,0,0.15);*/
   margin-bottom: 10px;
-  text-align: left;
+  text-align: center;
   font-size: .8em;
   color: #555;
   position: relative;
