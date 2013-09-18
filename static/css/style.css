@@ -1171,7 +1171,7 @@ article.page {
       border-top: 1px solid #dfdfdf; }
     article.page .stats li {
       margin: 0;
-      padding: 10px 0;
+      padding: 5px 0 10px 0;
       border-bottom: 1px solid #dfdfdf;
       list-style: none;
       font-size: 0.75em;
@@ -1207,8 +1207,26 @@ article.page {
     height: auto; }
 
 
+/* =About page
+====================================================*/
+
+article.page .feature {
+  background: #eee;
+  border-bottom: #ccc;
+  padding: 20px;
+}
+
 /* =Team
 ===================================================================*/
+
+h2.section-heading {
+  text-align: center;
+  /*border-top: 1px solid #ddd;*/
+  border-bottom: 1px solid #ddd;
+  padding: 8px;
+  
+}
+
 .team h2 {
   font-size: 1em; }
 .team ul {
@@ -1217,18 +1235,23 @@ article.page {
 .person {
   text-align: center;
   list-style: none;
-  /*background: #eee;
-  border-bottom: 1px solid #ddd;*/
-  /*padding: 10px;*/
+  background: #eee;
+  border-bottom: 1px solid #ddd;
+  padding: 10px;
   margin-bottom: 25px;
   position: relative;
+  color: #aaa;
   }
   .person img {
     /*width: 100%;
     height: auto;*/
     margin: 0 auto 15px;
     margin-bottom: 10px;
-    border: 4px solid #DFDFD1;
+    /*border: 4px solid #DFDFD1;*/
+    border: 1px solid #DFDFD1;
+  }
+  .person a {
+    color:#333 !important;
   }
   .person .editlink {
     top: 0px;
@@ -1582,13 +1605,15 @@ ul.filter li.active a {
   /*margin-top: 0;*/
 }
 
-.investments-list li p.summary {
+.investments-list p.summary {
   color: #555;
   line-height: 1.3em;
   margin-bottom: 0;
+  text-align: center;
 }
 .investments-list p.summary a {
   font-weight: bold;
+  color: #333;
 }
 .btn-continue {
   font-weight: 600;
@@ -2795,7 +2820,7 @@ h1.general-page-headline .search-term,
 
 #portfolio-filter.affix {
   top: 10px;
-  width: 145px;
+  width: 233px;
 }
 ul.investments-list {
   float: right;
