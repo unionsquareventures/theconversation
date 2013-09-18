@@ -110,16 +110,25 @@
             $(".filter-tabs a").click(function(e) {
                 var query = $(this).attr("usv:filter");
                 
-                // make all the "alls" active
-                $('all').addClass('active');
-        
+                // deactivate all other tabs
+                $('.filter-tabs li').removeClass('active');
+                
+                // make all the "alls" active, just in case
+                $('.all').addClass('active');
+                
+                // make this active.
+                $(this).parent().addClass('active');
+                
+                // deactivate this one's parent all
+                $(this).parent().parent().find('.all').removeClass('active');
+                                
+                // hide or show all the companies
                 $('.company').parent().each(function(){
                     if ($(this).attr("usv:city") == query || $(this).attr("usv:investment_series") == query || $(this).attr("usv:investment_date") == query) {
                         $(this).show();
                     } else {
                         $(this).hide();
                     }
-        
                 });
                 
                 if (query == "all") {
@@ -127,17 +136,7 @@
                     $('.filter-tabs li').removeClass('active');
                     // make all the "alls" active
                     $('.all').addClass('active');
-                } else {
-                    // make this list's "all" inactive
-                    $(this).parent().parent().find('.all').removeClass('active');
-                    //$('.filter-tabs li').removeClass('active');
                 }
-                
-                // make all the "alls" active
-                $('all').addClass('active');
-                
-                // make this active.
-                $(this).parent().addClass('active');
                 
             });
         

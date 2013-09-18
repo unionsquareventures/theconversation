@@ -1359,7 +1359,11 @@ article.page {
 
 .investments h2 {
   font-size: 1em; }
-
+.company-container {
+  width: 21%;
+  float:left;
+  margin-right: 28px;
+}
 .company {
   background: #eee;
   border-bottom: 1px solid #ddd;
@@ -1377,7 +1381,7 @@ article.page {
   margin: 0;
   width: 100%;
   height: auto;
-  border-bottom: 1px solid #ddd;
+  border: 1px solid #ddd;
 }
 .company .since-date {
   color: #888;
@@ -1551,7 +1555,7 @@ ul.filter li.active a {
 }
 
 .investments-list {
-  float: right;
+  /*float: right;*/
   font-weight: 100;
   line-height: 1.25;
 }
@@ -2666,6 +2670,8 @@ a:hover { color: #86aa3b; }
   background: -ms-linear-gradient(top, #a0b86e 0%,#809831 100%); /* IE10+ */
   background: linear-gradient(to bottom, #a0b86e 0%,#809831 100%); /* W3C */
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a0b86e', endColorstr='#809831',GradientType=0 ); /* IE6-9 */
+  background: #a0b86e;
+  
 }
 
 

@@ -3,7 +3,7 @@
 	<h1 class="mobile-page-headline">Investments</h1>
 
 	<div class="row">
-		<div class="col-lg-2 col-xs-2 hidden-xs">
+		<div class="col-lg-3 col-xs-2 hidden-xs">
 			
 			
 			<div id="portfolio-filter" data-spy="affix" data-offset-top="125">
@@ -23,7 +23,7 @@
 			
 		</div><!-- /col-lg-2 -->
 		
-		<div class="col-md-10 col-xs-12">
+		<div class="col-md-9 col-xs-12">
 			<h2 class="subsection">Current Portfolio</h2>
 			<div class="row investments-list">
 								<?php
