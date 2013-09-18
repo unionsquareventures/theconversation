@@ -78,6 +78,18 @@
             });
             city_options.sort();
             city_options.reverse();
+            
+            var year_options = [];
+            $('.company').each(function() {
+                var year = $(this).parent().attr('usv:investment_date');
+                if ($.inArray(year, year_options) == -1) {
+                    // we haven't seen this one yet
+                    if (year != "" && typeof(year) != "undefined") {
+                        city_options.push(year);
+                    }
+                }
+            });
+            year_options.sort();
         
         
         
@@ -87,6 +99,10 @@
         
             for (var i = 0; i < city_options.length; i++ ) {
                 $("#locations li:first").after('<li><a href="#" usv:filter="' + city_options[i] + '">' + city_options[i] + '</a></li>');
+            }
+            
+            for (var i = 0; i < year_options.length; i++ ) {
+                $("#years li:first").after('<li><a href="#" usv:filter="' + year_options[i] + '">' + year_options[i] + '</a></li>');
             }
         
         
@@ -104,7 +120,7 @@
                 }
         
                 $('.company').parent().each(function(){
-                    if ($(this).attr("usv:city") == query || $(this).attr("usv:investment_series") == query) {
+                    if ($(this).attr("usv:city") == query || $(this).attr("usv:investment_series") == query || $(this).attr("usv:investment_date") == query) {
                         $(this).show();
                     } else {
                         $(this).hide();

@@ -15,6 +15,10 @@
 				<ul class="filter-tabs" id="series">
 					<li class="all active"><a href="#" usv:filter="all">All</a></li>
 				</ul>
+				<p class="text-muted" style="white-space:nowrap">By year:</p>
+				<ul class="filter-tabs" id="years">
+					<li class="all active"><a href="#" usv:filter="all">All</a></li>
+				</ul>
 				</div>
 			
 		</div><!-- /col-lg-2 -->
