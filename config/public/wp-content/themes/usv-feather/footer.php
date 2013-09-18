@@ -109,15 +109,28 @@
         
             $(".filter-tabs a").click(function(e) {
                 var query = $(this).attr("usv:filter");
-        
-                $('.filter-tabs li').removeClass('active');
-                $(this).parent().addClass('active');
-        
+                
+                // make all the "alls" active
+                $('all').addClass('active');
+                
                 if (query == "all") {
                     $('.company').parent().show();
+                    $('.filter-tabs li').removeClass('active');
+                    // make all the "alls" active
                     $('.all').addClass('active');
-                    return
+                } else {
+                    // make this list's "all" inactive
+                    $(this).parent().parent().find('.all').removeClass('active');
+                    //$('.filter-tabs li').removeClass('active');
                 }
+                
+                // make all the "alls" active
+                $('all').addClass('active');
+                
+                // make this active.
+                $(this).parent().addClass('active');
+        
+                
         
                 $('.company').parent().each(function(){
                     if ($(this).attr("usv:city") == query || $(this).attr("usv:investment_series") == query || $(this).attr("usv:investment_date") == query) {
