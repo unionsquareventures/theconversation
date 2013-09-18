@@ -2767,8 +2767,8 @@ h1.general-page-headline .search-term,
   .hot-newest-feed a.username-link {
     display: none !important;
   }
-  .hot-newest-feed .username {
-    display: inline;
+  .hot-newest-feed span.username {
+    display: inline !important;
   }
 }
 .hot-newest-feed .tabs li {
