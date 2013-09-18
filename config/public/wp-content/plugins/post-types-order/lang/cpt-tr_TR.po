@@ -1,0 +1,202 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Post Types Order v1.5.8\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2012-12-07 16:41+0200\n"
+"PO-Revision-Date: 2013-06-09 17:13+0200\n"
+"Last-Translator: Bilal Gümüş <info@bilalgumus.com>\n"
+"Language-Team: Bilal Gümüş <info@bilalgumus.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Poedit 1.5.5\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;__ngettext:1,2;_n:1,2;__ngettext_noop:1,2;"
+"_n_noop:1,2;_c,_nc:4c,1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2\n"
+"X-Poedit-Basepath: ../\n"
+"X-Textdomain-Support: yes\n"
+"Language: Türkçe\n"
+"X-Poedit-SearchPath-0: .\n"
+
+# @ cpt
+#: post-types-order.php:108
+msgid "Post Types Order must be configured. Please go to"
+msgstr "Yazı Tipi Sıralaması ayarlanmalı. Lütfen"
+
+# @ cpt
+#: post-types-order.php:108
+msgid "Settings Page"
+msgstr "Ayarlar Sayfasına"
+
+# @ cpt
+#: post-types-order.php:108
+msgid "make the configuration and save"
+msgstr "gidin, ayarları yapın ve kaydedin"
+
+# @ cpt
+#: post-types-order.php:469
+msgid ""
+"This plugin can't work without javascript, because it's use drag and drop "
+"and AJAX."
+msgstr ""
+"Bu eklenti javascript olmadan çalışamaz, çünkü sürükle ve bırak ve AJAX "
+"kullanıyor."
+
+# @ cpt
+#: post-types-order.php:498
+msgid "Items Order Updated"
+msgstr "Öğelerin Sıralaması Güncellendi"
+
+# @ default
+#: post-types-order.php:515
+msgid "Pages"
+msgstr ""
+
+# @ cpt
+#: include/functions.php:65
+msgid ""
+"Did you find this plugin useful? Please support our work with a donation or "
+"write an article about this plugin in your blog with a link to our site"
+msgstr ""
+"Bu eklentiyi faydalı mı buldunuz? Lütfen çalışmamızı bağışla destekleyin "
+"veya eklenti hakkında blogunuzda bir yazı yazın ve sitemize link verin"
+
+# @ cpt
+#: include/functions.php:66
+msgid "Did you know there is available an Advanced version of this plug-in?"
+msgstr "Bu eklentinin bir de Gelişmiş versiyonu olduğunu biliyor muydunuz ?"
+
+# @ cpt
+#: include/functions.php:66
+msgid "Read more"
+msgstr "Devamını oku"
+
+# @ cpt
+#: include/functions.php:67
+msgid "Check our"
+msgstr "Diğer eklentimiz"
+
+# @ cpt
+#: include/functions.php:67
+msgid ""
+"plugin which allow to custom sort categories and custom taxonomies terms"
+msgstr ""
+"özel kategori sıralaması ve özel taksonomi terimlerini sıralamasına izin "
+"veriyor"
+
+# @ cpt
+#: include/options.php:16
+msgid "Settings Saved"
+msgstr "Ayarlar Kaydedildi"
+
+# @ cpt
+#: include/options.php:28
+msgid "General Settings"
+msgstr "Genel Ayarlar"
+
+# @ cpt
+#: include/options.php:34
+msgid "General"
+msgstr "Genel"
+
+# @ cpt
+#: include/options.php:39
+msgid "Minimum Level to use this plugin"
+msgstr "Eklentiyi kullanabilmek için gereken en düşük seviye"
+
+# @ cpt
+#: include/options.php:42
+msgid "Subscriber"
+msgstr "Abone"
+
+# @ cpt
+#: include/options.php:43
+msgid "Contributor"
+msgstr "Katılımcı"
+
+# @ cpt
+#: include/options.php:44
+msgid "Author"
+msgstr "Yazar"
+
+# @ cpt
+#: include/options.php:45
+msgid "Editor"
+msgstr "Editör"
+
+# @ cpt
+#: include/options.php:46
+msgid "Administrator"
+msgstr "Yönetici"
+
+# @ cpt
+#: include/options.php:52
+msgid "Auto Sort"
+msgstr "Otomatik Sırala"
+
+# @ cpt
+#: include/options.php:56
+msgid ""
+"If checked, the plug-in will automatically update the wp-queries to use the "
+"new order (<b>No code update is necessarily</b>).<br /> If you need more "
+"order customizations you will need to uncheck this and include 'menu_order' "
+"into your theme queries"
+msgstr ""
+"Eğer seçilirse, eklenti yeni sıralamayı kullanmak için otomatik olarak wp-"
+"queries i güncelleyecek  (<b>Hiç bir kod güncellemesi gerekmiyor</b>).<br/> "
+"Eğer daha fazla sıralama özelleştirmesine ihtiyaç duyuyorsanız bunu seçmeyip "
+"tema sorgularınıza 'menu_order' ı dahil etmelisiniz."
+
+# @ cpt
+#: include/options.php:58
+msgid "Show Examples"
+msgstr "Örnekleri Göster"
+
+# @ cpt
+#: include/options.php:61
+msgid "The following PHP code will still return the post in the set-up Order"
+msgstr "Aşağıdaki PHP kodu da yazıyı belirlenen sıralamaya göre gösterecektir."
+
+# @ cpt
+#: include/options.php:74
+msgid "Or"
+msgstr "Veya"
+
+# @ cpt
+#: include/options.php:83
+msgid ""
+"If the Auto Sort is uncheck you will need to use the \"orderby\" and \"order"
+"\" parameters"
+msgstr ""
+"Eğer Otomatik Sıralama seçili değilse e \"orderby\" ve \"order\" "
+"parametrelerini kullanmalısınız"
+
+# @ cpt
+#: include/options.php:98
+msgid "Admin Sort"
+msgstr "Yönetici Sıralaması"
+
+# @ cpt
+#: include/options.php:102
+msgid ""
+"To affect the admin interface, to see the post types per your new sort, this "
+"need to be checked"
+msgstr ""
+"Yönetici arayüzünün etkilenmesi için, yazı tiplerini yeni sıralamanıza göre "
+"görebilmek için, bunun seçili olması gerekiyor."
+
+# @ cpt
+#: include/options.php:111
+msgid "Save Settings"
+msgstr "Ayarları Kaydet"
+
+# @ cpt
+#: post-types-order.php:446 post-types-order.php:461
+msgid "Re-Order"
+msgstr "Yeniden Sırala"
+
+# @ cpt
+#: post-types-order.php:482
+msgid "Update"
+msgstr "Güncelle"

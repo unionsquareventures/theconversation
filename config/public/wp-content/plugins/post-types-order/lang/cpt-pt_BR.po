@@ -1,0 +1,98 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Post Types Order\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2010-11-29 09:26-0300\n"
+"PO-Revision-Date: 2012-12-07 14:22+0200\n"
+"Last-Translator: Gabriel Reguly <gabriel@ppgr.com.br>\n"
+"Language-Team: http://ppgr.com.br/\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: __;_e\n"
+"X-Poedit-Basepath: .\n"
+"Language: pt_BR\n"
+"X-Generator: Poedit 1.5.3\n"
+"X-Poedit-SearchPath-0: post-types-order\n"
+
+#: post-types-order/post-types-order.php:41
+msgid "Post Types Order"
+msgstr "Ordenar Posts"
+
+#: post-types-order/post-types-order.php:176
+msgid "Invalid post type"
+msgstr "Type de post inválido"
+
+#: post-types-order/post-types-order.php:216
+#: post-types-order/post-types-order.php:218
+msgid "Re-Order"
+msgstr "Reordenar"
+
+#: post-types-order/post-types-order.php:229
+#, php-format
+msgid "%s  -  Re-order "
+msgstr "Reordenar %s"
+
+#: post-types-order/post-types-order.php:233
+msgid ""
+"This plugin can't work without javascript, because it use drag and drop and "
+"AJAX."
+msgstr "Este plugin precisa de JavaScript para funcionar."
+
+#: post-types-order/post-types-order.php:242
+msgid "Update"
+msgstr "Atualizar"
+
+#: post-types-order/post-types-order.php:257
+msgid "Item order updated"
+msgstr "Ordem alterada"
+
+#: post-types-order/post-types-order.php:263
+msgid ""
+"Did you found this plug-in useful? Please support our work with a donation."
+msgstr ""
+"Você considera útil este plugin? Por favor, faça uma doação para o autor."
+
+#: post-types-order/post-types-order.php:283
+msgid "Pages"
+msgstr "Páginas"
+
+#: post-types-order/include/options.php:6
+msgid "Settings Saved"
+msgstr "Configuração salva"
+
+#: post-types-order/include/options.php:13
+msgid "General Setings"
+msgstr "Configuração geral"
+
+#: post-types-order/include/options.php:16
+msgid "General"
+msgstr "Geral"
+
+#: post-types-order/include/options.php:21
+msgid "Minimum Level to use this plugin"
+msgstr "Nível minimo para utilizar este plugin"
+
+#: post-types-order/include/options.php:25
+msgid "Subscriber"
+msgstr "Assinante"
+
+#: post-types-order/include/options.php:26
+msgid "Contributor"
+msgstr "Contribuidor"
+
+#: post-types-order/include/options.php:27
+msgid "Author"
+msgstr "Author"
+
+#: post-types-order/include/options.php:28
+msgid "Editor"
+msgstr "Editor"
+
+#: post-types-order/include/options.php:29
+msgid "Administrator"
+msgstr "Administrador"
+
+#: post-types-order/include/options.php:36
+msgid "Save Settings"
+msgstr "Salvar configuração"

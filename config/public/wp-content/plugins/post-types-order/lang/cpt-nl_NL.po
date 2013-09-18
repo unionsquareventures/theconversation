@@ -1,0 +1,160 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Post Types Order\n"
+"POT-Creation-Date: 2012-12-07 16:41+0200\n"
+"PO-Revision-Date: 2013-08-07 10:35+0100\n"
+"Last-Translator: Denver Sessink <dsessink@gmail.com>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.5.7\n"
+"X-Poedit-KeywordsList: _;gettext;gettext_noop;__;_e\n"
+"X-Poedit-Basepath: ../\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: post-types-order.php:107
+msgid "Post Types Order must be configured. Please go to"
+msgstr "Post Types Order moet worden geconfigureerd. Ga naar"
+
+#: post-types-order.php:107
+msgid "Settings Page"
+msgstr "Instellingen"
+
+#: post-types-order.php:107
+msgid "make the configuration and save"
+msgstr "creeer de configuratie en sla op"
+
+#: post-types-order.php:468
+msgid ""
+"This plugin can't work without javascript, because it's use drag and drop "
+"and AJAX."
+msgstr "Deze module vereist JavaScript"
+
+#: post-types-order.php:497
+msgid "Items Order Updated"
+msgstr "Volgorde bijgewerkt"
+
+#: post-types-order.php:514
+msgid "Pages"
+msgstr "Pagina's"
+
+#: include/functions.php:65
+msgid ""
+"Did you find this plugin useful? Please support our work with a donation or "
+"write an article about this plugin in your blog with a link to our site"
+msgstr ""
+"Vind je deze module handig? Ondersteun ons werk met een donatie of schrijf "
+"een artikel over deze plugin in je blog met een link naar onze website"
+
+#: include/functions.php:66
+msgid "Did you know there is available an Advanced version of this plug-in?"
+msgstr "Wist je dat er een Advanced versie is van deze plug-in?"
+
+#: include/functions.php:66
+msgid "Read more"
+msgstr "Lees verder"
+
+#: include/functions.php:67
+msgid "Check our"
+msgstr "Bekijk onze"
+
+#: include/functions.php:67
+msgid ""
+"plugin which allow to custom sort categories and custom taxonomies terms"
+msgstr ""
+"plugin waarmee je custom sort categories en custom taxonomies terms kunt "
+"sorteren"
+
+#: include/options.php:16
+msgid "Settings Saved"
+msgstr "Instellingen opgeslagen"
+
+#: include/options.php:28
+msgid "General Settings"
+msgstr "Algemene instellingen"
+
+#: include/options.php:34
+msgid "General"
+msgstr "Algemeen"
+
+#: include/options.php:39
+msgid "Minimum Level to use this plugin"
+msgstr "Minimum vereiste gebruikersgroep om de plugin te gebruiken"
+
+#: include/options.php:42
+msgid "Subscriber"
+msgstr "Abonnee"
+
+#: include/options.php:43
+msgid "Contributor"
+msgstr "Bijdrager"
+
+#: include/options.php:44
+msgid "Author"
+msgstr "Auteur"
+
+#: include/options.php:45
+msgid "Editor"
+msgstr "Redacteur"
+
+#: include/options.php:46
+msgid "Administrator"
+msgstr "Beheerder"
+
+#: include/options.php:52
+msgid "Auto Sort"
+msgstr "Automatisch Sorteren"
+
+#: include/options.php:56
+msgid ""
+"If checked, the plug-in will automatically update the wp-queries to use the "
+"new order (<b>No code update is necessarily</b>).<br /> If you need more "
+"order customizations you will need to uncheck this and include 'menu_order' "
+"into your theme queries"
+msgstr ""
+"Indien geselecteerd zal de plug-n automatisch de wp-queries updaten om de "
+"nieuwe volgorde te hanteren (<b>Geen updates in code nodig<b>).<br />Indien "
+"je meer mogelijkheden nodig hebt, kun je deze uit laten en 'menu_order' in "
+"je thema queries hanteren"
+
+#: include/options.php:58
+msgid "Show Examples"
+msgstr "Toon Voorbeelden"
+
+#: include/options.php:61
+msgid "The following PHP code will still return the post in the set-up Order"
+msgstr "De volgende PHP code zal de post in de set-up volgorde teruggeven"
+
+#: include/options.php:74
+msgid "Or"
+msgstr "Of"
+
+#: include/options.php:83
+msgid ""
+"If the Auto Sort is uncheck you will need to use the \"orderby\" and \"order"
+"\" parameters"
+msgstr ""
+"Als Auto Sort is uitgevinkt zijn de \"orderby\" en \"order\" parameters "
+"benodigd"
+
+#: include/options.php:98
+msgid "Admin Sort"
+msgstr "Admin Sort"
+
+#: include/options.php:102
+msgid ""
+"To affect the admin interface, to see the post types per your new sort, this "
+"need to be checked"
+msgstr ""
+"Selecteer om de posts in de nieuwe volgorde te zien in de admin interface"
+
+#: include/options.php:111
+msgid "Save Settings"
+msgstr "Instellingen opslaan"
+
+#: post-types-order.php:446
+#: post-types-order.php:450
+#: post-types-order.php:461
+msgid "Re-Order"
+msgstr "Sorteren"

@@ -1,0 +1,21 @@
+* html body {
+    margin-top: 0 !important; 
+}
+
+body.admin-bar {
+	margin-top: -28px;
+	padding-bottom: 28px;
+}
+
+body.wp-admin #footer {
+	padding-bottom: 28px;
+}
+
+#wpadminbar {
+	top: auto !important;
+	bottom: 0;
+}
+
+#wpadminbar .quicklinks .menupop ul {
+	bottom: 28px;
+}

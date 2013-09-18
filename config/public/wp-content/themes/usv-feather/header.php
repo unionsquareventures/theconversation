@@ -16,7 +16,7 @@
   <link rel="shortcut icon" href="<?php bloginfo('template_directory'); ?>/img/usv-favicon.png" type="image/png" />
 
     <link rel="stylesheet" href="<?php bloginfo('template_directory'); ?>/css/bootstrap.min.css">
-    <link rel="stylesheet" href="<?php bloginfo('stylesheet_url'); ?>?<?php echo filemtime(get_template_directory() . "/style.css"); ?>">
+    <link rel="stylesheet" href="<?php the_field('homepage_url', 'option'); ?>/static/css/style.css?v=1">
 	<?php wp_head(); ?> 
 </head>
 <body <?php body_class(); ?> data-menu-position="closed">
@@ -41,9 +41,10 @@
         <?php endif; ?>
 
             
-           <div class="container">
+
            
             <header id="site-header">
+               <div class="container">
                 <a id="logo" href="<?php the_field('homepage_url', 'option'); ?>">Union Square Ventures</a>
                 <ul id="main-nav">
                     <li><a class="<?php if(is_post_type_archive('team')) { echo "current"; } ?>" href="<?php echo get_post_type_archive_link( 'team' ); ?>">Team</a></li><li><a class="<?php if(is_post_type_archive('investments')) { echo "current"; } ?>" href="<?php echo get_post_type_archive_link( 'investments' ); ?>">Investments</a></li><li><a class="<?php if(is_page('10')) { echo "current"; } ?>" href="<?php echo get_permalink('10'); ?>">Network</a></li><li><a class="<?php if(is_page('8')) { echo "current"; } ?>" href="<?php echo get_permalink('8'); ?>">About</a></li>
@@ -55,9 +56,9 @@
                         
                     <?php endif; ?>
                 </ul>
-
+                </div>         
             </header><!--end of site-header-->
-        </div>         
+
         <div id="content">   
         <div class="container">
         
