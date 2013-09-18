@@ -1,13 +1,7 @@
 {% extends '../base.html' %}
 
 {% block precontent %}
-<div id="tools">
-    <div class="container">
-<div class="hidden-xs" style=""><b>Welcome!</b>  Grab the the <a href="https://chrome.google.com/webstore/detail/usvcom/ikpfoekojmeibidkolkbbocepjfdmgol" target="_blank" >Chrome extension</a> or the bookmarklet:
-<a href="javascript:var d%3Ddocument,w%3Dwindow,e%3Dw.getSelection,k%3Dd.getSelection,x%3Dd.selection,s%3D(e%3Fe():(k)%3Fk():(x%3Fx.createRange().text:0)),f%3D%27http://beta.usv.com/posts/new%27,l%3Dd.location,e%3DencodeURIComponent,p%3D%27%3Fv%3D3%26url%3D%27%2Be(l.href) %2B%27%26title%3D%27%2Be(d.title) %2B%27%26s%3D%27%2Be(s),u%3Df%2Bp%3Btry%7Bif(!/%5E(.*%5C.)%3Ftumblr%5B%5E.%5D*%24/.test(l.host))throw(0)%3Btstbklt()%3B%7Dcatch(z)%7Ba %3Dfunction()%7Bif(!w.open(u,%27t%27,%27toolbar%3D0,resizable%3D0,status%3D1,width%3D450,height%3D430%27))l.href%3Du%3B%7D%3Bif(/Firefox/.test(navigator.userAgent))setTimeout(a,0)%3Belse a()%3B%7Dvoid(0)">Post to USV.com</a> (&larr; drag to your bookmarks bar).</div>
 
-<div class="visible-xs"><b>Welcome!</b> Get the <a href="https://play.google.com/store/apps/details?id=com.connectedio.usvmobile" target="_blank">Android app</a>.</div></div>
-</div>
 {% end %}
 
 {% block content %}
@@ -16,6 +10,17 @@
         <!--<ul class="tabs">
             <li><a class="current" href="/featured_posts">Featured</a></li>
         </ul>-->
+        
+        <div id='slider' class='swipe'>
+          <div class='swipe-wrap'>
+            {% for i, post in enumerate(featured_posts) %}
+            <div style="padding: 20px;background: pink;">
+              {{ post.title }}
+            </div>
+            {% end %}
+          </div>
+        </div>
+        
         <ul class="feed">
             {% for i, post in enumerate(featured_posts) %}
             <li {% if i > 0 %}class="hidden-xs"{% end %}>
@@ -54,6 +59,14 @@
           <li class="submit-btn"><a class="btn btn-primary" role="button"
                                         data-toggle="modal" href="#submit-modal">Submit</a></li>
         </ul>
+        
+        <div id="tools">
+          <p style="margin: 0;">Welcome to the USV community section!</p>
+        <div class="hidden-xs" style="">Grab the the <a href="https://chrome.google.com/webstore/detail/usvcom/ikpfoekojmeibidkolkbbocepjfdmgol" target="_blank" >Chrome extension</a> or the bookmarklet:
+        <a href="javascript:var d%3Ddocument,w%3Dwindow,e%3Dw.getSelection,k%3Dd.getSelection,x%3Dd.selection,s%3D(e%3Fe():(k)%3Fk():(x%3Fx.createRange().text:0)),f%3D%27http://beta.usv.com/posts/new%27,l%3Dd.location,e%3DencodeURIComponent,p%3D%27%3Fv%3D3%26url%3D%27%2Be(l.href) %2B%27%26title%3D%27%2Be(d.title) %2B%27%26s%3D%27%2Be(s),u%3Df%2Bp%3Btry%7Bif(!/%5E(.*%5C.)%3Ftumblr%5B%5E.%5D*%24/.test(l.host))throw(0)%3Btstbklt()%3B%7Dcatch(z)%7Ba %3Dfunction()%7Bif(!w.open(u,%27t%27,%27toolbar%3D0,resizable%3D0,status%3D1,width%3D450,height%3D430%27))l.href%3Du%3B%7D%3Bif(/Firefox/.test(navigator.userAgent))setTimeout(a,0)%3Belse a()%3B%7Dvoid(0)">Post to USV.com</a> <!--(&larr; drag to your bookmarks bar)-->.</div>
+        
+        <div class="visible-xs"><b>Welcome!</b> Get the <a href="https://play.google.com/store/apps/details?id=com.connectedio.usvmobile" target="_blank">Android app</a>.</div>
+        </div>
 
         <ul class="feed">
             {% if count == 0 and rstart != 0 %}

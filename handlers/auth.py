@@ -6,7 +6,7 @@ import tornado.httpserver
 from models.user_info import UserInfo, User, AccessToken
 from base import BaseHandler
 import urlparse
-#import gspread
+import gspread
 import time
 
 class TwitterLoginHandler(BaseHandler, tornado.auth.TwitterMixin):
@@ -45,20 +45,15 @@ class TwitterLoginHandler(BaseHandler, tornado.auth.TwitterMixin):
 
     def _on_login(self, user_obj):
         if not user_obj:
-            raise tornado.web.HTTPError(500, "Twitter authentication failed.")
+            #raise tornado.web.HTTPError(500, "Twitter authentication failed.")
+            self.redirect('/auth-failed')
 
-        #gc = gspread.login('usvdotcom@gmail.com', 'bdway1915')
-        #sh = gc.open_by_url("https://docs.google.com/a/usv.com/spreadsheet/ccc?key=0Ao-LVWqLOcQEdGNpcW1INVkxTS0yZnpNR05Ud0d6U3c")
-        #worksheet = sh.get_worksheet(0)
-        #testers = worksheet.col_values(1)
-        # allowed_users = testers + settings.staff_twitter_handles
-        
-        # FIXME this is a hack
-        # give ourselves a sec for the google spreadsheet to come back
-        #time.sleep(2)
+        allowed_users = settings.allowed_users
 
-        if not user_obj['username'].lower() in settings.allowed_users:
-            raise tornado.web.HTTPError(401, "Not authorized.")
+        #if not user_obj['username'].lower() in settings.allowed_users:
+        if not user_obj['username'].lower() in allowed_users:
+            #raise tornado.web.HTTPError(401, "Not authorized.")
+            self.redirect('/not-authorized')
 
         user = {
                 'auth_type': 'twitter',

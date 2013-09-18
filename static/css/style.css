@@ -993,6 +993,21 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
     border-top: 1px solid #ddd;
     padding-top: 10px;
   }  
+  
+  .swipe {
+    overflow: hidden;
+    visibility: hidden;
+    position: relative;
+  }
+  .swipe-wrap {
+    overflow: hidden;
+    position: relative;
+  }
+  .swipe-wrap > div {
+    float:left;
+    width:100%;
+    position: relative;
+  }
 
   .feed .votes-count {
     padding-left: 15px;
@@ -2902,19 +2917,19 @@ a.sort.btn {
 /*  color: #fff;*/
 }
 
+
 #tools {
-  background: #eee;
-  border-bottom: 1px solid #ddd;
+  background: #fff;
+  border-bottom: 1px solid #eee;
   border-top: none;
 /*  background: #e1e1e1;*/
   /*background: #ddd;*/
-  padding: 3px 8px;
+  padding: 0 0 10px;
   /*box-shadow: 0 1px 0 rgba(0,0,0,0.15);*/
-  margin-bottom: 0px;
-  text-align: center;
+  margin-bottom: 10px;
+  text-align: left;
   font-size: .8em;
   color: #555;
-  display:none;
 }
 
 #tools a {

@@ -35,6 +35,10 @@
                     e.preventDefault();
                 });
         });
+        
+        $(document).ready(function() {
+           window.mySwipe = Swipe(document.getElementById('slider')); 
+        });
     </script>
     <script type="text/javascript" src="//use.typekit.net/eim8cyk.js"></script>
     <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
@@ -42,6 +46,7 @@
     <script type="text/javascript" src="/static/js/tinymce/jquery.tinymce.min.js"></script>
     <script src="/static/js/plugins.js"></script>
     <script src="/static/js/scripts.js"></script>
+    <script src="/static/js/swipe.js"></script>
     <script src="/static/js/modules_bundle.js"></script>
     {% block javascript %}
     {% end %}
