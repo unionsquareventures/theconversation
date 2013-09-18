@@ -27,7 +27,9 @@
                 <div class="field-errors">{{ field_errors(errors, 'body_raw') }}</div>
             </dt>
             <dd class="tinymce-textbox"> 
-                <input type="text" id="post_body_raw" name="body_raw" value="{{ post.body_raw or '' }}" />
+                <textarea type="text" class="form-control" id="post_body_raw" name="body_raw">
+                {{ post.body_raw or '' }}
+                </textarea>
             </dd>
             <dt>
                 <label for="url">Tags</label>
