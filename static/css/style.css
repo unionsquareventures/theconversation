@@ -2751,8 +2751,8 @@ h1.general-page-headline .search-term,
 .hot-newest-feed .tabs {
   margin: 4px 0 16px;
 }
-.hot-newest-feed .username {
-  display: none;
+.hot-newest-feed span.username {
+  display: none !important;
 }
 @media only screen and (max-width: 480px) {
   .hot-newest-feed .tabs {
