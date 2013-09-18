@@ -2886,7 +2886,7 @@ ul.investments-list {
 .btn-primary,
 .btn-primary:visited,
 .btn-primary:link {
-  color: #fff;
+  color: #fff !important;
   background-color: #a0b86e;
 }
 
@@ -2930,6 +2930,12 @@ a.sort.btn {
   text-align: left;
   font-size: .8em;
   color: #555;
+  position: relative;
+}
+#tools .submit-btn {
+  position: absolute;
+  top: 5px;
+  right: 0;
 }
 
 #tools a {
