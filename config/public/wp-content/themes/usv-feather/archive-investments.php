@@ -51,7 +51,7 @@
 						<!--<a href="<?php the_permalink(); ?>" class="btn-continue">More</a>-->
 					</p>
 					<span class="since-date">
-						<?php if (get_field('since_date')) :?><?php the_field('since_date'); ?><?php else: ?>{year}<?php endif; ?>, <?php if (get_field('investment_series')) : ?><?php the_field('investment_series'); ?><?php else: ?>{series}<?php endif; ?>
+						<?php if (get_field('investment_date')) :?><?php the_field('investment_date'); ?><?php else: ?>{year}<?php endif; ?>, <?php if (get_field('investment_series')) : ?><?php the_field('investment_series'); ?><?php else: ?>{series}<?php endif; ?>
 					</span>
 	
 					<?php edit_post_link('edit', '<span class="editlink">', '</span>'); ?>
@@ -92,7 +92,7 @@
 						<!--<a href="<?php the_permalink(); ?>" class="btn-continue">More</a>-->
 					</p>
 					<span class="since-date">
-						<?php if (get_field('since_date')) :?><?php the_field('since_date'); ?><?php else: ?>{year}<?php endif; ?>, <?php if (get_field('investment_series')) : ?><?php the_field('investment_series'); ?><?php else: ?>{series}<?php endif; ?>
+						<?php if (get_field('investment_date')) :?><?php the_field('investment_date'); ?><?php else: ?>{year}<?php endif; ?>, <?php if (get_field('investment_series')) : ?><?php the_field('investment_series'); ?><?php else: ?>{series}<?php endif; ?>
 					</span>
 	
 					<?php edit_post_link('edit', '<span class="editlink">', '</span>'); ?>
