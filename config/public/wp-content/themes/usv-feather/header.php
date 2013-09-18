@@ -16,7 +16,7 @@
   <link rel="shortcut icon" href="<?php bloginfo('template_directory'); ?>/img/usv-favicon.png" type="image/png" />
 
     <link rel="stylesheet" href="<?php bloginfo('template_directory'); ?>/css/bootstrap.min.css">
-    <link rel="stylesheet" href="<?php the_field('homepage_url', 'option'); ?>/static/css/style.css?v=1">
+    <link rel="stylesheet" href="<?php the_field('homepage_url', 'option'); ?>/static/css/style.css?v=2">
 	<?php wp_head(); ?> 
 </head>
 <body <?php body_class(); ?> data-menu-position="closed">
