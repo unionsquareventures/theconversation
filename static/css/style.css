@@ -2751,12 +2751,21 @@ h1.general-page-headline .search-term,
 .hot-newest-feed .tabs {
   margin: 4px 0 16px;
 }
+.hot-newest-feed .username {
+  display: none;
+}
 @media only screen and (max-width: 480px) {
   .hot-newest-feed .tabs {
     margin-bottom: 0px; 
   }
   .hot-newest-feed .time {
     display: none !important;
+  }
+  .hot-newest-feed a.username-link {
+    display: none !important;
+  }
+  .hot-newest-feed .username {
+    display: inline;
   }
 }
 .hot-newest-feed .tabs li {
