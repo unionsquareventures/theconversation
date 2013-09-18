@@ -55,7 +55,7 @@
         
             var series_options = [];
             $('.company').each(function() {
-                var series = $(this).parent().attr('usv:series');
+                var series = $(this).parent().attr('usv:investment_series');
                 if ($.inArray(series, series_options) == -1) {
                     // we haven't seen this one yet
                     if (series != "" && typeof(series) != "undefined") {
@@ -104,7 +104,7 @@
                 }
         
                 $('.company').parent().each(function(){
-                    if ($(this).attr("usv:city") == query || $(this).attr("usv:series") == query) {
+                    if ($(this).attr("usv:city") == query || $(this).attr("usv:investment_series") == query) {
                         $(this).show();
                     } else {
                         $(this).hide();

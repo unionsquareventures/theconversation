@@ -29,7 +29,7 @@
 									while ( $loop->have_posts() ) : $loop->the_post(); 
 								?>
 
-				<div class="col-sm-3 col-xs-6" usv:series="<?php the_field('series'); ?>" usv:city="<?php the_field('city'); ?>">
+				<div class="col-sm-3 col-xs-6" usv:investment_series="<?php the_field('investment_series'); ?>" usv:city="<?php the_field('city'); ?>">
 					<div class="company">
 					<a href="<?php the_permalink(); ?>"><img alt="<?php the_title(); ?>" src="<?php the_field('logo'); ?>"  class="logo mt-image-none <?php if (get_field('white_logo')) : ?>white<?php endif; ?>" style="" width="220" height="150"></a>
 					<p class="summary">
@@ -47,7 +47,7 @@
 						<!--<a href="<?php the_permalink(); ?>" class="btn-continue">More</a>-->
 					</p>
 					<span class="since-date">
-						<?php if (get_field('since_date')) :?><?php the_field('since_date'); ?><?php else: ?>{year}<?php endif; ?>, <?php if (get_field('series')) : ?><?php the_field('series'); ?><?php else: ?>{series}<?php endif; ?>
+						<?php if (get_field('since_date')) :?><?php the_field('since_date'); ?><?php else: ?>{year}<?php endif; ?>, <?php if (get_field('investment_series')) : ?><?php the_field('investment_series'); ?><?php else: ?>{series}<?php endif; ?>
 					</span>
 	
 					<?php edit_post_link('edit', '<span class="editlink">', '</span>'); ?>
@@ -70,7 +70,7 @@
 									while ( $loop->have_posts() ) : $loop->the_post(); 
 								?>
 	
-				<div class="col-sm-3 col-xs-6" usv:series="<?php the_field('series'); ?>" usv:city="<?php the_field('city'); ?>">
+				<div class="col-sm-3 col-xs-6" usv:investment_series="<?php the_field('investment_series'); ?>" usv:city="<?php the_field('city'); ?>">
 					<div class="company">
 					<a href="<?php the_permalink(); ?>"><img alt="<?php the_title(); ?>" src="<?php the_field('logo'); ?>"  class="logo mt-image-none <?php if (get_field('white_logo')) : ?>white<?php endif; ?>" style="" width="220" height="150"></a>
 					<p class="summary">
@@ -88,7 +88,7 @@
 						<!--<a href="<?php the_permalink(); ?>" class="btn-continue">More</a>-->
 					</p>
 					<span class="since-date">
-						<?php if (get_field('since_date')) :?><?php the_field('since_date'); ?><?php else: ?>{year}<?php endif; ?>, <?php if (get_field('series')) : ?><?php the_field('series'); ?><?php else: ?>{series}<?php endif; ?>
+						<?php if (get_field('since_date')) :?><?php the_field('since_date'); ?><?php else: ?>{year}<?php endif; ?>, <?php if (get_field('investment_series')) : ?><?php the_field('investment_series'); ?><?php else: ?>{series}<?php endif; ?>
 					</span>
 	
 					<?php edit_post_link('edit', '<span class="editlink">', '</span>'); ?>
