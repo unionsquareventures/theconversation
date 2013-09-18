@@ -917,14 +917,23 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
   }
   .swipe .featured-post {
     height: 120px;
-    margin-bottom: 10px !important;
+    margin-bottom: 30px !important;
     position: relative;
+    background: #fff !important;
+    border-bottom: none !important;
+    padding-top: 0!important;
+  }
+  .swipe .featured-post .content {
+    background: #eee;
+    padding: 20px;
+    margin-bottom: 25px;
+    border-bottom: 1px solid #ccc;
   }
   .swipe .featured-post .meta {
-    position: absolute;
+    /*position: absolute;
     width: 100%;
     left: 0;
-    bottom: 5px;
+    bottom: 5px;*/
   }
   .feed li.new_posts_notification {
     margin: 0;
