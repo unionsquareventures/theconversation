@@ -2939,7 +2939,7 @@ a.sort.btn {
 }
 
 
-#tools {
+.tools {
   background: #fff;
   border-bottom: 1px solid #eee;
   border-top: none;
@@ -2953,15 +2953,23 @@ a.sort.btn {
   color: #555;
   position: relative;
 }
-#tools .submit-btn {
+.tools .submit-btn {
   position: absolute;
   top: 5px;
   right: 0;
 }
 
-#tools a {
+.tools a {
   /*font-weight: bold;*/
   color: #7e8e39;
+}
+
+.tools-mobile {
+  background: #eee;
+  border-bottom: 1px solid #ddd;
+  padding: 3px;
+  text-align: center;
+  margin-bottom: 0;
 }
 
 .featured-title {
