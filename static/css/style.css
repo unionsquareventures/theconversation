@@ -2755,6 +2755,9 @@ h1.general-page-headline .search-term,
   .hot-newest-feed .tabs {
     margin-bottom: 0px; 
   }
+  .hot-newest-feed .time {
+    display: none !important;
+  }
 }
 .hot-newest-feed .tabs li {
   padding-right: 0;
