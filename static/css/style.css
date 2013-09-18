@@ -2619,7 +2619,14 @@ a:hover { color: #86aa3b; }
   /*border-bottom: 1px solid #ddd;*/
 }
 #site-header, #mobile-header {
-  background: linear-gradient(to bottom, rgba(160,184,110,1) 0%,rgba(128,152,49,1) 100%); /* green */
+  background: #a0b86e; /* Old browsers */
+  background: -moz-linear-gradient(top, #a0b86e 0%, #809831 100%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#a0b86e), color-stop(100%,#809831)); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top, #a0b86e 0%,#809831 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top, #a0b86e 0%,#809831 100%); /* Opera 11.10+ */
+  background: -ms-linear-gradient(top, #a0b86e 0%,#809831 100%); /* IE10+ */
+  background: linear-gradient(to bottom, #a0b86e 0%,#809831 100%); /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a0b86e', endColorstr='#809831',GradientType=0 ); /* IE6-9 */
 }
 
 
