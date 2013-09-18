@@ -1373,10 +1373,11 @@ article.page {
     margin: 0 0px 30px 0px;
   }
 }
-.company .logo {
+.company img.logo {
   margin: 0;
   width: 100%;
   height: auto;
+  border-bottom: 1px solid #ddd;
 }
 .company .since-date {
   color: #888;
