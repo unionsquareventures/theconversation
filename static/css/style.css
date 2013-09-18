@@ -916,12 +916,12 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
     border-bottom: 1px solid #ccc;
   }
   .swipe .featured-post {
-    height: 120px;
+    height: 130px;
     margin-bottom: 30px !important;
     position: relative;
     background: #fff !important;
     border-bottom: none !important;
-    padding-top: 0!important;
+    padding: 0 10px;
   }
   .swipe .featured-post .content {
     background: #eee;
@@ -934,6 +934,7 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
     width: 100%;
     left: 0;
     bottom: 5px;*/
+    text-align: center !important;
   }
   .feed li.new_posts_notification {
     margin: 0;
