@@ -1,33 +1,43 @@
 {% set action = '/posts/' + str(post.slug) if not post._created else '/posts/' %}
 
-<form id="{{ id }}" class="{{ classes }}" action="{{ action }}" method="POST">
+<form id="{{ id }}" class="form {{ classes }}" action="{{ action }}" method="POST">
     {% module xsrf_form_html() %}
 
-    <span class="form-title">Post</span>
+    <!--<span class="form-title">Post</span>-->
     <fieldset>
-        <ol>
-            <li>
+        <dl>
+            <dt>
                 <label for="title">Title</label>
                 <div class="field-errors">{{ field_errors(errors, 'title') }}</div>
-                <input id="post_title" name="title" type="text"
+            </dt>
+            <dd>
+                <input id="post_title" name="title" type="text" class="form-control" 
                             placeholder="Your Post Title" required="" value="{{ post.title or '' }}">
-            </li>
-            <li>
+            </dd>
+            <dt>
                 <label for="url">Link</label>
                 <div class="field-errors">{{ field_errors(errors, 'url') }}</div>
-                <input id="post_url" name="url" type="text" placeholder="http://example.com" value="{{ post.url or '' }}">
-            </li>
-            <li class="tinymce-textbox">
+            </dt>
+            <dd>
+                <input id="post_url" name="url" type="text" placeholder="http://example.com" 
+                            value="{{ post.url or '' }}" class="form-control">
+            </dd>
+            <dt>
                 <label for="body_raw">Body</label>
                 <div class="field-errors">{{ field_errors(errors, 'body_raw') }}</div>
+            </dt>
+            <dd class="tinymce-textbox"> 
                 <input type="text" id="post_body_raw" name="body_raw" value="{{ post.body_raw or '' }}" />
-            </li>
-            <li>
+            </dd>
+            <dt>
                 <label for="url">Tags</label>
                 <div class="field-errors">{{ field_errors(errors, 'tags') }}</div>
+            </dt>
+            <dd>
                 <input id="post_tags" name="tags" type="text" placeholder="pitch, meta, health, mobile, education"
-                                        value="{{ ', '.join(post.tags) if post.tags else '' }}">
-            </li>
+                                        value="{{ ', '.join(post.tags) if post.tags else '' }}" class="form-control">
+            </dd>
+            <!--
             <li class="hackpad">
                 <div id="toggle-hackpad-url" class="{{ 'checked' if post.has_hackpad else '' }}"></div>
                 <input id="post_has_hackpad" name="has_hackpad" type="hidden" value="{{ 'true' if post.has_hackpad else '' }}">
@@ -36,15 +46,18 @@
                 <input id="post_hackpad_url" name="hackpad_url" type="text" value="{{ post.hackpad_url or '' }}"
                                         style="display: {{'block' if post.has_hackpad else 'none' }};" />
             </li>
+        -->
             
             {% if handler.is_admin() %}
-            <li class="featured">
+            <dt class="featured">
                     <div id="toggle-featured"></div>
                     <label for="post_featured">Featured</label>
                     <div class="field-errors">{{ field_errors(errors, 'featured') }}</div>
+            </dt>
+            <dd>
                     <input type="checkbox" id="post_featured" name="featured" value="true"
                                             {{ 'checked' if post.featured else '' }} />
-            </li>
+            </dd>
             {% end %}
             
             
@@ -58,9 +71,9 @@
             </li>
             {% end %}
             
-            <li class="for-submit">
-                <button type="submit" class="submit-form-button">Submit</button>
-            </li>
+            <div class="for-submit" style="padding: 10px; text-align:right">
+                <button type="submit" class="btn btn-primary submit-form-button">Submit</button>
+            </div>
         </ol>
     </fieldset>
 </form>
