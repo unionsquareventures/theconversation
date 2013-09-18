@@ -112,6 +112,15 @@
                 
                 // make all the "alls" active
                 $('all').addClass('active');
+        
+                $('.company').parent().each(function(){
+                    if ($(this).attr("usv:city") == query || $(this).attr("usv:investment_series") == query || $(this).attr("usv:investment_date") == query) {
+                        $(this).show();
+                    } else {
+                        $(this).hide();
+                    }
+        
+                });
                 
                 if (query == "all") {
                     $('.company').parent().show();
@@ -129,17 +138,7 @@
                 
                 // make this active.
                 $(this).parent().addClass('active');
-        
                 
-        
-                $('.company').parent().each(function(){
-                    if ($(this).attr("usv:city") == query || $(this).attr("usv:investment_series") == query || $(this).attr("usv:investment_date") == query) {
-                        $(this).show();
-                    } else {
-                        $(this).hide();
-                    }
-        
-                });
             });
         
             var min_height = 0;
