@@ -1,6 +1,11 @@
 <?php get_header(); ?>
 
             <h1 class="mobile-page-headline">Team</h1>
+            
+            <div class="jumbotron">Union Square Ventures is a venture capital firm based in New York City. We are a small collegial partnership that manages $450,000,000 across three funds. Our portfolio companies create services that have the potential to fundamentally transform important markets.</div>
+
+            <h2 class="section-heading">Team</h2>
+            
             <div class="row">
                 <!--<div class="col-sm-2">
                     <h2 class="subsection">Partners</h2>

@@ -24,7 +24,7 @@
 		</div><!-- /col-lg-2 -->
 		
 		<div class="col-md-9 col-xs-12">
-			<h2 class="subsection">Current Portfolio</h2>
+			<h2 class="subsection section-heading">Current Portfolio</h2>
 			<div class="row investments-list">
 								<?php
 									$args = array( 'post_type' => 'investments', 'investment-types' => 'current', 'posts_per_page' => -1, 'orderby' => 'title', 'order' => 'ASC' ); 
@@ -62,9 +62,8 @@
 				
 			</div><!-- /row -->
 
-			<hr style="margin: 25px 0 15px; clear: both" />
 
-			<h2 class="subsection">Past Portfolio</h2>	
+			<h2 class="subsection section-heading" style="clear:both">Past Portfolio</h2>	
 
 			<div class="row investments-list">
 								<?php
