@@ -14,11 +14,12 @@ $(function() {
 
 {% block content %}
 
-    {% if status == 'enter_email' or status == 'enter_email_cleared' %}
+    {% if status == 'enter_email' %}
     <form id="submit-form" class="" action="/auth/email/" method="POST">
         {% module xsrf_form_html() %}
         <input type="hidden" name="next" value="{{ next }}" />
         <input type="hidden" name="subscribe_to" value="{{ subscribe_to }}" />
+        <input type="hidden" name="close_popup" value="{{ close_popup }}" />
 
         <span class="form-title">Enter your email address</span>
         <p>You email address will be used to verify your identity. It will also
@@ -27,16 +28,13 @@ $(function() {
             <li>Comments on submissions you create.</li>
             <li>Replies to your comments.</li>
         </ul>
-        {% if status == 'enter_email_cleared' %}
-            <b>Your email address has been cleared.</b>
-        {% end %}
         <fieldset>
             <ol>
                 <li>
                     <label for="email">Email</label>
-                    <div class="field-errors">{{ errors }}</div>
+                    <div class="field-errors">{{ error }}</div>
                     <input id="email" name="email" type="text"
-                                placeholder="john@gmail.com" required="" value="{{ email }}">
+                                placeholder="john@gmail.com" value="{{ email }}">
                     <p>This email address will not be shared or displayed.</p>
                 </li>
                 

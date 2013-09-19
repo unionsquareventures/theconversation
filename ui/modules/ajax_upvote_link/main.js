@@ -1,3 +1,9 @@
+$(function() {
+    $("#twitter-login-button").on('click', function() {
+        window.location = '/auth/twitter/?next=' + encodeURIComponent(window.location.pathname + window.location.search);
+    });
+});
+
 $('.ajax_upvote_link').on('click', function(e) {
     e.stopPropagation();
     e.preventDefault();
@@ -10,7 +16,7 @@ $('.ajax_upvote_link').on('click', function(e) {
             var resp = $.parseJSON(data);
             if(resp['error']) {
                 if(resp['redirect']) {
-                  window.location = '/auth/twitter/?next=' + encodeURIComponent(window.location.pathname + window.location.search);
+                    $("#submit-modal").modal("show");
                 } else {
                   alert(resp['error']);
                 }

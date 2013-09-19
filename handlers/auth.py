@@ -6,7 +6,6 @@ import tornado.httpserver
 from models.user_info import UserInfo, User, AccessToken
 from base import BaseHandler
 import urlparse
-import gspread
 import time
 
 class TwitterLoginHandler(BaseHandler, tornado.auth.TwitterMixin):
@@ -29,6 +28,7 @@ class TwitterLoginHandler(BaseHandler, tornado.auth.TwitterMixin):
                 and email_required:
             email_uri = '/auth/email/'
             email_uri += '?next=%s' % tornado.escape.url_escape(self.get_next())
+            email_uri += '&close_popup=1' if close_popup else ''
             self.redirect(email_uri)
             return
 
