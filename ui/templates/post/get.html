@@ -42,6 +42,12 @@
                 </blockquote>
                 <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
                 {% end %}
+                
+                {% if urlparse(post.url).netloc == "youtube.com" or urlparse(post.url).netloc == "www.youtube.com" %}
+                {% set vid_id = post.url.split("=")[1] %}
+                <br /><br />
+                <iframe width="560" height="315" src="http://youtube.com/embed/{{ vid_id }}" frameborder="0" allowfullscreen></iframe>
+                {% end %}
             
                 {% if post.has_hackpad and post.hackpad_url %}
                   <p><a class="post-body-hackpad-link" target="_blank" href="{{ post.hackpad_url }}">Hackpad &rarr;</a></p>
