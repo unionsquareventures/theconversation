@@ -7,8 +7,8 @@
 {% block content %}
 <div id="main" role="main">
     
-    <div class="row article-post single">
-        <div class="col-sm-3">
+    <div class="row article-post single community">
+        <div class="col-sm-2">
             <div class="profile-photo">
                 <a href="http://www.twitter.com/{{ post.user.username }}" target="_blank">
                   <img src="{{ twitter_avatar_size(post.user.profile_image_url_https, 'original') }}" alt="thumbnail">
@@ -16,7 +16,7 @@
                 <span class="author-name">{{ post.user.fullname }}</span>
             </div>
         </div><!-- /.col3 -->
-        <div class="col-sm-6">
+        <div class="col-sm-7">
             <article class="">
                 <h1>
                     {% if post.url %}

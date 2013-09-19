@@ -1917,6 +1917,10 @@ ul.filter li.active a {
   font-size: 1.5em; }
 .article-post h2 {
   margin: 10px 0; }
+  
+.community article {
+  margin-left: 40px;
+}
 .article-post .post-body {
   margin-bottom: 40px; }
   .article-post .post-body a {
@@ -1950,11 +1954,13 @@ ul.filter li.active a {
   display: none;
   font-weight: 600;
   color: #000;
-  padding-top: 10px; }
+  padding-top: 10px; 
+  text-align: center; }
 .article-post .profile-photo {
   width: 30%;
   margin-right: 5%;
-  float: left; }
+  float: left; 
+  text-align: center; }
   .article-post .profile-photo img {
     width: 100%;
     height: auto; }
