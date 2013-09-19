@@ -79,6 +79,7 @@ class EmailHandler(BaseHandler):
                 'error': 'Your email address has been cleared.',
                 'next': self.next,
                 'subscribe_to': self.subscribe_to,
+                'close_popup': self.close_popup,
                 'status': 'enter_email',
             })
             self.render('email/index.html', **self.vars)
@@ -90,6 +91,7 @@ class EmailHandler(BaseHandler):
                 'error': 'This email address is already in use.',
                 'next': self.next,
                 'subscribe_to': self.subscribe_to,
+                'close_popup': self.close_popup,
                 'status': 'enter_email',
             })
             self.render('email/index.html', **self.vars)

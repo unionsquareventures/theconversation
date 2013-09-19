@@ -115,7 +115,7 @@ class PostHandler(BaseHandler):
         post = Post.objects(slugs=id).first()
         if not post:
             raise tornado.web.HTTPError(404)
-        sso = ''
+        sso = self.settings['disqus'].get_sso(True, {})
         id_str = self.get_current_user_id_str()
         if id_str:
             u = UserInfo.objects.get(user__id_str=id_str)
