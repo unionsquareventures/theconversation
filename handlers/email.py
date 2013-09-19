@@ -46,12 +46,14 @@ class EmailHandler(BaseHandler):
     def get(self):
         next = self.get_argument('next', '')
         subscribe_to = self.get_argument('subscribe_to', '')
+        close_popup = self.get_argument('close_popup', '')
         u = UserInfo.objects.get(user__id_str=self.get_current_user_id_str())
         self.vars.update({
             'email': u.email_address or '',
             'error': '',
             'next': next,
             'subscribe_to': subscribe_to,
+            'close_popup': close_popup,
             'status': 'enter_email',
         })
         self.render('email/index.html', **self.vars)
@@ -60,6 +62,7 @@ class EmailHandler(BaseHandler):
     @tornado.web.asynchronous
     def post(self):
         self.next = self.get_argument('next', '')
+        self.close_popup = self.get_argument('close_popup', '')
         self.email = self.get_argument('email', '')
         self.subscribe_to = self.get_argument('subscribe_to', '')
         self.token = str(uuid.uuid4())
@@ -97,4 +100,7 @@ class EmailHandler(BaseHandler):
         if self.subscribe_to:
             p = Post.objects.get(id=self.subscribe_to)
             self.subscribe(u, p)
+        if self.close_popup:
+            self.redirect('/auth/close_popup/')
+            return
         self.redirect(self.next or '/')
