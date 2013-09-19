@@ -47,7 +47,7 @@ def init_app(bundle=True, auth_passthrough=False):
     if settings.tornado_config['debug'] and bundle:
         logging.info('Bundling JS/CSS')
         ui.template_processors.bundle_styles()
-        ui.template_processors.bundle_javascript()
+        #ui.template_processors.bundle_javascript()
     # Old post URLs mapping
     f = open('old_post_urls.json', 'r')
     old_post_urls = json.loads(f.read())
