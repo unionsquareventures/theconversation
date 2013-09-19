@@ -94,7 +94,7 @@
             var type_options = [];
             $('.company').each(function() {
                 var type = $(this).parent().attr('usv:investment_type');
-                if ($.inArray(year, type_options) == -1) {
+                if ($.inArray(type, type_options) == -1) {
                     // we haven't seen this one yet
                     if (type != "" && typeof(type) != "undefined") {
                         type_options.push(type);
