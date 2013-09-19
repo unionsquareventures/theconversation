@@ -3022,6 +3022,10 @@ a.sort.btn {
   color: #7e8e39;
 }
 
+.tools-desktop {
+  display: none !important;
+}
+
 .tools-mobile {
   background: #eee;
   border-bottom: 1px solid #ddd;
