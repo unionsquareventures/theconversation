@@ -176,11 +176,13 @@
                 if ($('.company-container.current:visible').length == 0) {
                     $('#current-portfolio').hide();
                 } else {
+                    $('#current-portfolio .filter-label').text(', tagged "' + query + '"').show();
                     $('#current-portfolio').show();
                 }
                 if ($('.company-container.past:visible').length == 0) {
                     $('#past-portfolio').hide();
                 } else {
+                    $('#past-portfolio .filter-label').text(', tagged "' + query + '"').show();
                     $('#past-portfolio').show();
                 }
 
