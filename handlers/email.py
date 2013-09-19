@@ -73,10 +73,10 @@ class EmailHandler(BaseHandler):
             u.save()
             self.vars.update({
                 'email': '',
-                'error': '',
+                'error': 'Your email address has been cleared.',
                 'next': self.next,
                 'subscribe_to': self.subscribe_to,
-                'status': 'enter_email_cleared',
+                'status': 'enter_email',
             })
             self.render('email/index.html', **self.vars)
             return
