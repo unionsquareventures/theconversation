@@ -9,35 +9,35 @@
 			<div id="portfolio-filter">
 				<p class="text-muted" style="margin-top: 0;">by location:</p>
 				<ul class="filter-tabs" id="locations">
-					<li class="all active"><a href="#" usv:filter="all">All</a></li>
+					<li class="all active"><a href="#" usv-filter="all">All</a></li>
 				</ul>
 				<p class="text-muted" style="white-space:nowrap">by initial investment:</p>
 				<ul class="filter-tabs" id="series">
-					<li class="all active"><a href="#" usv:filter="all">All</a></li>
+					<li class="all active"><a href="#" usv-filter="all">All</a></li>
 				</ul>
 				<p class="text-muted" style="white-space:nowrap">by year:</p>
 				<ul class="filter-tabs" id="years">
-					<li class="all active"><a href="#" usv:filter="all">All</a></li>
+					<li class="all active"><a href="#" usv-filter="all">All</a></li>
 				</ul>
 				<p class="text-muted" style="white-space:nowrap">by type:</p>
 				<ul class="filter-tabs" id="types">
-					<li class="all active"><a href="#" usv:filter="all">All</a></li>
+					<li class="all active"><a href="#" usv-filter="all">All</a></li>
 				</ul>
 				</div>
 			
 		</div><!-- /col-lg-2 -->
 		
 		<div class="col-md-9 col-xs-12">
-			<h2 class="subsection section-heading">Current Portfolio</h2>
+			<h2 class="subsection section-heading" id="current-portfolio">Current Portfolio</h2>
 			<div class="row investments-list">
-								<?php
-									$args = array( 'post_type' => 'investments', 'investment-types' => 'current', 'posts_per_page' => -1, 'orderby' => 'title', 'order' => 'ASC' ); 
-									$loop = new WP_Query( $args );
-									$count = 0;
-									while ( $loop->have_posts() ) : $loop->the_post(); 
-								?>
+				<?php
+					$args = array( 'post_type' => 'investments', 'investment-types' => 'current', 'posts_per_page' => -1, 'orderby' => 'title', 'order' => 'ASC' ); 
+					$loop = new WP_Query( $args );
+					$count = 0;
+					while ( $loop->have_posts() ) : $loop->the_post(); 
+				?>
 
-				<div class="col-sm-3 col-xs-6" usv:investment_series="<?php the_field('investment_series'); ?>" usv:city="<?php the_field('city'); ?>" usv:investment_date="<?php the_field('investment_date'); ?>" usv:investment_type="<?php the_field('type'); ?>">
+				<div class="col-sm-3 col-xs-6 company-container current" usv:investment_series="<?php the_field('investment_series'); ?>" usv:city="<?php the_field('city'); ?>" usv:investment_date="<?php the_field('investment_date'); ?>" usv:investment_type="<?php the_field('type'); ?>">
 					<div class="company">
 					<a href="<?php the_permalink(); ?>"><img alt="<?php the_title(); ?>" src="<?php the_field('logo'); ?>"  class="logo mt-image-none <?php if (get_field('white_logo')) : ?>white<?php endif; ?>" style="" width="220" height="150"></a>
 					<p class="summary">
@@ -67,7 +67,7 @@
 			</div><!-- /row -->
 
 
-			<h2 class="subsection section-heading" style="clear:both">Past Portfolio</h2>	
+			<h2 class="subsection section-heading" id="past-portfolio" style="clear:both">Past Portfolio</h2>	
 
 			<div class="row investments-list">
 								<?php
@@ -77,7 +77,7 @@
 									while ( $loop->have_posts() ) : $loop->the_post(); 
 								?>
 	
-				<div class="col-sm-3 col-xs-6" usv:investment_series="<?php the_field('investment_series'); ?>" usv:city="<?php the_field('city'); ?>" usv:investment_date="<?php the_field('investment_date'); ?>" usv:investment_type="<?php the_field('type'); ?>">
+				<div class="col-sm-3 col-xs-6 company-container past" usv:investment_series="<?php the_field('investment_series'); ?>" usv:city="<?php the_field('city'); ?>" usv:investment_date="<?php the_field('investment_date'); ?>" usv:investment_type="<?php the_field('type'); ?>">
 					<div class="company">
 					<a href="<?php the_permalink(); ?>"><img alt="<?php the_title(); ?>" src="<?php the_field('logo'); ?>"  class="logo mt-image-none <?php if (get_field('white_logo')) : ?>white<?php endif; ?>" style="" width="220" height="150"></a>
 					<p class="summary">

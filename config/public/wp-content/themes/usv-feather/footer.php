@@ -103,30 +103,43 @@
             });
             type_options.sort();
             type_options.reverse();
-        
-        
+            
+            var all_options = series_options.concat(city_options).concat(year_options).concat(type_options);        
         
             for (var i = 0; i < series_options.length; i++ ) {
-                $("#series li:first").after('<li><a href="#" usv:filter="' + series_options[i] + '">' + series_options[i] + '</a></li>');
+                $("#series li:first").after('<li><a href="#" usv-filter="' + series_options[i] + '">' + series_options[i] + '</a></li>');
             }
         
             for (var i = 0; i < city_options.length; i++ ) {
-                $("#locations li:first").after('<li><a href="#" usv:filter="' + city_options[i] + '">' + city_options[i] + '</a></li>');
+                $("#locations li:first").after('<li><a href="#" usv-filter="' + city_options[i] + '">' + city_options[i] + '</a></li>');
             }
             
             for (var i = 0; i < year_options.length; i++ ) {
-                $("#years li:first").after('<li><a href="#" usv:filter="' + year_options[i] + '">' + year_options[i] + '</a></li>');
+                $("#years li:first").after('<li><a href="#" usv-filter="' + year_options[i] + '">' + year_options[i] + '</a></li>');
             }
             
             for (var i = 0; i < type_options.length; i++ ) {
-                $("#types li:first").after('<li><a href="#" usv:filter="' + type_options[i] + '">' + type_options[i] + '</a></li>');
+                $("#types li:first").after('<li><a href="#" usv-filter="' + type_options[i] + '">' + type_options[i] + '</a></li>');
             }
         
         
         
             $(".filter-tabs a").click(function(e) {
-                var query = $(this).attr("usv:filter");
-                
+                e.preventDefault()
+                var query = $(this).attr("usv-filter");
+                filter_portfolio(this, query);
+            });
+            
+            if (window.location.hash) {
+                var query = window.location.hash.split("#")[1];
+                filter_button = $( "a[usv-filter='" + query + "']" );
+                if(filter_button.length > 0) {
+                     filter_portfolio(filter_button, query);                   
+                }
+            }
+        
+            function filter_portfolio(filter_button, query) {
+
                 // deactivate all other tabs
                 $('.filter-tabs li').removeClass('active');
                 
@@ -134,10 +147,10 @@
                 $('.all').addClass('active');
                 
                 // make this active.
-                $(this).parent().addClass('active');
+                $(filter_button).parent().addClass('active');
                 
                 // deactivate this one's parent all
-                $(this).parent().parent().find('.all').removeClass('active');
+                $(filter_button).parent().parent().find('.all').removeClass('active');
                                 
                 // hide or show all the companies
                 $('.company').parent().each(function(){
@@ -153,9 +166,25 @@
                     $('.filter-tabs li').removeClass('active');
                     // make all the "alls" active
                     $('.all').addClass('active');
+                    $('body').ScrollTo();
+                } else {
+                    window.location.hash = query;
+                    $('body').ScrollTo();
                 }
                 
-            });
+                // hide & show section headings
+                if ($('.company-container.current:visible').length == 0) {
+                    $('#current-portfolio').hide();
+                } else {
+                    $('#current-portfolio').show();
+                }
+                if ($('.company-container.past:visible').length == 0) {
+                    $('#past-portfolio').hide();
+                } else {
+                    $('#past-portfolio').show();
+                }
+
+            }
         
             var min_height = 0;
             $('.company').each(function(){

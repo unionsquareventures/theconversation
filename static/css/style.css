@@ -1382,11 +1382,6 @@ h2.section-heading {
 
 .investments h2 {
   font-size: 1em; }
-.company-container {
-  width: 21%;
-  float:left;
-  margin-right: 28px;
-}
 .company {
   background: #eee;
   border-bottom: 1px solid #ddd;

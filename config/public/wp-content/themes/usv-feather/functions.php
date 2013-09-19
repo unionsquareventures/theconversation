@@ -30,7 +30,8 @@ function sp_add_modernizr() {
 function sp_add_scripts() {
 	wp_deregister_script('jquery');
 	wp_enqueue_script( 'jquery', get_bloginfo( 'template_url' ).'/js/vendor/jquery-1.9.1.min.js', null, false );
-	wp_enqueue_script( 'sp_plugins', get_bloginfo( 'template_url' ).'/js/jquery.jpanelmenu.js', null, false );
+	wp_enqueue_script( 'jpanel', get_bloginfo( 'template_url' ).'/js/vendor/jquery.jpanelmenu.js', null, false );
+	wp_enqueue_script( 'scrollto', get_bloginfo( 'template_url' ).'/js/vendor/jquery.scrollto.js', null, false );
 	wp_enqueue_script( 'sp_scripts', get_bloginfo( 'template_url' ).'/js/scripts.js', null, false );
 	wp_enqueue_script( 'bootstrap', get_bloginfo( 'template_url' ).'/js/bootstrap.min.js', null, false );
 }
