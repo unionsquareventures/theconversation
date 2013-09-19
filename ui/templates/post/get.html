@@ -34,6 +34,14 @@
                 </a>
               #}
                 {% raw post.body_html %}
+                
+                {% if urlparse(post.url).netloc == "twitter.com" %}
+                <br />
+                <blockquote class="twitter-tweet">
+                    <a href="{{ post.url }}"></a>
+                </blockquote>
+                <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+                {% end %}
             
                 {% if post.has_hackpad and post.hackpad_url %}
                   <p><a class="post-body-hackpad-link" target="_blank" href="{{ post.hackpad_url }}">Hackpad &rarr;</a></p>

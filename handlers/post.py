@@ -132,6 +132,7 @@ class PostHandler(BaseHandler):
         self.vars.update({
             'post': post,
             'disqus_sso': sso,
+            'urlparse': urlparse
         })
         if post.deleted:
             self.render('post/deleted.html', **self.vars)
