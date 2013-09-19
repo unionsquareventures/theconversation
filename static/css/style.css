@@ -1416,7 +1416,7 @@ h2.section-heading {
   border: 1px solid #ddd;
 }
 .company .since-date {
-  color: #888;
+  color: #777;
   font-size: .9em;
 }
 
@@ -1615,7 +1615,7 @@ ul.filter li.active a {
 }
 
 .investments-list p.summary {
-  color: #555;
+  color: #000;
   line-height: 1.3em;
   margin-bottom: 0;
   
@@ -1647,7 +1647,7 @@ ul.filter li.active a {
   bottom: 10px;
   left: 10px;
   display: block;
-  margin-top: 15px;
+  margin-top: 0;
   color: #bbb;
 }
 
@@ -2833,7 +2833,7 @@ h1.general-page-headline .search-term,
 }
 ul.investments-list {
   float: right;
-  font-weight: 100;
+  font-weight: 300;
   line-height: 1.25;
   padding: 0;
   margin: 0;
@@ -3207,7 +3207,7 @@ a.sort.btn {
   }
 
   .company {
-    height: 300px;
+    height: 290px;
   }
   .person-container {
     width: 20%;

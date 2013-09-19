@@ -38,7 +38,7 @@
 					while ( $loop->have_posts() ) : $loop->the_post(); 
 				?>
 
-				<div class="col-sm-3 col-xs-6 company-container current" usv:investment_series="<?php the_field('investment_series'); ?>" usv:city="<?php the_field('city'); ?>" usv:investment_date="<?php the_field('investment_date'); ?>" usv:investment_type="<?php the_field('type'); ?>">
+				<div class="col-sm-4 col-xs-6 company-container current" usv:investment_series="<?php the_field('investment_series'); ?>" usv:city="<?php the_field('city'); ?>" usv:investment_date="<?php the_field('investment_date'); ?>" usv:investment_type="<?php the_field('type'); ?>">
 					<div class="company">
 					<a href="<?php the_permalink(); ?>"><img alt="<?php the_title(); ?>" src="<?php the_field('logo'); ?>"  class="logo mt-image-none <?php if (get_field('white_logo')) : ?>white<?php endif; ?>" style="" width="220" height="150"></a>
 					<p class="summary">
