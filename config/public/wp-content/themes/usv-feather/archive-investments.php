@@ -28,8 +28,7 @@
 		</div><!-- /col-lg-2 -->
 		
 		<div class="col-md-9 col-xs-12">
-			<h2 class="subsection section-heading" id="current-portfolio">Current Portfolio
-				<span class="filter-label" style="display:none"></span>
+			<h2 class="subsection section-heading" id="current-portfolio">Current Portfolio<span class="filter-label" style="display:none"></span>
 				</h2>
 			<div class="row investments-list">
 				<?php
@@ -69,8 +68,7 @@
 			</div><!-- /row -->
 
 
-			<h2 class="subsection section-heading" id="past-portfolio" style="clear:both">Past Portfolio
-				<span class="filter-label" style="display:none"></span>
+			<h2 class="subsection section-heading" id="past-portfolio" style="clear:both">Past Portfolio<span class="filter-label" style="display:none"></span>
 				</h2>	
 
 			<div class="row investments-list">
