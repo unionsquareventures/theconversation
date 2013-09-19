@@ -6,7 +6,7 @@
 		<div class="col-lg-3 col-xs-2 hidden-xs">
 			
 			
-			<div id="portfolio-filter" data-spy="affix" data-offset-top="125">
+			<div id="portfolio-filter">
 				<p class="text-muted" style="margin-top: 0;">By location:</p>
 				<ul class="filter-tabs" id="locations">
 					<li class="all active"><a href="#" usv:filter="all">All</a></li>
@@ -33,7 +33,7 @@
 									while ( $loop->have_posts() ) : $loop->the_post(); 
 								?>
 
-				<div class="col-sm-3 col-xs-6" usv:investment_series="<?php the_field('investment_series'); ?>" usv:city="<?php the_field('city'); ?>" usv:investment_date="<?php the_field('investment_date'); ?>">
+				<div class="col-sm-3 col-xs-6" usv:investment_series="<?php the_field('investment_series'); ?>" usv:city="<?php the_field('city'); ?>" usv:investment_date="<?php the_field('investment_date'); ?>" usv:investment_type="<?php the_field('type'); ?>">
 					<div class="company">
 					<a href="<?php the_permalink(); ?>"><img alt="<?php the_title(); ?>" src="<?php the_field('logo'); ?>"  class="logo mt-image-none <?php if (get_field('white_logo')) : ?>white<?php endif; ?>" style="" width="220" height="150"></a>
 					<p class="summary">
@@ -73,7 +73,7 @@
 									while ( $loop->have_posts() ) : $loop->the_post(); 
 								?>
 	
-				<div class="col-sm-3 col-xs-6" usv:investment_series="<?php the_field('investment_series'); ?>" usv:city="<?php the_field('city'); ?>" usv:investment_date="<?php the_field('investment_date'); ?>">
+				<div class="col-sm-3 col-xs-6" usv:investment_series="<?php the_field('investment_series'); ?>" usv:city="<?php the_field('city'); ?>" usv:investment_date="<?php the_field('investment_date'); ?>" usv:investment_type="<?php the_field('type'); ?>">
 					<div class="company">
 					<a href="<?php the_permalink(); ?>"><img alt="<?php the_title(); ?>" src="<?php the_field('logo'); ?>"  class="logo mt-image-none <?php if (get_field('white_logo')) : ?>white<?php endif; ?>" style="" width="220" height="150"></a>
 					<p class="summary">
