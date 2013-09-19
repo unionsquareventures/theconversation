@@ -36,7 +36,7 @@
                 {% raw post.body_html %}
                 
                 {% if urlparse(post.url).netloc == "twitter.com" %}
-                <br />
+                <br /><br />
                 <blockquote class="twitter-tweet">
                     <a href="{{ post.url }}"></a>
                 </blockquote>
