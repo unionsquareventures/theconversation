@@ -167,6 +167,7 @@
                     // make all the "alls" active
                     $('.all').addClass('active');
                     $('body').ScrollTo();
+                    window.location.hash = '';
                 } else {
                     window.location.hash = query;
                     $('body').ScrollTo();
@@ -176,15 +177,23 @@
                 if ($('.company-container.current:visible').length == 0) {
                     $('#current-portfolio').hide();
                 } else {
-                    $('#current-portfolio .filter-label').text(', tagged "' + query + '"').show();
                     $('#current-portfolio').show();
+                    if (query != 'all') {
+                        $('#current-portfolio .filter-label').text(', tagged "' + query + '"').show();
+                    } else {
+                        $('#current-portfolio .filter-label').hide()
+                    }
                 }
                 if ($('.company-container.past:visible').length == 0) {
                     $('#past-portfolio').hide();
                 } else {
-                    $('#past-portfolio .filter-label').text(', tagged "' + query + '"').show();
                     $('#past-portfolio').show();
-                }
+                    if (query != "all") {
+                        $('#past-portfolio .filter-label').text(', tagged "' + query + '"').show();
+                    } else {
+                        $('#past-portfolio .filter-label').hide();
+                    }
+                }   
 
             }
         
