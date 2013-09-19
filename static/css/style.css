@@ -1398,8 +1398,10 @@ h2.section-heading {
   font-size: 1em; }
 .company {
   background: #eee;
-  border-bottom: 1px solid #ddd;
-  padding: 10px 10px 20px;
+  border: 1px solid #eee;
+  border-bottom: 1px solid #ccc;
+  border-radius: 2px;
+  padding: 10px 10px 0 10px;
   /*height: 320px;*/
   position: relative;
   margin: 0 0px 25px 0px;
@@ -1418,6 +1420,14 @@ h2.section-heading {
 .company .since-date {
   color: #777;
   font-size: .9em;
+  background: #eee;
+  font-weight: 300;
+  padding: 5px;
+  
+  border-bottom: none;
+  border-top: none;
+  
+  
 }
 
 .investments ul {
@@ -1618,7 +1628,8 @@ ul.filter li.active a {
   color: #000;
   line-height: 1.3em;
   margin-bottom: 0;
-  
+  margin-right: 10px;
+  margin-left: 10px;
 }
 .investments-list p.summary a {
   font-weight: bold;
@@ -1644,7 +1655,7 @@ ul.filter li.active a {
   box-shadow: 0 1px 0 rgba(0,0,0,0.2);
   font-style: italic;*/
   position: absolute;
-  bottom: 10px;
+  bottom: 0px;
   left: 10px;
   display: block;
   margin-top: 0;
@@ -2893,7 +2904,7 @@ ul.investments-list {
   box-shadow: 0 1px 0 rgba(0,0,0,0.2);
   font-style: italic;*/
   position: absolute;
-  bottom: 10px;
+  bottom: 5px;
   left: 0px;
   width: 100%;
   text-align: center;
@@ -2913,7 +2924,7 @@ ul.investments-list {
 /* Buttons */
   .editlink {
     position: absolute;
-    bottom: 0px;
+    top: 0px;
     right: 0px;
   }
   .editlink a {
