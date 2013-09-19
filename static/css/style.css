@@ -733,7 +733,7 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
     margin-top: 0px;
     position: absolute;
     top: -14px;
-    left: 0;
+    left: 20px;
     color: transparent;
   }
   h1#usv-name {
@@ -742,7 +742,7 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
     font-weight: 600;
     position: absolute;
     top: -5px;
-    left: 85px;
+    left: 105px;
   }
   
   @media only screen and (max-width: 1024px) {
