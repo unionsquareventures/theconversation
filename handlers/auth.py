@@ -51,9 +51,9 @@ class TwitterLoginHandler(BaseHandler, tornado.auth.TwitterMixin):
         allowed_users = settings.allowed_users
 
         #if not user_obj['username'].lower() in settings.allowed_users:
-        if not user_obj['username'].lower() in allowed_users:
+        #if not user_obj['username'].lower() in allowed_users:
             #raise tornado.web.HTTPError(401, "Not authorized.")
-            self.redirect('/not-authorized')
+        #    self.redirect('/not-authorized')
 
         user = {
                 'auth_type': 'twitter',
