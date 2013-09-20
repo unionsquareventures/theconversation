@@ -2096,8 +2096,9 @@ padding: 0; }
   .filter-tabs li a {
     text-decoration: none;
     display: block;
-    background-color: #eee;
-    padding: 3px 7px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    padding: 1px 5px;
     border-radius: 2px;
     color: gray;
     font-size: 0.85em; }
@@ -2105,6 +2106,7 @@ padding: 0; }
     display: block; }
   .filter-tabs li.active a {
     background-color: #86aa3b;
+    border-color: #86AA3B;
     color: #fff; }
 
 
