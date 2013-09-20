@@ -1426,6 +1426,7 @@ h2.section-heading {
   width: 100%;
   height: auto;
   border: 1px solid #ddd;
+  background: #fff;
 }
 .company .since-date {
   color: #777;
