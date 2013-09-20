@@ -1979,12 +1979,13 @@ ul.filter li.active a {
   padding-top: 10px; 
   text-align: center; }
 .article-post .profile-photo {
-  width: 100%;
+  width: 150px;
   text-align: center; 
-  
+  float: left;
+  margin-right: 20px;
   }
   .article-post .profile-photo img {
-    width: 100%;
+    width: 150px;
     height: auto; }
   .article-post .profile-photo a {
     opacity: 1; }
@@ -2042,7 +2043,7 @@ ul.filter li.active a {
       position: absolute;
       }
       .article-post .profile-photo img {
-        width: 100%;
+        width: 125px;
         height: auto; }
     .article-post .profile-links {
       position: absolute;

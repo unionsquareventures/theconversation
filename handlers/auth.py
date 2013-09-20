@@ -65,6 +65,7 @@ class TwitterLoginHandler(BaseHandler, tornado.auth.TwitterMixin):
                 'profile_image_url_https': user_obj['profile_image_url_https'],
         }
         self.set_secure_cookie("user_id_str", user_obj['id_str'])
+        self.set_secure_cookie("username", user_obj['username'])
         self.set_cookie("debug_username", user_obj['username'])
         access_token = user_obj['access_token']
         u = UserInfo.objects(user__id_str=user['id_str']).first()

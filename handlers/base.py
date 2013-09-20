@@ -9,7 +9,9 @@ from urlparse import urlparse
 class BaseHandler(SentryMixin, tornado.web.RequestHandler):
     def __init__(self, *args, **kwargs):
         super(BaseHandler, self).__init__(*args, **kwargs)
+        username = self.get_current_username()
         self.vars = {
+                        'username': username,
                         'user_id_str': self.get_current_user_id_str(),
                         'user_email_address': self.get_secure_cookie('email_address') or '',
                         'settings': settings,
@@ -38,6 +40,12 @@ class BaseHandler(SentryMixin, tornado.web.RequestHandler):
             return settings.test_user_info['user']['id_str']
         user_id_str = self.get_secure_cookie('user_id_str') or ''
         return user_id_str
+    
+    def get_current_username(self):
+        #if self.settings.get('auth_passthrough'):
+        #    return settings.test_user_info['user']['username']
+        username = self.get_secure_cookie('username') or 'you'
+        return username
 
     def is_admin(self):
         user_id_str = self.get_current_user_id_str()
