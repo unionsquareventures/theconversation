@@ -20,7 +20,7 @@ class AccessToken(EmbeddedDocument):
 
 class UserInfo(Document):
     meta = {
-        'indexes': ['user.id_str']
+        'indexes': ['user.id_str', 'email_address']
     }
     user = EmbeddedDocumentField(User, required=True)
     access_token = EmbeddedDocumentField(AccessToken, required=True)
