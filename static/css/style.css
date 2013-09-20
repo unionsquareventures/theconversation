@@ -2102,6 +2102,9 @@ padding: 0; }
     border-radius: 2px;
     color: gray;
     font-size: 0.85em; }
+  .filter-tabs li a:hover {
+    background-color: #eee;
+  } 
   .filter-tabs li.heading {
     display: block; }
   .filter-tabs li.active a {

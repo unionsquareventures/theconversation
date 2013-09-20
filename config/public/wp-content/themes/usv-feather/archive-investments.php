@@ -20,7 +20,7 @@
 					<li class="all active"><a href="#" usv-filter="all">All</a></li>
 				</ul>
 				<p class="text-muted" style="white-space:nowrap">by type:</p>
-				<ul class="filter-tabs" id="types">
+				<ul class="filter-tabs" id="categories">
 					<li class="all active"><a href="#" usv-filter="all">All</a></li>
 				</ul>
 				</div>
@@ -36,9 +36,15 @@
 					$loop = new WP_Query( $args );
 					$count = 0;
 					while ( $loop->have_posts() ) : $loop->the_post(); 
+					$terms = array();
+					$term_objs = get_the_terms($post->ID, 'investment-category');
+					foreach ($term_objs as $obj) {
+						array_push($terms,$obj->name);
+					}
+					$categories = implode(',', $terms);
 				?>
 
-				<div class="col-sm-4 col-xs-6 company-container current" usv:investment_series="<?php the_field('investment_series'); ?>" usv:city="<?php the_field('city'); ?>" usv:investment_date="<?php the_field('investment_date'); ?>" usv:investment_type="<?php the_field('type'); ?>">
+				<div class="col-sm-4 col-xs-6 company-container current" usv:investment_series="<?php the_field('investment_series'); ?>" usv:city="<?php the_field('city'); ?>" usv:investment_date="<?php the_field('investment_date'); ?>" usv:investment_categories="<?php echo($categories); ?>">
 					<div class="company">
 					<a href="<?php the_permalink(); ?>"><img alt="<?php the_title(); ?>" src="<?php the_field('logo'); ?>"  class="logo mt-image-none <?php if (get_field('white_logo')) : ?>white<?php endif; ?>" style="" width="220" height="150"></a>
 					<p class="summary">
@@ -46,7 +52,7 @@
 							if( $post->post_excerpt ) {
 								echo '<a href="'. get_permalink() . '">' . get_the_title() .'</a> ';
 								echo get_the_excerpt();
-	}                                   else {
+							} else {
 								$content = get_the_content();
 								$stripped = strip_tags($content, '<a>');
 								$trunc_description = substr($stripped, 0, 180);
@@ -77,9 +83,15 @@
 									$loop = new WP_Query( $args );
 									$count = 0;
 									while ( $loop->have_posts() ) : $loop->the_post(); 
+									$terms = array();
+									$term_objs = get_the_terms($post->ID, 'investment-category');
+									foreach ($term_objs as $obj) {
+										array_push($terms,$obj->name);
+									}
+									$categories = implode(',', $terms);
 								?>
 	
-				<div class="col-sm-4 col-xs-6 company-container past" usv:investment_series="<?php the_field('investment_series'); ?>" usv:city="<?php the_field('city'); ?>" usv:investment_date="<?php the_field('investment_date'); ?>" usv:investment_type="<?php the_field('type'); ?>">
+				<div class="col-sm-4 col-xs-6 company-container past" usv:investment_series="<?php the_field('investment_series'); ?>" usv:city="<?php the_field('city'); ?>" usv:investment_date="<?php the_field('investment_date'); ?>" usv:investment_categories="<?php echo($categories); ?>">
 					<div class="company">
 					<a href="<?php the_permalink(); ?>"><img alt="<?php the_title(); ?>" src="<?php the_field('logo'); ?>"  class="logo mt-image-none <?php if (get_field('white_logo')) : ?>white<?php endif; ?>" style="" width="220" height="150"></a>
 					<p class="summary">
