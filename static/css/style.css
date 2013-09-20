@@ -1941,7 +1941,7 @@ ul.filter li.active a {
   margin: 10px 0; }
   
 .community article {
-  margin-left: 40px;
+  
 }
 .article-post .post-body {
   margin-bottom: 40px; }
@@ -1979,10 +1979,10 @@ ul.filter li.active a {
   padding-top: 10px; 
   text-align: center; }
 .article-post .profile-photo {
-  width: 30%;
-  margin-right: 5%;
-  float: left; 
-  text-align: center; }
+  width: 100%;
+  text-align: center; 
+  
+  }
   .article-post .profile-photo img {
     width: 100%;
     height: auto; }
@@ -2040,12 +2040,9 @@ ul.filter li.active a {
       display: block; }
     .article-post .profile-photo {
       position: absolute;
-      top: 0;
-      left: 0;
-      width: 188px;
-      margin-right: 30px; }
+      }
       .article-post .profile-photo img {
-        width: 188px;
+        width: 100%;
         height: auto; }
     .article-post .profile-links {
       position: absolute;
@@ -2065,9 +2062,9 @@ ul.filter li.active a {
     .article-post h1 {
       margin-bottom: 20px; }
     .article-post .profile-photo {
-      width: 188px; }
+      width: ; }
       .article-post .profile-photo img {
-        width: 188px;
+        width: ;
         height: auto; }
     .article-post .profile-links {
       position: absolute;
