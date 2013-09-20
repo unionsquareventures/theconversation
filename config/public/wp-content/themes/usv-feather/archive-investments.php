@@ -19,7 +19,7 @@
 				<ul class="filter-tabs" id="years">
 					<li class="all active"><a href="#" usv-filter="all">All</a></li>
 				</ul>
-				<p class="text-muted" style="white-space:nowrap">by type:</p>
+				<p class="text-muted" style="white-space:nowrap">by category:</p>
 				<ul class="filter-tabs" id="categories">
 					<li class="all active"><a href="#" usv-filter="all">All</a></li>
 				</ul>
