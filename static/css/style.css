@@ -1986,7 +1986,9 @@ ul.filter li.active a {
   }
   .article-post .profile-photo img {
     width: 150px;
-    height: auto; }
+    height: auto; 
+    border: 4px solid #DFDFD1;
+    }
   .article-post .profile-photo a {
     opacity: 1; }
     .article-post .profile-photo a:hover {
@@ -2065,7 +2067,7 @@ ul.filter li.active a {
     .article-post .profile-photo {
       width: ; }
       .article-post .profile-photo img {
-        width: ;
+        width: 180px ;
         height: auto; }
     .article-post .profile-links {
       position: absolute;
@@ -2078,6 +2080,14 @@ ul.filter li.active a {
 .comment-box {
   margin-top: 40px; }
 
+@media only screen and (max-width: 480px) {
+  .article-post .profile-photo {
+    width: 60px;
+  }
+  .article-post .profile-photo img {
+    width: 60px ;
+  }
+}
 /* ================================ Jobs Page =========================== */
 
 .filter-tabs {
