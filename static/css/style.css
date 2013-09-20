@@ -741,8 +741,18 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
     font-size: 22px;
     font-weight: 300;
     position: absolute;
-    top: -5px;
-    left: 105px;
+    top: -15px;
+    left: 90px;
+    padding: 0;
+    margin: 0;
+  }
+  #usv-name a {
+    display: block;
+    height: 70px;
+    padding: 25px 15px;
+    height: 70px;
+    color: #fff;
+    text-decoration: none;
   }
   
   @media only screen and (max-width: 1024px) {
