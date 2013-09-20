@@ -1993,6 +1993,10 @@ ul.filter li.active a {
     opacity: 1; }
     .article-post .profile-photo a:hover {
       opacity: 0.85; }
+      
+       .staff {
+         color: #bbb;
+       }
 .article-post .profile-links {
   float: left;
   width: 47%; }

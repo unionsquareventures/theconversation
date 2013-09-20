@@ -16,6 +16,7 @@ class BaseHandler(SentryMixin, tornado.web.RequestHandler):
                         'user_email_address': self.get_secure_cookie('email_address') or '',
                         'settings': settings,
                         'is_admin': self.is_admin,
+                        'is_staff': self.is_staff,
                         'urlparse': urlparse,
                     }
         user_id_str = self.get_current_user_id_str()
@@ -46,6 +47,11 @@ class BaseHandler(SentryMixin, tornado.web.RequestHandler):
         #    return settings.test_user_info['user']['username']
         username = self.get_secure_cookie('username') or 'you'
         return username
+        
+    def is_staff(self, username):
+        if username.lower() in settings.staff_twitter_handles:
+            return True
+        return False
 
     def is_admin(self):
         user_id_str = self.get_current_user_id_str()

@@ -14,6 +14,9 @@
                   <img src="{{ twitter_avatar_size(post.user.profile_image_url_https, 'original') }}" alt="thumbnail">
                 </a>
                 <span class="author-name">{{ post.user.fullname }}</span>
+                {% if is_staff(post.user.username) %}
+                <span class="staff">USV Staff</span>
+                {% end %}
             </div>
         </div><!-- /.col3 -->
         <div class="col-sm-6">
