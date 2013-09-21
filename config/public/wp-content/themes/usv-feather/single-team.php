@@ -13,6 +13,7 @@
             <div class="intro">
                 <?php if ( have_posts() ) : while ( have_posts() ) : the_post(); ?>
                     <?php the_content(); ?>
+                    <?php edit_post_link('edit', '<span class="editlink">', '</span>'); ?>
                 <?php endwhile; else: ?>
                 <?php endif; ?>
             </div><!--end of intro-->

@@ -12,6 +12,7 @@ Template Name: About
             <div class="deck">
                 <?php if ( have_posts() ) : while ( have_posts() ) : the_post(); ?>
                 <?php the_content(); ?>
+                <br />
                 <?php endwhile; else: ?>
                 <?php endif; ?>
             </div>
