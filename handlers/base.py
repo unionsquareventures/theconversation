@@ -45,7 +45,7 @@ class BaseHandler(SentryMixin, tornado.web.RequestHandler):
     def get_current_username(self):
         #if self.settings.get('auth_passthrough'):
         #    return settings.test_user_info['user']['username']
-        username = self.get_secure_cookie('username') or 'you'
+        username = self.get_secure_cookie('username') or False
         return username
         
     def is_staff(self, username):
@@ -68,6 +68,11 @@ class BaseHandler(SentryMixin, tornado.web.RequestHandler):
 
     @tornado.web.authenticated
     def get(self, id='', action=''):
+        username = self.get_current_username()
+        if not username:
+            self.clear_all_cookies()
+            self.redirect('/')
+        
         if action == 'new' and not id:
             self.new()
         elif action == 'edit' and id:

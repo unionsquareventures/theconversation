@@ -22,6 +22,7 @@ class PostHandler(BaseHandler):
         super(PostHandler, self).__init__(*args, **kwargs)
 
     def index(self):
+        
         # list posts
         query = {}
         tag = self.get_argument('tag', '').lower()

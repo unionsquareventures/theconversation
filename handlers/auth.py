@@ -48,7 +48,7 @@ class TwitterLoginHandler(BaseHandler, tornado.auth.TwitterMixin):
             #raise tornado.web.HTTPError(500, "Twitter authentication failed.")
             self.redirect('/auth-failed')
 
-        allowed_users = settings.allowed_users
+        #allowed_users = settings.allowed_users
 
         #if not user_obj['username'].lower() in settings.allowed_users:
         #if not user_obj['username'].lower() in allowed_users:
