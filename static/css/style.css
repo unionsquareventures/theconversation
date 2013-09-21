@@ -1973,10 +1973,10 @@ ul.filter li.active a {
       color: gray; 
     }
     .article-post .post-source {
-      
+      float: right;
     }
   .article-post .post-date {
-    float: right;
+    float: left;
     display: inline;
     }
 .article-post .meta-wrapper {

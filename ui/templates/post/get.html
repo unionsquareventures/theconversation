@@ -29,9 +29,9 @@
                         {{ post.title }}
                     {% end %}
                 </h1>
-            <div class="post-meta">
+            <div class="post-meta clearfix">
                 {% if post.url %}
-                <a class="source" href="{{ post.url }}">{{ urlparse(post.url).netloc }} &rarr;</a>
+                <a class="post-source" href="{{ post.url }}">{{ urlparse(post.url).netloc }} &rarr;</a>
                 {% end %}
                 <span class="post-date">{{ pretty_date(post.date_created) }}</span> 
                 {% if post.user.id_str == user_id_str or is_admin() %}
