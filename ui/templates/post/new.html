@@ -1,10 +1,9 @@
 {% extends "../base.html" %}
 
 {% block javascript %}
-<script type="text/javascript" src="/static/js/tinymce/jquery.tinymce.min.js"></script>
 
 <script type="text/javascript">
-$(function() {
+$(document).ready(function() {
         USV_setup_tinymce();
         $('.header-submit-button').hide();
         $('#submit-trigger').hide();

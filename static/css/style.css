@@ -2778,6 +2778,13 @@ h1.general-page-headline .search-term,
 #submit-form label {
   color: #444;
 }
+#submit-form dl {
+  margin-top: 0;
+}
+#submit-form dd {
+  margin-left: 0;
+  margin-bottom: 15px;
+}
 
 .feed .title:link {
   color: #507500;
