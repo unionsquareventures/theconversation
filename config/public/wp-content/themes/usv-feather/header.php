@@ -49,7 +49,7 @@
                     <?php endif; ?>
                 </ul>
                 <div id="login">
-                    Welcome, @you! <!--&nbsp;[<a href="#">logout</a>]-->
+                    Welcome, @<?php echo $_COOKIE['username']; ?>! <!--&nbsp;[<a href="#">logout</a>]-->
                 </div>
                 </div>         
             </header><!--end of site-header-->
