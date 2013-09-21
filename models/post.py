@@ -99,12 +99,12 @@ class Post(Document):
             if base_domain not in valid_hackpad_domains:
                 errors['hackpad_url'] = ValidationError('Invalid Hackpad URL', field_name='hackpad_url')
 
-        if self.body_length_limit:
-            raw = self._data.get('body_raw', '')
-            soup = BeautifulSoup(raw)
-            if len(soup.get_text()) > self.body_length_limit:
-                errors['body_raw'] = ValidationError('Post content exceeds %i characters'\
-                                                % self.body_length_limit, field_name='body_raw')
+        #if self.body_length_limit:
+        #    raw = self._data.get('body_raw', '')
+        #    soup = BeautifulSoup(raw)
+        #    if len(soup.get_text()) > self.body_length_limit:
+        #        errors['body_raw'] = ValidationError('Post content exceeds %i characters'\
+        #                                        % self.body_length_limit, field_name='body_raw')
 
         try:
             super(Post, self).validate(clean=clean)
