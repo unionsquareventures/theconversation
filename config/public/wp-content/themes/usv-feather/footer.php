@@ -41,10 +41,9 @@
             <li><a href="<?php the_field('hottest_news_page_url', 'option'); ?>">Newest</a></li>
             <li><a href="<?php the_field('featured_news_archive_url', 'option'); ?>">Featured</a></li>
             <li class="heading">UNION SQUARE VENTURES</li>
-            <li><a href="<?php echo get_post_type_archive_link( 'team' ); ?>">Team</a></li>
+            <li><a href="<?php echo get_permalink('8'); ?>">About</a></li>
             <li><a href="<?php echo get_post_type_archive_link( 'investments' ); ?>">Investments</a></li>
             <li><a href="<?php echo get_permalink('10'); ?>">Network</a></li>
-            <li><a href="<?php echo get_permalink('8'); ?>">About</a></li>
             <li><a href="<?php echo get_permalink('12'); ?>">Jobs</a></li>
         </ul>
     </nav>
