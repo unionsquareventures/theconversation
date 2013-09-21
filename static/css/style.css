@@ -539,7 +539,7 @@ textarea {
 /* ================================ Variables =============================== */
 /* ================================ Defaults ================================ */
 html {
-  background-color: #333333; }
+  background-color: #A0B86E; }
 
 .shell {
   background-color: #fff; }
@@ -1976,18 +1976,21 @@ ul.filter li.active a {
   display: none;
   font-weight: 600;
   color: #000;
-  padding-top: 10px; 
-  text-align: center; }
+  padding-top: 10px;  }
+.article-post .staff {
+  display:none;
+}
 .article-post .profile-photo {
   width: 150px;
-  text-align: center; 
+  text-align: left; 
   float: left;
   margin-right: 20px;
   }
   .article-post .profile-photo img {
-    width: 150px;
+    width: 125px;
     height: auto; 
     border: 4px solid #DFDFD1;
+    border: 1px solid #ccc;
     }
   .article-post .profile-photo a {
     opacity: 1; }
@@ -2045,6 +2048,9 @@ ul.filter li.active a {
       display: none; }
     .article-post .author-name {
       display: block; }
+    .article-post .staff {
+      display: block;
+    }
     .article-post .profile-photo {
       position: absolute;
       }
@@ -2071,7 +2077,7 @@ ul.filter li.active a {
     .article-post .profile-photo {
       width: ; }
       .article-post .profile-photo img {
-        width: 180px ;
+        width: 125px ;
         height: auto; }
     .article-post .profile-links {
       position: absolute;

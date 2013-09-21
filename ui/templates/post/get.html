@@ -17,6 +17,7 @@
                 {% if is_staff(post.user.username) %}
                 <span class="staff">USV Team</span>
                 {% end %}
+                
             </div>
         </div><!-- /.col3 -->
         <div class="col-sm-6">
@@ -28,7 +29,9 @@
                         {{ post.title }}
                     {% end %}
                 </h1>
-            <span class="post-date">{{ pretty_date(post.date_created) }}</span> 
+            <span class="post-date">{{ pretty_date(post.date_created) }}</span> {% if post.user.id_str == user_id_str or is_admin() %}
+    <span class="editlink"><a href="/posts/{{ post.slug }}/edit" class="edit-post">Edit</a></span>
+{% end %}
             
             <div class="post-body">
               {#
@@ -57,10 +60,11 @@
                   <p><a class="post-body-hackpad-link" target="_blank" href="{{ post.hackpad_url }}">Hackpad &rarr;</a></p>
                 {% end %}
                 {% if post.tags %}
-                    <b>Tags:</b>
+                    <p><b>Tags:</b>
                     {% for count, tag in enumerate(post.tags) %}
                         <a href="/search?tag={{ url_escape(tag) }}">{{ tag }}</a>{% if count < len(post.tags) -1 %}, {% end %}
                     {% end %}
+                    </p>
                 {% end %}
             </div><!--end of post-body-->
             
@@ -119,9 +123,6 @@
                 {% module ajax_upvote_link(post=post) %}
                 <a href="/posts/{{ post.slug }}#disqus_thread" class="comments-button"
                                         data-disqus-identifier="{{ post.id }}">0 comments</a>
-                {% if post.user.id_str == user_id_str or is_admin() %}
-                    <a href="/posts/{{ post.slug }}/edit" class="edit-post">Edit Post</a>
-                {% end %}
             
                 <div class="share-widget">
                     <span class="heading">Share Post</span>
