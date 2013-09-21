@@ -118,6 +118,7 @@ class PostHandler(BaseHandler):
             raise tornado.web.HTTPError(404)
         sso = self.settings['disqus'].get_sso(True, {})
         id_str = self.get_current_user_id_str()
+        u = None
         if id_str:
             u = UserInfo.objects.get(user__id_str=id_str)
             if u.email_address:
@@ -133,7 +134,9 @@ class PostHandler(BaseHandler):
         self.vars.update({
             'post': post,
             'disqus_sso': sso,
-            'urlparse': urlparse
+            'urlparse': urlparse,
+            'user_info': u,
+            'subscribe': self.get_argument('subscribe', '')
         })
         if post.deleted:
             self.render('post/deleted.html', **self.vars)
@@ -218,29 +221,6 @@ class PostHandler(BaseHandler):
                 post.save()
             else:
                 post.save(body_length_limit=settings.post_char_limit)
-            
-            def handle_request(response):
-                if response.error:
-                    print "Error:", response.error
-                else:
-                    print response.body
-            
-            data = {
-                'title': 'here is a link',
-                'url': 'http://foo.bar',
-                'body': "hello there",
-                'tags': "foo, bar",
-                'domain': 'foo.bar',
-                'username': 'nickgrossman' 
-            }
-            params = {
-                'url': 'http://0.0.0.0:5000/api/v1/add_link',
-                'method': 'GET'
-            }
-            request = HTTPRequest(**params)
-            http_client = AsyncHTTPClient()
-            http_client.fetch("http://0.0.0.0:5000", handle_request)
-            
         except mongoengine.ValidationError, e:
             self.new(post=post, errors=e.errors)
             return
@@ -249,10 +229,9 @@ class PostHandler(BaseHandler):
         self.redis_add(post)
 
         post_url = '/posts/%s' % post.slug
+        subscribe_param = ''
         if not u.email_address:
-            self.redirect('/auth/email/?subscribe_to=%s&next=%s' % (str(post.id),
-                                                tornado.escape.url_escape(post_url)))
-            return
+            subscribe_param = '?subscribe=true'
 
         # Attempt to create the post's thread
         user_url = 'http://www.twitter.com/%s' % u.user.screen_name
@@ -277,7 +256,7 @@ class PostHandler(BaseHandler):
         disqus.create_thread(_created, user_info, thread_info)
 
         if not self.is_admin():
-            self.redirect('/posts/%s' % post.slug)
+            self.redirect('/posts/%s%s' % (post.slug, subscribe_param))
             return
 
         sendgrid = self.settings['sendgrid']
@@ -304,7 +283,7 @@ class PostHandler(BaseHandler):
                 'subject': subject,
                 'text': text,
             })
-        self.redirect('/posts/%s' % post.slug)
+        self.redirect('/posts/%s%s' % (post.slug, subscribe_param))
 
     def redis_remove(self, post):
         redis = self.settings['redis']
