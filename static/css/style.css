@@ -1936,7 +1936,10 @@ ul.filter li.active a {
 
 .article-post h1 {
   margin: 0 0 10px 0;
-  font-size: 1.5em; }
+  font-size: 1.5em; 
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 10px;
+  }
 .article-post h2 {
   margin: 10px 0; }
   
@@ -1963,9 +1966,19 @@ ul.filter li.active a {
     font-size: 0.85em;
     color: #333333;
     margin-top: 5px; }
-.article-post .post-date {
-  font-size: 0.85em;
-  color: gray; }
+    .article-post .post-meta {
+      margin-bottom: 25px;
+      display:block;
+      font-size: 0.85em;
+      color: gray; 
+    }
+    .article-post .post-source {
+      
+    }
+  .article-post .post-date {
+    float: right;
+    display: inline;
+    }
 .article-post .meta-wrapper {
   margin-top: 10px; }
 .article-post .author {
@@ -2001,8 +2014,7 @@ ul.filter li.active a {
          color: #bbb;
        }
 .article-post .profile-links {
-  float: left;
-  width: 47%; }
+  }
 .article-post .upvote-button, .article-post .comments-button {
   text-decoration: none;
   color: #86aa3b;
@@ -2058,11 +2070,7 @@ ul.filter li.active a {
         width: 125px;
         height: auto; }
     .article-post .profile-links {
-      position: absolute;
-      top: 188px;
-      left: 0;
-      width: 188px;
-      margin-top: 40px; }
+      }
     .article-post .share-widget {
       display: block; } }
 @media only screen and (min-width: 1100px) {
@@ -2073,19 +2081,14 @@ ul.filter li.active a {
       .article-post .meta-wrapper .author {
         display: none; }
     .article-post h1 {
-      margin-bottom: 20px; }
+      margin-bottom: 5px; }
     .article-post .profile-photo {
       width: ; }
       .article-post .profile-photo img {
         width: 125px ;
         height: auto; }
     .article-post .profile-links {
-      position: absolute;
-      top: 0;
-      left: auto;
-      right: 0;
-      width: 188px;
-      margin-top: 0; } }
+       } }
 
 .comment-box {
   margin-top: 40px; }
@@ -3276,6 +3279,9 @@ a.sort.btn {
 
 
 @media only screen and (min-width: 1100px) {
+.usv-post {
+  padding: 0 35px 0 20px;
+}
  .article-post .share-widget {
     display: none;
     margin-top: 20px; }

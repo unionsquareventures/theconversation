@@ -8,7 +8,7 @@
 <div id="main" role="main">
     
     <div class="row article-post single community">
-        <div class="col-sm-3">
+        <div class="col-sm-2">
             <div class="profile-photo">
                 <a href="http://www.twitter.com/{{ post.user.username }}" target="_blank">
                   <img src="{{ twitter_avatar_size(post.user.profile_image_url_https, 'original') }}" alt="thumbnail">
@@ -20,8 +20,8 @@
                 
             </div>
         </div><!-- /.col3 -->
-        <div class="col-sm-6">
-            <article class="">
+        <div class="col-sm-8">
+            <article class="usv-post">
                 <h1>
                     {% if post.url %}
                     <a href="{{ post.url }}" target="_blank">{{ post.title }}</a>
@@ -29,10 +29,17 @@
                         {{ post.title }}
                     {% end %}
                 </h1>
-            <span class="post-date">{{ pretty_date(post.date_created) }}</span> {% if post.user.id_str == user_id_str or is_admin() %}
-    <span class="editlink"><a href="/posts/{{ post.slug }}/edit" class="edit-post">Edit</a></span>
-{% end %}
-            
+            <div class="post-meta">
+                {% if post.url %}
+                <a class="source" href="{{ post.url }}">{{ urlparse(post.url).netloc }} &rarr;</a>
+                {% end %}
+                <span class="post-date">{{ pretty_date(post.date_created) }}</span> 
+                {% if post.user.id_str == user_id_str or is_admin() %}
+                    <span class="editlink"><a href="/posts/{{ post.slug }}/edit" class="edit-post">Edit</a></span>
+                {% end %}
+
+            </div>
+                        
             <div class="post-body">
               {#
                 <a class="shared-link" href="http://apple.com/example-of-very-long-url-slug" target="_blank" title="Source: http://apple.com/example-of-very-long-url-slug">
@@ -117,7 +124,7 @@
             
         </div><!-- /.col6 -->
         
-        <div class="col-sm-3">
+        <div class="col-sm-2">
             <div class="profile-links">
                 <span class="author">by {{ post.user.fullname }}</span>
                 {% module ajax_upvote_link(post=post) %}
