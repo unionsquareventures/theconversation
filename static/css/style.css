@@ -1631,6 +1631,10 @@ ul.filter li.active a {
   margin: 0 0 15px 0;
 }
 
+.logo.extra-padding {
+  padding: 10px !important;
+}
+
 .investments-list img.white {
   /*margin-top: 0;*/
 }
