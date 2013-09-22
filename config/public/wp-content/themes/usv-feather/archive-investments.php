@@ -7,10 +7,6 @@
 			
 			
 			<div id="portfolio-filter">
-				<p class="text-muted" style="margin-top: 0;">by location:</p>
-				<ul class="filter-tabs" id="locations">
-					<li class="all active"><a href="#" usv-filter="all">All</a></li>
-				</ul>
 				<p class="text-muted" style="white-space:nowrap">by initial investment:</p>
 				<ul class="filter-tabs" id="series">
 					<li class="all active"><a href="#" usv-filter="all">All</a></li>
@@ -21,6 +17,10 @@
 				</ul>
 				<p class="text-muted" style="white-space:nowrap">by category:</p>
 				<ul class="filter-tabs" id="categories">
+					<li class="all active"><a href="#" usv-filter="all">All</a></li>
+				</ul>
+				<p class="text-muted" style="margin-top: 0;">by location:</p>
+				<ul class="filter-tabs" id="locations">
 					<li class="all active"><a href="#" usv-filter="all">All</a></li>
 				</ul>
 				</div>
