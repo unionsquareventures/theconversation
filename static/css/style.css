@@ -3231,6 +3231,10 @@ a.sort.btn {
 
 @media only screen and (min-width: 768px) {
 
+  .container {
+    max-width: 98%;
+  }
+
   .nav-main li a { 
     font-size: 1em;
   }
