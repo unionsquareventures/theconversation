@@ -19,7 +19,7 @@
 				<ul class="filter-tabs" id="categories">
 					<li class="all active"><a href="#" usv-filter="all">All</a></li>
 				</ul>
-				<p class="text-muted" style="margin-top: 0;">by location:</p>
+				<p class="text-muted">by location:</p>
 				<ul class="filter-tabs" id="locations">
 					<li class="all active"><a href="#" usv-filter="all">All</a></li>
 				</ul>
