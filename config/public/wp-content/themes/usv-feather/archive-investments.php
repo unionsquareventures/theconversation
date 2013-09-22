@@ -94,8 +94,9 @@
 				<div class="col-sm-4 col-xs-6 company-container past" usv:investment_series="<?php the_field('investment_series'); ?>" usv:city="<?php the_field('city'); ?>" usv:investment_date="<?php the_field('investment_date'); ?>" usv:investment_categories="<?php echo($categories); ?>">
 					<div class="company">
 					<a href="<?php the_permalink(); ?>">
-						<img alt="<?php the_title(); ?>" src="<?php the_field('logo'); ?>"  class="logo mt-image-none <?php if (get_field('extra_logo_padding')) : ?>needs-padding<?php endif; ?>" width="220" height="150"></a>
+						<img alt="<?php the_title(); ?>" src="<?php the_field('logo'); ?>"  class="logo mt-image-none<?php if (get_field('extra_logo_padding')) : ?>needs-padding<?php endif; ?>" width="220" height="150"></a>
 					<p class="summary">
+						<?php the_field('extra_logo_padding'); ?>
 						<?php 
 							if( $post->post_excerpt ) {
 								echo '<a href="'. get_permalink() . '">' . get_the_title() .'</a> ';
