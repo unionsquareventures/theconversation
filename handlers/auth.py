@@ -66,7 +66,8 @@ class TwitterLoginHandler(BaseHandler, tornado.auth.TwitterMixin):
         }
         self.set_secure_cookie("user_id_str", user_obj['id_str'])
         self.set_secure_cookie("username", user_obj['username'])
-        self.set_secure_cookie("usv_twitter_username", user_obj['username'])
+        # the one below is for wordpress
+        self.set_cookie("usv_username", user_obj['username'])
         self.set_cookie("debug_username", user_obj['username'])
         access_token = user_obj['access_token']
         u = UserInfo.objects(user__id_str=user['id_str']).first()
