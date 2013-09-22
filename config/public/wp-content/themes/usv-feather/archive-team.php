@@ -15,7 +15,7 @@
                 <div class="col-lg-12 clearfix">
                     <div class="row">
                             <?php
-                                $args = array( 'post_type' => 'team', 'posts_per_page' => -1 ); 
+                                $args = array( 'post_type' => 'team', 'posts_per_page' => -1, 'orderby' => 'menu_order', 'order' => "ASC" ); 
                                 $loop = new WP_Query( $args );
                                 //$total_partners = $loop->found_posts;
                                 $count = 0;
