@@ -74,7 +74,7 @@
 			</div><!-- /row -->
 
 
-			<h2 class="subsection section-heading" id="past-portfolio" style="clear:both">Existed Investments<span class="filter-label" style="display:none"></span>
+			<h2 class="subsection section-heading" id="past-portfolio" style="clear:both">Exited Investments<span class="filter-label" style="display:none"></span>
 				</h2>	
 
 			<div class="row investments-list">
