@@ -52,7 +52,7 @@ Template Name: About
             <div class="indent">
                 <?php //the_field('about_page_content'); ?>
             </div>
-            <h2 class="section-heading">Team</h2>
+            <h2 class="section-heading" id="team-heading">Team</h2>
             
             <div id="full-bio" style="display:none">
                 <div id="full-bio-content"></div>

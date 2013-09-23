@@ -240,6 +240,7 @@
                e.preventDefault();
                window.location.hash = "#_";
                collapse_bios(); 
+               $('#team-heading').ScrollTo();
             });
             
             var show_bio = function(person) {
