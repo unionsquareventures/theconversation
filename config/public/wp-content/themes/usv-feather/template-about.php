@@ -56,7 +56,7 @@ Template Name: About
             
             <div id="full-bio" style="display:none">
                 <div id="full-bio-content"></div>
-                <a id="close-bio" href="#"><span class="btn btn-small">Close</a></a>
+                <div id="close-bio"><a href="" class="btn btn-small">Close</a></div>
             </div>
             
             <div class="row">

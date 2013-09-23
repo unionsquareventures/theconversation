@@ -221,8 +221,13 @@
             
             /* ABOUT PAGE */
             $(".open-bio").click(function(e) {
-               //window.location.hash = person;
                e.preventDefault();
+                if ( $(this).hasClass('is-open') ) {
+                    collapse_bios();
+                    $(this).removeClass('is-open');
+                    return;
+                }
+               $(this).addClass('is-open');
                var person = $(this).attr("usv:person");
                show_bio(person);
             });

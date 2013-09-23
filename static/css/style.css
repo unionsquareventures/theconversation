@@ -1261,11 +1261,9 @@ h2.section-heading {
   padding: 0 10px;
 }
 #close-bio {
-  display: block;
-  width: 100%;
   text-align:center;
-  border-top: 1px solid #ddd;
   padding: 5px;
+  margin: -10px 0 10px;
 }
 .team ul {
   margin: 0 0 30px 0;
