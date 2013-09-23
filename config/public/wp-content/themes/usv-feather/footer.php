@@ -244,12 +244,12 @@
             
             var show_bio = function(person) {
                 var $card = $("div[usv-person='" + person + "']");
-                $card.ScrollTo();
                 var bio_html = $card.find('.full-bio').html();
                 var $full_bio_container = $("#full-bio");
                 if ($full_bio_container.is(':visible')) {
                     collapse_bios();
                 }
+                $card.ScrollTo();
                 var $full_bio_content = $("#full-bio-content");
                 var $shim = $card.find('.full-bio-shim');
                 
