@@ -61,34 +61,36 @@
       }
   </style>
 
-  {% if user_id_str %}
-  <div class="modal" id="submit-modal">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-          <h4 class="modal-title">Post</h4>
-        </div>
-        <div class="modal-body">
-            {% module post_form(classes="", id="") %}
-        </div>
-      </div>
-    </div>
-  </div>
-  {% else %}
-  <div class="modal" id="submit-modal">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-          <h4 class="modal-title">Please login to post or vote</h4>
-        </div>
-        <div class="modal-body">
-          <img src="/static/img/sign-in-with-twitter-gray.png" alt="Sign in with Twitter" id="twitter-login-button" style="cursor: pointer;" />
+  {% block submit_area %}
+      {% if user_id_str %}
+      <div class="modal" id="submit-modal">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+              <h4 class="modal-title">Post</h4>
+            </div>
+            <div class="modal-body">
+                {% module post_form(classes="", id="") %}
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-  </div>
+      {% else %}
+      <div class="modal" id="submit-modal">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+              <h4 class="modal-title">Please login to post or vote</h4>
+            </div>
+            <div class="modal-body">
+              <img src="/static/img/sign-in-with-twitter-gray.png" alt="Sign in with Twitter" id="twitter-login-button" style="cursor: pointer;" />
+            </div>
+          </div>
+        </div>
+      </div>
+      {% end %}
   {% end %}
 
     <div class="shell">

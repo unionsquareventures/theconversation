@@ -95,6 +95,10 @@ $(function() {
   USV_remove_tinymce();
   USV_setup_tinymce();
 
+  $("#submit-trigger").on('click', function() {
+    $("#submit-modal").modal("show");
+  });
+
 	$('#toggle-hackpad-url').click(function(){
 
 		$(this).toggleClass('checked');

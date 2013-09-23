@@ -12,6 +12,9 @@ $(document).ready(function() {
 </script>
 {% end %}
 
+{% block submit_area %}
+{% end %}
+
 {% block content %}
     {% module post_form(errors=errors, post=post, classes="", id="submit-form") %}
 {% end %}
