@@ -234,11 +234,11 @@
                 $("#full-bio").hide();
                 $('.full-bio-shim').hide();
                 $('.person-container').css('opacity', '1');
-                window.location.hash = "";
             }
             
             $("#close-bio").click(function(e) {
                e.preventDefault();
+               window.location.hash = "#_";
                collapse_bios(); 
             });
             
@@ -249,6 +249,7 @@
                 if ($full_bio_container.is(':visible')) {
                     collapse_bios();
                 }
+                window.location.hash = person;
                 $card.ScrollTo();
                 var $full_bio_content = $("#full-bio-content");
                 var $shim = $card.find('.full-bio-shim');
