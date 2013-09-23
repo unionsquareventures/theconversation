@@ -1297,7 +1297,7 @@ h2.section-heading {
     margin: 0;
   }
   .is-open .person p.bio {
-    margin-top: 8px;
+    /*margin-top: 8px;*/
   }
   .person .full-bio-shim {
     background: #eee;
