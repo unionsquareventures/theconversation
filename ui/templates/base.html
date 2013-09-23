@@ -60,26 +60,38 @@
         z-index: auto !important;
       }
   </style>
+
+  {% if user_id_str %}
   <div class="modal" id="submit-modal">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-          <h4 class="modal-title">Submit a Post</h4>
+          <h4 class="modal-title">Post</h4>
         </div>
         <div class="modal-body">
-            {% module post_form(classes="", id="submit-form") %}
+            {% module post_form(classes="", id="") %}
         </div>
-        <!--<div class="modal-footer">
-          <a href="#" class="btn btn-primary">Submit</a>
-        </div>
-    -->
       </div>
     </div>
   </div>
+  {% else %}
+  <div class="modal" id="submit-modal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title">Please login to post or vote</h4>
+        </div>
+        <div class="modal-body">
+          <img src="/static/img/sign-in-with-twitter-gray.png" alt="Sign in with Twitter" id="twitter-login-button" style="cursor: pointer;" />
+        </div>
+      </div>
+    </div>
+  </div>
+  {% end %}
 
     <div class="shell">
-
         <div id="mobile-header">
             <a id="menu-trigger" href="#">Open Menu</a>
             <a id="mobile-logo" href="/">Union Square Ventures</a>
@@ -100,7 +112,9 @@
                 </ul>
                 <!--<a href="#submit-form" class="header-submit-button">Submit</a>-->
                 <div id="login">
-                    Welcome, @{{ username }}! <!--&nbsp;[<a href="#">logout</a>]-->
+                    {% if username %}
+                        Welcome, @{{ username }}! <!--&nbsp;[<a href="#">logout</a>]-->
+                    {% end %}
                 </div>
                 </div>
             </header><!--end of site-header-->

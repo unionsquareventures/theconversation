@@ -67,8 +67,9 @@ class BaseHandler(SentryMixin, tornado.web.RequestHandler):
             self.create()
 
     def get(self, id='', action=''):
+        id_str = self.get_current_user_id_str()
         username = self.get_current_username()
-        if not username:
+        if id_str and not username:
             self.clear_all_cookies()
             self.redirect('/')
 
