@@ -266,7 +266,7 @@
                 //$full_bio.width($container.width());
                 $full_bio_content.html(bio_html)
                 $full_bio_container.show();
-                $shim.show();
+                //$shim.show();
                 
                 // set widths & heights
                 $full_bio_container.offset({ 'top' : $card.offset().top + $card.height() - 12 });                     
