@@ -14,6 +14,8 @@ class DeleteUserHandler(BaseHandler):
         self.render('delete_user/index.html', **self.vars)
 
     def post(self):
+        if not self.is_admin():
+            raise tornado.web.HTTPError(401)
         post_slug = self.get_argument('post_slug')
         post = Post.objects(slugs=post_slug).first()
         if not post:

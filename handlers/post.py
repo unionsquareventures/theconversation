@@ -22,7 +22,6 @@ class PostHandler(BaseHandler):
         super(PostHandler, self).__init__(*args, **kwargs)
 
     def index(self):
-        
         # list posts
         query = {}
         tag = self.get_argument('tag', '').lower()
@@ -143,6 +142,7 @@ class PostHandler(BaseHandler):
             return
         self.render('post/get.html', **self.vars)
 
+    @tornado.web.authenticated
     @tornado.web.asynchronous
     def new(self, post=None, errors=None):
         if not errors:
@@ -164,6 +164,7 @@ class PostHandler(BaseHandler):
         })
         self.render('post/new.html', **self.vars)
 
+    @tornado.web.authenticated
     @tornado.web.asynchronous
     def create(self):
         attributes = {k: v[0] for k, v in self.request.arguments.iteritems()}
@@ -379,6 +380,7 @@ class PostHandler(BaseHandler):
             return
         self.redirect('/posts/%s' % post.slug)
 
+    @tornado.web.authenticated
     def edit(self, id, errors=None):
         post = Post.objects(slugs=id).first()
         if not post:
