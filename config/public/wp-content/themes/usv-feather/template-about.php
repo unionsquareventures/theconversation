@@ -65,8 +65,26 @@ Template Name: About
                 </div>-->
                 <div class="col-lg-12 clearfix">
                     <div class="row" id="people">
+                            <?php 
+                                /* Hacking order in manually, since custom post types ordering isn't working */
+                                $order = array(
+                                        "brad-burnham",
+                                        "fred-wilson",
+                                        "albert-wenger",
+                                        "john-buttrick",
+                                        "andy-weissman",
+                                        "kerri-rachlin",
+                                        "nick-grossman",
+                                        "brian-watson",
+                                        "alexander-pease",
+                                        "brittany-laughlin",
+                                        "gillian-campbell",
+                                        "veronica-keaveney"
+                                    );
+                            ?>
+                            <?php foreach ($order as $person): ?>
                             <?php
-                                $args = array( 'post_type' => 'team', 'posts_per_page' => -1, 'orderby' => 'menu_order', 'order' => "ASC" ); 
+                                $args = array( 'post_type' => 'team', 'posts_per_page' => -1, 'name' => $person ); 
                                 $loop = new WP_Query( $args );
                                 //$total_partners = $loop->found_posts;
                                 $count = 0;
@@ -91,8 +109,9 @@ Template Name: About
                                         </div>
                                         </div>
                                     </div>
-                             <?php $count++; ?>   
+                            <?php $count++; ?>   
                             <?php endwhile; ?>
+                            <?php endforeach; ?>
                             <?php wp_reset_postdata(); ?>
                     </div><!-- /row -->
                 </div><!-- /col-10 -->
