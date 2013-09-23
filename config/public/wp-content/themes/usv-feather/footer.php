@@ -211,22 +211,74 @@
             //$('.company').height(min_height + 'px');
         
             var min_height = 0;
-            $('.partner').each(function(){
+            $('.person').each(function(){
                 if ($(this).height() > min_height) {
                     min_height = $(this).height()
                 }
             });
-            $('.partner').height(min_height + 'px');
+            $('.person').height(min_height + 'px');        
+            
+            
+            /* ABOUT PAGE */
+            $(".open-bio").click(function(e) {
+               //window.location.hash = person;
+               e.preventDefault();
+               var person = $(this).attr("usv:person");
+               show_bio(person);
+            });
+            
+            var person_heights = $('.person-container').height();
+            
+            var collapse_bios = function() {
+                $('.person-container').height(person_heights);
+                $("#full-bio").hide();
+                $('.full-bio-shim').hide();
+                $('.person-container').css('opacity', '1');
+                window.location.hash = "";
+            }
+            
+            $("#close-bio").click(function(e) {
+               e.preventDefault();
+               collapse_bios(); 
+            });
+            
+            var show_bio = function(person) {
+                var $card = $("div[usv-person='" + person + "']");
+                $card.ScrollTo();
+                var bio_html = $card.find('.full-bio').html();
+                var $full_bio_container = $("#full-bio");
+                if ($full_bio_container.is(':visible')) {
+                    collapse_bios();
+                }
+                var $full_bio_content = $("#full-bio-content");
+                var $shim = $card.find('.full-bio-shim');
+                
+                //$full_bio.width($container.width());
+                $full_bio_content.html(bio_html)
+                $full_bio_container.show();
+                $shim.show();
+                
+                // set widths & heights
+                $full_bio_container.offset({ 'top' : $card.offset().top + $card.height() - 12 });                     
+                
+                // find which cards are in the same row
+                $('.person-container').css('opacity', '0.4');
+                $('.person-container').each(function() {
+                    if ($(this).offset().top == $card.offset().top) {
+                        $(this).height($(this).height() + $full_bio_container.height());
+                    }
+                });
+                $card.css('opacity', '1');
+            }
+            
+            if (window.location.hash) {
+                var name = window.location.hash.split("#")[1];
+                var $card = $( "[usv-person='" + name + "']" );
+                if($card.length > 0) {
+                     show_bio(name);                   
+                }
+            }
         
-            var min_height = 0;
-            $('.staff').each(function(){
-                if ($(this).height() > min_height) {
-                    min_height = $(this).height()
-                }
-            });
-            $('.staff').height(min_height + 'px');
-            //$('.investments-list img').css('margin-top', min_height - 165 + "px");
-            //$('.investments-list p.summary').css('margin-top', min_height - 165 + "px");
         
         
         });

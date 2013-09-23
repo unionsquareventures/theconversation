@@ -4,6 +4,10 @@ Template Name: About
 */
 ?>
 
+<script>
+    USV_person_names = [];
+</script>
+
 <?php get_header(); ?>
 
     <div id="main" role="main">
@@ -50,27 +54,41 @@ Template Name: About
             </div>
             <h2 class="section-heading">Team</h2>
             
+            <div id="full-bio" style="display:none">
+                <div id="full-bio-content"></div>
+                <a id="close-bio" href="#"><span class="btn btn-small">Close</a></a>
+            </div>
+            
             <div class="row">
                 <!--<div class="col-sm-2">
                     <h2 class="subsection">Partners</h2>
                 </div>-->
                 <div class="col-lg-12 clearfix">
-                    <div class="row">
+                    <div class="row" id="people">
                             <?php
-                                $args = array( 'post_type' => 'team', 'posts_per_page' => -1, 'orderby' => 'menu_order', 'order' => "ASC"  ); 
+                                $args = array( 'post_type' => 'team', 'posts_per_page' => -1, 'orderby' => 'menu_order', 'order' => "ASC" ); 
                                 $loop = new WP_Query( $args );
                                 //$total_partners = $loop->found_posts;
                                 $count = 0;
                                 while ( $loop->have_posts() ) : $loop->the_post(); 
                             ?>
+                            <script>
+                                USV_person_names.push('<?php echo $post->post_name; ?>');
+                            </script>
             
-                                    <div class="col-sm-3 col-xs-6 person-container">
-                                        <div class="person partner">
-                                        <a class="" href="<?php echo get_permalink(); ?>"><img src="<?php the_field('thumbnail_image'); ?>" alt="thumbnail" height="160" width="160"><span class="green-bar"></span></a>
+                                    <div class="col-sm-3 col-xs-6 person-container" usv-person="<?php echo $post->post_name; ?>">
+                                        <div class="person">
+                                        <a class="open-bio" usv:person="<?php echo $post->post_name; ?>" href="<?php echo get_permalink(); ?>">
+                                            <img src="<?php the_field('thumbnail_image'); ?>" alt="thumbnail" height="160" width="160">
+                                            </a>
                                         <p class="bio">
-                                            <b><a href="<?php echo get_permalink(); ?>"><?php echo get_the_title(); ?></a></b><br /> <?php the_excerpt(); ?> <!-- <br /><a href="<?php echo get_permalink(); ?>" class="more-button">MORE</a>-->
+                                            <b><a  class="open-bio" usv:person="<?php echo $post->post_name; ?>" href="<?php echo get_permalink(); ?>"><?php echo get_the_title(); ?></a></b><br /> <?php the_excerpt(); ?> <!-- <br /><a href="<?php echo get_permalink(); ?>" class="more-button">MORE</a>-->
                                         </p>
                                         <?php edit_post_link('edit', '<span class="editlink">', '</span>'); ?>
+                                        <div class="full-bio-shim" style="display:none"></div>
+                                        <div class="full-bio" style="display:none">
+                                            <?php the_content(); ?>
+                                        </div>
                                         </div>
                                     </div>
                              <?php $count++; ?>   

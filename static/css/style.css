@@ -1253,11 +1253,25 @@ h2.section-heading {
 
 .team h2 {
   font-size: 1em; }
+  
+#full-bio {
+  position: absolute;
+  background: #eee;
+  z-index: 1000;
+  padding: 0 10px;
+}
+#close-bio {
+  display: block;
+  width: 100%;
+  text-align:center;
+  border-top: 1px solid #ddd;
+  padding: 5px;
+}
 .team ul {
   margin: 0 0 30px 0;
   padding: 0; }
 .person {
-  text-align: center;
+  text-align: left;
   list-style: none;
   background: #eee;
   border-bottom: 1px solid #ddd;
@@ -1283,6 +1297,21 @@ h2.section-heading {
   }
   .person p.bio {
     margin: 0;
+  }
+  .person .full-bio-shim {
+    background: #eee;
+    height: 20px;
+    position: absolute;
+    bottom: -19px;
+    left: 0;
+    width: 100%;
+    
+  }
+  .person .full-bio {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    background: pink;
   }
   .team li.blank {
     display: none; }
