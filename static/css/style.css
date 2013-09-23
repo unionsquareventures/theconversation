@@ -1455,7 +1455,7 @@ h2.section-heading {
   margin: 0;
   width: 100%;
   height: auto;
-  border: 1px solid #ddd;
+  border: none !important;
   background: #fff;
 }
 .company .since-date {
