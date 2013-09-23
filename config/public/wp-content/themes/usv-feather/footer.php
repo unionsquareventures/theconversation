@@ -227,7 +227,6 @@
                     $(this).removeClass('is-open');
                     return;
                 }
-               $(this).addClass('is-open');
                var person = $(this).attr("usv:person");
                show_bio(person);
             });
@@ -236,6 +235,8 @@
             
             var collapse_bios = function() {
                 $('.person-container').height(person_heights);
+                $('.person-container').removeClass('is-open');
+                $('.open-bio').removeClass('is-open');
                 $("#full-bio").hide();
                 $('.full-bio-shim').hide();
                 $('.person-container').css('opacity', '1');
@@ -255,6 +256,8 @@
                 if ($full_bio_container.is(':visible')) {
                     collapse_bios();
                 }
+                $card.addClass('is-open');
+                $card.find('a').addClass('is-open');
                 window.location.hash = person;
                 $card.ScrollTo();
                 var $full_bio_content = $("#full-bio-content");
