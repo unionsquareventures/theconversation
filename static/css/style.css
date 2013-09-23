@@ -1259,6 +1259,7 @@ h2.section-heading {
   background: #eee;
   z-index: 1000;
   padding: 0 10px;
+  border-bottom: 1px solid #ddd;
 }
 #close-bio {
   text-align:center;
