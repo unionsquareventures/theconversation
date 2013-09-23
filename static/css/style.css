@@ -1284,7 +1284,7 @@ h2.section-heading {
     margin: 0 auto 15px;
     margin-bottom: 10px;
     /*border: 4px solid #DFDFD1;*/
-    border: 1px solid #DFDFD1;
+    /*border: 1px solid #DFDFD1;*/
   }
   .person a {
     color:#333 !important;
