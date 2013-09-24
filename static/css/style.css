@@ -2792,7 +2792,7 @@ a:hover { color: #86aa3b; }
 }
 #site-header, #mobile-header {
   background: #a0b86e; /* light green */
-  background: #555A4B; /* dark green/gray */
+  background: #53574B; /* dark green/gray */
 }
 
 
@@ -3414,3 +3414,4 @@ dl {
 .mce-charcount-overflow {
   font-weight: bold !important;
   color: red !important; }
+  
