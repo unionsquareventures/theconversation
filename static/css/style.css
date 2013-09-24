@@ -254,8 +254,10 @@ ol,
 ul {
   margin: 1em 0; }
 
+/* Commented out by Zander
 dd {
   margin: 0 0 0 40px; }
+*/
 
 /**
  * Address paddings set differently in IE 6/7.
@@ -3391,4 +3393,19 @@ a.sort.btn {
         
 .count {
   width: 80px !important;
+}
+
+/* Added by Zander for bullets in post creation modal overlay */
+.dt {
+  padding-top: 12px;
+}
+
+/* Added by Zander */
+.modal-body {
+  padding-top: 0px;
+}
+
+/* Added by Zander */
+.dl {
+  margin-top: 0px;
 }
