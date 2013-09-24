@@ -254,8 +254,10 @@ ol,
 ul {
   margin: 1em 0; }
 
+/* Commented out by Zander
 dd {
   margin: 0 0 0 40px; }
+*/
 
 /**
  * Address paddings set differently in IE 6/7.
@@ -1664,9 +1666,12 @@ ul.filter li.active a {
   margin: 0 0 15px 0;
 }
 
+/* Commented out by Zander. This was making investment thumbnails height too big */
+/*
 .logo.extra-padding {
   padding: 10px !important;
 }
+*/
 
 .investments-list img.white {
   /*margin-top: 0;*/
@@ -3383,3 +3388,29 @@ a.sort.btn {
 .count {
   width: 80px !important;
 }
+
+/* Added by Zander for bullets in post creation modal overlay */
+dt {
+  padding-top: 12px;
+}
+
+/* Added by Zander */
+.modal-body {
+  padding-top: 0px;
+}
+
+/* Added by Zander */
+dl {
+  margin-top: 0px;
+}
+
+/* TinyMCE character count styling */
+.mce-charcount {
+  position: absolute !important;
+  top: 0 !important;
+  right: 0 !important;
+  padding: 8px !important; }
+
+.mce-charcount-overflow {
+  font-weight: bold !important;
+  color: red !important; }

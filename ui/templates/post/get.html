@@ -87,7 +87,7 @@
               #}
                 {% raw post.body_html %}
                 
-                {% if urlparse(post.url).netloc == "twitter.com" or urlparse(post.url).netloc == "www.twitter.com" %}
+                {% if post.url and (urlparse(post.url).netloc == "twitter.com" or urlparse(post.url).netloc == "www.twitter.com") %}
                 <br /><br />
                 <blockquote class="twitter-tweet">
                     <a href="{{ post.url }}"></a>
@@ -95,7 +95,7 @@
                 <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
                 {% end %}
                 
-                {% if urlparse(post.url).netloc == "youtube.com" or urlparse(post.url).netloc == "www.youtube.com" %}
+                {% if post.url and (urlparse(post.url).netloc == "youtube.com" or urlparse(post.url).netloc == "www.youtube.com") %}
                 {% set vid_id = post.url.split("=")[1] %}
                 <br /><br />
                 <iframe width="560" height="315" src="http://youtube.com/embed/{{ vid_id }}" frameborder="0" allowfullscreen></iframe>
