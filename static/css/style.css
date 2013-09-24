@@ -3409,3 +3409,14 @@ dt {
 dl {
   margin-top: 0px;
 }
+
+/* TinyMCE character count styling */
+.mce-charcount {
+  position: absolute !important;
+  top: 0 !important;
+  right: 0 !important;
+  padding: 8px !important; }
+
+.mce-charcount-overflow {
+  font-weight: bold !important;
+  color: red !important; }
