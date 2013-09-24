@@ -3396,7 +3396,7 @@ a.sort.btn {
 }
 
 /* Added by Zander for bullets in post creation modal overlay */
-.dt {
+dt {
   padding-top: 12px;
 }
 
@@ -3406,6 +3406,6 @@ a.sort.btn {
 }
 
 /* Added by Zander */
-.dl {
+dl {
   margin-top: 0px;
 }
