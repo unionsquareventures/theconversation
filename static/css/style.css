@@ -1265,6 +1265,16 @@ h2.section-heading {
   padding: 0 10px;
   border-bottom: 1px solid #ddd;
 }
+#full-bio .blog {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+}
+#full-bio .twitter {
+  position: absolute;
+  bottom: 10px;
+  left: 10px;
+}
 #close-bio {
   text-align:center;
   padding: 5px;
@@ -1317,8 +1327,8 @@ h2.section-heading {
     position: absolute;
     left: 0;
     width: 100%;
-    background: pink;
   }
+  
   .team li.blank {
     display: none; }
   .team li:hover .more-button {
@@ -3389,7 +3399,7 @@ a.sort.btn {
         display: none; } }
         
 .count {
-  width: 80px !important;
+  width: 60px !important;
 }
 
 /* Added by Zander for bullets in post creation modal overlay */

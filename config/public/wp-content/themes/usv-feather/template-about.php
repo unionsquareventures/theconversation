@@ -106,6 +106,17 @@ Template Name: About
                                         <div class="full-bio-shim" style="display:none"></div>
                                         <div class="full-bio" style="display:none">
                                             <?php the_content(); ?>
+                                            <div class="bio-links">
+                                                <?php if (get_field('blog_url')): ?>
+                                                    <a class="blog" href="<?php the_field('blog_url'); ?>"><?php the_field('blog_url'); ?></a>                                                  
+                                                <?php endif; ?>
+                                                <?php if (get_field('twitter_handle')): ?>
+                                                    <?php the_field('twitter_handle'); ?>
+                                                <?php endif; ?>
+                                                <a class="twitter">
+                                                    @nickgrossman
+                                                </a>
+                                            </div>
                                         </div>
                                         </div>
                                     </div>
