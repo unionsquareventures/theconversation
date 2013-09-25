@@ -112,19 +112,19 @@
             var all_options = series_options.concat(city_options).concat(year_options).concat(category_options);        
         
             for (var i = 0; i < series_options.length; i++ ) {
-                $("#series li:first").after('<li><a href="#" usv-filter="' + series_options[i] + '">' + series_options[i] + '</a></li>');
+                $("#series li:first").after('<li><a href="#" usv-filter="' + series_options[i].slugify() + '">' + series_options[i] + '</a></li>');
             }
         
             for (var i = 0; i < city_options.length; i++ ) {
-                $("#locations li:first").after('<li><a href="#" usv-filter="' + city_options[i] + '">' + city_options[i] + '</a></li>');
+                $("#locations li:first").after('<li><a href="#" usv-filter="' + city_options[i].slugify() + '">' + city_options[i] + '</a></li>');
             }
             
             for (var i = 0; i < year_options.length; i++ ) {
-                $("#years li:first").after('<li><a href="#" usv-filter="' + year_options[i] + '">' + year_options[i] + '</a></li>');
+                $("#years li:first").after('<li><a href="#" usv-filter="' + year_options[i].slugify() + '">' + year_options[i] + '</a></li>');
             }
             
             for (var i = 0; i < category_options.length; i++ ) {
-                $("#categories li:first").after('<li><a href="#" usv-filter="' + category_options[i] + '">' + category_options[i] + '</a></li>');
+                $("#categories li:first").after('<li><a href="#" usv-filter="' + category_options[i].slugify() + '">' + category_options[i] + '</a></li>');
             }
         
         
@@ -144,6 +144,7 @@
             }
         
             function filter_portfolio(filter_button, query) {
+                /* Query should be a slugified string */
 
                 // deactivate all other tabs
                 $('.filter-tabs li').removeClass('active');
@@ -159,7 +160,7 @@
                                 
                 // hide or show all the companies
                 $('.company').parent().each(function(){
-                    if ($(this).attr("usv:city") == query || $(this).attr("usv:investment_series") == query || $(this).attr("usv:investment_date") == query || $(this).attr("usv:investment_categories").indexOf(query) > -1 ) {
+                    if ($(this).attr("usv:city_slug") == query || $(this).attr("usv:investment_series_slug") == query || $(this).attr("usv:investment_date") == query || $(this).attr("usv:investment_categories_slug").indexOf(query) > -1 ) {
                         $(this).show();
                     } else {
                         $(this).hide();
