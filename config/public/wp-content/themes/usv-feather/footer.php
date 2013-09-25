@@ -67,11 +67,16 @@
         
             var city_options = [];
             $('.company').each(function() {
-                var city = $(this).parent().attr('usv:city');
-                if ($.inArray(city, city_options) == -1) {
-                    // we haven't seen this one yet
-                    if (city != "" && typeof(city) != "undefined") {
-                        city_options.push(city);
+                var cities_str = $(this).parent().attr('usv:city')
+                if (cities_str) {
+                    cities = cities_str.split(',');
+                    for (var i = 0; i < cities.length; i++) {
+                        if ($.inArray(cities[i], city_options) == -1) {
+                            // we haven't seen this one yet
+                            if (cities[i] != "" && typeof(cities[i]) != "undefined") {
+                                city_options.push(cities[i]);
+                            }
+                        }
                     }
                 }
             });

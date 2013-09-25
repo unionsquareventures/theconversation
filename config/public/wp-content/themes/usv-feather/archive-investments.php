@@ -7,19 +7,19 @@
 			
 			
 			<div id="portfolio-filter">
-				<p class="text-muted" style="white-space:nowrap">by initial investment:</p>
+				<p class="text-muted" style="white-space:nowrap">By initial investment:</p>
 				<ul class="filter-tabs" id="series">
 					<li class="all active"><a href="#" usv-filter="all">All</a></li>
 				</ul>
-				<p class="text-muted" style="white-space:nowrap">by year:</p>
+				<p class="text-muted" style="white-space:nowrap">By year:</p>
 				<ul class="filter-tabs" id="years">
 					<li class="all active"><a href="#" usv-filter="all">All</a></li>
 				</ul>
-				<p class="text-muted" style="white-space:nowrap">by category:</p>
+				<p class="text-muted" style="white-space:nowrap">By category:</p>
 				<ul class="filter-tabs" id="categories">
 					<li class="all active"><a href="#" usv-filter="all">All</a></li>
 				</ul>
-				<p class="text-muted">by location:</p>
+				<p class="text-muted">By location:</p>
 				<ul class="filter-tabs" id="locations">
 					<li class="all active"><a href="#" usv-filter="all">All</a></li>
 				</ul>
