@@ -33,6 +33,8 @@ function sp_add_scripts() {
 	wp_enqueue_script( 'jpanel', get_bloginfo( 'template_url' ).'/js/vendor/jquery.jpanelmenu.js', null, false );
 	wp_enqueue_script( 'scrollto', get_bloginfo( 'template_url' ).'/js/vendor/jquery.scrollto.js', null, false );
 	wp_enqueue_script( 'sp_scripts', get_bloginfo( 'template_url' ).'/js/scripts.js?v=2', null, false );
+	wp_enqueue_script( 'hammer', get_bloginfo( 'template_url' ).'/js/vendor/jquery.hammer.min.js', null, false );
+	wp_enqueue_script( 'mmenu', get_bloginfo( 'template_url' ).'/js/vendor/jquery.mmenu.min.js', null, false );
 	wp_enqueue_script( 'bootstrap', get_bloginfo( 'template_url' ).'/js/bootstrap.min.js', null, false );
 }
 

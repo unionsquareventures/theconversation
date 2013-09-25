@@ -20,7 +20,7 @@ String.prototype.slugify = function(){
 		.replace(/\s/gi, "-");
 };
 
-(function($){
+/*(function($){
 	
 	var jPM = $.jPanelMenu({
 		menu: '#mobile-menu',
@@ -100,3 +100,4 @@ String.prototype.slugify = function(){
 	});
 
 }(jQuery));
+*/

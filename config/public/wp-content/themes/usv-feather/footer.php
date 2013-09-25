@@ -33,24 +33,46 @@
         </footer><!--end of footer-->
 
     </div><!--end of shell-->
-
-    <nav id="mobile-menu">
+    
+    <nav id="mmenu" class="mm-menu mm-is-menu mm-vertical"><div class="mm-inner">
+        <div class="mm-search"><input placeholder="Search" type="text" autocomplete="off"></div>
         <ul>
-            <li class="heading">News</li>
-            <li><a href="<?php the_field('newest_news_page_url', 'option'); ?>">Hot</a></li>
-            <li><a href="<?php the_field('hottest_news_page_url', 'option'); ?>">Newest</a></li>
-            <li><a href="<?php the_field('featured_news_archive_url', 'option'); ?>">Featured</a></li>
-            <li class="heading">UNION SQUARE VENTURES</li>
-            <li><a href="<?php echo get_permalink('8'); ?>">About</a></li>
-            <li><a href="<?php echo get_post_type_archive_link( 'investments' ); ?>">Investments</a></li>
-            <li><a href="<?php echo get_permalink('10'); ?>">Network</a></li>
-            <li><a href="<?php echo get_permalink('12'); ?>">Jobs</a></li>
-        </ul>
-    </nav>
+        <li class="mm-label"><a href="<?php the_field('homepage_url'); ?>">Union Square Ventures</a></li>
+        <li>
+            <!--<em class="mm-counter">2</em>--><a class="mm-subopen" href="#mm-s1-0"></a>
+            <a href="<?php bloginfo('siteurl'); ?>">Conversation</a>
+            <ul class="mm-submenu" id="mm-s1-0">
+                <li><a href="<?php the_field('homepage_url'); ?>">Hot</a></li>
+                <li><a href="<?php the_field('homepage_url'); ?>">New</a></li>
+                <li><a href="<?php the_field('homepage_url'); ?>">Featured</a></li>
+            </ul>
+        </li>
+        <li><a href="<?php bloginfo('siteurl'); ?>/about/">About</a></li>
+        <!--<li class="mm-selected mm-opened"><a href="#">About us</a></li>-->
+        <!--<li>
+            <em class="mm-counter">2</em><a class="mm-subopen" href="#mm-s1-0"></a><a href="#">Our work</a>
+            <ul class="mm-submenu" id="mm-s1-0">
+                <li><a href="#">What we do</a></li>
+                <li><a href="#">How we do it</a></li>
+            </ul>
+        </li>-->
+        <!--<li class="mm-label">Contact</li>-->
+        <li><a href="<?php bloginfo('siteurl'); ?>/investments/">Investments</a></li>
+        <li><a href="<?php bloginfo('siteurl'); ?>/network/">Network</a></li>
+        <li><a href="<?php bloginfo('siteurl'); ?>/jobs/">Jobs</a></li>
+    <li class="mm-noresults">No results found.</li></ul></div></nav>
 
     <?php wp_footer(); ?>
     <script>
         $(document).ready(function() {
+            
+            $("#mmenu").mmenu({
+                dragOpen   : {
+                  open       : true,
+                  threshold  : 100,
+                  pageNode   : "#content"
+               }
+            });
         
             var series_options = [];
             $('.company').each(function() {

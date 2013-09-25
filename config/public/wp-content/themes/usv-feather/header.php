@@ -16,7 +16,10 @@
   <link rel="shortcut icon" href="<?php bloginfo('template_directory'); ?>/img/usv-favicon.png" type="image/png" />
 
     <link rel="stylesheet" href="<?php bloginfo('template_directory'); ?>/css/bootstrap.min.css">
+    <link rel="stylesheet" href="<?php the_field('homepage_url', 'option'); ?>/static/css/mmenu.css">
+    <link type="text/css" rel="stylesheet" media="all" href="<?php the_field('homepage_url', 'option'); ?>/static/css/mmenu.css" />
     <link rel="stylesheet" href="<?php the_field('homepage_url', 'option'); ?>/static/css/style.css?<?php echo rand(); ?>">
+    
 	<?php wp_head(); ?> 
 </head>
 <body <?php body_class(); ?> data-menu-position="closed">
@@ -24,7 +27,7 @@
 	<div class="shell">
         
         <div id="mobile-header">
-            <a id="menu-trigger" href="#">Open Menu</a>
+            <a id="menu-trigger" href="#mmenu">Open Menu</a>
             <a id="mobile-logo" href="<?php the_field('homepage_url', 'option'); ?>">Union Square Ventures</a>
             <a id="submit-trigger" href="#">Submit Post</a>
         </div>

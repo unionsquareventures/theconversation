@@ -14,6 +14,7 @@
     <link rel="shortcut icon" href="/static/img/usv-favicon.png" type="image/png" />
 
     <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/css/mmenu.css">
     <link rel="stylesheet" href="/static/css/style.css?{{ settings.css_modified_time }}">
     <script src="/static/js/vendor/respond.min.js"></script>
 
@@ -21,6 +22,8 @@
     {% end %}
 
     <script src="/static/js/vendor/jquery-1.9.1.min.js"></script>
+    <script src="/static/js/vendor/jquery.hammer.min.js"></script>
+    <script src="/static/js/vendor/jquery.mmenu.min.js"></script>
     <script src="/static/js/bootstrap.min.js"></script>
     <script type="text/javascript">
         USV_is_admin = {{ 'true' if is_admin() else 'false' }};
@@ -34,6 +37,13 @@
                     $(this).parent('form').submit();
                     e.stopPropagation();
                     e.preventDefault();
+                });
+                $("#mmenu").mmenu({
+                    dragOpen   : {
+                      open       : true,
+                      threshold  : 100,
+                      pageNode   : "#content"
+                   }
                 });
         });
         
