@@ -42,8 +42,8 @@
 						array_push($terms,$obj->name);
 					}
 					$categories = implode(',', $terms);
-					$categories = strtolower($categories);
-					$categories_slug = str_replace(' ', '-', $categories);
+					$categories_slug = strtolower($categories);
+					$categories_slug = str_replace(' ', '-', $categories_slug);
 				?>
 
 				<div class="col-sm-4 col-xs-6 company-container current" usv:investment_series="<?php the_field('investment_series'); ?>" usv:investment_series_slug="<?php echo slugify(get_field('investment_series')); ?>" usv:city_slug="<?php echo slugify(get_field('city')); ?>" usv:city="<?php the_field('city'); ?>" usv:investment_date_slug="<?php echo slugify(get_field('investment_date')); ?>"  usv:investment_date="<?php the_field('investment_date'); ?>" usv:investment_categories_slug="<?php echo $categories_slug; ?>" usv:investment_categories="<?php echo($categories); ?>">
@@ -91,8 +91,8 @@
 										array_push($terms,$obj->name);
 									}
 									$categories = implode(',', $terms);
-									$categories = strtolower($categories);
-									$categories_slug = str_replace(' ', '-', $categories);
+									$categories_slug = strtolower($categories);
+									$categories_slug = str_replace(' ', '-', $categories_slug);
 								?>
 	
 				<div class="col-sm-4 col-xs-6 company-container past" usv:investment_series="<?php the_field('investment_series'); ?>" usv:investment_series_slug="<?php echo slugify(get_field('investment_series')); ?>" usv:city_slug="<?php echo slugify(get_field('city')); ?>" usv:city="<?php the_field('city'); ?>" usv:investment_date_slug="<?php echo slugify(get_field('investment_date')); ?>"  usv:investment_date="<?php the_field('investment_date'); ?>" usv:investment_categories_slug="<?php echo $categories_slug; ?>" usv:investment_categories="<?php echo($categories); ?>">
