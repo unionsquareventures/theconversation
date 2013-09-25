@@ -111,11 +111,8 @@ Template Name: About
                                                     <a class="blog" href="<?php the_field('blog_url'); ?>"><?php the_field('blog_url'); ?></a>                                                  
                                                 <?php endif; ?>
                                                 <?php if (get_field('twitter_handle')): ?>
-                                                    <?php the_field('twitter_handle'); ?>
+                                                    <a class="twitter">@<?php the_field('twitter_handle'); ?></a>
                                                 <?php endif; ?>
-                                                <a class="twitter">
-                                                    @nickgrossman
-                                                </a>
                                             </div>
                                         </div>
                                         </div>
