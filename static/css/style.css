@@ -1294,8 +1294,8 @@ h2.section-heading {
   color: #aaa;
   }
   .person img {
-    /*width: 100%;
-    height: auto;*/
+    width: 100%;
+    height: auto;
     margin: 0 auto 15px;
     margin-bottom: 10px;
     /*border: 4px solid #DFDFD1;*/
@@ -3207,8 +3207,8 @@ a.sort.btn {
   }
   */
   .person img {
-    width: 140px;
-    height: 140px;
+    /*width: 140px;
+    height: 140px;*/
   }
 }
 
