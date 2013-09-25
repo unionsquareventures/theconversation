@@ -160,7 +160,7 @@
                                 
                 // hide or show all the companies
                 $('.company').parent().each(function(){
-                    if ($(this).attr("usv:city_slug") == query || $(this).attr("usv:investment_series_slug") == query || $(this).attr("usv:investment_date") == query || $(this).attr("usv:investment_categories_slug").indexOf(query) > -1 ) {
+                    if ($(this).attr("usv:city_slug").indexOf(query) > -1 || $(this).attr("usv:investment_series_slug") == query || $(this).attr("usv:investment_date") == query || $(this).attr("usv:investment_categories_slug").indexOf(query) > -1 ) {
                         $(this).show();
                     } else {
                         $(this).hide();
