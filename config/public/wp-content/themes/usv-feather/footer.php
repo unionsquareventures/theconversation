@@ -90,7 +90,7 @@
                         if ($.inArray(cities[i], city_options) == -1) {
                             // we haven't seen this one yet
                             if (cities[i] != "" && typeof(cities[i]) != "undefined") {
-                                city_options.push(cities[i]);
+                                city_options.push(cities[i]).replace(/^\s\s*/, '').replace(/\s\s*$/, '');
                             }
                         }
                     }
@@ -120,7 +120,7 @@
                         if ($.inArray(categories[i], category_options) == -1) {
                             // we haven't seen this one yet
                             if (categories[i] != "" && typeof(categories[i]) != "undefined") {
-                                category_options.push(categories[i]);
+                                category_options.push(categories[i]).replace(/^\s\s*/, '').replace(/\s\s*$/, '');
                             }
                         }
                     }
