@@ -242,6 +242,8 @@
             });
             $('.person').height(min_height + 'px');        
             
+
+
             
             /* ABOUT PAGE */
             $(".open-bio").click(function(e) {
@@ -311,6 +313,68 @@
                 if($card.length > 0) {
                      show_bio(name);                   
                 }
+            }
+
+            /* Investment Page */
+            $(".open-investment").click(function(e) {
+               e.preventDefault();
+                if ( $(this).hasClass('is-open') ) {
+                    collapse_investments();
+                    $(this).removeClass('is-open');
+                    return;
+                }
+               var investment = $(this).attr("usv:investment");
+               show_investment(investment);
+            });
+            
+            var investment_heights = $('.company-container').height();
+            
+            var collapse_investments = function() {
+                $('.company-container').height(investment_heights);
+                $('.company-container').removeClass('is-open');
+                $('.open-investment').removeClass('is-open');
+                $("#full-investment").hide();
+                $('.full-investment-shim').hide();
+                $('.company-container').css('opacity', '1');
+            }
+            
+            $("#close-investment").click(function(e) {
+               e.preventDefault();
+               window.location.hash = "#_";
+               collapse_investments(); 
+               $('#current-portfolio').ScrollTo();
+            });
+
+            var show_investment = function(investment) {
+                var $card = $("div[usv-investment='" + investment + "']");
+                var investment_html = $card.find('.full-investment').html();
+                var $full_investment_container = $("#full-investment");
+                if ($full_investment_container.is(':visible')) {
+                    collapse_investments();
+                }
+                $card.addClass('is-open');
+                $card.find('a').addClass('is-open');
+                window.location.hash = person;
+                $card.ScrollTo();
+                var $full_investment_content = $("#full-investment-content");
+                var $shim = $card.find('.full-investment-shim');
+                
+                //$full_investment.width($container.width());
+                $full_investment_content.html(investment_html)
+                $full_investment_container.show();
+                //$shim.show();
+                
+                // set widths & heights
+                $full_investment_container.offset({ 'top' : $card.offset().top + $card.height() - 12 });                     
+                
+                // find which cards are in the same row
+                $('.company-container').css('opacity', '0.4');
+                $('.company-container').each(function() {
+                    if ($(this).offset().top == $card.offset().top) {
+                        $(this).height($(this).height() + $full_investment_container.height());
+                    }
+                });
+                $card.css('opacity', '1');
             }
         
         

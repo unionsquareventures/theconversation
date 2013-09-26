@@ -54,6 +54,7 @@ Template Name: About
             </div>
             <h2 class="section-heading" id="team-heading">Team</h2>
             
+            <!-- Divs for bio information when clicking on each person -->
             <div id="full-bio" style="display:none">
                 <div id="full-bio-content"></div>
                 <div id="close-bio"><a href="" class="btn btn-small">Close</a></div>
@@ -83,42 +84,42 @@ Template Name: About
                                     );
                             ?>
                             <?php foreach ($order as $person): ?>
-                            <?php
-                                $args = array( 'post_type' => 'team', 'posts_per_page' => -1, 'name' => $person ); 
-                                $loop = new WP_Query( $args );
-                                //$total_partners = $loop->found_posts;
-                                $count = 0;
-                                while ( $loop->have_posts() ) : $loop->the_post(); 
-                            ?>
-                            <script>
-                                USV_person_names.push('<?php echo $post->post_name; ?>');
-                            </script>
-            
-                                    <div class="col-sm-3 col-xs-6 person-container" usv-person="<?php echo $post->post_name; ?>">
-                                        <div class="person">
-                                        <a class="open-bio" usv:person="<?php echo $post->post_name; ?>" href="<?php echo get_permalink(); ?>">
-                                            <img src="<?php the_field('thumbnail_image'); ?>" alt="thumbnail" height="160" width="160">
-                                            </a>
-                                        <p class="bio">
-                                            <b><a  class="open-bio" usv:person="<?php echo $post->post_name; ?>" href="<?php echo get_permalink(); ?>"><?php echo get_the_title(); ?></a></b><br /> <?php the_excerpt(); ?> <!-- <br /><a href="<?php echo get_permalink(); ?>" class="more-button">MORE</a>-->
-                                        </p>
-                                        <?php edit_post_link('edit', '<span class="editlink">', '</span>'); ?>
-                                        <div class="full-bio-shim" style="display:none"></div>
-                                        <div class="full-bio" style="display:none">
-                                            <?php the_content(); ?>
-                                            <div class="bio-links">
-                                                <?php if (get_field('blog_url')): ?>
-                                                    <a class="blog" href="<?php the_field('blog_url'); ?>"><?php the_field('blog_url'); ?></a>                                                  
-                                                <?php endif; ?>
-                                                <?php if (get_field('twitter_handle')): ?>
-                                                    <a class="twitter" href="http://twitter.com/<?php the_field('twitter_handle'); ?>">@<?php the_field('twitter_handle'); ?></a>
-                                                <?php endif; ?>
+                                <?php
+                                    $args = array( 'post_type' => 'team', 'posts_per_page' => -1, 'name' => $person ); 
+                                    $loop = new WP_Query( $args );
+                                    //$total_partners = $loop->found_posts;
+                                    $count = 0;
+                                    while ( $loop->have_posts() ) : $loop->the_post(); 
+                                ?>
+                                    <script>
+                                        USV_person_names.push('<?php echo $post->post_name; ?>');
+                                    </script>
+                
+                                        <div class="col-sm-3 col-xs-6 person-container" usv-person="<?php echo $post->post_name; ?>">
+                                            <div class="person">
+                                                <a class="open-bio" usv:person="<?php echo $post->post_name; ?>" href="<?php echo get_permalink(); ?>">
+                                                    <img src="<?php the_field('thumbnail_image'); ?>" alt="thumbnail" height="160" width="160">
+                                                    </a>
+                                                <p class="bio">
+                                                    <b><a class="open-bio" usv:person="<?php echo $post->post_name; ?>" href="<?php echo get_permalink(); ?>"><?php echo get_the_title(); ?></a></b><br /> <?php the_excerpt(); ?> <!-- <br /><a href="<?php echo get_permalink(); ?>" class="more-button">MORE</a>-->
+                                                </p>
+                                                <?php edit_post_link('edit', '<span class="editlink">', '</span>'); ?>
+                                                <div class="full-bio-shim" style="display:none"></div>
+                                                <div class="full-bio" style="display:none">
+                                                    <?php the_content(); ?>
+                                                    <div class="bio-links">
+                                                        <?php if (get_field('blog_url')): ?>
+                                                            <a class="blog" href="<?php the_field('blog_url'); ?>"><?php the_field('blog_url'); ?></a>                                                  
+                                                        <?php endif; ?>
+                                                        <?php if (get_field('twitter_handle')): ?>
+                                                            <a class="twitter" href="http://twitter.com/<?php the_field('twitter_handle'); ?>">@<?php the_field('twitter_handle'); ?></a>
+                                                        <?php endif; ?>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-                                        </div>
-                                    </div>
-                            <?php $count++; ?>   
-                            <?php endwhile; ?>
+                                <?php $count++; ?>   
+                                <?php endwhile; ?>
                             <?php endforeach; ?>
                             <?php wp_reset_postdata(); ?>
                     </div><!-- /row -->

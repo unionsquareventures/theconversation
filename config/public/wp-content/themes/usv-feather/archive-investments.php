@@ -26,6 +26,12 @@
 				</div>
 			
 		</div><!-- /col-lg-2 -->
+
+		<!-- Div for bio information when clicking on each person -->
+        <div id="full-bio" style="display:none">
+            <div id="full-bio-content"></div>
+            <div id="close-bio"><a href="" class="btn btn-small">Close</a></div>
+        </div>
 		
 		<div class="col-md-9 col-xs-12">
 			<h2 class="subsection section-heading" id="current-portfolio">Current Portfolio<span class="filter-label" style="display:none"></span>
@@ -47,29 +53,43 @@
 					$categories_slug = str_replace('&amp;', '', $categories_slug);
 				?>
 
-				<div class="col-sm-4 col-xs-6 company-container current" usv:investment_series="<?php the_field('investment_series'); ?>" usv:investment_series_slug="<?php echo slugify(get_field('investment_series')); ?>" usv:city_slug="<?php echo slugify(get_field('city')); ?>" usv:city="<?php the_field('city'); ?>" usv:investment_date_slug="<?php echo slugify(get_field('investment_date')); ?>"  usv:investment_date="<?php the_field('investment_date'); ?>" usv:investment_categories_slug="<?php echo $categories_slug; ?>" usv:investment_categories="<?php echo($categories); ?>">
+				<div class="col-sm-4 col-xs-6 company-container current" usv:investment="<?php the_title(); ?>" usv:investment_series="<?php the_field('investment_series'); ?>" usv:investment_series_slug="<?php echo slugify(get_field('investment_series')); ?>" usv:city_slug="<?php echo slugify(get_field('city')); ?>" usv:city="<?php the_field('city'); ?>" usv:investment_date_slug="<?php echo slugify(get_field('investment_date')); ?>"  usv:investment_date="<?php the_field('investment_date'); ?>" usv:investment_categories_slug="<?php echo $categories_slug; ?>" usv:investment_categories="<?php echo($categories); ?>">
 					<div class="company">
-					<a href="<?php the_permalink(); ?>"><img alt="<?php the_title(); ?>" src="<?php the_field('logo'); ?>"  class="logo mt-image-none<?php if (get_field('extra_logo_padding')) : ?> extra-padding<?php endif; ?>" style="" width="220" height="150"></a>
-					<p class="summary">
-						<?php 
-							if( $post->post_excerpt ) {
-								echo '<a href="'. get_permalink() . '">' . get_the_title() .'</a> ';
-								echo get_the_excerpt();
-							} else {
-								$content = get_the_content();
-								$stripped = strip_tags($content, '<a>');
-								$trunc_description = substr($stripped, 0, 180);
-								echo $trunc_description;
-							}
-						?>
-						<!--<a href="<?php the_permalink(); ?>" class="btn-continue">More</a>-->
-					</p>
-					<span class="since-date">
-						<?php if (get_field('investment_date')) :?><?php the_field('investment_date'); ?><?php else: ?>{year}<?php endif; ?>, <?php if (get_field('investment_series')) : ?><?php the_field('investment_series'); ?><?php else: ?>{series}<?php endif; ?>
-					</span>
-	
-					<?php edit_post_link('edit', '<span class="editlink">', '</span>'); ?>
-				</div><!-- /company -->
+						<a href="<?php the_permalink(); ?>"><img alt="<?php the_title(); ?>" src="<?php the_field('logo'); ?>"  class="logo mt-image-none<?php if (get_field('extra_logo_padding')) : ?> extra-padding<?php endif; ?>" style="" width="220" height="150"></a>
+						<p class="summary">
+							<?php 
+								if( $post->post_excerpt ) {
+									echo '<a href="'. get_permalink() . '">' . get_the_title() .'</a> ';
+									echo get_the_excerpt();
+								} else {
+									$content = get_the_content();
+									$stripped = strip_tags($content, '<a>');
+									$trunc_description = substr($stripped, 0, 180);
+									echo $trunc_description;
+								}
+							?>
+							<!--<a href="<?php the_permalink(); ?>" class="btn-continue">More</a>-->
+						</p>
+						<span class="since-date">
+							<?php if (get_field('investment_date')) :?><?php the_field('investment_date'); ?><?php else: ?>{year}<?php endif; ?>, <?php if (get_field('investment_series')) : ?><?php the_field('investment_series'); ?><?php else: ?>{series}<?php endif; ?>
+						</span>
+						
+						<!--Added by Z-->
+						<?php edit_post_link('edit', '<span class="editlink">', '</span>'); ?>
+	                    <div class="full-investment-shim" style="display:none"></div>
+	                    <div class="full-investment" style="display:none">
+	                        <?php the_content(); ?>
+	                        <div class="-links">
+	                            <?php if (get_field('blog_url')): ?>
+	                                <a class="blog" href="<?php the_field('blog_url'); ?>"><?php the_field('blog_url'); ?></a>                                                  
+	                            <?php endif; ?>
+	                            <?php if (get_field('twitter_handle')): ?>
+	                                <a class="twitter" href="http://twitter.com/<?php the_field('twitter_handle'); ?>">@<?php the_field('twitter_handle'); ?></a>
+	                            <?php endif; ?>
+	                        </div>
+	                    </div>
+
+					</div><!-- /company -->
 				</div><!-- /col-lg-4 -->
 				<?php endwhile; ?>
 				<?php wp_reset_postdata(); ?>
