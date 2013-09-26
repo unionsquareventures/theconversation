@@ -66,13 +66,7 @@
     <script>
         $(document).ready(function() {
             
-            $("#mmenu").mmenu({
-                dragOpen   : {
-                  open       : true,
-                  threshold  : 100,
-                  pageNode   : "#content"
-               }
-            });
+            $("#mmenu").mmenu();
         
             var series_options = [];
             $('.company').each(function() {
