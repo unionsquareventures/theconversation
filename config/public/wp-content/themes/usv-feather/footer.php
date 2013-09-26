@@ -321,7 +321,8 @@
 
             /* Investment Page */
             $(".open-investment").click(function(e) {
-               e.preventDefault();
+                console.log('foo');
+                e.preventDefault();
                 if ( $(this).hasClass('is-open') ) {
                     collapse_investments();
                     $(this).removeClass('is-open');
