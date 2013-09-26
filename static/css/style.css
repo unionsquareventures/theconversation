@@ -1169,7 +1169,9 @@ article.page {
     color: gray; }
   article.page a {
     text-decoration: none;
-    color: #86aa3b; }
+    color: #86aa3b;
+    color: #698136;
+     }
     article.page a:hover {
       text-decoration: underline; }
   article.page ol, article.page ul {
