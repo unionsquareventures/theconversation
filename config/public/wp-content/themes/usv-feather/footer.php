@@ -321,7 +321,7 @@
 
             /* Investment Page */
             $(".open-investment").click(function(e) {
-                console.log('foo');
+                console.log('foo'); 
                 e.preventDefault();
                 if ( $(this).hasClass('is-open') ) {
                     collapse_investments();
@@ -359,7 +359,7 @@
                 }
                 $card.addClass('is-open');
                 $card.find('a').addClass('is-open');
-                window.location.hash = person;
+                window.location.hash = investment;
                 $card.ScrollTo();
                 var $full_investment_content = $("#full-investment-content");
                 var $shim = $card.find('.full-investment-shim');

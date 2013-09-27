@@ -99,7 +99,7 @@ Template Name: About
                                             <div class="person">
                                                 <a class="open-bio" usv:person="<?php echo $post->post_name; ?>" href="<?php echo get_permalink(); ?>">
                                                     <img src="<?php the_field('thumbnail_image'); ?>" alt="thumbnail" height="160" width="160">
-                                                    </a>
+                                                </a>
                                                 <p class="bio">
                                                     <b><a class="open-bio" usv:person="<?php echo $post->post_name; ?>" href="<?php echo get_permalink(); ?>"><?php echo get_the_title(); ?></a></b><br /> <?php the_excerpt(); ?> <!-- <br /><a href="<?php echo get_permalink(); ?>" class="more-button">MORE</a>-->
                                                 </p>
