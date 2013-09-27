@@ -321,14 +321,15 @@
 
             /* Investment Page */
             $(".open-investment").click(function(e) {
-                console.log('foo'); 
                 e.preventDefault();
                 if ( $(this).hasClass('is-open') ) {
                     collapse_investments();
                     $(this).removeClass('is-open');
                     return;
                 }
-               var investment = $(this).attr("usv:investment");
+               var investment = $(this).attr("usv-investment");
+               console.log($(this))
+               console.log(investment)
                show_investment(investment);
             });
             
@@ -370,7 +371,9 @@
                 //$shim.show();
                 
                 // set widths & heights
-                $full_investment_container.offset({ 'top' : $card.offset().top + $card.height() - 12 });                     
+                $full_investment_container.offset({ 'top' : $card.offset().top + $card.height() - 12 });     
+
+                console.log($card.offset().top )                
                 
                 // find which cards are in the same row
                 $('.company-container').css('opacity', '0.4');
