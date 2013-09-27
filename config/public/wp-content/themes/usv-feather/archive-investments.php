@@ -27,13 +27,14 @@
 			
 		</div><!-- /col-lg-2 -->
 
-		<!-- Div for bio information when clicking on each person -->
-        <div id="full-investment" style="display:none">
-            <div id="full-investment-content"></div>
-            <div id="close-bio"><a href="" class="btn btn-small">Close</a></div>
-        </div>
+		
 		
 		<div class="col-md-9 col-xs-12">
+			<!-- Div for bio information when clicking on each person -->
+        <div id="full-investment" style="display:none">
+            <div id="full-investment-content"></div>
+            <div id="close-investment"><a href="" class="btn btn-small">Close</a></div>
+        </div>
 			<h2 class="subsection section-heading" id="current-portfolio">Current Portfolio<span class="filter-label" style="display:none"></span>
 				</h2>
 			<div class="row investments-list">
