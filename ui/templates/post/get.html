@@ -101,7 +101,10 @@
                 <iframe width="560" height="315" src="http://youtube.com/embed/{{ vid_id }}" frameborder="0" allowfullscreen></iframe>
                 {% end %}
                 
-                
+                {% if post.url and (urlparse(post.url).netloc == "vimeo.com" or urlparse(post.url).netloc == "www.vimeo.com") %}
+                {% set vid_id = urlparse(post.url).path %}
+                <iframe src="//player.vimeo.com/video{{ vid_id }}" width="500" height="281" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+                {% end %}
 
             
                 {% if post.has_hackpad and post.hackpad_url %}
