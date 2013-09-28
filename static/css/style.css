@@ -3147,6 +3147,7 @@ ul.investments-list {
 .btn-primary:link {
   color: #fff !important;
   background-color: #a0b86e;
+  background-color: #53574B; /* dark gray */
 }
 
 .is-active a.sort.btn {
