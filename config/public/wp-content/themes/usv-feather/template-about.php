@@ -13,7 +13,7 @@ Template Name: About
     <div id="main" role="main">
         <h1 class="mobile-page-headline">About</h1>
         <article class="page">
-            <?php if(get_field('stats')): ?>
+            <?php if(get_field('stats') && false): ?>
                <div class="stats hidden-xs">
                    <?php //count total current and past investments
                        $queryCurrent = new WP_Query( array( 'investment-types' => 'current', 'posts_per_page' => -1 ) );
@@ -43,16 +43,16 @@ Template Name: About
                    <?php //the_field('about_page_content'); ?>
                </div>
             <?php endif; ?>
-            <div class="deck">
-                <?php if ( have_posts() ) : while ( have_posts() ) : the_post(); ?>
-                <?php the_content(); ?>
-                <br />
-                <?php endwhile; else: ?>
-                <?php endif; ?>
-            </div>
+            
             <div class="row">
                 <div class="col-sm-6">
-                     <h2 class="section-heading" id="approach">Approach</h2>
+                    <div class="deck" style="padding: 0">
+                        <?php if ( have_posts() ) : while ( have_posts() ) : the_post(); ?>
+                        <?php the_content(); ?>
+                        <?php endwhile; else: ?>
+                        <?php endif; ?>
+                    </div>
+                     <!--<h2 class="section-heading" id="approach">Our Approach</h2>-->
                      <div>
                          <p>We founded Union Square Ventures in 2003 to invest in the applications layer of the web. Over the last seven years, we have refined that investment focus. We now invest almost exclusively in Internet services that create large networks. Some might think this focus is narrow. We don't see it that way at all. We believe the irresistible economics of Internet networks will ultimately transform the entire global economy. We continue to be very excited by the opportunity to invest in that transformation.</p>
                          <p>Early on, we recognized that investing in web services was different than investing in chips, routers and enterprise software. The start-ups are more capital efficient. Differentiation is more about user experience than proprietary technology. Defensibility is more about network effects than patents. We have designed our small, collegial, partner driven firm specifically for this new opportunity. Smaller fund sizes allow us to invest only as much as an entrepreneur needs and our successful portfolio companies can have a big impact on the funds' returns.</p>
@@ -60,7 +60,7 @@ Template Name: About
                      </div>
                 </div><!-- /.col-lg-7 -->
                 <div class="col-sm-6">
-                    <h2 class="section-heading" id="team-heading">Team</h2>
+                    <h2 class="section-heading" id="team-heading" style="margin-top: 0">Team</h2>
                     
                     <!-- Divs for bio information when clicking on each person -->
                     <div id="full-bio" style="display:none">

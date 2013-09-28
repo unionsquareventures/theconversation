@@ -1253,7 +1253,8 @@ h2.section-heading {
   text-align: center;
   /*border-top: 1px solid #ddd;*/
   border-bottom: 1px solid #ddd;
-  padding: 0 0 8px;
+  border-top: 1px solid #ddd;
+  padding: 8px 0;
   
 }
 
