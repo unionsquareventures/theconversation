@@ -226,16 +226,21 @@
 
             }
         
-            var min_height = 0;
             $('.company').each(function(){
-                if ($(this).height() > min_height) {
-                    min_height = $(this).height()
-                }
-            });
-            //$('.company').height(min_height + 'px');
-        
-        
+                var max_height = $(this).height();
+                var $card = $(this);
                 
+                $('.company').each(function() {
+                    if ($card.offset().top == $(this).offset().top) {
+                        // this is a card in the same row
+                        // if it's in the same row, check the height
+                        if ($(this).height() > max_height) {
+                            max_height = $(this).height();
+                        }
+                    }
+                });
+                $(this).height(max_height);
+            }); 
             
             $('.person').each(function(){
                 var max_height = $(this).height();
