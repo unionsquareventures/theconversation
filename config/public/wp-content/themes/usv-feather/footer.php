@@ -361,7 +361,7 @@
                e.preventDefault();
                window.location.hash = "#_";
                collapse_investments(); 
-               $('#current-portfolio').ScrollTo();
+               /*$('#current-portfolio').ScrollTo();*/
             });
 
             var show_investment = function(investment) {
