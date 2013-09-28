@@ -243,11 +243,12 @@
             }); */
             
             var max_height = 0;
+            var people_heights = {};
             $('.person').each(function(){
-                if ($(this).height() > max_height) {
+                /*if ($(this).height() > max_height) {
                     max_height = $(this).height();
-                }
-                /*var max_height = $(this).height();
+                }*/
+                var max_height = $(this).height();
                 var $card = $(this);
                 
                 $('.person').each(function() {
@@ -257,14 +258,22 @@
                         if ($(this).height() > max_height) {
                             max_height = $(this).height();
                         }
+                        
                     }
                 });
                 $(this).height(max_height);
-                */
-                //console.log($(this).offset().top + ' | ' + $(this).height() + ' | '  + max_height + ' | ' + $(this).parent().attr('usv-person'))
-            });    
-            $('.person').height(max_height);  
+            });  
+            $('.person-container').each(function(){
+                people_heights[$(this).attr('usv-person')] = $(this).height();
+            });  
+            console.log(people_heights);
+            //$('.person').height(max_height);  
             
+            var reset_person_heights = function() {
+                $('.person-container').each(function() {
+                    $(this).height(people_heights[$(this).attr('usv-person')]);
+                })
+            }
 
 
             
@@ -280,10 +289,9 @@
                show_bio(person);
             });
             
-            var person_heights = $('.person-container').height();
-            
             var collapse_bios = function() {
-                $('.person-container').height(person_heights);
+                //$('.person-container').height(person_heights);
+                reset_person_heights();
                 $('.person-container').removeClass('is-open');
                 $('.open-bio').removeClass('is-open');
                 $("#full-bio").hide();
