@@ -1493,7 +1493,7 @@ h2.section-heading {
   list-style: none;
   background: #eee;
   border-bottom: 1px solid #ddd;
-  padding: 10px;
+  padding: 10px 10px 45px;
   margin-bottom: 25px;
   position: relative;
   color: #aaa;
@@ -3391,7 +3391,7 @@ a.sort.btn {
   }
 
   .company {
-    height: 290px;
+    /*height: 290px;*/
   }
   .person-container {
     /*width: 20%;*/
