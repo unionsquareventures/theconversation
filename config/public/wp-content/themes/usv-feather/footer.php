@@ -226,7 +226,7 @@
 
             }
         
-            $('.company').each(function(){
+            /*$('.company').each(function(){
                 var max_height = $(this).height();
                 var $card = $(this);
                 
@@ -240,7 +240,7 @@
                     }
                 });
                 $(this).height(max_height);
-            }); 
+            }); */
             
             $('.person').each(function(){
                 var max_height = $(this).height();
