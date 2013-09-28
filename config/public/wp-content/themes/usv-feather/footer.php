@@ -242,8 +242,12 @@
                 $(this).height(max_height);
             }); */
             
+            var max_height = 0;
             $('.person').each(function(){
-                var max_height = $(this).height();
+                if ($(this).height() > max_height) {
+                    max_height = $(this).height();
+                }
+                /*var max_height = $(this).height();
                 var $card = $(this);
                 
                 $('.person').each(function() {
@@ -256,8 +260,10 @@
                     }
                 });
                 $(this).height(max_height);
+                */
                 //console.log($(this).offset().top + ' | ' + $(this).height() + ' | '  + max_height + ' | ' + $(this).parent().attr('usv-person'))
-            });      
+            });    
+            $('.person').height(max_height);  
             
 
 
@@ -289,7 +295,7 @@
                e.preventDefault();
                window.location.hash = "#_";
                collapse_bios(); 
-               $('#team-heading').ScrollTo();
+               /*$('#team-heading').ScrollTo();*/
             });
             
             var show_bio = function(person) {
