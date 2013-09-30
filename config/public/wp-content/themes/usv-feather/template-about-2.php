@@ -62,7 +62,8 @@ Template Name: About - Alt
                      </div>
                      */ ?>
                 
-                    <h2 class="section-heading" id="team-heading" style="margin: 0 0 10px; border:none; text-transform:uppercase;">Team</h2>
+                    <!--<h2 class="section-heading" id="team-heading" style="margin: 0 0 10px; border:none; text-transform:uppercase;">Team</h2>-->
+                    <br />
                     
                     <!-- Divs for bio information when clicking on each person -->
                     <div id="full-bio" style="display:none">
