@@ -1188,10 +1188,17 @@ article.page {
     font-weight: 700;
     margin-left: -20px; }
   article.page .deck {
+    padding: 30px 50px !important;
+    margin-bottom: 20px;
+    background: #eee;
+    border-bottom: 1px solid #ddd;
     font-size: 1.125em;
     font-weight: 600; }
     article.page .deck p {
       margin-top: 0; }
+      article.page .deck p {
+        margin-bottom: 0;
+      }
   article.page .stats {
     color: #222;
     font-weight: 700; }
@@ -1218,7 +1225,7 @@ article.page {
       font-size: 1.4em; } }
   @media only screen and (min-width: 769px) {
     article.page .deck {
-      font-size: 1.4em;
+      font-size: 1.5em;
       line-height: 1.3;
       padding-left: 220px; }
     article.page .stats {
