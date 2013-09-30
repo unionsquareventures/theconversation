@@ -60,7 +60,7 @@ Template Name: About
                      </div>
                 </div><!-- /.col-lg-7 -->
                 <div class="col-sm-6">
-                    <h2 class="section-heading" id="team-heading" style="margin-top: 0">Team</h2>
+                    <!--<h2 class="section-heading" id="team-heading" style="margin-top: 0">Team</h2>-->
                     
                     <!-- Divs for bio information when clicking on each person -->
                     <div id="full-bio" style="display:none">
