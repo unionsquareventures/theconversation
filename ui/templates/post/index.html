@@ -72,10 +72,12 @@
                           <img src="{{ twitter_avatar_size(post.user.profile_image_url_https, 'normal') }}" alt="thumbnail">
                         </a>
                       </div>
-                      <a class="username" href="http://www.twitter.com/{{ post.user.username }}" target="_blank">@{{ post.user.username }}</a>
-                      <span class="time">{{ pretty_date(post.date_created) }}</span>
+                      <a style="color: #999" class="username" href="http://www.twitter.com/{{ post.user.username }}" target="_blank">@{{ post.user.username }}</a>
+                      
                       {% module ajax_upvote_link(post=post) %}
-                      <a class="comments-count" href="/posts/{{ post.slug }}"
+                      <span class="time" style="margin-right: 14px;"><a href="/posts/{{ post.slug }}" ><span class="glyphicon glyphicon-link" style="margin: 0;font-size: 90%"></span> {{ pretty_date(post.date_created) }}</span>
+                      <a href=""><span class="glyphicon glyphicon-comment" style="margin: 0;font-size: 90%"></span></a>
+                      <a class="/posts/{{ post.slug }}" href="/posts/{{ post.slug }}"
                           data-disqus-identifier="{{ post.id }}" {% if post.url %}target="_blank"{% end %}>0 comments</a>
                   </div>
                 </div>
@@ -118,7 +120,9 @@
               <div class="content">
             
                 {% if post.url %}
-                    <a class="title" href="{{ post.url }}" target="_blank">{{ post.title }}</a>
+                    <a class="title" href="{{ post.url }}" target="_blank">{{ post.title }}
+                       <span class="glyphicon glyphicon-share"></span>
+                      </a>
                     <a href="{{ post.url }}" class="source" target="_blank">{{ urlparse(post.url).netloc }}</a>
                 {% else %}
                     <a class="title" href="/posts/{{ post.slug }}" target="_blank">{{ post.title }}</a>
@@ -126,11 +130,12 @@
                 {% end %}
             
                 <div class="meta">
-                  <a class="username-link" href="http://www.twitter.com/{{ post.user.username }}" target="_blank">@{{ post.user.username }}</a>
-                  <span class="username">@{{ post.user.username }}</span>
-                  <span class="time">{{ pretty_date(post.date_created) }}</span>
+                  <a class="username-link" href="http://www.twitter.com/{{ post.user.username }}" target="_blank" style="color: #999">@{{ post.user.username }}</a>
+                  <span class="username" style="">@{{ post.user.username }}</span>
+                  
                   {% module ajax_upvote_link(post=post) %}                
-                  <a class="comments-count" href="/posts/{{ post.slug }}" data-disqus-identifier="{{ post.id }}">0 comments</a>
+                  <span class="time"><a href="/posts/{{ post.slug }}" ><span class="glyphicon glyphicon-link" style="margin: 0;font-size: 90%"></span> {{ pretty_date(post.date_created) }}</a></span>
+                  <a href="/posts/{{ post.slug }}" ><span class="glyphicon glyphicon-comment" style="margin: 0;font-size: 90%"></span></a> <a class="" href="/posts/{{ post.slug }}" data-disqus-identifier="{{ post.id }}">1 comment</a>
                 </div>
               </div>
               </li>              
