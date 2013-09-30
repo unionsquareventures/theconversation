@@ -1,6 +1,6 @@
 <?php
 /*
-Template Name: About
+Template Name: About - Alt
 */
 ?>
 
@@ -43,31 +43,34 @@ Template Name: About
                    <?php //the_field('about_page_content'); ?>
                </div>
             <?php endif; ?>
-            
+
             <div class="row">
-                <div class="col-sm-6">
+                <div class="col-sm-12">
                     <div class="deck" style="padding: 0">
                         <?php if ( have_posts() ) : while ( have_posts() ) : the_post(); ?>
                         <?php the_content(); ?>
                         <?php endwhile; else: ?>
                         <?php endif; ?>
                     </div>
+
+                     <?php /*
                      <!--<h2 class="section-heading" id="approach">Our Approach</h2>-->
                      <div>
                          <p>We founded Union Square Ventures in 2003 to invest in the applications layer of the web. Over the last seven years, we have refined that investment focus. We now invest almost exclusively in Internet services that create large networks. Some might think this focus is narrow. We don't see it that way at all. We believe the irresistible economics of Internet networks will ultimately transform the entire global economy. We continue to be very excited by the opportunity to invest in that transformation.</p>
                          <p>Early on, we recognized that investing in web services was different than investing in chips, routers and enterprise software. The start-ups are more capital efficient. Differentiation is more about user experience than proprietary technology. Defensibility is more about network effects than patents. We have designed our small, collegial, partner driven firm specifically for this new opportunity. Smaller fund sizes allow us to invest only as much as an entrepreneur needs and our successful portfolio companies can have a big impact on the funds' returns.</p>
-                     
+
                      </div>
-                </div><!-- /.col-lg-7 -->
-                <div class="col-sm-6">
-                    <!--<h2 class="section-heading" id="team-heading" style="margin-top: 0">Team</h2>-->
-                    
+                     */ ?>
+
+                    <!--<h2 class="section-heading" id="team-heading" style="margin: 0 0 10px; border:none; text-transform:uppercase;">Team</h2>-->
+                    <br />
+
                     <!-- Divs for bio information when clicking on each person -->
                     <div id="full-bio" style="display:none">
                         <div id="full-bio-content"></div>
                         <div id="close-bio"><a href="" class="btn btn-small">Close</a></div>
                     </div>
-                    
+
                     <div class="row">
                         <!--<div class="col-sm-2">
                             <h2 class="subsection">Partners</h2>
@@ -102,8 +105,8 @@ Template Name: About
                                             <script>
                                                 USV_person_names.push('<?php echo $post->post_name; ?>');
                                             </script>
-                        
-                                                <div class="col-sm-4 col-xs-4 person-container" usv-person="<?php echo $post->post_name; ?>">
+
+                                                <div style="width: 20%" class="col-sm-4 col-xs-4 person-container" usv-person="<?php echo $post->post_name; ?>">
                                                     <div class="person">
                                                         <a class="open-bio" usv:person="<?php echo $post->post_name; ?>" href="<?php echo get_permalink(); ?>">
                                                             <img src="<?php the_field('thumbnail_image'); ?>" alt="thumbnail" height="160" width="160">
