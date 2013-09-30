@@ -106,7 +106,7 @@ Template Name: About - Alt
                                                 USV_person_names.push('<?php echo $post->post_name; ?>');
                                             </script>
 
-                                                <div style="width: 20%" class="col-sm-4 col-xs-4 person-container" usv-person="<?php echo $post->post_name; ?>">
+                                                <div class="col-sm-4 col-xs-4 person-container" usv-person="<?php echo $post->post_name; ?>">
                                                     <div class="person">
                                                         <a class="open-bio" usv:person="<?php echo $post->post_name; ?>" href="<?php echo get_permalink(); ?>">
                                                             <img src="<?php the_field('thumbnail_image'); ?>" alt="thumbnail" height="160" width="160">
