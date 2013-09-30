@@ -75,10 +75,11 @@
                       <a style="color: #999" class="username" href="http://www.twitter.com/{{ post.user.username }}" target="_blank">@{{ post.user.username }}</a>
                       
                       {% module ajax_upvote_link(post=post) %}
-                      <span class="time" style="margin-right: 14px;"><a href="/posts/{{ post.slug }}" ><span class="glyphicon glyphicon-link" style="margin: 0;font-size: 90%"></span> {{ pretty_date(post.date_created) }}</span>
-                      <a href=""><span class="glyphicon glyphicon-comment" style="margin: 0;font-size: 90%"></span></a>
+                      <span class="time" style="margin-right: 12px;"><a href="/posts/{{ post.slug }}" ><span class="glyphicon glyphicon-link" style="margin: 0;font-size: 90%"></span> {{ pretty_date(post.date_created) }}</span>
+                      <span style="white-space:nowrap; margin: 0"><a href="/posts/{{ post.slug }}"><span class="glyphicon glyphicon-comment" style="margin: 0;font-size: 90%"></span></a>
                       <a class="/posts/{{ post.slug }}" href="/posts/{{ post.slug }}"
                           data-disqus-identifier="{{ post.id }}" {% if post.url %}target="_blank"{% end %}>0 comments</a>
+                        </span>
                   </div>
                 </div>
             </li>
