@@ -10,7 +10,7 @@ Template Name: Network
         <h1 class="mobile-page-headline">Network</h1>
         
         <article class="page">
-            <div class="deck">
+            <div class="deck" style="margin-bottom: 30px;">
                 <?php if ( have_posts() ) : while ( have_posts() ) : the_post(); ?>
                 <?php the_content(); ?>
                 <?php endwhile; else: ?>
