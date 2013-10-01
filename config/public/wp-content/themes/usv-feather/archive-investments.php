@@ -3,8 +3,8 @@
 	<h1 class="mobile-page-headline">Investments</h1>
 	
 	<article class="page">
-	<div class="deck">
-		Our companies span sectors and geographies but have one thing in common: they can redefine markets using the power of information, collaboration and the web.
+	<div class="deck" style="padding: 30px 40px !important">
+		USV portfolio companies span sectors and geographies but have one thing in common: they can redefine markets using the power of information, collaboration and the web.
 	</div>
 </article>
 
