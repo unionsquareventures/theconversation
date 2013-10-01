@@ -2128,21 +2128,18 @@ ul.filter li.active a {
   color: #000;
   display: block; }
 .article-post .author-name {
-  display: none;
-  font-weight: 600;
+  display: block;
   color: #000;
   padding-top: 10px;  }
 .article-post .staff {
-  display:none;
+  
 }
 .article-post .profile-photo {
-  width: 150px;
-  text-align: left; 
-  float: left;
-  margin-right: 20px;
+ 
+
   }
   .article-post .profile-photo img {
-    width: 125px;
+    width: 80px;
     height: auto; 
     border: 4px solid #DFDFD1;
     border: 1px solid #ccc;
@@ -2877,8 +2874,8 @@ body, select, input, textarea {
   font-weight: 400;*/
 }
 
-a, a:active, a:visited { /*color: #507500;*/ 
-
+a, a:active, a:visited { 
+color: #507500;
 }
 a:hover { color: #86aa3b; }
 
