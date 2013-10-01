@@ -1192,7 +1192,9 @@ article.page {
     background: #eee;
     border-bottom: 1px solid #ddd;
     font-size: 1.125em;
-    font-weight: 600; }
+    font-weight: 600; 
+    color: #000;
+    }
     article.page .deck p {
       margin-top: 0; }
       article.page .deck p {
@@ -3418,6 +3420,9 @@ a.sort.btn {
   }
   .person-container {
     width: 20%;
+  }
+  #gillian-campbell {
+    margin-left: 320px;
   }
 
 }
