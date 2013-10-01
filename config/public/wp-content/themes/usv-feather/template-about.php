@@ -142,7 +142,7 @@ Template Name: About
             <div class="row">
             <?php for ($i = 0; $i < 9; $i++) : ?>
                 <div class="col-md-4">
-                    <div class="post" style="background: #eee; border-bottom: #fff; margin-bottom: 40px; padding: 20px;">
+                    <div class="post" style="background: #eee; border-bottom: 1px solid #ddd; margin-bottom: 40px; padding: 20px;">
                         <h3>This is a post</h3>
                         <p>With some stuff</p>
                     </div>
