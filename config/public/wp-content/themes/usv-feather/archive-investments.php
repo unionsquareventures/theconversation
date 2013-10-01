@@ -1,6 +1,12 @@
 <?php get_header(); ?>
 
 	<h1 class="mobile-page-headline">Investments</h1>
+	
+	<article class="page">
+	<div class="deck">
+		Our companies span sectors and geographies but have one thing in common: they can redefine markets using the power of information, collaboration and the web.
+	</div>
+</article>
 
 	<div class="row">
 		<div class="col-lg-3 col-xs-2 hidden-xs">
