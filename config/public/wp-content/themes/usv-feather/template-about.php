@@ -138,6 +138,7 @@ Template Name: About
                     </div><!--end of team-->
                 </div><!-- /.col-lg-5 -->
             </div><!-- /.row -->
+            <!--
             <h2 class="section-heading" id="team-heading" style="text-transform:uppercase; font-weight: 300">Our Focus</h2>            
             <div class="row">
             <?php for ($i = 0; $i < 9; $i++) : ?>
@@ -148,7 +149,9 @@ Template Name: About
                     </div>
                 </div>
             <?php endfor; ?>
-            </div><!-- /row -->
+            </div>
+            -->
+            <!-- /row -->
             
         </article>
     </div><!--end of main-->

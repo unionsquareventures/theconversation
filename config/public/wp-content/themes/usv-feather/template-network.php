@@ -32,6 +32,7 @@ Template Name: Network
                 </div><!-- /col-sm-6 -->
                 
             </div><!-- /.row -->
+            <!--
             <h2 class="section-heading">Network Updates</h2>
             <div class="row">
                 <?php for ($i = 0; $i < 6; $i++) : ?>
@@ -42,7 +43,8 @@ Template Name: Network
                         </div>
                     </div>
                 <?php endfor; ?>
-                </div><!-- /row -->
+                </div>
+            --><!-- /row -->
                             
         </article>
     </div><!--end of main-->
