@@ -62,7 +62,7 @@ Template Name: About
                      </div>
                      */ ?>
 
-                    <h2 class="section-heading" id="team-heading" style="text-transform:uppercase; font-weight: 300">Team</h2>
+                    <h2 class="section-heading" id="team-heading" style="margin-bottom: 0;">Team</h2>
                     <br />
 
                     <!-- Divs for bio information when clicking on each person -->

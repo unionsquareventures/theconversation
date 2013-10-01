@@ -46,7 +46,8 @@ class PostHandler(BaseHandler):
             count += per_page
 
         page = 1
-        featured_posts = list(Post.objects(featured=True, deleted=False, **query).order_by('-date_featured')[:7])
+        sticky = Post.objects(slug="welcome-to-the-new-usvcom")
+        featured_posts = list(Post.objects(featured=True, deleted=False, slug__ne="welcome-to-the-new-usvcom", **query).order_by('-date_featured')[:7])
         lua = "local num_posts = redis.call('ZCARD', '{sort_by}')\n"
         if anchor != None:
             anchor = Post.objects(id=anchor).first()
@@ -86,6 +87,7 @@ class PostHandler(BaseHandler):
             'page': page,
             'per_page': per_page,
             'featured_posts': featured_posts,
+            'sticky': sticky,
             'tags': tags,
             'current_tag': tag,
             'urlparse': urlparse,
