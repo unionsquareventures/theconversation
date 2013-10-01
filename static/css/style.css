@@ -1047,7 +1047,6 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
     text-align:center;
     border-top: 1px solid #ddd;
     padding-top: 10px;
-    white-space:nowrap;
   }  
   
   .swipe {
@@ -2874,7 +2873,9 @@ body, select, input, textarea {
   font-weight: 400;*/
 }
 
-a, a:active, a:visited { color: #507500; }
+a, a:active, a:visited { /*color: #507500;*/ 
+
+}
 a:hover { color: #86aa3b; }
 
 #site-header {
@@ -2887,7 +2888,7 @@ a:hover { color: #86aa3b; }
   border-bottom: 0;
   /*box-shadow: 0 1px 0 rgba(0,0,0,0.25);*/
   /*border-bottom: 1px solid #ddd;*/
-  box-shadow: inset 0 -3px 0 rgba(0,0,0,0.15);
+  box-shadow: inset 0 -3px 0 rgba(0,0,0,0.10);
 }
 #site-header, #mobile-header {
   background: #a0b86e; /* light green */
@@ -2919,7 +2920,7 @@ h1.general-page-headline .search-term,
 .article-post .author-name,
 .article-post .share-widget .heading,
 #submit-form label {
-  color: #444;
+  /*color: #444;*/
 }
 #submit-form dl {
   margin-top: 0;
@@ -3406,6 +3407,10 @@ a.sort.btn {
     max-width: 1024px;
     margin-right: auto;
     margin-left: auto;
+  }
+  
+  .featured-feed .meta {
+    white-space:nowrap;
   }
 
   .company {
