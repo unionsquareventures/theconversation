@@ -2586,19 +2586,20 @@ input[type="email"], input[type="number"], input[type="password"], input[type="s
 
   .featured-feed .title, .search-feed .title {
     font-size: 1.4em; } }
+    
+    #mobile-header {
+      display: none; }
+    
+    #site-header {
+      display: block; }
+    
+    h1.mobile-page-headline {
+      display: none; }
 @media only screen and (min-width: 720px) {
   .feed li {
     padding: 10px 0 15px 0;
     margin-bottom: 10px; } }
 @media only screen and (min-width: 769px) {
-  #mobile-header {
-    display: none; }
-
-  #site-header {
-    display: block; }
-
-  h1.mobile-page-headline {
-    display: none; }
 
   #site-footer {
     /*margin-top: 70px; */
