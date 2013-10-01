@@ -1189,7 +1189,7 @@ article.page {
     margin-left: -20px; }
   article.page .deck {
     padding: 30px 50px !important;
-    margin-bottom: 20px;
+    margin-bottom: 40px;
     background: #eee;
     border-bottom: 1px solid #ddd;
     font-size: 1.125em;
@@ -1269,7 +1269,8 @@ h2.section-heading {
   border-bottom: 1px solid #ddd;
   border-top: 1px solid #ddd;
   padding: 8px 0;
-  
+  text-transform: uppercase;
+  font-weight: 300;
 }
 
 .team h2 {
@@ -2256,7 +2257,7 @@ padding: 0; }
   .filter-tabs li a {
     text-decoration: none;
     display: block;
-    background-color: #fff;
+    background-color: #eee;
     border: 1px solid #ddd;
     padding: 1px 5px;
     border-radius: 2px;

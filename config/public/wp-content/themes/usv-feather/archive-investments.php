@@ -7,7 +7,7 @@
 			
 			
 			<div id="portfolio-filter">
-				<p class="" style="white-space:nowrap">By initial investment:</p>
+				<p class="" style="white-space:nowrap; margin-top: 0;">By initial investment:</p>
 				<ul class="filter-tabs" id="series">
 					<li class="all active"><a href="#" usv-filter="all">All</a></li>
 				</ul>

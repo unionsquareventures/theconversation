@@ -1,6 +1,6 @@
 <?php
 /*
-Template Name: About - Alt
+Template Name: About
 */
 ?>
 
@@ -62,7 +62,7 @@ Template Name: About - Alt
                      </div>
                      */ ?>
 
-                    <!--<h2 class="section-heading" id="team-heading" style="margin: 0 0 10px; border:none; text-transform:uppercase;">Team</h2>-->
+                    <h2 class="section-heading" id="team-heading" style="text-transform:uppercase; font-weight: 300">Team</h2>
                     <br />
 
                     <!-- Divs for bio information when clicking on each person -->
@@ -138,6 +138,10 @@ Template Name: About - Alt
                     </div><!--end of team-->
                 </div><!-- /.col-lg-5 -->
             </div><!-- /.row -->
+            <h2 class="section-heading" id="team-heading" style="text-transform:uppercase; font-weight: 300">Our Focus</h2>
+            
+            [Blog posts, like at <a href="http://www.usv.com/focus/">usv.com/focus</a>]
+            
         </article>
     </div><!--end of main-->
 
