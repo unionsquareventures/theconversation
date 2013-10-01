@@ -138,9 +138,17 @@ Template Name: About
                     </div><!--end of team-->
                 </div><!-- /.col-lg-5 -->
             </div><!-- /.row -->
-            <h2 class="section-heading" id="team-heading" style="text-transform:uppercase; font-weight: 300">Our Focus</h2>
-            
-            [Blog posts, like at <a href="http://www.usv.com/focus/">usv.com/focus</a>]
+            <h2 class="section-heading" id="team-heading" style="text-transform:uppercase; font-weight: 300">Our Focus</h2>            
+            <div class="row">
+            <?php for ($i = 0; $i < 9; $i++) : ?>
+                <div class="col-md-4">
+                    <div class="post" style="background: #eee; border-bottom: #fff; margin-bottom: 40px; padding: 20px;">
+                        <h3>This is a post</h3>
+                        <p>With some stuff</p>
+                    </div>
+                </div>
+            <?php endfor; ?>
+            </div><!-- /row -->
             
         </article>
     </div><!--end of main-->
