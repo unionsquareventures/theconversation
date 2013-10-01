@@ -57,7 +57,7 @@ class Disqus(object):
         thread_info.update({
             'forum': self._forum,
             'api_secret': self._secret,
-            'remote_auth': self.get_sso(False, user_info),
+            'remote_auth': self.get_sso(False, user_info)
         })
         api_url = "%s%s" % (self._BASE_URL, 'threads/create.json')
         post_body = urllib.urlencode(thread_info)
@@ -82,6 +82,33 @@ class Disqus(object):
             return
         callback(result['response'])
 
+    def post_comment(self, callback, user_info, thread_info):
+        comment_info = {
+            'thread': thread_info.disqus_id,
+            'message': thread_info.body_raw
+        }
+        api_url = "%s%s" % (self._BASE_URL, 'posts/create.json')
+        post_body = urllib.urlencode(comment_info)
+        http = httpclient.HTTPClient()
+        request = httpclient.HTTPRequest(api_url, method='POST', body=post_body)
+        try:
+            http.fetch(request, callback=functools.partial(self._on_post, callback, thread_info))
+        except httpclient.HTTPError:
+            pass
+    
+    def _on_post(self, callback, thread_info, response):
+        result = escape.json_decode(response.body)
+        if int(result.get('code')):
+            # Sentry error
+            logging.warning('[Disqus API] "create" error %s: %s' %
+                                            (str(result.get('code')), str(thread_info)))
+            self._sentry_client.captureMessage('[Disqus API] "create" Error: %s' %
+                                                        str(result.get('code')),
+                                                        thread_info=thread_info,
+                                                        disqus_response=result.get('response', ''))
+            callback(None)
+            return
+        callback(result['response'])
 
     def thread_details(self, callback, thread_identifier):
         info = {

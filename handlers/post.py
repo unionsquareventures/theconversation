@@ -251,12 +251,29 @@ class PostHandler(BaseHandler):
             if not response:
                 return
             thread_id = response['id']
+            
+            thread_info.update({
+                'disqus_id': thread_id
+            })
+            
+            def _posted(response):
+                return
+            #leave post as comment.
+            disqus.post_comment(_posted, user_info, thread_info)
+            
+            #subscribe user to thread
             disqus.subscribe(lambda x: None, user_info, thread_id)
+            
+            
         thread_info = {
                 'title': post.title.encode('utf-8'),
                 'identifier': post.id,
+                'body_raw': post.body_raw
         }
         disqus.create_thread(_created, user_info, thread_info)
+        
+        
+        
 
         if not self.is_admin():
             self.redirect('/posts/%s%s' % (post.slug, subscribe_param))
