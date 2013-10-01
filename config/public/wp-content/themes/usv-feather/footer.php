@@ -316,7 +316,7 @@
                 $card.addClass('is-open');
                 $card.find('a').addClass('is-open');
                 window.location.hash = person;
-                $card.ScrollTo();
+                //$card.ScrollTo();
                 var $full_bio_content = $("#full-bio-content");
                 var $shim = $card.find('.full-bio-shim');
                 
