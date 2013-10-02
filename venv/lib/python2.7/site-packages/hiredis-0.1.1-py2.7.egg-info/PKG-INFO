@@ -1,0 +1,11 @@
+Metadata-Version: 1.0
+Name: hiredis
+Version: 0.1.1
+Summary: Python extension that wraps hiredis
+Home-page: https://github.com/pietern/hiredis-py
+Author: Pieter Noordhuis
+Author-email: pcnoordhuis@gmail.com
+License: BSD
+Description: UNKNOWN
+Keywords: Redis
+Platform: UNKNOWN
