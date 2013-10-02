@@ -23,7 +23,7 @@
             <li><a class="current" href="/featured_posts">Featured</a></li>
         </ul>-->
         
-        <div id='slider' class='swipe visible-xs'>
+        <div id='slider' class='swipe visible-xs row'>
           <ul class='swipe-wrap feed'>
             {% for i, post in enumerate(featured_posts) %}
             <div class="featured-post">
@@ -54,6 +54,7 @@
           </ul>
         </div>
         
+        <div class="row">
         <ul class="feed hidden-xs">
           {% for post in sticky %}
           <li class="featured-post">
