@@ -36,11 +36,12 @@
 		
 		
 		<div class="col-md-9 col-xs-12">
-			<!-- Div for bio information when clicking on each person -->
-        <div id="full-investment" style="display:none">
-            <div id="full-investment-content"></div>
-            <div id="close-investment"><a href="" class="btn btn-small">Close</a></div>
-        </div>
+			<!-- NOT IN USE. Div for bio information when clicking on each person -->
+	        <div id="full-investment" style="display:none">
+	            <div id="full-investment-content"></div>
+	            <div id="close-investment"><a href="" class="btn btn-small">Close</a></div>
+	        </div>
+
 			<h2 class="subsection section-heading" id="current-portfolio">Current Portfolio<span class="filter-label" style="display:none"></span>
 				</h2>
 			<div class="row investments-list">
@@ -62,13 +63,13 @@
 
 				<div class="col-sm-4 col-xs-6 company-container current" usv-investment="<?php the_title(); ?>" usv:investment_series="<?php the_field('investment_series'); ?>" usv:investment_series_slug="<?php echo slugify(get_field('investment_series')); ?>" usv:city_slug="<?php echo slugify(get_field('city')); ?>" usv:city="<?php the_field('city'); ?>" usv:investment_date_slug="<?php echo slugify(get_field('investment_date')); ?>"  usv:investment_date="<?php the_field('investment_date'); ?>" usv:investment_categories_slug="<?php echo $categories_slug; ?>" usv:investment_categories="<?php echo($categories); ?>">
 					<div class="company">
-						<a class="open-investment" usv-investment="<?php the_title(); ?>" href="<?php the_permalink(); ?>">
+						<a class="open-investment" usv-investment="<?php the_title(); ?>" href="<?php the_field('url'); ?>">
 							<img alt="<?php the_title(); ?>" src="<?php the_field('logo'); ?>"  class="logo mt-image-none<?php if (get_field('extra_logo_padding')) : ?> extra-padding<?php endif; ?>" style="" width="220" height="150">
 						</a>
 						<p class="summary">
 							<?php 
 								if( $post->post_excerpt ) {
-									echo '<a href="'. get_permalink() . '">' . get_the_title() .'</a> ';
+									echo '<a href="'. get_url() . '">' . get_the_title() .'</a> ';
 									echo get_the_excerpt();
 								} else {
 									$content = get_the_content();
@@ -128,12 +129,12 @@
 	
 				<div class="col-sm-4 col-xs-6 company-container past" usv-investment="<?php the_title(); ?>" usv:investment_series="<?php the_field('investment_series'); ?>" usv:investment_series_slug="<?php echo slugify(get_field('investment_series')); ?>" usv:city_slug="<?php echo slugify(get_field('city')); ?>" usv:city="<?php the_field('city'); ?>" usv:investment_date_slug="<?php echo slugify(get_field('investment_date')); ?>"  usv:investment_date="<?php the_field('investment_date'); ?>" usv:investment_categories_slug="<?php echo $categories_slug; ?>" usv:investment_categories="<?php echo($categories); ?>">
 					<div class="company">
-					<a href="<?php the_permalink(); ?>">
+					<a href="<?php the_pfield('url'); ?>">
 						<img alt="<?php the_title(); ?>" src="<?php the_field('logo'); ?>"  class="logo mt-image-none<?php if (get_field('extra_logo_padding')) : ?> extra-padding<?php endif; ?>" width="220" height="150"></a>
 					<p class="summary">
 						<?php 
 							if( $post->post_excerpt ) {
-								echo '<a href="'. get_permalink() . '">' . get_the_title() .'</a> ';
+								echo '<a href="'. get_url() . '">' . get_the_title() .'</a> ';
 								echo get_the_excerpt();
 	}                                   else {
 								$content = get_the_content();
