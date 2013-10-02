@@ -69,7 +69,7 @@
 						<p class="summary">
 							<?php 
 								if( $post->post_excerpt ) {
-									echo '<a href="'. get_url() . '">' . get_the_title() .'</a> ';
+									echo '<a href="'. get_permalink() . '">' . get_the_title() .'</a> ';
 									echo get_the_excerpt();
 								} else {
 									$content = get_the_content();
@@ -134,7 +134,7 @@
 					<p class="summary">
 						<?php 
 							if( $post->post_excerpt ) {
-								echo '<a href="'. get_url() . '">' . get_the_title() .'</a> ';
+								echo '<a href="'. get_permalink() . '">' . get_the_title() .'</a> ';
 								echo get_the_excerpt();
 	}                                   else {
 								$content = get_the_content();
