@@ -290,7 +290,7 @@ class PostHandler(BaseHandler):
         else:
             relation = 'written'
             post_link = ''
-        text = '"%s" %s %s by %s. On USV.com: http://%s/posts/%s'\
+        text = '"%s" %s %s by %s. \n\nOn USV.com: http://%s/posts/%s'\
                         % (post.title.encode('ascii', errors='ignore'), post_link,
                                 relation, post.user['username'].encode('ascii', errors='ignore'),
                                         settings.base_url, post.slug)
