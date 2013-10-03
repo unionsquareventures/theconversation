@@ -21,39 +21,6 @@
         console.log(text)
       }
       return text;
-      
-
-
-      //var pattern = /(.*),(?=[^,]*$)/; ///.*\.(?=[^.]*$)/; // /(.*\.)"{0,1}/;
-      //var new_text = pattern.exec(text);
-      //console.log(new_text);
-
-      /*
-      // Remove ellipsis and newlines
-      var i = text.lastIndexOf('...');
-      if (i != -1) {
-        text = text.substr(0,i)
-      }
-      text = text.replace(/\n/, ' ');
-
-
-
-      // Find the last full word
-      var j = text.lastIndexOf(' ');
-      var k = text.lastIndexOf('." ');
-      if (j > k) {
-        var index = j;
-      }
-      else {
-        var index = k;
-      }
-      if (index != -1) {
-        text = text.substr(0,index) + "More..."
-      }
-
-      console.log(index)
-      console.log(text)
-      */
   });
 }); 
   </script>
@@ -200,9 +167,7 @@
               <div class="content">
             
                 {% if post.url %}
-                    <a class="title" href="{{ post.url }}" target="_blank">{{ post.title }}
-                       <span class="glyphicon glyphicon-share"></span>
-                      </a>
+                    <a class="title" href="{{ post.url }}" target="_blank">{{ post.title }}</a>
                     <a href="{{ post.url }}" class="source" target="_blank">{{ urlparse(post.url).netloc }}</a>
                 {% else %}
                     <a class="title" href="/posts/{{ post.slug }}" target="_blank">{{ post.title }}</a>
