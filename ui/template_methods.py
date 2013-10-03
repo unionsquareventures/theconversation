@@ -28,7 +28,7 @@ def pretty_date(handler, d):
     diff = datetime.datetime.now() - d
     s = diff.seconds
     if diff.days != 0:
-        return d.strftime('%B %d, %Y')
+        return d.strftime('%b %d, %Y')
     elif s <= 1:
         return 'just now'
     elif s < 60:
