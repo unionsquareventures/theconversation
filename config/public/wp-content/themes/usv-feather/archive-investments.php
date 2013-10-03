@@ -135,17 +135,20 @@
 					<a href="<?php the_field('url'); ?>">
 						<img alt="<?php the_title(); ?>" src="<?php the_field('logo'); ?>"  class="logo mt-image-none<?php if (get_field('extra_logo_padding')) : ?> extra-padding<?php endif; ?>" width="220" height="150"></a>
 					<p class="summary">
-						<?php 
+						<a href="<?php the_field('url'); ?>"><?php the_title(); ?></a>
+						<?php the_excerpt(); ?>
+						
+						<?php /*
 							if( $post->post_excerpt ) {
 								echo '<a href="'. the_field('url') . '">' . get_the_title() .'</a> ';
 								echo get_the_excerpt();
-	}                                   else {
+							} else {
 								$content = get_the_content();
 								$stripped = strip_tags($content, '<a>');
 								$trunc_description = substr($stripped, 0, 180);
 								echo $trunc_description;
 							}
-						?>
+						*/?>
 						<!--<a href="<?php the_permalink(); ?>" class="btn-continue">More</a>-->
 					</p>
 					<span class="since-date">
