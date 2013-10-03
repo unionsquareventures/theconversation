@@ -976,10 +976,10 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 }
  .featured-feed .excerpt {
     margin:0 0 15px;
-    padding:15px 0 0 !important;
+    padding: 0 !important;
     /*border-bottom:1px solid #ddd;
     */
- border-top:1px solid #ddd;
+    /*border-top:1px solid #ddd;*/
 }
  .feed .title:link {
     color:#000;
@@ -1009,6 +1009,9 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
  .featured-feed .votes-count {
     /*display:none !important;
     */
+ }
+ .featured-post .meta {
+     text-align: center !important;
  }
  .feed .meta {
     color:gray;
