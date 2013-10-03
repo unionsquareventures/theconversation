@@ -47,12 +47,12 @@
 
 
 	<div class="row article-post single featured">
-		<div class="col-sm-2">
+		<div class="col-sm-2 author-info">
 			<div class="profile-photo">
 				<a href="http://www.twitter.com/{{ post.user.username }}" target="_blank">
 				  <img src="{{ twitter_avatar_size(post.user.profile_image_url_https, 'original') }}" alt="thumbnail">
 				</a>
-				<span class="author-name">{{ post.user.fullname }}</span>
+				<span class="author-name hidden-xs">{{ post.user.fullname }}</span>
 				{% if is_staff(post.user.username) %}
 				<span class="staff">USV Team</span>
 				{% end %}
@@ -61,7 +61,7 @@
 		</div><!-- /.col3 -->
 		<div class="col-sm-8">
 			<article class="usv-post">
-				<h1>
+				<h1 class="post-title">
 					{% if post.url %}
 					<a href="{{ post.url }}" target="_blank">{{ post.title }}</a>
 					{% else %}
@@ -72,6 +72,7 @@
 				{% if post.url %}
 				<a class="post-source" href="{{ post.url }}">{{ urlparse(post.url).netloc }} &rarr;</a>
 				{% end %}
+				<span class="author-name visible-xs">{{ post.user.fullname }}</span>
 				<span class="post-date">{{ pretty_date(post.date_created) }}</span> 
 				{% if post.user.id_str == user_id_str or is_admin() %}
 					<span class="editlink"><a href="/posts/{{ post.slug }}/edit" class="edit-post">Edit</a></span>

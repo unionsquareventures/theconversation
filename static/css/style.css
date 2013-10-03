@@ -3350,21 +3350,10 @@ ul.investments-list {
     */
    }
  }
+ 
+ 
+ 
 
-@media only screen and (max-width:480px) {
-    .hot-newest-feed .tabs {
-    margin-bottom:0px;
-}
- .hot-newest-feed .time {
-    display:none !important;
-}
- .hot-newest-feed a.username-link {
-    display:none !important;
-}
- .hot-newest-feed span.username {
-    display:inline !important;
-}
-}
 .hot-newest-feed .tabs li {
     padding-right:0;
 }
@@ -3424,8 +3413,40 @@ ul.investments-list {
         height:140px;
         */
      }
+     .hot-newest-feed .tabs {
+         margin-bottom:0px;
+     }
+      .hot-newest-feed .time {
+         display:none !important;
+     }
+      .hot-newest-feed a.username-link {
+         display:none !important;
+     }
+      .hot-newest-feed span.username {
+         display:inline !important;
+     }
+     .staff {
+         display:none;
+     }
+     .author-info {
+         position: absolute;
+     }
+     h1.post-title {
+         padding-bottom: 5px;
+     }
+     .article-post .author-name {
+         padding: 0;
+         margin: 0;
+     }
+     .post-title, .post-meta {
+         padding-left: 80px;
+     }
+
 }
 @media only screen and (min-width:480px) {
+    /* PHONE */
+    
+        
     .site-logo {
         /*width:500px;
         */
@@ -3466,8 +3487,6 @@ ul.investments-list {
      ul.investments-list {
         width:60%;
     }
-}
-@media only screen and (max-width:480px) {
     .feed .meta {
         text-align:left;
     }
@@ -3479,9 +3498,25 @@ ul.investments-list {
         height:285px;
     }
 }
-@media only screen and (max-width:768px) {
+@media only screen and (min-width:481px) and (max-width:768px) {
     #contact {
         display:none;
+    }
+    .staff {
+        display:none;
+    }
+    .author-info {
+        position: absolute;
+    }
+    h1.post-title {
+        padding-bottom: 5px;
+    }
+    .article-post .author-name {
+        padding: 0;
+        margin: 0;
+    }
+    .post-title, .post-meta {
+        padding-left: 100px;
     }
 }
 @media only screen and (min-width:768px) {
