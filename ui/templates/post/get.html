@@ -47,17 +47,8 @@
 
 
     <div class="row article-post single community">
-        <div class="col-sm-2">
-            <div class="profile-photo">
-                <a href="http://www.twitter.com/{{ post.user.username }}" target="_blank">
-                  <img src="{{ twitter_avatar_size(post.user.profile_image_url_https, 'original') }}" alt="thumbnail">
-                </a>
-                <span class="author-name">{{ post.user.fullname }}</span>
-                {% if is_staff(post.user.username) %}
-                <span class="staff">USV Team</span>
-                {% end %}
-                
-            </div>
+        <div class="col-sm-2 post-links">
+            {% module ajax_upvote_link(post=post) %}
         </div><!-- /.col3 -->
         <div class="col-sm-8">
             <article class="usv-post">
@@ -76,7 +67,26 @@
                 {% if post.user.id_str == user_id_str or is_admin() %}
                     <span class="editlink"><a href="/posts/{{ post.slug }}/edit" class="edit-post">Edit</a></span>
                 {% end %}
+                {% if post.tags %}
+                <br style="clear:both" />in 
+                    {% for count, tag in enumerate(post.tags) %}
+                        <a href="/search?tag={{ url_escape(tag) }}">#{{ tag }}</a>{% if count < len(post.tags) -1 %}, {% end %}
+                    {% end %}
+                    </p>
+                {% end %}
 
+            </div>
+                  
+            <div class="profile-photo">
+                <a href="http://www.twitter.com/{{ post.user.username }}" title="@{{ post.user.username }}" target="_blank">
+                  <img src="{{ twitter_avatar_size(post.user.profile_image_url_https, 'original') }}" alt="thumbnail">
+                </a>
+                <!--<span class="author-name">{{ post.user.fullname }}</span>
+                {% if is_staff(post.user.username) %}
+                <span class="staff">USV Team</span>
+                {% end %}
+            -->
+                
             </div>
                         
             <div class="post-body">
@@ -109,13 +119,6 @@
             
                 {% if post.has_hackpad and post.hackpad_url %}
                   <p><a class="post-body-hackpad-link" target="_blank" href="{{ post.hackpad_url }}">Hackpad &rarr;</a></p>
-                {% end %}
-                {% if post.tags %}
-                    <p><b>Tags:</b>
-                    {% for count, tag in enumerate(post.tags) %}
-                        <a href="/search?tag={{ url_escape(tag) }}">{{ tag }}</a>{% if count < len(post.tags) -1 %}, {% end %}
-                    {% end %}
-                    </p>
                 {% end %}
             </div><!--end of post-body-->
             
@@ -168,19 +171,29 @@
             
         </div><!-- /.col6 -->
         
-        <div class="col-sm-2">
+        <div class="col-sm-2 post-links">
             <div class="profile-links">
                 
-                {% module ajax_upvote_link(post=post) %}
+                
                <!-- <a href="/posts/{{ post.slug }}#disqus_thread" class="comments-button"
                                         data-disqus-identifier="{{ post.id }}">0 comments</a>-->
             
+            <a href="https://twitter.com/share" class="twitter-share-button" data-via="">Tweet</a>
+            <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+            <!--<br />
+            <script src="//platform.linkedin.com/in.js" type="text/javascript">
+             lang: en_US
+            </script>
+            <script type="IN/Share" data-counter="right"></script>
+        -->
+            
+                <!--
                 <div class="share-widget">
-                    <!--<span class="heading">Share Post</span>-->
                     <div class="share-twitter" data-url="{{ 'http://%s/posts/%s' % (settings.base_url, post.slug) }}" data-text="{{ post.title }}"></div>
                     <div class="share-facebook" data-url="{{ 'http://%s/posts/%s' % (settings.base_url, post.slug) }}" data-text="{{ post.title }}"></div>
                     <div class="share-googleplus" data-url="{{ 'http://%s/posts/%s' % (settings.base_url, post.slug) }}" data-text="{{ post.title }}"></div>
                 </div>
+            -->
             </div>
         </div><!-- /col3 -->
         

@@ -142,6 +142,9 @@ class PostHandler(BaseHandler):
         if post.deleted:
             self.render('post/deleted.html', **self.vars)
             return
+        if post.featured:
+            self.render("post/get-featured.html", **self.vars)
+            return
         self.render('post/get.html', **self.vars)
 
     @tornado.web.authenticated
@@ -259,7 +262,7 @@ class PostHandler(BaseHandler):
             def _posted(response):
                 return
             #leave post as comment.
-            disqus.post_comment(_posted, user_info, thread_info)
+            #disqus.post_comment(_posted, user_info, thread_info)
             
             #subscribe user to thread
             disqus.subscribe(lambda x: None, user_info, thread_id)

@@ -2276,12 +2276,30 @@ ul.filter li a:hover,ul.filter li.active a {
     border:4px solid #DFDFD1;
     border:1px solid #ccc;
 }
+
  .article-post .profile-photo a {
     opacity:1;
 }
  .article-post .profile-photo a:hover {
     opacity:0.85;
 }
+.article-post.community .profile-photo {
+    position: static;
+}
+.article-post.community .profile-photo img {
+    width: 50px;
+    float: left;
+    margin-right: 15px;
+    border:4px solid #DFDFD1;   
+}
+
+.article-post.community .post-body {
+
+}
+.post-links {
+    text-align: center;
+}
+
  .staff {
     color:#bbb;
 }
@@ -2293,7 +2311,7 @@ ul.filter li a:hover,ul.filter li.active a {
     margin:5px 0 0 0;
     padding-left:22px;
     font-weight:600;
-    display:block;
+    /*display:block;*/
 }
  .article-post .upvote-button:hover, .article-post .comments-button:hover {
     text-decoration:underline;
