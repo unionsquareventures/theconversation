@@ -995,6 +995,7 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
     color: gray;
 }
  .hot-newest-feed .source {
+    color: gray;
     font-size:0.85em;
      display:inline-block;
     vertical-align:baseline;
