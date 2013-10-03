@@ -2204,9 +2204,9 @@ ul.filter li a:hover,ul.filter li.active a {
 }
  }
 .article-post h1 {
-    margin:0 0 10px 0;
+    margin:0 !important;
     font-size:1.5em;
-    border-bottom:1px solid #ccc;
+    /*border-bottom:1px solid #ccc;*/
     padding-bottom:10px;
 }
 .article-post h2 {
@@ -2241,7 +2241,7 @@ ul.filter li a:hover,ul.filter li.active a {
     margin-top:5px;
 }
  .article-post .post-meta {
-    margin-bottom:25px;
+    margin-bottom:35px;
     display:block;
     font-size:0.85em;
     color:gray;
@@ -2287,10 +2287,10 @@ ul.filter li a:hover,ul.filter li.active a {
     position: static;
 }
 .article-post.community .profile-photo img {
-    width: 50px;
+    width: 48px;
     float: left;
     margin-right: 15px;
-    border:4px solid #DFDFD1;   
+    border-radius: 3px; 
 }
 
 .article-post.community .post-body {

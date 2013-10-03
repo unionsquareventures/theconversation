@@ -72,7 +72,7 @@
                     {% for count, tag in enumerate(post.tags) %}
                         <a href="/search?tag={{ url_escape(tag) }}">#{{ tag }}</a>{% if count < len(post.tags) -1 %}, {% end %}
                     {% end %}
-                    </p>
+                    
                 {% end %}
 
             </div>
