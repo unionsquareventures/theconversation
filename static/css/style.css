@@ -3382,6 +3382,9 @@ ul.investments-list {
     }
 }
 @media only screen and (min-width:320px) {
+    .profile-photo {
+        position: absolute;
+    }
 
 }
 @media only screen and (max-width:480px) {
@@ -3441,15 +3444,16 @@ ul.investments-list {
          padding: 0;
          margin: 0;
      }
-     .post-title, .post-meta {
-         padding-left: 80px;
-     }
+     
 
 }
 @media only screen and (min-width:480px) {
     /* PHONE */
     
-        
+    .featured .post-title, 
+    .featured .post-meta {
+        padding-left: 80px;
+    }
     .site-logo {
         /*width:500px;
         */
@@ -3518,7 +3522,7 @@ ul.investments-list {
         padding: 0;
         margin: 0;
     }
-    .post-title, .post-meta {
+    .featured .post-title, .featured .post-meta {
         padding-left: 100px;
     }
 }
