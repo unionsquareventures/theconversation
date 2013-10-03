@@ -2212,11 +2212,14 @@ ul.filter li a:hover,ul.filter li.active a {
 .article-post h2 {
     margin:10px 0;
 }
- .community article {
-}
+
 .article-post .post-body {
     margin-bottom:40px;
 }
+.article-post .post-body p {
+    margin-top: 0;
+}
+
  .article-post .post-body a {
     text-decoration:none;
     color:#779734;
@@ -2283,18 +2286,26 @@ ul.filter li a:hover,ul.filter li.active a {
  .article-post .profile-photo a:hover {
     opacity:0.85;
 }
+.community .post-author {
+    font-size: 85%;
+}
+.community .post-author a {
+    font-weight: bold;
+}
+.community .post-tags {
+    float:left;
+}
 .article-post.community .profile-photo {
-    position: static;
 }
 .article-post.community .profile-photo img {
     width: 48px;
-    float: left;
-    margin-right: 15px;
+    margin-top: 7px;
+    left: 0;
     border-radius: 3px; 
 }
 
 .article-post.community .post-body {
-
+    padding-left: 60px;
 }
 .post-links {
     text-align: center;

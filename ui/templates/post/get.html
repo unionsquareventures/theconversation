@@ -63,16 +63,15 @@
                 {% if post.url %}
                 <a class="post-source" href="{{ post.url }}">{{ urlparse(post.url).netloc }} &rarr;</a>
                 {% end %}
-                <span class="post-date">{{ pretty_date(post.date_created) }}</span> 
                 {% if post.user.id_str == user_id_str or is_admin() %}
                     <span class="editlink"><a href="/posts/{{ post.slug }}/edit" class="edit-post">Edit</a></span>
                 {% end %}
                 {% if post.tags %}
-                <br style="clear:both" />in 
+                    <span class="post-tags">
                     {% for count, tag in enumerate(post.tags) %}
                         <a href="/search?tag={{ url_escape(tag) }}">#{{ tag }}</a>{% if count < len(post.tags) -1 %}, {% end %}
                     {% end %}
-                    
+                    </span>
                 {% end %}
 
             </div>
@@ -90,6 +89,10 @@
             </div>
                         
             <div class="post-body">
+                <span class="post-author"><a href="http://www.twitter.com/{{ post.user.username }}" title="@{{ post.user.username }}">{{ post.user.username }}</a> &nbsp;
+                <span class="text-muted">{{ pretty_date(post.date_created) }}</span>
+            </span>
+                
               {#
                 <a class="shared-link" href="http://apple.com/example-of-very-long-url-slug" target="_blank" title="Source: http://apple.com/example-of-very-long-url-slug">
                     <span>apple.com/example-of-very-long-url-slug &rarr;</span>
