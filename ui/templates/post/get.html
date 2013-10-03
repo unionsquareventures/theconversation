@@ -89,8 +89,8 @@
             </div>
                         
             <div class="post-body">
-                <span class="post-author"><a href="http://www.twitter.com/{{ post.user.username }}" title="@{{ post.user.username }}">{{ post.user.username }}</a> &nbsp;
-                <span class="text-muted">{{ pretty_date(post.date_created) }}</span>
+                <span class="post-author"><a href="http://www.twitter.com/{{ post.user.username }}" title="@{{ post.user.username }}">{{ post.user.username }}</a>
+                <span class="text-muted">&nbsp;<span style="color: #ddd">&bull;</span>&nbsp; {{ pretty_date(post.date_created) }}</span>
             </span>
                 
               {#
