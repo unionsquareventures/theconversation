@@ -2219,7 +2219,7 @@ ul.filter li a:hover,ul.filter li.active a {
 .article-post .post-body {
     margin-bottom:40px;
 }
-.article-post .post-body p {
+.article-post.community .post-body p {
     margin-top: 0;
     margin-bottom: .5em;
 }
