@@ -32,41 +32,46 @@
             </div>
         </footer><!--end of footer-->
 
-    </div><!--end of shell-->
+</div><!--end of shell-->
     
-    <nav id="mmenu" class="mm-menu mm-is-menu mm-vertical"><div class="mm-inner">
-        <div class="mm-search"><input placeholder="Search" type="text" autocomplete="off"></div>
+    <nav id="mobile-menu">
         <ul>
-        <li class="mm-label"><a href="<?php the_field('homepage_url'); ?>">Union Square Ventures</a></li>
-        <li>
-            <!--<em class="mm-counter">2</em>--><a class="mm-subopen" href="#mm-s1-0"></a>
-            <a href="<?php bloginfo('siteurl'); ?>">Conversation</a>
-            <ul class="mm-submenu" id="mm-s1-0">
-                <li><a href="<?php the_field('homepage_url'); ?>">Hot</a></li>
-                <li><a href="<?php the_field('homepage_url'); ?>">New</a></li>
-                <li><a href="<?php the_field('homepage_url'); ?>">Featured</a></li>
-            </ul>
-        </li>
-        <li><a href="<?php bloginfo('siteurl'); ?>/about/">About</a></li>
-        <!--<li class="mm-selected mm-opened"><a href="#">About us</a></li>-->
-        <!--<li>
-            <em class="mm-counter">2</em><a class="mm-subopen" href="#mm-s1-0"></a><a href="#">Our work</a>
-            <ul class="mm-submenu" id="mm-s1-0">
-                <li><a href="#">What we do</a></li>
-                <li><a href="#">How we do it</a></li>
-            </ul>
-        </li>-->
-        <!--<li class="mm-label">Contact</li>-->
-        <li><a href="<?php bloginfo('siteurl'); ?>/investments/">Investments</a></li>
-        <li><a href="<?php bloginfo('siteurl'); ?>/network/">Network</a></li>
-        <li><a href="<?php bloginfo('siteurl'); ?>/jobs/">Jobs</a></li>
-    <li class="mm-noresults">No results found.</li></ul></div></nav>
+            <li class="heading">USV COMMUNITY</li>
+            <li><a href="/?sort_by=hot">Hot</a></li>
+            <li><a href="/?sort_by=new">Newest</a></li>
+            <li><a href="/featured_posts">Featured</a></li>
+            <li class="heading">UNION SQUARE VENTURES</li>
+            <li><a href="/about/">About</a></li>
+            <li><a href="/investments/">Investments</a></li>
+            <li><a href="/network/">Network</a></li>
+            <li><a href="/jobs/">Jobs</a></li>
+        </ul>
+    </nav>
 
+    
+    <script src="/static/js/vendor/jquery-1.9.1.min.js"></script>
+    <script src="/static/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="//use.typekit.net/eim8cyk.js"></script>
+    <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+    <script src="/static/js/vendor/modernizr-2.6.2.min.js"></script>
+    <script type="text/javascript" src="/static/js/tinymce/jquery.tinymce.min.js"></script>
+    <script src="/static/js/plugins.js"></script>
+    <script src="/static/js/scripts.js"></script>
+    <script src="/static/js/swipe.js"></script>
+    <script src="/static/js/modules_bundle.js"></script>
+    <script src="/static/js/vendor/jquery.scrollto.js"></script>
+    <script type="text/javascript">
+        USV_is_admin = 'false';
+        USV_tinymce_valid_elements = "{{ tinymce_valid_elements(media=is_admin()) }}";
+        USV_tinymce_post_char_limit = '10';
+        USV_user_id_str = '123';
+        USV_user_email_address = 'foo@foo.foo';
+    </script>
     <?php wp_footer(); ?>
     <script>
         $(document).ready(function() {
             
-            $("#mmenu").mmenu();
+            //$("#mmenu").mmenu();
         
             var series_options = [];
             $('.company').each(function() {
@@ -226,7 +231,8 @@
 
             }
         
-            /*$('.company').each(function(){
+            /*
+            $('.company').each(function(){
                 var max_height = $(this).height();
                 var $card = $(this);
                 
@@ -316,7 +322,7 @@
                 $card.addClass('is-open');
                 $card.find('a').addClass('is-open');
                 window.location.hash = person;
-                //$card.ScrollTo();
+                $card.ScrollTo();
                 var $full_bio_content = $("#full-bio-content");
                 var $shim = $card.find('.full-bio-shim');
                 
