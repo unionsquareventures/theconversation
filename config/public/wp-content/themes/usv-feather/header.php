@@ -40,7 +40,7 @@
                     <li><a class="<?php if(is_home()) { echo "current"; } ?>" href="<?php the_field('homepage_url', 'option'); ?>">Conversation</a></li>
                     <li><a class="<?php if(is_page('8')) { echo "current"; } ?>" href="<?php echo get_permalink('8'); ?>">About</a></li>
                     <!--<li><a class="<?php if(is_post_type_archive('team')) { echo "current"; } ?>" href="<?php echo get_post_type_archive_link( 'team' ); ?>">Team</a></li>-->
-                    <li><a class="<?php if(is_post_type_archive('investments')) { echo "current"; } ?>" href="<?php echo get_post_type_archive_link( 'investments' ); ?>">Portfolio</a></li>
+                    <li><a class="<?php if(is_page('portfolio')) { echo "current"; } ?>" href="<?php bloginfo('siteurl'); ?>/portfolio/">Portfolio</a></li>
                     <li><a class="<?php if(is_page('10')) { echo "current"; } ?>" href="<?php echo get_permalink('10'); ?>">Network</a></li> <!--
                     <li><a class="<?php if(is_page('8')) { echo "current"; } ?>" href="<?php echo get_permalink('8'); ?>">About</a></li>-->
                     <?php if ($_SERVER['HTTP_HOST'] == "sandbox.wrkng.net") :?>
