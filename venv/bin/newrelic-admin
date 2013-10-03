@@ -1,9 +1,0 @@
-#!/Users/AlexanderPease/git/usv/usv3/venv/bin/python
-# EASY-INSTALL-ENTRY-SCRIPT: 'newrelic==2.0.0.1','console_scripts','newrelic-admin'
-__requires__ = 'newrelic==2.0.0.1'
-import sys
-from pkg_resources import load_entry_point
-
-sys.exit(
-   load_entry_point('newrelic==2.0.0.1', 'console_scripts', 'newrelic-admin')()
-)
