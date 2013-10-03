@@ -3400,6 +3400,9 @@ ul.investments-list {
      .investments-list li {
         width:190px !important;
     }
+    .feed {
+        margin-top: 15px;
+    }
      /*.investments-list img {
         margin:0 auto;
     }
