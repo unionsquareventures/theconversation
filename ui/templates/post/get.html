@@ -48,7 +48,7 @@
 
     <div class="row article-post single community">
         <div class="col-sm-2 post-links">
-            {% module ajax_upvote_link(post=post) %}
+            <div class="hidden-xs">{% module ajax_upvote_link(post=post) %}</div>
         </div><!-- /.col3 -->
         <div class="col-sm-8">
             <article class="usv-post">
@@ -73,6 +73,7 @@
                     {% end %}
                     </span>
                 {% end %}
+                <div class="visible-xs" style="clear:both">{% module ajax_upvote_link(post=post) %}</div>
 
             </div>
                   

@@ -2214,6 +2214,10 @@ ul.filter li a:hover,ul.filter li.active a {
     /*border-bottom:1px solid #ccc;*/
     padding-bottom:10px;
 }
+.article-post h1 a {
+    color: #000;
+    font-weight: 700;
+}
 .article-post h2 {
     margin:10px 0;
 }
@@ -2370,9 +2374,6 @@ ul.filter li a:hover,ul.filter li.active a {
  .article-post h1 {
     font-size:2em;
     font-weight:bold;
-}
- .article-post h1 a {
-    color:#000;
 }
  .article-post .post-body {
     font-size:1.125em;
