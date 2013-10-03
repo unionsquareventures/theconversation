@@ -121,9 +121,11 @@
 
 			<div class="share-widget for-mobile">
 				<!--<span class="heading">Share Post</span>-->
-				<div class="share-twitter" data-url="{{ 'http://%s/posts/%s' % (settings.base_url, post.slug) }}" data-text="{{ post.title }}"></div>
+				<a href="https://twitter.com/share" class="twitter-share-button" data-via="">Tweet</a>
+				
+				<!--<div class="share-twitter" data-url="{{ 'http://%s/posts/%s' % (settings.base_url, post.slug) }}" data-text="{{ post.title }}"></div>
 				<div class="share-facebook" data-url="{{ 'http://%s/posts/%s' % (settings.base_url, post.slug) }}" data-text="{{ post.title }}"></div>
-				<div class="share-googleplus" data-url="{{ 'http://%s/posts/%s' % (settings.base_url, post.slug) }}" data-text="{{ post.title }}"></div>
+				<div class="share-googleplus" data-url="{{ 'http://%s/posts/%s' % (settings.base_url, post.slug) }}" data-text="{{ post.title }}"></div>-->
 			</div>
 
 			<div class="comment-box">
@@ -168,7 +170,7 @@
 
 		</div><!-- /.col6 -->
 
-		<div class="col-sm-2">
+		<div class="col-sm-2 ">
 			<div class="profile-links">
 
 				{% module ajax_upvote_link(post=post) %}
@@ -176,10 +178,12 @@
 										data-disqus-identifier="{{ post.id }}">0 comments</a>-->
 
 				<div class="share-widget">
+					<a href="https://twitter.com/share" class="twitter-share-button" data-via="">Tweet</a>
+					<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
 					<!--<span class="heading">Share Post</span>-->
-					<div class="share-twitter" data-url="{{ 'http://%s/posts/%s' % (settings.base_url, post.slug) }}" data-text="{{ post.title }}"></div>
+					<!--<div class="share-twitter" data-url="{{ 'http://%s/posts/%s' % (settings.base_url, post.slug) }}" data-text="{{ post.title }}"></div>
 					<div class="share-facebook" data-url="{{ 'http://%s/posts/%s' % (settings.base_url, post.slug) }}" data-text="{{ post.title }}"></div>
-					<div class="share-googleplus" data-url="{{ 'http://%s/posts/%s' % (settings.base_url, post.slug) }}" data-text="{{ post.title }}"></div>
+					<div class="share-googleplus" data-url="{{ 'http://%s/posts/%s' % (settings.base_url, post.slug) }}" data-text="{{ post.title }}"></div>-->
 				</div>
 			</div>
 		</div><!-- /col3 -->
