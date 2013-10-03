@@ -949,7 +949,8 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 }
  .feed .avatar {
     display:none;
-    border:4px solid #DFDFD1;
+    border:1px solid #DFDFD1;
+    border-radius: 3px;
 }
  .feed .title {
     text-decoration:none;
@@ -2218,6 +2219,7 @@ ul.filter li a:hover,ul.filter li.active a {
 }
 .article-post .post-body p {
     margin-top: 0;
+    margin-bottom: .5em;
 }
 
  .article-post .post-body a {
@@ -2244,7 +2246,7 @@ ul.filter li a:hover,ul.filter li.active a {
     margin-top:5px;
 }
  .article-post .post-meta {
-    margin-bottom:35px;
+    margin-bottom:30px;
     display:block;
     font-size:0.85em;
     color:gray;
@@ -2298,15 +2300,14 @@ ul.filter li a:hover,ul.filter li.active a {
 .article-post.community .profile-photo {
 }
 .article-post.community .profile-photo img {
-    width: 80px;
+    width: 75px;
     margin-top: 7px;
     left: 0;
     border-radius: 3px;
-    border: none;
 }
 
 .article-post.community .post-body {
-    padding-left: 95px;
+    padding-left: 90px;
 }
 .post-links {
     text-align: center;
@@ -3286,19 +3287,19 @@ ul.investments-list {
         position:absolute;
         top:10px;
         left:0;
-        width:48px;
-        height:48px;
+        width:52px;
+        height:52px;
         overflow:hidden;
     }
      .feed .avatar a {
         display:block;
     }
      .feed .avatar img {
-        width:40px;
+        width:50px;
         height:auto;
     }
      .featured-feed .avatar {
-        border:4px solid #DFDFD1;
+        border:1px solid #DFDFD1;
     }
      .featured-feed, .search-feed {
         float:right;
