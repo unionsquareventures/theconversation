@@ -3531,6 +3531,11 @@ ul.investments-list {
     }
 }
 @media only screen and (min-width:768px) {
+    .featured .post-title, 
+    .featured .post-meta {
+        padding-left: 0px;
+    }
+
   .container {
       max-width:98%;
   }
