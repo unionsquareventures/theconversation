@@ -7,7 +7,22 @@
       e.preventDefault();
       alert('This is bookmarklet.  First drag it to your bookmarks bar, then you can use it to share web pages to USV.com.');
     })
+
+    // Truncate featured post text
+    $('.excerpt').text(function(e) {
+      var text = $(this).text();
+      console.log(text.match(/\.{3}/));
+      if (text.match(/\.{3}/)) {
+        console.log(text)
+        var i = text.lastIndexOf(' ');
+        if (i != -1) {
+          text = text.substr(0,i) + "..."
+        }
+        console.log(text)
+      }
+      return text;
   });
+}); 
   </script>
 {% end %}
 
@@ -152,9 +167,7 @@
               <div class="content">
             
                 {% if post.url %}
-                    <a class="title" href="{{ post.url }}" target="_blank">{{ post.title }}
-                       <span class="glyphicon glyphicon-share"></span>
-                      </a>
+                    <a class="title" href="{{ post.url }}" target="_blank">{{ post.title }}</a>
                     <a href="{{ post.url }}" class="source" target="_blank">{{ urlparse(post.url).netloc }}</a>
                 {% else %}
                     <a class="title" href="/posts/{{ post.slug }}" target="_blank">{{ post.title }}</a>

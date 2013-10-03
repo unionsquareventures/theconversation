@@ -1,0 +1,9 @@
+#!/Users/AlexanderPease/git/usv/usv3/venv/bin/python
+# EASY-INSTALL-ENTRY-SCRIPT: 'raven==3.5.0','console_scripts','raven'
+__requires__ = 'raven==3.5.0'
+import sys
+from pkg_resources import load_entry_point
+
+sys.exit(
+   load_entry_point('raven==3.5.0', 'console_scripts', 'raven')()
+)

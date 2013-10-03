@@ -1,0 +1,64 @@
+Metadata-Version: 1.0
+Name: gspread
+Version: 0.1.0
+Summary: Google Spreadsheets Python API
+Home-page: https://github.com/burnash/gspread
+Author: Anton Burnashev
+Author-email: fuss.here@gmail.com
+License: MIT
+Description: Super simple `Google Spreadsheets Python API`_.
+        
+        .. _Google Spreadsheets Python API: https://github.com/burnash/gspread
+        
+        
+        Basic usage
+        -----------
+        
+        Connect to Google Spreadsheet and set a value to a cell::
+        
+            import gspread
+        
+            # Login with your Google account
+            gc = gspread.login('thedude@abid.es','****')
+        
+            # Open a worksheet from spreadsheet with one shot
+            wks = gc.open("Where is the money Lebowski?").sheet1
+        
+            wks.update_acell('B2', "it's down there somewhere, let me take another look.")
+        
+        
+        Features
+        --------
+        
+        * Open a spreadsheet by its *title*, *url* or *key*.
+        * Select cells by labels, e.g. 'A1'.
+        * Extract range, entire row or column values.
+        * Independent of Google Data Python client library.
+        * Python 3 support.
+        
+        
+        Code and documentation
+        ----------------------
+        
+        Check `gspread on GitHub <https://github.com/burnash/gspread>`_.
+        
+        
+        License
+        -------
+        MIT
+        
+        Download
+        ========
+        
+Keywords: spreadsheets,google-spreadsheets
+Platform: UNKNOWN
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: Intended Audience :: End Users/Desktop
+Classifier: Intended Audience :: Science/Research
+Classifier: Topic :: Office/Business :: Financial :: Spreadsheet
+Classifier: Topic :: Software Development :: Libraries :: Python Modules

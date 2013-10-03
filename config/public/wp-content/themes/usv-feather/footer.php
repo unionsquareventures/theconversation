@@ -347,6 +347,7 @@
             }
 
             /* Investment Page */
+            /*
             $(".open-investment").click(function(e) {
                 e.preventDefault();
                 if ( $(this).hasClass('is-open') ) {
@@ -359,6 +360,7 @@
                console.log(investment)
                show_investment(investment);
             });
+
             
             var investment_heights = $('.company-container').height();
             
@@ -371,11 +373,12 @@
                 $('.company-container').css('opacity', '1');
             }
             
+            
             $("#close-investment").click(function(e) {
                e.preventDefault();
                window.location.hash = "#_";
                collapse_investments(); 
-               /*$('#current-portfolio').ScrollTo();*/
+               //$('#current-portfolio').ScrollTo();
             });
 
             var show_investment = function(investment) {
@@ -411,6 +414,7 @@
                 });
                 $card.css('opacity', '1');
             }
+            */
         
         
         

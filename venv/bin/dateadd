@@ -1,0 +1,9 @@
+#!/Users/AlexanderPease/git/usv/usv3/venv/bin/python
+# EASY-INSTALL-ENTRY-SCRIPT: 'dateutils==0.6.6','console_scripts','dateadd'
+__requires__ = 'dateutils==0.6.6'
+import sys
+from pkg_resources import load_entry_point
+
+sys.exit(
+   load_entry_point('dateutils==0.6.6', 'console_scripts', 'dateadd')()
+)
