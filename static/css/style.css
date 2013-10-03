@@ -991,11 +991,12 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
     color:#000;
     padding:7px 0 10px 0;
 }
- .feed .source {
-    color:gray;
-    /*font-size:0.9em;
-    */
- display:inline-block;
+.source {
+    color: gray;
+}
+ .hot-newest-feed .source {
+    font-size:0.85em;
+     display:inline-block;
     vertical-align:baseline;
     zoom:1;
     *display:inline;
@@ -3282,7 +3283,7 @@ ul.investments-list {
         margin-bottom:10px;
     }
      .feed .content {
-        margin-left:64px;
+        margin-left:68px;
     }
      .feed .avatar {
         display:block;
