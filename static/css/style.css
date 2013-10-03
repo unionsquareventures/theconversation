@@ -2298,14 +2298,14 @@ ul.filter li a:hover,ul.filter li.active a {
 .article-post.community .profile-photo {
 }
 .article-post.community .profile-photo img {
-    width: 48px;
+    width: 70px;
     margin-top: 7px;
     left: 0;
     border-radius: 3px; 
 }
 
 .article-post.community .post-body {
-    padding-left: 60px;
+    padding-left: 85px;
 }
 .post-links {
     text-align: center;
