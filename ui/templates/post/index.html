@@ -43,11 +43,10 @@
             {% for i, post in enumerate(featured_posts) %}
             <div class="featured-post">
             <div class="content">
+                  <a class="title" href="/posts/{{ post.slug }}">{{ post.title }}</a>
               {% if post.url %}
-                  <a class="title" href="{{ post.url }}" target="_blank">{{ post.title }}</a>
                   <a href="{{ post.url }}" class="source" target="_blank">{{ urlparse(post.url).netloc }}</a>
               {% else %}
-                  <a class="title" href="/posts/{{ post.slug }}">{{ post.title }}</a>
                   <a href="/posts/{{ post.slug }}" class="source">usv.com</a>
               {% end %}
               <div class="excerpt">{{ post.body_truncated }}</div>
@@ -73,11 +72,10 @@
           {% for post in sticky %}
           <li class="featured-post">
               <div class="content">
+                    <a class="title" href="/posts/{{ post.slug }}">{{ post.title }}</a>
                 {% if post.url %}
-                    <a class="title" href="{{ post.url }}" target="_blank">{{ post.title }}</a>
                     <a href="{{ post.url }}" class="source" target="_blank">{{ urlparse(post.url).netloc }}</a>
                 {% else %}
-                    <a class="title" href="/posts/{{ post.slug }}">{{ post.title }}</a>
                     <a href="/posts/{{ post.slug }}" class="source">usv.com</a>
                 {% end %}
                 <div class="excerpt">{{ post.body_truncated }}</div>
@@ -104,11 +102,10 @@
             {% for post in featured_posts %}
             <li class="featured-post">
                 <div class="content">
+                      <a class="title" href="/posts/{{ post.slug }}">{{ post.title }}</a>
                   {% if post.url %}
-                      <a class="title" href="{{ post.url }}" target="_blank">{{ post.title }}</a>
                       <a href="{{ post.url }}" class="source" target="_blank">{{ urlparse(post.url).netloc }}</a>
                   {% else %}
-                      <a class="title" href="/posts/{{ post.slug }}">{{ post.title }}</a>
                       <a href="/posts/{{ post.slug }}" class="source">usv.com</a>
                   {% end %}
                   <div class="excerpt">{{ post.body_truncated }}</div>
