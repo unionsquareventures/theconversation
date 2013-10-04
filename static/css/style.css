@@ -2226,7 +2226,7 @@ ul.filter li a:hover,ul.filter li.active a {
 }
 
 .article-post .post-body {
-    margin-bottom:60px;
+    margin-bottom: 65px;
 }
 .article-post.community .post-body p {
     margin-top: 0;
@@ -3585,8 +3585,11 @@ ul.investments-list {
     }
 }
 @media only screen and (min-width:1100px) {
-    .usv-post {
+    .featured .usv-post {
     padding:0 35px 0 20px;
+    }
+    .community .usv-post {
+        margin-right: 35px;
     }
  .article-post .share-widget {
     display:none;
