@@ -5,6 +5,7 @@ import tornado.httpserver
 import json
 from raven.contrib.tornado import SentryMixin
 from urlparse import urlparse
+from models.user_info import UserInfo, User
 
 class BaseHandler(SentryMixin, tornado.web.RequestHandler):
     def __init__(self, *args, **kwargs):
@@ -17,7 +18,7 @@ class BaseHandler(SentryMixin, tornado.web.RequestHandler):
                         'settings': settings,
                         'is_admin': self.is_admin,
                         'is_staff': self.is_staff,
-                        'is_blacklisted': self.is_blacklisted,
+                        'is_blacklisted': self.current_user_is_blacklisted,
                         'urlparse': urlparse,
                     }
         user_id_str = self.get_current_user_id_str()
@@ -54,8 +55,11 @@ class BaseHandler(SentryMixin, tornado.web.RequestHandler):
             return True
         return False
 
-    def is_blacklisted(self, username):
-        if username.lower() in settings.blacklist:
+    def current_user_is_blacklisted(self):
+        #if username.lower() in settings.blacklist:
+        #    return True
+        u = UserInfo.objects.get(user__id_str=self.get_current_user_id_str())
+        if u.is_blacklisted:        
             return True
         return False
 
@@ -67,11 +71,12 @@ class BaseHandler(SentryMixin, tornado.web.RequestHandler):
 
     @tornado.web.authenticated
     def post(self, id='', action=''):
+        if self.current_user_is_blacklisted():
+            return(self.write('Your account has been temporarily blocked.  Contact info@usv.com for support.'))
+    
         if id:
             self.update(id)
         else:
-            if self.is_blacklisted(self.get_current_username()):
-                return(self.write('Your account has been temporarily blocked.  Contact info@usv.com for support.'))
             self.create()
 
     def get(self, id='', action=''):

@@ -25,3 +25,4 @@ class UserInfo(Document):
     user = EmbeddedDocumentField(User, required=True)
     access_token = EmbeddedDocumentField(AccessToken, required=True)
     email_address = StringField(required=False)
+    is_blacklisted = BooleanField(default=False)
