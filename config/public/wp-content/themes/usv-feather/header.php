@@ -52,7 +52,9 @@
                     <?php endif; ?>
                 </ul>
                 <div id="login">
+                    <?php if ($_COOKIE['usv_username']): ?>
                     Welcome, @<?php echo $_COOKIE['usv_username']; ?>! <!--&nbsp;[<a href="#">logout</a>]-->
+                    <?php endif; ?>
                 </div>
                 </div>         
             </header><!--end of site-header-->
