@@ -1,5 +1,19 @@
 {% set action = '/posts/' + str(post.slug) if not post._created else '/posts/' %}
 
+<script type="text/javascript">
+    $(function() {
+        $('.field-errors').each(function() {
+            if($.trim($(this).html()) == '') {
+                $(this).hide();
+            }
+        });
+        $('a.no-match').on('click', function(e) {
+            $('#bypass_dup_check').val('true');
+            $(this).closest('.field-errors').hide();
+        });
+    });
+</script>
+
 <form id="{{ id }}" class="form {{ classes }}" action="{{ action }}" method="POST">
     {% module xsrf_form_html() %}
 
@@ -16,7 +30,24 @@
             </dd>
             <dt>
                 <label for="url">Link</label>
-                <div class="field-errors">{{ field_errors(errors, 'url') }}</div>
+                <div class="field-errors">{{ field_errors(errors, 'url') }}
+                    {% if existing_posts %}
+                        <div id="existing-posts">
+                        This URL might have already been submitted. Does it
+                        match one of these?
+                        <ul>
+                            {% for p in existing_posts %}
+                                <li><a href="{{ p.url }}">{{ p.title }}</a></li>
+                            {% end %}
+                        </ul>
+                        <span class="no-match btn">
+                            <a href="#" class="no-match">&times; Ignore</a>
+                        </span>
+                        </div>
+                    {% end %}
+                </div>
+                <input type="hidden" name="bypass_dup_check"
+                        id="bypass_dup_check" value="{{ 'true' if (post.url and not existing_posts) else '' }}" />
             </dt>
             <dd>
                 <input id="post_url" name="url" type="text" placeholder="http://example.com" 

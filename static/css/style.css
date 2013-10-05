@@ -2964,6 +2964,24 @@ h1.general-page-headline .search-term,.feed .title,.feed .excerpt,#pagination a:
     /*color:#444;
     */
 }
+.field-errors {
+    padding: 10px;
+    margin-bottom: 8px;
+    background-color: #EEEEEE;
+}
+.field-errors ul {
+    margin: 5px 0px 0px 0px;
+}
+a.no-match {
+    text-decoration: underline;
+    color: black;
+}
+span.no-match {
+    margin-left: 22px;
+    margin-top: 10px !important;
+    margin-bottom: 5px !important;
+    border: 1px solid #CCCCCC;
+}
 #submit-form dl {
     margin-top:0;
 }

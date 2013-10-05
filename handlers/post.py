@@ -149,23 +149,33 @@ class PostHandler(BaseHandler):
 
     @tornado.web.authenticated
     @tornado.web.asynchronous
-    def new(self, post=None, errors=None):
+    def new(self, post=None, errors=None, existing_posts=None):
         if not errors:
             errors = {}
 
         if post == None:
             post = Post()
-            post.url = self.get_argument('url', '')
-            if post.url and Post.objects(url=post.url).first():
-                    errors['url'] = mongoengine.ValidationError('This URL has already been submitted',
-                                                                field_name='url')
             post.title = self.get_argument('title', '')
+            post.url = self.get_argument('url', '')
+            # Check for an existing URL
+            normalized_url = post.url
+            if normalized_url:
+                normalized_url = urlparse(normalized_url)
+                netloc = normalized_url.netloc.split('.')
+                if netloc[0] == 'www':
+                    del netloc[0]
+                normalized_url = '%s%s' % ('.'.join(netloc), normalized_url.path)
+                post.normalized_url = normalized_url
+                posts = Post.objects(normalized_url=normalized_url)[:5]
+                if posts:
+                    existing_posts = posts
 
         # Link creation page
         self.vars.update({
             'post': post,
             'errors': errors,
             'edit_mode': False,
+            'existing_posts': existing_posts,
         })
         self.render('post/new.html', **self.vars)
 
@@ -202,12 +212,14 @@ class PostHandler(BaseHandler):
             featured = True
             date_featured = datetime.now()
 
+
         date_created = dt.datetime.now()
         user_id_str = self.get_current_user_id_str()
         u = UserInfo.objects(user__id_str=user_id_str).first()
         attributes.update({
             'title': unicode(attributes['title'].decode('utf-8')),
             'user': u.user,
+            'normalized_url': '',
             'body_html': body_html,
             'body_raw': body_raw,
             'body_truncated': body_truncated,
@@ -222,6 +234,22 @@ class PostHandler(BaseHandler):
         })
 
         post = Post(**attributes)
+
+        # Check for an existing URL
+        normalized_url = attributes.get('url', '')
+        if normalized_url:
+            normalized_url = urlparse(normalized_url)
+            netloc = normalized_url.netloc.split('.')
+            if netloc[0] == 'www':
+                del netloc[0]
+            normalized_url = '%s%s' % ('.'.join(netloc), normalized_url.path)
+            post.normalized_url = normalized_url
+            if not self.get_argument('bypass_dup_check', ''):
+                posts = Post.objects(normalized_url=normalized_url)[:5]
+                if posts:
+                    self.new(post=post, existing_posts=posts)
+                    return
+
         try:
             if self.is_admin():
                 post.save()

@@ -16,5 +16,6 @@ $(document).ready(function() {
 {% end %}
 
 {% block content %}
-    {% module post_form(errors=errors, post=post, classes="", id="submit-form") %}
+    {% module post_form(errors=errors, post=post, classes="", id="submit-form",
+                                                    existing_posts=existing_posts) %}
 {% end %}

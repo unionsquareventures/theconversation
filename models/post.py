@@ -13,7 +13,7 @@ class Post(Document):
     meta = {
         'indexes': ['-date_deleted', 'deleted', '-date_featured',
                             'featured', 'voted_users', 'user.id_str', 'slug',
-                            'slugs', 'url', 'tags'],
+                            'slugs', 'url', 'tags', 'normalized_url'],
     }
 
     # Full text search index
@@ -43,6 +43,7 @@ class Post(Document):
     featured = BooleanField(default=False)
     date_featured = DateTimeField(required=False)
     url = ImprovedURLField(max_length=65000, required=False)
+    normalized_url = ImprovedStringField(max_length=65000, required=False)
     hackpad_url = ImprovedURLField(max_length=65000)
     has_hackpad = BooleanField(default=False)
     body_raw = ImprovedStringField(required=True, min_length=10)
@@ -85,12 +86,6 @@ class Post(Document):
 
     def validate(self, clean=True):
         errors = {}
-
-        url = self._data.get('url', '')
-        if url:
-            post = Post.objects(url=self._data['url']).first()
-            if post and (post.id != self._data['id'] or self._created):
-                errors['url'] = ValidationError('This URL has already been submitted', field_name='url')
 
         hackpad = self._data.get('hackpad_url', '')
         if hackpad and self._data.get('has_hackpad'):
