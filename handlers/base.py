@@ -18,7 +18,7 @@ class BaseHandler(SentryMixin, tornado.web.RequestHandler):
                         'settings': settings,
                         'is_admin': self.is_admin,
                         'is_staff': self.is_staff,
-                        'is_blacklisted': self.current_user_is_blacklisted,
+                        'is_blacklisted': self.current_user_is_blacklisted(),
                         'urlparse': urlparse,
                     }
         user_id_str = self.get_current_user_id_str()

@@ -168,7 +168,7 @@
         <ul class="tabs">
           <li class="{{ 'is-active' if sort_by == 'hot' else '' }}"><a class="sort btn" href="?sort_by=hot">Hot</a></li>
           <li class="{{ 'is-active' if sort_by == 'new' else '' }}"><a class="sort btn" href="?sort_by=new">Newest</a></li>
-          {% if not is_blacklisted(username) %}
+          {% if not is_blacklisted %}
           <li class="submit-btn"><a class="btn btn-primary" role="button"
             data-toggle="modal" href="#submit-modal">Submit a post</a></li>
           {% end %}
