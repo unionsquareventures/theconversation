@@ -191,9 +191,9 @@ class PostHandler(BaseHandler):
         tag_names = attributes.get('tags', '').split(',')
         tag_names = [t.strip().lower() for t in tag_names]
         tag_names = [t for t in tag_names if t]
-        exising_names = [t.name for t in Tag.objects(name__in=tag_names)]
+        existing_names = [t.name for t in Tag.objects(name__in=tag_names)]
         for name in tag_names:
-            if name in exising_names:
+            if name in existing_names:
                 continue
             tag = Tag(name=name)
             tag.save()
@@ -374,9 +374,9 @@ class PostHandler(BaseHandler):
         tag_names = attributes.get('tags', '').split(',')
         tag_names = [t.strip().lower() for t in tag_names]
         tag_names = [t for t in tag_names if t]
-        exising_names = [t.name for t in Tag.objects(name__in=tag_names)]
+        existing_names = [t.name for t in Tag.objects(name__in=tag_names)]
         for name in tag_names:
-            if name in exising_names:
+            if name in existing_names:
                 continue
             tag = Tag(name=name)
             tag.save()
@@ -455,6 +455,7 @@ class PostHandler(BaseHandler):
             'post': post,
             'errors': errors,
             'edit_mode': True,
+            'existing_posts': None,
         })
         self.render('post/new.html', **self.vars)
 
