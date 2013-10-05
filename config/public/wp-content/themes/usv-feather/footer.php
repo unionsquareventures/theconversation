@@ -251,10 +251,10 @@
             var max_height = 0;
             var people_heights = {};
             $('.person').each(function(){
-                /*if ($(this).height() > max_height) {
+                if ($(this).height() > max_height) {
                     max_height = $(this).height();
-                }*/
-                var max_height = $(this).height();
+                }
+                /*var max_height = $(this).height();
                 var $card = $(this);
                 
                 $('.person').each(function() {
@@ -267,6 +267,7 @@
                         
                     }
                 });
+                */
                 $(this).height(max_height);
             });  
             $('.person-container').each(function(){
