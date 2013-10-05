@@ -164,7 +164,10 @@ class PostHandler(BaseHandler):
                 netloc = normalized_url.netloc.split('.')
                 if netloc[0] == 'www':
                     del netloc[0]
-                normalized_url = '%s%s' % ('.'.join(netloc), normalized_url.path)
+                path = normalized_url.path
+                if path and path[-1] == '/':
+                    path = path[:-1]
+                normalized_url = '%s%s' % ('.'.join(netloc), path)
                 post.normalized_url = normalized_url
                 posts = Post.objects(normalized_url=normalized_url)[:5]
                 if posts:
@@ -242,7 +245,10 @@ class PostHandler(BaseHandler):
             netloc = normalized_url.netloc.split('.')
             if netloc[0] == 'www':
                 del netloc[0]
-            normalized_url = '%s%s' % ('.'.join(netloc), normalized_url.path)
+            path = normalized_url.path
+            if path and path[-1] == '/':
+                path = path[:-1]
+            normalized_url = '%s%s' % ('.'.join(netloc), path)
             post.normalized_url = normalized_url
             if not self.get_argument('bypass_dup_check', ''):
                 posts = Post.objects(normalized_url=normalized_url)[:5]
