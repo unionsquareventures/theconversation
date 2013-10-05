@@ -411,6 +411,17 @@ class PostHandler(BaseHandler):
         elif attributes.get('deleted') and post.deleted:
             self.redis_add(post)
 
+        normalized_url = attributes.get('url', '')
+        if normalized_url:
+            normalized_url = urlparse(normalized_url)
+            netloc = normalized_url.netloc.split('.')
+            if netloc[0] == 'www':
+                del netloc[0]
+            path = normalized_url.path
+            if path and path[-1] == '/':
+                path = path[:-1]
+            normalized_url = '%s%s' % ('.'.join(netloc), path)
+
         attributes.update({
             'title': unicode(attributes['title'].decode('utf-8')),
             'user': post.user,
@@ -423,6 +434,7 @@ class PostHandler(BaseHandler):
             'date_featured': date_featured,
             'deleted': True if attributes.get('deleted') else False,
             'tags': tag_names,
+            'normalized_url': normalized_url,
         })
         old_title = post.title
         post.set_fields(**attributes)
