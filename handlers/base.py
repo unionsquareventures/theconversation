@@ -17,6 +17,7 @@ class BaseHandler(SentryMixin, tornado.web.RequestHandler):
                         'settings': settings,
                         'is_admin': self.is_admin,
                         'is_staff': self.is_staff,
+                        'is_blacklisted': self.is_blacklisted,
                         'urlparse': urlparse,
                     }
         user_id_str = self.get_current_user_id_str()
@@ -53,6 +54,11 @@ class BaseHandler(SentryMixin, tornado.web.RequestHandler):
             return True
         return False
 
+    def is_blacklisted(self, username):
+        if username.lower() in settings.blacklist:
+            return True
+        return False
+
     def is_admin(self):
         user_id_str = self.get_current_user_id_str()
         if user_id_str in settings.admin_user_ids:
@@ -64,6 +70,8 @@ class BaseHandler(SentryMixin, tornado.web.RequestHandler):
         if id:
             self.update(id)
         else:
+            if self.is_blacklisted(self.get_current_username()):
+                return(self.write('Your account has been temporarily blocked.  Contact info@usv.com for support.'))
             self.create()
 
     def get(self, id='', action=''):
