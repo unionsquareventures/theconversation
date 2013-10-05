@@ -169,7 +169,7 @@ class PostHandler(BaseHandler):
                     path = path[:-1]
                 normalized_url = '%s%s' % ('.'.join(netloc), path)
                 post.normalized_url = normalized_url
-                posts = Post.objects(normalized_url=normalized_url)[:5]
+                posts = Post.objects(normalized_url=normalized_url, deleted=False)[:5]
                 if posts:
                     existing_posts = posts
 
@@ -251,7 +251,7 @@ class PostHandler(BaseHandler):
             normalized_url = '%s%s' % ('.'.join(netloc), path)
             post.normalized_url = normalized_url
             if not self.get_argument('bypass_dup_check', ''):
-                posts = Post.objects(normalized_url=normalized_url)[:5]
+                posts = Post.objects(normalized_url=normalized_url, deleted=False)[:5]
                 if posts:
                     self.new(post=post, existing_posts=posts)
                     return
