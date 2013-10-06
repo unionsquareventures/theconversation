@@ -21,6 +21,7 @@ from handlers.deleted_posts import DeletedPostsHandler
 from handlers.featured_posts import FeaturedPostsHandler
 from handlers.hackpad import HackpadHandler
 from handlers.delete_user import DeleteUserHandler
+from handlers.blacklist_user import BlacklistUserHandler
 from handlers.search import SearchHandler
 from handlers.old_post import OldPostHandler
 from handlers.email import EmailHandler
@@ -63,6 +64,7 @@ def init_app(bundle=True, auth_passthrough=False):
             (r'/fake_error/?', FakeErrorHandler),
             (r'/delete_user/?', DeleteUserHandler),
             (r'/deleted_posts/?', DeletedPostsHandler),
+            (r'/users/(?P<username>[A-z-+0-9]+)/(?P<action>.*)$', BlacklistUserHandler),
             (r'/featured_posts/?', FeaturedPostsHandler),
             (r'/search/?', SearchHandler),
 

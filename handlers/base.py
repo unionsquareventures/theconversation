@@ -57,11 +57,9 @@ class BaseHandler(SentryMixin, tornado.web.RequestHandler):
         return False
 
     def is_blacklisted(self, username):
-        #if username.lower() in settings.blacklist:
-        #    return True
-        #u = UserInfo.objects.get(user__username=username).first()
-        #if u.user.is_blacklisted:    
-        #    return True
+        u = UserInfo.objects(user__username=username).first()
+        if u.user.is_blacklisted:    
+            return True
         return False
 
     def is_admin(self):
@@ -77,7 +75,7 @@ class BaseHandler(SentryMixin, tornado.web.RequestHandler):
         else:
             self.create()
 
-    def get(self, id='', action=''):
+    def get(self, id='', username='', action=''):
         id_str = self.get_current_user_id_str()
         username = self.get_current_username()
         if id_str and not username:

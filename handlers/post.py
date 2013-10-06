@@ -117,6 +117,7 @@ class PostHandler(BaseHandler):
         post = Post.objects(slugs=id).first()
         if not post:
             raise tornado.web.HTTPError(404)
+        author = UserInfo.objects(user__username=post.user.username).first()
         sso = self.settings['disqus'].get_sso(True, {})
         id_str = self.get_current_user_id_str()
         u = None
@@ -137,7 +138,8 @@ class PostHandler(BaseHandler):
             'disqus_sso': sso,
             'urlparse': urlparse,
             'user_info': u,
-            'subscribe': self.get_argument('subscribe', '')
+            'subscribe': self.get_argument('subscribe', ''),
+            'author': author
         })
         if post.deleted:
             self.render('post/deleted.html', **self.vars)
