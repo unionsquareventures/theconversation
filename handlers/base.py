@@ -72,9 +72,6 @@ class BaseHandler(SentryMixin, tornado.web.RequestHandler):
 
     @tornado.web.authenticated
     def post(self, id='', action=''):
-        if self.current_user_is_blacklisted():
-            return(self.write('Your account has been temporarily blocked.  Contact info@usv.com for support.'))
-    
         if id:
             self.update(id)
         else:
