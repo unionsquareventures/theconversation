@@ -8,6 +8,7 @@ class User(EmbeddedDocument):
     screen_name = StringField(required=True)
     profile_image_url_https = StringField(required=True)
     profile_image_url = StringField(required=True)
+    is_blacklisted = BooleanField(default=False)
 
 class VotedUser(EmbeddedDocument):
     id = StringField(required=True, primary_key=True)
@@ -25,4 +26,3 @@ class UserInfo(Document):
     user = EmbeddedDocumentField(User, required=True)
     access_token = EmbeddedDocumentField(AccessToken, required=True)
     email_address = StringField(required=False)
-    is_blacklisted = BooleanField(default=False)

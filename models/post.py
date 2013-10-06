@@ -69,6 +69,8 @@ class Post(Document):
             if kwargs.has_key(fname):
                 setattr(self, fname, kwargs[fname])
 
+    def permalink(self):
+        return "http://foo.bar/foo"
 
     def save(self, *args, **kwargs):
         self.body_length_limit = kwargs.get('body_length_limit', None)
