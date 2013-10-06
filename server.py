@@ -24,6 +24,7 @@ from handlers.delete_user import DeleteUserHandler
 from handlers.search import SearchHandler
 from handlers.old_post import OldPostHandler
 from handlers.email import EmailHandler
+from handlers.page import PageHandler
 import ui
 from redis import StrictRedis
 from lib.sendgrid import Sendgrid
@@ -66,6 +67,8 @@ def init_app(bundle=True, auth_passthrough=False):
             (r'/search/?', SearchHandler),
 
             (r'/(?P<year>[0-9]+)/(?P<month>[0-9]+)/(?P<slug>[\w\s-]+).php$', OldPostHandler),
+
+            (r'/portfolio$', PageHandler),
 
             (r'/?', PostHandler),
             (r'/posts/?', PostHandler),

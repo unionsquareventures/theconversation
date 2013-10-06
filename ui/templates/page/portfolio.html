@@ -1,0 +1,1570 @@
+{% extends '../base.html' %}
+
+{% block title %}
+	Portfolio | 
+{% end %}
+
+{% block content %}
+	<h1 class="mobile-page-headline">Portfolio</h1>
+
+	<!--<article class="page">
+	<div class="deck" style="padding: 30px 40px !important">
+		USV portfolio companies span sectors and geographies but have one thing in common: they can redefine markets using the power of information, collaboration and the web.
+	</div>
+</article>-->
+
+	<div class="row">
+		<div class="col-lg-3 col-xs-2 hidden-xs">
+
+
+			<div id="portfolio-filter">
+				<p class="" style="white-space:nowrap; margin-top: 0;">By initial investment:</p>
+				<ul class="filter-tabs" id="series">
+					<li class="all active"><a href="#" usv-filter="all">All</a></li><li><a href="#" usv-filter="seed">Seed</a></li><li><a href="#" usv-filter="series-a">Series A</a></li><li><a href="#" usv-filter="series-b">Series B</a></li><li><a href="#" usv-filter="series-c-or-later">Series C (or later)</a></li>
+				</ul>
+				<p class="" style="white-space:nowrap">By year:</p>
+				<ul class="filter-tabs" id="years">
+					<li class="all active"><a href="#" usv-filter="all">All</a></li><li><a href="#" usv-filter="2013">2013</a></li><li><a href="#" usv-filter="2012">2012</a></li><li><a href="#" usv-filter="2011">2011</a></li><li><a href="#" usv-filter="2010">2010</a></li><li><a href="#" usv-filter="2009">2009</a></li><li><a href="#" usv-filter="2008">2008</a></li><li><a href="#" usv-filter="2007">2007</a></li><li><a href="#" usv-filter="2006">2006</a></li><li><a href="#" usv-filter="2005">2005</a></li><li><a href="#" usv-filter="2004">2004</a></li>
+				</ul>
+				<p class="" style="white-space:nowrap">By category:</p>
+				<ul class="filter-tabs" id="categories">
+					<li class="all active"><a href="#" usv-filter="all">All</a></li><li><a href="#" usv-filter="antifraud">Antifraud</a></li><li><a href="#" usv-filter="data">Data</a></li><li><a href="#" usv-filter="environment">Environment</a></li><li><a href="#" usv-filter="trust--safety">Trust &amp; Safety</a></li>
+				</ul>
+				<p class="">By location:</p>
+				<ul class="filter-tabs" id="locations">
+					<li class="all active"><a href="#" usv-filter="all">All</a></li><li><a href="#" usv-filter="berlin">Berlin</a></li><li><a href="#" usv-filter="brooklyn">Brooklyn</a></li><li><a href="#" usv-filter="chicago">Chicago</a></li><li><a href="#" usv-filter="des-moines">Des Moines</a></li><li><a href="#" usv-filter="dusseldorf">Dusseldorf</a></li><li><a href="#" usv-filter="europe">Europe</a></li><li><a href="#" usv-filter="kansas-city">Kansas City</a></li><li><a href="#" usv-filter="london">London</a></li><li><a href="#" usv-filter="new-york">New York</a></li><li><a href="#" usv-filter="palo-alto">Palo Alto</a></li><li><a href="#" usv-filter="philadelphia">Philadelphia</a></li><li><a href="#" usv-filter="pittsburgh">Pittsburgh</a></li><li><a href="#" usv-filter="san-francisco">San Francisco</a></li><li><a href="#" usv-filter="san-mateo">San Mateo</a></li><li><a href="#" usv-filter="toronto">Toronto</a></li><li><a href="#" usv-filter="waterloo">Waterloo</a></li>
+				</ul>
+				</div>
+
+		</div><!-- /col-lg-2 -->
+
+
+
+		<div class="col-md-9 col-xs-12">
+			<!-- NOT IN USE. Div for bio information when clicking on each person -->
+			<div id="full-investment" style="display:none">
+				<div id="full-investment-content"></div>
+				<div id="close-investment"><a href="" class="btn btn-small">Close</a></div>
+			</div>
+
+			<h2 class="subsection section-heading" id="current-portfolio">Current Portfolio<span class="filter-label" style="display:none"></span>
+				</h2>
+			<div class="row investments-list">
+
+				<div class="col-sm-4 col-xs-6 company-container current" usv-investment="Amee" usv:investment_series="Series A" usv:investment_series_slug="series-a" usv:city_slug="london" usv:city="London" usv:investment_date_slug="2008" usv:investment_date="2008" usv:investment_categories_slug="data,environment" usv:investment_categories="Data,Environment">
+					<div class="company">
+						<a class="open-investment" usv-investment="Amee" href="">
+							<!--<img alt="Amee" src="http://localhost:9999/usv.com/feather/wp-content/uploads/amee.gif"  class="logo mt-image-none" style="" width="220" height="150">
+							-->
+						</a>
+						<p class="summary">
+							<a href="">Amee</a>
+							provides access to environmental and business information.
+														<!--<a href="http://localhost:9999/usv.com/feather/investments/amee/" class="btn-continue">More</a>-->
+						</p>
+						<span class="since-date">
+							2008, Series A						</span>
+
+						<!--Added by Z-->
+												<div class="full-investment-shim" style="display:none"></div>
+						<div class="full-investment" style="display:none">
+							<p><a href="http://amee.com">Amee</a>&nbsp;published an environmental score for every business in the UK. The company combines&nbsp;multiple data sources&nbsp;and applies techniques from credit scoring to environmental and business data. Prior to Amee score, environmental data in the UK was available for only a few thousand companies, now there is comprehensive coverage for 2.8 million businesses.</p>
+							<div class="-links">
+																	<a class="blog" href="http://blog.amee.com/">http://blog.amee.com/</a>                                                  
+																							</div>
+						</div>
+
+					</div><!-- /company -->
+				</div><!-- /col-lg-4 -->
+
+				<div class="col-sm-4 col-xs-6 company-container current" usv-investment="Auxmoney" usv:investment_series="Series A" usv:investment_series_slug="series-a" usv:city_slug="dusseldorf-europe" usv:city="Dusseldorf, Europe" usv:investment_date_slug="2012" usv:investment_date="2012" usv:investment_categories_slug="" usv:investment_categories="">
+					<div class="company">
+						<a class="open-investment" usv-investment="Auxmoney" href="">
+							<!--<img alt="Auxmoney" src="http://localhost:9999/usv.com/feather/wp-content/uploads/auxmoney_logo.png"  class="logo mt-image-none" style="" width="220" height="150">
+							-->
+						</a>
+						<p class="summary">
+							<a href="">Auxmoney</a>
+							is Germany’s largest platform for consumer peer-to-peer lending.
+														<!--<a href="http://localhost:9999/usv.com/feather/investments/auxmoney/" class="btn-continue">More</a>-->
+						</p>
+						<span class="since-date">
+							2012, Series A						</span>
+
+						<!--Added by Z-->
+												<div class="full-investment-shim" style="display:none"></div>
+						<div class="full-investment" style="display:none">
+							<p><a href="http://auxmoney.com">Auxmoney</a> is a two-sided, peer-to-peer marketplace for consumer credit. Anyone can invest into the platform, which enables German consumers to seek loans up to 20,000 Euros.</p>
+							<div class="-links">
+																							</div>
+						</div>
+
+					</div><!-- /company -->
+				</div><!-- /col-lg-4 -->
+
+				<div class="col-sm-4 col-xs-6 company-container current" usv-investment="Brewster" usv:investment_series="Seed" usv:investment_series_slug="seed" usv:city_slug="new-york" usv:city="New York" usv:investment_date_slug="2011" usv:investment_date="2011" usv:investment_categories_slug="" usv:investment_categories="">
+					<div class="company">
+						<a class="open-investment" usv-investment="Brewster" href="">
+							<!--<img alt="Brewster" src="http://localhost:9999/usv.com/feather/wp-content/uploads/brewster.png"  class="logo mt-image-none" style="" width="220" height="150">
+							-->
+						</a>
+						<p class="summary">
+							<a href="">Brewster</a>
+							is an address book for the twenty-first century. 
+														<!--<a href="http://localhost:9999/usv.com/feather/investments/brewster/" class="btn-continue">More</a>-->
+						</p>
+						<span class="since-date">
+							2011, Seed						</span>
+
+						<!--Added by Z-->
+												<div class="full-investment-shim" style="display:none"></div>
+						<div class="full-investment" style="display:none">
+							<p><a href="http://www.brewster.com/">Brewster</a>&nbsp;is your personalized address book that replaces the age-old A-to-Z contact list with one that understands your relationships. Brewster re-imagines what an address book should do for you. It shows you who’s trending in your life and who you are losing touch with. It also allows you to search people by anything (name, city, even favorite band!) with quick access to the people you contact the most. The company was founded by Steven Greenwood and is based in New York City.</p>
+							<div class="-links">
+																	<a class="blog" href="http://blog.brewster.com">http://blog.brewster.com</a>                                                  
+																							</div>
+						</div>
+
+					</div><!-- /company -->
+				</div><!-- /col-lg-4 -->
+
+				<div class="col-sm-4 col-xs-6 company-container current" usv-investment="C2FO" usv:investment_series="Series B" usv:investment_series_slug="series-b" usv:city_slug="kansas-city" usv:city="Kansas City" usv:investment_date_slug="2012" usv:investment_date="2012" usv:investment_categories_slug="" usv:investment_categories="">
+					<div class="company">
+						<a class="open-investment" usv-investment="C2FO" href="">
+							<!--<img alt="C2FO" src="http://localhost:9999/usv.com/feather/wp-content/uploads/c2fo_logo_usv.png"  class="logo mt-image-none" style="" width="220" height="150">
+							-->
+						</a>
+						<p class="summary">
+							<a href="">C2FO</a>
+							is a global marketplace for working capital transactions.
+														<!--<a href="http://localhost:9999/usv.com/feather/investments/c2fo/" class="btn-continue">More</a>-->
+						</p>
+						<span class="since-date">
+							2012, Series B						</span>
+
+						<!--Added by Z-->
+												<div class="full-investment-shim" style="display:none"></div>
+						<div class="full-investment" style="display:none">
+							<p><a href="http://www2.pollenware.com/usv_pollenware">C2FO</a>&nbsp;is the global market for working capital and risk-free profit. The C2FO market is the only working capital exchange that allows companies to optimize their working capital positions in a live, bid/ask environment. Companies across the globe use C2FO to increase their gross and net profit while simultaneously producing vital Early Cash Flow Delivery (ECFD) to their supply chain. C2FO is Collaborative Cash Flow Optimization.</p>
+							<div class="-links">
+																	<a class="blog" href="https://c2fo.com/blog/">https://c2fo.com/blog/</a>                                                  
+																							</div>
+						</div>
+
+					</div><!-- /company -->
+				</div><!-- /col-lg-4 -->
+
+				<div class="col-sm-4 col-xs-6 company-container current" usv-investment="Canvas" usv:investment_series="Series A" usv:investment_series_slug="series-a" usv:city_slug="new-york" usv:city="New York" usv:investment_date_slug="2011" usv:investment_date="2011" usv:investment_categories_slug="" usv:investment_categories="">
+					<div class="company">
+						<a class="open-investment" usv-investment="Canvas" href="">
+							<!--<img alt="Canvas" src="http://localhost:9999/usv.com/feather/wp-content/uploads/canvas.png"  class="logo mt-image-none" style="" width="220" height="150">
+							-->
+						</a>
+						<p class="summary">
+							<a href="">Canvas</a>
+							is a community platform for drawing.
+														<!--<a href="http://localhost:9999/usv.com/feather/investments/canvas/" class="btn-continue">More</a>-->
+						</p>
+						<span class="since-date">
+							2011, Series A						</span>
+
+						<!--Added by Z-->
+												<div class="full-investment-shim" style="display:none"></div>
+						<div class="full-investment" style="display:none">
+							<p><a href="http://canv.as/">Canvas</a> is the developer of DrawQuest, a social drawing game for iOS. The company was founded by Christopher Poole.</p>
+							<div class="-links">
+																	<a class="blog" href="http://blog.canv.as/">http://blog.canv.as/</a>                                                  
+																							</div>
+						</div>
+
+					</div><!-- /company -->
+				</div><!-- /col-lg-4 -->
+
+				<div class="col-sm-4 col-xs-6 company-container current" usv-investment="Circleup" usv:investment_series="Series A" usv:investment_series_slug="series-a" usv:city_slug="san-francisco" usv:city="San Francisco" usv:investment_date_slug="2013" usv:investment_date="2013" usv:investment_categories_slug="" usv:investment_categories="">
+					<div class="company">
+						<a class="open-investment" usv-investment="Circleup" href="">
+							<!--<img alt="Circleup" src="http://localhost:9999/usv.com/feather/wp-content/uploads/circleup_logo_220x150.png"  class="logo mt-image-none" style="" width="220" height="150">
+							-->
+						</a>
+						<p class="summary">
+							<a href="">Circleup</a>
+							is a marketplace for investing in consumer products.
+														<!--<a href="http://localhost:9999/usv.com/feather/investments/circleup/" class="btn-continue">More</a>-->
+						</p>
+						<span class="since-date">
+							2013, Series A						</span>
+
+						<!--Added by Z-->
+												<div class="full-investment-shim" style="display:none"></div>
+						<div class="full-investment" style="display:none">
+							<p><a href="http://circleup.com/">CircleUp</a>&nbsp;is an online marketplace where accredited investors find free access to select private investments, easy tools to identify and diligence companies, and online transaction capability to make investments. &nbsp;For entrepreneurs, CircleUp offers an efficient way to access a network of sophisticated investors as well as value-added partners. The company was founded by Ryan Caldbeck and Rory Eakin, and is based in San Francisco, CA.</p>
+							<div class="-links">
+																	<a class="blog" href="https://circleup.com/blog/">https://circleup.com/blog/</a>                                                  
+																							</div>
+						</div>
+
+					</div><!-- /company -->
+				</div><!-- /col-lg-4 -->
+
+				<div class="col-sm-4 col-xs-6 company-container current" usv-investment="Codecademy" usv:investment_series="Series A" usv:investment_series_slug="series-a" usv:city_slug="new-york" usv:city="New York" usv:investment_date_slug="2011" usv:investment_date="2011" usv:investment_categories_slug="" usv:investment_categories="">
+					<div class="company">
+						<a class="open-investment" usv-investment="Codecademy" href="">
+							<!--<img alt="Codecademy" src="http://localhost:9999/usv.com/feather/wp-content/uploads/codecademy.png"  class="logo mt-image-none" style="" width="220" height="150">
+							-->
+						</a>
+						<p class="summary">
+							<a href="">Codecademy</a>
+							is an interactive, web-based curriculum to learn how to code.
+														<!--<a href="http://localhost:9999/usv.com/feather/investments/codecademy/" class="btn-continue">More</a>-->
+						</p>
+						<span class="since-date">
+							2011, Series A						</span>
+
+						<!--Added by Z-->
+												<div class="full-investment-shim" style="display:none"></div>
+						<div class="full-investment" style="display:none">
+							<p><a href="http://www.codecademy.com/">Codecademy</a>&nbsp;was created out of the frustrations Zach Sims and Ryan Bubinski felt with learning how to program. Tired with less effective text and video resources, Ryan and Zach teamed up to create Codecademy, a better, more interactive way to learn programming by actually coding. This is just the beginning. Join us as we make it easy for everyone to love and learn how to code.</p>
+							<div class="-links">
+																	<a class="blog" href="http://www.codecademy.com/blog">http://www.codecademy.com/blog</a>                                                  
+																							</div>
+						</div>
+
+					</div><!-- /company -->
+				</div><!-- /col-lg-4 -->
+
+				<div class="col-sm-4 col-xs-6 company-container current" usv-investment="Coinbase" usv:investment_series="Series A" usv:investment_series_slug="series-a" usv:city_slug="san-francisco" usv:city="San Francisco" usv:investment_date_slug="2013" usv:investment_date="2013" usv:investment_categories_slug="" usv:investment_categories="">
+					<div class="company">
+						<a class="open-investment" usv-investment="Coinbase" href="">
+							<!--<img alt="Coinbase" src="http://localhost:9999/usv.com/feather/wp-content/uploads/coinbase_logo_USV1.png"  class="logo mt-image-none" style="" width="220" height="150">
+							-->
+						</a>
+						<p class="summary">
+							<a href="">Coinbase</a>
+							is an easy-to-use Bitcoin wallet.
+														<!--<a href="http://localhost:9999/usv.com/feather/investments/coinbase/" class="btn-continue">More</a>-->
+						</p>
+						<span class="since-date">
+							2013, Series A						</span>
+
+						<!--Added by Z-->
+												<div class="full-investment-shim" style="display:none"></div>
+						<div class="full-investment" style="display:none">
+							<p><a href="http://coinbase.com/">Coinbase</a>&nbsp;is a platform that makes it easy for consumers and merchants to use the digital currency Bitcoin. This includes ease in buying and selling of Bitcoin, secure storage of Bitcoin in the cloud, and a suite of merchant tools.</p>
+							<div class="-links">
+																	<a class="blog" href="http://blog.coinbase.com/">http://blog.coinbase.com/</a>                                                  
+																							</div>
+						</div>
+
+					</div><!-- /company -->
+				</div><!-- /col-lg-4 -->
+
+				<div class="col-sm-4 col-xs-6 company-container current" usv-investment="Covestor" usv:investment_series="Series A" usv:investment_series_slug="series-a" usv:city_slug="new-york" usv:city="New York" usv:investment_date_slug="2008" usv:investment_date="2008" usv:investment_categories_slug="" usv:investment_categories="">
+					<div class="company">
+						<a class="open-investment" usv-investment="Covestor" href="">
+							<!--<img alt="Covestor" src="http://localhost:9999/usv.com/feather/wp-content/uploads/covestor1.gif"  class="logo mt-image-none" style="" width="220" height="150">
+							-->
+						</a>
+						<p class="summary">
+							<a href="">Covestor</a>
+							is an online investment management platform.
+														<!--<a href="http://localhost:9999/usv.com/feather/investments/covestor/" class="btn-continue">More</a>-->
+						</p>
+						<span class="since-date">
+							2008, Series A						</span>
+
+						<!--Added by Z-->
+												<div class="full-investment-shim" style="display:none"></div>
+						<div class="full-investment" style="display:none">
+							<p><a title="Covestor Investment Management" href="http://www.covestor.com/" target="_blank">Covestor</a>, an SEC-registered investment advisor, provides the world’s largest online Investment Management platform. It offers a managed account service, previously only available to those with millions of dollars invested with a wealth management firm, where you can mirror the trades of successful investors.</p>
+<p>Investors can match the portfolios of a diverse and growing set of highly respected professional money managers, as well as non-professionals with proven track records – with all securities purchased in the clients name and held in custody at an independent broker-dealer.</p>
+<p>Covestor was founded by Rikki Tahta, Perry Blacher and Simon Veingard and has offices in London and New York.</p>
+							<div class="-links">
+																	<a class="blog" href="http://investing.covestor.com/">http://investing.covestor.com/</a>                                                  
+																							</div>
+						</div>
+
+					</div><!-- /company -->
+				</div><!-- /col-lg-4 -->
+
+				<div class="col-sm-4 col-xs-6 company-container current" usv-investment="Disqus" usv:investment_series="Seed" usv:investment_series_slug="seed" usv:city_slug="san-francisco" usv:city="San Francisco" usv:investment_date_slug="2007" usv:investment_date="2007" usv:investment_categories_slug="" usv:investment_categories="">
+					<div class="company">
+						<a class="open-investment" usv-investment="Disqus" href="">
+							<!--<img alt="Disqus" src="http://localhost:9999/usv.com/feather/wp-content/uploads/disqus1.gif"  class="logo mt-image-none" style="" width="220" height="150">
+							-->
+						</a>
+						<p class="summary">
+							<a href="">Disqus</a>
+							builds communities around online comments &amp; discussions. 
+														<!--<a href="http://localhost:9999/usv.com/feather/investments/disqus/" class="btn-continue">More</a>-->
+						</p>
+						<span class="since-date">
+							2007, Seed						</span>
+
+						<!--Added by Z-->
+												<div class="full-investment-shim" style="display:none"></div>
+						<div class="full-investment" style="display:none">
+							<p><a href="http://www.disqus.com/">Disqus</a>&nbsp;gives publishers a better way to manage comments while also making comments more interactive and engaging for readers. Disqus was created by Big Head Labs, which was founded by Daniel Ha and Jason Yan, and is based in San Francisco.</p>
+							<div class="-links">
+																	<a class="blog" href="http://blog.disqus.com/">http://blog.disqus.com/</a>                                                  
+																							</div>
+						</div>
+
+					</div><!-- /company -->
+				</div><!-- /col-lg-4 -->
+
+				<div class="col-sm-4 col-xs-6 company-container current" usv-investment="DuckDuckGo" usv:investment_series="Series A" usv:investment_series_slug="series-a" usv:city_slug="philadelphia" usv:city="Philadelphia" usv:investment_date_slug="2011" usv:investment_date="2011" usv:investment_categories_slug="" usv:investment_categories="">
+					<div class="company">
+						<a class="open-investment" usv-investment="DuckDuckGo" href="">
+							<!--<img alt="DuckDuckGo" src="http://localhost:9999/usv.com/feather/wp-content/uploads/ddg1.png"  class="logo mt-image-none" style="" width="220" height="150">
+							-->
+						</a>
+						<p class="summary">
+							<a href="">DuckDuckGo</a>
+							is a crowd-sourced, clutter-free searching engine. 
+														<!--<a href="http://localhost:9999/usv.com/feather/investments/duckduckgo/" class="btn-continue">More</a>-->
+						</p>
+						<span class="since-date">
+							2011, Series A						</span>
+
+						<!--Added by Z-->
+												<div class="full-investment-shim" style="display:none"></div>
+						<div class="full-investment" style="display:none">
+							<p><a href="http://www.duckduckgo.com/">DuckDuckGo</a>&nbsp;is a general purpose search engine that is intended to be your starting place when searching the Internet.&nbsp;DuckDuckGo was solo-founded by Gabriel Weinberg in February 2008 and is based out of Valley Forge, PA (USA).</p>
+							<div class="-links">
+																	<a class="blog" href="http://duckduckgo.tumblr.com">http://duckduckgo.tumblr.com</a>                                                  
+																							</div>
+						</div>
+
+					</div><!-- /company -->
+				</div><!-- /col-lg-4 -->
+
+				<div class="col-sm-4 col-xs-6 company-container current" usv-investment="Duolingo" usv:investment_series="Series A" usv:investment_series_slug="series-a" usv:city_slug="pittsburgh" usv:city="Pittsburgh" usv:investment_date_slug="2011" usv:investment_date="2011" usv:investment_categories_slug="" usv:investment_categories="">
+					<div class="company">
+						<a class="open-investment" usv-investment="Duolingo" href="">
+							<!--<img alt="Duolingo" src="http://localhost:9999/usv.com/feather/wp-content/uploads/duolingo1.png"  class="logo mt-image-none" style="" width="220" height="150">
+							-->
+						</a>
+						<p class="summary">
+							<a href="">Duolingo</a>
+							is a platform to learn languages while simultaneously translating the web
+														<!--<a href="http://localhost:9999/usv.com/feather/investments/duolingo/" class="btn-continue">More</a>-->
+						</p>
+						<span class="since-date">
+							2011, Series A						</span>
+
+						<!--Added by Z-->
+												<div class="full-investment-shim" style="display:none"></div>
+						<div class="full-investment" style="display:none">
+							<p>With&nbsp;<a href="http://www.duolingo.com/">Duolingo</a>&nbsp;you learn a language for free while helping to translate the Web. Duolingo was started by Luis von Ahn and Severin Hacker in order to remove language barriers and make the Web truly “world wide.”</p>
+							<div class="-links">
+																	<a class="blog" href="http://blog.duolingo.com/">http://blog.duolingo.com/</a>                                                  
+																							</div>
+						</div>
+
+					</div><!-- /company -->
+				</div><!-- /col-lg-4 -->
+
+				<div class="col-sm-4 col-xs-6 company-container current" usv-investment="Dwolla" usv:investment_series="Series B" usv:investment_series_slug="series-b" usv:city_slug="des-moines" usv:city="Des Moines" usv:investment_date_slug="2012" usv:investment_date="2012" usv:investment_categories_slug="" usv:investment_categories="">
+					<div class="company">
+						<a class="open-investment" usv-investment="Dwolla" href="">
+							<!--<img alt="Dwolla" src="http://localhost:9999/usv.com/feather/wp-content/uploads/dwolla1.png"  class="logo mt-image-none" style="" width="220" height="150">
+							-->
+						</a>
+						<p class="summary">
+							<a href="">Dwolla</a>
+							is a web and mobile cash-based network.
+														<!--<a href="http://localhost:9999/usv.com/feather/investments/dwolla/" class="btn-continue">More</a>-->
+						</p>
+						<span class="since-date">
+							2012, Series B						</span>
+
+						<!--Added by Z-->
+												<div class="full-investment-shim" style="display:none"></div>
+						<div class="full-investment" style="display:none">
+							<p><a href="http://dwolla.com">Dwolla</a> is a new payment network that works with your financial institution to offer a cheaper, safer, and overall better payment experience. The company was founded in 2008 by Ben Milne and is based in Des Moines, Iowa.</p>
+							<div class="-links">
+																	<a class="blog" href="http://blog.dwolla.com/">http://blog.dwolla.com/</a>                                                  
+																							</div>
+						</div>
+
+					</div><!-- /company -->
+				</div><!-- /col-lg-4 -->
+
+				<div class="col-sm-4 col-xs-6 company-container current" usv-investment="Edmodo" usv:investment_series="Series A" usv:investment_series_slug="series-a" usv:city_slug="san-mateo" usv:city="San Mateo" usv:investment_date_slug="2010" usv:investment_date="2010" usv:investment_categories_slug="" usv:investment_categories="">
+					<div class="company">
+						<a class="open-investment" usv-investment="Edmodo" href="">
+							<!--<img alt="Edmodo" src="http://localhost:9999/usv.com/feather/wp-content/uploads/edmodo1.gif"  class="logo mt-image-none" style="" width="220" height="150">
+							-->
+						</a>
+						<p class="summary">
+							<a href="">Edmodo</a>
+							is a social learning network for teachers, students, schools, and districts
+														<!--<a href="http://localhost:9999/usv.com/feather/investments/edmodo/" class="btn-continue">More</a>-->
+						</p>
+						<span class="since-date">
+							2010, Series A						</span>
+
+						<!--Added by Z-->
+												<div class="full-investment-shim" style="display:none"></div>
+						<div class="full-investment" style="display:none">
+							<p><a href="http://www.edmodo.com/">Edmodo</a>&nbsp;is a social learning network for teachers, students, schools and districts. Edmodo provides free classroom communication for teachers, students and administrators on a secure social network.</p>
+<p>Started in 2008, Edmodo was created by two school district web professionals who teamed up with education experts to address the demands of teachers and students seeking a secure social network for classroom use. Edmodo is based in Mountain View, California.</p>
+							<div class="-links">
+																	<a class="blog" href="http://blog.edmodo.com/">http://blog.edmodo.com/</a>                                                  
+																							</div>
+						</div>
+
+					</div><!-- /company -->
+				</div><!-- /col-lg-4 -->
+
+				<div class="col-sm-4 col-xs-6 company-container current" usv-investment="Etsy" usv:investment_series="Seed" usv:investment_series_slug="seed" usv:city_slug="brooklyn" usv:city="Brooklyn" usv:investment_date_slug="2007" usv:investment_date="2007" usv:investment_categories_slug="" usv:investment_categories="">
+					<div class="company">
+						<a class="open-investment" usv-investment="Etsy" href="">
+							<!--<img alt="Etsy" src="http://localhost:9999/usv.com/feather/wp-content/uploads/etsy1.gif"  class="logo mt-image-none" style="" width="220" height="150">
+							-->
+						</a>
+						<p class="summary">
+							<a href="">Etsy</a>
+							is an online marketplace for creative products made and sold by artisanal businesses.
+														<!--<a href="http://localhost:9999/usv.com/feather/investments/etsy/" class="btn-continue">More</a>-->
+						</p>
+						<span class="since-date">
+							2007, Seed						</span>
+
+						<!--Added by Z-->
+												<div class="full-investment-shim" style="display:none"></div>
+						<div class="full-investment" style="display:none">
+							<p><a href="http://www.etsy.com/">Etsy</a>&nbsp;is an online marketplace which focuses primarily on buying and selling handmade items. The site was launched in June of 2005 and the company is based in Brooklyn, NY. Etsy grants sellers their own personal storefronts where they may list items for a small fee and showcase their handcrafted goods.</p>
+							<div class="-links">
+																	<a class="blog" href="http://www.etsy.com/blog/en/">http://www.etsy.com/blog/en/</a>                                                  
+																							</div>
+						</div>
+
+					</div><!-- /company -->
+				</div><!-- /col-lg-4 -->
+
+				<div class="col-sm-4 col-xs-6 company-container current" usv-investment="Firebase" usv:investment_series="Series A" usv:investment_series_slug="series-a" usv:city_slug="san-francisco" usv:city="San Francisco" usv:investment_date_slug="2013" usv:investment_date="2013" usv:investment_categories_slug="" usv:investment_categories="">
+					<div class="company">
+						<a class="open-investment" usv-investment="Firebase" href="">
+							<!--<img alt="Firebase" src="http://localhost:9999/usv.com/feather/wp-content/uploads/Firebase_logo1.png"  class="logo mt-image-none" style="" width="220" height="150">
+							-->
+						</a>
+						<p class="summary">
+							<a href="">Firebase</a>
+							is a scalable real-time backend.
+														<!--<a href="http://localhost:9999/usv.com/feather/investments/firebase/" class="btn-continue">More</a>-->
+						</p>
+						<span class="since-date">
+							2013, Series A						</span>
+
+						<!--Added by Z-->
+												<div class="full-investment-shim" style="display:none"></div>
+						<div class="full-investment" style="display:none">
+							<p><a href="http://firebase.com/" target="_blank">Firebase</a>&nbsp;is a realtime backend. It lets developers build apps without needing servers or databases. Firebase works by synchronizing app data between users in the same way Dropbox synchronizes files.</p>
+							<div class="-links">
+																	<a class="blog" href="https://www.firebase.com/blog/">https://www.firebase.com/blog/</a>                                                  
+																							</div>
+						</div>
+
+					</div><!-- /company -->
+				</div><!-- /col-lg-4 -->
+
+				<div class="col-sm-4 col-xs-6 company-container current" usv-investment="Flurry" usv:investment_series="Seed" usv:investment_series_slug="seed" usv:city_slug="san-francisco" usv:city="San Francisco" usv:investment_date_slug="2008" usv:investment_date="2008" usv:investment_categories_slug="" usv:investment_categories="">
+					<div class="company">
+						<a class="open-investment" usv-investment="Flurry" href="">
+							<!--<img alt="Flurry" src="http://localhost:9999/usv.com/feather/wp-content/uploads/flurry1.gif"  class="logo mt-image-none" style="" width="220" height="150">
+							-->
+						</a>
+						<p class="summary">
+							<a href="">Flurry</a>
+							is a suite of tools and services for mobile application developers
+														<!--<a href="http://localhost:9999/usv.com/feather/investments/flurry/" class="btn-continue">More</a>-->
+						</p>
+						<span class="since-date">
+							2008, Seed						</span>
+
+						<!--Added by Z-->
+												<div class="full-investment-shim" style="display:none"></div>
+						<div class="full-investment" style="display:none">
+							<p><a title="Flurry" href="http://www.flurry.com/" target="_blank">Flurry</a>&nbsp;offers cutting-edge analytics, deployment and monetization tools for mobile application developers. Its services platform is offered free to application developers allowing them to better save money, increase revenues and improve their products. Flurry’s platform is built by developers for developers, based on its pioneering experience as one the first developers to build, deploy and market direct-to-consumer applications.</p>
+							<div class="-links">
+																	<a class="blog" href="http://blog.flurry.com/">http://blog.flurry.com/</a>                                                  
+																							</div>
+						</div>
+
+					</div><!-- /company -->
+				</div><!-- /col-lg-4 -->
+
+				<div class="col-sm-4 col-xs-6 company-container current" usv-investment="Foursquare" usv:investment_series="Seed" usv:investment_series_slug="seed" usv:city_slug="new-york" usv:city="New York" usv:investment_date_slug="2009" usv:investment_date="2009" usv:investment_categories_slug="" usv:investment_categories="">
+					<div class="company">
+						<a class="open-investment" usv-investment="Foursquare" href="">
+							<!--<img alt="Foursquare" src="http://localhost:9999/usv.com/feather/wp-content/uploads/foursquare1.gif"  class="logo mt-image-none" style="" width="220" height="150">
+							-->
+						</a>
+						<p class="summary">
+							<a href="">Foursquare</a>
+							is a mobile application that helps users explore their city.
+														<!--<a href="http://localhost:9999/usv.com/feather/investments/foursquare/" class="btn-continue">More</a>-->
+						</p>
+						<span class="since-date">
+							2009, Seed						</span>
+
+						<!--Added by Z-->
+												<div class="full-investment-shim" style="display:none"></div>
+						<div class="full-investment" style="display:none">
+							<p><a href="http://www.foursquare.com/">Foursquare</a>&nbsp;is a mobile application that helps you find new ways to explore your city. foursquare helps you meet up with your friends and lets you earn points and unlock badges for discovering new places, doing new things and meeting new people. The company was founded by Dennis Crowley and Naveen Selvadurai and is based in New York City.</p>
+							<div class="-links">
+																	<a class="blog" href="http://blog.foursquare.com/">http://blog.foursquare.com/</a>                                                  
+																							</div>
+						</div>
+
+					</div><!-- /company -->
+				</div><!-- /col-lg-4 -->
+
+				<div class="col-sm-4 col-xs-6 company-container current" usv-investment="Funding Circle" usv:investment_series="Series B" usv:investment_series_slug="series-b" usv:city_slug="london" usv:city="London" usv:investment_date_slug="2012" usv:investment_date="2012" usv:investment_categories_slug="" usv:investment_categories="">
+					<div class="company">
+						<a class="open-investment" usv-investment="Funding Circle" href="">
+							<!--<img alt="Funding Circle" src="http://localhost:9999/usv.com/feather/wp-content/uploads/fundingcircle1.png"  class="logo mt-image-none" style="" width="220" height="150">
+							-->
+						</a>
+						<p class="summary">
+							<a href="">Funding Circle</a>
+							is a marketplace for small business loans
+														<!--<a href="http://localhost:9999/usv.com/feather/investments/funding-circle/" class="btn-continue">More</a>-->
+						</p>
+						<span class="since-date">
+							2012, Series B						</span>
+
+						<!--Added by Z-->
+												<div class="full-investment-shim" style="display:none"></div>
+						<div class="full-investment" style="display:none">
+							<p><a href="http://fundingcircle.com/">Funding Circle</a>&nbsp;is an online marketplace to help businesses find fast finance, and investors get better returns. There are no middlemen, no banks, and no lengthy delays. Instead, it’s an open exchange with detailed real-time information, empowering you to choose the best deal for your needs. The company was co-founded by Samir Desai, James Meekings and Andrew Mullinger in 2010 and is based in London.</p>
+							<div class="-links">
+																	<a class="blog" href="http://www.fundingcircle.com/blog/">http://www.fundingcircle.com/blog/</a>                                                  
+																							</div>
+						</div>
+
+					</div><!-- /company -->
+				</div><!-- /col-lg-4 -->
+
+				<div class="col-sm-4 col-xs-6 company-container current" usv-investment="GetGlue" usv:investment_series="Series A" usv:investment_series_slug="series-a" usv:city_slug="new-york" usv:city="New York" usv:investment_date_slug="2007" usv:investment_date="2007" usv:investment_categories_slug="" usv:investment_categories="">
+					<div class="company">
+						<a class="open-investment" usv-investment="GetGlue" href="">
+							<!--<img alt="GetGlue" src="http://localhost:9999/usv.com/feather/wp-content/uploads/ggwide1.jpg"  class="logo mt-image-none" style="" width="220" height="150">
+							-->
+						</a>
+						<p class="summary">
+							<a href="">GetGlue</a>
+							is a social network for entertainment
+														<!--<a href="http://localhost:9999/usv.com/feather/investments/getglue/" class="btn-continue">More</a>-->
+						</p>
+						<span class="since-date">
+							2007, Series A						</span>
+
+						<!--Added by Z-->
+												<div class="full-investment-shim" style="display:none"></div>
+						<div class="full-investment" style="display:none">
+							<p><a href="http://getglue.com/">GetGlue</a>&nbsp;is a social network for entertainment, with more than 10M new unique ratings and check-ins for tv shows, movies, music and books every month. GetGlue users rate and check-in to things they like to get recommendations and earn rewards.</p>
+<p>The GetGlue mobile app enables users to check-in to TV shows, movies, music and books, plus see what their friends are consuming in real-time. On GetGlue.com users can quickly build up their taste profile, get fresh suggestions every week, browse top lists and find taste neighbors.</p>
+<p>The company was founded in 2006 by Alex Iskold under the name Adaptive Blue. Alex is the founder of Information Laboratory (acquired by IBM) and a contributor at&nbsp;<a href="http://readwriteweb.com/">Read/Write Web</a>.</p>
+							<div class="-links">
+																	<a class="blog" href="http://blog.getglue.com/">http://blog.getglue.com/</a>                                                  
+																							</div>
+						</div>
+
+					</div><!-- /company -->
+				</div><!-- /col-lg-4 -->
+
+				<div class="col-sm-4 col-xs-6 company-container current" usv-investment="Hailo" usv:investment_series="Series C (or later)" usv:investment_series_slug="series-c-or-later" usv:city_slug="london" usv:city="London" usv:investment_date_slug="2012" usv:investment_date="2012" usv:investment_categories_slug="" usv:investment_categories="">
+					<div class="company">
+						<a class="open-investment" usv-investment="Hailo" href="">
+							<!--<img alt="Hailo" src="http://localhost:9999/usv.com/feather/wp-content/uploads/Hailo-Logo-220x150b1.jpg"  class="logo mt-image-none" style="" width="220" height="150">
+							-->
+						</a>
+						<p class="summary">
+							<a href="">Hailo</a>
+							is a mobile application for taxi e-hailing.
+														<!--<a href="http://localhost:9999/usv.com/feather/investments/hailo/" class="btn-continue">More</a>-->
+						</p>
+						<span class="since-date">
+							2012, Series C (or later)						</span>
+
+						<!--Added by Z-->
+												<div class="full-investment-shim" style="display:none"></div>
+						<div class="full-investment" style="display:none">
+							<p>Founded by three taxi drivers and three internet entrepreneurs,&nbsp;<a href="http://hailocab.com/" target="_blank">Hailo</a>&nbsp;is a mobile application and taxi driver community that enables passengers to hail a licensed taxi with just two taps on their smartphone. They can watch in real-time as their cab approaches and register a card for a cashless personal transport experience. For taxi drivers, the Hailo app helps makes their shifts more profitable, efficient and social. Launched in November 2011, Hailo is available in London, Dublin, Toronto, Chicago &amp; Boston – and coming next to New York, Barcelona, Madrid, Washington DC and Tokyo.</p>
+							<div class="-links">
+																	<a class="blog" href="https://hailocab.com/blog">https://hailocab.com/blog</a>                                                  
+																							</div>
+						</div>
+
+					</div><!-- /company -->
+				</div><!-- /col-lg-4 -->
+
+				<div class="col-sm-4 col-xs-6 company-container current" usv-investment="Heyzap" usv:investment_series="Seed" usv:investment_series_slug="seed" usv:city_slug="san-francisco" usv:city="San Francisco" usv:investment_date_slug="2009" usv:investment_date="2009" usv:investment_categories_slug="" usv:investment_categories="">
+					<div class="company">
+						<a class="open-investment" usv-investment="Heyzap" href="">
+							<!--<img alt="Heyzap" src="http://localhost:9999/usv.com/feather/wp-content/uploads/heyzap1.gif"  class="logo mt-image-none" style="" width="220" height="150">
+							-->
+						</a>
+						<p class="summary">
+							<a href="">Heyzap</a>
+							is a mobile application and advertising network to discover new mobile games
+														<!--<a href="http://localhost:9999/usv.com/feather/investments/heyzap/" class="btn-continue">More</a>-->
+						</p>
+						<span class="since-date">
+							2009, Seed						</span>
+
+						<!--Added by Z-->
+												<div class="full-investment-shim" style="display:none"></div>
+						<div class="full-investment" style="display:none">
+							<p><a href="http://www.heyzap.com/">Heyzap</a>&nbsp;is building the largest community of mobile gamers. Heyzap was founded by Jude Gomila and Immad Akhund in January 2009 and is based in San Francisco, CA.</p>
+							<div class="-links">
+																	<a class="blog" href="http://blog.heyzap.com/">http://blog.heyzap.com/</a>                                                  
+																							</div>
+						</div>
+
+					</div><!-- /company -->
+				</div><!-- /col-lg-4 -->
+
+				<div class="col-sm-4 col-xs-6 company-container current" usv-investment="Kickstarter" usv:investment_series="Series A" usv:investment_series_slug="series-a" usv:city_slug="brooklyn" usv:city="Brooklyn" usv:investment_date_slug="2009" usv:investment_date="2009" usv:investment_categories_slug="" usv:investment_categories="">
+					<div class="company">
+						<a class="open-investment" usv-investment="Kickstarter" href="">
+							<!--<img alt="Kickstarter" src="http://localhost:9999/usv.com/feather/wp-content/uploads/kickstarter.jpg"  class="logo mt-image-none" style="" width="220" height="150">
+							-->
+						</a>
+						<p class="summary">
+							<a href="">Kickstarter</a>
+							is a platform for funding creative projects.
+														<!--<a href="http://localhost:9999/usv.com/feather/investments/kickstarter/" class="btn-continue">More</a>-->
+						</p>
+						<span class="since-date">
+							2009, Series A						</span>
+
+						<!--Added by Z-->
+												<div class="full-investment-shim" style="display:none"></div>
+						<div class="full-investment" style="display:none">
+							<p><a href="http://www.kickstarter.com/">Kickstarter</a>&nbsp;is a platform for funding creative projects from the worlds of music, film, art, technology, design, food, publishing and more. The site was launched in late April 2009, and the company is based in New York City.</p>
+							<div class="-links">
+																	<a class="blog" href="http://www.kickstarter.com/blog">http://www.kickstarter.com/blog</a>                                                  
+																							</div>
+						</div>
+
+					</div><!-- /company -->
+				</div><!-- /col-lg-4 -->
+
+				<div class="col-sm-4 col-xs-6 company-container current" usv-investment="Kik" usv:investment_series="Series A" usv:investment_series_slug="series-a" usv:city_slug="waterloo" usv:city="Waterloo" usv:investment_date_slug="2011" usv:investment_date="2011" usv:investment_categories_slug="" usv:investment_categories="">
+					<div class="company">
+						<a class="open-investment" usv-investment="Kik" href="">
+							<!--<img alt="Kik" src="http://localhost:9999/usv.com/feather/wp-content/uploads/kik1.gif"  class="logo mt-image-none" style="" width="220" height="150">
+							-->
+						</a>
+						<p class="summary">
+							<a href="">Kik</a>
+							is a real-time mobile messaging application.
+														<!--<a href="http://localhost:9999/usv.com/feather/investments/kik/" class="btn-continue">More</a>-->
+						</p>
+						<span class="since-date">
+							2011, Series A						</span>
+
+						<!--Added by Z-->
+												<div class="full-investment-shim" style="display:none"></div>
+						<div class="full-investment" style="display:none">
+							<p><a href="http://kik.com/">Kik Interactive</a>&nbsp;is all about sharing and connecting. Kik Messenger is a cross-platform application that allows real-time instant messaging for individuals and groups, as well as photo sharing. Kik was created by a team of students at the University of Waterloo and was launched in October 2010 to unprecedented success. Today, more than three million people around the world are enjoying Kik Messenger. Kik Interactive is based in Waterloo, Ontario.</p>
+							<div class="-links">
+																	<a class="blog" href="http://kik.com/blog/">http://kik.com/blog/</a>                                                  
+																							</div>
+						</div>
+
+					</div><!-- /company -->
+				</div><!-- /col-lg-4 -->
+
+				<div class="col-sm-4 col-xs-6 company-container current" usv-investment="Kitchensurfing" usv:investment_series="Series A" usv:investment_series_slug="series-a" usv:city_slug="brooklyn" usv:city="Brooklyn" usv:investment_date_slug="2013" usv:investment_date="2013" usv:investment_categories_slug="" usv:investment_categories="">
+					<div class="company">
+						<a class="open-investment" usv-investment="Kitchensurfing" href="">
+							<!--<img alt="Kitchensurfing" src="http://localhost:9999/usv.com/feather/wp-content/uploads/kitchensurfing1.png"  class="logo mt-image-none" style="" width="220" height="150">
+							-->
+						</a>
+						<p class="summary">
+							<a href="">Kitchensurfing</a>
+							is a marketplace of private chefs
+														<!--<a href="http://localhost:9999/usv.com/feather/investments/kitchensurfing/" class="btn-continue">More</a>-->
+						</p>
+						<span class="since-date">
+							2013, Series A						</span>
+
+						<!--Added by Z-->
+												<div class="full-investment-shim" style="display:none"></div>
+						<div class="full-investment" style="display:none">
+							<p>Launched in March of 2012,&nbsp;<a href="http://kitchensurfing.com/">Kitchensurfing</a>&nbsp;is an online marketplace that connects cooks of all kinds with people who love to eat. Whether it’s dinner for two or dim sum for two hundred, the chef makes the meal.</p>
+							<div class="-links">
+																	<a class="blog" href="http://blog.kitchensurfing.com/">http://blog.kitchensurfing.com/</a>                                                  
+																							</div>
+						</div>
+
+					</div><!-- /company -->
+				</div><!-- /col-lg-4 -->
+
+				<div class="col-sm-4 col-xs-6 company-container current" usv-investment="Lending Club" usv:investment_series="Series C (or later)" usv:investment_series_slug="series-c-or-later" usv:city_slug="san-francisco" usv:city="San Francisco" usv:investment_date_slug="2011" usv:investment_date="2011" usv:investment_categories_slug="" usv:investment_categories="">
+					<div class="company">
+						<a class="open-investment" usv-investment="Lending Club" href="">
+							<!--<img alt="Lending Club" src="http://localhost:9999/usv.com/feather/wp-content/uploads/lendingclub1.gif"  class="logo mt-image-none" style="" width="220" height="150">
+							-->
+						</a>
+						<p class="summary">
+							<a href="">Lending Club</a>
+							an online marketplace for creditworthy borrowers and savvy investors
+														<!--<a href="http://localhost:9999/usv.com/feather/investments/lending-club/" class="btn-continue">More</a>-->
+						</p>
+						<span class="since-date">
+							2011, Series C (or later)						</span>
+
+						<!--Added by Z-->
+												<div class="full-investment-shim" style="display:none"></div>
+						<div class="full-investment" style="display:none">
+							<p><a href="http://www.lendingclub.com/">Lending Club</a>&nbsp;is an online financial community that brings together creditworthy borrowers and savvy investors so that both can benefit financially. Lending Club opened in 2007 with one simple mission: create an alternative to banks that offers both borrowers and investors a great rate. The company was founded by Renaud Laplanche and is based in San Francisco, CA.</p>
+							<div class="-links">
+																	<a class="blog" href="http://blog.lendingclub.com/">http://blog.lendingclub.com/</a>                                                  
+																							</div>
+						</div>
+
+					</div><!-- /company -->
+				</div><!-- /col-lg-4 -->
+
+				<div class="col-sm-4 col-xs-6 company-container current" usv-investment="Meetup" usv:investment_series="Series C (or later)" usv:investment_series_slug="series-c-or-later" usv:city_slug="new-york" usv:city="New York" usv:investment_date_slug="2008" usv:investment_date="2008" usv:investment_categories_slug="" usv:investment_categories="">
+					<div class="company">
+						<a class="open-investment" usv-investment="Meetup" href="">
+							<!--<img alt="Meetup" src="http://localhost:9999/usv.com/feather/wp-content/uploads/meetup1.gif"  class="logo mt-image-none" style="" width="220" height="150">
+							-->
+						</a>
+						<p class="summary">
+							<a href="">Meetup</a>
+							is a network of local groups
+														<!--<a href="http://localhost:9999/usv.com/feather/investments/meetup/" class="btn-continue">More</a>-->
+						</p>
+						<span class="since-date">
+							2008, Series C (or later)						</span>
+
+						<!--Added by Z-->
+												<div class="full-investment-shim" style="display:none"></div>
+						<div class="full-investment" style="display:none">
+							<p><a href="http://www.meetup.com/">Meetup</a>&nbsp;is the world’s largest network of local groups. Meetup makes it easy for anyone to organize a local group or find one of the thousands already meeting up face-to-face. More than 2,000 groups get together in local communities each day, each one with the goal of improving themselves or their communities.</p>
+							<div class="-links">
+																	<a class="blog" href="http://meetupblog.meetup.com/">http://meetupblog.meetup.com/</a>                                                  
+																							</div>
+						</div>
+
+					</div><!-- /company -->
+				</div><!-- /col-lg-4 -->
+
+				<div class="col-sm-4 col-xs-6 company-container current" usv-investment="MongoDB" usv:investment_series="Series A" usv:investment_series_slug="series-a" usv:city_slug="new-york" usv:city="New York" usv:investment_date_slug="2008" usv:investment_date="2008" usv:investment_categories_slug="" usv:investment_categories="">
+					<div class="company">
+						<a class="open-investment" usv-investment="MongoDB" href="">
+							<!--<img alt="MongoDB" src="http://localhost:9999/usv.com/feather/wp-content/uploads/MongoDB_Logo_BrownBackground_220x150.png"  class="logo mt-image-none" style="" width="220" height="150">
+							-->
+						</a>
+						<p class="summary">
+							<a href="">MongoDB</a>
+							sponsors the open source MongoDB project, and provides commercial support for MongoDB.
+														<!--<a href="http://localhost:9999/usv.com/feather/investments/mongodb/" class="btn-continue">More</a>-->
+						</p>
+						<span class="since-date">
+							2008, Series A						</span>
+
+						<!--Added by Z-->
+												<div class="full-investment-shim" style="display:none"></div>
+						<div class="full-investment" style="display:none">
+							<p><a href="http://mongodb.com">MongoDB</a> (from&nbsp;<em>humongous</em>) is reinventing data management and powering&nbsp;<a href="http://www.mongodb.com/solutions/big-data" target="_blank">big data</a>&nbsp;as the&nbsp;<a href="http://www.mongodb.com/leading-nosql-database" target="_blank">leading NoSQL database</a>. Designed for how we build and run applications today, it empowers organizations to be more agile and scalable. MongoDB enables new types of applications, better customer experience, faster time to market and lower costs. It has a thriving global community with over 4 million downloads, 100,000 online education registrations, 20,000 user group members and 20,000 MongoDB Days attendees. The company has more than 600 customers, including many of the world’s largest organizations.</p>
+							<div class="-links">
+																	<a class="blog" href="http://www.mongodb.com/blog">http://www.mongodb.com/blog</a>                                                  
+																							</div>
+						</div>
+
+					</div><!-- /company -->
+				</div><!-- /col-lg-4 -->
+
+				<div class="col-sm-4 col-xs-6 company-container current" usv-investment="Return Path" usv:investment_series="Series C (or later)" usv:investment_series_slug="series-c-or-later" usv:city_slug="new-york" usv:city="New York" usv:investment_date_slug="2008" usv:investment_date="2008" usv:investment_categories_slug="" usv:investment_categories="">
+					<div class="company">
+						<a class="open-investment" usv-investment="Return Path" href="">
+							<!--<img alt="Return Path" src="http://localhost:9999/usv.com/feather/wp-content/uploads/returnpath1.gif"  class="logo mt-image-none" style="" width="220" height="150">
+							-->
+						</a>
+						<p class="summary">
+							<a href="">Return Path</a>
+							is building email intelligence products and services
+														<!--<a href="http://localhost:9999/usv.com/feather/investments/return-path/" class="btn-continue">More</a>-->
+						</p>
+						<span class="since-date">
+							2008, Series C (or later)						</span>
+
+						<!--Added by Z-->
+												<div class="full-investment-shim" style="display:none"></div>
+						<div class="full-investment" style="display:none">
+							<p><a href="http://www.returnpath.net/">Return Path</a>&nbsp;works to make email work better. We believe that email marketing doesn’t have to be a war between marketers and consumers, that it was possible to do more while sending less, that the smartest email solutions are the ones that not only impact your bottom line in the short term but also benefit your reputation for the long term.</p>
+<p>We are the world’s leader in email certification and scoring. If you’re a marketer or publisher we can help you get through to your audience – not by sneaking around email spam filters but by using them to your advantage. If you’re an ISP or other email receiver, we can help you distinguish valuable messages from junk mail – not by outgunning the spammers, but by outsmarting them. &nbsp;With all of our services we help subscribers have a better experience with email by helping to reduce their exposure to spam, phishing and other malicious messages.</p>
+<p>Email is still the killer app. Return Path intends to keep it that way.</p>
+							<div class="-links">
+																	<a class="blog" href="http://blog.returnpath.com/">http://blog.returnpath.com/</a>                                                  
+																							</div>
+						</div>
+
+					</div><!-- /company -->
+				</div><!-- /col-lg-4 -->
+
+				<div class="col-sm-4 col-xs-6 company-container current" usv-investment="Science Exchange" usv:investment_series="Series A" usv:investment_series_slug="series-a" usv:city_slug="palo-alto" usv:city="Palo Alto" usv:investment_date_slug="2013" usv:investment_date="2013" usv:investment_categories_slug="" usv:investment_categories="">
+					<div class="company">
+						<a class="open-investment" usv-investment="Science Exchange" href="">
+							<!--<img alt="Science Exchange" src="http://localhost:9999/usv.com/feather/wp-content/uploads/science_exchange_logo1.png"  class="logo mt-image-none" style="" width="220" height="150">
+							-->
+						</a>
+						<p class="summary">
+							<a href="">Science Exchange</a>
+							is an online marketplace for scientific services.
+														<!--<a href="http://localhost:9999/usv.com/feather/investments/science-exchange/" class="btn-continue">More</a>-->
+						</p>
+						<span class="since-date">
+							2013, Series A						</span>
+
+						<!--Added by Z-->
+												<div class="full-investment-shim" style="display:none"></div>
+						<div class="full-investment" style="display:none">
+							<p><a href="http://scienceexchange.com">Science Exchange</a> is a community marketplace for scientists to list, discover, access and pay for scientific services from institutions around the world. Science Exchange was created by a passionate group of scientists and technologists to address the challenges of accessing scientific expertise and establishing scientific collaborations. Our goal is to make it easy for researchers to order experimental services from a global network of scientific experts by bringing together the best scientific service providers at one convenient site.</p>
+							<div class="-links">
+																	<a class="blog" href="http://blog.scienceexchange.com/">http://blog.scienceexchange.com/</a>                                                  
+																							</div>
+						</div>
+
+					</div><!-- /company -->
+				</div><!-- /col-lg-4 -->
+
+				<div class="col-sm-4 col-xs-6 company-container current" usv-investment="Shapeways" usv:investment_series="Series A" usv:investment_series_slug="series-a" usv:city_slug="new-york" usv:city="New York" usv:investment_date_slug="2010" usv:investment_date="2010" usv:investment_categories_slug="" usv:investment_categories="">
+					<div class="company">
+						<a class="open-investment" usv-investment="Shapeways" href="">
+							<!--<img alt="Shapeways" src="http://localhost:9999/usv.com/feather/wp-content/uploads/shapeways1.png"  class="logo mt-image-none" style="" width="220" height="150">
+							-->
+						</a>
+						<p class="summary">
+							<a href="">Shapeways</a>
+							is an online marketplace for 3D printed goods.
+														<!--<a href="http://localhost:9999/usv.com/feather/investments/shapeways/" class="btn-continue">More</a>-->
+						</p>
+						<span class="since-date">
+							2010, Series A						</span>
+
+						<!--Added by Z-->
+												<div class="full-investment-shim" style="display:none"></div>
+						<div class="full-investment" style="display:none">
+							<p><a href="http://www.shapeways.com/" target="_blank">Shapeways</a>&nbsp;is the world’s leading 3D printing marketplace and community. The startup harnesses 3D printing to help anyone make and share their designs with the world, making product design more accessible, personal, and inspiring. Shapeways prints everything on-demand, which means that every order is customized and personalized. By providing a platform for community members to gain access to cutting edge 3D printing technology, Shapeways is democratizing creation for everyone.</p>
+							<div class="-links">
+																	<a class="blog" href="http://www.shapeways.com/blog/">http://www.shapeways.com/blog/</a>                                                  
+																							</div>
+						</div>
+
+					</div><!-- /company -->
+				</div><!-- /col-lg-4 -->
+
+				<div class="col-sm-4 col-xs-6 company-container current" usv-investment="Sift Science" usv:investment_series="Series A" usv:investment_series_slug="series-a" usv:city_slug="san-francisco" usv:city="San Francisco" usv:investment_date_slug="2012" usv:investment_date="2012" usv:investment_categories_slug="antifraud,trust--safety" usv:investment_categories="Antifraud,Trust &amp; Safety">
+					<div class="company">
+						<a class="open-investment" usv-investment="Sift Science" href="">
+							<!--<img alt="Sift Science" src="http://localhost:9999/usv.com/feather/wp-content/uploads/sift.png"  class="logo mt-image-none" style="" width="220" height="150">
+							-->
+						</a>
+						<p class="summary">
+							<a href="">Sift Science</a>
+							detects fraud in payments.
+														<!--<a href="http://localhost:9999/usv.com/feather/investments/sift-science/" class="btn-continue">More</a>-->
+						</p>
+						<span class="since-date">
+							2012, Series A						</span>
+
+						<!--Added by Z-->
+												<div class="full-investment-shim" style="display:none"></div>
+						<div class="full-investment" style="display:none">
+							<p><a href="http://www.siftscience.com/">Sift Science</a>&nbsp;uses advanced machine learning to predict various types of payments fraud, such as when a user will be likely to cause a chargeback because of a stolen identity.</p>
+							<div class="-links">
+																	<a class="blog" href="http://blog.siftscience.com/">http://blog.siftscience.com/</a>                                                  
+																							</div>
+						</div>
+
+					</div><!-- /company -->
+				</div><!-- /col-lg-4 -->
+
+				<div class="col-sm-4 col-xs-6 company-container current" usv-investment="SigFig" usv:investment_series="Series B" usv:investment_series_slug="series-b" usv:city_slug="san-francisco" usv:city="San Francisco" usv:investment_date_slug="2013" usv:investment_date="2013" usv:investment_categories_slug="" usv:investment_categories="">
+					<div class="company">
+						<a class="open-investment" usv-investment="SigFig" href="">
+							<!--<img alt="SigFig" src="http://localhost:9999/usv.com/feather/wp-content/uploads/sigfig-logo-220x150.png"  class="logo mt-image-none" style="" width="220" height="150">
+							-->
+						</a>
+						<p class="summary">
+							<a href="">SigFig</a>
+							is an investment company for the digital era
+														<!--<a href="http://localhost:9999/usv.com/feather/investments/sigfig/" class="btn-continue">More</a>-->
+						</p>
+						<span class="since-date">
+							2013, Series B						</span>
+
+						<!--Added by Z-->
+												<div class="full-investment-shim" style="display:none"></div>
+						<div class="full-investment" style="display:none">
+							<p>Everybody deserves access to high quality investment advice, yet most neglect their portfolios.&nbsp;<a href="http://sigfig.com/">SigFig</a>&nbsp;uses science and data analysis to diagnose what’s wrong with your portfolio, then uses design and technology to make it trivially easy to fix.</p>
+							<div class="-links">
+																	<a class="blog" href="http://blog.sigfig.com/">http://blog.sigfig.com/</a>                                                  
+																							</div>
+						</div>
+
+					</div><!-- /company -->
+				</div><!-- /col-lg-4 -->
+
+				<div class="col-sm-4 col-xs-6 company-container current" usv-investment="Simulmedia" usv:investment_series="Seed" usv:investment_series_slug="seed" usv:city_slug="new-york" usv:city="New York" usv:investment_date_slug="2009" usv:investment_date="2009" usv:investment_categories_slug="" usv:investment_categories="">
+					<div class="company">
+						<a class="open-investment" usv-investment="Simulmedia" href="">
+							<!--<img alt="Simulmedia" src="http://localhost:9999/usv.com/feather/wp-content/uploads/400.jpg"  class="logo mt-image-none" style="" width="220" height="150">
+							-->
+						</a>
+						<p class="summary">
+							<a href="">Simulmedia</a>
+							is a pioneer of internet-like ad targeting on television
+														<!--<a href="http://localhost:9999/usv.com/feather/investments/simulmedia/" class="btn-continue">More</a>-->
+						</p>
+						<span class="since-date">
+							2009, Seed						</span>
+
+						<!--Added by Z-->
+												<div class="full-investment-shim" style="display:none"></div>
+						<div class="full-investment" style="display:none">
+							<p><a href="http://www.simulmedia.com/">Simulmedia</a>&nbsp;is a New York City-based media marketing company dedicated to improving the effectiveness of program promotion on television. The company is pioneering the development of predictive technology to help television companies deliver the right on-air promotions to the right viewers at the right time.</p>
+							<div class="-links">
+																	<a class="blog" href="http://blog.simulmedia.com/blog/">http://blog.simulmedia.com/blog/</a>                                                  
+																							</div>
+						</div>
+
+					</div><!-- /company -->
+				</div><!-- /col-lg-4 -->
+
+				<div class="col-sm-4 col-xs-6 company-container current" usv-investment="Skillshare" usv:investment_series="Series A" usv:investment_series_slug="series-a" usv:city_slug="new-york" usv:city="New York" usv:investment_date_slug="2011" usv:investment_date="2011" usv:investment_categories_slug="" usv:investment_categories="">
+					<div class="company">
+						<a class="open-investment" usv-investment="Skillshare" href="">
+							<!--<img alt="Skillshare" src="http://localhost:9999/usv.com/feather/wp-content/uploads/skillshare_0.png"  class="logo mt-image-none" style="" width="220" height="150">
+							-->
+						</a>
+						<p class="summary">
+							<a href="">Skillshare</a>
+							is a community marketplace to learn anything from anyone
+														<!--<a href="http://localhost:9999/usv.com/feather/investments/skillshare/" class="btn-continue">More</a>-->
+						</p>
+						<span class="since-date">
+							2011, Series A						</span>
+
+						<!--Added by Z-->
+												<div class="full-investment-shim" style="display:none"></div>
+						<div class="full-investment" style="display:none">
+							<p><a href="http://www.skillshare.com/">Skillshare</a>&nbsp;is a community marketplace to learn anything from anyone. The company was founded in 2010 by Michael Karnjanaprakorn and Malcolm Ong and is based in New York City.</p>
+							<div class="-links">
+																	<a class="blog" href="http://blog.skillshare.com/">http://blog.skillshare.com/</a>                                                  
+																							</div>
+						</div>
+
+					</div><!-- /company -->
+				</div><!-- /col-lg-4 -->
+
+				<div class="col-sm-4 col-xs-6 company-container current" usv-investment="SoundCloud" usv:investment_series="Series B" usv:investment_series_slug="series-b" usv:city_slug="berlin-europe" usv:city="Berlin, Europe" usv:investment_date_slug="2010" usv:investment_date="2010" usv:investment_categories_slug="" usv:investment_categories="">
+					<div class="company">
+						<a class="open-investment" usv-investment="SoundCloud" href="">
+							<!--<img alt="SoundCloud" src="http://localhost:9999/usv.com/feather/wp-content/uploads/soundcloud1.gif"  class="logo mt-image-none" style="" width="220" height="150">
+							-->
+						</a>
+						<p class="summary">
+							<a href="">SoundCloud</a>
+							an online platform for sharing audio
+														<!--<a href="http://localhost:9999/usv.com/feather/investments/soundcloud/" class="btn-continue">More</a>-->
+						</p>
+						<span class="since-date">
+							2010, Series B						</span>
+
+						<!--Added by Z-->
+												<div class="full-investment-shim" style="display:none"></div>
+						<div class="full-investment" style="display:none">
+							<p><a href="http://www.soundcloud.com/">SoundCloud</a>&nbsp;is an online audio platform for music professionals that makes sharing &amp; receiving music simple and efficient.</p>
+<p>SoundCloud puts your sound at the heart of communities, websites and even apps. Watch conversations, connections and social experiences happen, with your sound as the spark.</p>
+<p>SoundCloud was founded in 2007 by Swedes Alexander Ljung &amp; Eric Wahlforss and is based in Berlin-Mitte, Germany with an office in San Francisco.</p>
+							<div class="-links">
+																	<a class="blog" href="http://blog.soundcloud.com/">http://blog.soundcloud.com/</a>                                                  
+																							</div>
+						</div>
+
+					</div><!-- /company -->
+				</div><!-- /col-lg-4 -->
+
+				<div class="col-sm-4 col-xs-6 company-container current" usv-investment="Stack Exchange" usv:investment_series="Series A" usv:investment_series_slug="series-a" usv:city_slug="new-york" usv:city="New York" usv:investment_date_slug="2010" usv:investment_date="2010" usv:investment_categories_slug="" usv:investment_categories="">
+					<div class="company">
+						<a class="open-investment" usv-investment="Stack Exchange" href="">
+							<!--<img alt="Stack Exchange" src="http://localhost:9999/usv.com/feather/wp-content/uploads/stackexchange1.gif"  class="logo mt-image-none" style="" width="220" height="150">
+							-->
+						</a>
+						<p class="summary">
+							<a href="">Stack Exchange</a>
+							is a network of question-and-answer communities.
+														<!--<a href="http://localhost:9999/usv.com/feather/investments/stack-exchange/" class="btn-continue">More</a>-->
+						</p>
+						<span class="since-date">
+							2010, Series A						</span>
+
+						<!--Added by Z-->
+												<div class="full-investment-shim" style="display:none"></div>
+						<div class="full-investment" style="display:none">
+							<p><a href="http://stackexchange.com/">Stack Exchange</a>&nbsp;is a network of more than 100 question-and-answer sites on diverse topics from programming to photography and gaming. Each site is committed to providing a forum of expert knowledge and together, the network ranks within the top 80 most visited U.S. websites. Their most popular site is&nbsp;<a href="http://www.stackoverflow.com/" target="_blank">Stack Overflow</a>, which attracts more than 20 million programmers each month and also connects users with job opportunities through the hiring platform,&nbsp;<a href="http://careers.stackoverflow.com/" target="_blank">Careers 2.0</a>. Stack Exchange was founded by Joel Spolsky and Jeff Atwood and is based in New York City.</p>
+							<div class="-links">
+																	<a class="blog" href="http://stackexchange.com/blogs">http://stackexchange.com/blogs</a>                                                  
+																							</div>
+						</div>
+
+					</div><!-- /company -->
+				</div><!-- /col-lg-4 -->
+
+				<div class="col-sm-4 col-xs-6 company-container current" usv-investment="Targetspot" usv:investment_series="Seed" usv:investment_series_slug="seed" usv:city_slug="new-york" usv:city="New York" usv:investment_date_slug="2007" usv:investment_date="2007" usv:investment_categories_slug="" usv:investment_categories="">
+					<div class="company">
+						<a class="open-investment" usv-investment="Targetspot" href="">
+							<!--<img alt="Targetspot" src="http://localhost:9999/usv.com/feather/wp-content/uploads/targetspot1.gif"  class="logo mt-image-none" style="" width="220" height="150">
+							-->
+						</a>
+						<p class="summary">
+							<a href="">Targetspot</a>
+							is an internet audio advertising network.
+														<!--<a href="http://localhost:9999/usv.com/feather/investments/targetspot/" class="btn-continue">More</a>-->
+						</p>
+						<span class="since-date">
+							2007, Seed						</span>
+
+						<!--Added by Z-->
+												<div class="full-investment-shim" style="display:none"></div>
+						<div class="full-investment" style="display:none">
+							<p><a href="http://www.targetspot.com/">Targetspot</a>&nbsp;is the largest internet radio advertising network, delivering high-impact, targeted and measurable advertisements across top-tier distribution partners such as CBS RADIO, AOL Radio, Yahoo LAUNCHcast, Entercom, Saga Broadcasting and many more. TargetSpot delivers online advertising in multiple formats (audio, video and graphic images) across all online media for top brands, agencies and self service marketers.</p>
+							<div class="-links">
+																	<a class="blog" href="http://www.targetspot.com/blog/">http://www.targetspot.com/blog/</a>                                                  
+																							</div>
+						</div>
+
+					</div><!-- /company -->
+				</div><!-- /col-lg-4 -->
+
+				<div class="col-sm-4 col-xs-6 company-container current" usv-investment="Turntable" usv:investment_series="Series A" usv:investment_series_slug="series-a" usv:city_slug="new-york" usv:city="New York" usv:investment_date_slug="2008" usv:investment_date="2008" usv:investment_categories_slug="" usv:investment_categories="">
+					<div class="company">
+						<a class="open-investment" usv-investment="Turntable" href="">
+							<!--<img alt="Turntable" src="http://localhost:9999/usv.com/feather/wp-content/uploads/turntable1.png"  class="logo mt-image-none" style="" width="220" height="150">
+							-->
+						</a>
+						<p class="summary">
+							<a href="">Turntable</a>
+							creates social music experiences on the web
+														<!--<a href="http://localhost:9999/usv.com/feather/investments/turntable/" class="btn-continue">More</a>-->
+						</p>
+						<span class="since-date">
+							2008, Series A						</span>
+
+						<!--Added by Z-->
+												<div class="full-investment-shim" style="display:none"></div>
+						<div class="full-investment" style="display:none">
+							<p><a href="http://turntable.fm/">turntable</a>&nbsp;lets you play music together with your friends and other people online. Each DJ takes a turn playing a song and the entire virtual room hears the song. You can vote on whether the song is awesome or lame and if it receives too many lame votes, it gets skipped.</p>
+<p>The company was founded by Billy Chasen and Seth Goldstein and is based in New York City.</p>
+							<div class="-links">
+																	<a class="blog" href="http://blog.turntable.fm/">http://blog.turntable.fm/</a>                                                  
+																							</div>
+						</div>
+
+					</div><!-- /company -->
+				</div><!-- /col-lg-4 -->
+
+				<div class="col-sm-4 col-xs-6 company-container current" usv-investment="Twilio" usv:investment_series="Series A" usv:investment_series_slug="series-a" usv:city_slug="san-francisco" usv:city="San Francisco" usv:investment_date_slug="2009" usv:investment_date="2009" usv:investment_categories_slug="" usv:investment_categories="">
+					<div class="company">
+						<a class="open-investment" usv-investment="Twilio" href="">
+							<!--<img alt="Twilio" src="http://localhost:9999/usv.com/feather/wp-content/uploads/twilio1.gif"  class="logo mt-image-none" style="" width="220" height="150">
+							-->
+						</a>
+						<p class="summary">
+							<a href="">Twilio</a>
+							is an API for businesses building scalable communications applications.
+														<!--<a href="http://localhost:9999/usv.com/feather/investments/twilio/" class="btn-continue">More</a>-->
+						</p>
+						<span class="since-date">
+							2009, Series A						</span>
+
+						<!--Added by Z-->
+												<div class="full-investment-shim" style="display:none"></div>
+						<div class="full-investment" style="display:none">
+							<p><a title="Twilio" href="http://www.twilio.com/" target="_blank">Twilio</a>&nbsp;provides a web-service API for businesses to build scalable, reliable communication apps.</p>
+							<div class="-links">
+																	<a class="blog" href="http://www.twilio.com/blog">http://www.twilio.com/blog</a>                                                  
+																							</div>
+						</div>
+
+					</div><!-- /company -->
+				</div><!-- /col-lg-4 -->
+
+				<div class="col-sm-4 col-xs-6 company-container current" usv-investment="Twitter" usv:investment_series="Series A" usv:investment_series_slug="series-a" usv:city_slug="san-francisco" usv:city="San Francisco" usv:investment_date_slug="2007" usv:investment_date="2007" usv:investment_categories_slug="" usv:investment_categories="">
+					<div class="company">
+						<a class="open-investment" usv-investment="Twitter" href="">
+							<!--<img alt="Twitter" src="http://localhost:9999/usv.com/feather/wp-content/uploads/twitter.png"  class="logo mt-image-none" style="" width="220" height="150">
+							-->
+						</a>
+						<p class="summary">
+							<a href="">Twitter</a>
+							is a real-time information network.
+														<!--<a href="http://localhost:9999/usv.com/feather/investments/twitter/" class="btn-continue">More</a>-->
+						</p>
+						<span class="since-date">
+							2007, Series A						</span>
+
+						<!--Added by Z-->
+												<div class="full-investment-shim" style="display:none"></div>
+						<div class="full-investment" style="display:none">
+							<p><a href="http://www.twitter.com/">Twitter</a>&nbsp;is a social networking and micro-blogging site that allows users to post their latest updates. An update is limited by 140 characters and can be posted through three methods: web form, text message, or instant message. Twitter was co-founded by Jack Dorsey and Biz Stone out of the offices of Obvious Corp in March of 2006. They are located in San Francisco, California.</p>
+							<div class="-links">
+																	<a class="blog" href="http://blog.twitter.com">http://blog.twitter.com</a>                                                  
+																							</div>
+						</div>
+
+					</div><!-- /company -->
+				</div><!-- /col-lg-4 -->
+
+				<div class="col-sm-4 col-xs-6 company-container current" usv-investment="VHX" usv:investment_series="Series A" usv:investment_series_slug="series-a" usv:city_slug="brooklyn" usv:city="Brooklyn" usv:investment_date_slug="2013" usv:investment_date="2013" usv:investment_categories_slug="" usv:investment_categories="">
+					<div class="company">
+						<a class="open-investment" usv-investment="VHX" href="">
+							<!--<img alt="VHX" src="http://localhost:9999/usv.com/feather/wp-content/uploads/vhx_220x150.png"  class="logo mt-image-none" style="" width="220" height="150">
+							-->
+						</a>
+						<p class="summary">
+							<a href="">VHX</a>
+							is a digital distribution platform that enables artists to sell videos from their own websites, directly to their fans.
+														<!--<a href="http://localhost:9999/usv.com/feather/investments/vhx/" class="btn-continue">More</a>-->
+						</p>
+						<span class="since-date">
+							2013, Series A						</span>
+
+						<!--Added by Z-->
+												<div class="full-investment-shim" style="display:none"></div>
+						<div class="full-investment" style="display:none">
+							<p><a href="http://vhx.tv">VHX</a> is a digital distribution platform that enables artists to sell videos from their own websites, directly to their fans. The company was founded in 2011 by Casey Pugh and Jamie Wilkinson and is headquartered in Brooklyn, NY.</p>
+							<div class="-links">
+																	<a class="blog" href="http://blog.vhx.tv">http://blog.vhx.tv</a>                                                  
+																							</div>
+						</div>
+
+					</div><!-- /company -->
+				</div><!-- /col-lg-4 -->
+
+				<div class="col-sm-4 col-xs-6 company-container current" usv-investment="Wattpad" usv:investment_series="Series A" usv:investment_series_slug="series-a" usv:city_slug="toronto" usv:city="Toronto" usv:investment_date_slug="2011" usv:investment_date="2011" usv:investment_categories_slug="" usv:investment_categories="">
+					<div class="company">
+						<a class="open-investment" usv-investment="Wattpad" href="">
+							<!--<img alt="Wattpad" src="http://localhost:9999/usv.com/feather/wp-content/uploads/wattpad1.png"  class="logo mt-image-none" style="" width="220" height="150">
+							-->
+						</a>
+						<p class="summary">
+							<a href="">Wattpad</a>
+							is the best place to write, discover, and share stories
+														<!--<a href="http://localhost:9999/usv.com/feather/investments/wattpad/" class="btn-continue">More</a>-->
+						</p>
+						<span class="since-date">
+							2011, Series A						</span>
+
+						<!--Added by Z-->
+												<div class="full-investment-shim" style="display:none"></div>
+						<div class="full-investment" style="display:none">
+							<p><a href="http://www.wattpad.com/">Wattpad</a>&nbsp;is the world’s largest community for discovering and sharing stories. It’s a new form of collaborative entertainment that connects readers and writers across all genres of creative fiction. Wattpad is the only platform offering a mobile, social, eReading experience.</p>
+<p>Wattpad was founded by Allen Lau and Ivan Yuen and is based in Toronto, Ontario.</p>
+							<div class="-links">
+																	<a class="blog" href="http://blog.wattpad.com/">http://blog.wattpad.com/</a>                                                  
+																							</div>
+						</div>
+
+					</div><!-- /company -->
+				</div><!-- /col-lg-4 -->
+
+				<div class="col-sm-4 col-xs-6 company-container current" usv-investment="Work Market" usv:investment_series="Series A" usv:investment_series_slug="series-a" usv:city_slug="new-york" usv:city="New York" usv:investment_date_slug="2010" usv:investment_date="2010" usv:investment_categories_slug="" usv:investment_categories="">
+					<div class="company">
+						<a class="open-investment" usv-investment="Work Market" href="">
+							<!--<img alt="Work Market" src="http://localhost:9999/usv.com/feather/wp-content/uploads/workmarket1.png"  class="logo mt-image-none" style="" width="220" height="150">
+							-->
+						</a>
+						<p class="summary">
+							<a href="">Work Market</a>
+							is an online marketplace for on-site temporary labor.
+														<!--<a href="http://localhost:9999/usv.com/feather/investments/work-market/" class="btn-continue">More</a>-->
+						</p>
+						<span class="since-date">
+							2010, Series A						</span>
+
+						<!--Added by Z-->
+												<div class="full-investment-shim" style="display:none"></div>
+						<div class="full-investment" style="display:none">
+							<p><a href="http://www.workmarket.com/" target="_blank">Work Market</a>&nbsp;is an online marketplace that allows employers and workers to connect and get work done. The company is the latest startup founded by serial entrepreneur Jeff Leventhal and is based in the New York City area.</p>
+							<div class="-links">
+																	<a class="blog" href="http://blog.workmarket.com/">http://blog.workmarket.com/</a>                                                  
+																							</div>
+						</div>
+
+					</div><!-- /company -->
+				</div><!-- /col-lg-4 -->
+
+				<div class="col-sm-4 col-xs-6 company-container current" usv-investment="YieldMo" usv:investment_series="Series A" usv:investment_series_slug="series-a" usv:city_slug="new-york" usv:city="New York" usv:investment_date_slug="2008" usv:investment_date="2008" usv:investment_categories_slug="" usv:investment_categories="">
+					<div class="company">
+						<a class="open-investment" usv-investment="YieldMo" href="">
+							<!--<img alt="YieldMo" src="http://localhost:9999/usv.com/feather/wp-content/uploads/yieldmo_logo220x1501.png"  class="logo mt-image-none" style="" width="220" height="150">
+							-->
+						</a>
+						<p class="summary">
+							<a href="">YieldMo</a>
+							is a mobile advertising technology platform.
+														<!--<a href="http://localhost:9999/usv.com/feather/investments/yieldmo/" class="btn-continue">More</a>-->
+						</p>
+						<span class="since-date">
+							2008, Series A						</span>
+
+						<!--Added by Z-->
+												<div class="full-investment-shim" style="display:none"></div>
+						<div class="full-investment" style="display:none">
+							<p><a href="http://yieldmo.com/">YieldMo</a>&nbsp;(previously Hashable) recently pivoted into a mobile advertising technology platform. The company is focused on mobile web ads for native app downloads. YieldMo was founded by Mike Yavonditte.</p>
+							<div class="-links">
+																							</div>
+						</div>
+
+					</div><!-- /company -->
+				</div><!-- /col-lg-4 -->
+
+				<div class="col-sm-4 col-xs-6 company-container current" usv-investment="YouNow" usv:investment_series="Series A" usv:investment_series_slug="series-a" usv:city_slug="new-york" usv:city="New York" usv:investment_date_slug="2012" usv:investment_date="2012" usv:investment_categories_slug="" usv:investment_categories="">
+					<div class="company">
+						<a class="open-investment" usv-investment="YouNow" href="">
+							<!--<img alt="YouNow" src="http://localhost:9999/usv.com/feather/wp-content/uploads/younow1.png"  class="logo mt-image-none" style="" width="220" height="150">
+							-->
+						</a>
+						<p class="summary">
+							<a href="">YouNow</a>
+							is social television from any device
+														<!--<a href="http://localhost:9999/usv.com/feather/investments/younow/" class="btn-continue">More</a>-->
+						</p>
+						<span class="since-date">
+							2012, Series A						</span>
+
+						<!--Added by Z-->
+												<div class="full-investment-shim" style="display:none"></div>
+						<div class="full-investment" style="display:none">
+							<p><a href="http://younow.com/">YouNow</a>&nbsp;is a social television platform allowing anyone to broadcast live, in front of an audience, from any webcam or mobile device. The programming is curated by the users via crowdsourcing game mechanics.</p>
+							<div class="-links">
+																	<a class="blog" href="http://blog.younow.com/">http://blog.younow.com/</a>                                                  
+																							</div>
+						</div>
+
+					</div><!-- /company -->
+				</div><!-- /col-lg-4 -->
+
+				<div class="col-sm-4 col-xs-6 company-container current" usv-investment="Zemanta" usv:investment_series="Series A" usv:investment_series_slug="series-a" usv:city_slug="new-york" usv:city="New York" usv:investment_date_slug="2008" usv:investment_date="2008" usv:investment_categories_slug="" usv:investment_categories="">
+					<div class="company">
+						<a class="open-investment" usv-investment="Zemanta" href="">
+							<!--<img alt="Zemanta" src="http://localhost:9999/usv.com/feather/wp-content/uploads/zemanta1.gif"  class="logo mt-image-none" style="" width="220" height="150">
+							-->
+						</a>
+						<p class="summary">
+							<a href="">Zemanta</a>
+							is a rich media tool for bloggers.
+														<!--<a href="http://localhost:9999/usv.com/feather/investments/zemanta/" class="btn-continue">More</a>-->
+						</p>
+						<span class="since-date">
+							2008, Series A						</span>
+
+						<!--Added by Z-->
+												<div class="full-investment-shim" style="display:none"></div>
+						<div class="full-investment" style="display:none">
+							<p><a href="http://www.zemanta.com/">Zemanta</a>&nbsp;is a service that’s focused on helping the blogger/content creator make the process of creating their content simpler and easier. As you write, Zemanta processes all of your text (like a spell checker in a word processing program does) and suggests things to you. Currently, Zemanta suggests stories/posts/research you might want to read as you compose your post, images you might want to include in the post, words you might want to hyperlink out with, and tags for search engines and other services to use to discover your content.</p>
+							<div class="-links">
+																	<a class="blog" href="http://www.zemanta.com/blog/">http://www.zemanta.com/blog/</a>                                                  
+																							</div>
+						</div>
+
+					</div><!-- /company -->
+				</div><!-- /col-lg-4 -->
+
+			</div><!-- /row -->
+
+
+			<h2 class="subsection section-heading" id="past-portfolio" style="clear:both">Exited Investments<span class="filter-label" style="display:none"></span>
+				</h2>	
+
+			<div class="row investments-list">
+
+				<div class="col-sm-4 col-xs-6 company-container past" usv-investment="Behance" usv:investment_series="Series A" usv:investment_series_slug="series-a" usv:city_slug="new-york" usv:city="New York" usv:investment_date_slug="2012" usv:investment_date="2012" usv:investment_categories_slug="" usv:investment_categories="">
+					<div class="company">
+					<a href="">
+						<!--<img alt="Behance" src="http://localhost:9999/usv.com/feather/wp-content/uploads/behance.png"  class="logo mt-image-none" width="220" height="150">
+						-->
+						</a>
+					<p class="summary">
+						<a href="">Behance</a>
+						is an online platform to showcase and discover creative work. 
+												<!--<a href="http://localhost:9999/usv.com/feather/investments/behance/" class="btn-continue">More</a>-->
+					</p>
+					<span class="since-date">
+						2012, Series A					</span>
+
+									</div><!-- /company -->
+				</div><!-- /col-lg-4 -->
+
+				<div class="col-sm-4 col-xs-6 company-container past" usv-investment="Boxee" usv:investment_series="Series A" usv:investment_series_slug="series-a" usv:city_slug="new-york" usv:city="New York" usv:investment_date_slug="2008" usv:investment_date="2008" usv:investment_categories_slug="" usv:investment_categories="">
+					<div class="company">
+					<a href="">
+						<!--<img alt="Boxee" src="http://localhost:9999/usv.com/feather/wp-content/uploads/boxee.gif"  class="logo mt-image-none" width="220" height="150">
+						-->
+						</a>
+					<p class="summary">
+						<a href="">Boxee</a>
+						is a platform for video consumption on connected devices. 
+												<!--<a href="http://localhost:9999/usv.com/feather/investments/boxee/" class="btn-continue">More</a>-->
+					</p>
+					<span class="since-date">
+						2008, Series A					</span>
+
+									</div><!-- /company -->
+				</div><!-- /col-lg-4 -->
+
+				<div class="col-sm-4 col-xs-6 company-container past" usv-investment="Buglabs" usv:investment_series="Seed" usv:investment_series_slug="seed" usv:city_slug="new-york" usv:city="New York" usv:investment_date_slug="2006" usv:investment_date="2006" usv:investment_categories_slug="" usv:investment_categories="">
+					<div class="company">
+					<a href="">
+						<!--<img alt="Buglabs" src="http://localhost:9999/usv.com/feather/wp-content/uploads/buglabs.gif"  class="logo mt-image-none" width="220" height="150">
+						-->
+						</a>
+					<p class="summary">
+						<a href="">Buglabs</a>
+						is the creator of an open source hardware and software platform. 
+												<!--<a href="http://localhost:9999/usv.com/feather/investments/buglabs/" class="btn-continue">More</a>-->
+					</p>
+					<span class="since-date">
+						2006, Seed					</span>
+
+									</div><!-- /company -->
+				</div><!-- /col-lg-4 -->
+
+				<div class="col-sm-4 col-xs-6 company-container past" usv-investment="Clickable" usv:investment_series="Series A" usv:investment_series_slug="series-a" usv:city_slug="new-york" usv:city="New York" usv:investment_date_slug="2007" usv:investment_date="2007" usv:investment_categories_slug="" usv:investment_categories="">
+					<div class="company">
+					<a href="">
+						<!--<img alt="Clickable" src="http://localhost:9999/usv.com/feather/wp-content/uploads/clickable.gif"  class="logo mt-image-none" width="220" height="150">
+						-->
+						</a>
+					<p class="summary">
+						<a href="">Clickable</a>
+						is the all-in-one solution for online advertising. 
+												<!--<a href="http://localhost:9999/usv.com/feather/investments/clickable/" class="btn-continue">More</a>-->
+					</p>
+					<span class="since-date">
+						2007, Series A					</span>
+
+									</div><!-- /company -->
+				</div><!-- /col-lg-4 -->
+
+				<div class="col-sm-4 col-xs-6 company-container past" usv-investment="Delicious" usv:investment_series="Seed" usv:investment_series_slug="seed" usv:city_slug="new-york" usv:city="New York" usv:investment_date_slug="2005" usv:investment_date="2005" usv:investment_categories_slug="" usv:investment_categories="">
+					<div class="company">
+					<a href="">
+						<!--<img alt="Delicious" src="http://localhost:9999/usv.com/feather/wp-content/uploads/delicious.gif"  class="logo mt-image-none" width="220" height="150">
+						-->
+						</a>
+					<p class="summary">
+						<a href="">Delicious</a>
+						is the world’s leading social bookmarking service. 
+												<!--<a href="http://localhost:9999/usv.com/feather/investments/delicious/" class="btn-continue">More</a>-->
+					</p>
+					<span class="since-date">
+						2005, Seed					</span>
+
+									</div><!-- /company -->
+				</div><!-- /col-lg-4 -->
+
+				<div class="col-sm-4 col-xs-6 company-container past" usv-investment="Feedburner" usv:investment_series="Series B" usv:investment_series_slug="series-b" usv:city_slug="chicago" usv:city="Chicago" usv:investment_date_slug="2006" usv:investment_date="2006" usv:investment_categories_slug="" usv:investment_categories="">
+					<div class="company">
+					<a href="">
+						<!--<img alt="Feedburner" src="http://localhost:9999/usv.com/feather/wp-content/uploads/feedburner.gif"  class="logo mt-image-none" width="220" height="150">
+						-->
+						</a>
+					<p class="summary">
+						<a href="">Feedburner</a>
+						is a feed management service. 
+												<!--<a href="http://localhost:9999/usv.com/feather/investments/feedburner/" class="btn-continue">More</a>-->
+					</p>
+					<span class="since-date">
+						2006, Series B					</span>
+
+									</div><!-- /company -->
+				</div><!-- /col-lg-4 -->
+
+				<div class="col-sm-4 col-xs-6 company-container past" usv-investment="Indeed" usv:investment_series="Series A" usv:investment_series_slug="series-a" usv:city_slug="new-york" usv:city="New York" usv:investment_date_slug="2005" usv:investment_date="2005" usv:investment_categories_slug="" usv:investment_categories="">
+					<div class="company">
+					<a href="">
+						<!--<img alt="Indeed" src="http://localhost:9999/usv.com/feather/wp-content/uploads/indeed.gif"  class="logo mt-image-none" width="220" height="150">
+						-->
+						</a>
+					<p class="summary">
+						<a href="">Indeed</a>
+						is a vertical search engine for jobs.
+												<!--<a href="http://localhost:9999/usv.com/feather/investments/indeed/" class="btn-continue">More</a>-->
+					</p>
+					<span class="since-date">
+						2005, Series A					</span>
+
+									</div><!-- /company -->
+				</div><!-- /col-lg-4 -->
+
+				<div class="col-sm-4 col-xs-6 company-container past" usv-investment="Info(N)Gen" usv:investment_series="Seed" usv:investment_series_slug="seed" usv:city_slug="new-york" usv:city="New York" usv:investment_date_slug="2005" usv:investment_date="2005" usv:investment_categories_slug="" usv:investment_categories="">
+					<div class="company">
+					<a href="">
+						<!--<img alt="Info(N)Gen" src="http://localhost:9999/usv.com/feather/wp-content/uploads/infongen.gif"  class="logo mt-image-none" width="220" height="150">
+						-->
+						</a>
+					<p class="summary">
+						<a href="">Info(N)Gen</a>
+						is a content discovery engine for business.
+												<!--<a href="http://localhost:9999/usv.com/feather/investments/infongen/" class="btn-continue">More</a>-->
+					</p>
+					<span class="since-date">
+						2005, Seed					</span>
+
+									</div><!-- /company -->
+				</div><!-- /col-lg-4 -->
+
+				<div class="col-sm-4 col-xs-6 company-container past" usv-investment="Oddcast" usv:investment_series="Series C (or later)" usv:investment_series_slug="series-c-or-later" usv:city_slug="new-york" usv:city="New York" usv:investment_date_slug="2006" usv:investment_date="2006" usv:investment_categories_slug="" usv:investment_categories="">
+					<div class="company">
+					<a href="">
+						<!--<img alt="Oddcast" src="http://localhost:9999/usv.com/feather/wp-content/uploads/oddcast.gif"  class="logo mt-image-none" width="220" height="150">
+						-->
+						</a>
+					<p class="summary">
+						<a href="">Oddcast</a>
+						was a viral marketing platform for agencies and brands.
+												<!--<a href="http://localhost:9999/usv.com/feather/investments/oddcast/" class="btn-continue">More</a>-->
+					</p>
+					<span class="since-date">
+						2006, Series C (or later)					</span>
+
+									</div><!-- /company -->
+				</div><!-- /col-lg-4 -->
+
+				<div class="col-sm-4 col-xs-6 company-container past" usv-investment="Outside.in" usv:investment_series="Seed" usv:investment_series_slug="seed" usv:city_slug="new-york" usv:city="New York" usv:investment_date_slug="2007" usv:investment_date="2007" usv:investment_categories_slug="" usv:investment_categories="">
+					<div class="company">
+					<a href="">
+						<!--<img alt="Outside.in" src="http://localhost:9999/usv.com/feather/wp-content/uploads/outsidein.gif"  class="logo mt-image-none" width="220" height="150">
+						-->
+						</a>
+					<p class="summary">
+						<a href="">Outside.in</a>
+						was a platform for local neighborhoods to share and discover information.
+												<!--<a href="http://localhost:9999/usv.com/feather/investments/outside-in/" class="btn-continue">More</a>-->
+					</p>
+					<span class="since-date">
+						2007, Seed					</span>
+
+									</div><!-- /company -->
+				</div><!-- /col-lg-4 -->
+
+				<div class="col-sm-4 col-xs-6 company-container past" usv-investment="Tacoda" usv:investment_series="Series B" usv:investment_series_slug="series-b" usv:city_slug="new-york" usv:city="New York" usv:investment_date_slug="2004" usv:investment_date="2004" usv:investment_categories_slug="" usv:investment_categories="">
+					<div class="company">
+					<a href="">
+						<!--<img alt="Tacoda" src="http://localhost:9999/usv.com/feather/wp-content/uploads/tacoda.gif"  class="logo mt-image-none" width="220" height="150">
+						-->
+						</a>
+					<p class="summary">
+						<a href="">Tacoda</a>
+						provided behaviorally targeted online advertising services.
+												<!--<a href="http://localhost:9999/usv.com/feather/investments/tacoda/" class="btn-continue">More</a>-->
+					</p>
+					<span class="since-date">
+						2004, Series B					</span>
+
+									</div><!-- /company -->
+				</div><!-- /col-lg-4 -->
+
+				<div class="col-sm-4 col-xs-6 company-container past" usv-investment="Tasty Labs" usv:investment_series="Seed" usv:investment_series_slug="seed" usv:city_slug="san-francisco" usv:city="San Francisco" usv:investment_date_slug="2010" usv:investment_date="2010" usv:investment_categories_slug="" usv:investment_categories="">
+					<div class="company">
+					<a href="">
+						<!--<img alt="Tasty Labs" src="http://localhost:9999/usv.com/feather/wp-content/uploads/tastylabs.gif"  class="logo mt-image-none" width="220" height="150">
+						-->
+						</a>
+					<p class="summary">
+						<a href="">Tasty Labs</a>
+						built social software. 
+												<!--<a href="http://localhost:9999/usv.com/feather/investments/tasty-labs/" class="btn-continue">More</a>-->
+					</p>
+					<span class="since-date">
+						2010, Seed					</span>
+
+									</div><!-- /company -->
+				</div><!-- /col-lg-4 -->
+
+				<div class="col-sm-4 col-xs-6 company-container past" usv-investment="Tumblr" usv:investment_series="Seed" usv:investment_series_slug="seed" usv:city_slug="new-york" usv:city="New York" usv:investment_date_slug="2007" usv:investment_date="2007" usv:investment_categories_slug="" usv:investment_categories="">
+					<div class="company">
+					<a href="">
+						<!--<img alt="Tumblr" src="http://localhost:9999/usv.com/feather/wp-content/uploads/tumblr.png"  class="logo mt-image-none" width="220" height="150">
+						-->
+						</a>
+					<p class="summary">
+						<a href="">Tumblr</a>
+						is a network of blogs for people to share the things they do, love, think and create.
+												<!--<a href="http://localhost:9999/usv.com/feather/investments/tumblr/" class="btn-continue">More</a>-->
+					</p>
+					<span class="since-date">
+						2007, Seed					</span>
+
+									</div><!-- /company -->
+				</div><!-- /col-lg-4 -->
+
+				<div class="col-sm-4 col-xs-6 company-container past" usv-investment="Wesabe" usv:investment_series="Series B" usv:investment_series_slug="series-b" usv:city_slug="san-francisco" usv:city="San Francisco" usv:investment_date_slug="2007" usv:investment_date="2007" usv:investment_categories_slug="" usv:investment_categories="">
+					<div class="company">
+					<a href="">
+						<!--<img alt="Wesabe" src="http://localhost:9999/usv.com/feather/wp-content/uploads/wesabe.gif"  class="logo mt-image-none" width="220" height="150">
+						-->
+						</a>
+					<p class="summary">
+						<a href="">Wesabe</a>
+						was a web-based tool that gave members a better understanding of how they spend money.
+												<!--<a href="http://localhost:9999/usv.com/feather/investments/wesabe/" class="btn-continue">More</a>-->
+					</p>
+					<span class="since-date">
+						2007, Series B					</span>
+
+									</div><!-- /company -->
+				</div><!-- /col-lg-4 -->
+
+				<div class="col-sm-4 col-xs-6 company-container past" usv-investment="Zynga" usv:investment_series="Series A" usv:investment_series_slug="series-a" usv:city_slug="san-francisco" usv:city="San Francisco" usv:investment_date_slug="2007" usv:investment_date="2007" usv:investment_categories_slug="" usv:investment_categories="">
+					<div class="company">
+					<a href="">
+						<!--<img alt="Zynga" src="http://localhost:9999/usv.com/feather/wp-content/uploads/zynga.gif"  class="logo mt-image-none" width="220" height="150">
+						-->
+						</a>
+					<p class="summary">
+						<a href="">Zynga</a>
+						is a game studio for online and mobile social games.
+												<!--<a href="http://localhost:9999/usv.com/feather/investments/zynga/" class="btn-continue">More</a>-->
+					</p>
+					<span class="since-date">
+						2007, Series A					</span>
+
+									</div><!-- /company -->
+				</div><!-- /col-lg-4 -->
+
+			</div><!-- /row -->
+		</div><!-- /col-lg-10 -->
+
+
+	</div><!-- /row -->
+
+
+<script>
+		/*$(document).ready(function() {
+			var min_height = 0;
+			$('.investments-list li').each(function(){
+				if ($(this).height() > min_height) {
+					min_height = $(this).height()
+				}
+			});
+			//$('.investments-list li').height(min_height + 'px');
+			//$('.investments-list img').css('margin-top', min_height - 165 + "px");
+			//$('.investments-list p.summary').css('margin-top', min_height - 165 + "px");
+		});
+		*/
+</script>
+
+{% end %}
