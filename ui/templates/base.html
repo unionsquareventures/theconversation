@@ -109,10 +109,10 @@
                 <h1 id="usv-name"><a href="/">Union Square Ventures</a></h1>
                 <ul id="main-nav">
                   <li><a href="/" {% if path == '/' %}class="current"{% end %}>Conversation</a></li>
-                  <li><a href="/about/">About</a></li>
+                  <li><a href="/about/" {% if path == '/about/' %}class="current"{% end %}>About</a></li>
                   <!--<li><a href="/team/">Team</a></li>-->
                   <li><a href="/portfolio/" {% if path == '/portfolio/' %}class="current"{% end %}>Portfolio</a></li>
-                  <li><a href="/network/">Network</a></li>
+                  <li><a href="/network/" {% if path == '/network/' %}class="current"{% end %}>Network</a></li>
                   <li><a href="/jobs/">Jobs</a></li>
                 </ul>
                 <!--<a href="#submit-form" class="header-submit-button">Submit</a>-->
