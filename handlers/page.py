@@ -8,7 +8,7 @@ class PageHandler(BaseHandler):
 		super(PageHandler, self).__init__(*args, **kwargs)
 		
 	def get(self):
-		if self.request.path == "/portfolio":
+		if self.request.path == "/portfolio/":
 			self.render('page/portfolio.html', **self.vars)
 		else:
 			super(PageHandler, self).get(id, action)
