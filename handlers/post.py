@@ -473,12 +473,21 @@ class PostHandler(BaseHandler):
 
 
     def get(self, id='', action=''):
+        if self.request.path == '/feed':
+            self.feed()
         if action == 'upvote' and id:
             self.upvote(id)
         elif action == 'feature' and id:
             self.feature(id)
         else:
             super(PostHandler, self).get(id, action)
+            
+    def feed(self):
+        posts = Post.objects()
+        self.vars.update({
+            'posts': posts
+        })
+        self.render('post/feed.xml', **self.vars)
 
     @tornado.web.authenticated
     def feature(self, id):

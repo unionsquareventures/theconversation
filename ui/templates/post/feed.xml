@@ -1,0 +1,17 @@
+<?xml version=1.0 encoding=ISO-8859-1?>
+<rss version=2.0>
+
+	<channel>
+		<title>Union Square Ventures</title>
+		<link>http://usv.com/feed</link>
+		<description></description>
+		{% for post in posts %}
+		<item>
+			<title>{{ post.title }}</title>
+			<link>{{ post.permalink() }}</link>
+			<description>{{ post.body_raw }}</description>
+			<guid></guid>
+		</item>
+		{% end %}
+	</channel>
+</rss>
