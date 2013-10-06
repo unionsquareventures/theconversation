@@ -14,6 +14,11 @@ class PageHandler(BaseHandler):
 		elif self.request.path == "/portfolio/":
 			current = Company.objects(status="current").order_by('name')
 			exited = Company.objects(status="exited").order_by('name')
+			cos = Company.objects()
+			for co in cos:
+				url = co.title.replace(" ", "").lower() + ".com"
+				self.write(url)
+			return
 			self.vars.update ({
 				'current': current,
 				'exited': exited,
