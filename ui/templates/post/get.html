@@ -185,7 +185,7 @@
             <p><a href="https://twitter.com/share" class="twitter-share-button" data-via="">Tweet</a></p>
             <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
             
-            {% if is_admin %}
+            {% if is_staff(username) %}
             <hr />
             {% if author.user.is_blacklisted %}
             <p><a class="btn btn-small btn-success" href="/users/{{ post.user.username }}/unban">Unban this user</a>
