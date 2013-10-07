@@ -58,7 +58,7 @@ class BaseHandler(SentryMixin, tornado.web.RequestHandler):
 
     def is_blacklisted(self, username):
         u = UserInfo.objects(user__username=username).first()
-        if u.user.is_blacklisted:    
+        if u and u.user.is_blacklisted:
             return True
         return False
 
