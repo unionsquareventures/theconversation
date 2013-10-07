@@ -84,6 +84,8 @@ class BaseHandler(SentryMixin, tornado.web.RequestHandler):
 
         if action == 'new' and not id:
             self.new()
+        elif self.request.path.find('/posts/new') == 0:
+            self.new()
         elif action == 'edit' and id:
             self.edit(id)
         elif action == '' and id:
