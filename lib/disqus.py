@@ -74,6 +74,7 @@ class Disqus(object):
             # Sentry error
             logging.warning('[Disqus API] "create" error %s: %s' %
                                             (str(result.get('code')), str(thread_info)))
+            print result
             self._sentry_client.captureMessage('[Disqus API] "create" Error: %s' %
                                                         str(result.get('code')),
                                                         thread_info=thread_info,

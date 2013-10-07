@@ -307,7 +307,6 @@ class PostHandler(BaseHandler):
         thread_info = {
                 'title': post.title.encode('utf-8'),
                 'identifier': post.id,
-                'body_raw': post.body_raw
         }
         disqus.create_thread(_created, user_info, thread_info)
         
