@@ -21,7 +21,7 @@ class PageHandler(BaseHandler):
 			})
 			self.render('page/portfolio.html', **self.vars)
 		elif self.request.path == "/network/":
-			self.render('page/network.html', **self.vars)
+			self.network()
 		else:
 			super(PageHandler, self).get(id, action)
 		

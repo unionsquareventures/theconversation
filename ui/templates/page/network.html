@@ -49,26 +49,17 @@
 
 			</div><!-- /.row -->
 				
+			{% if len(related_posts) > 0 %}
 			<h2 class="section-heading" id="team-heading" style="text-transform:uppercase; font-weight: 300">Network Updates</h2>            
-			
 			<div class="row">
-				{% if 'related_posts' in locals() %}
 				{% for post in related_posts %}
 				<div class="col-sm-4 related-post">
 					{% module featured_post(post=post, urlparse=urlparse, show_votes=False, show_source=False) %}
 				</div>
-				{% end %}
-				
-				{% else %}
-				<div class="col-sm-4 related-post">
-					[todo: pick posts for here (Brittany)]
-				</div>
-				{% end %}
-				
-				
-				
+				{% end %}				
 			</div>
 			<!-- /row -->
+			{% end %}
 				
 		</article>
 	</div>
