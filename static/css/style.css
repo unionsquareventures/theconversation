@@ -907,8 +907,8 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
     margin:0;
     padding:0;
 }
- .feed li ,
- .featured-post{
+ .feed li,
+ .featured-post {
     margin:0;
     padding:8px 0 5px 0;
     list-style:none;
@@ -917,8 +917,8 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 }
  .featured-post {
     background:#eee;
-    padding:20px;
-    margin-bottom:25px;
+    padding:20px !important;
+    margin-bottom:25px !important;
     border-bottom:1px solid #ccc;
 }
  .swipe .featured-post {

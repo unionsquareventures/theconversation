@@ -4,6 +4,21 @@
 	Network | 
 {% end %}
 
+{% block javascript %}
+	<script>
+		$(document).ready(function() {
+			rp_max_height = 0;
+			$('.related-post').each(function() {
+				if ($(this).height() > rp_max_height) {
+					rp_max_height = $(this).height();
+				}
+			})
+			$('.related-post').height(rp_max_height);
+		});
+	</script>
+
+{% end %}
+
 {% block content %}
 
 <div id="main" role="main">
@@ -31,49 +46,30 @@
 
 				</div><!-- /col-sm-6 -->
 
-			</div><!-- /.row -->
-			<!--
-			<h2 class="section-heading">Network Updates</h2>
-			<div class="row">
-									<div class="col-sm-4">
-						<div class="post" style="background: #eee; border-bottom: 1px solid #ddd; margin-bottom: 40px; padding: 20px;">
-							<h3>This is a post</h3>
-							<p>With some stuff</p>
-						</div>
-					</div>
-									<div class="col-sm-4">
-						<div class="post" style="background: #eee; border-bottom: 1px solid #ddd; margin-bottom: 40px; padding: 20px;">
-							<h3>This is a post</h3>
-							<p>With some stuff</p>
-						</div>
-					</div>
-									<div class="col-sm-4">
-						<div class="post" style="background: #eee; border-bottom: 1px solid #ddd; margin-bottom: 40px; padding: 20px;">
-							<h3>This is a post</h3>
-							<p>With some stuff</p>
-						</div>
-					</div>
-									<div class="col-sm-4">
-						<div class="post" style="background: #eee; border-bottom: 1px solid #ddd; margin-bottom: 40px; padding: 20px;">
-							<h3>This is a post</h3>
-							<p>With some stuff</p>
-						</div>
-					</div>
-									<div class="col-sm-4">
-						<div class="post" style="background: #eee; border-bottom: 1px solid #ddd; margin-bottom: 40px; padding: 20px;">
-							<h3>This is a post</h3>
-							<p>With some stuff</p>
-						</div>
-					</div>
-									<div class="col-sm-4">
-						<div class="post" style="background: #eee; border-bottom: 1px solid #ddd; margin-bottom: 40px; padding: 20px;">
-							<h3>This is a post</h3>
-							<p>With some stuff</p>
-						</div>
-					</div>
-								</div>
-			--><!-- /row -->
 
+			</div><!-- /.row -->
+				
+			<h2 class="section-heading" id="team-heading" style="text-transform:uppercase; font-weight: 300">Network Updates</h2>            
+			
+			<div class="row">
+				{% if 'related_posts' in locals() %}
+				{% for post in related_posts %}
+				<div class="col-sm-4 related-post">
+					{% module featured_post(post=post, urlparse=urlparse, show_votes=False, show_source=False) %}
+				</div>
+				{% end %}
+				
+				{% else %}
+				<div class="col-sm-4 related-post">
+					[todo: pick posts for here (Brittany)]
+				</div>
+				{% end %}
+				
+				
+				
+			</div>
+			<!-- /row -->
+				
 		</article>
 	</div>
 {% end %}

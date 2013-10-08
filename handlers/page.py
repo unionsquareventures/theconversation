@@ -24,7 +24,6 @@ class PageHandler(BaseHandler):
 			self.render('page/network.html', **self.vars)
 		else:
 			super(PageHandler, self).get(id, action)
-
 		
 	def about(self):
 		related_posts = Post.objects(tags__in=["about-page"]).order_by('-date_created')
@@ -32,4 +31,13 @@ class PageHandler(BaseHandler):
 			'related_posts': related_posts
 		})
 		self.render('page/about.html', **self.vars)
+		
+	def network(self):
+		related_posts = Post.objects(tags__in=["network-page"]).order_by('-date_created')
+		self.vars.update({
+			'related_posts': related_posts
+		})
+		self.render('page/network.html', **self.vars)
+		
+	
 					
