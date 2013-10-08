@@ -907,14 +907,15 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
     margin:0;
     padding:0;
 }
- .feed li {
+ .feed li ,
+ .featured-post{
     margin:0;
     padding:8px 0 5px 0;
     list-style:none;
     position:relative;
     border-bottom:1px solid #dfdfdf;
 }
- .featured-feed .feed .featured-post {
+ .featured-post {
     background:#eee;
     padding:20px;
     margin-bottom:25px;
@@ -947,12 +948,14 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
     padding:0;
     border:none;
 }
- .feed .avatar {
+ .feed .avatar,
+ .featured-post .avatar {
     display:none;
     border:1px solid #DFDFD1;
     border-radius: 3px;
 }
- .feed .title {
+ .feed .title,
+ .featured-post .title {
     text-decoration:none;
     line-height:1.1em;
     font-weight:700;
@@ -968,26 +971,34 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
     font-size:.6em;
     top:0px;
 }
- .featured-feed .title {
+ .featured-feed .title,
+ .featured-post .title {
     display:block;
     text-align:center;
     padding-bottom:15px;
     line-height:1.2em;
 }
- .featured-feed .excerpt {
+.related-post .featured-post .title {
+    font-size: 1.2em;
+}
+ .featured-feed .excerpt,
+ .featured-post .excerpt {
     margin:0 0 15px;
     padding: 0 !important;
     /*border-bottom:1px solid #ddd;
     */
     /*border-top:1px solid #ddd;*/
 }
- .feed .title:link {
+ .feed .title:link,
+ .featured-post .title:link {
     color:#000;
 }
- .feed .title:hover {
+ .feed .title:hover,
+ .featured-post .title:hover {
     color:#86aa3b;
 }
- .feed .excerpt {
+ .feed .excerpt ,
+ .featured-post .excerpt{
     color:#000;
     padding:7px 0 10px 0;
 }
@@ -1013,12 +1024,14 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
  .featured-post .meta {
      text-align: center !important;
  }
- .feed .meta {
+ .feed .meta,
+ .featured-post .meta {
     color:gray;
     font-size:0.85em;
     text-align:left;
 }
- .feed .meta a {
+ .feed .meta a,
+ .featured-post .meta a {
     display:inline-block;
     vertical-align:baseline;
     zoom:1;
@@ -1032,7 +1045,9 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
  .feed .meta a:hover {
     text-decoration:underline;
 }
- .feed .meta span, .feed a.username {
+ .feed .meta span, .feed a.username,
+ .featured-post .meta span,
+ .featured-post .feed a.username {
     display:inline-block;
     vertical-align:baseline;
     zoom:1;
@@ -1040,7 +1055,11 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
     *vertical-align:auto;
     margin-right:10px;
 }
- .featured-feed .meta {
+.featured-post a.username {
+    margin-right: 10px !important;
+}
+ .featured-feed .meta,
+ .featured-post .meta {
     text-align:center;
     border-top:1px solid #ddd;
     padding-top:10px;

@@ -95,11 +95,11 @@
         
         <ul class="feed hidden-xs">
           {% for post in sticky %}
-            {% module featured_post(post=post, urlparse=urlparse) %}
+            {% module featured_post(post=post, urlparse=urlparse, show_votes=True, show_source=True) %}
           {% end %}
           
           {% for post in featured_posts %}
-            {% module featured_post(post=post, urlparse=urlparse) %}
+            {% module featured_post(post=post, urlparse=urlparse, show_votes=True, show_source=True) %}
           {% end %}
         </ul><!--end of feed-->
         <a class="more-link" href="/featured_posts">Featured Posts</a>

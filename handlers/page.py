@@ -1,7 +1,7 @@
 import settings
 import tornado.web
 from base import BaseHandler
-from models import Company
+from models import Company, Post
 from slugify import slugify
 
 class PageHandler(BaseHandler):
@@ -10,7 +10,7 @@ class PageHandler(BaseHandler):
 		
 	def get(self):
 		if self.request.path == "/about/":
-			self.render('page/about.html', **self.vars)
+			self.about()
 		elif self.request.path == "/portfolio/":
 			current = Company.objects(status="current").order_by('name')
 			exited = Company.objects(status="exited").order_by('name')
@@ -26,4 +26,10 @@ class PageHandler(BaseHandler):
 			super(PageHandler, self).get(id, action)
 
 		
+	def about(self):
+		related_posts = Post.objects(tags__in=["about-page"]).order_by('-date_created')
+		self.vars.update({
+			'related_posts': related_posts
+		})
+		self.render('page/about.html', **self.vars)
 					

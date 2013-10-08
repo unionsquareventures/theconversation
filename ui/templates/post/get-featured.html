@@ -77,7 +77,15 @@
 				{% if post.user.id_str == user_id_str or is_staff(username) %}
 					<span class="editlink"><a href="/posts/{{ post.slug }}/edit" class="edit-post">Edit</a></span>
 				{% end %}
-
+				{% if post.tags %}
+					<span class="post-tags" style="float:right">
+					{% for count, tag in enumerate(post.tags) %}
+						{% if tag != "about-page" %}
+						<a href="/search?tag={{ url_escape(tag) }}">#{{ tag }}</a>{% if count < len(post.tags) -1 %}, {% end %}
+						{% end %}
+					{% end %}
+					</span>
+				{% end %}
 			</div>
 
 			<div class="post-body">
@@ -110,13 +118,6 @@
 
 				{% if post.has_hackpad and post.hackpad_url %}
 				  <p><a class="post-body-hackpad-link" target="_blank" href="{{ post.hackpad_url }}">Hackpad &rarr;</a></p>
-				{% end %}
-				{% if post.tags %}
-					<p><b>Tags:</b>
-					{% for count, tag in enumerate(post.tags) %}
-						<a href="/search?tag={{ url_escape(tag) }}">{{ tag }}</a>{% if count < len(post.tags) -1 %}, {% end %}
-					{% end %}
-					</p>
 				{% end %}
 			</div><!--end of post-body-->
 
