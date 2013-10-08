@@ -70,10 +70,10 @@ def init_app(bundle=True, auth_passthrough=False):
 
             (r'/(?P<year>[0-9]+)/(?P<month>[0-9]+)/(?P<slug>[\w\s-]+).php$', OldPostHandler),
 
-            (r'/portfolio/$', PageHandler),
+            (r'/portfolio.*$', PageHandler),
             (r'/portfolio/migrate$', PageHandler),
-            (r'/about/$', PageHandler),
-            (r'/network/$', PageHandler),
+            (r'/about.*$', PageHandler),
+            (r'/network.*$', PageHandler),
 
             (r'/?', PostHandler),
             (r'/posts/?', PostHandler),

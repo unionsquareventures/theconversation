@@ -9,9 +9,9 @@ class PageHandler(BaseHandler):
 		super(PageHandler, self).__init__(*args, **kwargs)
 		
 	def get(self):
-		if self.request.path == "/about/":
+		if self.request.path.find("/about") == 0:
 			self.about()
-		elif self.request.path == "/portfolio/":
+		elif self.request.path.find("/portfolio") == 0:
 			current = Company.objects(status="current").order_by('name')
 			exited = Company.objects(status="exited").order_by('name')
 			self.vars.update ({
@@ -20,7 +20,7 @@ class PageHandler(BaseHandler):
 				'slugify': slugify
 			})
 			self.render('page/portfolio.html', **self.vars)
-		elif self.request.path == "/network/":
+		elif self.request.path.find("/network") == 0:
 			self.network()
 		else:
 			super(PageHandler, self).get(id, action)
