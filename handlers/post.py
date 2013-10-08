@@ -152,6 +152,11 @@ class PostHandler(BaseHandler):
     @tornado.web.authenticated
     @tornado.web.asynchronous
     def new(self, post=None, errors=None, existing_posts=None):
+        if self.is_blacklisted(self.get_current_username()):
+            self.vars.update({
+                'banned': True
+            })
+        
         if not errors:
             errors = {}
 
