@@ -3078,11 +3078,16 @@ span.no-match {
     margin-top: 10px;
 }
 
+#content li.submit-btn {
+    margin-bottom: 0;
+}
+
 ul.tools {
     padding: 0 5px 0 0;
-    margin: 0 0 5px;
+    margin: 0px 0 5px;
     text-align: right;
     border: none;
+    clear: both;
 }
 ul.tools li {
     display: inline;
