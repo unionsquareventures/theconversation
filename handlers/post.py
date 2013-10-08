@@ -156,6 +156,10 @@ class PostHandler(BaseHandler):
             self.vars.update({
                 'banned': True
             })
+        else:
+            self.vars.update({
+                'banned': False
+            })
         
         if not errors:
             errors = {}
