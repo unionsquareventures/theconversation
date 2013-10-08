@@ -74,6 +74,7 @@ def init_app(bundle=True, auth_passthrough=False):
             (r'/portfolio/migrate$', PageHandler),
             (r'/about.*$', PageHandler),
             (r'/network.*$', PageHandler),
+            (r'/tools.*$', PageHandler),
 
             (r'/?', PostHandler),
             (r'/posts/?', PostHandler),

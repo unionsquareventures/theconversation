@@ -712,12 +712,14 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
  color:#7e8e39;
 }
  .tools-desktop {
-    display:none !important;
+    background: #eee;
+    border-bottom: 1px solid #ddd;
+    padding:3px;
 }
  .tools-mobile {
     background:#eee;
     border-bottom:1px solid #ddd;
-    padding:3px;
+
     text-align:center;
     margin-bottom:0;
 }
@@ -839,6 +841,10 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
     padding:20px;
     */
  margin-top:0px;
+ padding-bottom: 40px;
+}
+#content li {
+    margin-bottom: .75em;
 }
 @media only screen and (min-width:768px) {
     #content {
@@ -3065,8 +3071,27 @@ span.no-match {
     color:#000;
 }
 .hot-newest-feed .tabs {
-    margin:4px 0 20px;
+    margin: 0px 0 5px;
 }
+
+.hot-newest-feed a.sort.btn {
+    margin-top: 10px;
+}
+
+ul.tools {
+    padding: 0 5px 0 0;
+    margin: 0 0 5px;
+    text-align: right;
+    border: none;
+}
+ul.tools li {
+    display: inline;
+    padding: 0 5px;
+}
+ul.tools a {
+    color: #999;
+}
+
 .hot-newest-feed span.username {
     display:none !important;
 }
