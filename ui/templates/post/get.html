@@ -63,7 +63,7 @@
                 {% if post.url %}
                 <a class="post-source" href="{{ post.url }}">{{ urlparse(post.url).netloc }} &rarr;</a>
                 {% end %}
-                {% if post.user.id_str == user_id_str or is_admin() %}
+                {% if post.user.id_str == user_id_str or is_staff(username) %}
                     <span class="editlink"><a href="/posts/{{ post.slug }}/edit" class="edit-post">Edit</a></span>
                 {% end %}
                 {% if post.tags %}

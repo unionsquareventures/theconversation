@@ -465,7 +465,7 @@ class PostHandler(BaseHandler):
 
         id_str = self.get_current_user_id_str()
         op_rights = (id_str == post.user['id_str']) and not post.deleted
-        if not (op_rights or self.is_admin()):
+        if not (op_rights or self.is_staff(self.get_current_username())):
             raise tornado.web.HTTPError(401)
 
         # Modification page
@@ -474,6 +474,7 @@ class PostHandler(BaseHandler):
             'errors': errors,
             'edit_mode': True,
             'existing_posts': None,
+            'banned': False
         })
         self.render('post/new.html', **self.vars)
 
@@ -481,6 +482,8 @@ class PostHandler(BaseHandler):
     def get(self, id='', action=''):
         if self.request.path == '/feed':
             self.feed()
+        if action == 'edit' and id:
+            self.edit(id)
         if action == 'upvote' and id:
             self.upvote(id)
         elif action == 'feature' and id:

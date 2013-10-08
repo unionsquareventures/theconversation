@@ -74,7 +74,7 @@
 				{% end %}
 				<span class="author-name visible-xs">{{ post.user.fullname }}</span>
 				<span class="post-date">{{ pretty_date(post.date_created) }}</span> 
-				{% if post.user.id_str == user_id_str or is_admin() %}
+				{% if post.user.id_str == user_id_str or is_staff(username) %}
 					<span class="editlink"><a href="/posts/{{ post.slug }}/edit" class="edit-post">Edit</a></span>
 				{% end %}
 
