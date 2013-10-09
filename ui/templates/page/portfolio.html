@@ -4,6 +4,26 @@
 	Portfolio | 
 {% end %}
 
+{% block javascript %}
+	<script>
+		var get_height = function() {
+			var max_height = 0;
+			$('.company').each(function(){
+				if ($(this).height() > max_height) {
+					max_height = $(this).height();
+				}
+			});
+			$('.company').height(max_height);
+			console.log(max_height)
+		}
+		$(document).ready(function() {
+			/* this is a hack. wait after page loads, then adjust heights (to
+			make sure at least some images have loaded */
+			setTimeout('get_height()', 300);
+		})
+	</script>
+{% end %}
+
 {% block content %}
 
 	<h1 class="mobile-page-headline">Portfolio</h1>
