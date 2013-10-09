@@ -526,8 +526,7 @@ h2.subsection {
     font-family: "proxima-nova-light"
 }
 h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
-    font-family:"proxima-nova-bold", "proxima-nova", sans-serif;
-    font-weight:600;
+    font-family:"proxima-nova-semibold", "proxima-nova", sans-serif;
 }
 /* ================================ Mobile Header ============================ */
 #mobile-header {
