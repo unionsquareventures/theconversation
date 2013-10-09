@@ -10,19 +10,19 @@
     <title>{% block title %}{% end %}Union Square Ventures</title>
     <meta name="description" content="Union Square Ventures (USV) is a New York City-based venture capital firm. We invest in networks that disrupt existing industries.">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="apple-touch-icon" sizes="57x57" href="/static/img/usv-touch-icon.png"/>
-    <link rel="shortcut icon" href="/static/img/usv-favicon.png" type="image/png" />
+    <link rel="apple-touch-icon" sizes="57x57" href="{{ static_url("img/usv-touch-icon.png") }}"/>
+    <link rel="shortcut icon" href="{{ static_url("img/usv-favicon.png") }}" type="image/png" />
 
     <link rel="stylesheet" href="{{ static_url("css/bootstrap.min.css") }}">
-    <link rel="stylesheet" href="/static/css/mmenu.css">
+    <!-- dont cache style.css yes, since we're still developing on it heavily -->
     <link rel="stylesheet" href="/static/css/style.css?{{ settings.css_modified_time }}">
-    <script src="/static/js/vendor/respond.min.js"></script>
+    <script src="{{ static_url("js/vendor/respond.min.js") }}"></script>
 
     {% block css %}
     {% end %}
 
-    <script src="/static/js/vendor/jquery-1.9.1.min.js"></script>
-    <script src="/static/js/bootstrap.min.js"></script>
+    <script src="{{ static_url("js/vendor/jquery-1.9.1.min.js") }}"></script>
+    <script src="{{ static_url("js/bootstrap.min.js") }}"></script>
     <script type="text/javascript">
         USV_is_admin = {{ 'true' if is_admin() else 'false' }};
         USV_tinymce_valid_elements = "{{ tinymce_valid_elements(media=is_admin()) }}";
@@ -44,13 +44,13 @@
     </script>
     <script type="text/javascript" src="//use.typekit.net/eim8cyk.js"></script>
     <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
-    <script src="/static/js/vendor/modernizr-2.6.2.min.js"></script>
-    <script type="text/javascript" src="/static/js/tinymce/jquery.tinymce.min.js"></script>
-    <script src="/static/js/plugins.js"></script>
-    <script src="/static/js/scripts.js?v=3"></script>
-    <script src="/static/js/swipe.js"></script>
-    <script src="/static/js/modules_bundle.js"></script>
-    <script src="/static/js/vendor/jquery.scrollto.js"></script>
+    <script src="{{ static_url("js/vendor/modernizr-2.6.2.min.js") }}"></script>
+    <script type="text/javascript" src="{{ static_url("js/tinymce/jquery.tinymce.min.js") }}"></script>
+    <script src="{{ static_url("js/plugins.js") }}"></script>
+    <script src="{{ static_url("js/scripts.js?v=3") }}"></script>
+    <script src="{{ static_url("js/swipe.js") }}"></script>
+    <script src="{{ static_url("js/modules_bundle.js") }}"></script>
+    <script src="{{ static_url("js/vendor/jquery.scrollto.js") }}"></script>
     {% block javascript %}
     {% end %}
 </head>
