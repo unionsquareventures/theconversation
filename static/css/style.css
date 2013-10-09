@@ -523,6 +523,7 @@ h1.mobile-page-headline {
 h2.subsection {
     margin-top:0;
     font-size:1.2em;
+    font-family: "proxima-nova-light"
 }
 h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
     font-family:"proxima-nova-bold", "proxima-nova", sans-serif;
@@ -885,7 +886,7 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
  padding-bottom: 40px;
 }
 #content li {
-    margin-bottom: .75em;
+    
 }
 @media only screen and (min-width:768px) {
     #content {
