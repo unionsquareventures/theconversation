@@ -41,12 +41,12 @@ src: local("☺"),
 }
 
 @font-face {
-font-family: "proxima-nova-bold";
+font-family: "proxima-nova-semibold";
 src: url("/static/fonts/proximanova-bold-webfont.eot");
 src: local("☺"),
-  url("/static/fonts/proximanova-bold-webfont.woff") format("woff"),
-  url("/static/fonts/proximanova-bold-webfont.otf") format("opentype"),
-  url("/static/fonts/proximanova-bold-webfont.svg#proximanova-light-webfont.svg") format("svg");
+  url("/static/fonts/proximanova-semibold-webfont.woff") format("woff"),
+  url("/static/fonts/proximanova-semibold-webfont.otf") format("opentype"),
+  url("/static/fonts/proximanova-semibold-webfont.svg#proximanova-light-webfont.svg") format("svg");
 }
 
 /* ========================================================================== HTML5 display definitions ========================================================================== */
@@ -210,7 +210,7 @@ sub {
     vertical-align:middle;
     cursor:pointer;
     color:#606652;
-    font-weight:600;
+    font-weight:500;
     text-decoration:none !important;
     text-align:center;
     text-transform:uppercase;
@@ -782,7 +782,7 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
     text-decoration:none;
     color:gray;
     font-size:1.25em;
-    font-weight:600;
+    font-family: "proxima-nova-bold";
     padding:3px 8px;
     -webkit-transition:all 0.3s ease-out;
     -moz-transition:all 0.3s ease-out;
