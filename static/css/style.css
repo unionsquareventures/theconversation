@@ -14,39 +14,39 @@ Author URI: http://www.studiokudos.com
 /* Fonts
 ==================*/
 @font-face {
-font-family: "proxima-nova-light";
-src: url("/static/fonts/proximanova-light-webfont.eot");
-src: local("☺"),
-  url("/static/fonts/proximanova-light-webfont.woff") format("woff"),
-  url("/static/fonts/proximanova-light-webfont.otf") format("opentype"),
-  url("/static/fonts/proximanova-light-webfont.svg#proximanova-light-webfont.svg") format("svg");
+    font-family: 'proxima-nova-bold';
+    src: url('/static/fonts/proximanova-bold-webfont.eot');
+    src: local('proxima-nova-bold'), 
+         local('proxima-nova-bold'), 
+         url('/static/fonts/proximanova-bold-webfont.otf') format('opentype'),
+         url('/static/fonts/proximanova-bold-webfont.svg#font') format('svg'); 
 }
 
 @font-face {
-font-family: "proxima-nova-regular";
-src: url("/static/fonts/proximanova-regular-webfont.eot");
-src: local("☺"),
-  url("/static/fonts/proximanova-regular-webfont.woff") format("woff"),
-  url("/static/fonts/proximanova-regular-webfont.otf") format("opentype"),
-  url("/static/fonts/proximanova-regular-webfont.svg#proximanova-light-webfont.svg") format("svg");
+    font-family: 'proxima-nova-light';
+    src: url('/static/fonts/proximanova-light-webfont.eot');
+    src: local('proxima-nova-light'), 
+         local('proxima-nova-bold'), 
+         url('/static/fonts/proximanova-light-webfont.otf') format('opentype'),
+         url('/static/fonts/proximanova-light-webfont.svg#font') format('svg'); 
 }
 
 @font-face {
-font-family: "proxima-nova-bold";
-src: url("/static/fonts/proximanova-bold-webfont.eot");
-src: local("☺"),
-  url("/static/fonts/proximanova-bold-webfont.woff") format("woff"),
-  url("/static/fonts/proximanova-bold-webfont.otf") format("opentype"),
-  url("/static/fonts/proximanova-bold-webfont.svg#proximanova-light-webfont.svg") format("svg");
+    font-family: 'proxima-nova-semibold';
+    src: url('/static/fonts/proximanova-semibold-webfont.eot');
+    src: local('proxima-nova-semibold'), 
+         local('proxima-nova-semibold'), 
+         url('/static/fonts/proximanova-semibold-webfont.otf') format('opentype'),
+         url('/static/fonts/proximanova-semibold-webfont.svg#font') format('svg'); 
 }
 
 @font-face {
-font-family: "proxima-nova-semibold";
-src: url("/static/fonts/proximanova-bold-webfont.eot");
-src: local("☺"),
-  url("/static/fonts/proximanova-semibold-webfont.woff") format("woff"),
-  url("/static/fonts/proximanova-semibold-webfont.otf") format("opentype"),
-  url("/static/fonts/proximanova-semibold-webfont.svg#proximanova-light-webfont.svg") format("svg");
+    font-family: 'proxima-nova-regular';
+    src: url('/static/fonts/proximanova-regular-webfont.eot');
+    src: local('proxima-nova-regular'), 
+         local('proxima-nova-regular'), 
+         url('/static/fonts/proximanova-regular-webfont.otf') format('opentype'),
+         url('/static/fonts/proximanova-regular-webfont.svg#font') format('svg'); 
 }
 
 /* ========================================================================== HTML5 display definitions ========================================================================== */
