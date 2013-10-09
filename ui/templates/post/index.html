@@ -110,8 +110,11 @@
           <li class="{{ 'is-active' if sort_by == 'hot' else '' }}"><a class="sort btn" href="?sort_by=hot">Hot</a></li>
           <li class="{{ 'is-active' if sort_by == 'new' else '' }}"><a class="sort btn" href="?sort_by=new">Newest</a></li>
           {% if not is_blacklisted %}
-          <li class="submit-btn"><a class="btn btn-primary" role="button"
-            data-toggle="modal" href="#submit-modal">Submit a post</a></li>
+          <li class="submit-btn">
+            <!--<a class="btn btn-primary" role="button"
+            data-toggle="modal" href="#submit-modal">Submit a post</a>-->
+            <a class="btn btn-primary" role="button" href="/posts/new">Submit a post</a>          
+          </li>
           {% end %}
         </ul>
         <ul class="tools">
