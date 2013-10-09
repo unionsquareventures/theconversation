@@ -3456,9 +3456,17 @@ ul.investments-list {
     .profile-photo {
         position: absolute;
     }
+    #content > .container {
+        padding-left:0;
+        padding-right:0;
+    }
 
 }
 @media only screen and (max-width:480px) {
+
+#content > .container {
+    padding-top: 0;
+}
     .site-logo {
         width:320px;
     }
@@ -3567,10 +3575,6 @@ ul.investments-list {
     }
     .feed .meta {
         text-align:left;
-    }
-     #content > .container {
-        padding-left:0;
-        padding-right:0;
     }
      .company {
         height:285px;
