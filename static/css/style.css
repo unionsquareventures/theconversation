@@ -72,7 +72,7 @@ audio:not([controls]) {
 /* ========================================================================== Base ========================================================================== */
 /** * 1. Prevent system color scheme's background color being used in Firefox, IE, * and Opera. * 2. Prevent system color scheme's text color being used in Firefox, IE, and * Opera. * 3. Correct text resizing oddly in IE 6/7 when body `font-size` is set using * `em` units. * 4. Prevent iOS text size adjust after orientation change, without disabling * user zoom. */
 html {
-    background:#fff;
+    background:#555;
     /* 1 */
  color:#000;
     /* 2 */
@@ -2832,8 +2832,8 @@ ul.filter li a:hover,ul.filter li.active a {
  }
 /* ================================ Site Footer =========================== */
 #site-footer {
-    background-color:#333333;
-    border-top:14px solid #86aa3b;
+    background-color:#333;
+    border-top:1px solid #86aa3b;
     /*margin-top:35px;
     */
  margin-top:0;
@@ -2866,19 +2866,19 @@ ul.filter li a:hover,ul.filter li.active a {
  #site-footer .col-a a:hover {
     color:#a0c454;
 }
- #site-footer .footer-search-container {
+ .footer-search-container {
     position:relative;
-    width:218px;
     margin:1em 0 2em 0;
 }
- #site-footer .footer-search-container input[type=search] {
+ .footer-search-container input[type=search] {
     display:block;
-    width:200px;
+    width:100%;
+    margin-left:20px;
 }
- #site-footer .footer-search-container .submit-button {
+ .footer-search-container .submit-button {
     position:absolute;
     top:0.1em;
-    right:0.3em;
+    right: -30px;
     display:block;
     -webkit-appearance:none;
     -moz-appearance:none;
