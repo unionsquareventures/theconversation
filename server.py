@@ -56,7 +56,7 @@ def init_app(bundle=True, auth_passthrough=False):
     f.close()
     logging.info('Starting server on port %s' % options.port)
     application = tornado.web.Application([
-            (r'/auth/twitter/', TwitterLoginHandler),
+            (r'/auth/twitter/?', TwitterLoginHandler),
             (r'/auth/logout/?', LogoutHandler),
             (r'/auth/email/?', EmailHandler),
             (r'/auth/close_popup/?', CloseHandler),
