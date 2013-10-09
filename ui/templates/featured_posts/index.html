@@ -1,40 +1,34 @@
 {% extends '../base.html' %}
+{% block body_class %}conversation{% end %}
+
+{% block javascript %}
+    <script>
+	    $(document).ready(function() {
+	        rp_max_height = 0;
+	        $('.related-post').each(function() {
+	            if ($(this).height() > rp_max_height) {
+	                rp_max_height = $(this).height();
+	            }
+	        })
+	        $('.related-post').height(rp_max_height);
+	    });
+	</script>
+{% end %}
 
 {% block content %}
 <div id="main" role="main">
-    <section class="featured-feed centered clearfix">
-    <h1 class="general-page-headline">Featured Posts</h1>
+    <section class=" centered clearfix">
+    <h2 class="section-heading" style="margin-top:0">Featured Posts</h2>
 
-        <ul class="feed">
+
+        <div class="row">
             {% for post in featured_posts %}
-            <li>
-                <div class="content">
-                    <a class="title" href="/posts/{{ post.slug }}">{{ post.title }}</a>
-                    {% if post.url %}
-                        <a href="{{ post.url }}" class="source" target="_blank">{{ urlparse(post.url).netloc }}</a>
-                    {% else %}
-                        <a href="/posts/{{ post.slug }}" class="source" target="_blank">usv.com</a>
-                    {% end %}
-                    <div class="excerpt">{{ post.body_truncated }}</div>
-                    <div class="meta">
-                        <div class="thumbnail">
-                            <a href="http://www.twitter.com/{{ post.user.username }}" targer="_blank">
-                                <img src="{{
-                                twitter_avatar_size(post.user.profile_image_url_https, 'normal') }}" alt="thumbnail">
-                            </a>
-                        </div>
-                        <a class="username" href="http://www.twitter.com/{{ post.user.username }}" targer="_blank">
-                            @{{ post.user.username }}
-                        </a>
-                        <span class="time">{{ pretty_date(post.date_created) }}</span>
-                        {% module ajax_upvote_link(post=post) %}
-                        <a class="comments-count" href="/posts/{{ post.slug }}#disqus_thread"
-                            data-disqus-identifier="{{ post.id }}">0 comments</a>
-                    </div>
-                </div>
-            </li>
+            <div class="col-sm-4 related-post">
+                {% module featured_post(post=post, urlparse=urlparse, show_votes=False, show_source=False) %}
+            </div>
             {% end %}
-        </ul><!--end of feed-->
+        </div>
+        <!-- /row -->
 
         {% module paginator(page, per_page, total_count, show_pages=True) %}
         </section><!--end of featured-feed-->

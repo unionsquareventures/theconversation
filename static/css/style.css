@@ -3097,7 +3097,9 @@ span.no-match {
     /* green */
  color:#fff;
 }
-#main-nav a.current {
+#main-nav a.current,
+body.conversation #nav-conversation a
+ {
     background-color:#fff;
     color:#ddd;
     color:#88a04b;

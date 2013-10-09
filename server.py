@@ -65,7 +65,7 @@ def init_app(bundle=True, auth_passthrough=False):
             (r'/delete_user/?', DeleteUserHandler),
             (r'/deleted_posts/?', DeletedPostsHandler),
             (r'/users/(?P<username>[A-z-+0-9]+)/(?P<action>.*)$', BlacklistUserHandler),
-            (r'/featured_posts/?', FeaturedPostsHandler),
+            (r'/featured.*$', FeaturedPostsHandler),
             (r'/search/?', SearchHandler),
 
             (r'/(?P<year>[0-9]+)/(?P<month>[0-9]+)/(?P<slug>[\w\s-]+).php$', OldPostHandler),
