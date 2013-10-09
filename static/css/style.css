@@ -2868,7 +2868,7 @@ ul.filter li a:hover,ul.filter li.active a {
 }
  .footer-search-container {
     position:relative;
-    margin:1em 0 2em 0;
+    margin:0 0 2em 0;
 }
  .footer-search-container input[type=search] {
     display:block;
