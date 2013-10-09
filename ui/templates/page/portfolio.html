@@ -65,7 +65,7 @@
 							<span class="since-date">
 								{{ c.investment_year }}, {{ c.investment_series }}
 							</span>
-							{% if is_staff %}
+							{% if is_staff(username) %}
 							<span class="editlink"><a href="{{ c.editlink() }}" target="_blank">edit</a></span>
 							{% end %}
 						</div><!-- /company -->
@@ -92,7 +92,7 @@
 								<span class="since-date">
 									{{ c.investment_year }}, {{ c.investment_series }}
 								</span>
-								{% if is_staff %}
+								{% if is_staff(username) %}
 								<span class="editlink"><a href="{{ c.editlink() }}" target="_blank">edit</a></span>
 								{% end %}
 							</div><!-- /company -->
