@@ -3505,7 +3505,7 @@ ul.investments-list {
 @media only screen and (max-width:480px) {
 
 #content > .container {
-    padding-top: 0;
+    /*padding-top: 0;*/
 }
     .site-logo {
         width:320px;
