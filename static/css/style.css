@@ -9,6 +9,46 @@ Author URI: http://www.studiokudos.com
 
 /* ==========================================================================Theme Name:Union Square VenturesTheme URI:http://www.usv.comDescription:Official USV wordpress theme. Please do not change.Version:1.0Author:Sumit PaulAuthor URI:http://www.studiokudos.com============================================================================= */
 /* normalize.css v1.1.1 | MIT License | git.io/normalize */
+
+
+/* Fonts
+==================*/
+@font-face {
+font-family: "proxima-nova-light";
+src: url("/static/fonts/proximanova-light-webfont.eot");
+src: local("☺"),
+  url("/static/fonts/proximanova-light-webfont.woff") format("woff"),
+  url("/static/fonts/proximanova-light-webfont.otf") format("opentype"),
+  url("/static/fonts/proximanova-light-webfont.svg#proximanova-light-webfont.svg") format("svg");
+}
+
+@font-face {
+font-family: "proxima-nova-regular";
+src: url("/static/fonts/proximanova-regular-webfont.eot");
+src: local("☺"),
+  url("/static/fonts/proximanova-regular-webfont.woff") format("woff"),
+  url("/static/fonts/proximanova-regular-webfont.otf") format("opentype"),
+  url("/static/fonts/proximanova-regular-webfont.svg#proximanova-light-webfont.svg") format("svg");
+}
+
+@font-face {
+font-family: "proxima-nova-bold";
+src: url("/static/fonts/proximanova-bold-webfont.eot");
+src: local("☺"),
+  url("/static/fonts/proximanova-bold-webfont.woff") format("woff"),
+  url("/static/fonts/proximanova-bold-webfont.otf") format("opentype"),
+  url("/static/fonts/proximanova-bold-webfont.svg#proximanova-light-webfont.svg") format("svg");
+}
+
+@font-face {
+font-family: "proxima-nova-bold";
+src: url("/static/fonts/proximanova-bold-webfont.eot");
+src: local("☺"),
+  url("/static/fonts/proximanova-bold-webfont.woff") format("woff"),
+  url("/static/fonts/proximanova-bold-webfont.otf") format("opentype"),
+  url("/static/fonts/proximanova-bold-webfont.svg#proximanova-light-webfont.svg") format("svg");
+}
+
 /* ========================================================================== HTML5 display definitions ========================================================================== */
 /** * Correct `block` display not defined in IE 6/7/8/9 and Firefox 3. */
 article,aside,details,figcaption,figure,footer,header,hgroup,main,nav,section,summary {
@@ -425,7 +465,7 @@ html {
     background-color:#fff;
 }
 body {
-    font-family:"proxima-nova-n4", "proxima-nova", sans-serif;
+    font-family:"proxima-nova-regular", "Helvetica Neue", Arial, Helvetica, sans-serif;
     font-style:normal;
     font-weight:400;
     -webkit-font-smoothing:antialiased;
@@ -485,7 +525,7 @@ h2.subsection {
     font-size:1.2em;
 }
 h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
-    font-family:"proxima-nova-n4", "proxima-nova", sans-serif;
+    font-family:"proxima-nova-bold", "proxima-nova", sans-serif;
     font-weight:600;
 }
 /* ================================ Mobile Header ============================ */
@@ -660,6 +700,7 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
     color:transparent;
 }
  h1#usv-name {
+    font-family: "proxima-nova-light";
     color:#fff;
     font-size:22px;
     font-weight:300;
@@ -962,9 +1003,9 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 }
  .feed .title,
  .featured-post .title {
+    font-family: "proxima-nova-bold";
     text-decoration:none;
     line-height:1.1em;
-    font-weight:700;
     color:#000;
     margin-right:5px;
     display:block;
@@ -2577,7 +2618,7 @@ ul.filter li a:hover,ul.filter li.active a {
     margin:0;
     padding:0.5em;
     font-size:1em;
-    font-family:"proxima-nova-n4", "proxima-nova", sans-serif;
+    font-family:"proxima-nova-bold", "proxima-nova", sans-serif;
     border-radius:3px;
 }
  .jobs-container #jobform input[type="submit"]:hover {
