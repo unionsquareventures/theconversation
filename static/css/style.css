@@ -3254,6 +3254,9 @@ ul.investments-list {
    .feed .title {
       font-size:1.3em;
   }
+  .hot-newest-feed .feed .title {
+    font-size: 1.2em
+  }
    .featured-feed .title, .search-feed .title {
       font-size:1.4em;
   }
