@@ -1929,7 +1929,7 @@ ul.filter li a:hover,ul.filter li.active a {
     margin-bottom:0;
 }
 .investments-list p.summary a {
-    font-weight:bold;
+    font-family: "proxima-nova-bold";
     color:#333;
 }
 .btn-continue {
