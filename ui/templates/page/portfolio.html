@@ -16,10 +16,8 @@
 			$('.company').height(max_height);
 			console.log(max_height)
 		}
-		$(document).ready(function() {
-			/* this is a hack. wait after page loads, then adjust heights (to
-			make sure at least some images have loaded */
-			setTimeout('get_height()', 300);
+		$(window).load(function() {
+			get_height();
 		})
 	</script>
 {% end %}
