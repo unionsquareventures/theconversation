@@ -3,7 +3,7 @@
 
 {% block javascript %}
   <script>
-  $(function() {
+  $(document).ready(function() {
     $('#bookmarklet').click(function(e) {
       e.preventDefault();
       alert('This is bookmarklet.  First drag it to your bookmarks bar, then you can use it to share web pages to USV.com.');
@@ -23,6 +23,19 @@
       }
       return text;
   });
+  
+    fp_max_height = 0;
+    $('.featured-post').each(function() {
+      if ($(this).height() > fp_max_height) {
+        fp_max_height = $(this).height();
+      }
+    })
+    
+    if ($('.featured-post:visible').length == 2) {
+      /* only do this on ipad where we're showing two at the top */
+      $('.featured-post').height(fp_max_height);
+    }
+  
 }); 
   </script>
 {% end %}
@@ -94,7 +107,7 @@
           </ul>
         </div>
         
-        <ul class="feed hidden-xs">
+        <ul class="feed hidden-xs" id="homepage-featured-posts">
           {% for post in sticky %}
             {% module featured_post(post=post, urlparse=urlparse, show_votes=True, show_source=True) %}
           {% end %}

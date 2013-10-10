@@ -3290,11 +3290,11 @@ ul.investments-list {
   .hot-newest-feed .content {
     margin-left: 70px;
   }
-  .featured-post {
+  #homepage-featured-posts .featured-post {
     float: left;
     width: 48%;
   }
-  .featured-post:first-child {
+  #homepage-featured-posts .featured-post:first-child {
     margin-right: 20px;
   }
 }
