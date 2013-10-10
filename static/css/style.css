@@ -3099,7 +3099,11 @@ span.no-match {
  color:#fff;
 }
 #main-nav a.current,
-body.conversation #nav-conversation a
+body.conversation #nav-conversation a,
+body.jobs #nav-jobs a,
+body.network #nav-network a,
+body.portfolio #nav-portfolio a,
+body.about #nav-about a
  {
     background-color:#fff;
     color:#ddd;
