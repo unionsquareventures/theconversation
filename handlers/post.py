@@ -555,6 +555,9 @@ class PostHandler(BaseHandler):
         db = Post._get_db()
         query = self.get_argument('query', '')
         #tag = self.get_argument('tag', '')
+        if 'author' is self.request.arguments:
+            author = self.get_argument('author')
+            
         if not (query or tag):
             self.vars.update({
                 'query': '',
@@ -565,25 +568,19 @@ class PostHandler(BaseHandler):
             return
         page = abs(int(self.get_argument('page', '1')))
         per_page = abs(int(self.get_argument('per_page', '10')))
-    
-        if query:
-            results = db.command('text', 'post', search=query,
-                                    filter={'deleted': False})
-            results = results['results']
-            total_count = len(results)
-            results = results[(page-1)*per_page:(page-1)*per_page+per_page]
-            posts = [Post(id=r['obj']['_id'],**r['obj']) for r in results]
+ 
+        if 'author' in self.request.arguments and self.get_argument('author') == 'usv':
+            results = Post.objects(user__username__in=settings.staff_twitter_handles, deleted=False, tags__in=[tag]).order_by('-date_created')
         else:
-            results = Post.objects(tags=tag)
-            total_count = len(results)
-            posts = results[(page-1)*per_page:(page-1)*per_page+per_page]
+            results = Post.objects(deleted=False, tags__in=[tag])
+        total_count = len(results)
+        posts = results[(page-1)*per_page:(page-1)*per_page+per_page]
     
         self.vars.update({
             'posts': posts,
             'total_count': total_count,
             'page': page,
             'per_page': per_page,
-            'query': query,
             'tag': tag,
         })
         self.render('search/index.html', **self.vars)
