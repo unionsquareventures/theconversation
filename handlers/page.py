@@ -30,7 +30,7 @@ class PageHandler(BaseHandler):
 			super(PageHandler, self).get(id, action)
 		
 	def about(self):
-		related_posts = Post.objects(tags__in=["about-page"]).order_by('-date_created')
+		related_posts = Post.objects(tags__in=["thesis"], user__username__in=settings.staff_twitter_handles).order_by('-date_created')[:6]
 		self.vars.update({
 			'related_posts': related_posts
 		})
