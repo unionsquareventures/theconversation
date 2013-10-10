@@ -23,7 +23,7 @@ $(document).ready(function() {
         <p>Your account has been temporarily suspended.  Please contact info@usv.com for more information.</p>
     {% else %}
     <div class="row">
-        <div class="col-sm-6 col-sm-offset-3">
+        <div class="col-sm-8 col-sm-offset-2">
             <h2 style="margin-top:0">Submit a post!</h2>
             {% module post_form(errors=errors, post=post, classes="", id="submit-form",
                                                     existing_posts=existing_posts) %}
