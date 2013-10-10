@@ -3631,17 +3631,22 @@ ul.investments-list {
         display:none;
     }
     .staff {
-        display:none;
+        /*display:none;*/
+        font-size: 85%;
+    }
+    .votes-count {
+        font-size: 85%;
     }
     .author-info {
-        position: absolute;
+        /*position: absolute;*/
     }
     h1.post-title {
         padding-bottom: 5px;
     }
     .article-post .author-name {
         padding: 0;
-        margin: 0;
+        margin: 8px 0 0;
+        font-size: 85%;
     }
     .featured .post-title, .featured .post-meta {
         padding-left: 100px;
