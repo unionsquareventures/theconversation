@@ -49,18 +49,91 @@ Template Name: Jobs
 
 ?>  
 
-<script>
- $(document).ready(function() {
- 
- 	// Setup Search Box
-	var companies = 'company:("10gen" OR "AMEE" OR "Auxmoney" OR "Boxee" OR "Brewster" OR "C2FO" OR "Canvas" OR "CircleUp" OR "Codecademy" OR "Coinbase" OR "Covestor" OR "Disqus" OR "DuckDuckGo" OR "Duolingo" OR "Dwolla" OR "Edmodo" OR "Etsy" OR "Firebase" OR "Flurry" OR "Foursquare" OR "Funding Circle" OR "GetGlue" OR "Hailo" OR "Heyzap" OR "Kickstarter" OR "Kik" OR "Kitchensurfing" OR "Lending Club" OR "Meetup" OR "Return Path" OR "Science Exchange" OR "Shapeways" OR "SiftScience" OR "SigFig" OR "Simulmedia" OR "Skillshare" OR "SoundCloud" OR "Stack Exchange" OR "TargetSpot" OR "Turntable.fm" OR "Twilio" OR "Twitter" OR "Wattpad" OR "Work Market" OR "YieldMo" OR "YouNow" OR "Zemanta")';
+<script type="text/javascript">
+$(document).ready(function() {
 
-	$('#jobform').submit(function() {
-		var query = $('input#q').val();
-	$('input#q').val(query+companies);
-	});
- 
- });
+
+// hide everything
+$(".tab_content").hide(); 
+
+var h = location.hash;
+
+if (h != '' && h != '#top') {
+
+var slug = h.split("#")[1];
+var target = slug.split(":")[0];
+
+// redirect in case it's a bad hash
+//if ($('div#' + target).length == 0) location.href = h.split("#")[0];
+
+// set the new tab active
+
+//alert(target);
+$('a[rel='+target+']').parent().addClass("active").show(); 
+$("div#" + target).show();
+
+// side nav
+$("#yo ul#" + target).addClass("active").show();
+
+
+} else {
+// by default, activate the tab, tab content, and side nav
+$("ul.tabs li:first").addClass("active").show(); 
+$("#yo ul#in").addClass("active").show(); 
+$(".tab_content:first").show(); 
+}
+
+// set the click handler
+$("ul.tabs li").click(function(event) {
+
+	//event.preventDefault();
+	
+	// deactivate where we were
+	var prevTab = $("ul.tabs li.active").find("a").attr("rel");
+	$("yo ul.active").removeClass("active");
+	$("#yo ul#" + prevTab).hide(); 
+	$("ul.tabs li").removeClass("active");
+	$(".tab_content").hide();
+	
+	// set the new tab active
+	$(this).addClass("active");
+	var activeTab = $(this).find("a").attr("href");  
+	//window.location.hash = activeTab;
+	$("div" + activeTab).fadeIn('fast');
+	
+	// side nav
+	$("#yo ul" + activeTab).addClass("active");
+	$("#yo ul" + activeTab).fadeIn('fast');
+	
+	
+	
+	
+	return false;
+
+});
+
+
+// Setup Search Box
+var companies = ' company:("10gen" OR "AMEE" OR "Auxmoney" OR "Boxee" OR "Brewster" OR "C2FO" OR "Canvas" OR "CircleUp" OR "Codecademy" OR "Coinbase" OR "Covestor" OR "Disqus" OR "DuckDuckGo" OR "Duolingo" OR "Dwolla" OR "Edmodo" OR "Etsy" OR "Firebase" OR "Flurry" OR "Foursquare" OR "Funding Circle" OR "GetGlue" OR "Hailo" OR "Heyzap" OR "Kickstarter" OR "Kik" OR "Kitchensurfing" OR "Lending Club" OR "Meetup" OR "Return Path" OR "Science Exchange" OR "Shapeways" OR "SiftScience" OR "SigFig" OR "Simulmedia" OR "Skillshare" OR "SoundCloud" OR "Stack Exchange" OR "TargetSpot" OR "Turntable.fm" OR "Twilio" OR "Twitter" OR "Wattpad" OR "Work Market" OR "YieldMo" OR "YouNow" OR "Zemanta")';
+
+
+
+$('#jobform').submit(function() {
+var query = $('input#q').val();
+$('input#q').val(query+companies);
+});
+
+// $('input#q').focus();
+
+
+
+
+});
+
+
+
+
+
 </script>
 
     <div id="main" role="main">

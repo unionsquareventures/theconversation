@@ -5,6 +5,59 @@
 {% end %}
 
 {% block javascript %}
+<script type="text/javascript">
+	$(document).ready(function() {
+
+	
+	// set the click handler
+	$("ul.job-tabs li").click(function(event) {
+	
+		event.preventDefault();
+	
+		// deactivate where we were
+		var prevTab = $("ul.tabs li.active").find("a").attr("rel");
+		$("yo ul.active").removeClass("active");
+		$("#yo ul#" + prevTab).hide(); 
+		$("ul.tabs li").removeClass("active");
+		$(".tab_content").hide();
+	
+		// set the new tab active
+		$(this).addClass("active");
+		var activeTab = $(this).find("a").attr("href");  
+		//window.location.hash = activeTab;
+		$("div" + activeTab).fadeIn('fast');
+	
+		// side nav
+		$("#yo ul" + activeTab).addClass("active");
+		$("#yo ul" + activeTab).fadeIn('fast');
+
+		return false;
+
+});
+
+
+// Setup Search Box
+var companies = ' company:("10gen" OR "AMEE" OR "Auxmoney" OR "Boxee" OR "Brewster" OR "C2FO" OR "Canvas" OR "CircleUp" OR "Codecademy" OR "Coinbase" OR "Covestor" OR "Disqus" OR "DuckDuckGo" OR "Duolingo" OR "Dwolla" OR "Edmodo" OR "Etsy" OR "Firebase" OR "Flurry" OR "Foursquare" OR "Funding Circle" OR "GetGlue" OR "Hailo" OR "Heyzap" OR "Kickstarter" OR "Kik" OR "Kitchensurfing" OR "Lending Club" OR "Meetup" OR "Return Path" OR "Science Exchange" OR "Shapeways" OR "SiftScience" OR "SigFig" OR "Simulmedia" OR "Skillshare" OR "SoundCloud" OR "Stack Exchange" OR "TargetSpot" OR "Turntable.fm" OR "Twilio" OR "Twitter" OR "Wattpad" OR "Work Market" OR "YieldMo" OR "YouNow" OR "Zemanta")';
+
+
+
+$('#jobform').submit(function() {
+var query = $('input#q').val();
+$('input#q').val(query+companies);
+});
+
+// $('input#q').focus();
+
+
+
+
+});
+
+
+
+
+
+</script>
 {% end %}
 
 {% block content %}
@@ -14,20 +67,6 @@
 
 		<div class="jobs-container">
 			<header>
-				<ul class="stats">
-					<li>
-						<span class="stat">796</span>
-						<span class="label">jobs</span>
-					</li>
-					<li>
-						<span class="stat">36</span>
-						<span class="label">companies</span>
-					</li>
-					<li>
-						<span class="stat">53</span>
-						<span class="label">cities</span>
-					</li>
-				</ul>
 
 				<div class="job-search">
 					<form id="jobform" method="GET" action="http://www.indeed.com/jobs">

@@ -2670,7 +2670,7 @@ ul.filter li a:hover,ul.filter li.active a {
 }
  }
 #jobs-menu .side-nav {
-    display:none;
+    /*display:none;*/
     margin:0;
     padding:0;
 }
