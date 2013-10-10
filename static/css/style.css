@@ -1211,7 +1211,7 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 #pagination {
     margin:30px auto 0 auto;
     padding:0;
-    width:270px;
+    text-align: center;
 }
  #pagination li {
     padding:0 2px;
