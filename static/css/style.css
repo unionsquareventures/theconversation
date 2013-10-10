@@ -726,9 +726,6 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
     top:-4px;
 }
  .tools {
-    background:#fff;
-    border-bottom:1px solid #eee;
-    border-top:none;
     /* background:#e1e1e1;
     */
  /*background:#ddd;
@@ -752,10 +749,11 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
     */
  color:#7e8e39;
 }
- .tools-desktop {
-    background: #eee;
-    border-bottom: 1px solid #ddd;
-    padding:3px;
+ #tools-desktop {
+    position: absolute;
+    display: inline;
+    right: 130px;
+    top: 6px;
 }
  .tools-mobile {
     background:#eee;
@@ -3116,11 +3114,11 @@ body.conversation #nav-conversation a
     color:#000;
 }
 .hot-newest-feed .tabs {
-    margin: 0px 0 5px;
+    margin: 0px 0 20px;
 }
 
 .hot-newest-feed a.sort.btn {
-    margin-top: 10px;
+    margin-top: 5px;
 }
 
 #content li.submit-btn {
@@ -3471,7 +3469,9 @@ ul.investments-list {
  }
  
  
- 
+ .hot-newest-feed {
+     position: relative;
+ }
 
 .hot-newest-feed .tabs li {
     padding-right:0;
@@ -3530,9 +3530,7 @@ ul.investments-list {
      .investments-list li {
         width:190px !important;
     }
-    .feed {
-        margin-top: 15px;
-    }
+
      /*.investments-list img {
         margin:0 auto;
     }
