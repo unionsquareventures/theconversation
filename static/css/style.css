@@ -3455,6 +3455,11 @@ ul.investments-list {
         width:34%;
     }
  }
+ @media only screen and (max-width:768px) {
+     #site-footer .col-sm-3 {
+         text-align: center !important;
+     }
+ }
 
  @media only screen and (max-width:900px) {
     #usv-name {
