@@ -1075,6 +1075,18 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
     font-size:0.85em;
     text-align:left;
 }
+
+.comment-count {
+}
+
+.comment-count:before {
+    content: "\e111";
+    font-family: 'Glyphicons Halflings';
+    -webkit-font-smoothing: antialiased;
+    font-style: normal;
+    font-weight: normal;
+    margin-right: 5px;
+}
  .feed .meta a,
  .featured-post .meta a {
     display:inline-block;
@@ -1108,6 +1120,7 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
     text-align:center;
     border-top:1px solid #ddd;
     padding-top:10px;
+    line-height: 1.5em;
 }
  .swipe {
     overflow:hidden;
@@ -3301,6 +3314,10 @@ ul.investments-list {
   #homepage-featured-posts .featured-post:first-child {
     margin-right: 20px;
   }
+  
+  #homepage-featured-posts .meta-break {
+      display:block !important;
+  }
 }
 
 @media only screen and (min-width: 769px) and (max-width:1024px) {
@@ -3643,7 +3660,7 @@ ul.investments-list {
         /*display:none;*/
         font-size: 85%;
     }
-    .votes-count {
+    .single .votes-count {
         font-size: 85%;
     }
     .author-info {

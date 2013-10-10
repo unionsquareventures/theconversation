@@ -15,11 +15,11 @@
 		  {% if show_votes %}
 		  {% module ajax_upvote_link(post=post) %}
 		  {% end %}
+		  <br class="meta-break" style="display:none" />
 		  <span class="time" style="margin-right: 12px;"><a href="/posts/{{ post.slug }}" ><span class="glyphicon glyphicon-link" style="margin: 0;font-size: 90%"></span> {{ pretty_date(post.date_created) }}</span>
-		  <span style="white-space:nowrap; margin: 0"><a href="/posts/{{ post.slug }}"><span class="glyphicon glyphicon-comment" style="margin: 0;font-size: 90%"></span></a>
-		  <a class="/posts/{{ post.slug }}" href="/posts/{{ post.slug }}"
+		  
+		  <a class="/posts/{{ post.slug }} comment-count" href="/posts/{{ post.slug }}"
 			  data-disqus-identifier="{{ post.id }}" {% if post.url %}target="_blank"{% end %}>0 comments</a>
-			</span>
 	  </div>
 	</div>
 </li>
