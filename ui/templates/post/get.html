@@ -64,9 +64,6 @@
                 {% if post.url %}
                 <a class="post-source" href="{{ post.url }}">{{ urlparse(post.url).netloc }} &rarr;</a>
                 {% end %}
-                {% if post.user.id_str == user_id_str or is_staff(username) %}
-                    <span class="editlink"><a href="/posts/{{ post.slug }}/edit" class="edit-post">Edit</a></span>
-                {% end %}
                 {% if post.tags %}
                     <span class="post-tags">
                     {% for count, tag in enumerate(post.tags) %}
@@ -186,12 +183,18 @@
             <p><a href="https://twitter.com/share" class="twitter-share-button" data-via="">Tweet</a></p>
             <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
             
+            
+            {% if post.user.id_str == user_id_str or is_staff(username) %}
+            <hr />
+                <p><a href="/posts/{{ post.slug }}/edit" class="btn">Edit</a></p>
+            {% end %}
+            
             {% if is_staff(username) %}
             <hr />
             {% if author.user.is_blacklisted %}
-            <p><a class="btn btn-small btn-success" href="/users/{{ post.user.username }}/unban">Unban this user</a>
+            <p><a class="btn btn-success" href="/users/{{ post.user.username }}/unban">Unban this user</a>
             {% else %}
-            <p><a class="btn btn-small btn-danger" href="/users/{{ post.user.username }}/ban">Ban this user</a>
+            <p><a class="btn btn-danger" href="/users/{{ post.user.username }}/ban">Ban this user</a>
             {% end %}
             {% end %}
             <!--<br />

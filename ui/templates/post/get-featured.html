@@ -75,9 +75,6 @@
 				{% end %}
 				<span class="author-name visible-xs">{{ post.user.fullname }}</span>
 				<span class="post-date">{{ pretty_date(post.date_created) }}</span> 
-				{% if post.user.id_str == user_id_str or is_staff(username) %}
-					<span class="editlink"><a href="/posts/{{ post.slug }}/edit" class="edit-post">Edit</a></span>
-				{% end %}
 				{% if post.tags %}
 					<span class="post-tags" style="float:right">
 					{% for count, tag in enumerate(post.tags) %}
@@ -187,7 +184,10 @@
 					<!--<div class="share-twitter" data-url="{{ 'http://%s/posts/%s' % (settings.base_url, post.slug) }}" data-text="{{ post.title }}"></div>
 					<div class="share-facebook" data-url="{{ 'http://%s/posts/%s' % (settings.base_url, post.slug) }}" data-text="{{ post.title }}"></div>
 					<div class="share-googleplus" data-url="{{ 'http://%s/posts/%s' % (settings.base_url, post.slug) }}" data-text="{{ post.title }}"></div>-->
-				</div>
+				</div><br />
+				{% if post.user.id_str == user_id_str or is_staff(username) %}
+					<p><a href="/posts/{{ post.slug }}/edit" class="btn">Edit</a></p>
+				{% end %}
 			</div>
 		</div><!-- /col3 -->
 
