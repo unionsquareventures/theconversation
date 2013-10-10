@@ -2395,6 +2395,9 @@ ul.filter li a:hover,ul.filter li.active a {
 }
 .article-post .profile-links {
 }
+.article-post .profile-links p {
+    margin-top: 0;
+} 
 .article-post .upvote-button, .article-post .comments-button {
     text-decoration:none;
     color:#86aa3b;
@@ -3681,6 +3684,12 @@ ul.investments-list {
       width:550px;
   }
 }
+
+@media only screen and (min-width:768px) and (max-width:1024px) { 
+    .featured-post .votes-count {
+        display: none;
+    }
+}
 @media only screen and (min-width:1024px) {
     .site-title, .main, .site-footer .container {
         max-width:1024px;
@@ -3688,7 +3697,7 @@ ul.investments-list {
         margin-left:auto;
     }
      .featured-feed .meta {
-        white-space:nowrap;
+        /*white-space:nowrap;*/
     }
      .company {
         height:290px;

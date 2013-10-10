@@ -82,7 +82,7 @@
 					<span class="post-tags" style="float:right">
 					{% for count, tag in enumerate(post.tags) %}
 						{% if tag != "about-page" and tag != "network-page" %}
-						<a href="/search?tag={{ url_escape(tag) }}">#{{ tag }}</a>{% if count < len(post.tags) -1 %}, {% end %}
+						<a href="/tagged/{{ url_escape(tag) }}">#{{ tag }}</a>{% if count < len(post.tags) -1 %}, {% end %}
 						{% end %}
 					{% end %}
 					</span>

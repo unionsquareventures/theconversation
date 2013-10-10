@@ -78,11 +78,13 @@ def init_app(bundle=True, auth_passthrough=False):
 
             (r'/?', PostHandler),
             (r'/posts/?', PostHandler),
+            (r'/(?P<action>tagged)/(?P<tag>.*)$', PostHandler),
             (r'/posts/(?P<action>upvote)$', PostHandler),
             (r'/posts/(?P<action>new)$', PostHandler),
             (r'/posts/(?P<id>[\w\s-]+$)', PostHandler),
             (r'/posts/(?P<id>[\w\s-]+)/(?P<action>.*)$', PostHandler),
             (r'/feed$', PostHandler),
+            
             (r'/generate_hackpad/?', HackpadHandler),
             ], ui_modules = ui.template_modules(),
             ui_methods = ui.template_methods(),
