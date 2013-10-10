@@ -24,6 +24,8 @@ class PageHandler(BaseHandler):
 			self.network()
 		elif self.request.path.find("/tools") == 0:
 			self.render('page/tools.html', **self.vars)
+		elif self.request.path.find("/jobs") == 0:
+			self.render('page/jobs.html', **self.vars)
 		else:
 			super(PageHandler, self).get(id, action)
 		

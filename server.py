@@ -75,6 +75,7 @@ def init_app(bundle=True, auth_passthrough=False):
             (r'/about.*$', PageHandler),
             (r'/network.*$', PageHandler),
             (r'/tools.*$', PageHandler),
+            (r'/jobs.*$', PageHandler),
 
             (r'/?', PostHandler),
             (r'/posts/?', PostHandler),
