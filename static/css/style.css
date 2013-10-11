@@ -2388,6 +2388,9 @@ ul.filter li a:hover,ul.filter li.active a {
     font-size:0.85em;
     color:gray;
 }
+.article-post .post-meta.mobile {
+    
+}
  .article-post .post-source {
     
 }
@@ -2440,7 +2443,7 @@ ul.filter li a:hover,ul.filter li.active a {
 }
 .article-post.community .profile-photo img {
     width: 75px;
-    margin-top: 5px;
+    margin-top:1px;
     left: 0;
     border-radius: 3px;
 }
