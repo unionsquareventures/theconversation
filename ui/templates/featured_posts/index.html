@@ -5,12 +5,12 @@
     <script>
 	    $(document).ready(function() {
 	        rp_max_height = 0;
-	        $('.related-post').each(function() {
+	        $('.featured-post').each(function() {
 	            if ($(this).height() > rp_max_height) {
 	                rp_max_height = $(this).height();
 	            }
 	        })
-	        $('.related-post').height(rp_max_height);
+	        $('.featured-post').height(rp_max_height);
 	    });
 	</script>
 {% end %}
