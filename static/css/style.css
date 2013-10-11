@@ -147,7 +147,7 @@ abbr[title] {
 }
 /** * Address style set to `bolder` in Firefox 3+, Safari 4/5, and Chrome. */
 b,strong {
-    font-weight:bold;
+    font-family: "proximanova-semibold";
 }
 blockquote {
     margin:1em 40px;
