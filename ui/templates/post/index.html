@@ -74,7 +74,7 @@
                   <span class="time">{{ pretty_date(post.date_created) }}</span>
                   {% module ajax_upvote_link(post=post) %}
                   <a class="comment-count" href="/posts/{{ post.slug }}"
-                      data-disqus-identifier="{{ post.id }}" target="_blank">0 comments</a>
+                      data-disqus-identifier="{{ post.id }}" target="_blank">comment</a>
               </div>
             </div>
             </div>
@@ -99,7 +99,7 @@
                   <span class="time">{{ pretty_date(post.date_created) }}</span>
                   {% module ajax_upvote_link(post=post) %}
                   <a class="comment-count" href="/posts/{{ post.slug }}"
-                      data-disqus-identifier="{{ post.id }}" target="_blank">0 comments</a>
+                      data-disqus-identifier="{{ post.id }}" target="_blank">comment</a>
               </div>
             </div>
             </div>
@@ -166,7 +166,7 @@
                   
                   {% module ajax_upvote_link(post=post) %}                
                   <span class="time"><a href="/posts/{{ post.slug }}" ><span class="glyphicon glyphicon-link" style="margin: 0;font-size: 90%"></span> {{ pretty_date(post.date_created) }}</a></span>
-                  <a href="/posts/{{ post.slug }}" ><span class="glyphicon glyphicon-comment" style="margin: 0;font-size: 90%"></span></a> <a class="" href="/posts/{{ post.slug }}" data-disqus-identifier="{{ post.id }}">1 comment</a>
+                  <a href="/posts/{{ post.slug }}" ><span class="glyphicon glyphicon-comment" style="margin: 0;font-size: 90%"></span></a> <a class="" href="/posts/{{ post.slug }}" data-disqus-identifier="{{ post.id }}">comment</a>
                 </div>
               </div>
               </li>              
