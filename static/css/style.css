@@ -1725,7 +1725,7 @@ h2.section-heading {
     color:#333 !important;
 }
  .company .editlink {
-    top:-4px;
+    top:-2px;
     right:0px;
 }
  .company p.bio {
@@ -2603,13 +2603,13 @@ ul.filter li a:hover,ul.filter li.active a {
     display:block;
     background-color:#eee;
     border:1px solid #ddd;
-    padding:1px 5px;
+    padding:2px 7px 0;
     border-radius:2px;
     color:gray;
     font-size:0.85em;
 }
  .filter-tabs li a:hover {
-    background-color:#eee;
+    background-color:#ddd;
 }
  .filter-tabs li.heading {
     display:block;
