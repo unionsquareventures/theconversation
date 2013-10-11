@@ -1428,23 +1428,25 @@ h2.section-heading {
     position:absolute;
     background:#eee;
     z-index:1000;
-    padding:0 10px;
     border-bottom:1px solid #ddd;
+    padding: 15px;
+}
+#full-bio p {
+    margin-right: 65px;
+    margin-top: 0;
+    margin-bottom: 10px;
 }
 #full-bio .blog {
-    position:absolute;
-    bottom:10px;
-    right:10px;
+    /*float: right;*/
+    margin-right: 10px;
 }
 #full-bio .twitter {
-    position:absolute;
-    bottom:10px;
-    left:10px;
+    /*float: left;*/
 }
 #close-bio {
-    text-align:center;
-    padding:5px;
-    margin:-10px 0 10px;
+    position: absolute;
+    top: 15px;
+    right: 15px;
 }
 .team ul {
     margin:0 0 30px 0;
@@ -3803,7 +3805,7 @@ ul.investments-list {
      .person-container {
         width:20%;
     }
-     #brian-watson {
+     .person-container:nth-child(22) {
         margin-left:320px;
     }
 }
