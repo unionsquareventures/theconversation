@@ -8,7 +8,20 @@
 
 {% block javascript %}
 	<script>
-		var USV_person_names = [];
+		var USV_person_names = [
+			'brad-burnham',
+			'fred-wilson',
+			'albert-wenger',
+			'john-buttrick',
+			'andy-weissman',
+			'nick-grossman',
+			'kerri-rachlin',
+			'veronica-keaveney',
+			'gillian-campbell',
+			'brittany-laughlin',
+			'alexander-pease',
+			'brian-watson'
+		];
 		
 		$(window).load(function() {
 			rp_max_height = 0;
@@ -125,8 +138,7 @@
 					</div>
 
 
-					<h2 class="section-heading" id="team-heading" style="margin-bottom: 0;">Team</h2>
-					<br>
+					<h2 class="section-heading" id="team-heading">Partners</h2>
 
 					<!-- Divs for bio information when clicking on each person -->
 					<div id="full-bio" style="display:none">
@@ -141,9 +153,6 @@
 						</div>-->
 						<div class="col-lg-12 clearfix">
 							<div class="row" id="people">
-																																							<script>
-												USV_person_names.push('brad-burnham');
-											</script>
 
 												<div id="" class="col-sm-3 col-xs-6 person-container" usv-person="brad-burnham">
 													<div class="person" style="height: 243px;">
@@ -164,7 +173,6 @@
 													</div>
 												</div>
 
-								<script>USV_person_names.push('fred-wilson');</script>
 
 												<div id="" class="col-sm-3 col-xs-6 person-container" usv-person="fred-wilson">
 													<div class="person" style="height: 244px;">
@@ -185,9 +193,6 @@
 													</div>
 												</div>
 
-																																								<script>
-												USV_person_names.push('albert-wenger');
-											</script>
 
 												<div id="" class="col-sm-3 col-xs-6 person-container" usv-person="albert-wenger">
 													<div class="person" style="height: 244px;">
@@ -208,9 +213,6 @@
 													</div>
 												</div>
 
-																																								<script>
-												USV_person_names.push('john-buttrick');
-											</script>
 
 												<div id="" class="col-sm-3 col-xs-6 person-container" usv-person="john-buttrick">
 													<div class="person" style="height: 244px;">
@@ -229,9 +231,6 @@
 													</div>
 												</div>
 
-																																								<script>
-												USV_person_names.push('andy-weissman');
-											</script>
 
 												<div id="" class="col-sm-3 col-xs-6 person-container" usv-person="andy-weissman">
 													<div class="person" style="height: 244px;">
@@ -251,32 +250,12 @@
 														</div>
 													</div>
 												</div>
-
-																																								<script>
-												USV_person_names.push('kerri-rachlin');
-											</script>
-
-												<div id="" class="col-sm-3 col-xs-6 person-container" usv-person="kerri-rachlin">
-													<div class="person" style="height: 244px;">
-														<a class="open-bio" usv:person="kerri-rachlin" href="http://beta.usv.com/team/kerri-rachlin/">
-															<img src="/static/img/staff/Kerri.jpg" alt="thumbnail" height="160" width="160">
-														</a>
-														<p class="bio">
-															<a class="open-bio" usv:person="kerri-rachlin" href="http://beta.usv.com/team/kerri-rachlin/">Kerri Rachlin</a><br> Boss <!-- <br /><a href="http://beta.usv.com/team/kerri-rachlin/" class="more-button">MORE</a>-->
-														</p>
-																												<div class="full-bio-shim" style="display:none"></div>
-														<div class="full-bio" style="display:none">
-															<p>Kerri has been with Union Square Ventures since its inception in 2003. &nbsp;She graduated with a degree in Studio Art from Queens College. Kerri handles bookkeeping, HR and LP relations for the firm.</p>
-															<div class="bio-links">
-																																															</div>
-														</div>
-													</div>
-												</div>
-
-																																								<script>
-												USV_person_names.push('nick-grossman');
-											</script>
-
+												
+											</div><!-- /row -->
+											<h2 class="section-heading" id="team-heading">Investment Staff</h2>
+											<div class="row">
+												
+												
 												<div id="" class="col-sm-3 col-xs-6 person-container" usv-person="nick-grossman">
 													<div class="person" style="height: 244px;">
 														<a class="open-bio" usv:person="nick-grossman" href="http://beta.usv.com/team/nick-grossman/">
@@ -297,13 +276,6 @@
 													</div>
 												</div>
 
-																																								<script>
-												USV_person_names.push('brian-watson');
-											</script>
-
-																																								<script>
-												USV_person_names.push('brittany-laughlin');
-											</script>
 
 												<div id="" class="col-sm-3 col-xs-6 person-container" usv-person="brittany-laughlin">
 													<div class="person" style="height: 244px;">
@@ -323,49 +295,6 @@
 														</div>
 													</div>
 												</div>
-
-																																								<script>
-												USV_person_names.push('gillian-campbell');
-											</script>
-
-												<div id="" class="col-sm-3 col-xs-6 person-container" usv-person="gillian-campbell">
-													<div class="person" style="height: 244px;">
-														<a class="open-bio" usv:person="gillian-campbell" href="http://beta.usv.com/team/gillian-campbell/">
-															<img src="/static/img/staff/Gillian.jpg" alt="thumbnail" height="160" width="160">
-														</a>
-														<p class="bio">
-															<a class="open-bio" usv:person="gillian-campbell" href="http://beta.usv.com/team/gillian-campbell/">Gillian Campbell</a><br> Executive Assistant <!-- <br /><a href="http://beta.usv.com/team/gillian-campbell/" class="more-button">MORE</a>-->
-														</p>
-																												<div class="full-bio-shim" style="display:none"></div>
-														<div class="full-bio" style="display:none">
-															<p>Gillian&nbsp;joined Union Square Ventures in July of 2012. She holds a&nbsp;degree in Psychology from Michigan State University as well as a dual&nbsp;Master’s in Business and Public Administration from the Stuart School&nbsp;of Business in Chicago. After college&nbsp;Gillian&nbsp;moved to south India&nbsp;where she taught at a residential school for children. Prior to coming&nbsp;to USV&nbsp;Gillian&nbsp;lived in Chicago where she was involved in the tech&nbsp;start-up community and held various administrative and finance&nbsp;positions.</p>
-															<div class="bio-links">
-																																															</div>
-														</div>
-													</div>
-												</div>
-
-																																								<script>
-												USV_person_names.push('veronica-keaveney');
-											</script>
-
-												<div id="" class="col-sm-3 col-xs-6 person-container" usv-person="veronica-keaveney">
-													<div class="person" style="height: 244px;">
-														<a class="open-bio" usv:person="veronica-keaveney" href="http://beta.usv.com/team/veronica-keaveney/">
-															<img src="/static/img/staff/Veronica.jpg" alt="thumbnail" height="160" width="160">
-														</a>
-														<p class="bio">
-															<a class="open-bio" usv:person="veronica-keaveney" href="http://beta.usv.com/team/veronica-keaveney/">Veronica Keaveney</a><br> Executive Assistant <!-- <br /><a href="http://beta.usv.com/team/veronica-keaveney/" class="more-button">MORE</a>-->
-														</p>
-																												<div class="full-bio-shim" style="display:none"></div>
-														<div class="full-bio" style="display:none">
-															<p>Veronica&nbsp;joined the Union Square Ventures team in February 2012. She&nbsp;attended Saint Anselm College where she earned a degree in Business&nbsp;and spent a semester studying abroad in Europe. Since graduation,&nbsp;Veronica&nbsp;has held positions at John Hancock Life Insurance as an&nbsp;Analyst as well as at Spark Capital.</p>
-															<div class="bio-links">
-																																															</div>
-														</div>
-													</div>
-												</div>
-												
 												
 												<div id="" class="col-sm-3 col-xs-6 person-container" usv-person="brian-watson">
 																									<div class="person" style="height: 244px;">
@@ -387,9 +316,6 @@
 																									</div>
 																								</div>
 												
-																																																				<script>
-																								USV_person_names.push('alexander-pease');
-																							</script>
 												
 																								<div id="" class="col-sm-3 col-xs-6 person-container" usv-person="alexander-pease">
 																									<div class="person" style="height: 244px;">
@@ -409,6 +335,63 @@
 																										</div>
 																									</div>
 																								</div>
+</div><!-- /row -->
+<h2 class="section-heading" id="team-heading">Operations Staff</h2>
+<div class="row">
+	<div id="" class="col-sm-3 col-xs-6 person-container" usv-person="kerri-rachlin">
+		<div class="person" style="height: 244px;">
+			<a class="open-bio" usv:person="kerri-rachlin" href="http://beta.usv.com/team/kerri-rachlin/">
+				<img src="/static/img/staff/Kerri.jpg" alt="thumbnail" height="160" width="160">
+			</a>
+			<p class="bio">
+				<a class="open-bio" usv:person="kerri-rachlin" href="http://beta.usv.com/team/kerri-rachlin/">Kerri Rachlin</a><br> Boss <!-- <br /><a href="http://beta.usv.com/team/kerri-rachlin/" class="more-button">MORE</a>-->
+			</p>
+																	<div class="full-bio-shim" style="display:none"></div>
+			<div class="full-bio" style="display:none">
+				<p>Kerri has been with Union Square Ventures since its inception in 2003. &nbsp;She graduated with a degree in Studio Art from Queens College. Kerri handles bookkeeping, HR and LP relations for the firm.</p>
+				<div class="bio-links">
+																																				</div>
+			</div>
+		</div>
+	</div>
+
+												<div id="" class="col-sm-3 col-xs-6 person-container" usv-person="gillian-campbell">
+													<div class="person" style="height: 244px;">
+														<a class="open-bio" usv:person="gillian-campbell" href="http://beta.usv.com/team/gillian-campbell/">
+															<img src="/static/img/staff/Gillian.jpg" alt="thumbnail" height="160" width="160">
+														</a>
+														<p class="bio">
+															<a class="open-bio" usv:person="gillian-campbell" href="http://beta.usv.com/team/gillian-campbell/">Gillian Campbell</a><br> Executive Assistant <!-- <br /><a href="http://beta.usv.com/team/gillian-campbell/" class="more-button">MORE</a>-->
+														</p>
+																												<div class="full-bio-shim" style="display:none"></div>
+														<div class="full-bio" style="display:none">
+															<p>Gillian&nbsp;joined Union Square Ventures in July of 2012. She holds a&nbsp;degree in Psychology from Michigan State University as well as a dual&nbsp;Master’s in Business and Public Administration from the Stuart School&nbsp;of Business in Chicago. After college&nbsp;Gillian&nbsp;moved to south India&nbsp;where she taught at a residential school for children. Prior to coming&nbsp;to USV&nbsp;Gillian&nbsp;lived in Chicago where she was involved in the tech&nbsp;start-up community and held various administrative and finance&nbsp;positions.</p>
+															<div class="bio-links">
+																																															</div>
+														</div>
+													</div>
+												</div>
+
+
+												<div id="" class="col-sm-3 col-xs-6 person-container" usv-person="veronica-keaveney">
+													<div class="person" style="height: 244px;">
+														<a class="open-bio" usv:person="veronica-keaveney" href="http://beta.usv.com/team/veronica-keaveney/">
+															<img src="/static/img/staff/Veronica.jpg" alt="thumbnail" height="160" width="160">
+														</a>
+														<p class="bio">
+															<a class="open-bio" usv:person="veronica-keaveney" href="http://beta.usv.com/team/veronica-keaveney/">Veronica Keaveney</a><br> Executive Assistant <!-- <br /><a href="http://beta.usv.com/team/veronica-keaveney/" class="more-button">MORE</a>-->
+														</p>
+																												<div class="full-bio-shim" style="display:none"></div>
+														<div class="full-bio" style="display:none">
+															<p>Veronica&nbsp;joined the Union Square Ventures team in February 2012. She&nbsp;attended Saint Anselm College where she earned a degree in Business&nbsp;and spent a semester studying abroad in Europe. Since graduation,&nbsp;Veronica&nbsp;has held positions at John Hancock Life Insurance as an&nbsp;Analyst as well as at Spark Capital.</p>
+															<div class="bio-links">
+																																															</div>
+														</div>
+													</div>
+												</div>
+												
+												
+												
 
 																																			</div><!-- /row -->
 						</div><!-- /col-10 -->

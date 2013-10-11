@@ -3814,9 +3814,13 @@ ul.investments-list {
      .person-container {
         width:20%;
     }
-     .person-container:nth-child(22) {
-        margin-left:320px;
+   /*  .person-container:nth-child(6) {
+        margin-left:120px;
     }
+    .person-container:nth-child(10) {
+        margin-left:230px;
+    }
+    */
 }
 @media only screen and (min-width:1100px) {
     .featured .usv-post {
