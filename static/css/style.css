@@ -14,37 +14,46 @@ Author URI: http://www.studiokudos.com
 /* Fonts
 ==================*/
 @font-face {
-    font-family: 'proxima-nova-bold';
+    font-family: 'proximanova-black';
+    src: url('/static/fonts/proximanova-black-webfont.eot');
+    src: local('proximanova-black'), 
+         local('proximanova-black'), 
+         url('/static/fonts/proximanova-black-webfont.otf') format('opentype'),
+         url('/static/fonts/proximanova-black-webfont.svg#font') format('svg'); 
+}
+
+@font-face {
+    font-family: 'proximanova-bold';
     src: url('/static/fonts/proximanova-bold-webfont.eot');
-    src: local('proxima-nova-bold'), 
-         local('proxima-nova-bold'), 
+    src: local('proximanova-bold'), 
+         local('proximanova-bold'), 
          url('/static/fonts/proximanova-bold-webfont.otf') format('opentype'),
          url('/static/fonts/proximanova-bold-webfont.svg#font') format('svg'); 
 }
 
 @font-face {
-    font-family: 'proxima-nova-light';
+    font-family: 'proximanova-light';
     src: url('/static/fonts/proximanova-light-webfont.eot');
-    src: local('proxima-nova-light'), 
-         local('proxima-nova-bold'), 
+    src: local('proximanova-light'), 
+         local('proximanova-bold'), 
          url('/static/fonts/proximanova-light-webfont.otf') format('opentype'),
          url('/static/fonts/proximanova-light-webfont.svg#font') format('svg'); 
 }
 
 @font-face {
-    font-family: 'proxima-nova-semibold';
+    font-family: 'proximanova-semibold';
     src: url('/static/fonts/proximanova-semibold-webfont.eot');
-    src: local('proxima-nova-semibold'), 
-         local('proxima-nova-semibold'), 
+    src: local('proximanova-semibold'), 
+         local('proximanova-semibold'), 
          url('/static/fonts/proximanova-semibold-webfont.otf') format('opentype'),
          url('/static/fonts/proximanova-semibold-webfont.svg#font') format('svg'); 
 }
 
 @font-face {
-    font-family: 'proxima-nova-regular';
+    font-family: 'proximanova-regular';
     src: url('/static/fonts/proximanova-regular-webfont.eot');
-    src: local('proxima-nova-regular'), 
-         local('proxima-nova-regular'), 
+    src: local('proximanova-regular'), 
+         local('proximanova-regular'), 
          url('/static/fonts/proximanova-regular-webfont.otf') format('opentype'),
          url('/static/fonts/proximanova-regular-webfont.svg#font') format('svg'); 
 }
@@ -251,7 +260,8 @@ a.sort.btn {
     background:none;
     color:#aaa;
     box-shadow:none;
-    padding:0 10px 0 0 !important;
+    padding:0 7px 0 0 !important;
+    font-family: "proximanova-semibold";
 }
 .is-active .btn,.is-active .btn:visited,.is-active .btn:link {
     color:#fff;
@@ -465,7 +475,7 @@ html {
     background-color:#fff;
 }
 body {
-    font-family:"proxima-nova-regular", "Helvetica Neue", Arial, Helvetica, sans-serif;
+    font-family:"proximanova-regular", "Helvetica Neue", Arial, Helvetica, sans-serif;
     font-style:normal;
     font-weight:400;
     -webkit-font-smoothing:antialiased;
@@ -523,10 +533,10 @@ h1.mobile-page-headline {
 h2.subsection {
     margin-top:0;
     font-size:1.2em;
-    font-family: "proxima-nova-light"
+    font-family: "proximanova-light"
 }
 h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
-    font-family:"proxima-nova-semibold", "proxima-nova", sans-serif;
+    font-family:"proximanova-semibold", "proximanova", sans-serif;
 }
 /* ================================ Mobile Header ============================ */
 #mobile-header {
@@ -700,7 +710,7 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
     color:transparent;
 }
  h1#usv-name {
-    font-family: "proxima-nova-light";
+    font-family: "proximanova-light";
     color:#fff;
     font-size:22px;
     font-weight:300;
@@ -780,7 +790,7 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
     text-decoration:none;
     color:gray;
     font-size:1.25em;
-    font-family: "proxima-nova-bold";
+    font-family: "proximanova-bold";
     padding:3px 8px;
     -webkit-transition:all 0.3s ease-out;
     -moz-transition:all 0.3s ease-out;
@@ -1001,7 +1011,7 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 }
  .feed .title,
  .featured-post .title {
-    font-family: "proxima-nova-bold";
+    font-family: "proximanova-bold";
     text-decoration:none;
     line-height:1.1em;
     color:#000;
@@ -1285,12 +1295,12 @@ article.page {
     margin-left:-20px;
 }
  article.page .deck {
-    padding:30px 50px !important;
+    padding:30px 40px !important;
     margin-bottom:40px;
     background:#eee;
     border-bottom:1px solid #ddd;
     font-size:1.125em;
-    font-weight:600;
+    font-family: "proximanova-regular";
     color:#000;
 }
  article.page .deck p {
@@ -1301,7 +1311,7 @@ article.page {
 }
  article.page .stats {
     color:#222;
-    font-weight:700;
+    font-family: "proximanova-bold";
 }
  article.page .stats span {
     display:block;
@@ -1375,6 +1385,7 @@ h2.section-heading {
     text-align:center;
     /*border-top:1px solid #ddd;
     */
+    font-family: 'proximanova-light';
  border-bottom:1px solid #ddd;
     border-top:1px solid #ddd;
     padding:8px 0;
@@ -1418,7 +1429,7 @@ h2.section-heading {
     padding:10px;
     margin-bottom:25px;
     position:relative;
-    color:#aaa;
+    color:#999;
 }
  .person img {
     width:100%;
@@ -1445,6 +1456,9 @@ h2.section-heading {
  .is-open .person p.bio {
     /*margin-top:8px;
     */
+ }
+ a.open-bio {
+     font-family: "proximanova-bold";
  }
  .person .full-bio-shim {
     background:#eee;
@@ -1940,7 +1954,7 @@ ul.filter li a:hover,ul.filter li.active a {
     margin-bottom:0;
 }
 .investments-list p.summary a {
-    font-family: "proxima-nova-bold";
+    font-family: "proximanova-bold";
     color:#333;
 }
 .btn-continue {
@@ -2577,7 +2591,7 @@ ul.filter li a:hover,ul.filter li.active a {
 }
  .jobs-container .stats .stat {
     display:block;
-    font-weight:700;
+    font-family: 'proximanova-bold';
     font-size:1.5em;
     line-height:1;
 }
@@ -2632,7 +2646,7 @@ ul.filter li a:hover,ul.filter li.active a {
     margin:0;
     padding:0.5em;
     font-size:1em;
-    font-family:"proxima-nova-bold", "proxima-nova", sans-serif;
+    font-family:"proximanova-bold", "proximanova", sans-serif;
     border-radius:3px;
 }
  .jobs-container #jobform input[type="submit"]:hover {
@@ -2733,6 +2747,7 @@ ul.filter li a:hover,ul.filter li.active a {
  #jobs-content h3 {
     margin:0 0 8px 0;
     padding:4px 15px;
+    font-family: "proximanova-bold";
 }
  #jobs-content .cat {
     margin:10px 0;
@@ -2919,7 +2934,7 @@ input[type="email"], input[type="number"], input[type="password"], input[type="s
     margin:0;
     padding:0.5em;
     font-size:1em;
-    font-family:"proxima-nova-n4", "proxima-nova", sans-serif;
+    font-family:"proximanova-n4", "proximanova", sans-serif;
     border:1px solid #dfdfdf;
     border-radius:3px;
 }
@@ -3509,6 +3524,7 @@ ul.investments-list {
     -webkit-border-radius:2px;
     -moz-border-radius:2px;
     border-radius:2px;
+    font-family: "proximanova-semibold"
 }
 
 @media only screen and (min-width:769px) {

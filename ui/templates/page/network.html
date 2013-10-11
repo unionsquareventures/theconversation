@@ -7,6 +7,7 @@
 {% block body_class %}network{% end %}
 
 {% block javascript %}
+	<link rel="stylesheet" href="{{ static_url("css/bjqs.css") }}">
 	<script>
 		$(document).ready(function() {
 			rp_max_height = 0;
@@ -17,9 +18,16 @@
 			})
 			$('.featured-post').height(rp_max_height);
 
-			$('.carousel').carousel({
-			  interval: 5000
-			})
+			$('#slideshow').bjqs({
+				'height' : 225,
+				'width' : 1060,
+				'responsive' : true,
+				'showcontrols' : false, 
+				'automatic': true,
+				'animspeed': 5000,
+				'animduration' : 2000,
+				'showmarkers': false
+			});
 		
 		});
 	</script>
@@ -40,51 +48,17 @@
 			
 			<div class="row">
 				<div class="col-xs-12">	
-			
-			
-			<div id="carousel-example-generic" class="carousel slide">
-				  <!-- Indicators -->
-				  <ol class="carousel-indicators">
-					<li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
-					<li data-target="#carousel-example-generic" data-slide-to="1"></li>
-					<li data-target="#carousel-example-generic" data-slide-to="2"></li>
-					<li data-target="#carousel-example-generic" data-slide-to="3"></li>
-					<li data-target="#carousel-example-generic" data-slide-to="4"></li>
-					<li data-target="#carousel-example-generic" data-slide-to="5"></li>
-					<li data-target="#carousel-example-generic" data-slide-to="6"></li>
-				  </ol>
-			
-				  <!-- Wrapper for slides -->
-				  <div class="carousel-inner">
-					<div class="item active">
-					  <img src="/static/img/network/usvnetwork-1.jpg" alt="...">
+					
+					<div id="slideshow">
+						<ul class="bjqs" style="padding: 0">
+							<li><img src="/static/img/network/usvnetwork-1.jpg" /></li>
+							<li><img src="/static/img/network/usvnetwork-2.jpg" /></li>
+							<li><img src="/static/img/network/usvnetwork-3.jpg" /></li>
+							<li><img src="/static/img/network/usvnetwork-4.jpg" /></li>
+							<li><img src="/static/img/network/usvnetwork-5.jpg" /></li>
+							<li><img src="/static/img/network/usvnetwork-6.jpg" /></li>
+						</ul>
 					</div>
-					<div class="item">
-					  <img src="/static/img/network/usvnetwork-2.jpg" alt="...">
-					</div>
-					<div class="item">
-					  <img src="/static/img/network/usvnetwork-3.jpg" alt="...">
-					</div>
-					<div class="item">
-					  <img src="/static/img/network/usvnetwork-4.jpg" alt="...">
-					</div>
-					<div class="item">
-					  <img src="/static/img/network/usvnetwork-5.jpg" alt="...">
-					</div>
-					<div class="item">
-					  <img src="/static/img/network/usvnetwork-6.jpg" alt="...">
-					</div>
-				  </div>
-				
-				  <!-- Controls -->
-				  <a class="left carousel-control" href="#carousel-example-generic" data-slide="prev">
-					<span class="icon-prev"></span>
-				  </a>
-				  <a class="right carousel-control" href="#carousel-example-generic" data-slide="next">
-					<span class="icon-next"></span>
-				  </a>
-			
-			</div>
 			
 			
 			<div class="deck" style="margin-bottom: 25px">
@@ -100,7 +74,7 @@
 				</div>
 				<div class="col-sm-6">
 <p>To help create deeper relationships, all USV portfolio company team members are encouraged to apply for our Peer Mentoring program. The digital USV Network provides a place for on-going conversations and recommended resources.</p>
-<p>Sign in to the <a href="http://yammer.com/usvnetwork">USV Network on Yammer</a><a href="#"><br>
+<p>USV portfolio company staff: sign in to the <a href="http://yammer.com/usvnetwork">USV Network on Yammer</a><a href="#"><br>
 </a></p>
 				</div><!-- /.col-sm-6 -->
 			</div><!-- /.row -->
@@ -119,4 +93,7 @@
 				
 		</article>
 	</div>
+	
+	
+	<script src="/static/js/vendor/bjqs-1.3.min.js"></script>
 {% end %}
