@@ -55,7 +55,7 @@
             <article class="usv-post">
                 <h1 class="post-title">
                     {% if post.url %}
-                    <a href="{{ post.url }}" target="_blank">{{ post.title }}
+                    <a href="{{ post.url }}" title='view original link on {{ urlparse(post.url).netloc }}' target="_blank">{{ post.title }}
                         <span class="glyphicon glyphicon-new-window"></span>
                         </a>
                     {% else %}
