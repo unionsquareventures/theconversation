@@ -197,21 +197,7 @@
 
 		</div><!-- /.col6 -->
 
-		<div class="col-sm-2" style="display:none">
-			<div class="profile-links">
-
-				<p>{% module ajax_upvote_link(post=post) %}</p>
-			   <!-- <a href="/posts/{{ post.slug }}#disqus_thread" class="comments-button"
-										data-disqus-identifier="{{ post.id }}">0 comments</a>-->
-
-				<div class="share-widget">
-					<a href="https://twitter.com/share" class="twitter-share-button" data-via="">Tweet</a>
-					<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
-					<!--<span class="heading">Share Post</span>-->
-					<!--<div class="share-twitter" data-url="{{ 'http://%s/posts/%s' % (settings.base_url, post.slug) }}" data-text="{{ post.title }}"></div>
-					<div class="share-facebook" data-url="{{ 'http://%s/posts/%s' % (settings.base_url, post.slug) }}" data-text="{{ post.title }}"></div>
-					<div class="share-googleplus" data-url="{{ 'http://%s/posts/%s' % (settings.base_url, post.slug) }}" data-text="{{ post.title }}"></div>-->
-				</div><br />
+		<div class="col-sm-2">
 				{% if post.user.id_str == user_id_str or is_staff(username) %}
 					<p><a href="/posts/{{ post.slug }}/edit" class="btn">Edit</a></p>
 				{% end %}
