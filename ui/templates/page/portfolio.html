@@ -74,7 +74,7 @@
 
 				{% for c in current %}
 					<div class="col-sm-4 col-xs-6 company-container current" usv-investment="{{ c.name }}" usv:investment_series="{{ c.investment_series }}" usv:investment_series_slug="{{ slugify(c.investment_series) }}" usv:city_slug="{{ slugify(c.locations) }}" usv:city="{{ c.locations }}" usv:investment_date_slug="{{ c.investment_year }}" usv:investment_date="{{ c.investment_year }}" usv:investment_categories_slug="{{ slugify(c.categories) }}" usv:investment_categories="{{ c.categories }}">
-						<div class="company">
+						<div class="company card">
 							<a class="open-investment" usv-investment="{{ c.name }}" href="{{ c.url }}">
 								<img alt="{{ c.name }}" src="/static/img/logos/{{ slugify(c.name) }}.png" class="logo mt-image-none extra-padding" style="" width="220" height="150">
 							</a>

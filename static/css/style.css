@@ -1421,8 +1421,8 @@ h2.section-heading {
     /*border-top:1px solid #ddd;
     */
     font-family: 'proximanova-light';
- border-bottom:1px solid #ddd;
-    border-top:1px solid #ddd;
+    border-bottom:1px solid #ddd;
+    /*border-top:1px solid #ddd;*/
     padding:8px 0;
     text-transform:uppercase;
     font-size: 1.2em;
@@ -1666,15 +1666,26 @@ h2.section-heading {
     font-size:1em;
 }
 .company {
-    background:#eee;
-    border:1px solid #eee;
+   
+    padding:10px 10px 0 10px;
+    position:relative;
+    margin:0 0px 25px 0px;
+    background: #eee;
+    text-align:left;
+    list-style:none;
+    padding:10px 10px 40px;
+    margin-bottom:25px;
+    color:#aaa;
+    border-bottom:1px solid #ccc;
+}
+.card  {
+    /*background:#eee;
+    -webkit-box-shadow: 0px 0px 6px #ccc;
+    -moz-box-shadow:    0px 0px 6px #ccc;
+    box-shadow:         0px 0px 6px #ccc;
     border-bottom:1px solid #ccc;
     border-radius:2px;
-    padding:10px 10px 0 10px;
-    /*height:320px;
     */
- position:relative;
-    margin:0 0px 25px 0px;
 }
 #full-investment {
     position:absolute;
@@ -1698,16 +1709,6 @@ h2.section-heading {
     padding:5px;
     margin:-10px 0 10px;
 }
-.company {
-    text-align:left;
-    list-style:none;
-    background:#eee;
-    border-bottom:1px solid #ccc;
-    padding:10px 10px 40px;
-    margin-bottom:25px;
-    position:relative;
-    color:#aaa;
-}
  .company img {
     width:100%;
     height:auto;
@@ -1716,13 +1717,16 @@ h2.section-heading {
     /*border:4px solid #DFDFD1;
     */
     border:1px solid #DFDFD1;
+    -webkit-box-shadow: 0px 0px 2px #ddd;
+    -moz-box-shadow:    0px 0px 2px #ddd;
+    box-shadow:         0px 0px 2px #ddd;
  }
  .company a {
     color:#333 !important;
 }
  .company .editlink {
-    top:0px;
-    right:10px;
+    top:-4px;
+    right:0px;
 }
  .company p.bio {
     margin:0;
