@@ -2448,7 +2448,7 @@ ul.filter li a:hover,ul.filter li.active a {
     font-family: "proximanova-bold", "Helvetica Neue", Arial, Helvetica, sans-serif;
 }
 .community .post-tags {
-    float:left;
+    /*float:left;*/
 }
 .article-post.community .profile-photo {
 }
