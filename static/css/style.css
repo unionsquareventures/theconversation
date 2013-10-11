@@ -1348,13 +1348,13 @@ article.page {
 .featured .post-meta {
     margin-top: 30px;
 }
-.post-meta div.col-sm-3 {
+.post-meta div {
     padding-top: 2px;
 }
-.post-meta div.col-sm-3.tweet {
+.post-meta div.tweet {
     padding-top: 0;
 }
-.post-meta div.col-sm-3.source {
+.post-meta div.source {
     white-space: nowrap;
 }
 
