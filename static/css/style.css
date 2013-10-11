@@ -1425,7 +1425,7 @@ h2.section-heading {
     border-top:1px solid #ddd;
     padding:8px 0;
     text-transform:uppercase;
-    font-weight:300;
+    font-size: 1.2em;
 }
 .team h2 {
     font-size:1em;
