@@ -64,18 +64,15 @@
 			<article class="usv-post">
 				<h1 class="post-title">
 					{% if post.url %}
-					<a href="{{ post.url }}" target="_blank">{{ post.title }}</a>
+					<a href="{{ post.url }}" target="_blank">{{ post.title }} <span class="glyphicon glyphicon-new-window"></span></a>
+					
 					{% else %}
 						{{ post.title }}
 					{% end %}
 				</h1>
 			<div class="clearfix ">
-				{% if post.url %}
-				<a class="post-source" href="{{ post.url }}">{{ urlparse(post.url).netloc }} &rarr;</a>
-				{% end %}
 				<span class="author-name visible-xs">{{ post.user.fullname }}</span>
 				<span class="post-date">{{ pretty_date(post.date_created) }}</span> 
-				
 				<!--
 				{% if post.tags %}
 					<span class="post-tags" style="float:right">
@@ -132,11 +129,11 @@
 			</div>
 
 			<div class="post-meta clearfix row">
-				<div class="col-sm-4 upvote">
+				<div class="col-sm-2 upvote">
 					{% module ajax_upvote_link(post=post) %}
 				</div>
 				
-				<div class="col-sm-4 tweet">
+				<div class="col-sm-2 tweet">
 					  <a href="https://twitter.com/share" class="twitter-share-button" data-via="">Tweet</a>
 						<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>  
 				</div> 
@@ -148,6 +145,11 @@
 							<a href="/tagged/{{ url_escape(tag) }}">#{{ tag }}</a>{% if count < len(post.tags) -1 %}, {% end %}
 						{% end %}
 						</span>
+					{% end %}
+				</div>
+				<div class="col-sm-4 source">
+					{% if post.url %}
+					<a class="post-source" href="{{ post.url }}">{{ urlparse(post.url).netloc }} &rarr;</a>
 					{% end %}
 				</div>
 			

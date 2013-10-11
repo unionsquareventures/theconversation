@@ -1364,6 +1364,12 @@ article.page {
     margin-top: 5px;
 }
 
+h1.post-title .glyphicon {
+    font-size: .5em;
+    color: #aaa;
+    top: -1px;
+}
+
  @media only screen and (min-width:600px) {
     article.page .deck {
     font-size:1.4em;
