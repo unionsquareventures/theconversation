@@ -79,7 +79,7 @@
 								<img alt="{{ c.name }}" src="/static/img/logos/{{ slugify(c.name) }}.png" class="logo mt-image-none extra-padding" style="" width="220" height="150">
 							</a>
 							<p class="summary">
-								{% raw c.description %}
+								<a class="company-link" href="{{ c.url }}">{{ c.name }}</a> {% raw c.description %}
 							</p>
 							<span class="since-date">
 								{{ c.investment_year }}, {{ c.investment_series }}
