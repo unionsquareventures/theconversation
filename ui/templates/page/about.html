@@ -101,6 +101,7 @@
 				var name = window.location.hash.split("#")[1];
 				var $card = $( "[usv-person='" + name + "']" );
 				if($card.length > 0) {
+					 collapse_bios();
 					 show_bio(name, 10);  
 					 /* FIXME */
 					 /* passing in the second parameter is a real hack. */                 
