@@ -26,6 +26,7 @@ from handlers.search import SearchHandler
 from handlers.old_post import OldPostHandler
 from handlers.email import EmailHandler
 from handlers.page import PageHandler
+from handlers.old_page import OldPageHandler
 import ui
 from redis import StrictRedis
 from lib.sendgrid import Sendgrid
@@ -69,6 +70,14 @@ def init_app(bundle=True, auth_passthrough=False):
             (r'/search/?', SearchHandler),
 
             (r'/(?P<year>[0-9]+)/(?P<month>[0-9]+)/(?P<slug>[\w\s-]+).php$', OldPostHandler),
+           
+            (r'/pages/.*$', OldPageHandler),
+            (r'/team/$', OldPageHandler),
+            (r'/team/$', OldPageHandler),
+            (r'/investments/$', OldPageHandler),
+            (r'/focus/$', OldPageHandler),
+            (r'/jobs$', OldPageHandler),
+            (r'/collateral/(?P<filepath>.*)$$', OldPageHandler),
 
             (r'/portfolio.*$', PageHandler),
             (r'/portfolio/migrate$', PageHandler),
