@@ -53,42 +53,17 @@
         </div>--><!-- /.col3 -->
         <div class="col-sm-8 col-sm-offset-2">
             <article class="usv-post">
-                <h1>
+                <h1 class="post-title">
                     {% if post.url %}
-                    <a href="{{ post.url }}" target="_blank">{{ post.title }}</a>
+                    <a href="{{ post.url }}" target="_blank">{{ post.title }}
+                        <span class="glyphicon glyphicon-new-window"></span>
+                        </a>
                     {% else %}
                         {{ post.title }}
                     {% end %}
                 </h1>
                 
-                <div class="post-meta clearfix row hidden-xs">
-                    <div class="col-sm-2 upvote">
-                        {% module ajax_upvote_link(post=post) %}
-                    </div>
-                    
-                    <div class="col-sm-2 tweet">
-                          <a href="https://twitter.com/share" class="twitter-share-button" data-via="">Tweet</a>
-                            <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>  
-                    </div> 
-                    
-                    <div class="col-sm-4 tags">
-                        {% if post.tags %}
-                            <span class="post-tags">
-                            {% for count, tag in enumerate(post.tags) %}
-                                <a href="/tagged/{{ url_escape(tag) }}">#{{ tag }}</a>{% if count < len(post.tags) -1 %}, {% end %}
-                            {% end %}
-                            </span>
-                        {% end %}
-                    </div>
                 
-                    <div class="col-sm-4 source">
-                           {% if post.url %}
-                           <a class="post-source" href="{{ post.url }}">{{ urlparse(post.url).netloc }} &rarr;</a>
-                           {% end %}
-                       </div>   
-                    
-                
-                </div><!-- .post-meta -->
             
         <div>
             <div class="profile-photo">
@@ -141,6 +116,35 @@
             </div><!--end of post-body-->
             
         </div>
+        
+        <div class="post-meta clearfix row hidden-xs">
+            <div class="col-sm-2 upvote">
+                {% module ajax_upvote_link(post=post) %}
+            </div>
+            
+            <div class="col-sm-2 tweet">
+                  <a href="https://twitter.com/share" class="twitter-share-button" data-via="">Tweet</a>
+                    <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>  
+            </div> 
+            
+            <div class="col-sm-4 tags">
+                {% if post.tags %}
+                    <span class="post-tags">
+                    {% for count, tag in enumerate(post.tags) %}
+                        <a href="/tagged/{{ url_escape(tag) }}">#{{ tag }}</a>{% if count < len(post.tags) -1 %}, {% end %}
+                    {% end %}
+                    </span>
+                {% end %}
+            </div>
+        
+            <div class="col-sm-4 source">
+                   {% if post.url %}
+                   <a class="post-source" href="{{ post.url }}">{{ urlparse(post.url).netloc }} &rarr;</a>
+                   {% end %}
+               </div>   
+            
+        
+        </div><!-- .post-meta -->
             
          <div class="meta visible-xs">
              <div class="post-meta mobile clearfix row">
