@@ -1437,11 +1437,14 @@ h2.section-heading {
     margin-bottom: 10px;
 }
 #full-bio .blog {
-    /*float: right;*/
-    margin-right: 10px;
+    /*float: left;*/
+    margin-right: 15px;
 }
 #full-bio .twitter {
     /*float: left;*/
+    position: absolute;
+    right: -5px;
+    bottom: 15px;
 }
 #close-bio {
     position: absolute;

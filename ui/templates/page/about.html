@@ -8,6 +8,8 @@
 
 {% block javascript %}
 	<script>
+		var USV_person_names = [];
+		
 		$(window).load(function() {
 			rp_max_height = 0;
 			$('.featured-post').each(function() {
@@ -99,7 +101,7 @@
 				var name = window.location.hash.split("#")[1];
 				var $card = $( "[usv-person='" + name + "']" );
 				if($card.length > 0) {
-					 show_bio(name, 40);  
+					 show_bio(name, 10);  
 					 /* FIXME */
 					 /* passing in the second parameter is a real hack. */                 
 				}
@@ -155,7 +157,7 @@
 															<p><strong>Brad Burnham</strong> is a managing partner at Union Square Ventures. He started working in information technology with AT&amp;T in 1979. Brad spun Echo Logic out of Bell Laboratories in 1989 and joined AT&amp;T Ventures in 1993. Brad co-founded TACODA in 2001 before joining Fred to create Union Square Ventures in 2003. Brad majored in political science at Wesleyan University. &nbsp;He is married with two kids and lives in New York City.</p>
 															<div class="bio-links">
 																																	<a class="blog" href="http://bradburnham.tumblr.com">http://bradburnham.tumblr.com</a>                                                  
-																																																	<a class="twitter" href="http://twitter.com/bradUSV">@bradUSV</a>
+																																																	<a class="twitter twitter-follow-button" href="http://twitter.com/bradUSV">@bradUSV</a>
 																															</div>
 														</div>
 													</div>
@@ -178,7 +180,7 @@
 															<p><strong>Fred Wilson</strong> has been a venture capitalist since 1987. He currently is a managing partner at Union Square Ventures and also founded Flatiron Partners.&nbsp; Fred has a Bachelors degree in Mechanical Engineering from MIT and an MBA from The Wharton School of Business at the University of Pennsylvania. Fred is married with three kids and lives in New York City.</p>
 															<div class="bio-links">
 																																	<a class="blog" href="http://avc.com">http://avc.com</a>                                                  
-																																																	<a class="twitter" href="http://twitter.com/fredwilson">@fredwilson</a>
+																																																	<a class="twitter twitter-follow-button" href="http://twitter.com/fredwilson" target="_blank">@fredwilson</a>
 																															</div>
 														</div>
 													</div>
@@ -201,7 +203,7 @@
 															<p><strong>Albert Wenger</strong> is a partner at Union Square Ventures. &nbsp;Before joining USV, Albert was the president of del.icio.us through the company’s sale to Yahoo and an angel investor (Etsy, Tumblr).&nbsp; He previously founded or co-founded several companies, including a management consulting firm and an early hosted data analytics company. Albert graduated from Harvard College in economics and computer science and holds a Ph.D. in Information Technology from MIT.</p>
 															<div class="bio-links">
 																																	<a class="blog" href="http://continuations.com">http://continuations.com</a>                                                  
-																																																	<a class="twitter" href="http://twitter.com/albertwenger">@albertwenger</a>
+																																																	<a class="twitter twitter-follow-button" href="http://twitter.com/albertwenger">@albertwenger</a>
 																															</div>
 														</div>
 													</div>
@@ -245,7 +247,7 @@
 															<p><strong>Andy Weissman</strong> is a partner at Union Square Ventures. Andy began his career in the Internet at AOL in the mid-90s, then managed a series of venture funds with Dawntreader Ventures. Prior to joining USV, in 2007 he co-founded betaworks, which both created and invested in social, real-time applications and services. Andy was born in New York City and has a BA from Wesleyan University and a JD from Georgetown.</p>
 															<div class="bio-links">
 																																	<a class="blog" href="http://blog.aweissman.com">http://blog.aweissman.com</a>                                                  
-																																																	<a class="twitter" href="http://twitter.com/aweissman">@aweissman</a>
+																																																	<a class="twitter twitter-follow-button" href="http://twitter.com/aweissman">@aweissman</a>
 																															</div>
 														</div>
 													</div>
@@ -290,7 +292,7 @@
 <p>Nick is also a visiting scholar at the <a href="http://civic.mit.edu/" target="_blank">Center for Civic Media</a> at the <a href="http://media.mit.edu/" target="_blank">MIT Media Lab</a>&nbsp;and an affiliate at the <a href="http://cyber.law.harvard.edu">Berkman Center for Internet &amp; Society</a> at Harvard Law School.&nbsp;He has a degree in Urban Studies from Stanford University and learned everything he knows about technology from people on the internet and by using view:source. &nbsp;He grew up in Brooklyn and now lives outside of Boston with his wife and two kids.</p>
 															<div class="bio-links">
 																																	<a class="blog" href="http://nickgrossman.is">http://nickgrossman.is</a>                                                  
-																																																	<a class="twitter" href="http://twitter.com/nickgrossman">@nickgrossman</a>
+																																																	<a class="twitter twitter-follow-button" href="http://twitter.com/nickgrossman">@nickgrossman</a>
 																															</div>
 														</div>
 													</div>
@@ -317,7 +319,7 @@
 															<p><strong>Brittany Laughlin</strong> is the General Manager of the Union Square Ventures Network. Prior to Union Square Ventures, Brittany founded&nbsp;<a href="http://www.inclinehq.com/" target="_blank">Incline</a>, transitioning military veterans into technology jobs,&nbsp;and co-founded gtrot, a social travel recommendation engine. Previously, she worked at&nbsp;<a href="http://www.americanexpress.com/" target="_blank">American Express</a>.&nbsp;Brittany has a Bachelors degree in Marketing and International Business from New York University.</p>
 															<div class="bio-links">
 																																	<a class="blog" href="http://www.brittanymlaughlin.com">http://www.brittanymlaughlin.com</a>                                                  
-																																																	<a class="twitter" href="http://twitter.com/br_ttany">@br_ttany</a>
+																																																	<a class="twitter twitter-follow-button" href="http://twitter.com/br_ttany">@br_ttany</a>
 																															</div>
 														</div>
 													</div>
@@ -380,7 +382,7 @@
 												<p>Brian graduated from Columbia in 2012 with a B.S. in&nbsp;<a href="http://www.ieor.columbia.edu/pages/undergraduate/management_sys/index.html">Engineering Management Systems</a>, a degree that remixes traditional industrial engineering with economics and computer science.</p>
 																											<div class="bio-links">
 																																													<a class="blog" href="http://brianwatson.me">http://brianwatson.me</a>                                                  
-																																																													<a class="twitter" href="http://twitter.com/bwats">@bwats</a>
+																																																													<a class="twitter twitter-follow-button" href="http://twitter.com/bwats">@bwats</a>
 																																											</div>
 																										</div>
 																									</div>
@@ -403,7 +405,7 @@
 																											<p>Alexander Pease joined the investment team at Union Square Ventures in early 2012. He graduated from Princeton with a degree in physics but spent his summers as a developer. As a&nbsp;<a title="hackNY" href="http://hackny.org/a/students/">hackNY fellow</a>&nbsp;he worked for&nbsp;<a title="Vostu" href="http://vostu.com/">Vostu</a>&nbsp;and&nbsp;<a title="Todays Kicks" href="http://todayskicks.com/">Today’s Kicks</a>. Previously, he worked on&nbsp;<a title="NETRA" href="http://eyenetra.com/">NETRA</a>&nbsp;at the MIT Media Labs. Alexander loves hacking on side projects (such as <a href="https://github.com/AlexanderPease/twittercongress">FollowTheVote.org</a> and <a href="https://github.com/AlexanderPease/pyMetroGnome">MetroGnome</a>) and blogs at <a href="http://fermi.vc">fermi.vc</a>.</p>
 																											<div class="bio-links">
 																																													<a class="blog" href="http://fermi.vc">http://fermi.vc</a>                                                  
-																																																													<a class="twitter" href="http://twitter.com/alexandermpease">@alexandermpease</a>
+																																																													<a class="twitter twitter-follow-button" href="http://twitter.com/alexandermpease">@alexandermpease</a>
 																																											</div>
 																										</div>
 																									</div>
