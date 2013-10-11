@@ -37,7 +37,7 @@ class PageHandler(BaseHandler):
 		self.render('page/about.html', **self.vars)
 		
 	def network(self):
-		related_posts = Post.objects(tags__in=["usv-network"], user__username__in=settings.staff_twitter_handles).order_by('-date_created')
+		related_posts = Post.objects(tags__in=["usv-network"], user__username__in=settings.staff_twitter_handles).order_by('-date_created')[:6]
 		self.vars.update({
 			'related_posts': related_posts
 		})
