@@ -660,6 +660,7 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
     -webkit-box-shadow:0 0 25px #222;
     box-shadow:0 0 25px #222;
 }
+
 /* ================================ Header =============================== */
 #site-header {
     position:relative;
@@ -928,7 +929,9 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
     color:#86aa3b;
     font-weight:700;
 }
-/* =Homepage =Feed===================================================================*/
+
+/* =Homepage 
+   =Feed===================================================================*/
 .featured-feed {
     margin-bottom:0px;
 }
@@ -1335,6 +1338,32 @@ article.page {
     font-size:0.75em;
     text-transform:uppercase;
 }
+.post-meta {
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    padding: 10px 5px 5px;
+    margin-top: 10px;
+    text-align: center;
+}
+.featured .post-meta {
+    margin-top: 30px;
+}
+.post-meta div.col-sm-3 {
+    padding-top: 2px;
+}
+.post-meta div.col-sm-3.tweet {
+    padding-top: 0;
+}
+.post-meta div.col-sm-3.source {
+    white-space: nowrap;
+}
+
+.article-post.featured .post-date {
+    color: #999;
+    font-size: .9em;
+    margin-top: 5px;
+}
+
  @media only screen and (min-width:600px) {
     article.page .deck {
     font-size:1.4em;
@@ -2311,18 +2340,23 @@ ul.filter li a:hover,ul.filter li.active a {
 }
 .article-post h1 a {
     color: #000;
-    font-weight: 700;
+
 }
 .article-post h2 {
     margin:10px 0;
 }
 
 .article-post .post-body {
-    margin-bottom: 65px;
+    margin-bottom: 20px;
+    margin-top: 20px;
+    min-height: 80px;
 }
 .article-post.community .post-body p {
     margin-top: 0;
     margin-bottom: .5em;
+}
+.article-post.community .profile-photo {
+    
 }
 
  .article-post .post-body a {
@@ -2355,7 +2389,7 @@ ul.filter li a:hover,ul.filter li.active a {
     color:gray;
 }
  .article-post .post-source {
-    float:right;
+    
 }
  .article-post .post-date {
     float:left;
@@ -2393,9 +2427,11 @@ ul.filter li a:hover,ul.filter li.active a {
 }
 .community .post-author {
     font-size: 85%;
+    display:block;
+    margin-bottom: 10px;
 }
 .community .post-author a {
-    font-weight: bold;
+    font-family: "proximanova-bold", "Helvetica Neue", Arial, Helvetica, sans-serif;
 }
 .community .post-tags {
     float:left;
@@ -2404,7 +2440,7 @@ ul.filter li a:hover,ul.filter li.active a {
 }
 .article-post.community .profile-photo img {
     width: 75px;
-    margin-top: 7px;
+    margin-top: 5px;
     left: 0;
     border-radius: 3px;
 }
@@ -2429,7 +2465,7 @@ ul.filter li a:hover,ul.filter li.active a {
     color:#86aa3b;
     margin:5px 0 0 0;
     padding-left:22px;
-    font-weight:600;
+    
     /*display:block;*/
 }
  .article-post .upvote-button:hover, .article-post .comments-button:hover {
@@ -2471,7 +2507,6 @@ ul.filter li a:hover,ul.filter li.active a {
 }
  .article-post h1 {
     font-size:2em;
-    font-weight:bold;
 }
  .article-post .post-body {
     font-size:1.125em;
@@ -2486,7 +2521,8 @@ ul.filter li a:hover,ul.filter li.active a {
     display:block;
 }
  .article-post .profile-photo {
-    position:absolute;
+    float: left;
+
 }
  .article-post .profile-photo img {
     width:125px;
@@ -3060,6 +3096,18 @@ h1.general-page-headline .search-term,.feed .title,.feed .excerpt,#pagination a:
     /*color:#444;
     */
 }
+
+.article-post h1 {
+    font-family: "proximanova-bold";
+    font-weight: normal;
+}
+
+.article-post .social {
+    font-size: .9em;
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+}
+
 .field-errors {
     padding: 10px;
     margin-bottom: 8px;
@@ -3617,6 +3665,7 @@ ul.investments-list {
 }
 @media only screen and (min-width:480px) {
     /* PHONE */
+    
     
     .featured .post-title, 
     .featured .post-meta {

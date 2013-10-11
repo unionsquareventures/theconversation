@@ -48,7 +48,7 @@
 
 
 	<div class="row article-post single featured">
-		<div class="col-sm-2 author-info">
+		<div class="col-sm-2 author-info col-sm-offset-1">
 			<div class="profile-photo">
 				<a href="http://www.twitter.com/{{ post.user.username }}" target="_blank">
 				  <img src="{{ twitter_avatar_size(post.user.profile_image_url_https, 'original') }}" alt="thumbnail">
@@ -69,12 +69,14 @@
 						{{ post.title }}
 					{% end %}
 				</h1>
-			<div class="post-meta clearfix">
+			<div class="clearfix ">
 				{% if post.url %}
 				<a class="post-source" href="{{ post.url }}">{{ urlparse(post.url).netloc }} &rarr;</a>
 				{% end %}
 				<span class="author-name visible-xs">{{ post.user.fullname }}</span>
 				<span class="post-date">{{ pretty_date(post.date_created) }}</span> 
+				
+				<!--
 				{% if post.tags %}
 					<span class="post-tags" style="float:right">
 					{% for count, tag in enumerate(post.tags) %}
@@ -84,6 +86,7 @@
 					{% end %}
 					</span>
 				{% end %}
+			-->
 			</div>
 
 			<div class="post-body">
@@ -128,6 +131,28 @@
 				<div class="share-googleplus" data-url="{{ 'http://%s/posts/%s' % (settings.base_url, post.slug) }}" data-text="{{ post.title }}"></div>-->
 			</div>
 
+			<div class="post-meta clearfix row">
+				<div class="col-sm-4 upvote">
+					{% module ajax_upvote_link(post=post) %}
+				</div>
+				
+				<div class="col-sm-4 tweet">
+					  <a href="https://twitter.com/share" class="twitter-share-button" data-via="">Tweet</a>
+						<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>  
+				</div> 
+				
+				<div class="col-sm-4 tags">
+					{% if post.tags %}
+						<span class="post-tags">
+						{% for count, tag in enumerate(post.tags) %}
+							<a href="/tagged/{{ url_escape(tag) }}">#{{ tag }}</a>{% if count < len(post.tags) -1 %}, {% end %}
+						{% end %}
+						</span>
+					{% end %}
+				</div>
+			
+			</div><!-- .post-meta -->
+
 			<div class="comment-box">
 				<div id="disqus_thread"></div>
 
@@ -170,7 +195,7 @@
 
 		</div><!-- /.col6 -->
 
-		<div class="col-sm-2 ">
+		<div class="col-sm-2" style="display:none">
 			<div class="profile-links">
 
 				<p>{% module ajax_upvote_link(post=post) %}</p>
