@@ -76,7 +76,7 @@ def init_app(bundle=True, auth_passthrough=False):
             (r'/team/$', OldPageHandler),
             (r'/investments/$', OldPageHandler),
             (r'/focus/$', OldPageHandler),
-            (r'/jobs$', OldPageHandler),
+            (r'/jobs/$', OldPageHandler),
             (r'/collateral/(?P<filepath>.*)$$', OldPageHandler),
 
             (r'/portfolio.*$', PageHandler),
