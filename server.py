@@ -27,6 +27,7 @@ from handlers.old_post import OldPostHandler
 from handlers.email import EmailHandler
 from handlers.page import PageHandler
 from handlers.old_page import OldPageHandler
+from handlers.api import APIHandler
 import ui
 from redis import StrictRedis
 from lib.sendgrid import Sendgrid
@@ -96,6 +97,8 @@ def init_app(bundle=True, auth_passthrough=False):
             (r'/feed$', PostHandler),
             
             (r'/generate_hackpad/?', HackpadHandler),
+
+            (r'/api/user_status/?', APIHandler),
             ], ui_modules = ui.template_modules(),
             ui_methods = ui.template_methods(),
             redis=redis,
