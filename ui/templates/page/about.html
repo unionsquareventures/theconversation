@@ -24,30 +24,7 @@
 			'brian-watson'
 		];
 		
-		$(window).load(function() {
-			rp_max_height = 0;
-			$('.featured-post').each(function() {
-				if ($(this).height() > rp_max_height) {
-					rp_max_height = $(this).height();
-				}
-			})
-			$('.featured-post').height(rp_max_height);
-			
-		});
-		
-		$(window).load(function() {
-			  
-			 var people_heights = {};
-			 $('.person-container').each(function(){
-			 	people_heights[$(this).attr('usv-person')] = $(this).height();
-			 });  
-			
-			var reset_person_heights = function() {
-				$('.person-container').each(function() {
-					$(this).height(people_heights[$(this).attr('usv-person')]);
-				})
-			}
-
+		$(document).ready(function() {
 			/* ABOUT PAGE */
 			$(".open-bio").click(function(e) {
 			   e.preventDefault();
@@ -60,57 +37,70 @@
 			   show_bio(person);
 			});
 			
-			var collapse_bios = function() {
-				//$('.person-container').height(person_heights);
-				reset_person_heights();
-				$('.person-container').removeClass('is-open');
-				$('.open-bio').removeClass('is-open');
-				$("#full-bio").hide();
-				$('.full-bio-shim').hide();
-				$('.person-container').css('opacity', '1');
-			}
-			
 			$("#close-bio").click(function(e) {
 			   e.preventDefault();
 			   window.location.hash = "#_";
 			   collapse_bios(); 
 			   /*$('#team-heading').ScrollTo();*/
 			});
+		})
+		
+		var people_heights = {};
+		
+		var reset_person_heights = function() {
+			$('.person-container').each(function() {
+				$(this).height(people_heights[$(this).attr('usv-person')]);
+			})
+		}
+		
+		var collapse_bios = function() {
+			//$('.person-container').height(person_heights);
+			reset_person_heights();
+			$('.person-container').removeClass('is-open');
+			$('.open-bio').removeClass('is-open');
+			$("#full-bio").hide();
+			$('.full-bio-shim').hide();
+			$('.person-container').css('opacity', '1');
+		}
+		var show_bio = function(person, xtra_height) {
+			xtra_height = typeof xtra_height !== 'undefined' ? xtra_height : 10;
 			
-			var show_bio = function(person, xtra_height) {
-				xtra_height = typeof xtra_height !== 'undefined' ? xtra_height : 10;
-				
-				var $card = $("div[usv-person='" + person + "']");
-				var bio_html = $card.find('.full-bio').html();
-				var $full_bio_container = $("#full-bio");
-				if ($full_bio_container.is(':visible')) {
-					collapse_bios();
-				}
-				$card.addClass('is-open');
-				$card.find('a').addClass('is-open');
-				window.location.hash = person;
-				//$card.ScrollTo();
-				var $full_bio_content = $("#full-bio-content");
-				var $shim = $card.find('.full-bio-shim');
-				
-				//$full_bio.width($container.width());
-				$full_bio_content.html(bio_html)
-				$full_bio_container.show();
-				//$shim.show();
-				
-				// set widths & heights
-				$full_bio_container.offset({ 'top' : $card.offset().top + $card.height() - xtra_height });                     
-				
-				// find which cards are in the same row
-				$('.person-container').css('opacity', '0.4');
-				$('.person-container').each(function() {
-					if ($(this).offset().top == $card.offset().top) {
-						$(this).height($(this).height() + $full_bio_container.height() + 36);
-					}
-				});
-				$card.css('opacity', '1');
+			var $card = $("div[usv-person='" + person + "']");
+			var bio_html = $card.find('.full-bio').html();
+			var $full_bio_container = $("#full-bio");
+			if ($full_bio_container.is(':visible')) {
+				collapse_bios();
 			}
+			$card.addClass('is-open');
+			$card.find('a').addClass('is-open');
+			window.location.hash = person;
+			//$card.ScrollTo();
+			var $full_bio_content = $("#full-bio-content");
+			var $shim = $card.find('.full-bio-shim');
 			
+			//$full_bio.width($container.width());
+			$full_bio_content.html(bio_html)
+			$full_bio_container.show();
+			//$shim.show();
+			
+			// set widths & heights
+			$full_bio_container.offset({ 'top' : $card.offset().top + $card.height() - xtra_height });                     
+			
+			// find which cards are in the same row
+			$('.person-container').css('opacity', '0.4');
+			$('.person-container').each(function() {
+				if ($(this).offset().top == $card.offset().top) {
+					$(this).height($(this).height() + $full_bio_container.height() + 36);
+				}
+			});
+			$card.css('opacity', '1');
+		}
+		
+		$(window).load(function() {
+			 $('.person-container').each(function(){
+			 	people_heights[$(this).attr('usv-person')] = $(this).height();
+			 });  
+
 			if (window.location.hash) {
 				var name = window.location.hash.split("#")[1];
 				var $card = $( "[usv-person='" + name + "']" );
@@ -121,7 +111,25 @@
 					 /* passing in the second parameter is a real hack. */                 
 				}
 			}
+			
+			rp_max_height = 0;
+			$('.featured-post').each(function() {
+				if ($(this).height() > rp_max_height) {
+					rp_max_height = $(this).height();
+				}
+			})
+			$('.featured-post').height(rp_max_height);
+			
+			person_max_height = 0;
+			$('.person').each(function() {
+				if ($(this).height() > person_max_height) {
+					person_max_height = $(this).height();
+				}
+			})
+			$('.person').height(person_max_height);
 		});
+		
+		
 		
 	</script>
 
