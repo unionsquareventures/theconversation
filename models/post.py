@@ -50,6 +50,7 @@ class Post(Document):
     body_html = ImprovedStringField(required=True)
     body_truncated = ImprovedStringField(required=True)
     body_text = ImprovedStringField(required=True)
+    disqus_shortname = StringField(max_length=1000, default="usvbeta2")
 
     def add_slug(self, title):
         slug = slugify(title)
