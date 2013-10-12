@@ -1695,7 +1695,7 @@ h2.section-heading.mobile-page-headline {
     margin-bottom:25px;
     color:#aaa;
     border-bottom:1px solid #ccc;
-    height: 280px;
+    height: 290px;
 }
 @media only screen and (min-width:900px) {
     .company { 
