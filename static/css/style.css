@@ -1134,6 +1134,7 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
     border-top:1px solid #ddd;
     padding-top:10px;
     line-height: 1.5em;
+    font-size: .85em;
 }
  .swipe {
     overflow:hidden;
@@ -3356,7 +3357,7 @@ ul.investments-list {
     }
  } 
 
-@media only screen and (min-width:600px) {
+@media only screen and (min-width:630px) {
       .footer-content {
       width:60%;
   }
@@ -3372,6 +3373,12 @@ ul.investments-list {
 
    #mobile-header {
        display:none;
+   }
+   div.tools.tools-mobile {
+       display:none !important;
+   }
+   #tools-desktop {
+       display:block !important;
    }
     #site-header {
        display:block;
