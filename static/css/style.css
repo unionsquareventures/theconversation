@@ -1428,6 +1428,9 @@ h2.section-heading {
     text-transform:uppercase;
     font-size: 1.2em;
 }
+h2.section-heading.mobile-page-headline {
+    margin-top: 0;
+}
 .team h2 {
     font-size:1em;
 }
@@ -3403,7 +3406,7 @@ ul.investments-list {
     #site-header {
     display:block;
     }
-    h1.mobile-page-headline {
+    h2.mobile-page-headline {
        display:none;
    }
 
@@ -3655,6 +3658,12 @@ ul.investments-list {
     }
 
 }
+@media only screen and (max-width:530px) { 
+    article.page .deck {
+       padding: 20px !important; 
+    }
+}
+
 @media only screen and (max-width:480px) {
 
 #content > .container {
