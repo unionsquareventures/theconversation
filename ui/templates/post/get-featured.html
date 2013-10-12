@@ -131,17 +131,14 @@
 				<div class="share-googleplus" data-url="{{ 'http://%s/posts/%s' % (settings.base_url, post.slug) }}" data-text="{{ post.title }}"></div>-->
 			</div>
 
-			<div class="post-meta clearfix row">
-				<div class="col-sm-2 col-xs-4 upvote">
+			<div class="post-meta clearfix row hidden-xs">
+				<div class="col-sm-3 col-xs-6 upvote">
 					{% module ajax_upvote_link(post=post) %}
 				</div>
 				
-				<div class="col-sm-2 col-xs-4 tweet">
-					  <a href="https://twitter.com/share" class="twitter-share-button" data-via="">Tweet</a>
-						<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>  
-				</div> 
+			
 				
-				<div class="col-xs-4 tags">
+				<div class="col-xs-6 tags">
 					{% if post.tags %}
 						<span class="post-tags">
 						{% for count, tag in enumerate(post.tags) %}
@@ -150,13 +147,28 @@
 						</span>
 					{% end %}
 				</div>
-				<div class="col-sm-4 source hidden-xs">
-					{% if post.url %}
-					<a class="post-source" href="{{ post.url }}">{{ urlparse(post.url).netloc }} &rarr;</a>
-					{% end %}
-				</div>
+				
+				<div class="col-sm-3 tweet">
+					  <a href="https://twitter.com/share" class="twitter-share-button" data-via="">Tweet</a>
+						<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>  
+				</div> 
+				
 			
 			</div><!-- .post-meta -->
+				
+			 <div class="meta visible-xs">
+				 <div class="post-meta mobile clearfix row">
+					 <div class="col-xs-6 upvote">
+						 {% module ajax_upvote_link(post=post) %}
+					 </div>
+					 
+					 <div class="col-xs-6 tweet">
+						   <a href="https://twitter.com/share" class="twitter-share-button" data-via="">Tweet</a>
+							 <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>  
+					 </div> 
+					</div>
+			 </div>
+
 
 			<div class="comment-box">
 				<div id="disqus_thread"></div>
