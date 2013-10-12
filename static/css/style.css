@@ -3356,10 +3356,39 @@ ul.investments-list {
         background-size:16px 16px;
     }
  } 
+ 
+ @media only screen and (min-width:530px) and (max-width:630px) {
+     #mobile-header {
+         display:none;
+     }
+     #main-nav {
+         top: 27px;
+     }
+     #main-nav a {
+         font-size: .8em;
+         padding: 6px;
+     }
+     div.tools.tools-mobile {
+         display:none !important;
+     }
+     #tools-desktop {
+         
+     }
+      #site-header {
+         display:block;
+         padding-bottom: 26px;
+     }
+ }
 
 @media only screen and (min-width:630px) {
-      .footer-content {
+  .footer-content {
       width:60%;
+  }
+  div.tools.tools-mobile {
+      display:none !important;
+  }
+  #mobile-header {
+      display:none;
   }
    .feed .title {
       font-size:1.3em;
@@ -3371,18 +3400,9 @@ ul.investments-list {
       font-size:1.4em;
   }
 
-   #mobile-header {
-       display:none;
-   }
-   div.tools.tools-mobile {
-       display:none !important;
-   }
-   #tools-desktop {
-       display:block !important;
-   }
     #site-header {
-       display:block;
-   }
+    display:block;
+    }
     h1.mobile-page-headline {
        display:none;
    }
