@@ -1686,8 +1686,6 @@ h2.section-heading.mobile-page-headline {
     font-size:1em;
 }
 .company {
-   
-    padding:10px 10px 0 10px;
     position:relative;
     margin:0 0px 25px 0px;
     background: #eee;
@@ -3790,7 +3788,7 @@ ul.investments-list {
         text-align:left;
     }
      .company {
-        height:285px;
+        /*height:285px;*/
     }
 }
 @media only screen and (min-width:481px) and (max-width:768px) {
@@ -3873,7 +3871,7 @@ ul.investments-list {
         /*white-space:nowrap;*/
     }
      .company {
-        height:290px;
+        /*height:290px;*/
     }
      .person-container {
         width:20%;
