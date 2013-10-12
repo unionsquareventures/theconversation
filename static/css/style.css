@@ -896,6 +896,12 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 #content li {
     
 }
+@media only screen and (max-width:768px) {
+    .featured h1.post-title {
+        margin-bottom: 10px !important;
+    }
+}
+
 @media only screen and (min-width:768px) {
     #content {
     margin-top:20px;
@@ -1010,6 +1016,11 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
  .featured-post .avatar {
     display:none;
     border:1px solid #DFDFD1;
+    border-radius: 3px;
+}
+
+.avatar {
+    border: 1px solid #DFDFD1;
     border-radius: 3px;
 }
  .feed .title,
@@ -3719,6 +3730,7 @@ ul.investments-list {
      h1.post-title {
          padding-bottom: 5px;
      }
+
      .article-post .author-name {
          padding: 0;
          margin: 0;
@@ -3802,6 +3814,9 @@ ul.investments-list {
         padding: 0;
         margin: 8px 0 0;
         font-size: 85%;
+    }
+    .article-post.featured .author-name {
+        margin-top:0;
     }
     .featured .post-title, .featured .post-meta {
         /*padding-left: 100px;*/

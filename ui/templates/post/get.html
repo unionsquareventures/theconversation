@@ -68,7 +68,7 @@
         <div>
             <div class="profile-photo">
                 <a href="http://www.twitter.com/{{ post.user.username }}" title="@{{ post.user.username }}" target="_blank">
-                  <img src="{{ twitter_avatar_size(post.user.profile_image_url_https, 'original') }}" alt="thumbnail">
+                  <img class="avatar" src="{{ twitter_avatar_size(post.user.profile_image_url_https, 'original') }}" alt="thumbnail">
                 </a>
                 <!--<span class="author-name">{{ post.user.fullname }}</span>
                 {% if is_staff(post.user.username) %}

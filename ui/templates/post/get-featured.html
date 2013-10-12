@@ -51,7 +51,7 @@
 		<div class="col-sm-2 author-info hidden-xs">
 			<div class="profile-photo">
 				<a href="http://www.twitter.com/{{ post.user.username }}" target="_blank">
-				  <img src="{{ twitter_avatar_size(post.user.profile_image_url_https, 'original') }}" alt="thumbnail">
+				  <img class="avatar" src="{{ twitter_avatar_size(post.user.profile_image_url_https, 'original') }}" alt="thumbnail">
 				</a>
 				<span class="author-name hidden-xs">{{ post.user.fullname }}</span>
 				{% if is_staff(post.user.username) %}
@@ -71,8 +71,8 @@
 					{% end %}
 				</h1>
 			<div class="clearfix">
-				<a href="http://www.twitter.com/{{ post.user.username }}" target="_blank" class="avatar visible-xs pull-left" style="display:block; margin: 2px 10px 0 0;">
-				  <img src="{{ twitter_avatar_size(post.user.profile_image_url_https, 'original') }}" alt="thumbnail" style="width:50px">
+				<a href="http://www.twitter.com/{{ post.user.username }}" target="_blank" class="visible-xs pull-left" style="display:block; margin: 2px 10px 0 0;">
+				  <img class="avatar" src="{{ twitter_avatar_size(post.user.profile_image_url_https, 'original') }}" alt="thumbnail" style="width:70px">
 				</a>
 				<span class="author-name visible-xs">{{ post.user.fullname }}</span>
 				<span class="post-date">{{ pretty_date(post.date_created) }}</span> 
