@@ -3696,7 +3696,7 @@ ul.investments-list {
     
     .featured .post-title, 
     .featured .post-meta {
-        padding-left: 80px;
+        /*padding-left: 80px;*/
     }
     .site-logo {
         /*width:500px;
@@ -3768,7 +3768,7 @@ ul.investments-list {
         font-size: 85%;
     }
     .featured .post-title, .featured .post-meta {
-        padding-left: 100px;
+        /*padding-left: 100px;*/
     }
 }
 @media only screen and (min-width:768px) {
