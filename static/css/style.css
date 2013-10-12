@@ -1380,6 +1380,7 @@ h1.post-title .glyphicon {
     font-size: .5em;
     color: #aaa;
     top: -1px;
+    display:none;
 }
 
  @media only screen and (min-width:600px) {
