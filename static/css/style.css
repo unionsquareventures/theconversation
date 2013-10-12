@@ -2398,6 +2398,15 @@ ul.filter li a:hover,ul.filter li.active a {
     margin-top: 0;
     margin-bottom: .5em;
 }
+@media only screen and (min-width:768px) and (max-width:900px) {
+    .article-post.community .col-sm-8    {
+      width: 80%;
+      margin-left: 10%;
+    }
+  
+}
+
+
 .article-post.community .profile-photo {
     
 }
