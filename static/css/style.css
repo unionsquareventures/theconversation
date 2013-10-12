@@ -1372,7 +1372,7 @@ article.page {
 
 .article-post.featured .post-date {
     color: #999;
-    font-size: .9em;
+    /*font-size: .9em;*/
     margin-top: 5px;
 }
 
@@ -2425,9 +2425,10 @@ ul.filter li a:hover,ul.filter li.active a {
     font-size:1.25em;
 }
  .article-post .post-body img, .article-post .post-body figure img {
-    width:100%;
+    /*width:100%;
     max-width:100%;
-    height:auto;
+    height:auto;*/
+    padding: 5px;
 }
  .article-post .post-body figcaption {
     font-size:0.85em;
@@ -3826,7 +3827,7 @@ ul.investments-list {
     .article-post .author-name {
         padding: 0;
         margin: 8px 0 0;
-        font-size: 85%;
+        /*font-size: 85%;*/
     }
     .article-post.featured .author-name {
         margin-top:0;
