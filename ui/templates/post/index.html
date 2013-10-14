@@ -14,12 +14,10 @@
       var text = $(this).text();
       console.log(text.match(/\.{3}/));
       if (text.match(/\.{3}/)) {
-        console.log(text)
         var i = text.lastIndexOf(' ');
         if (i != -1) {
           text = text.substr(0,i) + "..."
         }
-        console.log(text)
       }
       return text;
   });
