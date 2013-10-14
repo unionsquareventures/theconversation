@@ -13,8 +13,10 @@ class BaseHandler(SentryMixin, tornado.web.RequestHandler):
     def __init__(self, *args, **kwargs):
         super(BaseHandler, self).__init__(*args, **kwargs)
         username = self.get_current_username()
+        base_url = "http://" + settings.base_url
         self.vars = {
                         'path': self.request.path,
+                        'base_url': base_url,
                         'username': username,
                         'user_id_str': self.get_current_user_id_str(),
                         'user_email_address': self.get_secure_cookie('email_address') or '',
