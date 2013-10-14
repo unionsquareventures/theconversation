@@ -896,6 +896,12 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 #content li {
     
 }
+@media only screen and (max-width:768px) {
+    .featured h1.post-title {
+        margin-bottom: 10px !important;
+    }
+}
+
 @media only screen and (min-width:768px) {
     #content {
     margin-top:20px;
@@ -1010,6 +1016,11 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
  .featured-post .avatar {
     display:none;
     border:1px solid #DFDFD1;
+    border-radius: 3px;
+}
+
+.avatar {
+    border: 1px solid #DFDFD1;
     border-radius: 3px;
 }
  .feed .title,
@@ -1134,6 +1145,7 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
     border-top:1px solid #ddd;
     padding-top:10px;
     line-height: 1.5em;
+    font-size: .85em;
 }
  .swipe {
     overflow:hidden;
@@ -1360,7 +1372,7 @@ article.page {
 
 .article-post.featured .post-date {
     color: #999;
-    font-size: .9em;
+    /*font-size: .9em;*/
     margin-top: 5px;
 }
 
@@ -1368,6 +1380,7 @@ h1.post-title .glyphicon {
     font-size: .5em;
     color: #aaa;
     top: -1px;
+    display:none;
 }
 
  @media only screen and (min-width:600px) {
@@ -1421,11 +1434,14 @@ h2.section-heading {
     /*border-top:1px solid #ddd;
     */
     font-family: 'proximanova-light';
- border-bottom:1px solid #ddd;
-    border-top:1px solid #ddd;
+    border-bottom:1px solid #ddd;
+    /*border-top:1px solid #ddd;*/
     padding:8px 0;
     text-transform:uppercase;
     font-size: 1.2em;
+}
+h2.section-heading.mobile-page-headline {
+    margin-top: 0;
 }
 .team h2 {
     font-size:1em;
@@ -1462,7 +1478,6 @@ h2.section-heading {
     padding:0;
 }
 .person {
-    text-align:left;
     list-style:none;
     background:#eee;
     border-bottom:1px solid #ddd;
@@ -1470,6 +1485,7 @@ h2.section-heading {
     margin-bottom:25px;
     position:relative;
     color:#999;
+    text-align: center;
 }
 
  .person img {
@@ -1477,8 +1493,12 @@ h2.section-heading {
     height:auto;
     margin:0 auto 15px;
     margin-bottom:10px;
-    border: 1px solid #DFDFD1;
-    border-radius: 3px;
+
+    border-radius: 2px;
+    border:1px solid #DFDFD1;
+    -webkit-box-shadow: 0px 0px 2px #ddd;
+    -moz-box-shadow:    0px 0px 2px #ddd;
+    box-shadow:         0px 0px 2px #ddd;
     /*border:4px solid #DFDFD1;
     */
  /*border:1px solid #DFDFD1;
@@ -1493,6 +1513,7 @@ h2.section-heading {
 }
  .person p.bio {
     margin:0;
+    padding: 5px 0;
 }
  .is-open .person p.bio {
     /*margin-top:8px;
@@ -1666,15 +1687,30 @@ h2.section-heading {
     font-size:1em;
 }
 .company {
-    background:#eee;
-    border:1px solid #eee;
+    position:relative;
+    margin:0 0px 25px 0px;
+    background: #eee;
+    text-align:left;
+    list-style:none;
+    padding:10px 10px 40px;
+    margin-bottom:25px;
+    color:#aaa;
+    border-bottom:1px solid #ccc;
+    height: 290px;
+}
+@media only screen and (min-width:900px) {
+    .company { 
+        height: 290px;
+    } 
+}
+.card  {
+    /*background:#eee;
+    -webkit-box-shadow: 0px 0px 6px #ccc;
+    -moz-box-shadow:    0px 0px 6px #ccc;
+    box-shadow:         0px 0px 6px #ccc;
     border-bottom:1px solid #ccc;
     border-radius:2px;
-    padding:10px 10px 0 10px;
-    /*height:320px;
     */
- position:relative;
-    margin:0 0px 25px 0px;
 }
 #full-investment {
     position:absolute;
@@ -1698,16 +1734,6 @@ h2.section-heading {
     padding:5px;
     margin:-10px 0 10px;
 }
-.company {
-    text-align:left;
-    list-style:none;
-    background:#eee;
-    border-bottom:1px solid #ddd;
-    padding:10px 10px 40px;
-    margin-bottom:25px;
-    position:relative;
-    color:#aaa;
-}
  .company img {
     width:100%;
     height:auto;
@@ -1715,15 +1741,23 @@ h2.section-heading {
     margin-bottom:10px;
     /*border:4px solid #DFDFD1;
     */
- /*border:1px solid #DFDFD1;
-    */
+    border:1px solid #DFDFD1;
+    -webkit-box-shadow: 0px 0px 2px #ddd;
+    -moz-box-shadow:    0px 0px 2px #ddd;
+    box-shadow:         0px 0px 2px #ddd;
  }
  .company a {
     color:#333 !important;
 }
+.company .summary a {
+    display:none;
+}
+.company .summary a.company-link {
+    display:inline;
+}
  .company .editlink {
-    top:0px;
-    right:10px;
+    top:-2px;
+    right:0px;
 }
  .company p.bio {
     margin:0;
@@ -1750,7 +1784,6 @@ h2.section-heading {
     margin:0;
     width:100%;
     height:auto;
-    border:none !important;
 }
 .company .since-date {
     color:#777;
@@ -2366,6 +2399,15 @@ ul.filter li a:hover,ul.filter li.active a {
     margin-top: 0;
     margin-bottom: .5em;
 }
+@media only screen and (min-width:768px) and (max-width:900px) {
+    .article-post.community .col-sm-8    {
+      width: 80%;
+      margin-left: 10%;
+    }
+  
+}
+
+
 .article-post.community .profile-photo {
     
 }
@@ -2384,9 +2426,10 @@ ul.filter li a:hover,ul.filter li.active a {
     font-size:1.25em;
 }
  .article-post .post-body img, .article-post .post-body figure img {
-    width:100%;
+    /*width:100%;
     max-width:100%;
-    height:auto;
+    height:auto;*/
+    padding: 5px;
 }
  .article-post .post-body figcaption {
     font-size:0.85em;
@@ -2601,13 +2644,13 @@ ul.filter li a:hover,ul.filter li.active a {
     display:block;
     background-color:#eee;
     border:1px solid #ddd;
-    padding:1px 5px;
+    padding:2px 7px 0;
     border-radius:2px;
     color:gray;
     font-size:0.85em;
 }
  .filter-tabs li a:hover {
-    background-color:#eee;
+    background-color:#ddd;
 }
  .filter-tabs li.heading {
     display:block;
@@ -3342,10 +3385,39 @@ ul.investments-list {
         background-size:16px 16px;
     }
  } 
+ 
+ @media only screen and (min-width:530px) and (max-width:630px) {
+     #mobile-header {
+         display:none;
+     }
+     #main-nav {
+         top: 27px;
+     }
+     #main-nav a {
+         font-size: .8em;
+         padding: 6px;
+     }
+     div.tools.tools-mobile {
+         display:none !important;
+     }
+     #tools-desktop {
+         
+     }
+      #site-header {
+         display:block;
+         padding-bottom: 26px;
+     }
+ }
 
-@media only screen and (min-width:600px) {
-      .footer-content {
+@media only screen and (min-width:630px) {
+  .footer-content {
       width:60%;
+  }
+  div.tools.tools-mobile {
+      display:none !important;
+  }
+  #mobile-header {
+      display:none;
   }
    .feed .title {
       font-size:1.3em;
@@ -3357,13 +3429,10 @@ ul.investments-list {
       font-size:1.4em;
   }
 
-   #mobile-header {
-       display:none;
-   }
     #site-header {
-       display:block;
-   }
-    h1.mobile-page-headline {
+    display:block;
+    }
+    h2.mobile-page-headline {
        display:none;
    }
 
@@ -3615,6 +3684,12 @@ ul.investments-list {
     }
 
 }
+@media only screen and (max-width:530px) { 
+    article.page .deck {
+       padding: 20px !important; 
+    }
+}
+
 @media only screen and (max-width:480px) {
 
 #content > .container {
@@ -3656,10 +3731,10 @@ ul.investments-list {
          display:none !important;
      }
       .hot-newest-feed a.username-link {
-         display:none !important;
+         display:inline !important;
      }
       .hot-newest-feed span.username {
-         display:inline !important;
+         display:none !important;
      }
      .staff {
          display:none;
@@ -3670,6 +3745,7 @@ ul.investments-list {
      h1.post-title {
          padding-bottom: 5px;
      }
+
      .article-post .author-name {
          padding: 0;
          margin: 0;
@@ -3683,7 +3759,7 @@ ul.investments-list {
     
     .featured .post-title, 
     .featured .post-meta {
-        padding-left: 80px;
+        /*padding-left: 80px;*/
     }
     .site-logo {
         /*width:500px;
@@ -3729,7 +3805,7 @@ ul.investments-list {
         text-align:left;
     }
      .company {
-        height:285px;
+        /*height:285px;*/
     }
 }
 @media only screen and (min-width:481px) and (max-width:768px) {
@@ -3752,10 +3828,13 @@ ul.investments-list {
     .article-post .author-name {
         padding: 0;
         margin: 8px 0 0;
-        font-size: 85%;
+        /*font-size: 85%;*/
+    }
+    .article-post.featured .author-name {
+        margin-top:0;
     }
     .featured .post-title, .featured .post-meta {
-        padding-left: 100px;
+        /*padding-left: 100px;*/
     }
 }
 @media only screen and (min-width:768px) {
@@ -3809,7 +3888,7 @@ ul.investments-list {
         /*white-space:nowrap;*/
     }
      .company {
-        height:290px;
+        /*height:290px;*/
     }
      .person-container {
         width:20%;
