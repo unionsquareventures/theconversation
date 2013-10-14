@@ -498,7 +498,7 @@ class PostHandler(BaseHandler):
             super(PostHandler, self).get(id, action)
             
     def feed(self):
-        posts = Post.objects().order_by('-date_created')
+        posts = Post.objects().order_by('-date_created')[:20]
         self.vars.update({
             'posts': posts
         })
