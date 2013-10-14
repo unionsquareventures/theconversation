@@ -3731,10 +3731,10 @@ ul.investments-list {
          display:none !important;
      }
       .hot-newest-feed a.username-link {
-         display:none !important;
+         display:inline !important;
      }
       .hot-newest-feed span.username {
-         display:inline !important;
+         display:none !important;
      }
      .staff {
          display:none;
