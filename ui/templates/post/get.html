@@ -77,6 +77,11 @@
                 <span class="staff">USV Team</span>
                 {% end %}
             -->
+            <div class="visible-xs">
+                {% if post.user.id_str == user_id_str or is_staff(username) %}
+                    <p><a href="/posts/{{ post.slug }}/edit" class="btn">Edit</a></p>
+                {% end %}
+            </div>
                 
             </div>
                         
@@ -115,6 +120,7 @@
                 {% if post.has_hackpad and post.hackpad_url %}
                   <p><a class="post-body-hackpad-link" target="_blank" href="{{ post.hackpad_url }}">Hackpad &rarr;</a></p>
                 {% end %}
+
                 
             </div><!--end of post-body-->
             
@@ -157,6 +163,8 @@
                  </div> 
                 </div>
          </div>
+         
+
             
             
             <div class="comment-box">
@@ -201,49 +209,11 @@
             
         </div><!-- /.col6 -->
         
-        <div class="col-sm-2" style="display:none">
-            <div class="profile-links">
-                <p class="hidden-xs">{% module ajax_upvote_link(post=post) %}
-                    
-                    
-                    </p>
-                
-               <!-- <a href="/posts/{{ post.slug }}#disqus_thread" class="comments-button"
-                                        data-disqus-identifier="{{ post.id }}">0 comments</a>-->
-            
-            <p><a href="https://twitter.com/share" class="twitter-share-button" data-via="">Tweet</a></p>
-            <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
-            
-            
-            {% if post.user.id_str == user_id_str or is_staff(username) %}
-            <hr />
-                <p><a href="/posts/{{ post.slug }}/edit" class="btn">Edit</a></p>
-            {% end %}
-            
-            {% if is_staff(username) %}
-            <hr />
-            {% if author.user.is_blacklisted %}
-            <p><a class="btn btn-success" href="/users/{{ post.user.username }}/unban">Unban this user</a>
-            {% else %}
-            <p><a class="btn btn-danger" href="/users/{{ post.user.username }}/ban">Ban this user</a>
-            {% end %}
-            {% end %}
-            <!--<br />
-            <script src="//platform.linkedin.com/in.js" type="text/javascript">
-             lang: en_US
-            </script>
-            <script type="IN/Share" data-counter="right"></script>
-        -->
-            
-                <!--
-                <div class="share-widget">
-                    <div class="share-twitter" data-url="{{ 'http://%s/posts/%s' % (settings.base_url, post.slug) }}" data-text="{{ post.title }}"></div>
-                    <div class="share-facebook" data-url="{{ 'http://%s/posts/%s' % (settings.base_url, post.slug) }}" data-text="{{ post.title }}"></div>
-                    <div class="share-googleplus" data-url="{{ 'http://%s/posts/%s' % (settings.base_url, post.slug) }}" data-text="{{ post.title }}"></div>
-                </div>
-            -->
-            </div>
-        </div><!-- /col3 -->
+       <div class="col-sm-2 hidden-xs">
+           {% if post.user.id_str == user_id_str or is_staff(username) %}
+               <p><a href="/posts/{{ post.slug }}/edit" class="btn">Edit</a></p>
+           {% end %}
+       </div>
         
         
     </div><!-- /.row -->

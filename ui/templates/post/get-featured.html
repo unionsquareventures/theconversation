@@ -75,7 +75,14 @@
 				  <img class="avatar" src="{{ twitter_avatar_size(post.user.profile_image_url_https, 'original') }}" alt="thumbnail" style="width:70px">
 				</a>
 				<span class="author-name visible-xs">{{ post.user.fullname }}</span>
-				<span class="post-date">{{ pretty_date(post.date_created) }}</span> 
+				<span class="post-date">{{ pretty_date(post.date_created) }}
+					<span class="visible-xs">
+						{% if post.user.id_str == user_id_str or is_staff(username) %}
+							<a href="/posts/{{ post.slug }}/edit" class="">Edit</a>
+						{% end %}
+					</span>
+					</span> 
+				
 				<!--
 				{% if post.tags %}
 					<span class="post-tags" style="float:right">
