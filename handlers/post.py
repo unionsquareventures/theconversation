@@ -46,8 +46,10 @@ class PostHandler(BaseHandler):
             count += per_page
 
         page = 1
+        
         sticky = Post.objects(slug="welcome-to-the-new-usvcom")
         featured_posts = list(Post.objects(featured=True, deleted=False, slug__ne="welcome-to-the-new-usvcom", **query).order_by('-date_featured')[:6])
+        
         lua = "local num_posts = redis.call('ZCARD', '{sort_by}')\n"
         if anchor != None:
             anchor = Post.objects(id=anchor).first()
@@ -99,19 +101,8 @@ class PostHandler(BaseHandler):
             'action': action,
         })
 
-        if 'callback' in self.request.arguments:
-            text = self.render_string('../modules/posts_list/main.html', **self.vars)
-            text = text.replace('\n', ' ').replace('\r', '')
-            text = re.escape(text)
-            try:
-                text = text.decode('utf-8')
-            except:
-                text = text
-            jsonp = "%s('%s')" % (self.get_argument('callback'), text)
-            self.write(jsonp)
-            return
-        else:
-            self.render('post/index.html', **self.vars)
+        
+        self.render('post/index.html', **self.vars)
 
     def detail(self, id):
         post = Post.objects(slugs=id).first()
