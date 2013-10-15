@@ -42,7 +42,7 @@ class Post(Document):
     date_deleted = DateTimeField(required=False)
     featured = BooleanField(default=False)
     date_featured = DateTimeField(required=False)
-    url = ImprovedURLField(max_length=65000, required=False)
+    url = ImprovedURLField(max_length=65000, required=False) # link to external content (if any)
     normalized_url = ImprovedStringField(max_length=65000, required=False)
     hackpad_url = ImprovedURLField(max_length=65000)
     has_hackpad = BooleanField(default=False)
