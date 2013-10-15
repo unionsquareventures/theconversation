@@ -33,7 +33,21 @@
       /* only do this on ipad where we're showing two at the top */
       $('.featured-post').height(fp_max_height);
     }
-  
+
+    //AJAX request to get user status
+    $.get('/api/user_status/', function (user_status) {
+      if (user_status == 'staff'){
+        $('#submit-modal .submit').show();
+        $('#submit-modal .login').hide();
+        $('#submit-modal .submit-staff').show();
+      }
+      else if (user_status == 'user') {
+        $('#submit-modal .submit').show();
+        $('#submit-modal .login').hide();
+      }
+      // blacklist is currently being handled outside the modal
+      // defaults to user not logged in, no need to do anything in this case
+    });  
 }); 
   </script>
 {% end %}
@@ -44,6 +58,7 @@
 
 
 {% block content %}
+
 <div id="main" role="main">
     <section class="featured-feed clearfix{{ ' mobile-hidden' if (rstart > 0) or sort_by_specified else '' }}">
         <!--<ul class="tabs">
@@ -123,12 +138,11 @@
           <li class="{{ 'is-active' if sort_by == 'new' else '' }}"><a class="sort btn" href="?sort_by=new">Newest</a></li>
           {% if not is_blacklisted %}
           <li class="submit-btn">
-            <!--<a class="btn btn-primary" role="button"
-            data-toggle="modal" href="#submit-modal">Submit a post</a>-->
-            <a class="btn btn-primary" role="button" href="/posts/new">Submit a post</a>          
+            <a class="btn btn-primary" role="button" data-toggle="modal" href="#submit-modal">Submit a post</a>     
           </li>
           {% end %}
         </ul>
+
         <ul class="tools hidden-xs" id="tools-desktop">
           <li><a href="/posts/welcome-to-the-new-usvcom#comment-1066691905">Guidelines</a></li>
           <li><a data-toggle="modal" href="#tools">Tools</a></li>

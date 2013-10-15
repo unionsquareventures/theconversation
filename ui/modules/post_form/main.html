@@ -63,7 +63,7 @@
                 </textarea>
             </dd>
             <dt>
-                <label for="url">Tags</label>
+                <label for="url">Tags (separate by comma)</label>
                 <div class="field-errors">{{ field_errors(errors, 'tags') }}</div>
             </dt>
             <dd>
@@ -81,17 +81,17 @@
             </li>
         -->
             
-            {% if handler.is_admin() %}
-            <dt class="featured">
+            
+            <dt class="submit-staff" style="display:none">
                     <div id="toggle-featured"></div>
                     <label for="post_featured">Featured</label>
                     <div class="field-errors">{{ field_errors(errors, 'featured') }}</div>
             </dt>
             <dd>
-                    <input type="checkbox" id="post_featured" name="featured" value="true"
+                    <input class="submit-staff" style="display:none" type="checkbox" id="post_featured" name="featured" value="true"
                                             {{ 'checked' if post.featured else '' }} />
             </dd>
-            {% end %}
+            
             
             
             {% if not post._created %}
