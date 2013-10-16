@@ -520,6 +520,7 @@ class PostHandler(BaseHandler):
             self.write_json({'error': 'You have already upvoted this post.'})
             return
 
+        # Increment the vote count
         post.update(inc__votes=1)
         if not post.voted_users:
             post.update(push__voted_users=VotedUser(id=id_str))
