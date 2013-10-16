@@ -11,7 +11,7 @@ connect(mongodb_db, host=settings.mongodb_url)
 
 class Post(Document):
     meta = {
-        'indexes': ['-date_deleted', 'deleted', '-date_featured',
+        'indexes': ['-date_deleted', 'deleted', '-date_featured', 'votes',
                             'featured', 'voted_users', 'user.id_str', 'slug',
                             'slugs', 'url', 'tags', 'normalized_url'],
     }
@@ -51,6 +51,7 @@ class Post(Document):
     body_truncated = ImprovedStringField(required=True)
     body_text = ImprovedStringField(required=True)
     disqus_shortname = StringField(max_length=1000, default="usvbeta2")
+    muted = BooleanField(default=False)
 
     def add_slug(self, title):
         slug = slugify(title)
