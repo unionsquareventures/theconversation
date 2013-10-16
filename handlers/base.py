@@ -56,8 +56,8 @@ class BaseHandler(SentryMixin, tornado.web.RequestHandler):
         return username
         
     def is_staff(self, username):
-        if username.lower() in settings.staff_twitter_handles:
-            return True
+        #if username.lower() in settings.staff_twitter_handles:
+            #return True
         return False
 
     def is_blacklisted(self, username):
