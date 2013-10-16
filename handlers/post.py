@@ -318,6 +318,7 @@ class PostHandler(BaseHandler):
             return
 
         # Send email to USVers if OP is USV
+        """
         sendgrid = self.settings['sendgrid']
         subject = 'USV.com: %s posted on "%s"' % (post.user['username'], post.title)
         if post.url: # post.url is the link to external content (if any)
@@ -337,6 +338,7 @@ class PostHandler(BaseHandler):
                 'subject': subject,
                 'text': text,
             })
+        """
         self.redirect('/posts/%s%s' % (post.slug, subscribe_param))
 
     def redis_remove(self, post):
