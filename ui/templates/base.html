@@ -122,10 +122,12 @@
                   <li id="nav-network"><a href="/network">Network</a></li>
                   <li id="nav-jobs"><a href="/jobs">Jobs</a></li>
                 </ul>
-                <!--<a href="#submit-form" class="header-submit-button">Submit</a>-->
-                <div id="login" style="display:none">
+                <div id="login">
                     {% if username %}
-                        Welcome, @{{ username }}! <!--&nbsp;[<a href="#">logout</a>]-->
+                        Welcome, @{{ username }}!
+                        <a class="login" href="/auth/logout">Logout</a>
+                    {% else %}
+                        <a class="login" href="/auth/twitter/">Log in</a>
                     {% end %}
                 </div>
                 </div>
