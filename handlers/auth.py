@@ -94,6 +94,7 @@ class LogoutHandler(BaseHandler):
         self.clear_cookie("user_id_str")
         self.clear_cookie("debug_username")
         self.clear_cookie("username")
+        self.clear_cookie("usv_username")
         self.clear_cookie("user")
         self.clear_cookie("email_address")
         self.clear_cookie("access_token")
