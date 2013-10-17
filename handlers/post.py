@@ -409,15 +409,19 @@ class PostHandler(BaseHandler):
     def redis_add(self, post):
         redis = self.settings['redis']
         redis.zadd('new', time.mktime(post.date_created.timetuple()), post.id)
-        base_score = time.mktime(post.date_created.timetuple()) / 45000.0
-        lua = "local votes = redis.call('GET', 'post:{post.id}:votes')\n"
-        lua += "votes = math.log10(votes)\n"
-        lua += "local score = {base_score} + votes\n"
-        lua += "redis.call('ZADD', 'hot', score, '{post.id}')\n"
-        lua = lua.format(post=post, base_score=base_score)
-        incr_score = redis.register_script(lua)
-        incr_score()
-    
+        
+        # change if this person is staff they automatically get to the front page
+        # everyone else needs 3 votes
+        if self.is_staff(self.get_current_username()):
+            base_score = time.mktime(post.date_created.timetuple()) / 45000.0
+            lua = "local votes = redis.call('GET', 'post:{post.id}:votes')\n"
+            lua += "votes = math.log10(votes)\n"
+            lua += "local score = {base_score} + votes\n"
+            lua += "redis.call('ZADD', 'hot', score, '{post.id}')\n"
+            lua = lua.format(post=post, base_score=base_score)
+            incr_score = redis.register_script(lua)
+            incr_score()
+        
     def redis_incrby(self, post, increment = 1):
         redis = self.settings['redis']
         lua = "redis.call('ZINCRBY', 'hot', {increment}, '{post.id}')\n"
@@ -605,7 +609,7 @@ class PostHandler(BaseHandler):
         base_score = time.mktime(post.date_created.timetuple()) / 45000.0
         redis = self.settings['redis']
         lua = "local votes = redis.call('INCR', 'post:{post.id}:votes')\n"
-        if not post.featured:
+        if not post.featured and post.votes > 0:
             lua += "votes = math.log10(votes)\n"
             lua += "local score = {base_score} + votes\n"
             lua += "redis.call('ZADD', 'hot', score, '{post.id}')\n"
