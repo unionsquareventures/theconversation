@@ -340,6 +340,34 @@ class PostHandler(BaseHandler):
             })
         """
         self.redirect('/posts/%s%s' % (post.slug, subscribe_param))
+    
+    @tornado.web.authenticated
+    def bumpup(self, id):
+        post = Post.objects(slugs=id).first()
+        
+        if not post:
+            raise tornado.web.HTTPError(404)
+            
+        if not self.is_staff(self.get_current_username()):
+            raise tornado.web.HTTPError(401)
+        
+        else:
+            self.redis_incrby(post, 0.25)
+            self.redirect('/')
+    
+    @tornado.web.authenticated
+    def bumpdown(self, id):
+        post = Post.objects(slugs=id).first()
+        
+        if not post:
+            raise tornado.web.HTTPError(404)
+            
+        if not self.is_staff(self.get_current_username()):
+            raise tornado.web.HTTPError(401)
+        
+        else:
+            self.redis_incrby(post, -0.25)
+            self.redirect('/')
 
     def redis_remove(self, post):
         redis = self.settings['redis']
@@ -355,6 +383,13 @@ class PostHandler(BaseHandler):
         lua += "local score = {base_score} + votes\n"
         lua += "redis.call('ZADD', 'hot', score, '{post.id}')\n"
         lua = lua.format(post=post, base_score=base_score)
+        incr_score = redis.register_script(lua)
+        incr_score()
+    
+    def redis_incrby(self, post, increment = 1):
+        redis = self.settings['redis']
+        lua = "redis.call('ZINCRBY', 'hot', {increment}, '{post.id}')\n"
+        lua = lua.format(post=post, increment=increment)
         incr_score = redis.register_script(lua)
         incr_score()
 
@@ -479,9 +514,13 @@ class PostHandler(BaseHandler):
             self.feed()
         if action == 'edit' and id:
             self.edit(id)
+        if action == 'bumpup' and id:
+            self.bumpup(id)
+        if action == 'bumpdown' and id:
+            self.bumpdown(id)
         if action == 'upvote' and id:
             self.upvote(id)
-        elif action == 'feature' and id:
+        if action == 'feature' and id:
             self.feature(id)
         else:
             super(PostHandler, self).get(id, action)
@@ -518,7 +557,7 @@ class PostHandler(BaseHandler):
                                         featured=True, voted_users=user_q).first()
         if not post:
             raise tornado.web.HTTPError(404)
-        if post.voted_users and not self.is_admin():
+        if post.voted_users and not self.is_staff(self.get_current_username()):
             self.write_json({'error': 'You have already upvoted this post.'})
             return
 

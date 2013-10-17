@@ -205,6 +205,12 @@
                   {% module ajax_upvote_link(post=post) %}                
                   <span class="time"><a href="/posts/{{ post.slug }}" ><span class="glyphicon glyphicon-link" style="margin: 0;font-size: 90%"></span> {{ pretty_date(post.date_created) }}</a></span>
                   <a href="/posts/{{ post.slug }}" ><span class="glyphicon glyphicon-comment" style="margin: 0;font-size: 90%"></span></a> <a class="" href="/posts/{{ post.slug }}" data-disqus-identifier="{{ post.id }}">comment</a>
+                
+                {% if is_staff(username) %}
+                  &nbsp;
+                  <a title="make this quieter" style="color: red; opacity:.5; font-size: 1.2em" href="/posts/{{ post.slug }}/bumpdown"><span class="glyphicon glyphicon-volume-down"></span></a>
+                  <a title="make this louder" style="color: blue;  opacity:.5; font-size: 1.1em;" href="/posts/{{ post.slug }}/bumpup"><span class="glyphicon glyphicon-volume-up"></span></a>
+                {% end %}
                 </div>
               </div>
               </li>             
