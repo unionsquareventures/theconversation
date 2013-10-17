@@ -1039,7 +1039,7 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
     -moz-transition:color 0.15s ease-out;
     transition:color 0.15s ease-out;
 }
-body.staff .feed .title {
+body.staff .hot-newest-feed .title {
     padding-right: 90px;
 }
 
@@ -2528,7 +2528,7 @@ ul.filter li a:hover,ul.filter li.active a {
     text-align: center;
 }
 
- .staff {
+span.staff {
     color:#bbb;
 }
 .article-post .profile-links {
