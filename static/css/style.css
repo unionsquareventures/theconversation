@@ -1115,6 +1115,16 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
     font-weight: normal;
     margin-right: 5px;
 }
+
+.feed .volume {
+    display: block !important;
+    margin-bottom: -5px;
+}
+
+.feed .volume span {
+    margin-right: 5px !important;
+}
+
  .feed .meta a,
  .featured-post .meta a {
     display:inline-block;

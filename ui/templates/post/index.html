@@ -48,6 +48,14 @@
       // blacklist is currently being handled outside the modal
       // defaults to user not logged in, no need to do anything in this case
     });  
+    
+    $('a.mute').click(function(e) {
+      e.preventDefault();
+      if (confirm("are you sure?")) {
+        window.location = this.href;
+      }
+      
+    })
 }); 
   </script>
 {% end %}
@@ -207,9 +215,17 @@
                   <a href="/posts/{{ post.slug }}" ><span class="glyphicon glyphicon-comment" style="margin: 0;font-size: 90%"></span></a> <a class="" href="/posts/{{ post.slug }}" data-disqus-identifier="{{ post.id }}">comment</a>
                 
                 {% if is_staff(username) %}
-                  &nbsp;
+                &nbsp;&nbsp;
+                <span class="volume">
+                  {% if not post.muted %}
+                  <a title="mute (remove from front page)" style="color: #333; opacity:.5; font-size: 1.2em" href="/posts/{{ post.slug }}/mute" class="mute"><span class="glyphicon glyphicon-volume-off"></span></a>
                   <a title="make this quieter" style="color: red; opacity:.5; font-size: 1.2em" href="/posts/{{ post.slug }}/bumpdown"><span class="glyphicon glyphicon-volume-down"></span></a>
                   <a title="make this louder" style="color: blue;  opacity:.5; font-size: 1.1em;" href="/posts/{{ post.slug }}/bumpup"><span class="glyphicon glyphicon-volume-up"></span></a>
+                
+                 {% else %}
+                <a title="unmute this post" style="color: blue;  opacity:.5; font-size: 1.1em;" href="/posts/{{ post.slug }}/unmute"><span class="glyphicon glyphicon-volume-off"></span></a>
+                {% end %}
+              </span><!-- volume -->
                 {% end %}
                 </div>
               </div>

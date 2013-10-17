@@ -368,6 +368,38 @@ class PostHandler(BaseHandler):
         else:
             self.redis_incrby(post, -0.25)
             self.redirect('/')
+    
+    @tornado.web.authenticated
+    def mute(self, id):
+        post = Post.objects(slugs=id).first()
+        
+        if not post:
+            raise tornado.web.HTTPError(404)
+            
+        if not self.is_staff(self.get_current_username()):
+            raise tornado.web.HTTPError(401)
+        
+        else:
+            post.update(set__muted=True)
+            #redis = self.settings['redis']
+            #redis.zrem('hot', post.id)
+            self.redirect('/')
+            
+    @tornado.web.authenticated
+    def unmute(self, id):
+        post = Post.objects(slugs=id).first()
+        
+        if not post:
+            raise tornado.web.HTTPError(404)
+            
+        if not self.is_staff(self.get_current_username()):
+            raise tornado.web.HTTPError(401)
+        
+        else:
+            post.update(set__muted=False)
+            #redis = self.settings['redis']
+            #redis.zrem('hot', post.id)
+            self.redirect('/')
 
     def redis_remove(self, post):
         redis = self.settings['redis']
@@ -518,6 +550,10 @@ class PostHandler(BaseHandler):
             self.bumpup(id)
         if action == 'bumpdown' and id:
             self.bumpdown(id)
+        if action == 'mute' and id:
+            self.mute(id)
+        if action == 'unmute' and id:
+            self.unmute(id)
         if action == 'upvote' and id:
             self.upvote(id)
         if action == 'feature' and id:
