@@ -57,7 +57,7 @@
     {% end %}
 </head>
 
-<body data-menu-position="closed" class="{% block body_class %}{% end %}">
+<body data-menu-position="closed" class="{% block body_class %}{% end %} {% if is_staff(username) %}staff{% end %}">
 
 
   <style type="text/css">

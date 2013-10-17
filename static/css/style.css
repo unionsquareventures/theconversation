@@ -1039,6 +1039,10 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
     -moz-transition:color 0.15s ease-out;
     transition:color 0.15s ease-out;
 }
+body.staff .feed .title {
+    padding-right: 90px;
+}
+
  .feed .title .glyphicon {
     color:#aaa;
     font-size:.6em;
@@ -1117,8 +1121,9 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 }
 
 .feed .volume {
-    display: block !important;
-    margin-bottom: -5px;
+    position: absolute;
+    top: 10px;
+    right: 0;
 }
 
 .feed .volume span {
