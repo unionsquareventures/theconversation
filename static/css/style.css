@@ -3755,7 +3755,7 @@ ul.investments-list {
       .hot-newest-feed span.username {
          display:none !important;
      }
-     .staff {
+     span.staff {
          display:none;
      }
      .author-info {
@@ -3831,7 +3831,7 @@ ul.investments-list {
     #contact {
         display:none;
     }
-    .staff {
+    span.staff {
         /*display:none;*/
         font-size: 85%;
     }
