@@ -317,58 +317,62 @@ class PostHandler(BaseHandler):
             self.redirect('/posts/%s%s' % (post.slug, subscribe_param))
             return
 
-        # Send email to USVers if OP is USV
-        sendgrid = self.settings['sendgrid']
-        if post.url:
-            subject = '%s shared a link on USV.com' % post.user['username']
-        else:
-            subject = '%s wrote a new post on USV.com' % post.user['username']
-        if post.url:
-            relation = 'shared'
-            post_link = '( %s )' % post.url
-        else:
-            relation = 'written'
-            post_link = ''
-        text = '"%s" %s %s by %s. \n\nOn USV.com: http://%s/posts/%s'\
-                        % (post.title.encode('ascii', errors='ignore'), post_link,
-                                relation, post.user['username'].encode('ascii', errors='ignore'),
-                                        settings.base_url, post.slug)
-        for user_id, address in settings.admin_user_emails.iteritems():
-            if user_id == post.user['id_str']:
-                continue
-            sendgrid.send_email(lambda x: None, **{
-                'from': 'web@usv.com',
-                'to': address,
-                'subject': subject,
-                'text': text,
-            })
 
+         # Z trying to modify emails. 
+        try:
+            print "----------------------------------------------"
+            print "Trying new email"
+            print "----------------------------------------------"
+            sendgrid = self.settings['sendgrid']
+            subject = 'USV.com: %s posted "%s"' % (post.user['username'], post.title)
+            if post.url: # post.url is the link to external content (if any)
+                post_link = 'External Link: %s \n\n' % post.url
+            else:
+                post_link = ''
+            post_url = "http://%s/posts/%s" % (settings.base_url, post.slug)
+            print post_url
+            text = '"%s" ( %s ) posted by %s. \n\n %s %s'\
+                            % (post.title.encode('ascii', errors='ignore'), post_url, 
+                                post.user['username'].encode('ascii', errors='ignore'), post.link, post.body_html)
 
-         # Z trying to modify emails. May result in two emails, but that's a good sign!
-        sendgrid = self.settings['sendgrid']
-        subject = 'USV.com: %s posted on "%s"' % (post.user['username'], post.title)
-        if post.url: # post.url is the link to external content (if any)
-            post_link = 'External Link: %s \n\n' % post.url
-        else:
-            post_link = ''
-        post_url = "http://%s/posts/%s" % (settings.base_url, post.slug)
-        text = '"%s" ( %s ) posted by %s. \n\n %s %s'\
-                        % (post.title.encode('ascii', errors='ignore'), post_url, 
-                            post.user['username'].encode('ascii', errors='ignore'), post.link, post.body_html)
-
-        print text
-        for user_id, address in settings.admin_user_emails.iteritems():
-            if user_id == post.user['id_str']:
-                continue
-            sendgrid.send_email(lambda x: None, **{
-                'from': 'web@usv.com',
-                'to': address,
-                'subject': subject,
-                'text': text,
-            })
-            
-
-        self.redirect('/posts/%s%s' % (post.slug, subscribe_param))
+            print text
+            for user_id, address in settings.admin_user_emails.iteritems():
+                if user_id == post.user['id_str']:
+                    continue
+                sendgrid.send_email(lambda x: None, **{
+                    'from': 'web@usv.com',
+                    'to': address,
+                    'subject': subject,
+                    'text': text,
+                })
+            self.redirect('/posts/%s%s' % (post.slug, subscribe_param))
+        except: 
+            # Send email to USVers if OP is USV
+            sendgrid = self.settings['sendgrid']
+            if post.url:
+                subject = '%s shared a link on USV.com' % post.user['username']
+            else:
+                subject = '%s wrote a new post on USV.com' % post.user['username']
+            if post.url:
+                relation = 'shared'
+                post_link = '( %s )' % post.url
+            else:
+                relation = 'written'
+                post_link = ''
+            text = '"%s" %s %s by %s. \n\nOn USV.com: http://%s/posts/%s'\
+                            % (post.title.encode('ascii', errors='ignore'), post_link,
+                                    relation, post.user['username'].encode('ascii', errors='ignore'),
+                                            settings.base_url, post.slug)
+            for user_id, address in settings.admin_user_emails.iteritems():
+                if user_id == post.user['id_str']:
+                    continue
+                sendgrid.send_email(lambda x: None, **{
+                    'from': 'web@usv.com',
+                    'to': address,
+                    'subject': subject,
+                    'text': text,
+                })
+            self.redirect('/posts/%s%s' % (post.slug, subscribe_param))
         
        
         
