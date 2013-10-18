@@ -348,30 +348,30 @@ class PostHandler(BaseHandler):
             self.redirect('/posts/%s%s' % (post.slug, subscribe_param))
         except: 
             # Send email to USVers if OP is USV
-        sendgrid = self.settings['sendgrid']
-        if post.url:
-            subject = '%s shared a link on USV.com' % post.user['username']
-        else:
-            subject = '%s wrote a new post on USV.com' % post.user['username']
-        if post.url:
-            relation = 'shared'
-            post_link = '( %s )' % post.url
-        else:
-            relation = 'written'
-            post_link = ''
-        text = '"%s" %s %s by %s. \n\nOn USV.com: http://%s/posts/%s'\
-                        % (post.title.encode('ascii', errors='ignore'), post_link,
-                                relation, post.user['username'].encode('ascii', errors='ignore'),
-                                        settings.base_url, post.slug)
-        for user_id, address in settings.admin_user_emails.iteritems():
-            if user_id == post.user['id_str']:
-                continue
-            sendgrid.send_email(lambda x: None, **{
-                'from': 'web@usv.com',
-                'to': address,
-                'subject': subject,
-                'text': text,
-            })
+            sendgrid = self.settings['sendgrid']
+            if post.url:
+                subject = '%s shared a link on USV.com' % post.user['username']
+            else:
+                subject = '%s wrote a new post on USV.com' % post.user['username']
+            if post.url:
+                relation = 'shared'
+                post_link = '( %s )' % post.url
+            else:
+                relation = 'written'
+                post_link = ''
+            text = '"%s" %s %s by %s. \n\nOn USV.com: http://%s/posts/%s'\
+                            % (post.title.encode('ascii', errors='ignore'), post_link,
+                                    relation, post.user['username'].encode('ascii', errors='ignore'),
+                                            settings.base_url, post.slug)
+            for user_id, address in settings.admin_user_emails.iteritems():
+                if user_id == post.user['id_str']:
+                    continue
+                sendgrid.send_email(lambda x: None, **{
+                    'from': 'web@usv.com',
+                    'to': address,
+                    'subject': subject,
+                    'text': text,
+                })
             self.redirect('/posts/%s%s' % (post.slug, subscribe_param))
         
        
