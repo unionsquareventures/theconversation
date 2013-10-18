@@ -80,8 +80,20 @@
                                         style="display: {{'block' if post.has_hackpad else 'none' }};" />
             </li>
         -->
-            
-            
+        
+        {% if handler.is_admin() %}
+            <dt class="featured">
+                    <div id="toggle-featured"></div>
+                    <label for="post_featured">Featured</label>
+                    <div class="field-errors">{{ field_errors(errors, 'featured') }}</div>
+            </dt>
+            <dd>
+                    <input type="checkbox" id="post_featured" name="featured" value="true"
+                                            {{ 'checked' if post.featured else '' }} />
+            </dd>
+        {% end %}    
+
+        <!-- Used when AJAX was utilized for checking if user is staff
             <dt class="submit-staff" style="display:none">
                     <div id="toggle-featured"></div>
                     <label for="post_featured">Featured</label>
@@ -91,6 +103,7 @@
                     <input class="submit-staff" style="display:none" type="checkbox" id="post_featured" name="featured" value="true"
                                             {{ 'checked' if post.featured else '' }} />
             </dd>
+        --> 
             
             
             
