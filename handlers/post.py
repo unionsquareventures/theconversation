@@ -333,7 +333,7 @@ class PostHandler(BaseHandler):
             print post_url
             text = '"%s" ( %s ) posted by %s. \n\n %s %s'\
                             % (post.title.encode('ascii', errors='ignore'), post_url, 
-                                post.user['username'].encode('ascii', errors='ignore'), post.link, post.body_html)
+                                post.user['username'].encode('ascii', errors='ignore'), post.link, post.body_text) #post.body_html caused crash
 
             print text
             for user_id, address in settings.admin_user_emails.iteritems():
