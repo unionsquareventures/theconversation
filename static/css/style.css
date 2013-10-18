@@ -1019,6 +1019,10 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 
 /* Repeat Posts */
 
+.feed.sort-by-hot li.repeat {
+    display: none !important;
+}
+
 /*
 .feed li.repeat {
     margin-top: -5px;
@@ -1046,12 +1050,12 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
     width: 28px;
     height: 28px;
 }
-*/
 
 .feed li.repeat .source,
 .feed li.repeat .time {
     display: none;
 }
+*/
 
 
  .feed .avatar,
