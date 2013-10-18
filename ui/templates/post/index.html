@@ -187,16 +187,22 @@
             {% end %}
 
             {% for post in posts %}
+              {% if 'previous_author_username' in locals() and previous_author_username == post.user.username %}
+                {% set repeat = True %}
+              {% else %}
+                {% set repeat = False %}
+              {% end %}
             {% if sort_by == "hot" and post.muted %}
             
             {% else %}
-            <li>
+            <li {% if repeat %}class="repeat"{% end %}>
               <div class="avatar">
                 <a href="http://www.twitter.com/{{ post.user.username }}" target="_blank">
                 <img title="{{ post.user.username }}" src="{{ twitter_avatar_size(post.user.profile_image_url_https, 'normal') }}" alt="thumbnail">
                 </a>
               </div>
               <div class="content">
+                
             
                 {% if post.url %}
                     <a class="title" href="{{ post.url }}" rel="nofollow" target="_blank">{{ post.title }}</a>
@@ -229,7 +235,8 @@
                 {% end %}
                 </div>
               </div>
-              </li>             
+              </li>      
+              {% set previous_author_username = post.user.username %}       
             {% end %}
             {% end %}
         </ul><!--end of feed-->

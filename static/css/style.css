@@ -1016,6 +1016,43 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
     padding:0;
     border:none;
 }
+
+/* Repeat Posts */
+
+.feed li.repeat {
+    /*margin-left: 20px;*/
+    margin-top: -5px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    
+}
+.feed li.repeat .content {
+    
+}
+.feed li.repeat a.title {
+    padding-bottom: 5px;
+    font-size: 1em;
+    color: #555;
+}
+.feed li.repeat:last-child {
+    border-bottom: 1px solid #ddd;
+}
+.feed li.repeat .avatar {
+    width: 30px;
+    height: 30px;
+    display:none !important;
+}
+.feed li.repeat .avatar img {
+    width: 28px;
+    height: 28px;
+}
+
+.feed li.repeat .source,
+.feed li.repeat .time {
+    display: none;
+}
+
+
  .feed .avatar,
  .featured-post .avatar {
     display:none;
