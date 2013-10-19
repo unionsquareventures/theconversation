@@ -12,7 +12,6 @@
     // Truncate featured post text
     $('.excerpt').text(function(e) {
       var text = $(this).text();
-      console.log(text.match(/\.{3}/));
       if (text.match(/\.{3}/)) {
         var i = text.lastIndexOf(' ');
         if (i != -1) {
@@ -56,6 +55,45 @@
       }
       
     })
+    
+    
+    /* DISQUS */
+  
+    var disqusPublicKey = "{{ settings.disqus_public_key }}";
+    var disqusShortname = "usvbeta2"; // Replace with your own shortname
+  
+    var urlArray = [];
+    
+    $('.comment-count').each(function () {
+      var url = $(this).attr('data-disqus-url');
+      urlArray.push('link:' + url);
+      
+      $.ajax({
+        type: 'GET',
+        url: "https://disqus.com/api/3.0/threads/set.jsonp",
+        data: { api_key: disqusPublicKey, forum : disqusShortname, thread : urlArray },
+        cache: false,
+        dataType: 'jsonp',
+        success: function (result) {
+      
+          /*for (var i in result.response) {
+      
+            var countText = " comments";
+            var count = result.response[i].posts;
+      
+            if (count == 1)
+              countText = " comment";
+      
+            $('div[data-disqus-url="' + result.response[i].link + '"]').html('<h4>' + count + countText + '</h4>');
+      
+          }
+          */
+          console.log(result.response);
+        }
+      });
+    });
+      
+      
 }); 
   </script>
 {% end %}
@@ -94,7 +132,7 @@
                   @{{ post.user.username }}
                   <span class="time">{{ pretty_date(post.date_created) }}</span>
                   {% module ajax_upvote_link(post=post) %}
-                  <a class="comment-count" href="/posts/{{ post.slug }}"
+                  <a class="comment-count" href="/posts/{{ post.slug }}" data-disqus-url="{{ post.permalink() }}"
                       data-disqus-identifier="{{ post.id }}" target="_blank">comment</a>
               </div>
             </div>
@@ -218,7 +256,7 @@
                   
                   {% module ajax_upvote_link(post=post) %}                
                   <span class="time"><a href="/posts/{{ post.slug }}" ><span class="glyphicon glyphicon-link" style="margin: 0;font-size: 90%"></span> {{ pretty_date(post.date_created) }}</a></span>
-                  <a href="/posts/{{ post.slug }}" ><span class="glyphicon glyphicon-comment" style="margin: 0;font-size: 90%"></span></a> <a class="" href="/posts/{{ post.slug }}" data-disqus-identifier="{{ post.id }}">comment</a>
+                  <a href="/posts/{{ post.slug }}" ><span class="glyphicon glyphicon-comment" style="margin: 0;font-size: 90%"></span></a> <a class="" href="/posts/{{ post.slug }}" data-disqus-url="{{ post.permalink() }}" data-disqus-identifier="{{ post.id }}">comment</a>
                 
                 {% if is_staff(username) %}
                 &nbsp;&nbsp;
