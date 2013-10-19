@@ -1,4 +1,5 @@
 import settings
+from models.post import Post
 from models.user_info import UserInfo
 from base import BaseHandler
 from urlparse import urlparse
@@ -53,7 +54,13 @@ class APIHandler(BaseHandler):
         
         for thread in result['response']:
             self.write(thread['identifiers'][0] + " | " + thread['title'] + " | " + str(thread['posts']) + "<br />")
-        
+            post = Post.objects(id=thread['identifiers'][0]).first()
+            try:
+                post.update(set__comment_count=thread['posts'])
+                self.write("&uarr; updated<br />")    
+            except:
+                self.write("&uarr; NOT updated<br />")  
+                  
         #todo: loop through comments and update posts accordingly
         """
         comment_counts = {}
