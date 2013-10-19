@@ -96,6 +96,8 @@ def init_app(bundle=True, auth_passthrough=False):
             (r'/generate_hackpad/?', HackpadHandler),
 
             (r'/api/user_status/?', APIHandler),
+            (r'/api/update_comment_counts$', APIHandler),
+            
             ], ui_modules = ui.template_modules(),
             ui_methods = ui.template_methods(),
             redis=redis,

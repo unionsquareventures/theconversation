@@ -58,6 +58,20 @@
     
     
     /* DISQUS */
+    
+    /*
+    var updateCommentCounts = function(countsObj) {
+      $.ajax({
+        type: 'get',
+        url: "/api/update_comment_counts",
+        data: JSON.stringify(countsObj),
+        cache: false,
+        dataType: 'json',
+        success: function (result) {
+          console.log(result);
+        } 
+      });
+    };
   
     var disqusPublicKey = "{{ settings.disqus_public_key }}";
     var disqusShortname = "usvbeta2"; // Replace with your own shortname
@@ -69,6 +83,8 @@
       urlArray.push('link:' + url);
     });
     
+    var USV_comment_counts = {}
+    
     $.ajax({
       type: 'GET',
       url: "https://disqus.com/api/3.0/threads/set.jsonp",
@@ -77,21 +93,16 @@
       dataType: 'jsonp',
       success: function (result) {
     
-        /*for (var i in result.response) {
-    
-          var countText = " comments";
-          var count = result.response[i].posts;
-    
-          if (count == 1)
-            countText = " comment";
-    
-          $('div[data-disqus-url="' + result.response[i].link + '"]').html('<h4>' + count + countText + '</h4>');
-    
+        for (var i in result.response) {
+          if (typeof result.response[i].identifiers[0] != "undefined"){
+            USV_comment_counts[result.response[i].identifiers[0]] = result.response[i].posts  
+          }
         }
-        */
-        console.log(result.response);
+        updateCommentCounts(USV_comment_counts);
       }
+      
     });
+    */
       
       
 }); 
