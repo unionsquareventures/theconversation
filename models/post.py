@@ -52,6 +52,7 @@ class Post(Document):
     body_text = ImprovedStringField(required=True)
     disqus_shortname = StringField(max_length=1000, default="usvbeta2")
     muted = BooleanField(default=False)
+    comment_count = IntField(default=0)
 
     def add_slug(self, title):
         slug = slugify(title)
@@ -70,6 +71,13 @@ class Post(Document):
         for fname in self._fields.keys():
             if kwargs.has_key(fname):
                 setattr(self, fname, kwargs[fname])
+                
+    def show_comment_count(self):
+        if self.comment_count == 1:
+            label = "comment"
+        else:
+            label = "comments"
+        return str(self.comment_count) + " " + label
 
     def permalink(self):
         link = "http://" + settings.base_url + "/posts/" + self.slug

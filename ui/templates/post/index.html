@@ -133,7 +133,7 @@
                   <span class="time">{{ pretty_date(post.date_created) }}</span>
                   {% module ajax_upvote_link(post=post) %}
                   <a class="dsq-comment-count" href="/posts/{{ post.slug }}" data-disqus-url="{{ post.permalink() }}"
-                      data-disqus-identifier="{{ post.id }}" target="_blank">comment</a>
+                      data-disqus-identifier="{{ post.id }}" target="_blank">{{ post.show_comment_count() }}</a>
               </div>
             </div>
             </div>
@@ -168,11 +168,11 @@
         
         <ul class="feed hidden-xs" id="homepage-featured-posts">
           {% for post in sticky %}
-            {% module featured_post(post=post, urlparse=urlparse, show_votes=True, show_source=True) %}
+            {% module featured_community_post(post=post, urlparse=urlparse, show_votes=True, show_source=True) %}
           {% end %}
           
           {% for post in featured_posts %}
-            {% module featured_post(post=post, urlparse=urlparse, show_votes=True, show_source=True) %}
+            {% module featured_community_post(post=post, urlparse=urlparse, show_votes=True, show_source=True) %}
           {% end %}
         </ul><!--end of feed-->
         <a class="more-link" href="/featured_posts">Featured Posts</a>
@@ -256,7 +256,7 @@
                   
                   {% module ajax_upvote_link(post=post) %}                
                   <span class="time"><a href="/posts/{{ post.slug }}" ><span class="glyphicon glyphicon-link" style="margin: 0;font-size: 90%"></span> {{ pretty_date(post.date_created) }}</a></span>
-                  <a href="/posts/{{ post.slug }}" ><span class="glyphicon glyphicon-comment" style="margin: 0;font-size: 90%"></span></a> <a class="dsq-comment-count" href="/posts/{{ post.slug }}" data-disqus-url="{{ post.permalink() }}" data-disqus-identifier="{{ post.id }}">comment</a>
+                  <a href="/posts/{{ post.slug }}" ><span class="glyphicon glyphicon-comment" style="margin: 0;font-size: 90%"></span></a> <a class="dsq-comment-count" href="/posts/{{ post.slug }}" data-disqus-url="{{ post.permalink() }}" data-disqus-identifier="{{ post.id }}">{{ post.show_comment_count() }}</a>
                 
                 {% if is_staff(username) %}
                 &nbsp;&nbsp;

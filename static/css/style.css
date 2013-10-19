@@ -989,6 +989,15 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
     margin-bottom:25px !important;
     border-bottom:1px solid #ccc;
 }
+.featured-post .avatar {
+    position: absolute!important;
+    top: 20px !important;
+    left: 20px !important;
+}
+.featured-post .excerpt {
+    clear: both;
+    margin-top: 15px !important;
+}
  .swipe .featured-post {
     height:130px;
     margin-bottom:30px !important;
@@ -1093,9 +1102,11 @@ body.staff .hot-newest-feed .title {
  .featured-feed .title,
  .featured-post .title {
     display:block;
-    text-align:center;
     padding-bottom:15px;
     line-height:1.2em;
+}
+.featured-post.usv .title {
+    text-align:center;
 }
 .related-post .featured-post .title {
     font-size: 1.2em;
@@ -1203,11 +1214,16 @@ body.staff .hot-newest-feed .title {
  .featured-feed .meta,
  .featured-post .meta {
     text-align:center;
-    border-top:1px solid #ddd;
+    /*border-top:1px solid #ddd;
     padding-top:10px;
+    */
     line-height: 1.5em;
     font-size: .85em;
 }
+ .featured-post.usv .meta {
+     border-top:1px solid #ddd;
+     padding-top:10px;
+ }
  .swipe {
     overflow:hidden;
     visibility:hidden;
