@@ -448,15 +448,15 @@ class PostHandler(BaseHandler):
         
         # change if this person is staff they automatically get to the front page
         # everyone else needs 3 votes
-        #if self.is_staff(self.get_current_username()):
-        base_score = time.mktime(post.date_created.timetuple()) / 45000.0
-        lua = "local votes = redis.call('GET', 'post:{post.id}:votes')\n"
-        lua += "votes = math.log10(votes)\n"
-        lua += "local score = {base_score} + votes\n"
-        lua += "redis.call('ZADD', 'hot', score, '{post.id}')\n"
-        lua = lua.format(post=post, base_score=base_score)
-        incr_score = redis.register_script(lua)
-        incr_score()
+        if self.is_staff(self.get_current_username()):
+            base_score = time.mktime(post.date_created.timetuple()) / 45000.0
+            lua = "local votes = redis.call('GET', 'post:{post.id}:votes')\n"
+            lua += "votes = math.log10(votes)\n"
+            lua += "local score = {base_score} + votes\n"
+            lua += "redis.call('ZADD', 'hot', score, '{post.id}')\n"
+            lua = lua.format(post=post, base_score=base_score)
+            incr_score = redis.register_script(lua)
+            incr_score()
         
     def redis_incrby(self, post, increment = 1):
         redis = self.settings['redis']
