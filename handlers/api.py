@@ -29,23 +29,34 @@ class APIHandler(BaseHandler):
     def update_comment_counts(self):
         http = tornado.httpclient.AsyncHTTPClient()
         
+        threads = [
+            'link:http://www.usv.com/posts/how-we-made-a-22556-product-video',
+            'link:http://www.usv.com/posts/pay-heed-to-the-internets-third-wave-cows-of-disruption'
+        ]
+        
         request_vars = {
             'api_key': settings.disqus_public_key,
-            'forum': settings.disqus_apikey,
-            'thread': ['link:http://www.usv.com/posts/how-we-made-a-22556-product-video']
+            'api_secret': settings.disqus_secret_key,
+            'forum': settings.disqus_apikey
         }
-        base_url = "https://disqus.com/api/3.0/threads/set.jsonp"
-        complete_url = base_url + urllib.urlencode(request_vars)
+
+        #thread_string = "&" + urllib.urlencode(thread)ing += urllib.urlencode(thread)
+        
+        #thread_string = "&thread[]=" + "&thread[]=".join(threads)
+        base_url = "https://disqus.com/api/3.0/threads/list.json"
+        complete_url = base_url + "?" + urllib.urlencode(request_vars)
         http.fetch(complete_url, callback=self.on_disqus_response)
     
     def on_disqus_response(self, response):
         #if response.error: raise tornado.web.HTTPError(500)
-        #json = tornado.escape.json_decode(response.body)
-        if response:
-            self.write(response.body)
-        else:
-            self.write('no response')
-        
+        result = tornado.escape.json_decode(response.body)
+        self.write(result)
+        """
+        comment_counts = {}
+        for result in result['response']:
+            comment_counts[result['identifiers'][0]] =  result['posts']
+            self.write(result['identifiers'][0] + " | " + str(result['posts']))
+        """
         self.finish()
             
             
