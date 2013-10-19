@@ -64,7 +64,7 @@
   
     var urlArray = [];
     
-    $('.comment-count').each(function () {
+    $('.dsq-comment-count').each(function () {
       var url = $(this).attr('data-disqus-url');
       urlArray.push('link:' + url);
     });
@@ -132,7 +132,7 @@
                   @{{ post.user.username }}
                   <span class="time">{{ pretty_date(post.date_created) }}</span>
                   {% module ajax_upvote_link(post=post) %}
-                  <a class="comment-count" href="/posts/{{ post.slug }}" data-disqus-url="{{ post.permalink() }}"
+                  <a class="dsq-comment-count" href="/posts/{{ post.slug }}" data-disqus-url="{{ post.permalink() }}"
                       data-disqus-identifier="{{ post.id }}" target="_blank">comment</a>
               </div>
             </div>
@@ -154,10 +154,10 @@
                       <img title="{{ post.user.username }}" src="{{ twitter_avatar_size(post.user.profile_image_url_https, 'normal') }}" alt="thumbnail">
                     </a>
                   </div>
-                  @{{ post.user.username }}asfdsf
+                  @{{ post.user.username }}
                   <span class="time">{{ pretty_date(post.date_created) }}</span>
                   {% module ajax_upvote_link(post=post) %}
-                  <a class="comment-count" href="/posts/{{ post.slug }}" data-disqus-url="{{ post.permalink() }}"
+                  <a class="dsq-comment-count" href="/posts/{{ post.slug }}" data-disqus-url="{{ post.permalink() }}"
                       data-disqus-identifier="{{ post.id }}" target="_blank">comment</a>
               </div>
             </div>
@@ -256,7 +256,7 @@
                   
                   {% module ajax_upvote_link(post=post) %}                
                   <span class="time"><a href="/posts/{{ post.slug }}" ><span class="glyphicon glyphicon-link" style="margin: 0;font-size: 90%"></span> {{ pretty_date(post.date_created) }}</a></span>
-                  <a href="/posts/{{ post.slug }}" ><span class="glyphicon glyphicon-comment" style="margin: 0;font-size: 90%"></span></a> <a class="comment-count" href="/posts/{{ post.slug }}" data-disqus-url="{{ post.permalink() }}" data-disqus-identifier="{{ post.id }}">comment</a>
+                  <a href="/posts/{{ post.slug }}" ><span class="glyphicon glyphicon-comment" style="margin: 0;font-size: 90%"></span></a> <a class="dsq-comment-count" href="/posts/{{ post.slug }}" data-disqus-url="{{ post.permalink() }}" data-disqus-identifier="{{ post.id }}">comment</a>
                 
                 {% if is_staff(username) %}
                 &nbsp;&nbsp;
