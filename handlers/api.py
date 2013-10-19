@@ -50,7 +50,11 @@ class APIHandler(BaseHandler):
     def on_disqus_response(self, response):
         #if response.error: raise tornado.web.HTTPError(500)
         result = tornado.escape.json_decode(response.body)
-        self.write(result)
+        
+        for thread in result['response']:
+            self.write(thread['identifiers'][0] + " | " + thread['title'] + " | " + str(thread['posts']) + "<br />")
+        
+        #todo: loop through comments and update posts accordingly
         """
         comment_counts = {}
         for result in result['response']:
