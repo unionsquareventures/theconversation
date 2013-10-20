@@ -57,30 +57,12 @@ class AdminHandler(BaseHandler):
 	@tornado.web.asynchronous
 	@tornado.web.authenticated
 	def update_disqus_urls(self):
-		http = tornado.httpclient.AsyncHTTPClient()
-	
-		request_vars = {
-			'api_key': settings.disqus_public_key,
-			'api_secret': settings.disqus_secret_key,
-			'forum': settings.disqus_apikey
-		}
-	
-		base_url = "https://disqus.com/api/3.0/threads/list.json"
-		complete_url = base_url + "?" + urllib.urlencode(request_vars)
-	
-		def on_disqus_response(self, response):
-			#if response.error: raise tornado.web.HTTPError(500)
-			result = tornado.escape.json_decode(response.body)
+		# EVENTUALLY, this can correct the URLs disqus stores about each thread
+		# for our migration
+		"""
 		
-			for thread in result['response']:
-				#self.write(thread['identifiers'][0] + " | " + thread['title'] + " | " + str(thread['posts']) + "<br />")
-				post = Post.objects(id=thread['identifiers'][0]).first()
-				try:
-					post.update(set__comment_count=thread['posts'])
-					self.write("&uarr; updated<br />")    
-				except: 
-					raise tornado.web.HTTPError(500)
-
+		def on_disqus_response(self, response):
+			#
 			self.finish()
 		
 		http.fetch({
@@ -88,3 +70,6 @@ class AdminHandler(BaseHandler):
 		'method': "POST"
 		}, 
 		callback=self.on_disqus_response)
+		
+		"""
+		pass
