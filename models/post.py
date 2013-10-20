@@ -53,6 +53,7 @@ class Post(Document):
     disqus_shortname = StringField(max_length=1000, default="usvbeta2")
     muted = BooleanField(default=False)
     comment_count = IntField(default=0)
+    disqus_thread_id_str = StringField()
 
     def add_slug(self, title):
         slug = slugify(title)
