@@ -40,7 +40,8 @@ class AdminHandler(BaseHandler):
 				post = Post.objects(id=thread['identifiers'][0]).first()
 				try:
 					post.update(set__comment_count=thread['posts'])
-					post.update(set__disqus_thread_id_str=thread['id'])
+					#post.update(set__disqus_thread_id_str=thread['id'])
+					post.update(unset__disqus_thread_id_str=True)
 					self.write("&uarr; updated<br />")    
 				except: 
 					self.write("&uarr; NOT updated<br />")  
