@@ -22,20 +22,12 @@ class AdminHandler(BaseHandler):
 	def update_comment_counts(self):
 		http = tornado.httpclient.AsyncHTTPClient()
 
-		threads = [
-			'link:http://www.usv.com/posts/how-we-made-a-22556-product-video',
-			'link:http://www.usv.com/posts/pay-heed-to-the-internets-third-wave-cows-of-disruption'
-		]
-
 		request_vars = {
 			'api_key': settings.disqus_public_key,
 			'api_secret': settings.disqus_secret_key,
 			'forum': settings.disqus_apikey
 		}
 
-		#thread_string = "&" + urllib.urlencode(thread)ing += urllib.urlencode(thread)
-
-		#thread_string = "&thread[]=" + "&thread[]=".join(threads)
 		base_url = "https://disqus.com/api/3.0/threads/list.json"
 		complete_url = base_url + "?" + urllib.urlencode(request_vars)
 		http.fetch(complete_url, callback=self.on_disqus_response)
@@ -45,13 +37,13 @@ class AdminHandler(BaseHandler):
 		result = tornado.escape.json_decode(response.body)
 
 		for thread in result['response']:
-			self.write(thread['identifiers'][0] + " | " + thread['title'] + " | " + str(thread['posts']) + "<br />")
+			#self.write(thread['identifiers'][0] + " | " + thread['title'] + " | " + str(thread['posts']) + "<br />")
 			post = Post.objects(id=thread['identifiers'][0]).first()
 			try:
 				post.update(set__comment_count=thread['posts'])
 				self.write("&uarr; updated<br />")    
-			except:
-				self.write("&uarr; NOT updated<br />")  
+			except: 
+				raise tornado.web.HTTPError(500)
 
 		#todo: loop through comments and update posts accordingly
 		"""
