@@ -12,14 +12,7 @@ class PageHandler(BaseHandler):
 		if self.request.path.find("/about") == 0:
 			self.about()
 		elif self.request.path.find("/portfolio") == 0:
-			current = Company.objects(status="current").order_by('name')
-			exited = Company.objects(status="exited").order_by('name')
-			self.vars.update ({
-				'current': current,
-				'exited': exited,
-				'slugify': slugify
-			})
-			self.render('page/portfolio.html', **self.vars)
+			self.portfolio()
 		elif self.request.path.find("/network") == 0:
 			self.network()
 		elif self.request.path.find("/tools") == 0:
@@ -35,6 +28,16 @@ class PageHandler(BaseHandler):
 			'related_posts': related_posts
 		})
 		self.render('page/about.html', **self.vars)
+	
+	def portfolio(self):
+		current = Company.objects(status="current").order_by('name')
+		exited = Company.objects(status="exited").order_by('name')
+		self.vars.update ({
+			'current': current,
+			'exited': exited,
+			'slugify': slugify
+		})
+		self.render('page/portfolio.html', **self.vars)
 		
 	def network(self):
 		related_posts = Post.objects(tags__in=["usv-network"], user__username__in=settings.staff_twitter_handles).order_by('-date_created')[:6]
