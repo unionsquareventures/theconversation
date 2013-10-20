@@ -147,7 +147,8 @@ abbr[title] {
 }
 /** * Address style set to `bolder` in Firefox 3+, Safari 4/5, and Chrome. */
 b,strong {
-    font-family: "proximanova-semibold";
+    font-family: "proximanova-bold";
+    font-weight: normal;
 }
 blockquote {
     margin:1em 40px;
@@ -1535,15 +1536,19 @@ h2.section-heading.mobile-page-headline {
     margin-top: 0;
     margin-bottom: 10px;
 }
+#full-bio .bio-links a {
+    display:block;
+}
 #full-bio .blog {
     /*float: left;*/
     margin-right: 15px;
+    margin-bottom: 8px;
 }
 #full-bio .twitter {
     /*float: left;*/
-    position: absolute;
+    /*position: absolute;
     right: -5px;
-    bottom: 15px;
+    bottom: 15px;*/
 }
 #close-bio {
     position: absolute;
