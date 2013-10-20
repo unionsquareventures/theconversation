@@ -30,8 +30,14 @@ class PostHandler(BaseHandler):
                 'tags': tag,
             })
         per_page = 20
+        
         sort_by_specified = self.get_argument('sort_by', '')
         sort_by = self.get_argument('sort_by', 'hot')
+        if 'sort_by' not in self.request.arguments:
+            if self.is_staff(self.get_current_username()):
+                sort_by = 'new'
+            else:
+                sort_by = 'hot'
         if not sort_by in ['hot', 'new']:
             raise tornado.web.HTTPError(400)
 
