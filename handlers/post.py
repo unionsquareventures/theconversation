@@ -338,9 +338,12 @@ class PostHandler(BaseHandler):
                 post_link = ''
             post_url = "http://%s/posts/%s" % (settings.base_url, post.slug)
             print post_url
+            print post.body_text
+            print type(post.body_text)
+            print post.link
             text = '"%s" ( %s ) posted by %s. \n\n %s %s'\
                             % (post.title.encode('ascii', errors='ignore'), post_url, 
-                                post.user['username'].encode('ascii', errors='ignore'), post.link, post.body_text) #post.body_html caused crash
+                                post.user['username'].encode('ascii', errors='ignore'), post.link, post.body_text) #post.body_html caused crash?
 
             print text
             for user_id, address in settings.admin_user_emails.iteritems():
