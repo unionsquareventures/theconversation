@@ -226,6 +226,7 @@ class PostHandler(BaseHandler):
 
         date_created = dt.datetime.now()
         user_id_str = self.get_current_user_id_str()
+        username = self.get_current_username()
         u = UserInfo.objects(user__id_str=user_id_str).first()
         attributes.update({
             'title': unicode(attributes['title'].decode('utf-8')),
@@ -241,7 +242,7 @@ class PostHandler(BaseHandler):
             'tags': tag_names,
             'date_created': date_created,
             'votes': 1,
-            'voted_users': [VotedUser(id=user_id_str)]
+            'voted_users': [VotedUser(id=user_id_str, username)]
         })
 
         post = Post(**attributes)
