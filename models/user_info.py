@@ -12,7 +12,7 @@ class User(EmbeddedDocument):
 
 class VotedUser(EmbeddedDocument):
     id = StringField(required=True, primary_key=True)
-    username = StringField(required=True)
+    username = StringField()
 
 class AccessToken(EmbeddedDocument):
     secret = StringField(required=True)

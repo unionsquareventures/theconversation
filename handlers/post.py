@@ -242,7 +242,7 @@ class PostHandler(BaseHandler):
             'tags': tag_names,
             'date_created': date_created,
             'votes': 1,
-            'voted_users': [VotedUser(id=user_id_str, username)]
+            'voted_users': [VotedUser(id=user_id_str, username=username)]
         })
 
         post = Post(**attributes)
