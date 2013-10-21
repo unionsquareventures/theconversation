@@ -635,6 +635,7 @@ class PostHandler(BaseHandler):
             self.write_json({'error': 'You must be logged in to upvote.', 'redirect': True})
             return
         id_str = self.get_current_user_id_str()
+        username = self.get_current_username()
         user_q = {'$elemMatch': {'_id': id_str}}
         post = Post.objects(slugs=id).fields(votes=True, date_created=True,
                                         featured=True, voted_users=user_q).first()
@@ -647,7 +648,8 @@ class PostHandler(BaseHandler):
         # Increment the vote count
         post.update(inc__votes=1)
         if not post.voted_users:
-            post.update(push__voted_users=VotedUser(id=id_str))
+            voted_user = VotedUser(id=id_str, username=username)
+            post.update(push__voted_users=voted_user)
 
         base_score = time.mktime(post.date_created.timetuple()) / 45000.0
         redis = self.settings['redis']
