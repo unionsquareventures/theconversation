@@ -118,9 +118,6 @@
 
 <div id="main" role="main">
     <section class="featured-feed clearfix{{ ' mobile-hidden' if (rstart > 0) or sort_by_specified else '' }}">
-        <!--<ul class="tabs">
-            <li><a class="current" href="/featured_posts">Featured</a></li>
-        </ul>-->
         
         <div id='slider' class='swipe visible-xs row'>
           <ul class='swipe-wrap feed'>
@@ -178,45 +175,53 @@
             {% end %}
           </ul>
         </div>
-        
+        <!--
+        <ul class="tabs" style="margin-bottom:25px;">
+            <li><a class="sort btn" href="/featured_posts">From USV</a></li>
+        </ul>-->
         <ul class="feed hidden-xs" id="homepage-featured-posts">
           {% for post in sticky %}
             {% module featured_community_post(post=post, urlparse=urlparse, show_votes=True, show_source=True) %}
           {% end %}
-          
-          
+        </ul><!--end of feed-->
+        <!--
+        <ul class="tabs">
+            <li class="is-active"><a class="sort btn" href="/featured_posts">Featured</a></li>
+            <li><a class="sort btn" href="/featured_posts">From USV</a></li>
+        </ul>
+        -->
+        
+        <ul class="feed">
           <li class="featured-post card clearfix" style="background: #fff;">
-          <div class="avatar">
-          <a href="http://disqus.com/cainetighe/" target="_blank">
-          <img title="caine tighe" src="http://a.disquscdn.com/uploads/users/7844/4468/avatar92.jpg?1382403050" alt="thumbnail">
-          </a>
-          </div>
-          <div class="content">
-          <a class="title" href="/posts/why-android-first-is-a-myth-steve-cheney-technology-business-strategy#comment-1091518594" style="margin-left:70px;"><span style="font-size: 90%">caine tighe on...</span><br /> Why Android First is a Myth</a>
-          
-          
-          <a href="/posts/welcome-to-the-new-usvcom" class="source">usv.com</a>
-          
-          
-          <div class="meta" style="text-align: left !important; margin-left: 70px;">
-          <a style="color: #999" class="username" href="http://disqus.com/cainetighe" target="_blank">@caine tighe</a>
-          <a href="/posts/why-android-first-is-a-myth-steve-cheney-technology-business-strategy#comment-1091518594">
-          <span class="glyphicon glyphicon-link" style="margin: 0;font-size: 90%"></span>Oct 21, 2013</a>
-          </div>
-          <div class="excerpt">
-          <p>"At DuckDuckGo we started with Android because it was clear from user submitted feedback that a lot of our enthusiastic and technical users were on Android. We created a feedback loop with them and leveraged Android's lenient release rules to rapid prototype features in concert with user requests. Most of us at DDG have Androids -- so the nonstop QA was great. Android also offered us deeper OS integration and the opportunity to compete with Google on their playing field -- we learned a lot in the process.</p>
-          
-          <p>After Android, implementing the iOS app was a breeze since we already had the recipe. In fact, Apple ended up featuring us when we launched in the Summer which was cool."</p>
-          
-          <p><a class="btn btn-default" style="float:right" href="/posts/why-android-first-is-a-myth-steve-cheney-technology-business-strategy#comment-1091518594">discuss...</a>
-          </div>
-          </li>
-          
+            <div class="avatar">
+            <a href="http://disqus.com/cainetighe/" target="_blank">
+            <img title="caine tighe" src="http://a.disquscdn.com/uploads/users/7844/4468/avatar92.jpg?1382403050" alt="thumbnail">
+            </a>
+            </div>
+            <div class="content">
+            <a class="title" href="/posts/why-android-first-is-a-myth-steve-cheney-technology-business-strategy#comment-1091518594" style="margin-left:70px;"><span style="font-size: 90%">caine tighe on...</span><br /> Why Android First is a Myth</a>
+            
+            
+            <a href="/posts/welcome-to-the-new-usvcom" class="source">usv.com</a>
+            
+            
+            <div class="meta" style="text-align: left !important; margin-left: 70px;">
+            <a style="color: #999" class="username" href="http://disqus.com/cainetighe" target="_blank">@caine tighe</a>
+            <a href="/posts/why-android-first-is-a-myth-steve-cheney-technology-business-strategy#comment-1091518594">
+            <span class="glyphicon glyphicon-link" style="margin: 0;font-size: 90%"></span>Oct 21, 2013</a>
+            </div>
+            <div class="excerpt">
+            <p>"At DuckDuckGo we started with Android because it was clear from user submitted feedback that a lot of our enthusiastic and technical users were on Android. We created a feedback loop with them and leveraged Android's lenient release rules to rapid prototype features in concert with user requests. Most of us at DDG have Androids -- so the nonstop QA was great. Android also offered us deeper OS integration and the opportunity to compete with Google on their playing field -- we learned a lot in the process.</p>
+            
+            <p>After Android, implementing the iOS app was a breeze since we already had the recipe. In fact, Apple ended up featuring us when we launched in the Summer which was cool."</p>
+            
+            <p><a class="btn btn-default" style="float:right" href="/posts/why-android-first-is-a-myth-steve-cheney-technology-business-strategy#comment-1091518594">discuss...</a>
+            </div>
+            </li>
           {% for post in featured_posts %}
             {% module featured_community_post(post=post, urlparse=urlparse, show_votes=True, show_source=True) %}
           {% end %}
-        </ul><!--end of feed-->
-        <a class="more-link" href="/featured_posts">Featured Posts</a>
+        </ul>
     </section><!--end of featured-feed-->
 
     <section class="hot-newest-feed">
