@@ -400,7 +400,7 @@ class PostHandler(BaseHandler):
         
         else:
             self.redis_incrby(post, 0.25)
-            self.redirect('/')
+            self.redirect('/?sort_by=hot')
     
     @tornado.web.authenticated
     def bumpdown(self, id):
@@ -414,7 +414,7 @@ class PostHandler(BaseHandler):
         
         else:
             self.redis_incrby(post, -0.25)
-            self.redirect('/')
+            self.redirect('/?sort_by=hot')
     
     @tornado.web.authenticated
     def mute(self, id):
@@ -430,7 +430,7 @@ class PostHandler(BaseHandler):
             post.update(set__muted=True)
             #redis = self.settings['redis']
             #redis.zrem('hot', post.id)
-            self.redirect('/')
+            self.redirect('/?sort_by=hot')
             
     @tornado.web.authenticated
     def unmute(self, id):
@@ -446,7 +446,7 @@ class PostHandler(BaseHandler):
             post.update(set__muted=False)
             #redis = self.settings['redis']
             #redis.zrem('hot', post.id)
-            self.redirect('/')
+            self.redirect('/?sort_by=hot')
 
     def redis_remove(self, post):
         redis = self.settings['redis']
