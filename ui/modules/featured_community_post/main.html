@@ -1,4 +1,4 @@
-<li class="featured-post card">
+<li class="featured-post card" {% if post.slug != 'welcome-to-the-new-usvcom' %}style="background: #fff; border-bottom: none"{% end %}>
 	<div class="avatar">
 	  <a href="http://www.twitter.com/{{ post.user.username }}" target="_blank">
 	  <img title="{{ post.user.username }}" src="{{ twitter_avatar_size(post.user.profile_image_url_https, 'normal') }}" alt="thumbnail">
