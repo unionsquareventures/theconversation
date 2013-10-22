@@ -124,11 +124,12 @@
                 </ul>
                 <div id="login">
                     {% if username %}
-                        Welcome, @{{ username }}!
+                        Welcome, @{{ username }}! &nbsp;
                         <a class="login" href="/auth/logout">Logout</a>
                     {% else %}
                         <a class="login" href="/auth/twitter/">Log in with Twitter</a>
                     {% end %}
+                    <a href="/feed" onclick="(function(){var z=document.createElement('script');z.src='https://www.subtome.com/load.js';document.body.appendChild(z);})(); return false"><img src="/static/img/feed-icon-14x14.png" title="Subscribe" style="margin-left: 10px"></a>
                 </div>
                 </div>
             </header><!--end of site-header-->
