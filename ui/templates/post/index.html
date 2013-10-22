@@ -300,7 +300,7 @@
                   
                   {% module ajax_upvote_link(post=post, username=username) %}   
                   
-                  <a href="/posts/{{ post.slug }}" ><span class="glyphicon glyphicon-comment" style="margin: 0;"></span></a> <a class="dsq-comment-count" href="/posts/{{ post.slug }}">{{ post.show_comment_count() }}</a>
+                  <a href="/posts/{{ post.slug }}" ><span class="glyphicon glyphicon-comment" style="margin: 0;"></span></a> <a class="dsq-comment-count" data-disqus-identifier="{{ post.id }}" href="/posts/{{ post.slug }}">{{ post.show_comment_count() }}</a>
                 
                 {% if is_staff(username) %}
                 &nbsp;&nbsp;
