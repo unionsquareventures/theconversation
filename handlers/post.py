@@ -673,6 +673,7 @@ class PostHandler(BaseHandler):
         db = Post._get_db()
         query = self.get_argument('query', '')
         #tag = self.get_argument('tag', '')
+        tag = tag.replace("+", " ")
         if 'author' is self.request.arguments:
             author = self.get_argument('author')
             
