@@ -30,13 +30,13 @@ class AdminHandler(BaseHandler):
 		config = {
 			'staff_bonus': int(self.get_argument('staff_bonus')) 
 				if 'staff_bonus' in self.request.arguments else 1,
-			'time_penalty_multiplier': int(self.get_argument('time_penalty_multiplier')) 
+			'time_penalty_multiplier': float(self.get_argument('time_penalty_multiplier')) 
 				if 'time_penalty_multiplier' in self.request.arguments else 1,
 			'grace_period': int(self.get_argument('grace_period')) 
 				if 'grace_period' in self.request.arguments else 6,
-			'comments_multiplier': int(self.get_argument('comments_multiplier')) 
+			'comments_multiplier': float(self.get_argument('comments_multiplier')) 
 				if 'comments_multiplier' in self.request.arguments else 6,
-			'votes_multiplier': int(self.get_argument('votes_multiplier')) 
+			'votes_multiplier': float(self.get_argument('votes_multiplier')) 
 				if 'votes_multiplier' in self.request.arguments else 1,
 		}
 		
