@@ -61,6 +61,7 @@ class AdminHandler(BaseHandler):
 			score = scores['votes'] + scores['comments'] + staff_bonus + scores['time']
 			
 			data.append({
+				'username': post.user.username,
 				'title': post.title,
 				'id': post.id,
 				'date_created': post.date_created,
