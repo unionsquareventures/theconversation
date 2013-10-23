@@ -6,16 +6,41 @@ from urlparse import urlparse
 import tornado
 import datetime as dt
 import urllib
+import datetime
+import time
 
 class AdminHandler(BaseHandler):
 	def get(self, action=None):
 		if action == 'update_comment_counts':
 			self.update_comment_counts()
+		elif action == 'sort_posts':
+			self.sort_posts()
 		else:
 			self.index()
 
+
 	def index(self):
 		self.render('admin/index.html', **self.vars)
+		
+		
+	def sort_posts(self):
+		posts = Post.objects(deleted=False).order_by('-date_created')
+		data = []
+		
+		for i,post in enumerate(posts):
+			tdelta = datetime.datetime.now() - post.date_created
+			hours_elapsed = tdelta.seconds/3600
+			data.append({
+				'title': post.title,
+				'id': post.id,
+				'hours_elapsed': hours_elapsed
+			})
+		
+		self.vars.update({
+			'posts': posts,
+			'data': data
+		})
+		self.render('admin/sort_posts.html', **self.vars)
 
 	@tornado.web.asynchronous
 	@tornado.web.authenticated

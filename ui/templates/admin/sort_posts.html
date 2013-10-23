@@ -1,0 +1,20 @@
+{% extends "../base.html" %}
+
+{% block javascript %}
+{% end %}
+
+{% block content %}
+
+	<h1>posts</h1>
+	<ul>
+		{% for post in data %}
+		<li>
+			{{ post['title'] }}<br />
+			{{ post['id'] }}<br />
+			{{ post['hours_elapsed'] }}<br />
+			
+		</li>
+		{% end %}
+	</ul>
+
+{% end %}
