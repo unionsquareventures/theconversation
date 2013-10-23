@@ -80,12 +80,6 @@ class BaseHandler(SentryMixin, tornado.web.RequestHandler):
             self.create()
 
     def get(self, id='', username='', action=''):
-        id_str = self.get_current_user_id_str()
-        username = self.get_current_username()
-        if id_str and not username:
-            self.clear_all_cookies()
-            self.redirect('/')
-
         if action == 'new' and not id:
             self.new()
         elif self.request.path == "/posts/new" or  self.request.path.find('/posts/new?') == 0:
