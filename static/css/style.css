@@ -1,14 +1,12 @@
-/* ==========================================================================
-Theme Name: Union Square Ventures
-Theme URI: http://www.usv.com
-Description: Official USV wordpress theme. Please do not change.
-Version: 1.0
-Author: Sumit Paul
-Author URI: http://www.studiokudos.com
-============================================================================= */
-
-/* ==========================================================================Theme Name:Union Square VenturesTheme URI:http://www.usv.comDescription:Official USV wordpress theme. Please do not change.Version:1.0Author:Sumit PaulAuthor URI:http://www.studiokudos.com============================================================================= */
-/* normalize.css v1.1.1 | MIT License | git.io/normalize */
+/* 
+#
+# USV.com styles
+# Authors: Sumit Paul, Andy Cochran, Nick Grossman
+#
+# NOTE: This file is a huge mess, and needs a major re-organizing.
+# You've been warned :-)
+#
+*/
 
 
 /* Fonts
