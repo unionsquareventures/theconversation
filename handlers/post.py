@@ -590,11 +590,11 @@ class PostHandler(BaseHandler):
         self.render('post/new.html', **self.vars)
 
 
-    def get(self, id='', action='', tag=''):
+    def get(self, id='', action='', tag='', feed_type='hot'):
         if tag:
             self.show_tag(tag)
-        if self.request.path == '/feed':
-            self.feed()
+        if self.request.path.find('/feed') == 0 and feed_type:
+            self.feed(feed_type)
         if action == 'edit' and id:
             self.edit(id)
         if action == 'bumpup' and id:
@@ -612,7 +612,8 @@ class PostHandler(BaseHandler):
         else:
             super(PostHandler, self).get(id, action)
             
-    def feed(self):
+    def feed(self, feed_type="hot"):
+        
         per_page = 20
         
         sort_by = "hot"
@@ -655,9 +656,15 @@ class PostHandler(BaseHandler):
         lua = lua.format(per_page=per_page, sort_by=sort_by, anchor=anchor, count=count)
         get_posts = redis.register_script(lua)
         num_posts, rstart, rend, ordered_ids = get_posts()
-        posts = Post.objects(id__in=ordered_ids)
-        posts = {str(p.id): p for p in posts}
-        posts = [posts[id] for id in ordered_ids]
+        hot_posts = Post.objects(id__in=ordered_ids)
+        hot_posts = {str(p.id): p for p in hot_posts}
+        hot_posts = [hot_posts[id] for id in ordered_ids]
+        
+        
+        if feed_type == "hot":
+            posts = hot_posts
+        else:
+            posts = Post.objects().order_by('-date_created')[:20]
         
         self.vars.update({
             'posts': posts

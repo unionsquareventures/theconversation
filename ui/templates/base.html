@@ -13,7 +13,8 @@
     <title>{% block title %}{% end %}Union Square Ventures</title>
     <meta name="description" content="Union Square Ventures (USV) is a New York City-based venture capital firm. We invest in networks that disrupt existing industries.">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="alternate" type="application/rss+xml" title="Union Square Ventures" href="{{ base_url }}/feed" />
+    <link rel="alternate" type="application/rss+xml" title="Union Square Ventures - Latest Posts" href="{{ base_url }}/feed/new" />
+    <link rel="alternate" type="application/rss+xml" title="Union Square Ventures - Hot Posts" href="{{ base_url }}/feed/hot" />
     <link rel="apple-touch-icon" sizes="57x57" href="{{ static_url("img/usv-touch-icon.png") }}"/>
     <link rel="shortcut icon" href="{{ static_url("img/usv-favicon.png") }}" type="image/png" />
 
@@ -129,7 +130,7 @@
                     {% else %}
                         <a class="login" href="/auth/twitter/">Log in with Twitter</a>
                     {% end %}
-                    <a href="/feed" onclick="(function(){var z=document.createElement('script');z.src='https://www.subtome.com/load.js';document.body.appendChild(z);})(); return false"><img src="/static/img/feed-icon-14x14.png" title="Subscribe" style="margin-left: 10px"></a>
+                    <a href="/feed/hot" onclick="(function(){var z=document.createElement('script');z.src='https://www.subtome.com/load.js';document.body.appendChild(z);})(); return false"><img src="/static/img/feed-icon-14x14.png" title="Subscribe" style="margin-left: 10px"></a>
                 </div>
                 </div>
             </header><!--end of site-header-->
