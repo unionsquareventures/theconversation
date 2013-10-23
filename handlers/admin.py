@@ -29,7 +29,7 @@ class AdminHandler(BaseHandler):
 		
 		for i,post in enumerate(posts):
 			tdelta = datetime.datetime.now() - post.date_created
-			hours_elapsed = tdelta.seconds/3600
+			hours_elapsed = tdelta.seconds/3600 + tdelta.days*24
 			
 			staff_bonus = 0
 			if self.is_staff(post.user.username):
@@ -44,6 +44,7 @@ class AdminHandler(BaseHandler):
 			data.append({
 				'title': post.title,
 				'id': post.id,
+				'date_created': post.date_created,
 				'hours_elapsed': hours_elapsed,
 				'votes': post.votes,
 				'comment_count': post.comment_count,
@@ -55,7 +56,8 @@ class AdminHandler(BaseHandler):
 		
 		self.vars.update({
 			'posts': posts,
-			'data': data
+			'data': data,
+			'now': datetime.datetime.now()
 		})
 		self.render('admin/sort_posts.html', **self.vars)
 

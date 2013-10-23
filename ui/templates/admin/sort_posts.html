@@ -6,15 +6,18 @@
 {% block content %}
 
 	<h1>posts</h1>
+	<p>{{ now }}</p>
 	<ul>
 		{% for post in data %}
 		<li>
 			<b>{{ post['title'] }}</b> ({{ post['id'] }})<br />
-			<span style="background: yellow; padding: 5px;">{{ post['score'] }}</span> hours elapsed: {{ post['hours_elapsed'] }} 
-			votes: {{ post['votes'] }} 
-			comments: {{ post['comment_count'] }} 
-			staff bonus: {{ post['staff_bonus'] }} 
-			time penalty: {{ post['time_penalty'] }}
+			<span style="background: yellow; padding: 5px;">{{ post['score'] }}</span> 
+			date created: {{ post['date_created'] }} | 
+			hours elapsed: {{ post['hours_elapsed'] }} |
+			votes: {{ post['votes'] }} |
+			comments: {{ post['comment_count'] }} |
+			staff bonus: {{ post['staff_bonus'] }} |
+			time penalty: {{ post['time_penalty'] }} 
 			<br />
 			<br />
 		</li>
