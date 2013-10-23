@@ -74,7 +74,7 @@ def init_app(bundle=True, auth_passthrough=False):
             (r'/(?P<year>[0-9]+)/(?P<month>[0-9]+)/(?P<slug>[\w\s-]+).php$', OldPostHandler),
            
             (r'/pages/.*$', OldPageHandler),
-            (r'/team$', OldPageHandler),
+            (r'/team.*$', OldPageHandler),
             (r'/investments$', OldPageHandler),
             (r'/focus$', OldPageHandler),
 

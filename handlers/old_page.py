@@ -6,16 +6,25 @@ from urlparse import urlparse
 class OldPageHandler(BaseHandler):
 	def get(self, filepath=''):
 		
-		if self.request.path.find('/team') == 0:
+		if self.request.path.find('/team/brad.html') == 0:
+			new_url = 'http://' + self.request.host + '/about#brad-burnham'
+		
+		elif self.request.path.find('/team/fred.html') == 0:
+			new_url = 'http://' + self.request.host + '/about#fred-wilson'
+		
+		elif self.request.path.find('/team/albert.html') == 0:
+			new_url = 'http://' + self.request.host + '/about#albert-wenger'
+			
+		elif self.request.path.find('/team') == 0:
 			new_url = 'http://' + self.request.host + '/about'
 		
-		if self.request.path.find('/focus') == 0:
+		elif self.request.path.find('/focus') == 0:
 			new_url = 'http://' + self.request.host + '/about'
 		
-		if self.request.path.find('/investments') == 0:
+		elif self.request.path.find('/investments') == 0:
 			new_url = 'http://' + self.request.host + '/portfolio'
 		
-		if self.request.path.find('/pages') == 0:
+		elif self.request.path.find('/pages') == 0:
 				
 			# Old Team Pages
 			team = [
