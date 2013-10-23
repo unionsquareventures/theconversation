@@ -27,19 +27,38 @@ class AdminHandler(BaseHandler):
 		posts = Post.objects(deleted=False).order_by('-date_created')
 		data = []
 		
+		config = {
+			'staff_bonus': int(self.get_argument('staff_bonus')) 
+				if 'staff_bonus' in self.request.arguments else 1,
+			'time_penalty_multiplier': int(self.get_argument('time_penalty_multiplier')) 
+				if 'time_penalty_multiplier' in self.request.arguments else 1,
+			'grace_period': int(self.get_argument('grace_period')) 
+				if 'grace_period' in self.request.arguments else 6,
+			'comments_multiplier': int(self.get_argument('comments_multiplier')) 
+				if 'comments_multiplier' in self.request.arguments else 6,
+			'votes_multiplier': int(self.get_argument('votes_multiplier')) 
+				if 'votes_multiplier' in self.request.arguments else 1,
+		}
+		
 		for i,post in enumerate(posts):
 			tdelta = datetime.datetime.now() - post.date_created
 			hours_elapsed = tdelta.seconds/3600 + tdelta.days*24
 			
 			staff_bonus = 0
 			if self.is_staff(post.user.username):
-				staff_bonus = 1
+				staff_bonus = config['staff_bonus']
 			
 			time_penalty = 0
-			if hours_elapsed > 6:
-				time_penalty = hours_elapsed - 6
+			if hours_elapsed > config['grace_period']:
+				time_penalty = hours_elapsed - config['grace_period']
 			
-			score = post.votes + post.comment_count*5 + staff_bonus - time_penalty
+			scores = {
+				'votes': post.votes * config['votes_multiplier'],
+				'comments': post.comment_count * config['comments_multiplier'],
+				'time': time_penalty * config['time_penalty_multiplier'] * -1
+			}
+			
+			score = scores['votes'] + scores['comments'] + staff_bonus + scores['time']
 			
 			data.append({
 				'title': post.title,
@@ -50,14 +69,20 @@ class AdminHandler(BaseHandler):
 				'comment_count': post.comment_count,
 				'staff_bonus': staff_bonus,
 				'time_penalty': time_penalty,
-				'score': score
+				'score': score,
+				'scores': scores
 			})
 			data = sorted(data, key=lambda k: k['score'], reverse=True)
 		
 		self.vars.update({
 			'posts': posts,
 			'data': data,
-			'now': datetime.datetime.now()
+			'now': datetime.datetime.now(),
+			'grace_period': config['grace_period'],
+			'comments_multiplier': config['comments_multiplier'],
+			'time_penalty_multiplier': config['time_penalty_multiplier'],
+			'staff_bonus': config['staff_bonus'],
+			'votes_multiplier': config['votes_multiplier']
 		})
 		self.render('admin/sort_posts.html', **self.vars)
 

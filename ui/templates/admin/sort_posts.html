@@ -1,23 +1,35 @@
 {% extends "../base.html" %}
 
 {% block javascript %}
+<style type="text/css">
+	.subscore {
+		background: #ddd;
+		color: #333;
+		padding: 3px;
+	}
+</style>
 {% end %}
 
 {% block content %}
 
-	<h1>posts</h1>
-	<p>{{ now }}</p>
+	<h1>Sorter</h1>
+	<form class="form" action="/admin/sort_posts" method="GET">
+		staff bonus: <input type="text" name="staff_bonus" value="{{ staff_bonus }}" /><br />
+		time penalty multiplier: <input type="text" name="time_penalty_multiplier" value="{{ time_penalty_multiplier }}" /><br />
+		grace period: <input type="text" name="grace_period" value="{{ grace_period }}" /><br />
+		comments multiplier: <input type="text" name="comments_multiplier" value="{{ comments_multiplier }}" /><br />
+		votes multiplier: <input type="text" name="votes_multiplier" value="{{ votes_multiplier }}" /><br />
+		<button type="submit" class="btn">Go</button>
+	</form>
 	<ul>
 		{% for post in data %}
 		<li>
-			<b>{{ post['title'] }}</b> ({{ post['id'] }})<br />
-			<span style="background: yellow; padding: 5px;">{{ post['score'] }}</span> 
-			date created: {{ post['date_created'] }} | 
-			hours elapsed: {{ post['hours_elapsed'] }} |
-			votes: {{ post['votes'] }} |
-			comments: {{ post['comment_count'] }} |
-			staff bonus: {{ post['staff_bonus'] }} |
-			time penalty: {{ post['time_penalty'] }} 
+			<span style="background: yellow; padding: 5px;">{{ post['score'] }}</span> &nbsp; <b>{{ post['title'] }}</b> ({{ post['id'] }})<br />
+			hours elapsed: {{ post['hours_elapsed'] }} |  
+			votes: {{ post['votes'] }} <span class="subscore">{{ post['scores']['votes'] }}</span> |
+			time penalty: <span class="subscore">{{ post['scores']['time'] }}</span> |
+			comments: {{ post['comment_count'] }} <span class="subscore">{{ post['scores']['comments'] }}</span> |
+			staff bonus: <span class="subscore">{{ post['staff_bonus'] }}</span> |
 			<br />
 			<br />
 		</li>
