@@ -30,10 +30,26 @@ class AdminHandler(BaseHandler):
 		for i,post in enumerate(posts):
 			tdelta = datetime.datetime.now() - post.date_created
 			hours_elapsed = tdelta.seconds/3600
+			
+			staff_bonus = 0
+			if self.is_staff(post.user.username):
+				staff_bonus = 1
+			
+			time_penalty = 0
+			if hours_elapsed > 6:
+				time_penalty = hours_elapsed - 6
+			
+			score = post.votes + post.comment_count*5 + staff_bonus - time_penalty
+			
 			data.append({
 				'title': post.title,
 				'id': post.id,
-				'hours_elapsed': hours_elapsed
+				'hours_elapsed': hours_elapsed,
+				'votes': post.votes,
+				'comment_count': post.comment_count,
+				'staff_bonus': staff_bonus,
+				'time_penalty': time_penalty,
+				'score': score
 			})
 		
 		self.vars.update({

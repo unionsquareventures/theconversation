@@ -9,10 +9,14 @@
 	<ul>
 		{% for post in data %}
 		<li>
-			{{ post['title'] }}<br />
-			{{ post['id'] }}<br />
-			{{ post['hours_elapsed'] }}<br />
-			
+			<b>{{ post['title'] }}</b> ({{ post['id'] }})<br />
+			hours elapsed: {{ post['hours_elapsed'] }}<br />
+			votes: {{ post['votes'] }}<br />
+			comments: {{ post['comment_count'] }}<br />
+			staff bonus: {{ post['staff_bonus'] }}<br />
+			time penalty: {{ post['time_penalty'] }}<br />
+			<span style="background: yellow; padding: 5px;">{{ post['score'] }}</span><br />
+			<br />
 		</li>
 		{% end %}
 	</ul>
