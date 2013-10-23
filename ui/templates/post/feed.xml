@@ -29,7 +29,7 @@
 
 		<guid isPermaLink="true">{{ post.permalink() }}</guid>
 		<description><![CDATA[Discussion: <a href="{{ post.permalink() }}">{{ post.permalink() }}</a> <br /> <br />@{{ post.user.username }}: <br /><br />{{ post.body_truncated }}]]></description>
-				<content:encoded><![CDATA[{{ post.body_html }}]]></content:encoded>
+		<content><![CDATA[{{ post.body_html }}]]></content>
 		</item>
 		{% end %}
 	</channel>
