@@ -10,12 +10,12 @@
 		{% for post in data %}
 		<li>
 			<b>{{ post['title'] }}</b> ({{ post['id'] }})<br />
-			hours elapsed: {{ post['hours_elapsed'] }}<br />
-			votes: {{ post['votes'] }}<br />
-			comments: {{ post['comment_count'] }}<br />
-			staff bonus: {{ post['staff_bonus'] }}<br />
-			time penalty: {{ post['time_penalty'] }}<br />
-			<span style="background: yellow; padding: 5px;">{{ post['score'] }}</span><br />
+			<span style="background: yellow; padding: 5px;">{{ post['score'] }}</span> hours elapsed: {{ post['hours_elapsed'] }} 
+			votes: {{ post['votes'] }} 
+			comments: {{ post['comment_count'] }} 
+			staff bonus: {{ post['staff_bonus'] }} 
+			time penalty: {{ post['time_penalty'] }}
+			<br />
 			<br />
 		</li>
 		{% end %}

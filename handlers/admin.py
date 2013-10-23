@@ -51,6 +51,7 @@ class AdminHandler(BaseHandler):
 				'time_penalty': time_penalty,
 				'score': score
 			})
+			data = sorted(data, key=lambda k: k['score'], reverse=True)
 		
 		self.vars.update({
 			'posts': posts,
