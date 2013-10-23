@@ -12,19 +12,43 @@
 
 {% block content %}
 
-	<h1>Sorter</h1>
 	<form class="form" action="/admin/sort_posts" method="GET">
-		staff bonus: <input type="text" name="staff_bonus" value="{{ staff_bonus }}" /><br />
-		time penalty multiplier: <input type="text" name="time_penalty_multiplier" value="{{ time_penalty_multiplier }}" /><br />
-		grace period: <input type="text" name="grace_period" value="{{ grace_period }}" /><br />
-		comments multiplier: <input type="text" name="comments_multiplier" value="{{ comments_multiplier }}" /><br />
-		votes multiplier: <input type="text" name="votes_multiplier" value="{{ votes_multiplier }}" /><br />
-		<button type="submit" class="btn">Go</button>
+		<table class="table">
+			<tr>
+				<td>staff bonus:</td>
+				<td><input type="text" name="staff_bonus" value="{{ staff_bonus }}" /></td>
+				<td></td>
+				<td></td>
+			</tr>
+			<tr>
+				<td>time penalty multiplier:</td>
+				<td><input type="text" name="time_penalty_multiplier" value="{{ time_penalty_multiplier }}" />
+					<br />1.0 = 1 point lost per hour
+					
+				</td>
+				<td>grace period:</td>
+				<td><input type="text" name="grace_period" value="{{ grace_period }}" />
+					<br /># hrs before time penalty kicks in
+				</td>
+			</tr>
+			<tr>
+				<td>comments multiplier:</td>
+				<td><input type="text" name="comments_multiplier" value="{{ comments_multiplier }}" /></td>
+				<td>votes multiplier:</td>
+				<td><input type="text" name="votes_multiplier" value="{{ votes_multiplier }}" /></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td style="text-align:right"><button type="submit" class="btn">Go</button></td>
+			</tr>
+		</table>
 	</form>
 	<ul>
 		{% for post in data %}
 		<li>
-			<span style="background: yellow; padding: 5px;">{{ post['score'] }}</span> &nbsp; <b>{{ post['title'] }}</b> ({{ post['id'] }})<br />
+			<span style="background: yellow; padding: 5px;">{{ post['score'] }}</span> &nbsp; <b>{{ post['title'] }}</b><br />
 			@{{ post['username'] }} | 
 			hours elapsed: {{ post['hours_elapsed'] }} |  
 			time penalty: <span class="subscore">{{ post['scores']['time'] }}</span> |
