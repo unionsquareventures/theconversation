@@ -100,6 +100,7 @@ def init_app(bundle=True, auth_passthrough=False):
 
             # API calls
             (r'/api/user_status/?', APIHandler),
+            (r'/api/(?P<action>.*)$', APIHandler),
             
             (r'/admin/(?P<action>.*)$', AdminHandler),
             (r'/admin$', AdminHandler),

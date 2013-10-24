@@ -185,6 +185,14 @@
                               width: "600",
                               height: "600"
                         };
+                        
+                        this.callbacks.onNewComment = [function(comment) { 
+                        
+                                $.get("/api/incr_comment_count", { comment: comment.id, post: "{{ post.id }}" }, function(result){
+                                        
+                                });
+                                
+                        }];
                 };
                 </script>
             

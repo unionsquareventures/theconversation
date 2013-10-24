@@ -8,11 +8,33 @@ import datetime as dt
 import urllib
 
 class APIHandler(BaseHandler):
-    def get(self):
+    def get(self, action=None):
+        
         if self.request.path.find('/api/user_status') == 0:
             self.user_status()
-        if self.request.path.find('/api/update_comment_counts') == 0:
-            self.update_comment_counts()
+            
+        elif action == "update_comment_counts":
+            self.refresh_comment_counts()
+            
+        elif action == "incr_comment_count":
+            self.incr_comment_count()
+            
+        else:
+            raise tornado.web.HTTPError(404)
+      
+    def post(self, action=None):
+        # For some reason, I couldn't get tornado to allow me
+        # to make an ajax post request.
+        # kept getting a 403 error.
+        # so I'm doing this by GET, and checking the referer
+        
+        pass
+        # this will be hit by a disqus callback
+        #if action == "incr_comment_count":
+        #    self.incr_comment_count()
+        
+        #else:
+        #    raise tornado.web.HTTPError(404)
         
     def user_status(self):
         username = self.get_current_username()
@@ -26,14 +48,32 @@ class APIHandler(BaseHandler):
         else:
             return(self.write("none")) # user is not logged in
 
-    @tornado.web.asynchronous
-    def update_comment_counts(self):
-        http = tornado.httpclient.AsyncHTTPClient()
+
+    def incr_comment_count(self):
+        # This will be hit by a Disqus callback,
+        # coming from the Disqus JS that's on each post detail page.
+        # Via an ajax request
         
-        threads = [
-            'link:http://www.usv.com/posts/how-we-made-a-22556-product-video',
-            'link:http://www.usv.com/posts/pay-heed-to-the-internets-third-wave-cows-of-disruption'
-        ]
+        # if this isn't an ajax request coming from us, reject it
+        if self.request.headers.get('Host') != settings.base_url:
+            raise tornado.web.HTTPError(403)
+        
+        post_id = self.get_argument('post')
+        comment_id = self.get_argument('comment')
+        
+        if not post_id or not comment_id:
+            raise tornado.web.HTTPError(404)
+        
+        post = Post.objects(id=post_id).first()
+        post.update(inc__comment_count=1)
+
+
+    @tornado.web.asynchronous
+    def refresh_comment_counts(self):
+        # This can be called from the admin page /admin
+        # and is also temporarily being hit via HTTP on a 5 min cron job
+        
+        http = tornado.httpclient.AsyncHTTPClient()
         
         request_vars = {
             'api_key': settings.disqus_public_key,
@@ -41,9 +81,6 @@ class APIHandler(BaseHandler):
             'forum': settings.disqus_apikey
         }
 
-        #thread_string = "&" + urllib.urlencode(thread)ing += urllib.urlencode(thread)
-        
-        #thread_string = "&thread[]=" + "&thread[]=".join(threads)
         base_url = "https://disqus.com/api/3.0/threads/list.json"
         complete_url = base_url + "?" + urllib.urlencode(request_vars)
         http.fetch(complete_url, callback=self.on_disqus_response)
