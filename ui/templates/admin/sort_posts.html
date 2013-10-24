@@ -48,7 +48,8 @@
 	<ul>
 		{% for post in data %}
 		<li>
-			<span style="background: yellow; padding: 5px;">{{ post['score'] }}</span> &nbsp; <b>{{ post['title'] }}</b><br />
+			<span style="background: yellow; padding: 5px;">{{ post['score'] }}</span> &nbsp; 
+			<b><a style="color: #000" href="/posts/{{ post['id'] }}">{{ post['title'] }}</a></b><br />
 			@{{ post['username'] }} | 
 			hours elapsed: {{ post['hours_elapsed'] }} |  
 			time penalty: <span class="subscore">{{ post['scores']['time'] }}</span> |
