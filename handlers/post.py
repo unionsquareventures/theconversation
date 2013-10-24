@@ -44,6 +44,10 @@ class PostHandler(BaseHandler):
         
         if sort_by == "hot":
             sort_by = "hot_albacore"
+        
+        # this is a hack to make the nav menu highlighting work
+        if sort_by == "hot_albacore":
+            sort_by_specified == "hot"    
 
         anchor = self.get_argument('anchor', None)
         action = self.get_argument('action', '')
