@@ -41,6 +41,9 @@ class PostHandler(BaseHandler):
     
         if not sort_by in ['hot', 'new', 'hot_albacore']:
             raise tornado.web.HTTPError(400)
+        
+        if sort_by == "hot":
+            sort_by = "hot_albacore"
 
         anchor = self.get_argument('anchor', None)
         action = self.get_argument('action', '')
