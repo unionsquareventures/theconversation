@@ -39,7 +39,7 @@ class PostHandler(BaseHandler):
             else:
                 sort_by = 'hot'
     
-        if not sort_by in ['hot', 'new', 'hot_albacore']:
+        if not sort_by in ['hot', 'new', 'hot_albacore', 'sad']:
             raise tornado.web.HTTPError(400)
         
         if sort_by == "hot":
@@ -90,6 +90,9 @@ class PostHandler(BaseHandler):
         posts = Post.objects(id__in=ordered_ids)
         posts = {str(p.id): p for p in posts}
         posts = [posts[id] for id in ordered_ids]
+        
+        if sort_by == "sad":
+            posts = Post.objects(votes=1, deleted=False, featured=False, date_created__gt=datetime.strptime("10/12/13", "%m/%d/%y")).order_by('-date_created')
 
         tags = Tag.objects()
         self.vars.update({

@@ -229,7 +229,7 @@
           <li class="{{ 'is-active' if sort_by == 'hot' else '' }}"><a class="sort btn" href="?sort_by=hot">Hot</a></li>
           <li class="{{ 'is-active' if sort_by == 'new' else '' }}"><a class="sort btn" href="?sort_by=new">Newest</a></li>
           {% if is_staff(username) %}
-          <li class="{{ 'is-active' if sort_by == 'hot_albacore' else '' }}"><a class="sort btn" href="?sort_by=hot_albacore"><span class="glyphicon glyphicon-fire"></span></a></li>
+          <li class="{{ 'is-active' if sort_by == 'sad' else '' }}"><a class="sort btn" href="?sort_by=sad">Sad</a></li>
           {% end %}
           
           {% if not is_blacklisted %}
