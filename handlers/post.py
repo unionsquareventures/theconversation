@@ -38,9 +38,6 @@ class PostHandler(BaseHandler):
                 sort_by = 'new'
             else:
                 sort_by = 'hot'
-        
-        if self.get_current_username() == "nickgrossman":
-            sort_by = "hot_albacore"
     
         if not sort_by in ['hot', 'new', 'hot_albacore']:
             raise tornado.web.HTTPError(400)
@@ -416,9 +413,9 @@ class PostHandler(BaseHandler):
         if not self.is_staff(self.get_current_username()):
             raise tornado.web.HTTPError(401)
         
-        else:
-            self.redis_incrby(post, -0.25)
-            self.redirect('/?sort_by=hot')
+        self.redis_incrby(post, -0.25)
+        post.update(inc__downvotes=1)
+        self.redirect('/?sort_by=hot')
     
     @tornado.web.authenticated
     def mute(self, id):

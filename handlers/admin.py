@@ -25,25 +25,30 @@ class AdminHandler(BaseHandler):
 		
 	def sort_posts(self):
 		redis = self.settings['redis']
-		posts = Post.objects(deleted=False).order_by('-date_created')
 		data = []
 		
 		config = {
 			'staff_bonus': int(self.get_argument('staff_bonus')) 
 				if 'staff_bonus' in self.request.arguments else -3,
 			'time_penalty_multiplier': float(self.get_argument('time_penalty_multiplier')) 
-				if 'time_penalty_multiplier' in self.request.arguments else 1.25,
+				if 'time_penalty_multiplier' in self.request.arguments else 1.5,
 			'grace_period': int(self.get_argument('grace_period')) 
 				if 'grace_period' in self.request.arguments else 3,
 			'comments_multiplier': float(self.get_argument('comments_multiplier')) 
 				if 'comments_multiplier' in self.request.arguments else 3,
 			'votes_multiplier': float(self.get_argument('votes_multiplier')) 
 				if 'votes_multiplier' in self.request.arguments else 1,
+			'min_votes': float(self.get_argument('min_votes')) 
+			if 'min_votes' in self.request.arguments else 2,
 		}
+		
+		posts = Post.objects(deleted=False, votes__gte=config['min_votes']).order_by('-date_created')
 		
 		for i,post in enumerate(posts):
 			tdelta = datetime.datetime.now() - post.date_created
 			hours_elapsed = tdelta.seconds/3600 + tdelta.days*24
+			
+			base_score = post.downvotes * -1
 			
 			staff_bonus = 0
 			if self.is_staff(post.user.username):
@@ -53,13 +58,19 @@ class AdminHandler(BaseHandler):
 			if hours_elapsed > config['grace_period']:
 				time_penalty = hours_elapsed - config['grace_period']
 			
+			votes_base_score = 0
+			if post.votes == 1 and post.comment_count > 2:
+				votes_base_score = -2
+			if post.votes > 8 and post.comment_count == 0:
+				votes_base_score = -2
+			
 			scores = {
-				'votes': post.votes * config['votes_multiplier'],
+				'votes': votes_base_score + post.votes * config['votes_multiplier'],
 				'comments': post.comment_count * config['comments_multiplier'],
 				'time': time_penalty * config['time_penalty_multiplier'] * -1
 			}
 			
-			score = scores['votes'] + scores['comments'] + staff_bonus + scores['time']
+			score = base_score + scores['votes'] + scores['comments'] + staff_bonus + scores['time']
 			
 			data.append({
 				'username': post.user.username,
@@ -87,7 +98,8 @@ class AdminHandler(BaseHandler):
 			'comments_multiplier': config['comments_multiplier'],
 			'time_penalty_multiplier': config['time_penalty_multiplier'],
 			'staff_bonus': config['staff_bonus'],
-			'votes_multiplier': config['votes_multiplier']
+			'votes_multiplier': config['votes_multiplier'],
+			'min_votes': config['min_votes']
 		})
 		self.render('admin/sort_posts.html', **self.vars)
 

@@ -55,6 +55,7 @@ class Post(Document):
     comment_count = IntField(default=0)
     disqus_thread_id_str = StringField()
     sort_score = FloatField()
+    downvotes = IntField(default=0)
 
     def add_slug(self, title):
         slug = slugify(title)
