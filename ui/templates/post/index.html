@@ -230,10 +230,10 @@
 
     <section class="hot-newest-feed">
       <ul class="tabs">
-          <li class="{{ 'is-active' if sort_by == 'hot' else '' }}"><a class="sort btn" href="?sort_by=hot">Hot</a></li>
-          <li class="{{ 'is-active' if sort_by == 'new' else '' }}"><a class="sort btn" href="?sort_by=new">Newest</a></li>
+          <li class="{{ 'is-active' if sort_by_specified == 'hot' else '' }}"><a class="sort btn" href="?sort_by=hot">Hot</a></li>
+          <li class="{{ 'is-active' if sort_by_specified == 'new' else '' }}"><a class="sort btn" href="?sort_by=new">Newest</a></li>
           {% if is_staff(username) %}
-          <li class="{{ 'is-active' if sort_by == 'sad' else '' }}"><a class="sort btn" href="?sort_by=sad">Sad</a></li>
+          <li class="{{ 'is-active' if sort_by_specified == 'sad' else '' }}"><a class="sort btn" href="?sort_by=sad">Sad</a></li>
           {% end %}
           
           {% if not is_blacklisted %}
