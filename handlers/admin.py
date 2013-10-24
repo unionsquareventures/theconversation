@@ -31,9 +31,9 @@ class AdminHandler(BaseHandler):
 			'staff_bonus': int(self.get_argument('staff_bonus')) 
 				if 'staff_bonus' in self.request.arguments else -3,
 			'time_penalty_multiplier': float(self.get_argument('time_penalty_multiplier')) 
-				if 'time_penalty_multiplier' in self.request.arguments else 1.5,
-			'grace_period': int(self.get_argument('grace_period')) 
-				if 'grace_period' in self.request.arguments else 3,
+				if 'time_penalty_multiplier' in self.request.arguments else 3,
+			'grace_period': float(self.get_argument('grace_period')) 
+				if 'grace_period' in self.request.arguments else 0,
 			'comments_multiplier': float(self.get_argument('comments_multiplier')) 
 				if 'comments_multiplier' in self.request.arguments else 3,
 			'votes_multiplier': float(self.get_argument('votes_multiplier')) 
