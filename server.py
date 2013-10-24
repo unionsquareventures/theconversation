@@ -29,6 +29,7 @@ from handlers.page import PageHandler
 from handlers.old_page import OldPageHandler
 from handlers.api import APIHandler
 from handlers.admin import AdminHandler
+#from handlers.redirect import RedirectHandler
 import ui
 from redis import StrictRedis
 from lib.sendgrid import Sendgrid
@@ -40,6 +41,13 @@ path = os.path.join(settings.PROJECT_ROOT, 'server_setup/conf/newrelic.ini')
 newrelic.agent.initialize(path, settings.DEPLOYMENT_STAGE)
 
 define("port", default=8888, help="run on the given port", type=int)
+
+class RedirectHandler(tornado.web.RequestHandler):
+    def get(self, person=None):
+        if person:
+            self.redirect('http://www.usv.com/about#' + person, permanent=True)
+        else:
+            self.redirect('http://www.usv.com', permanent=True)
 
 def init_app(bundle=True, auth_passthrough=False):
     sentry_client = AsyncSentryClient(settings.sentry_dsn)
@@ -97,10 +105,16 @@ def init_app(bundle=True, auth_passthrough=False):
             
             (r'/generate_hackpad/?', HackpadHandler),
 
+            # API calls
             (r'/api/user_status/?', APIHandler),
             
             (r'/admin/(?P<action>.*)$', AdminHandler),
             (r'/admin$', AdminHandler),
+
+            # For redirects from old content.usv.com
+            (r'/pages/(?P<person>[A-z-+0-9]+)$', RedirectHandler),
+            (r'/pages/(?P<person>[A-z-+0-9]+)/$', RedirectHandler),
+            (r'/.*$', RedirectHandler),
             
             ], ui_modules = ui.template_modules(),
             ui_methods = ui.template_methods(),
