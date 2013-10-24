@@ -326,6 +326,7 @@ class PostHandler(BaseHandler):
         disqus.create_thread(_created, user_info, thread_info)
         
         
+<<<<<<< Updated upstream
         
         # Don't send an email if not a USVer
         if not self.is_admin():
@@ -338,6 +339,10 @@ class PostHandler(BaseHandler):
             print "----------------------------------------------"
             print "Trying new email"
             print "----------------------------------------------"
+=======
+        # Send email to USVers if OP is USV
+        if self.is_admin() and DEPLOYMENT_STAGE is 'production':
+>>>>>>> Stashed changes
             sendgrid = self.settings['sendgrid']
             subject = 'USV.com: %s posted "%s"' % (post.user['username'], post.title)
             if post.url: # post.url is the link to external content (if any)
