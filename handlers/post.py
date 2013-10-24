@@ -326,23 +326,8 @@ class PostHandler(BaseHandler):
         disqus.create_thread(_created, user_info, thread_info)
         
         
-<<<<<<< Updated upstream
-        
-        # Don't send an email if not a USVer
-        if not self.is_admin():
-            self.redirect('/posts/%s%s' % (post.slug, subscribe_param))
-            return
-
-
-         # Z trying to modify emails. 
-        try:
-            print "----------------------------------------------"
-            print "Trying new email"
-            print "----------------------------------------------"
-=======
         # Send email to USVers if OP is USV
         if self.is_admin() and DEPLOYMENT_STAGE is 'production':
->>>>>>> Stashed changes
             sendgrid = self.settings['sendgrid']
             subject = 'USV.com: %s posted "%s"' % (post.user['username'], post.title)
             if post.url: # post.url is the link to external content (if any)
@@ -350,15 +335,9 @@ class PostHandler(BaseHandler):
             else:
                 post_link = ''
             post_url = "http://%s/posts/%s" % (settings.base_url, post.slug)
-            print post_url
-            print post.body_text
-            print type(post.body_text)
-            print post.link
             text = '"%s" ( %s ) posted by %s. \n\n %s %s'\
                             % (post.title.encode('ascii', errors='ignore'), post_url, 
-                                post.user['username'].encode('ascii', errors='ignore'), post.link, post.body_text) #post.body_html caused crash?
-
-            print text
+                                post.user['username'].encode('ascii', errors='ignore'), post_link, post.body_text) #post.body_html caused crash?
             for user_id, address in settings.admin_user_emails.iteritems():
                 if user_id == post.user['id_str']:
                     continue
@@ -368,9 +347,11 @@ class PostHandler(BaseHandler):
                     'subject': subject,
                     'text': text,
                 })
-            self.redirect('/posts/%s%s' % (post.slug, subscribe_param))
-        except: 
-            # Send email to USVers if OP is USV
+            print "Email sent to %s" % address
+
+        self.redirect('/posts/%s%s' % (post.slug, subscribe_param))
+
+        ''' # Old email message
             sendgrid = self.settings['sendgrid']
             if post.url:
                 subject = '%s shared a link on USV.com' % post.user['username']
@@ -395,10 +376,7 @@ class PostHandler(BaseHandler):
                     'subject': subject,
                     'text': text,
                 })
-            self.redirect('/posts/%s%s' % (post.slug, subscribe_param))
-        
-       
-        
+        ''' 
     
     @tornado.web.authenticated
     def bumpup(self, id):
