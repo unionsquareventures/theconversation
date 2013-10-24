@@ -88,6 +88,7 @@ class AdminHandler(BaseHandler):
 			data = sorted(data, key=lambda k: k['score'], reverse=True)
 			
 			if 'update' in self.request.arguments and self.get_argument('update') == "true":
+				redis.zrem('hot_albacore', post.id)
 				redis.zadd('hot_albacore', score , post.id)
 		
 		self.vars.update({
