@@ -24,18 +24,19 @@ class AdminHandler(BaseHandler):
 		
 		
 	def sort_posts(self):
+		redis = self.settings['redis']
 		posts = Post.objects(deleted=False).order_by('-date_created')
 		data = []
 		
 		config = {
 			'staff_bonus': int(self.get_argument('staff_bonus')) 
-				if 'staff_bonus' in self.request.arguments else 1,
+				if 'staff_bonus' in self.request.arguments else -3,
 			'time_penalty_multiplier': float(self.get_argument('time_penalty_multiplier')) 
-				if 'time_penalty_multiplier' in self.request.arguments else 1,
+				if 'time_penalty_multiplier' in self.request.arguments else 1.25,
 			'grace_period': int(self.get_argument('grace_period')) 
-				if 'grace_period' in self.request.arguments else 6,
+				if 'grace_period' in self.request.arguments else 3,
 			'comments_multiplier': float(self.get_argument('comments_multiplier')) 
-				if 'comments_multiplier' in self.request.arguments else 6,
+				if 'comments_multiplier' in self.request.arguments else 3,
 			'votes_multiplier': float(self.get_argument('votes_multiplier')) 
 				if 'votes_multiplier' in self.request.arguments else 1,
 		}
@@ -74,6 +75,9 @@ class AdminHandler(BaseHandler):
 				'scores': scores
 			})
 			data = sorted(data, key=lambda k: k['score'], reverse=True)
+			
+			if 'update' in self.request.arguments and self.get_argument('update') == "true":
+				redis.zadd('hot_albacore', score , post.id)
 		
 		self.vars.update({
 			'posts': posts,
