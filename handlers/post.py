@@ -332,7 +332,6 @@ class PostHandler(BaseHandler):
         }
         disqus.create_thread(_created, user_info, thread_info)
         
-        
         # Send email to USVers if OP is USV
         try: 
             if self.is_admin() and DEPLOYMENT_STAGE is 'production':
@@ -356,33 +355,37 @@ class PostHandler(BaseHandler):
                         'text': text,
                     })
                     print "Email sent to %s" % address
-        except:
-            # Old email message
-            sendgrid = self.settings['sendgrid']
-            if post.url:
-                subject = '%s shared a link on USV.com' % post.user['username']
-            else:
-                subject = '%s wrote a new post on USV.com' % post.user['username']
-            if post.url:
-                relation = 'shared'
-                post_link = '( %s )' % post.url
-            else:
-                relation = 'written'
-                post_link = ''
-            text = '"%s" %s %s by %s. \n\nOn USV.com: http://%s/posts/%s'\
-                            % (post.title.encode('ascii', errors='ignore'), post_link,
-                                    relation, post.user['username'].encode('ascii', errors='ignore'),
-                                            settings.base_url, post.slug)
-            for user_id, address in settings.admin_user_emails.iteritems():
-                if user_id == post.user['id_str']:
-                    continue
-                sendgrid.send_email(lambda x: None, **{
-                    'from': 'web@usv.com',
-                    'to': address,
-                    'subject': subject,
-                    'text': text,
-                })
-                print "Old email sent to %s" % address
+        except Exception as excpt:
+            print type(expt)
+            print excpt.args
+
+            if self.is_admin():
+                # Old email message
+                sendgrid = self.settings['sendgrid']
+                if post.url:
+                    subject = '%s shared a link on USV.com' % post.user['username']
+                else:
+                    subject = '%s wrote a new post on USV.com' % post.user['username']
+                if post.url:
+                    relation = 'shared'
+                    post_link = '( %s )' % post.url
+                else:
+                    relation = 'written'
+                    post_link = ''
+                text = '"%s" %s %s by %s. \n\nOn USV.com: http://%s/posts/%s'\
+                                % (post.title.encode('ascii', errors='ignore'), post_link,
+                                        relation, post.user['username'].encode('ascii', errors='ignore'),
+                                                settings.base_url, post.slug)
+                for user_id, address in settings.admin_user_emails.iteritems():
+                    if user_id == post.user['id_str']:
+                        continue
+                    sendgrid.send_email(lambda x: None, **{
+                        'from': 'web@usv.com',
+                        'to': address,
+                        'subject': subject,
+                        'text': text,
+                    })
+                    print "Old email sent to %s" % address
  
         self.redirect('/posts/%s%s' % (post.slug, subscribe_param))
     
