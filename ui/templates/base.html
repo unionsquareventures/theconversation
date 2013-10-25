@@ -126,10 +126,16 @@
                 <div id="login">
                     {% if username %}
                         Welcome, @{{ username }}! &nbsp;
+                        {% if is_staff(username) %}
+                        <a class="login" href="/admin">Admin</a>
+                        {% end %} &nbsp;
                         <a class="login" href="/auth/logout">Logout</a>
                     {% else %}
                         <a class="login" href="/auth/twitter/">Log in with Twitter</a>
                     {% end %}
+                    
+                    
+                    
                     <a href="/feed/hot" onclick="(function(){var z=document.createElement('script');z.src='https://www.subtome.com/load.js';document.body.appendChild(z);})(); return false"><img src="/static/img/feed-icon-14x14.png" title="Subscribe" style="margin-left: 10px"></a>
                 </div>
                 </div>
