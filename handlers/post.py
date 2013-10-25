@@ -356,7 +356,7 @@ class PostHandler(BaseHandler):
                     })
                     print "Email sent to %s" % address
         except Exception as excpt:
-            print type(expt)
+            print type(excpt)
             print excpt.args
 
             if self.is_admin():
