@@ -1,4 +1,5 @@
-== USV ==
+USV
+======
 
 USV.com community site.
 
@@ -7,10 +8,13 @@ Built with:
  * Python / [Tornado](http://tornadoweb.org)
  * Mongodb and [Mongoengine](http://mongoengine.org)
  * [Redis](http://redis.io)
+ * [Disqus](http://disqus.com)
+ * [Twitter](http://dev.twitter.com)
  * Deployed at www.usv.com using [Heroku](http://heroku.com)
  * Performance / security by [Cloudflare](http://cloudflare.com)
  
-== Installation ==
+Installation
+------------
 
  * Install the [Heroku toolbelt](https://toolbelt.heroku.com/)
  * Before installing, create a .env file in the root directory, and set the following config variables:
