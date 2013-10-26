@@ -1,13 +1,24 @@
 == USV ==
 
-USV web presence development.
+USV.com community site.
 
-When running locally be sure to use http://127.0.0.1:8888/ (not localhost or 0.0.0.0, etc.) Twitter OAuth is setup to use this address.
+Built with:
 
-Requirements:
-	- Be sure to install the required Python modules. (found in requirements.txt)
-	- LESS, and UglifyJS are also required.
-		LESS: npm install -g less
-		UglifyJS: npm install -g uglify-js
+ * Python / [Tornado](http://tornadoweb.org)
+ * Mongodb and [Mongoengine](http://mongoengine.org)
+ * [Redis](http://redis.io)
+ * Deployed at www.usv.com using [Heroku](http://heroku.com)
+ * Performance / security by [Cloudflare](http://cloudflare.com)
+ 
+== Installation ==
 
-X
+ * Install the [Heroku toolbelt](https://toolbelt.heroku.com/)
+ * Before installing, create a .env file in the root directory, and set the following config variables:
+	MONGODB_URL=mongodb://your-mongo-url
+   	REDIS_URL=redis://your-redis-url
+ * Create a [virtualenv](https://github.com/pypa/virtualenv), activate it, and run 
+ 	pip install -r requirements.txt
+ * Start the web server, using [Foreman](https://devcenter.heroku.com/articles/procfile#developing-locally-with-foreman):
+ 	foreman start
+ * Site should be viewable at http://0.0.0.0:5000
+
