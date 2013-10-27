@@ -250,7 +250,7 @@
         </ul>
         
         {% if msg == "success" and new_post %}
-        <div class="alert alert-info" style="color: #333">
+        <div class="alert alert-success" style="color: #333">
           <p style="margin-top:0"><b>Thanks!</b> Your post has been published. Here's the link: </p>  
           <p><a href="{{ new_post.permalink() }}">{{ new_post.permalink() }}</a></p>
           <p><a href="https://twitter.com/share" class="twitter-share-button" data-url="{{ new_post.permalink() }}" data-text="{{ new_post.title }}" data-via="usvcommunity" data-size="large" data-count="none">Tweet</a>
