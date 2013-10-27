@@ -248,6 +248,14 @@
           <li><a data-toggle="modal" href="#tools">Tools</a></li>
           <li><a href="https://hackpad.com/USV.com-sHgpc56rkCZ">Bugs &amp; Feature Reqs</a></li>
         </ul>
+        
+        {% if msg == "success" %}
+        <div class="alert alert-info">
+          <p style="margin-top:0"><b>Thanks!</b>
+          Your post has been published.</p>  <p>To start, it's on the "NEWEST" page. As it gathers votes and comments, it'll move to the "HOT" page and work its way up!</p>
+        </div>
+        {% end %}
+        
 
         <!-- Tools Modal -->
         <div class="modal fade" id="tools" tabindex="-1" role="dialog" aria-labelledby="toolsLabel" aria-hidden="true">
