@@ -102,6 +102,10 @@ class PostHandler(BaseHandler):
             posts = Post.objects(votes=1, deleted=False, featured=False, date_created__gt=datetime.strptime("10/12/13", "%m/%d/%y")).order_by('-date_created')
             
         msg = self.get_argument('msg', None)
+        id_ref = self.get_argument('id', None)
+        new_post = None
+        if id_ref:
+            new_post = Post.objects(id=id_ref).first()
 
         tags = Tag.objects()
         
@@ -122,7 +126,8 @@ class PostHandler(BaseHandler):
             'rend': rend,
             'count': original_count,
             'action': action,
-            'msg': msg
+            'msg': msg,
+            'new_post': new_post
         })
 
         
@@ -361,7 +366,7 @@ class PostHandler(BaseHandler):
             print "Email sent to %s" % address
 
         #self.redirect('/posts/%s%s' % (post.slug, subscribe_param))
-        self.redirect('/?sort_by=new&msg=success')
+        self.redirect('/?sort_by=new&msg=success&id=%s' % post.id)
 
         ''' # Old email message
             sendgrid = self.settings['sendgrid']
