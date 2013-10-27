@@ -338,7 +338,7 @@ class PostHandler(BaseHandler):
         
         
         # Send email to USVers if OP is USV
-        if self.is_admin() and DEPLOYMENT_STAGE is 'production':
+        if self.is_admin() and settings.DEPLOYMENT_STAGE is 'production':
             sendgrid = self.settings['sendgrid']
             subject = 'USV.com: %s posted "%s"' % (post.user['username'], post.title)
             if post.url: # post.url is the link to external content (if any)
