@@ -86,7 +86,7 @@
             </div>
                         
             <div class="post-body">
-                <span class="post-author"><a href="http://www.twitter.com/{{ post.user.username }}" title="@{{ post.user.username }}">{{ post.user.username }}</a>
+                <span class="post-author"><a href="http://www.twitter.com/{{ post.user.username }}" title="@{{ post.user.username }}">@{{ post.user.username }}</a>
                 <span class="text-muted">&nbsp;<span style="color: #ddd">&bull;</span>&nbsp; {{ pretty_date(post.date_created) }}</span>
             </span>
                 
@@ -222,7 +222,9 @@
        <div class="col-sm-2 hidden-xs">
            {% if post.user.id_str == user_id_str or is_staff(username) %}
                <p><a href="/posts/{{ post.slug }}/edit" class="btn">Edit</a></p>
-               <a href="https://partners.mongohq.com/app18119720-heroku-com/mongo/app18119720/collections/post/documents/%7B%22%24oid%22%3A%22{{ post.id }}%22%7D">mongohq</a>
+           {% end %}
+           {% if is_staff(username) %}
+           <p><a href="https://partners.mongohq.com/app18119720-heroku-com/mongo/app18119720/collections/post/documents/%7B%22%24oid%22%3A%22{{ post.id }}%22%7D">mongohq</a></p>
            {% end %}
        </div>
         

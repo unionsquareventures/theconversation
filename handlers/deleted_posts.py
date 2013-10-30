@@ -4,7 +4,7 @@ import tornado.web
 
 class DeletedPostsHandler(BaseHandler):
     def get(self):
-        if not self.current_user_can('delete_posts')
+        if not self.current_user_can('delete_posts'):
             raise tornado.web.HTTPError(401)
         page = abs(int(self.get_argument('page', '1')))
         per_page = abs(int(self.get_argument('per_page', '10')))

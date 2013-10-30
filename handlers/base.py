@@ -69,8 +69,8 @@ class BaseHandler(SentryMixin, tornado.web.RequestHandler):
         user_id_str = self.get_current_user_id_str()
         u = UserInfo.objects(user__id_str=user_id_str).first()
         if u and u.role:
-            if capability in settings.capabilities[u.role]
-            return True
+            if capability in settings.capabilities[u.role]:
+                return True
         return False
     
     def get_current_user_role(self):
@@ -81,11 +81,17 @@ class BaseHandler(SentryMixin, tornado.web.RequestHandler):
         return None
 
     def is_admin(self):
-        user_id_str = self.get_current_user_id_str()
-        if user_id_str in settings.admin_user_ids:
+        # legacy support
+        return self.is_staff(self.get_current_username())
+    
+    def is_staff(self, username):
+        # legacy support
+        # this should be deprecated in favor of self.get_current_user_role() == "staff"
+        u = UserInfo.objects(user__username=username).first()
+        if u and u.role == "staff":
             return True
         return False
-
+    
     @tornado.web.authenticated
     def post(self, id='', action=''):
         if id:

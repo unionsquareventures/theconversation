@@ -9,7 +9,6 @@ class User(EmbeddedDocument):
     profile_image_url_https = StringField(required=True)
     profile_image_url = StringField(required=True)
     is_blacklisted = BooleanField(default=False)
-    role = StringField(default="user")
 
 class VotedUser(EmbeddedDocument):
     id = StringField(required=True, primary_key=True)
@@ -28,3 +27,8 @@ class UserInfo(Document):
     user = EmbeddedDocumentField(User, required=True)
     access_token = EmbeddedDocumentField(AccessToken, required=True)
     email_address = StringField(required=False)
+    role = StringField(default="user")
+    
+    def editlink(self):
+        link = '%s/collections/user_info/documents/%s' % (os.environ.get('MONGODB_CLOUD_BASE_URL'), self.id)
+        return link

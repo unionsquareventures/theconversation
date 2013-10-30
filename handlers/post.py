@@ -242,7 +242,7 @@ class PostHandler(BaseHandler):
 
         featured = False
         date_featured = None
-        if self.self.current_user_can('feature_posts') and attributes.get('featured'):
+        if self.current_user_can('feature_posts') and attributes.get('featured'):
             featured = True
             date_featured = datetime.now()
 
@@ -351,46 +351,21 @@ class PostHandler(BaseHandler):
             text = '"%s" ( %s ) posted by %s. \n\n %s %s'\
                             % (post.title.encode('ascii', errors='ignore'), post_url, 
                                 post.user['username'].encode('ascii', errors='ignore'), post_link, post.body_text) #post.body_html caused crash?
-            for user_id, address in settings.admin_user_emails.iteritems():
-                if user_id == post.user['id_str']:
+            staff = UserInfo.objects(role="staff")
+            for u in staff:
+                if u.user.id_str == post.user['id_str']:
                     continue
                 sendgrid.send_email(lambda x: None, **{
                     'from': 'web@usv.com',
-                    'to': address,
+                    'to': u.email_address,
                     'subject': subject,
                     'text': text,
                 })
-            print "Email sent to %s" % address
+            print "Email sent to %s" % u.email_address
 
         #self.redirect('/posts/%s%s' % (post.slug, subscribe_param))
         self.redirect('/?sort_by=new&msg=success&id=%s' % post.id)
 
-        ''' # Old email message
-            sendgrid = self.settings['sendgrid']
-            if post.url:
-                subject = '%s shared a link on USV.com' % post.user['username']
-            else:
-                subject = '%s wrote a new post on USV.com' % post.user['username']
-            if post.url:
-                relation = 'shared'
-                post_link = '( %s )' % post.url
-            else:
-                relation = 'written'
-                post_link = ''
-            text = '"%s" %s %s by %s. \n\nOn USV.com: http://%s/posts/%s'\
-                            % (post.title.encode('ascii', errors='ignore'), post_link,
-                                    relation, post.user['username'].encode('ascii', errors='ignore'),
-                                            settings.base_url, post.slug)
-            for user_id, address in settings.admin_user_emails.iteritems():
-                if user_id == post.user['id_str']:
-                    continue
-                sendgrid.send_email(lambda x: None, **{
-                    'from': 'web@usv.com',
-                    'to': address,
-                    'subject': subject,
-                    'text': text,
-                })
-        ''' 
     
     @tornado.web.authenticated
     def bumpup(self, id):
