@@ -2841,6 +2841,38 @@ span.staff {
     border:1px solid #86aa3b;
     background-color:#86aa3b;
 }
+
+
+/*================================================================
+# 
+# =Stats Page
+#
+================================================================*/
+
+ul.stats {
+    padding: 0;
+}
+ul.stats li {
+    display: block;
+    float: left;
+    width: 150px;
+    text-align: center;
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-right: 20px;
+    margin-bottom: 20px;
+}
+ul.stats .stat-number {
+    font-size: 3em;
+}
+ul.stats .stat-label {
+    font-weight: bold;
+}
+ul.stats .stat-notes {
+    color: #777;
+}
+
+
 @media only screen and (min-width:769px) {
     .jobs-container .stats {
     float:left;

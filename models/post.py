@@ -11,7 +11,7 @@ connect(mongodb_db, host=settings.mongodb_url)
 
 class Post(Document):
     meta = {
-        'indexes': ['-date_deleted', 'deleted', '-date_featured', 'votes',
+        'indexes': ['-date_deleted', 'deleted', '-date_featured', 'votes', 'date_created',
                             'featured', 'voted_users', 'user.id_str', 'slug',
                             'slugs', 'url', 'tags', 'normalized_url'],
     }

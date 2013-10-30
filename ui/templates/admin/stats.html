@@ -1,0 +1,34 @@
+{% extends "../base.html" %}
+
+{% block javascript %}
+<script>
+	$(document).ready(function() {
+		var max_height = 0;
+		$('.stats li').each(function() {
+			if ($(this).height() > max_height) {
+				max_height = $(this).height();
+			}
+		});
+		$('.stats li').height(max_height);
+	});
+</script>
+{% end %}
+
+{% block content %}
+
+	<h1>Stats</h1>
+	
+	<ul class="stats">
+		<li class="posts">
+			<div class="stat-number">{{ total_posts }}</div>
+			<div class="stat-label">Total posts</div>
+			<div class="stat-notes">since 8/1/13</div>
+		</li>
+		<li class="users">
+			<div class="stat-number">{{ total_users }}</div>
+			<div class="stat-label">Registered users</div>
+			<div class="stat-notes"></div>
+		</li>
+	</ul>
+
+{% end %}

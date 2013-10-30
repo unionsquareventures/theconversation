@@ -15,6 +15,8 @@ class AdminHandler(BaseHandler):
 			self.update_comment_counts()
 		elif action == 'sort_posts':
 			self.sort_posts()
+		elif action == 'stats':
+			self.stats()
 		else:
 			self.index()
 
@@ -22,6 +24,15 @@ class AdminHandler(BaseHandler):
 	def index(self):
 		self.render('admin/index.html', **self.vars)
 		
+	def stats(self):
+		total_posts = Post.objects(date_created__gte="2013-08-01").count()
+		total_users = UserInfo.objects().count()
+		
+		self.vars.update({
+			'total_posts': total_posts,
+			'total_users': total_users
+		})
+		self.render("admin/stats.html", **self.vars)
 		
 	def sort_posts(self):
 		redis = self.settings['redis']
