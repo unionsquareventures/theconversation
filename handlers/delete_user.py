@@ -5,7 +5,7 @@ import datetime as dt
 
 class DeleteUserHandler(BaseHandler):
     def get(self):
-        if not self.is_admin():
+        if not self.current_user_can('delete_users'):
             raise tornado.web.HTTPError(401)
         msg = self.get_argument('msg', '')
         self.vars.update({
@@ -14,7 +14,7 @@ class DeleteUserHandler(BaseHandler):
         self.render('delete_user/index.html', **self.vars)
 
     def post(self):
-        if not self.is_admin():
+        if not self.current_user_can('delete_users'):
             raise tornado.web.HTTPError(401)
         post_slug = self.get_argument('post_slug')
         post = Post.objects(slugs=post_slug).first()
