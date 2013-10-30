@@ -99,7 +99,7 @@ class PostHandler(BaseHandler):
         posts = [posts[id] for id in ordered_ids]
         
         if sort_by == "sad":
-            posts = Post.objects(votes=1, deleted=False, featured=False, date_created__gt=datetime.strptime("10/12/13", "%m/%d/%y")).order_by('-date_created')
+            posts = Post.objects(votes=1, comment_count=0, deleted=False, featured=False, date_created__gt=datetime.strptime("10/12/13", "%m/%d/%y")).order_by('-date_created')
             
         msg = self.get_argument('msg', None)
         id_ref = self.get_argument('id', None)
