@@ -9,6 +9,7 @@ class User(EmbeddedDocument):
     profile_image_url_https = StringField(required=True)
     profile_image_url = StringField(required=True)
     is_blacklisted = BooleanField(default=False)
+    role = StringField(default="user")
 
 class VotedUser(EmbeddedDocument):
     id = StringField(required=True, primary_key=True)

@@ -33,7 +33,7 @@ class PostHandler(BaseHandler):
         
         sort_by = self.get_argument('sort_by', 'hot')
         if 'sort_by' not in self.request.arguments:
-            if self.is_staff(self.get_current_username()):
+            if self.get_current_user_role() == "staff":
                 sort_by = 'new'
             else:
                 sort_by = 'hot'
@@ -231,7 +231,7 @@ class PostHandler(BaseHandler):
 
         # Content
         body_raw = attributes.get('body_raw', '')
-        body_html = sanitize.html_sanitize(body_raw, media=self.is_admin())
+        body_html = sanitize.html_sanitize(body_raw, media=self.current_user_can('post_rich_media'))
         body_text = sanitize.html_to_text(body_html)
         body_truncated = sanitize.truncate(body_text, 500)
 
@@ -242,7 +242,7 @@ class PostHandler(BaseHandler):
 
         featured = False
         date_featured = None
-        if self.is_admin() and attributes.get('featured'):
+        if self.self.current_user_can('feature_posts') and attributes.get('featured'):
             featured = True
             date_featured = datetime.now()
 
@@ -289,10 +289,7 @@ class PostHandler(BaseHandler):
                     return
 
         try:
-            if self.is_admin():
-                post.save()
-            else:
-                post.save(body_length_limit=settings.post_char_limit)
+            post.save()
         except mongoengine.ValidationError, e:
             self.new(post=post, errors=e.errors)
             return
@@ -343,7 +340,7 @@ class PostHandler(BaseHandler):
         
         
         # Send email to USVers if OP is USV
-        if self.is_admin() and settings.DEPLOYMENT_STAGE is 'production':
+        if self.get_current_user_role() == 'staff' and settings.DEPLOYMENT_STAGE is 'production':
             sendgrid = self.settings['sendgrid']
             subject = 'USV.com: %s posted "%s"' % (post.user['username'], post.title)
             if post.url: # post.url is the link to external content (if any)
@@ -402,7 +399,7 @@ class PostHandler(BaseHandler):
         if not post:
             raise tornado.web.HTTPError(404)
             
-        if not self.is_staff(self.get_current_username()):
+        if not self.current_user_can('super_upvote_posts'):
             raise tornado.web.HTTPError(401)
         
         else:
@@ -416,7 +413,7 @@ class PostHandler(BaseHandler):
         if not post:
             raise tornado.web.HTTPError(404)
             
-        if not self.is_staff(self.get_current_username()):
+        if not self.current_user_can('downvote_posts'):
             raise tornado.web.HTTPError(401)
         
         self.redis_incrby(post, -0.25)
@@ -430,7 +427,7 @@ class PostHandler(BaseHandler):
         if not post:
             raise tornado.web.HTTPError(404)
             
-        if not self.is_staff(self.get_current_username()):
+        if not self.current_user_can('mute_posts'):
             raise tornado.web.HTTPError(401)
         
         else:
@@ -446,7 +443,7 @@ class PostHandler(BaseHandler):
         if not post:
             raise tornado.web.HTTPError(404)
             
-        if not self.is_staff(self.get_current_username()):
+        if not self.current_user_can('mute_posts'):
             raise tornado.web.HTTPError(401)
         
         else:
@@ -466,7 +463,7 @@ class PostHandler(BaseHandler):
         
         # change if this person is staff they automatically get to the front page
         # everyone else needs 3 votes
-        if self.is_staff(self.get_current_username()):
+        if self.get_current_user_role() == "staff":
             base_score = time.mktime(post.date_created.timetuple()) / 45000.0
             lua = "local votes = redis.call('GET', 'post:{post.id}:votes')\n"
             lua += "votes = math.log10(votes)\n"
@@ -490,7 +487,7 @@ class PostHandler(BaseHandler):
 
         id_str = self.get_current_user_id_str()
         op_rights = (id_str == post.user['id_str']) and not post.deleted
-        if not (self.is_admin() or op_rights):
+        if not (self.current_user_can('edit_posts') or op_rights):
             raise tornado.web.HTTPError(401)
 
         attributes = {k: v[0] for k, v in self.request.arguments.iteritems()}
@@ -507,7 +504,7 @@ class PostHandler(BaseHandler):
 
         # Content
         body_raw = attributes.get('body_raw', '')
-        body_html = sanitize.html_sanitize(body_raw, self.is_admin())
+        body_html = sanitize.html_sanitize(body_raw, self.current_user_can('post_rich_media'))
         body_text = sanitize.html_to_text(body_html)
         body_truncated = sanitize.truncate(body_text, 500)
 
@@ -518,11 +515,11 @@ class PostHandler(BaseHandler):
 
         featured = post.featured
         date_featured = post.date_featured
-        if self.is_admin() and attributes.get('featured') and not featured:
+        if self.current_user_can('feature_posts') and attributes.get('featured') and not featured:
             featured = True
             date_featured = datetime.now()
             self.redis_remove(post)
-        if self.is_admin() and not attributes.get('featured'):
+        if self.current_user_can('feature_posts') and not attributes.get('featured'):
             featured = False
             date_featured = None
             self.redis_add(post)
@@ -563,10 +560,7 @@ class PostHandler(BaseHandler):
         old_title = post.title
         post.set_fields(**attributes)
         try:
-            if self.is_admin():
-                post.save()
-            else:
-                post.save(body_length_limit=settings.post_char_limit)
+            post.save()
         except mongoengine.ValidationError, e:
             self.edit(post.slug, errors=e.errors)
             return
@@ -583,7 +577,7 @@ class PostHandler(BaseHandler):
 
         id_str = self.get_current_user_id_str()
         op_rights = (id_str == post.user['id_str']) and not post.deleted
-        if not (op_rights or self.is_staff(self.get_current_username())):
+        if not (op_rights or self.current_user_can('edit_posts')):
             raise tornado.web.HTTPError(401)
 
         # Modification page
@@ -680,7 +674,7 @@ class PostHandler(BaseHandler):
 
     @tornado.web.authenticated
     def feature(self, id):
-        if not self.is_admin():
+        if not self.current_user_can('feature_posts'):
             raise tornado.web.HTTPError(401)
         try:
             post = Post.objects.get(slugs=id)
@@ -704,7 +698,7 @@ class PostHandler(BaseHandler):
                                         featured=True, voted_users=user_q).first()
         if not post:
             raise tornado.web.HTTPError(404)
-        if post.voted_users and not self.is_staff(self.get_current_username()):
+        if post.voted_users and not self.current_user_can('upvote_multiple_times'):
             self.write_json({'error': 'You have already upvoted this post.'})
             return
 

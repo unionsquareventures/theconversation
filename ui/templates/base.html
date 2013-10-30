@@ -126,7 +126,7 @@
                 <div id="login">
                     {% if username %}
                         Welcome, @{{ username }}! &nbsp;
-                        {% if is_staff(username) %}
+                        {% if current_user_can('see_admin_link') %}
                         <a class="login" href="/admin">Admin</a>
                         {% end %} &nbsp;
                         <a class="login" href="/auth/logout">Logout</a>
