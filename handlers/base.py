@@ -14,6 +14,7 @@ class BaseHandler(SentryMixin, tornado.web.RequestHandler):
         super(BaseHandler, self).__init__(*args, **kwargs)
         username = self.get_current_username()
         base_url = "http://" + settings.base_url
+        #full_uri = self.request.uri
         self.vars = {
                         'path': self.request.path,
                         'base_url': base_url,
@@ -25,7 +26,8 @@ class BaseHandler(SentryMixin, tornado.web.RequestHandler):
                         'is_staff': self.is_staff,
                         'is_blacklisted': self.is_blacklisted(username),
                         'urlparse': urlparse,
-                        'current_user_can': self.current_user_can
+                        'current_user_can': self.current_user_can,
+                        'full_uri': self.request.uri
                     }
         user_id_str = self.get_current_user_id_str()
         if user_id_str in settings.banned_user_ids:

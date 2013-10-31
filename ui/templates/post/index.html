@@ -116,7 +116,7 @@
 
 {% block content %}
 
-  {% if subscribe and user_info and post.user.id_str == user_info.user.id_str %}
+  {% if new_post and subscribe and user_info and new_post.user.id_str == user_info['id'] %}
   <script type="text/javascript">
       $(function() {
               $("#subscribe-modal").modal('show');
@@ -124,7 +124,7 @@
   </script>
   {% end %}
   
-  {% module subscribe_modal(post=new_post) %}
+{% module subscribe_modal(post=new_post) %}
 
 <div id="main" role="main">
     <section class="featured-feed clearfix{{ ' mobile-hidden' if (rstart > 0) or sort_by_specified else '' }}">

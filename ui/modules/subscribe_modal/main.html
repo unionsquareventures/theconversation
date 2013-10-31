@@ -1,3 +1,4 @@
+{% if post %}
 <div class="modal" id="subscribe-modal">
 	<form id="subscribe-form" action="/auth/email/" method="POST">
 	<div class="modal-dialog">
@@ -8,14 +9,14 @@
 		</div>
 		<div class="modal-body">
 			{% module xsrf_form_html() %}
-			<input type="hidden" name="next" value="/posts/{{ post.slug }}" />
+			<input type="hidden" name="next" value="{{ full_uri }}" />
 			<input type="hidden" name="subscribe_to" value="{{ post.id }}" />
 			<p>Your post has been submitted! If you would like to receive
 			email updates when people comment on this and all future posts
 			you submit, please provide your email address.</p>
 			<p>If you are currently a Disqus user, please make sure to use the
 				same email address you typically use with Disqus, so your notifications
-				will show up on your main Disqus dashboard.
+				will show up on your main Disqus dashboard.</p>
 			<br/>
 			<label for="email">Email</label>
 			<br/>
@@ -31,3 +32,4 @@
 	</div>
 	</form>
   </div>
+ {% end %}

@@ -61,7 +61,7 @@ class EmailHandler(BaseHandler):
     @tornado.web.authenticated
     @tornado.web.asynchronous
     def post(self):
-        self.next = self.get_argument('next', '')
+        self.next = self.get_argument('next', '') + "&finished=true"
         self.close_popup = self.get_argument('close_popup', '')
         self.email = self.get_argument('email', '')
         self.subscribe_to = self.get_argument('subscribe_to', '')
@@ -69,6 +69,7 @@ class EmailHandler(BaseHandler):
         self.link = 'http://%s/auth/email/?token=%s' % (settings.base_url, self.token)
         id_str = self.get_current_user_id_str()
         u = UserInfo.objects.get(user__id_str=id_str)
+        
         # Clear the existing email address
         if not self.email:
             u.email_address = ''

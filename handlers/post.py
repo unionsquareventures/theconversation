@@ -55,6 +55,21 @@ class PostHandler(BaseHandler):
             })
         per_page = 20
         
+        user_info = None
+        if 'subscribe' in self.request.arguments and self.get_argument('subscribe') == "true":
+            user_id_str = self.get_current_user_id_str()
+            username = self.get_current_username()
+            u = UserInfo.objects(user__id_str=user_id_str).first()
+            # Attempt to create the post's thread
+            user_url = 'http://www.twitter.com/%s' % u.user.screen_name
+            user_info = {
+                    'id': u.user.id_str,
+                    'username': u.user.username,
+                    'email': u.email_address,
+                    'avatar': u.user.profile_image_url,
+                    'url': user_url,
+            }
+        
         sort_by = self.get_argument('sort_by', 'hot')
         if 'sort_by' not in self.request.arguments:
             if self.get_current_user_role() == "staff":
@@ -152,7 +167,8 @@ class PostHandler(BaseHandler):
             'action': action,
             'msg': msg,
             'new_post': new_post,
-            'subscribe': self.get_argument('subscribe', '')
+            'subscribe': self.get_argument('subscribe', ''),
+            'user_info': user_info
         })
 
         
@@ -357,7 +373,7 @@ class PostHandler(BaseHandler):
         post_url = '/posts/%s' % post.slug
         subscribe_param = ''
         if not u.email_address:
-            subscribe_param = '?subscribe=true'
+            subscribe_param = '&subscribe=true'
 
         # Attempt to create the post's thread
         user_url = 'http://www.twitter.com/%s' % u.user.screen_name
@@ -381,11 +397,14 @@ class PostHandler(BaseHandler):
             
             def _posted(response):
                 return
-            #leave post as comment.
-            #disqus.post_comment(_posted, user_info, thread_info)
-            
+
             #subscribe user to thread
             disqus.subscribe(lambda x: None, user_info, thread_id)
+            
+            # TODO: subscribe anyone who wants to to this thread (and all threads)
+            # for u in users_who_want_to_always_be_subscribed:
+            #   user_info = {}
+            #   disqus.subscribe(lambda x: None, user_info, thread_id)
             
             
         thread_info = {
@@ -421,7 +440,7 @@ class PostHandler(BaseHandler):
             print "Email sent to %s" % u.email_address
 
         #self.redirect('/posts/%s%s' % (post.slug, subscribe_param))
-        self.redirect('/?sort_by=new&msg=success&id=%s' % (post.id, subscribe_param))
+        self.redirect('/?sort_by=new&msg=success&id=%s%s' % (post.id, subscribe_param))
 
     
     @tornado.web.authenticated
