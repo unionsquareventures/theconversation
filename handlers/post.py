@@ -21,6 +21,30 @@ class PostHandler(BaseHandler):
     def __init__(self, *args, **kwargs):
         super(PostHandler, self).__init__(*args, **kwargs)
 
+    def get(self, id='', action='', tag='', feed_type='hot'):
+        if tag:
+            self.show_tag(tag)
+        if self.request.path.find('/feed') == 0 and feed_type:
+            self.feed(feed_type)
+        if self.request.path.find('/popular') == 0:
+            self.popular()
+        if action == 'edit' and id:
+            self.edit(id)
+        if action == 'bumpup' and id:
+            self.bumpup(id)
+        if action == 'bumpdown' and id:
+            self.bumpdown(id)
+        if action == 'mute' and id:
+            self.mute(id)
+        if action == 'unmute' and id:
+            self.unmute(id)
+        if action == 'upvote' and id:
+            self.upvote(id)
+        if action == 'feature' and id:
+            self.feature(id)
+        else:
+            super(PostHandler, self).get(id, action)
+
     def index(self):        
         # list posts
         query = {}
@@ -132,6 +156,38 @@ class PostHandler(BaseHandler):
 
         
         self.render('post/index.html', **self.vars)
+        
+    @tornado.web.asynchronous
+    def popular(self):
+        http = tornado.httpclient.AsyncHTTPClient()
+    
+        request_vars = {
+            'api_key': settings.disqus_public_key,
+            'api_secret': settings.disqus_secret_key,
+            'forum': settings.disqus_apikey
+        }
+    
+        base_url = "https://disqus.com/api/3.0/posts/listPopular.json"
+        complete_url = base_url + "?" + urllib.urlencode(request_vars)
+    
+        def on_disqus_response(response):
+            #if response.error: raise tornado.web.HTTPError(500)
+            result = tornado.escape.json_decode(response.body)
+            
+            if result['code'] == 0:
+                posts = result['response']
+                self.vars.update({
+                    'posts': posts
+                })
+            self.write(result['response'])
+            #self.render('post/popular.html')
+            #self.finish()
+        
+        http.fetch(tornado.httpclient.HTTPRequest(
+            url=complete_url,
+            method="GET"
+            ), 
+            callback=on_disqus_response)
 
     def detail(self, id):
         post = Post.objects(slugs=id).first()
@@ -564,29 +620,6 @@ class PostHandler(BaseHandler):
             'banned': False
         })
         self.render('post/new.html', **self.vars)
-
-
-    def get(self, id='', action='', tag='', feed_type='hot'):
-        if tag:
-            self.show_tag(tag)
-        if self.request.path.find('/feed') == 0 and feed_type:
-            self.feed(feed_type)
-        if action == 'edit' and id:
-            self.edit(id)
-        if action == 'bumpup' and id:
-            self.bumpup(id)
-        if action == 'bumpdown' and id:
-            self.bumpdown(id)
-        if action == 'mute' and id:
-            self.mute(id)
-        if action == 'unmute' and id:
-            self.unmute(id)
-        if action == 'upvote' and id:
-            self.upvote(id)
-        if action == 'feature' and id:
-            self.feature(id)
-        else:
-            super(PostHandler, self).get(id, action)
             
     def feed(self, feed_type="hot"):
         

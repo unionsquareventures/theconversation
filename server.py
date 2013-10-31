@@ -95,6 +95,7 @@ def init_app(bundle=True, auth_passthrough=False):
             (r'/posts/(?P<id>[\w\s-]+)/(?P<action>.*)$', PostHandler),
             (r'/feed/(?P<feed_type>[A-z-+0-9]+)$', PostHandler),
             (r'/feed$', PostHandler),
+            (r'/popular$', PostHandler),
             
             (r'/generate_hackpad/?', HackpadHandler),
 

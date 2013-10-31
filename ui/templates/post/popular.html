@@ -1,0 +1,15 @@
+{% extends "../base.html" %}
+
+{% block javascript %}
+{% end %}
+
+{% block submit_area %}
+{% end %}
+
+{% block content %}
+	
+	{% for post in posts %}
+		{{ post['message'] }}<br />
+	{% end %}
+
+{% end %}
