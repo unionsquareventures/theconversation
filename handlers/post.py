@@ -151,7 +151,8 @@ class PostHandler(BaseHandler):
             'count': original_count,
             'action': action,
             'msg': msg,
-            'new_post': new_post
+            'new_post': new_post,
+            'subscribe': self.get_argument('subscribe', '')
         })
 
         
@@ -420,7 +421,7 @@ class PostHandler(BaseHandler):
             print "Email sent to %s" % u.email_address
 
         #self.redirect('/posts/%s%s' % (post.slug, subscribe_param))
-        self.redirect('/?sort_by=new&msg=success&id=%s' % post.id)
+        self.redirect('/?sort_by=new&msg=success&id=%s' % (post.id, subscribe_param))
 
     
     @tornado.web.authenticated
