@@ -3404,6 +3404,10 @@ ul.tools a {
     color: #999;
 }
 
+#tools li {
+    margin-bottom: 10px;
+}
+
 .hot-newest-feed span.username {
     display:none !important;
 }
