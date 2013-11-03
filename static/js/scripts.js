@@ -63,10 +63,15 @@ function USV_setup_tinymce() {
           tinymce_plugins += ", charcount";
         }
 
+        var show_tinymce = true;
         if(/Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent)) {
             tinymce_toolbar = false;
+            show_tinymce = false;
         }
 
+        if (!show_tinymce) {
+          return
+        }
         $('#post_body_raw').tinymce({
           // Location of TinyMCE script
           script_url : '/static/js/tinymce/tinymce.min.js',
@@ -74,7 +79,7 @@ function USV_setup_tinymce() {
           // General options
           theme : "modern",
           width: '100%',
-          height: '300px',
+          height: '150px',
 
           valid_elements: USV_tinymce_valid_elements,
           charcount_max_chars: USV_tinymce_post_char_limit,
