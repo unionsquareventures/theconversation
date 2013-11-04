@@ -100,7 +100,15 @@ class AdminHandler(BaseHandler):
 			})
 			data = sorted(data, key=lambda k: k['score'], reverse=True)
 			
-			if 'update' in self.request.arguments and self.get_argument('update') == "true":
+			if 'staff_bonus' not in self.request.arguments \
+					and 'time_penalty_multiplier' not in self.request.arguments \
+					and 'grace_period' not in self.request.arguments \
+					and 'comments_multiplier' not in self.request.arguments \
+					and 'votes_multiplier' not in self.request.arguments \
+					and 'min_votes' not in self.request.arguments \
+					and 'update' in self.request.arguments \
+					and self.get_argument('update') == "true":
+				# only update the score if we use the defaults
 				redis.zadd('hot_albacore', score , post.id)
 		
 		self.vars.update({
