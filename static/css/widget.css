@@ -46,7 +46,7 @@
 }
 
 #usv-widget {
-	font-family: 'usv-proximanova-light';
+	font-family: 'usv-proximanova-light', "Helvetica Neue", Arial, sans-serif;
 }
 #usv-widget h1 {
 	margin: 0 0 15px;

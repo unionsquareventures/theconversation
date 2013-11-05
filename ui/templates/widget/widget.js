@@ -21,16 +21,28 @@
 			font-family: 'usv-proximanova-light'; \
 			src: url('{{ base_url }}/static/fonts/proximanova-light-webfont.eot'); \
 			src: local('proximanova-light'),  \
-				 local('proximanova-bold'),  \
+				 local('proximanova-light'),  \
 				 url('{{ base_url }}/static/fonts/proximanova-light-webfont.otf') format('opentype'), \
 				 url('{{ base_url }}/static/fonts/proximanova-light-webfont.svg#font') format('svg');  \
+		} \
+		@font-face{ \
+			font-family:'Glyphicons Halflings'; \
+			src:url('{{ base_url }}/static/fonts/glyphicons-halflings-regular.eot'); \
+			src:url('{{ base_url }}/static/fonts/glyphicons-halflings-regular.eot?#iefix')  \
+			format('embedded-opentype'), \
+				url('{{ base_url }}/static/fonts/glyphicons-halflings-regular.woff')  \
+			format('woff'), \
+				url('{{ base_url }}/static/fonts/glyphicons-halflings-regular.ttf')  \
+			format('truetype'), \
+				url('{{ base_url }}/static/fonts/glyphicons-halflings-regular.svg#glyphicons-halflingsregular') format('svg') \
+			} \
 		} \
 		#usv-widget, \
 		#usv-widget * { \
 			letter-spacing: 0 !important; \
 		} \
 		#usv-widget { \
-			font-family: 'usv-proximanova-light'; \
+			font-family: 'usv-proximanova-light', 'Helvetica Neue', Arial, sans-serif; \
 			font-size: 14px; \
 			background: #fff !important; \
 			text-transform: none !important; \
@@ -39,7 +51,7 @@
 			text-decoration: underline !important; \
 		} \
 		#usv-widget h1#usv-title { \
-			margin: 0 0 10px !important; \
+			margin: 0 !important; \
 			font-weight: normal !important; \
 			padding: 0 !important; \
 			background: #555 url('{{ base_url }}/static/img/usv-logo-green-50x50.png') 0 0 no-repeat; \
@@ -57,12 +69,18 @@
 			padding-top: 18px; \
 			font-size: 16px !important; \
 			line-height: 1em !important; \
+			text-shadow: none !important; \
 		} \
 		#usv-widget h1#usv-title a:hover { \
 			color: #ddd; \
 		} \
+		#usv-widget-content { \
+			border: 1px solid #ddd; \
+			border-top: none; \
+			padding: 10px 7px 0 !important; \
+		} \
 		#usv-widget ul#usv-posts { \
-			padding: 0 7px;	 \		
+			padding: 0;	 \		
 			margin: 0 !important; \
 		} \
 		#usv-widget ul#usv-posts li { \
@@ -71,6 +89,7 @@
 			padding-left: 50px; \
 			position: relative; \
 			display: block !important; \
+			line-height: 20px !important; \
 		} \
 		#usv-widget ul#usv-posts li.repeat { \
 			display:none; \
@@ -85,7 +104,7 @@
 			left: 0px; \
 		} \
 		#usv-widget ul#usv-posts h3.usv-post-title { \
-			font-family: 'usv-proximanova-bold'; \
+			font-family: 'usv-proximanova-bold','Helvetica Neue', Arial, sans-serif;; \
 			margin: 0px; \
 			line-height: 1.2em; \
 			font-weight: normal !important; \
@@ -99,15 +118,8 @@
 		} \
 		#usv-widget ul#usv-posts .usv-post-comment-count { \
 			margin-left: 8px; \
-		} \
-		#usv-widget .usv-post-comment-count:before { \
-			content: '\\e111'; \
-			font-family: 'Glyphicons Halflings'; \
-			-webkit-font-smoothing: antialiased; \
-			font-style: normal; \
-			font-weight: normal; \
-			font-size: .9em; \
-			margin-right: 5px; \
+			background: url('{{ base_url }}/static/img/comment-icon-gray.png') left center no-repeat; \
+			padding-left: 18px; \
 		} \
 		#usv-widget ul#usv-nav { \
 			padding: 0 0 5px !important; \
@@ -116,11 +128,15 @@
 		} \
 		#usv-widget ul#usv-nav li { \
 			display: block; \
+			margin: 0 !important; \
+			padding: 0 !important; \
+			line-height: 20px !important; \
 		} \
 		#usv-widget ul#usv-nav li#usv-more { \
-			font-family: 'usv-proximanova-bold'; \
+			font-family: 'usv-proximanova-bold', 'Helvetica Neue', Arial, sans-serif; \
 			font-size: 16px; \
-			margin-bottom: 10px !important; \
+			margin-bottom: 0px !important; \
+			margin-top: -8px !important; \
 		} \
 		#usv-widget ul#usv-nav li#usv-tools { \
 			font-size: 12px !important; \
@@ -135,6 +151,7 @@
 	
 	document.write('<div id="usv-widget">');
 		document.write('<h1 id="usv-title"><a href="http://www.usv.com?referer=widget" target="_blank">Conversation @ USV</a></h1>');
+		document.write('<div id="usv-widget-content">');
 		document.write('<ul id="usv-posts">');
 			{% for post in posts %}
 				{% if 'previous_author_username' in locals() and previous_author_username == post.user.username %}
@@ -160,7 +177,8 @@
 			document.write('<li id="usv-more"><a href="http://www.usv.com?referer=widget" target="_blank">More &rarr;</a></li>');
 			document.write('<li id="usv-tools"><a href="http://www.usv.com/#tools" target="_blank">Add this to your site</a></li>');
 		document.write('</ul>');
-	document.write('</div>')
+		document.write('</div>');	
+	document.write('</div>');
 
 /* call it */
 })();
