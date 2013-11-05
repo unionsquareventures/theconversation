@@ -163,7 +163,7 @@
 				document.write('<li {% if repeat %}class="repeat"{% end %}>');
 					document.write('<img class="avatar" src="{{ post.user.profile_image_url }}" />');
 					document.write('<h3 class="usv-post-title"><a href="{{ post.permalink() }}?referer=widget" target="_blank">' + title + '</a></h3>');
-					document.write('<span class="usv-post-author">by @{{ post.user.username }}</span>');
+					document.write('<span class="usv-post-author">@{{ post.user.username }}</span>');
 					{% if post.comment_count > 0 %}
 						document.write('<span class="usv-post-comment-count">');
 						document.write('{{ post.comment_count }}');
