@@ -101,12 +101,13 @@
 			margin-left: 8px; \
 		} \
 		#usv-widget .usv-post-comment-count:before { \
-			content: '\e111'; \
+			content: '\\e111'; \
 			font-family: 'Glyphicons Halflings'; \
 			-webkit-font-smoothing: antialiased; \
 			font-style: normal; \
 			font-weight: normal; \
 			font-size: .9em; \
+			margin-right: 5px; \
 		} \
 		#usv-widget ul#usv-nav { \
 			padding: 0 0 5px !important; \
