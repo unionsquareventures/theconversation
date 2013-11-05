@@ -116,8 +116,10 @@
 		#usv-widget ul#usv-nav li#usv-more { \
 			font-family: 'usv-proximanova-bold'; \
 			font-size: 16px; \
+			margin-bottom: 10px !important; \
 		} \
 		#usv-widget ul#usv-nav li#usv-tools { \
+			font-size: 12px !important; \
 		} \
 		#usv-widget ul#usv-nav li#usv-tools a { \
 			color: #999; \
