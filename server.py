@@ -30,6 +30,7 @@ from handlers.old_page import OldPageHandler
 from handlers.api import APIHandler
 from handlers.admin import AdminHandler
 from handlers.redirect import RedirectHandler
+from handlers.widget import WidgetHandler
 import ui
 from redis import StrictRedis
 from lib.sendgrid import Sendgrid
@@ -96,6 +97,8 @@ def init_app(bundle=True, auth_passthrough=False):
             (r'/feed/(?P<feed_type>[A-z-+0-9]+)$', PostHandler),
             (r'/feed$', PostHandler),
             (r'/popular$', PostHandler),
+            
+            (r'/widget.*?', WidgetHandler),
             
             (r'/generate_hackpad/?', HackpadHandler),
 
