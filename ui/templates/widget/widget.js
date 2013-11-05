@@ -38,30 +38,32 @@
 		#usv-widget a:hover { \
 			text-decoration: underline !important; \
 		} \
-		#usv-widget h1 { \
-			margin: 0 0 15px !important; \
+		#usv-widget h1#usv-title { \
+			margin: 0 0 10px !important; \
 			font-weight: normal !important; \
 			padding: 0 !important; \
-			background: #555 url('{{ base_url }}/static/img/usv-logo-green-50x50.png') 10px 0 no-repeat; \
+			background: #555 url('{{ base_url }}/static/img/usv-logo-green-50x50.png') 0 0 no-repeat; \
 			height: 50px !important; \
 			font-size: 16px !important; \
 		} \
 		#usv-widget h1#usv-title a { \
 			color: #fff; \
 			text-decoration: none; \
-			padding-left: 68px; \
+			padding-left: 57px; \
 			display: block; \
 			font-weight: 100; \
 			font-style: normal; \
 			letter-spacing: normal !important; \
-			padding-top: 15px; \
-			font-size: 16px; \
+			padding-top: 17px; \
+			font-size: 16px !important; \
+			line-height: 1em !important; \
 		} \
 		#usv-widget h1#usv-title a:hover { \
 			color: #ddd; \
 		} \
-		#usv-widget ul { \
-			padding: 0 10px;	 \		
+		#usv-widget ul#usv-posts { \
+			padding: 0 7px;	 \		
+			margin: 0 !important; \
 		} \
 		#usv-widget ul#usv-posts li { \
 			margin: 0 0 12px; \
@@ -80,7 +82,7 @@
 			height: 36px; \
 			position: absolute; \
 			top: 2px; \
-			left: 4px; \
+			left: 0px; \
 		} \
 		#usv-widget ul#usv-posts h3.usv-post-title { \
 			font-family: 'usv-proximanova-bold'; \
@@ -107,8 +109,9 @@
 			font-size: .9em; \
 		} \
 		#usv-widget ul#usv-nav { \
-			padding-bottom: 5px; \
+			padding: 0 0 5px !important; \
 			text-align: center; \
+			margin: 0 !important; \
 		} \
 		#usv-widget ul#usv-nav li { \
 			display: block; \
@@ -130,7 +133,7 @@
 	</style>");
 	
 	document.write('<div id="usv-widget">');
-		document.write('<h1 id="usv-title"><a href="http://www.usv.com?referer=widget" target="_blank">Conversation @ USV.com</a></h1>');
+		document.write('<h1 id="usv-title"><a href="http://www.usv.com?referer=widget" target="_blank">Conversation @ USV</a></h1>');
 		document.write('<ul id="usv-posts">');
 			{% for post in posts %}
 				{% if 'previous_author_username' in locals() and previous_author_username == post.user.username %}
