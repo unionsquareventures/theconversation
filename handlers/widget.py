@@ -36,7 +36,7 @@ class WidgetHandler(BaseHandler):
 				'tags': tag,
 			})
 		
-		per_page = 5
+		per_page = 4
 		
 		sort_by = "hot_albacore"
 			
@@ -87,4 +87,4 @@ class WidgetHandler(BaseHandler):
 			'posts': posts
 		})
 		
-		self.render('widget/get.html', **self.vars)
+		self.render('widget/widget.js', **self.vars)

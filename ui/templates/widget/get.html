@@ -64,7 +64,7 @@
 			background: #555 url('/static/img/usv-logo-green-44x44.png') 10px 0 no-repeat;
 			font-weight: 100;
 			font-style: normal;
-			letter-spacing: 2px;
+			letter-spacing: 1.5px;
 			padding-top: 15px;
 			font-size: 16px;
 			height: 44px;
@@ -81,6 +81,9 @@
 			padding-left: 50px;
 			position: relative;
 		}
+		#usv-widget ul#posts li.repeat {
+			display:none;
+		}
 		#usv-widget ul#posts .avatar {
 			border:1px solid #DFDFD1;
 			border-radius: 3px;
@@ -94,7 +97,7 @@
 			font-family: 'proximanova-bold';
 			font-size: 1.1em;
 			margin: 0px;
-			line-height: 1.3em;
+			line-height: 1.2em;
 		}
 		#usv-widget ul#posts h3 a {
 			color: #000;
@@ -134,7 +137,12 @@
 	
 		<ul id="posts">
 			{% for post in posts %}
-			<li>
+			{% if 'previous_author_username' in locals() and previous_author_username == post.user.username %}
+			  {% set repeat = True %}
+			{% else %}
+			  {% set repeat = False %}
+			{% end %}
+			<li {% if repeat %}class="repeat"{% end %}>
 				<img class="avatar" src="{{ post.user.profile_image_url }}" />
 				<h3><a href="{{ post.permalink() }}" target="_blank">{{ post.title }}</a></h3>
 				by @{{ post.user.username }} 
@@ -145,6 +153,7 @@
 				{% end %}
 				
 			</li>
+			{% set previous_author_username = post.user.username %}  
 			{% end %}
 		</ul>
 		<ul id="nav">
@@ -156,9 +165,9 @@
 
 	<script type="text/javascript">
 		// set the iFrame to be the correct height based on the content
-		function setHeight() {
-			parent.document.getElementById('usv-widget').style.height = document['body'].offsetHeight + 20 + 'px';
-		}
-		setHeight();
+		//function setHeight() {
+			//parent.document.getElementById('usv-widget').style.height = document['body'].offsetHeight + 20 + 'px';
+		//}
+		//setHeight();
 	</script>
 </body>
