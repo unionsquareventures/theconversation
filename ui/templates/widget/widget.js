@@ -54,7 +54,7 @@
 			font-weight: 100; \
 			font-style: normal; \
 			letter-spacing: normal !important; \
-			padding-top: 17px; \
+			padding-top: 18px; \
 			font-size: 16px !important; \
 			line-height: 1em !important; \
 		} \
