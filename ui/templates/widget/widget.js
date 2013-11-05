@@ -11,58 +11,69 @@
 	document.write("<style type='text/css'>\
 		@font-face { \
 			font-family: 'usv-proximanova-bold'; \
-			src: url('/static/fonts/proximanova-bold-webfont.eot'); \
+			src: url('{{ base_url }}/static/fonts/proximanova-bold-webfont.eot'); \
 			src: local('proximanova-bold'),  \
 				 local('proximanova-bold'),  \
-				 url('/static/fonts/proximanova-bold-webfont.otf') format('opentype'), \
-				 url('/static/fonts/proximanova-bold-webfont.svg#font') format('svg');  \
+				 url('{{ base_url }}/static/fonts/proximanova-bold-webfont.otf') format('opentype'), \
+				 url('{{ base_url }}/static/fonts/proximanova-bold-webfont.svg#font') format('svg');  \
 		} \
 		@font-face { \
 			font-family: 'usv-proximanova-light'; \
-			src: url('/static/fonts/proximanova-light-webfont.eot'); \
+			src: url('{{ base_url }}/static/fonts/proximanova-light-webfont.eot'); \
 			src: local('proximanova-light'),  \
 				 local('proximanova-bold'),  \
-				 url('/static/fonts/proximanova-light-webfont.otf') format('opentype'), \
-				 url('/static/fonts/proximanova-light-webfont.svg#font') format('svg');  \
+				 url('{{ base_url }}/static/fonts/proximanova-light-webfont.otf') format('opentype'), \
+				 url('{{ base_url }}/static/fonts/proximanova-light-webfont.svg#font') format('svg');  \
+		} \
+		#usv-widget, \
+		#usv-widget * { \
+			letter-spacing: 0 !important; \
 		} \
 		#usv-widget { \
 			font-family: 'usv-proximanova-light'; \
 			font-size: 14px; \
+			background: #fff !important; \
+			text-transform: none !important; \
+		} \
+		#usv-widget a:hover { \
+			text-decoration: underline !important; \
 		} \
 		#usv-widget h1 { \
-			margin: 0 0 15px; \
+			margin: 0 0 15px !important; \
 			font-weight: normal !important; \
+			padding: 0 !important; \
+			background: #555 url('{{ base_url }}/static/img/usv-logo-green-50x50.png') 10px 0 no-repeat; \
+			height: 50px !important; \
+			font-size: 16px !important; \
 		} \
-		#usv-widget h1 a { \
+		#usv-widget h1#usv-title a { \
 			color: #fff; \
 			text-decoration: none; \
-			padding-left: 65px; \
+			padding-left: 68px; \
 			display: block; \
-			background: #555 url('/static/img/usv-logo-green-44x44.png') 10px 0 no-repeat; \
 			font-weight: 100; \
 			font-style: normal; \
 			letter-spacing: normal !important; \
 			padding-top: 15px; \
 			font-size: 16px; \
-			height: 44px; \
 		} \
-		#usv-widget h1 a:hover { \
+		#usv-widget h1#usv-title a:hover { \
 			color: #ddd; \
 		} \
 		#usv-widget ul { \
 			padding: 0 10px;	 \		
 		} \
-		#usv-widget ul#posts li { \
+		#usv-widget ul#usv-posts li { \
 			margin: 0 0 12px; \
 			color: #999; \
 			padding-left: 50px; \
 			position: relative; \
 			display: block !important; \
 		} \
-		#usv-widget ul#posts li.repeat { \
+		#usv-widget ul#usv-posts li.repeat { \
 			display:none; \
 		} \
-		#usv-widget ul#posts .avatar { \
+		#usv-widget ul#usv-posts .avatar { \
 			border:1px solid #DFDFD1; \
 			border-radius: 3px; \
 			width: 36px; \
@@ -71,18 +82,23 @@
 			top: 2px; \
 			left: 4px; \
 		} \
-		#usv-widget ul#posts h3 { \
+		#usv-widget ul#usv-posts h3.usv-post-title { \
 			font-family: 'usv-proximanova-bold'; \
 			margin: 0px; \
 			line-height: 1.2em; \
+			font-weight: normal !important; \
+			padding-right: 3px !important; \
 		} \
-		#usv-widget ul#posts h3 a { \
+		#usv-widget ul#usv-posts h3.usv-post-title a { \
 			color: #000; \
 		} \
-		#usv-widget ul#posts .comment-count { \
+		#usv-widget ul#usv-posts .usv-post-author { \
+			font-size: 12px !important; \	
+		} \
+		#usv-widget ul#usv-posts .usv-post-comment-count { \
 			margin-left: 8px; \
 		} \
-		#usv-widget .comment-count:before { \
+		#usv-widget .usv-post-comment-count:before { \
 			content: '\e111'; \
 			font-family: 'Glyphicons Halflings'; \
 			-webkit-font-smoothing: antialiased; \
@@ -90,25 +106,30 @@
 			font-weight: normal; \
 			font-size: .9em; \
 		} \
-		#usv-widget ul#nav { \
+		#usv-widget ul#usv-nav { \
+			padding-bottom: 5px; \
+			text-align: center; \
 		} \
-		#usv-widget ul#nav li { \
-			display: inline; \
+		#usv-widget ul#usv-nav li { \
+			display: block; \
 		} \
-		#usv-widget ul#nav li#more { \
-			font-family: 'usv-proximanova-bold' \
+		#usv-widget ul#usv-nav li#usv-more { \
+			font-family: 'usv-proximanova-bold'; \
+			font-size: 16px; \
 		} \
-		#usv-widget ul#nav li#tools { \
-			float: right; \
+		#usv-widget ul#usv-nav li#usv-tools { \
 		} \
-		#usv-widget ul#nav a { \
+		#usv-widget ul#usv-nav li#usv-tools a { \
+			color: #999; \
+		} \
+		#usv-widget ul#usv-nav a { \
 			color: #628F20; \
 		} \
 	</style>");
 	
 	document.write('<div id="usv-widget">');
-		document.write('<h1><a href="http://www.usv.com?referer=widget" target="_blank">Conversation</a></h1>');
-		document.write('<ul id="posts">');
+		document.write('<h1 id="usv-title"><a href="http://www.usv.com?referer=widget" target="_blank">Conversation @ USV.com</a></h1>');
+		document.write('<ul id="usv-posts">');
 			{% for post in posts %}
 				{% if 'previous_author_username' in locals() and previous_author_username == post.user.username %}
 				  {% set repeat = True %}
@@ -118,10 +139,10 @@
 				var title = RegExp.escape("{{ post.title }}");
 				document.write('<li {% if repeat %}class="repeat"{% end %}>');
 					document.write('<img class="avatar" src="{{ post.user.profile_image_url }}" />');
-					document.write('<h3><a href="{{ post.permalink() }}" target="_blank">' + title + '</a></h3>');
-					document.write('by @{{ post.user.username }}');
+					document.write('<h3 class="usv-post-title"><a href="{{ post.permalink() }}" target="_blank">' + title + '</a></h3>');
+					document.write('<span class="usv-post-author">by @{{ post.user.username }}</span>');
 					{% if post.comment_count > 0 %}
-						document.write('<span class="comment-count">');
+						document.write('<span class="usv-post-comment-count">');
 						document.write('{{ post.comment_count }}');
 						document.write('</span>');
 					{% end %}
@@ -129,9 +150,9 @@
 				{% set previous_author_username = post.user.username %}  
 			{% end %}
 		document.write('</ul>');
-		document.write('<ul id="nav">');
-			document.write('<li id="more"><a href="http://www.usv.com?referer=widget" target="_blank">More</a></li>');
-			document.write('<li id="tools"><a href="http://www.usv.com/#tools" target="_blank">Add this to your site</a></li>');
+		document.write('<ul id="usv-nav">');
+			document.write('<li id="usv-more"><a href="http://www.usv.com?referer=widget" target="_blank">More &rarr;</a></li>');
+			document.write('<li id="usv-tools"><a href="http://www.usv.com/#tools" target="_blank">Add this to your site</a></li>');
 		document.write('</ul>');
 	document.write('</div>')
 
