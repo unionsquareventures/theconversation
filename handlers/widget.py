@@ -36,7 +36,7 @@ class WidgetHandler(BaseHandler):
 				'tags': tag,
 			})
 		
-		per_page = 4
+		per_page = self.get_argument('num_posts', 5)
 		
 		sort_by = "hot_albacore"
 			
