@@ -53,7 +53,6 @@ class PostHandler(BaseHandler):
             query.update({
                 'tags': tag,
             })
-        per_page = 20
         
         user_info = None
         if 'subscribe' in self.request.arguments and self.get_argument('subscribe') == "true":
@@ -87,7 +86,12 @@ class PostHandler(BaseHandler):
         
         # this is a hack to make the nav menu highlighting work
         if sort_by == "hot_albacore":
-            sort_by_specified == "hot"    
+            sort_by_specified == "hot"  
+            
+        if sort_by == "new" or sort_by == "sad":
+            per_page = 50
+        else:
+            per_page = 20
 
         anchor = self.get_argument('anchor', None)
         action = self.get_argument('action', '')
