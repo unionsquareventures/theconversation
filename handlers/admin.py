@@ -42,7 +42,7 @@ class AdminHandler(BaseHandler):
 			'staff_bonus': int(self.get_argument('staff_bonus')) 
 				if 'staff_bonus' in self.request.arguments else -3,
 			'time_penalty_multiplier': float(self.get_argument('time_penalty_multiplier')) 
-				if 'time_penalty_multiplier' in self.request.arguments else 3,
+				if 'time_penalty_multiplier' in self.request.arguments else 2,
 			'grace_period': float(self.get_argument('grace_period')) 
 				if 'grace_period' in self.request.arguments else 6,
 			'comments_multiplier': float(self.get_argument('comments_multiplier')) 
@@ -79,9 +79,13 @@ class AdminHandler(BaseHandler):
 			if post.votes > 8 and post.comment_count == 0:
 				votes_base_score = -2
 			
+			comments_multiplier = config['comments_multiplier']	
+			if hours_elapsed > config['grace_period']:
+				comments_multiplier = comments_multiplier / 2
+			
 			scores = {
 				'votes': votes_base_score + post.votes * config['votes_multiplier'],
-				'comments': post.comment_count * config['comments_multiplier'],
+				'comments': post.comment_count * comments_multiplier,
 				'time': time_penalty * config['time_penalty_multiplier'] * -1
 			}
 			
