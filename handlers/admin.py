@@ -70,8 +70,8 @@ class AdminHandler(BaseHandler):
 				time_penalty = hours_elapsed - config['grace_period']
 			if hours_elapsed > 12:
 				time_penalty = time_penalty * 1.5
-			if hours_elapsed > 16:
-				time_penalty = time_penalty * 2.5
+			if hours_elapsed > 18:
+				time_penalty = time_penalty * 2
 			
 			votes_base_score = 0
 			if post.votes == 1 and post.comment_count > 2:
