@@ -80,8 +80,8 @@ class AdminHandler(BaseHandler):
 				votes_base_score = -2
 			
 			comments_multiplier = config['comments_multiplier']	
-			if hours_elapsed > config['grace_period']:
-				comments_multiplier = comments_multiplier / 2
+			#if hours_elapsed > config['grace_period']:
+			#	comments_multiplier = comments_multiplier / 2
 			
 			scores = {
 				'votes': votes_base_score + post.votes * config['votes_multiplier'],
