@@ -1,0 +1,260 @@
+{% if 'body_class' not in locals() %}
+  {% set body_class = "" %}
+{% end %}
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<head>
+  <!-- test -->
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>{% block title %}{% end %}Union Square Ventures</title>
+  <meta name="description" content="Union Square Ventures (USV) is a New York City-based venture capital firm. We invest in networks that disrupt existing industries.">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="alternate" type="application/rss+xml" title="Union Square Ventures - Latest Posts" href="/feed/new" />
+  <link rel="alternate" type="application/rss+xml" title="Union Square Ventures - Hot Posts" href="/feed/hot" />
+  <link rel="apple-touch-icon" sizes="57x57" href="{{ static_url("img/usv-touch-icon.png") }}"/>
+  <link rel="shortcut icon" href="{{ static_url("img/usv-favicon.png") }}" type="image/png" />
+  <link rel="stylesheet" href="{{ static_url("css/bootstrap.min.css") }}">
+  <!-- dont cache style.css yes, since we're still developing on it heavily -->
+  <link rel="stylesheet" href="/static/css/style.css">
+  <script src="{{ static_url("js/vendor/respond.min.js") }}"></script>
+  <style type="text/css">
+    .jPanelMenu-panel {
+      z-index: auto !important;
+    }
+  </style>
+  {% block css %}{% end %}
+  <script src="{{ static_url("js/vendor/jquery-1.9.1.min.js") }}"></script>
+  <script src="{{ static_url("js/bootstrap.min.js") }}"></script>
+  <script type="text/javascript">
+    USV_is_admin = '{{is_admin}}';
+    USV_tinymce_valid_elements = "{{tinymce_valid_elements}}";
+    USV_tinymce_post_char_limit = {{post_char_limit}};
+    USV_user_id_str = '{{user_id_str}}';
+    USV_user_email_address = '{{user_email_address}}';
+    $(function() {
+      $('.submit-button').on('click', function() {
+        $(this).parent('form').submit();
+        e.stopPropagation();
+        e.preventDefault();
+      });
+    });
+    $(document).ready(function() {
+      window.mySwipe = Swipe(document.getElementById('slider')); 
+    });
+  </script>
+  <script type="text/javascript" src="{{ static_url("js/vendor/modernizr-2.6.2.min.js") }}"></script>
+  <script type="text/javascript" src="{{ static_url("js/tinymce/jquery.tinymce.min.js") }}"></script>
+  <script type="text/javascript" src="{{ static_url("js/plugins.js") }}"></script>
+  <script type="text/javascript" src="{{ static_url("js/scripts.js") }}"></script>
+  <script type="text/javascript" src="{{ static_url("js/swipe.js") }}"></script>
+  <script type="text/javascript" src="{{ static_url("js/modules_bundle.js") }}"></script>
+  <script type="text/javascript" src="{{ static_url("js/vendor/jquery.scrollto.js") }}"></script>
+</head>
+
+<body data-menu-position="closed" class="{% block body_class %}{% end %} {% if is_staff %}staff{% end %}">
+  {% block submit_area %}
+    <div class="modal fade in" id="submit-modal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            {% if current_user %}
+              <h3 class="modal-title submit">Submit a post!</h3>
+            {% else %}
+              <h4 class="modal-title login">Please login to post or vote</h4>
+            {% end %}
+          </div>
+          <div class="modal-body login">
+            {% if not current_user %}
+              <img src="/static/img/sign-in-with-twitter-gray.png" alt="Sign in with Twitter" id="twitter-login-button" style="cursor: pointer; margin-top: 15px;" />
+            {% else %}
+              <form id="" class="form" action="/posts" method="POST">
+                {% module xsrf_form_html() %}
+                <fieldset>
+                  <dl>
+                    <dt>
+                      <label for="title">Title</label>
+                      <div class="field-errors">{% try %}{{ field_errors(errors, 'title') }}{% except %}{% end %}</div>
+                    </dt>
+                    <dd>
+                      <input id="post_title" name="title" type="text" class="form-control" placeholder="Your Post Title" required="" value="{% try %}{{post.title}}{% except %}{% end %}">
+                    </dd>
+                    <dt>
+                      <label for="url">Link</label>
+                      <div class="field-errors">
+                        {% try %}
+                          {{ field_errors(errors, 'url') }}
+                          {% if existing_posts %}
+                            <div id="existing-posts">
+                              This URL might have already been submitted. Does it match one of these?
+                              <ul>
+                                {% for p in existing_posts %}
+                                  <li><a href="{{ p.url }}" target="_blank">{{ p.title }}</a></li>
+                                {% end %}
+                              </ul>
+                              <span class="no-match btn">
+                                <a href="#" class="no-match">&times; Ignore</a>
+                              </span>
+                            </div>
+                          {% end %}
+                        {% except %}
+                        {% end %}
+                    </div>
+                      <input type="hidden" name="bypass_dup_check" id="bypass_dup_check" value="{% try %}{{ 'true' if (post.url and not existing_posts) else '' }}{% except %}{% end %}" />
+                    </dt>
+                    <dd>
+                      <input id="post_url" name="url" type="text" placeholder="http://example.com" value="{% try %}{{ post.url }}{% except %}{% end %}" class="form-control">
+                    </dd>
+                    <dt>
+                      <label for="body_raw">Body</label>
+                      <div class="field-errors">{% try %}{{ field_errors(errors, 'body_raw') }}{% except %}{% end %}</div>
+                    </dt>
+                    <dd class="tinymce-textbox"> 
+                      <textarea type="text" class="form-control" id="post_body_raw" name="body_raw">
+                        {% try %}
+                          {{ post.body_raw or '' }}
+                        {% except %}
+                        {% end %}
+                      </textarea>
+                    </dd>
+                    <dt>
+                      <label for="url">Tags (separate by comma)</label>
+                      <div class="field-errors">{% try %}{{ field_errors(errors, 'tags') }}{% except %}{% end %}</div>
+                    </dt>
+                    <dd>
+                      <input id="post_tags" name="tags" type="text" placeholder="pitch, meta, health, mobile, education" value="{% try %}{{ ', '.join(post.tags) if post.tags else '' }}{% except %}{% end %}" class="form-control">
+                    </dd>
+                    {% if is_admin %}
+                      <dt class="featured">
+                        <div id="toggle-featured"></div>
+                        <label for="post_featured">Featured</label>
+                        <div class="field-errors">{% try %}{{ field_errors(errors, 'featured') }}{% except %}{% end %}</div>
+                      </dt>
+                      <dd>
+                        <input type="checkbox" id="post_featured" name="featured" value="true" {% try %}{{ 'checked' if post.featured else '' }}{% except %}{% end %} />
+                      </dd>
+                    {% end %}
+                    {% try %}
+                      {% if not post._created %}
+                        <li class="deleted">
+                          <div id="toggle-deleted"></div>
+                          <label for="post_deleted">Deleted</label>
+                          <div class="field-errors">{{ field_errors(errors, 'deleted') }}</div>
+                          <input type="checkbox" id="post_deleted" name="deleted" value="true" {{ 'checked' if post.deleted else '' }} />
+                        </li>
+                      {% end %}
+                    {% except %}
+                    {% end %}
+                    <div class="for-submit" style="padding: 10px; text-align:right">
+                      <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                  </ol>
+                </fieldset>
+              </form>
+            {% end %}
+          </div>
+        </div>
+      </div>
+    </div>
+  {% end %}
+  <div class="shell">
+    <div id="mobile-header">
+      <a id="menu-trigger" href="#">Open Menu</a>
+      <a id="mobile-logo" href="/">Union Square Ventures</a>
+      <a id="submit-trigger" href="#submit-form">Submit Post</a>
+    </div>
+    <header id="site-header">
+      <div class="container">
+        <a id="logo" href="/">Union Square Ventures</a>
+        <h1 id="usv-name"><a href="/">Union Square Ventures</a></h1>
+        <ul id="main-nav">
+          <li id="nav-conversation"><a href="/">Conversation</a></li>
+          <li id="nav-about"><a href="/about">About</a></li>
+          <li id="nav-portfolio"><a href="/portfolio">Portfolio</a></li>
+          <li id="nav-network"><a href="/network">Network</a></li>
+          <li id="nav-jobs"><a href="/jobs">Jobs</a></li>
+        </ul>
+        <div id="login">
+          {% if current_user %}
+            Welcome, @{{ current_user }}! &nbsp;
+            {% if see_admin_link %}
+              <a class="login" href="/admin">Admin</a>
+            {% end %}
+            &nbsp;
+            <a class="login" href="/auth/logout">Logout</a>
+          {% else %}
+            <a class="login" href="/auth/twitter/">Log in with Twitter</a>
+          {% end %}
+          <a href="/feed/hot" onclick="(function(){var z=document.createElement('script');z.src='https://www.subtome.com/load.js';document.body.appendChild(z);})(); return false"><img src="/static/img/feed-icon-14x14.png" title="Subscribe" style="margin-left: 10px"></a>
+        </div>
+      </div>
+    </header>
+    {% block precontent %}{% end %}
+    <div id="content">
+      <div class="container">
+        {% block content %}{% end %}
+      </div>
+    </div>
+    <footer id="site-footer">
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-3">
+            <h4>Contact Us</h4>
+            <p>If you would like to share your ideas, business, or feedback with us, please send us email at <a href="mailto:info@usv.com">info@usv.com</a>. All business plan submissions must include a clear description of your operations and current progress.</p>
+          </div>
+          <div class="col-sm-6">
+            <div class="footer-search-container">
+              <form action="/search" method="get">
+                <input type="search" placeholder="Search" name="query" style="width:300px; margin: 0 auto" />
+              </form>
+            </div>
+          </div>
+          <div class="col-sm-3" style="text-align:right">
+            <h4>Union Square Ventures</h4>
+            <p class="address">
+              915 Broadway, 19th Floor<br>
+              New York, NY 10010
+            </p>
+            <p class="telephone">
+              <strong>Tel</strong> &nbsp;&nbsp;(212) 994-7880<br>
+              <strong>Fax</strong> &nbsp;&nbsp;(212) 994-7399<br>
+            </p>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
+  <nav id="mobile-menu">
+    <ul>
+      <li class="heading">USV COMMUNITY</li>
+      <li><a href="/?sort_by=hot">Hot</a></li>
+      <li><a href="/?sort_by=new">Newest</a></li>
+      <li><a href="/featured">Featured</a></li>
+      <li class="heading">UNION SQUARE VENTURES</li>
+      <li><a href="/about/">About</a></li>
+      <li><a href="/portfolio/">Portfolio</a></li>
+      <li><a href="/network/">Network</a></li>
+      <li><a href="/jobs/">Jobs</a></li>
+    </ul>
+  </nav>
+  <script src="http://platform.twitter.com/widgets.js"  type="text/javascript"></script>
+  {% block javascript %}{% end %}
+  <script type="text/javascript">
+    $(function() {
+      $('.field-errors').each(function() {
+        if($.trim($(this).html()) == '') {
+          $(this).hide();
+        }
+      });
+      $('a.no-match').on('click', function(e) {
+        $('#bypass_dup_check').val('true');
+        $(this).closest('.field-errors').hide();
+      });
+    });
+  </script>
+</body>
+</html>

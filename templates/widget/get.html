@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en-US" class="no-js">
+<head>
+  <link rel="stylesheet" href="{{ static_url("css/bootstrap.min.css") }}">
+  <style type="text/css">
+    /* Fonts
+    ==================*/
+    @font-face {
+      font-family: 'proximanova-black';
+      src: url('/static/fonts/proximanova-black-webfont.eot');
+      src: local('proximanova-black'), 
+         local('proximanova-black'), 
+         url('/static/fonts/proximanova-black-webfont.otf') format('opentype'),
+         url('/static/fonts/proximanova-black-webfont.svg#font') format('svg'); 
+    }
+    
+    @font-face {
+      font-family: 'proximanova-bold';
+      src: url('/static/fonts/proximanova-bold-webfont.eot');
+      src: local('proximanova-bold'), 
+         local('proximanova-bold'), 
+         url('/static/fonts/proximanova-bold-webfont.otf') format('opentype'),
+         url('/static/fonts/proximanova-bold-webfont.svg#font') format('svg'); 
+    }
+    
+    @font-face {
+      font-family: 'proximanova-light';
+      src: url('/static/fonts/proximanova-light-webfont.eot');
+      src: local('proximanova-light'), 
+         local('proximanova-bold'), 
+         url('/static/fonts/proximanova-light-webfont.otf') format('opentype'),
+         url('/static/fonts/proximanova-light-webfont.svg#font') format('svg'); 
+    }
+    
+    @font-face {
+      font-family: 'proximanova-semibold';
+      src: url('/static/fonts/proximanova-semibold-webfont.eot');
+      src: local('proximanova-semibold'), 
+         local('proximanova-semibold'), 
+         url('/static/fonts/proximanova-semibold-webfont.otf') format('opentype'),
+         url('/static/fonts/proximanova-semibold-webfont.svg#font') format('svg'); 
+    }
+    
+    @font-face {
+      font-family: 'proximanova-regular';
+      src: url('/static/fonts/proximanova-regular-webfont.eot');
+      src: local('proximanova-regular'), 
+         local('proximanova-regular'), 
+         url('/static/fonts/proximanova-regular-webfont.otf') format('opentype'),
+         url('/static/fonts/proximanova-regular-webfont.svg#font') format('svg'); 
+    }
+    
+    #usv-widget {
+      font-family: 'proximanova-light';
+    }
+    #usv-widget h1 {
+      margin: 0 0 15px;
+    }
+    #usv-widget h1 a {
+      color: #fff;
+      text-decoration: none;
+      padding-left: 65px;
+      display: block;
+      background: #555 url('/static/img/usv-logo-green-44x44.png') 10px 0 no-repeat;
+      font-weight: 100;
+      font-style: normal;
+      letter-spacing: 1.5px;
+      padding-top: 15px;
+      font-size: 16px;
+      height: 44px;
+    }
+    #usv-widget h1 a:hover {
+      color: #ddd;
+    }
+    #usv-widget ul {
+      padding: 0 10px;      
+    }
+    #usv-widget ul#posts li {
+      margin: 0 0 12px;
+      color: #999;
+      padding-left: 50px;
+      position: relative;
+    }
+    #usv-widget ul#posts li.repeat {
+      display:none;
+    }
+    #usv-widget ul#posts .avatar {
+      border:1px solid #DFDFD1;
+      border-radius: 3px;
+      width: 36px;
+      height: 36px;
+      position: absolute;
+      top: 2px;
+      left: 4px;
+    }
+    #usv-widget ul#posts h3 {
+      font-family: 'proximanova-bold';
+      font-size: 1.1em;
+      margin: 0px;
+      line-height: 1.2em;
+    }
+    #usv-widget ul#posts h3 a {
+      color: #000;
+    }
+    #usv-widget ul#posts .comment-count {
+      margin-left: 8px;
+    }
+    #usv-widget .comment-count:before {
+      content: "\e111";
+      font-family: 'Glyphicons Halflings';
+      -webkit-font-smoothing: antialiased;
+      font-style: normal;
+      font-weight: normal;
+      font-size: .9em;
+    }
+    #usv-widget ul#nav {
+    }
+    #usv-widget ul#nav li {
+      display: inline;
+    }
+    #usv-widget ul#nav li#more {
+      font-family: "proximanova-semibold"
+    }
+    #usv-widget ul#nav li#tools {
+      float: right;
+    }
+    #usv-widget ul#nav a {
+      color: #628F20;
+    }
+    
+  </style>
+</head>
+<body>
+  <div id="usv-widget">
+    <h1><a href="http://www.usv.com?referer=widget" target="_blank">Conversation</a></h1>
+    <ul id="posts">
+      {% for post in posts %}
+        {% if 'previous_author_username' in locals() and previous_author_username == post.user.username %}
+          {% set repeat = True %}
+        {% else %}
+          {% set repeat = False %}
+        {% end %}
+        <li {% if repeat %}class="repeat"{% end %}>
+          <img class="avatar" src="{{ post.user.profile_image_url }}" />
+          <h3><a href="{{ post.permalink() }}" target="_blank">{{ post.title }}</a></h3>
+          by @{{ post.user.username }} 
+          {% if post.comment_count > 0 %}
+            <span class="comment-count">
+              {{ post.comment_count }}
+            </span>
+          {% end %}
+        </li>
+        {% set previous_author_username = post.user.username %}  
+      {% end %}
+    </ul>
+    <ul id="nav">
+      <li id="more"><a href="http://www.usv.com?referer=widget" target="_blank">More</a></li>
+      <li id="tools"><a href="http://www.usv.com/#tools" target="_blank">Add this to your site</a></li>
+    </ul>
+  </div>
+</body>

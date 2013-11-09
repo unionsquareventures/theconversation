@@ -1,0 +1,7 @@
+{% extends "../base.html" %}
+
+{% block content %}
+  {% for post in posts %}
+    {{ post['message'] }}<br />
+  {% end %}
+{% end %}
