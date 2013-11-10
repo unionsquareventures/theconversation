@@ -38,6 +38,7 @@ class Application(tornado.web.Application):
 
       # search stuff
       (r"/search", app.search.Search),
+      (r"/tagged/(.+)", app.search.ViewByTag),
 
       # genearl site pages (and homepage)
       (r"/about", app.general.About),
