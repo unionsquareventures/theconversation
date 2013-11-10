@@ -1,9 +1,9 @@
 import app.basic
 
-class EmailAuth(app.basic.BaseHandler):
-  def get(self):
-    self.redirect('/')
-
+###########################
+### LOG USER OUT OF ACCOUNT
+### /auth/logout
+###########################
 class LogOut(app.basic.BaseHandler):
   def get(self):
     self.clear_all_cookies()

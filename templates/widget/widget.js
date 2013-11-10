@@ -162,7 +162,7 @@
 				var title = RegExp.escape("{{ post.title }}");
 				document.write('<li {% if repeat %}class="repeat"{% end %}>');
 					document.write('<img class="avatar" src="{{ post.user.profile_image_url }}" />');
-					document.write('<h3 class="usv-post-title"><a href="{{ post.permalink() }}?referer=widget" target="_blank">' + title + '</a></h3>');
+					document.write('<h3 class="usv-post-title"><a href="http://usv.com/posts/{{post['slug']}}?referer=widget" target="_blank">' + title + '</a></h3>');
 					document.write('<span class="usv-post-author">@{{ post.user.username }}</span>');
 					{% if post.comment_count > 0 %}
 						document.write('<span class="usv-post-comment-count">');

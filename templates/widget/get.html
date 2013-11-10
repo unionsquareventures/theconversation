@@ -142,7 +142,7 @@
         {% end %}
         <li {% if repeat %}class="repeat"{% end %}>
           <img class="avatar" src="{{ post.user.profile_image_url }}" />
-          <h3><a href="{{ post.permalink() }}" target="_blank">{{ post.title }}</a></h3>
+          <h3><a href="http://usv.com/posts/{{post['slug']}}" target="_blank">{{ post.title }}</a></h3>
           by @{{ post.user.username }} 
           {% if post.comment_count > 0 %}
             <span class="comment-count">

@@ -2,6 +2,10 @@ import app.basic
 
 from lib import postsdb
 
+################
+### SEARCH POSTS
+### /search
+################
 class Search(app.basic.BaseHandler):
   def get(self):
     query = self.get_argument('query', '')

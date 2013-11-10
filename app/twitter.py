@@ -2,6 +2,12 @@ import tweepy
 import app.basic
 import settings
 
+from lib import userdb
+
+####################
+### AUTH VIA TWITTER
+### /auth/twitter
+####################
 class Auth(app.basic.BaseHandler):
   def get(self):
     consumer_key = settings.get('consumer_key')
@@ -13,6 +19,10 @@ class Auth(app.basic.BaseHandler):
     self.set_secure_cookie("request_token_secret", auth.request_token.secret)
     self.redirect(auth_url)
 
+##############################
+### RESPONSE FROM TWITTER AUTH
+### /twitter
+##############################
 class Twitter(app.basic.BaseHandler):
   def get(self):
     oauth_verifier = self.get_argument('oauth_verifier', '')
@@ -30,29 +40,36 @@ class Twitter(app.basic.BaseHandler):
       'key': auth.access_token.key
     }
 
-    auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
-    api = tweepy.API(auth)
-    user = api.get_user(screen_name)
-    
-    access_token['user_id'] = user.id
-    access_token['screen_name'] = user.screen_name
-
-    user_data = {
-      'auth_type': 'twitter',
-      'id_str': user.id_str,
-      'username': user.screen_name,
-      'fullname': user.name,
-      'screen_name': user.screen_name,
-      'profile_image_url': user.profile_image_url,
-      'profile_image_url_https': user.profile_image_url_https,
-    }
+    # check if we have this user already or not in the system
+    account = userdb.get_user_by_screen_name(screen_name)
+    if account:
+      # set the cookies based on account details
+      self.set_secure_cookie("user_id_str", account['user']['id_str'])
+      self.set_secure_cookie("username", account['user']['screen_name'])
+    else:
+      # need to create the account (so get more details from Twitter)
+      auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
+      api = tweepy.API(auth)
+      user = api.get_user(screen_name)
+      access_token['user_id'] = user.id
+      access_token['screen_name'] = user.screen_name
+      user_data = {
+        'auth_type': 'twitter',
+        'id_str': user.id_str,
+        'username': user.screen_name,
+        'fullname': user.name,
+        'screen_name': user.screen_name,
+        'profile_image_url': user.profile_image_url,
+        'profile_image_url_https': user.profile_image_url_https,
+      }
+      # now save to mongo
+      userdb.create_new_user(user_data, access_token)
+      # and set our cookies
+      self.set_secure_cookie("user_id_str", user.id_str)
+      self.set_secure_cookie("username", user.screen_name)
 
     # let's save the screen_name to a cookie as well so we can use it for restricted bounces if need be
     self.set_secure_cookie('screen_name', screen_name, expires_days=30)
-    if not self.current_user:
-      # attempt to log user in (or create account)
-      self.set_secure_cookie("user_id_str", user.id_str)
-      self.set_secure_cookie("username", user.screen_name)
 
     # bounce to account
     self.redirect('/')

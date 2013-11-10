@@ -13,6 +13,7 @@ import settings
 import app.account
 import app.basic
 import app.general
+import app.posts
 import app.search
 import app.twitter
 
@@ -31,10 +32,9 @@ class Application(tornado.web.Application):
 
     handlers = [
       # twitter stuff
-      (r'/auth/twitter/', app.twitter.Auth),
+      (r'/auth/twitter/?', app.twitter.Auth),
       (r'/twitter', app.twitter.Twitter),
       (r'/auth/logout/?', app.account.LogOut),
-      (r'/auth/email/?', app.account.EmailAuth),
 
       # search stuff
       (r"/search", app.search.Search),
@@ -44,7 +44,9 @@ class Application(tornado.web.Application):
       (r"/jobs", app.general.Jobs),
       (r"/network", app.general.Network),
       (r"/portfolio", app.general.Portfolio),
-      (r".+", app.general.Homepage)
+
+      # post stuff
+      (r".+", app.posts.ListPosts)
     ]
 
     tornado.web.Application.__init__(self, handlers, **app_settings)

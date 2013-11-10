@@ -11,7 +11,13 @@ from mongo import db
 """
 
 def get_user_by_id_str(id_str):
-  return {}
+  return db.user_info.find_one({'user.id_str': id_str})
 
-def save_user(user, access_token):
-  return
+def get_user_by_screen_name(screen_name):
+  return db.user_info.find_one({'user.screen_name': screen_name})
+
+def create_new_user(user, access_token):
+  return db.user_info.update({'user.id_str': user['id_str']}, {'user':user, 'access_token':access_token, 'email_address':'', 'role':''}, upsert=True)
+
+def save_user(user):
+  return db.user_info.update({'user.id_str': user['user']['id_str']}, user)

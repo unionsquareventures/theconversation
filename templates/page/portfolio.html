@@ -5,6 +5,7 @@
 {% block body_class %}portfolio{% end %}
 
 {% block content %}
+  {% import slugify %}
   <div class="row">
     <div class="col-sm-3 hidden-xs">
       <div id="portfolio-filter">
@@ -47,7 +48,7 @@
               <a class="about-investment" href="/posts/{{ c.investment_post_slug }}">
                 <span class="glyphicon glyphicon-info-sign"></span>
               </a>
-              {% if is_staff(username) %}
+              {% if is_staff %}
                 <span class="editlink">
                   <a href="{{ c.editlink() }}" target="_blank">edit</a>
                 </span>
@@ -73,7 +74,7 @@
               <a class="about-investment" href="/posts/{{ c.investment_post_slug }}">
                 <span class="glyphicon glyphicon-info-sign"></span>
               </a>
-              {% if is_staff(username) %}
+              {% if is_staff %}
                 <span class="editlink">
                   <a href="{{ c.editlink() }}" target="_blank">edit</a>
                 </span>

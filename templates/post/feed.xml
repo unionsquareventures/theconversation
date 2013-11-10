@@ -12,15 +12,15 @@
     <generator></generator>
     {% for post in posts %}
       <item>
-        <title>{{ post.title }}</title>
-        <link>{{ post.permalink() }}</link>
+        <title>{{ post['title'] }}</title>
+        <link>http://usv.com/posts/{{ post['slug'] }}</link>
         <comments></comments>
-        <pubDate>{{ post.date_created }}</pubDate>
-        <dc:creator>@{{ post.user.username }}</dc:creator>
+        <pubDate>{{ post['date_created'] }}</pubDate>
+        <dc:creator>@{{ post['user']['username'] }}</dc:creator>
         <category><![CDATA[Life]]></category>
-        <guid isPermaLink="true">{{ post.permalink() }}</guid>
-        <description><![CDATA[Link: <a href="{{ post.url }}">{{ post.permalink() }}</a> <br /> <br />@{{ post.user.username }}: <br /><br />{{ post.body_truncated }}]]></description>
-        <content><![CDATA[{{ post.body_html }}]]></content>
+        <guid isPermaLink="true">http://usv.com/posts/{{ post['slug'] }}</guid>
+        <description><![CDATA[Link: <a href="{{ post['url'] }}">{{post['url']}}</a> <br /> <br />@{{ post['user']['username'] }}: <br /><br />{{ post['body_truncated'] }}]]></description>
+        <content><![CDATA[{{ post['body_html'] }}]]></content>
       </item>
     {% end %}
   </channel>

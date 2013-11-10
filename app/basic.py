@@ -1,6 +1,9 @@
 import tornado.web
 
+import settings
 import simplejson as json
+
+from lib import userdb
 
 class BaseHandler(tornado.web.RequestHandler):
   def render(self, template, **kwargs):
@@ -18,6 +21,35 @@ class BaseHandler(tornado.web.RequestHandler):
 
   def get_current_user(self):
     return self.get_secure_cookie("username")
+
+  def send_email(self, from_user, to_user, subject, text):
+    sendgrid = self.settings['sendgrid']
+    return sendgrid.send_email(lambda x: None, **{
+      'from': from_user,
+      'to': to_user,
+      'subject': subject,
+      'text': text,
+    })
+
+  def is_blacklisted(self, screen_name):
+    u = userdb.get_user_by_screen_name(screen_name)
+    if u and 'user' in u.keys() and 'is_blacklisted' in u['user'].keys() and u['user']['is_blacklisted']:
+      return True
+    return False
+
+  def current_user_can(self, capability):
+    """
+    Tests whether a user can do a certain thing.
+    """
+    result = False
+    u = userdb.get_user_by_screen_name(self.current_user)
+    if u and 'role' in u.keys():
+      try:
+        if capability in settings.get('%s_capabilities' % u['role']):
+          result = True
+      except:
+        result = False
+    return result
 
   def api_response(self, data):
     # return an api response in the proper output format with status_code == 200

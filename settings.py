@@ -19,6 +19,7 @@ default_options = {
   'max_simultaneous_connections' : 10,
   'consumer_key' : 'CmBsLlXpRg7OQY9wlRzfA',
   'consumer_secret' : 'pGFyzrXAnNZqtt2UON2RCfs8BMhHIczqn7wIVP3HpQ',
+  'hot_post_set_count': 200,
   'staff':[
     "_zachary",
     "alexandermpease",
@@ -32,7 +33,20 @@ default_options = {
     "johnbuttrick",
     "christinacaci",
     "garychou"
-  ]
+  ],
+  # define the various roles and what capabilities they support
+  'staff_capabilities': [
+    'see_admin_link',
+    'delete_users',
+    'delete_posts',
+    'post_rich_media',
+    'feature_posts',
+    'edit_posts',
+    'upvote_multiple_times',
+    'super_upvote_posts',
+    'downvote_posts'
+  ],
+  'user_capabilities': []
 }
 
 def get(key):

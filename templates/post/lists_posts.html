@@ -13,62 +13,66 @@
 {% end %}
 
 {% block content %}
+  {% import urlparse %}
+  {% from lib import template_helpers %}
   <div id="main" role="main">
     <section class="featured-feed clearfix">
       <div id='slider' class='swipe visible-xs row'>
         <ul class='swipe-wrap feed'>
+
           {% if sticky %}
             {% for i, post in enumerate(sticky) %}
               <div class="featured-post">
                 <div class="content">
-                  <a class="title" href="/posts/{{ post.slug }}">{{ post.title }}</a>
-                  {% if post.url %}
-                    <a href="{{ post.url }}" class="source" target="_blank">{{ urlparse(post.url).netloc }}</a>
+                  <a class="title" href="/posts/{{ post['slug'] }}">{{ post['title'] }}</a>
+                  {% if post['url'] %}
+                    <a href="{{ post['url'] }}" class="source" target="_blank">{{ urlparse(post['url']).netloc }}</a>
                   {% else %}
-                    <a href="/posts/{{ post.slug }}" class="source">usv.com</a>
+                    <a href="/posts/{{ post['slug'] }}" class="source">usv.com</a>
                   {% end %}
-                  <div class="excerpt">{{ post.body_truncated }}</div>
+                  <div class="excerpt">{{ post['body_truncated'] }}</div>
                   <div class="meta">
                     <div class="thumbnail">
-                      <a href="http://www.twitter.com/{{ post.user.username }}" target="_blank">
-                        <img title="{{ post.user.username }}" src="{{ twitter_avatar_size(post.user.profile_image_url_https, 'normal') }}" alt="thumbnail">
+                      <a href="http://www.twitter.com/{{ post['user']['username'] }}" target="_blank">
+                        <img title="{{ post['user']['username'] }}" src="{{ post['user']['profile_image_url_https'] }}" alt="thumbnail">
                       </a>
                     </div>
-                    @{{ post.user.username }}
-                    <span class="time">{{ pretty_date(post.date_created) }}</span>
-                    {% module ajax_upvote_link(post=post) %}
-                    <a class="dsq-comment-count" href="/posts/{{ post.slug }}" data-disqus-url="{{ post.permalink() }}" data-disqus-identifier="{{ post.id }}" target="_blank">{{ post.show_comment_count() }}</a>
+                    @{{ post['user']['username'] }}
+                    <span class="time">{{ template_helpers.pretty_date(post['date_created']) }}</span>
+                    <a class="dsq-comment-count" href="/posts/{{ post['slug'] }}" data-disqus-url="/posts/{{post['slug']}}" data-disqus-identifier="{{ str(post['_id']) }}" target="_blank">{{ post['comment_count'] }}</a>
                   </div>
                 </div>
               </div>
             {% end %}
           {% end %}
+
           {% for i, post in enumerate(featured_posts) %}
             <div class="featured-post">
               <div class="content">
-                <a class="title" href="/posts/{{ post.slug }}">{{ post.title }}</a>
-                {% if post.url %}
-                  <a href="{{ post.url }}" class="source" target="_blank">{{ urlparse(post.url).netloc }}</a>
+                <a class="title" href="/posts/{{ post['slug'] }}">{{ post['title'] }}</a>
+                {% if post['url'] %}
+                  <a href="{{ post['url'] }}" class="source" target="_blank">{{ urlparse(post['url']).netloc }}</a>
                 {% else %}
-                  <a href="/posts/{{ post.slug }}" class="source">usv.com</a>
+                  <a href="/posts/{{ post['slug'] }}" class="source">usv.com</a>
                 {% end %}
-                <div class="excerpt">{{ post.body_truncated }}</div>
+                <div class="excerpt">{{ post['body_truncated'] }}</div>
                 <div class="meta">
                   <div class="thumbnail">
-                    <a href="http://www.twitter.com/{{ post.user.username }}" target="_blank">
-                      <img title="{{ post.user.username }}" src="{{ twitter_avatar_size(post.user.profile_image_url_https, 'normal') }}" alt="thumbnail">
+                    <a href="http://www.twitter.com/{{ post['user']['username'] }}" target="_blank">
+                      <img title="{{ post['user']['username'] }}" src="{{ post['user']['profile_image_url_https'] }}" alt="thumbnail">
                     </a>
                   </div>
-                  @{{ post.user.username }}
-                  <span class="time">{{ pretty_date(post.date_created) }}</span>
-                  {% module ajax_upvote_link(post=post) %}
-                  <a class="dsq-comment-count" href="/posts/{{ post.slug }}" data-disqus-url="{{ post.permalink() }}" data-disqus-identifier="{{ post.id }}" target="_blank">comment</a>
+                  @{{ post['user']['username'] }}
+                  <span class="time">{{ template_helpers.pretty_date(post['date_created']) }}</span>
+                  <a class="dsq-comment-count" href="/posts/{{ post['slug'] }}" data-disqus-url="/posts/{{post['slug']}}" data-disqus-identifier="{{ str(post['_id']) }}" target="_blank">comment</a>
                 </div>
               </div>
             </div>
           {% end %}
+
         </ul>
       </div>
+
       <ul class="feed hidden-xs" id="homepage-featured-posts">
         {% if sticky %}
           {% for post in sticky %}
@@ -82,13 +86,15 @@
           {% module featured_community_post(post=post, urlparse=urlparse, show_votes=True, show_source=True) %}
         {% end %}
       </ul>
+
     </section>
 
     <section class="hot-newest-feed">
+
       <ul class="tabs">
         <li class="{{ 'is-active' if sort_by == 'hot' else '' }}"><a class="sort btn" href="?sort_by=hot">Hot</a></li>
         <li class="{{ 'is-active' if sort_by == 'new' else '' }}"><a class="sort btn" href="?sort_by=new">Newest</a></li>
-        {% if is_staff %}
+        {% if is_staff == True %}
           <li class="{{ 'is-active' if sort_by == 'sad' else '' }}"><a class="sort btn" href="?sort_by=sad">Sad</a></li>
         {% end %}
         {% if not is_blacklisted %}
@@ -97,17 +103,19 @@
           </li>
         {% end %}
       </ul>
+
       <ul class="tools hidden-xs" id="tools-desktop">
         <li><a href="/posts/welcome-to-the-new-usvcom#comment-1066691905">Guidelines</a></li>
         <li><a id="show-tools-btn" href="#tools">Tools</a></li>
         <li><a href="https://hackpad.com/USV.com-sHgpc56rkCZ">Bugs &amp; Feature Reqs</a></li>
       </ul>
+
       {% if msg == "success" and new_post %}
         <div class="alert alert-success" style="color: #333">
           <p style="margin-top:0"><b>Thanks!</b> Your post has been published. Here's the link: </p>  
-          <p><a href="{{ new_post.permalink() }}">{{ new_post.permalink() }}</a></p>
+          <p><a href="/posts/{{ post['slug'] }}">http://usv.com/posts/{{ post['slug'] }}</a></p>
           <p>
-            <a href="https://twitter.com/share" class="twitter-share-button" data-url="{{ new_post.permalink() }}" data-text="{{ new_post.title }}" data-via="usvcommunity" data-size="large" data-count="none">Tweet</a>
+            <a href="https://twitter.com/share" class="twitter-share-button" data-url="/posts/{{ post['slug'] }}" data-text="{{ new_post['title'] }}" data-via="usvcommunity" data-size="large" data-count="none">Tweet</a>
             <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
           </p>
           <p>To start, it's on the "NEWEST" page. As it gathers votes and comments, it'll move to the "HOT" page and work its way up.</p>
@@ -117,54 +125,51 @@
 
       <ul class="feed sort-by-{{ sort_by }}">
         {% for post in posts %}
-          {% if 'previous_author_username' in locals() and previous_author_username == post.user.username %}
+          {% if 'previous_author_username' in locals() and previous_author_username == post['user']['username'] %}
             {% set repeat = True %}
           {% else %}
             {% set repeat = False %}
           {% end %}
-          {% if sort_by != "new" and post.muted %}
-          {% else %}
-            <li {% if repeat %}class="repeat"{% end %}>
-              <div class="avatar">
-                <a href="http://www.twitter.com/{{ post.user.username }}" target="_blank">
-                  <img title="{{ post.user.username }}" src="{{ twitter_avatar_size(post.user.profile_image_url_https, 'normal') }}" alt="thumbnail">
-                </a>
-              </div>
-              <div class="content">
-                {% if post.url %}
-                  <a class="title" href="{{ post.url }}" rel="nofollow" target="_blank">{{ post.title }}</a>
-                  <a href="{{ post.url }}" rel="nofollow" class="source" target="_blank">{{ urlparse(post.url).netloc }}</a>
-                {% else %}
-                  <a class="title" href="/posts/{{ post.slug }}" target="_blank">{{ post.title }}</a>
-                  <a href="/posts/{{ post.slug }}" class="source" target="_blank">usv.com</a>
+          <li {% if repeat %}class="repeat"{% end %}>
+            <div class="avatar">
+              <a href="http://www.twitter.com/{{ post['user']['username'] }}" target="_blank">
+                <img title="{{ post['user']['username'] }}" src="{{ post['user']['profile_image_url_https'] }}" alt="thumbnail">
+              </a>
+            </div>
+            <div class="content">
+              {% if post['url'] %}
+                <a class="title" href="{{ post['url'] }}" rel="nofollow" target="_blank">{{ post['title'] }}</a>
+                <a href="{{ post['url'] }}" rel="nofollow" class="source" target="_blank">{{ urlparse(post['url']).netloc }}</a>
+              {% else %}
+                <a class="title" href="/posts/{{ post['slug'] }}" target="_blank">{{ post['title'] }}</a>
+                <a href="/posts/{{ post['slug'] }}" class="source" target="_blank">usv.com</a>
+              {% end %}
+              <div class="meta">
+                <a class="username-link" href="http://www.twitter.com/{{ post['user']['username'] }}" target="_blank" style="color: #999">@{{ post['user']['username'] }}</a>
+                <span class="username" style="">@{{ post['user']['username'] }}</span>
+                <span class="time"><a href="/posts/{{ post['slug'] }}" ><span class="glyphicon glyphicon-link" style="margin: 0;font-size: 90%"></span> {{ template_helpers.pretty_date(post['date_created']) }}</a></span>
+                <a href="/posts/{{ post['slug'] }}" ><span class="glyphicon glyphicon-comment" style="margin: 0;"></span></a> <a class="dsq-comment-count" data-disqus-identifier="{{ str(post['_id']) }}" href="/posts/{{ post['slug'] }}">{{ post['comment_count'] }}</a>
+                {% if is_staff == True %}
+                  &nbsp;&nbsp;
+                  <span class="volume">
+                    {% if not post['muted'] %}
+                      <a title="mute (remove from front page)" style="color: #333; opacity:.5; font-size: 1.2em" href="/posts/{{ post['slug'] }}/mute" class="mute"><span class="glyphicon glyphicon-volume-off"></span></a>
+                      <a title="make this quieter" style="color: red; opacity:.5; font-size: 1.2em" href="/posts/{{ post['slug'] }}/bumpdown"><span class="glyphicon glyphicon-volume-down"></span></a>
+                      <a title="make this louder" style="color: blue;  opacity:.5; font-size: 1.1em;" href="/posts/{{ post['slug'] }}/bumpup"><span class="glyphicon glyphicon-volume-up"></span></a>
+                    {% else %}
+                      <a title="unmute this post" style="color: blue;  opacity:.5; font-size: 1.1em;" href="/posts/{{ post['slug'] }}/unmute"><span class="glyphicon glyphicon-volume-off"></span></a>
+                    {% end %}
+                  </span>
                 {% end %}
-                <div class="meta">
-                  <a class="username-link" href="http://www.twitter.com/{{ post.user.username }}" target="_blank" style="color: #999">@{{ post.user.username }}</a>
-                  <span class="username" style="">@{{ post.user.username }}</span>
-                  <span class="time"><a href="/posts/{{ post.slug }}" ><span class="glyphicon glyphicon-link" style="margin: 0;font-size: 90%"></span> {{ pretty_date(post.date_created) }}</a></span>
-                  {% module ajax_upvote_link(post=post, username=username) %}   
-                  <a href="/posts/{{ post.slug }}" ><span class="glyphicon glyphicon-comment" style="margin: 0;"></span></a> <a class="dsq-comment-count" data-disqus-identifier="{{ post.id }}" href="/posts/{{ post.slug }}">{{ post.show_comment_count() }}</a>
-                  {% if is_staff(username) %}
-                    &nbsp;&nbsp;
-                    <span class="volume">
-                      {% if not post.muted %}
-                        <a title="mute (remove from front page)" style="color: #333; opacity:.5; font-size: 1.2em" href="/posts/{{ post.slug }}/mute" class="mute"><span class="glyphicon glyphicon-volume-off"></span></a>
-                        <a title="make this quieter" style="color: red; opacity:.5; font-size: 1.2em" href="/posts/{{ post.slug }}/bumpdown"><span class="glyphicon glyphicon-volume-down"></span></a>
-                        <a title="make this louder" style="color: blue;  opacity:.5; font-size: 1.1em;" href="/posts/{{ post.slug }}/bumpup"><span class="glyphicon glyphicon-volume-up"></span></a>
-                      {% else %}
-                        <a title="unmute this post" style="color: blue;  opacity:.5; font-size: 1.1em;" href="/posts/{{ post.slug }}/unmute"><span class="glyphicon glyphicon-volume-off"></span></a>
-                      {% end %}
-                    </span>
-                  {% end %}
-                </div>
               </div>
-            </li>      
-            {% set previous_author_username = post.user.username %}       
-          {% end %}
+            </div>
+          </li>      
+          {% set previous_author_username = post['user']['username'] %}       
         {% end %}
       </ul>
-      <div id="pagination-next-prev">
-      </div>
+
+      <div id="pagination-next-prev"></div>
+
     </section>
   </div>
 {% end %}
