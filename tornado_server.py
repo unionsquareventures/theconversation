@@ -31,24 +31,27 @@ class Application(tornado.web.Application):
     }
 
     handlers = [
-      # twitter stuff
-      (r'/auth/twitter/?', app.twitter.Auth),
-      (r'/twitter', app.twitter.Twitter),
-      (r'/auth/logout/?', app.account.LogOut),
-
-      # search stuff
-      (r"/search", app.search.Search),
-      (r"/tagged/(.+)", app.search.ViewByTag),
-
       # genearl site pages (and homepage)
       (r"/about", app.general.About),
       (r"/jobs", app.general.Jobs),
       (r"/network", app.general.Network),
       (r"/portfolio", app.general.Portfolio),
 
+      # search stuff
+      (r"/search", app.search.Search),
+      (r"/tagged/(.+)", app.search.ViewByTag),
+
+      # twitter stuff
+      (r'/auth/twitter/?', app.twitter.Auth),
+      (r'/twitter', app.twitter.Twitter),
+      (r'/auth/logout/?', app.account.LogOut),
+
       # post stuff
+      (r'/feed/(?P<feed_type>[A-z-+0-9]+)$', app.posts.Feed),
+      (r'/feed$', app.posts.Feed),
       (r"/posts/([^\/]+)/upvote", app.posts.UpVote),
       (r"/posts/(.+)", app.posts.ViewPost),
+      (r'/widget.*?', app.posts.Widget),
       (r".+", app.posts.ListPosts)
     ]
 

@@ -105,7 +105,7 @@
                     <dd>
                       <input id="post_tags" name="tags" type="text" placeholder="pitch, meta, health, mobile, education" value="{% try %}{{ ', '.join(post.tags) if post.tags else '' }}{% except %}{% end %}" class="form-control">
                     </dd>
-                    {% if is_admin %}
+                    {% if is_admin == True %}
                       <dt class="featured">
                         <div id="toggle-featured"></div>
                         <label for="post_featured">Featured</label>

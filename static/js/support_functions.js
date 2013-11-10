@@ -13,23 +13,19 @@ $('.ajax_upvote_link').on('click', function(e) {
       alert("Could not upvote, an error occurred. Please try again.");
     },
     success: function(data, status, jqxhr) {
-      var resp = $.parseJSON(data);
-      alert(resp);
-      /*
-      if(resp['error']) {
-        if(resp['redirect']) {
+      if(data['data']['error']) {
+        if(data['data']['redirect']) {
           $("#submit-modal").modal("show");
         } else {
-          alert(resp['error']);
+          alert(data['data']['error']);
         }
         return;
       }
       var plural = '';
-      if(resp['votes'] != 1) {
+      if(data['data']['votes'] != 1) {
         plural = 's';
       }
-      upvote_link.children('.value').text(resp['votes'] + ' vote' + plural);
-      */
+      upvote_link.children('.value').text(resp['data']['votes'] + ' vote' + plural);
     }
   });
 });

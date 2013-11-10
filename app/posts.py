@@ -1,7 +1,7 @@
 import app.basic
 
-import logging
-import settings
+#import logging
+#import settings
 import tornado.web
 import tornado.options
 
@@ -11,6 +11,29 @@ from lib import userdb
 from lib import postsdb
 from lib import sanitize
 from lib import tagsdb
+
+##############
+### FEED
+### /feed
+##############
+class Feed(app.basic.BaseHandler):
+  def get(self, feed_type="hot"):
+    #action = self.get_argument('action', '')
+    #count = int(self.get_argument('count', 0))
+    #per_page = self.get_argument('per_page', 20)
+
+    posts = []
+    if feed_type == 'new':
+      # show the newest posts
+      posts = postsdb.get_new_posts()
+    elif feed_type == 'sad':
+      # show the sad posts
+      posts = postsdb.get_sad_posts()
+    else:
+      # get the current hot posts
+      posts = postsdb.get_hot_posts()
+
+    self.render('feed.xml', posts=posts)
 
 ##############
 ### LIST POSTS
@@ -187,3 +210,22 @@ class ViewPost(app.basic.BaseHandler):
     if self.current_user:
       user_info = userdb.get_user_by_screen_name(self.current_user)
       self.render('post/view_post.html', post=post, disqus_sso={}, user_info=user_info, subscribe=False, author=post['user'])
+
+#############
+### WIDGET
+### /widget.*?
+#############
+class Widget(app.basic.BaseHandler):
+  def get(self, extra_path=''):
+    if extra_path != '':
+      self.render('post/widget_demo.html')
+    else:
+      # list posts
+      #action = self.get_argument('action', '')
+      #count = int(self.get_argument('count', 0))
+      #per_page = self.get_argument('per_page', 20)
+
+      posts = []
+      # get the current hot posts
+      posts = postsdb.get_hot_posts()
+      self.render('post/widget.js', posts=posts)
