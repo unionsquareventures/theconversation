@@ -11,7 +11,7 @@ class About(app.basic.BaseHandler):
   def get(self):
     # get the last 6 posts tagged thesis (and published by staff)
     related_posts = postsdb.get_latest_staff_posts_by_tag('thesis', 6)
-    self.render('page/about.html', related_posts=related_posts)
+    self.render('general/about.html', related_posts=related_posts)
 
 ########################
 ### USV & PORTFOLIO JOBS
@@ -19,7 +19,7 @@ class About(app.basic.BaseHandler):
 ########################
 class Jobs(app.basic.BaseHandler):
   def get(self):
-    self.render('page/jobs.html')
+    self.render('general/jobs.html')
 
 ###############
 ### USV NETWORK
@@ -29,7 +29,7 @@ class Network(app.basic.BaseHandler):
   def get(self):
     # get the last 6 posts tagged usv-network (and published by staff)
     related_posts = postsdb.get_latest_staff_posts_by_tag('usv-network', 6)
-    self.render('page/network.html', related_posts=related_posts)
+    self.render('general/network.html', related_posts=related_posts)
 
 #################
 ### USV PORTFOLIO
@@ -39,4 +39,4 @@ class Portfolio(app.basic.BaseHandler):
   def get(self):
     current = companiesdb.get_companies_by_status('current')
     exited = companiesdb.get_companies_by_status('exited')
-    self.render('page/portfolio.html', current=current, exited=exited)
+    self.render('general/portfolio.html', current=current, exited=exited)
