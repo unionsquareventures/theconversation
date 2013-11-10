@@ -13,7 +13,7 @@
 {% end %}
 
 {% block content %}
-  {% import urlparse %}
+  {% from urlparse import urlparse %}
   {% from lib import template_helpers %}
   <div id="main" role="main">
     <section class="featured-feed clearfix">
@@ -46,7 +46,7 @@
             {% end %}
           {% end %}
 
-          {% for i, post in enumerate(featured_posts) %}
+          {% for post in featured_posts %}
             <div class="featured-post">
               <div class="content">
                 <a class="title" href="/posts/{{ post['slug'] }}">{{ post['title'] }}</a>

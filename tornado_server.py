@@ -46,6 +46,7 @@ class Application(tornado.web.Application):
       (r"/portfolio", app.general.Portfolio),
 
       # post stuff
+      (r"/posts/(.+)", app.posts.ViewPost),
       (r".+", app.posts.ListPosts)
     ]
 

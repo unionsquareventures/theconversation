@@ -1,12 +1,12 @@
 from lib.sanitize import tinymce_valid_elements
 import datetime
 
-def tinymce_valid_elements_wrapper(handler, media=True):
+def tinymce_valid_elements_wrapper(media=True):
   return tinymce_valid_elements(media=media)
 
 # Twitter URLs are stored as their 'normal' size
 # eg. http://a0.twimg.com/profile_images/3428823565/9c49c693a9b7527b3fb7e36f6bba627f_normal.png
-def twitter_avatar_size(handler, url, size):
+def twitter_avatar_size(url, size):
   if size == 'original':
     url = url.replace('_normal', '')
   else:

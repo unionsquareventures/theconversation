@@ -1,11 +1,12 @@
 import app.basic
-import urlparse
 
 import logging
 import settings
+import tornado.web
 import tornado.options
 
 from datetime import datetime
+from urlparse import urlparse
 from lib import userdb
 from lib import postsdb
 from lib import sanitize
@@ -33,6 +34,7 @@ class ListPosts(app.basic.BaseHandler):
     new_post = {}
     self.render('post/lists_posts.html', sort_by=sort_by, msg=msg, new_post=new_post, posts=posts, featured_posts=featured_posts)
 
+  @tornado.web.authenticated
   def post(self):
     sort_by = self.get_argument('sort_by', 'hot')
     post = {}
@@ -145,3 +147,14 @@ class ListPosts(app.basic.BaseHandler):
 
     self.render('post/lists_posts.html', sort_by=sort_by, msg=msg, new_post=new_post, posts=posts, featured_posts=featured_posts)
 
+########################
+### VIEW A SPECIFIC POST
+### /post/(.+)
+########################
+class ViewPost(app.basic.BaseHandler):
+  def get(self, slug):
+    post = postsdb.get_post_by_slug(slug)
+    user_info = {}
+    if self.current_user:
+      user_info = userdb.get_user_by_screen_name(self.current_user)
+      self.render('post/view_post.html', post=post, disqus_sso={}, user_info=user_info, subscribe=False, author=post['user'])

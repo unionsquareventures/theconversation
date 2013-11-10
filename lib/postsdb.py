@@ -1,12 +1,12 @@
 import pymongo
 import re
 import settings
-from slugify import slugify
-
 import time
+
 from datetime import datetime
 from math import log
 from mongo import db
+from slugify import slugify
 
 """
 'indexes': ['-date_deleted', 'deleted', '-date_featured', 'votes', 'date_created', 'featured', 'voted_users', 'user.id_str', 'slug', 'slugs', 'url', 'tags', 'normalized_url'],
@@ -92,6 +92,9 @@ def get_sad_posts(per_page=50, page=1):
 def get_posts_by_normalized_url(normalized_url, limit):
   return list(db.post.find({'normalized_url':normalized_url, 'deleted':False}, sort=[('_id', pymongo.DESCENDING)]).limit(limit))
 
+def get_post_by_slug(slug):
+  return db.post.find_one({'slug':slug})
+
 def insert_post(post):
   slug = slugify(post['title'])
   slug_count = len(list(db.post.find({'slug':slug})))
@@ -99,5 +102,5 @@ def insert_post(post):
     slug = '%s-%i' % (slug, slug_count)
   post['slug'] = slug
   post['slugs'] = [slug]
-  return db.post.update({'url':post['url'], 'user.screen_name':post['user']['screen_name']}, post, upsert=True)
+  return db.post.update({'url':post['slug'], 'user.screen_name':post['user']['screen_name']}, post, upsert=True)
 
