@@ -158,12 +158,16 @@ class UpVote(app.basic.BaseHandler):
     if not self.current_user:
       msg = {'error': 'You must be logged in to upvote.', 'redirect': True}
     else:
-      user = userdb.get_user_by_screen_name(self.current_user)
       post = postsdb.get_post_by_slug(slug)
       if post:
-        if post['voted_users'] and not self.current_user_can('upvote_multiple_times'):
+        can_vote = True
+        for u in post['voted_users']:
+          if u['screen_name'] == self.current_user:
+            can_vote = False
+        if not can_vote and not self.current_user_can('upvote_multiple_times'):
           msg = {'error': 'You have already upvoted this post.'}
         else:
+          user = userdb.get_user_by_screen_name(self.current_user)
           # Increment the vote count
           post['votes'] += 1
           post['voted_users'].append(user['user'])
