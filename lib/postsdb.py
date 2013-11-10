@@ -104,3 +104,5 @@ def insert_post(post):
   post['slugs'] = [slug]
   return db.post.update({'url':post['slug'], 'user.screen_name':post['user']['screen_name']}, post, upsert=True)
 
+def save_post(post):
+  return db.post.update({'_id':post['_id']}, post)

@@ -47,6 +47,7 @@ class Application(tornado.web.Application):
       (r"/portfolio", app.general.Portfolio),
 
       # post stuff
+      (r"/posts/([^\/]+)/upvote", app.posts.UpVote),
       (r"/posts/(.+)", app.posts.ViewPost),
       (r".+", app.posts.ListPosts)
     ]

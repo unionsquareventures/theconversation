@@ -147,9 +147,34 @@ class ListPosts(app.basic.BaseHandler):
 
     self.render('post/lists_posts.html', sort_by=sort_by, msg=msg, new_post=new_post, posts=posts, featured_posts=featured_posts)
 
+##########################
+### UPVOTE A SPECIFIC POST
+### /posts/([^\/]+)/upvote
+##########################
+class UpVote(app.basic.BaseHandler):
+  def get(self, slug):
+    # user must be logged in
+    msg = {}
+    if not self.current_user:
+      msg = {'error': 'You must be logged in to upvote.', 'redirect': True}
+    else:
+      user = userdb.get_user_by_screen_name(self.current_user)
+      post = postsdb.get_post_by_slug(slug)
+      if post:
+        if post['voted_users'] and not self.current_user_can('upvote_multiple_times'):
+          msg = {'error': 'You have already upvoted this post.'}
+        else:
+          # Increment the vote count
+          post['votes'] += 1
+          post['voted_users'].append(user['user'])
+          postsdb.save_post(post)
+          msg = {'votes': post['votes']}
+
+      self.api_response(msg)
+
 ########################
 ### VIEW A SPECIFIC POST
-### /post/(.+)
+### /posts/(.+)
 ########################
 class ViewPost(app.basic.BaseHandler):
   def get(self, slug):
