@@ -32,6 +32,11 @@ default_options = {
   'sendgrid_user': '',
   'sendgrid_secret': '',
   # other control variables
+
+  'tinymce_valid_elements': '',
+  'post_char_limit': 1000,
+  'sticky': None,
+
   'read_only' : False,
   'max_simultaneous_connections' : 10,
   'hot_post_set_count': 200,

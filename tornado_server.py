@@ -55,6 +55,7 @@ class Application(tornado.web.Application):
       (r'/feed/(?P<feed_type>[A-z-+0-9]+)$', app.posts.Feed),
       (r'/feed$', app.posts.Feed),
       (r"/posts/([^\/]+)/upvote", app.posts.UpVote),
+      (r"/posts/([^\/]+)/edit", app.posts.EditPost),
       (r"/posts/(.+)", app.posts.ViewPost),
       (r'/widget.*?', app.posts.Widget),
       (r".+", app.posts.ListPosts)

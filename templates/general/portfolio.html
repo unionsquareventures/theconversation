@@ -48,7 +48,7 @@
               <a class="about-investment" href="/posts/{{ c.investment_post_slug }}">
                 <span class="glyphicon glyphicon-info-sign"></span>
               </a>
-              {% if is_staff %}
+              {% if current_user in settings.get('staff') %}
                 <span class="editlink">
                   <a href="{{ c.editlink() }}" target="_blank">edit</a>
                 </span>
@@ -74,7 +74,7 @@
               <a class="about-investment" href="/posts/{{ c.investment_post_slug }}">
                 <span class="glyphicon glyphicon-info-sign"></span>
               </a>
-              {% if is_staff %}
+              {% if current_user in settings.get('staff') %}
                 <span class="editlink">
                   <a href="{{ c.editlink() }}" target="_blank">edit</a>
                 </span>

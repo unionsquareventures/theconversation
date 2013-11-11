@@ -5,7 +5,6 @@
 {% block title %}{{ post['title'] }} | {% end %}
 
 {% block content %}
-  {% import settings %}
   {% from urlparse import urlparse %}
   {% from lib import template_helpers %}
 
@@ -59,7 +58,7 @@
                 <img class="avatar" src="{{ template_helpers.twitter_avatar_size(post['user']['profile_image_url_https'], 'original') }}" alt="thumbnail">
               </a>
               <div class="visible-xs">
-                {% if post['user']['id_str'] == user_id_str or is_staff %}
+                {% if post['user']['id_str'] == user_id_str or current_user in settings.get('staff') %}
                   <p><a href="/posts/{{ post['slug'] }}/edit" class="btn">Edit</a></p>
                 {% end %}
               </div>
@@ -180,10 +179,10 @@
 
       <!-- Allow editing if USVer or the OP -->
      <div class="col-sm-2 hidden-xs">
-       {% if post['user']['id_str'] == user_id_str or is_staff %}
+       {% if post['user']['id_str'] == user_id_str or current_user in settings.get('staff') %}
          <p><a href="/posts/{{ post['slug'] }}/edit" class="btn">Edit</a></p>
        {% end %}
-       {% if is_staff %}
+       {% if current_user in settings.get('staff') %}
          <p><a href="https://partners.mongohq.com/app18119720-heroku-com/mongo/app18119720/collections/post/documents/%7B%22%24oid%22%3A%22{{ post['slug'] }}%22%7D">mongohq</a></p>
        {% end %}
      </div>

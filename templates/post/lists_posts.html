@@ -20,8 +20,8 @@
       <div id='slider' class='swipe visible-xs row'>
         <ul class='swipe-wrap feed'>
 
-          {% if sticky %}
-            {% for i, post in enumerate(sticky) %}
+          {% if settings.get('sticky') %}
+            {% for i, post in enumerate(settings.get('sticky')) %}
               <div class="featured-post">
                 <div class="content">
                   <a class="title" href="/posts/{{ post['slug'] }}">{{ post['title'] }}</a>
@@ -82,8 +82,8 @@
       </div>
 
       <ul class="feed hidden-xs" id="homepage-featured-posts">
-        {% if sticky %}
-          {% for post in sticky %}
+        {% if settings.get('sticky') %}
+          {% for post in settings.get('sticky') %}
             {% module featured_community_post(post=post, urlparse=urlparse, show_votes=True, show_source=True) %}
           {% end %}
         {% end %}
@@ -102,7 +102,7 @@
       <ul class="tabs">
         <li class="{{ 'is-active' if sort_by == 'hot' else '' }}"><a class="sort btn" href="?sort_by=hot">Hot</a></li>
         <li class="{{ 'is-active' if sort_by == 'new' else '' }}"><a class="sort btn" href="?sort_by=new">Newest</a></li>
-        {% if is_staff == True %}
+        {% if current_user in settings.get('staff') %}
           <li class="{{ 'is-active' if sort_by == 'sad' else '' }}"><a class="sort btn" href="?sort_by=sad">Sad</a></li>
         {% end %}
         {% if not is_blacklisted %}
@@ -161,7 +161,7 @@
                   <span class="value">{{ post['votes'] }} vote{{ 's' if post['votes'] != 1 else '' }}</span>
                 </a>
                 <a href="/posts/{{ post['slug'] }}" ><span class="glyphicon glyphicon-comment" style="margin: 0;"></span></a> <a class="dsq-comment-count" data-disqus-identifier="{{ str(post['_id']) }}" href="/posts/{{ post['slug'] }}">{{ post['comment_count'] }} comment{{ 's' if post['comment_count'] != 1 else '' }}</a>
-                {% if is_staff == True %}
+                {% if current_user in settings.get('staff') %}
                   &nbsp;&nbsp;
                   <span class="volume">
                     {% if not post['muted'] %}

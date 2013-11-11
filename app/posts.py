@@ -13,6 +13,21 @@ from lib import postsdb
 from lib import sanitize
 from lib import tagsdb
 
+###############
+### EDIT A POST
+### /posts/([^\/]+)/edit
+###############
+class EditPost(app.basic.BaseHandler):
+  @tornado.web.authenticated
+  def get(self, slug):
+    post = postsdb.get_post_by_slug(slug)
+    if post and post['user']['screen_name'] == self.current_user:
+      # available to edit this post
+      self.render('post/edit_post.html', post=post)
+    else:
+      # not available to edit right now
+      self.redirect('/posts/%s' % slug)
+
 ##############
 ### FEED
 ### /feed
@@ -46,6 +61,9 @@ class ListPosts(app.basic.BaseHandler):
     msg = ''
     featured_posts = postsdb.get_featured_posts(6)
     posts = []
+    is_blacklisted = False
+    if self.current_user:
+      is_blacklisted = self.is_blacklisted(self.current_user)
     if sort_by == 'new':
       # show the newest posts
       posts = postsdb.get_new_posts()
@@ -56,11 +74,14 @@ class ListPosts(app.basic.BaseHandler):
       # get the current hot posts
       posts = postsdb.get_hot_posts()
     new_post = {}
-    self.render('post/lists_posts.html', sort_by=sort_by, msg=msg, new_post=new_post, posts=posts, featured_posts=featured_posts)
+    self.render('post/lists_posts.html', sort_by=sort_by, msg=msg, new_post=new_post, posts=posts, featured_posts=featured_posts, is_blacklisted=is_blacklisted)
 
   @tornado.web.authenticated
   def post(self):
     sort_by = self.get_argument('sort_by', 'hot')
+    is_blacklisted = False
+    if self.current_user:
+      is_blacklisted = self.is_blacklisted(self.current_user)
     post = {}
     post['title'] = unicode(self.get_argument('title', '').decode('utf-8'))
     post['url'] = self.get_argument('url', '')
@@ -68,6 +89,7 @@ class ListPosts(app.basic.BaseHandler):
     post['tags'] = self.get_argument('tags', '').split(',')
     post['featured'] = self.get_argument('featured', '')
     post['has_hackpad'] = self.get_argument('has_hackpad', '')
+    post['slug'] = self.get_argument('slug', '')
     if post['has_hackpad'] != '':
       post['has_hackpad'] = True
     else:
@@ -131,8 +153,18 @@ class ListPosts(app.basic.BaseHandler):
         post['hackpad_url'] = ''
         post['disqus_shortname'] = settings.get('disqus_short_code')
 
-        # save the post details
-        postsdb.insert_post(post)
+        if post['slug'] == '':
+          # save the post details
+          postsdb.insert_post(post)
+        else:
+          # attempt to edit the post (make sure they are the author)
+          saved_post = postsdb.get_post_by_slug(post['slug'])
+          if saved_post and self.current_user == saved_post['user']['screen_name']:
+            # looks good - let's update the saved_post values to new values
+            for key in post.keys():
+              saved_post[key] = post[key]
+            # finally let's save the updates
+            postsdb.save_post(saved_post)
 
     """
     # Send email to USVers if OP is USV
@@ -169,7 +201,7 @@ class ListPosts(app.basic.BaseHandler):
       # get the current hot posts
       posts = postsdb.get_hot_posts()
 
-    self.render('post/lists_posts.html', sort_by=sort_by, msg=msg, new_post=new_post, posts=posts, featured_posts=featured_posts)
+    self.render('post/lists_posts.html', sort_by=sort_by, msg=msg, new_post=new_post, posts=posts, featured_posts=featured_posts, is_blacklisted=is_blacklisted)
 
 ##########################
 ### UPVOTE A SPECIFIC POST
@@ -208,6 +240,11 @@ class ViewPost(app.basic.BaseHandler):
   def get(self, slug):
     post = postsdb.get_post_by_slug(slug)
     if post:
+      user_id_str = ''
+      if self.current_user:
+        user = userdb.get_user_by_screen_name(self.current_user)
+        if user:
+          user_id_str = user['user']['id_str']
       author = userdb.get_user_by_screen_name(post['user']['screen_name'])
       user_info = {}
       if author and 'email_address' in author.keys():
@@ -220,7 +257,7 @@ class ViewPost(app.basic.BaseHandler):
         }
 
       disqus_sso = disqus.get_sso(True, user_info)
-      self.render('post/view_post.html', post=post, subscribe=False, disqus_sso=disqus_sso)
+      self.render('post/view_post.html', post=post, subscribe=False, disqus_sso=disqus_sso, user_id_str=user_id_str)
     else:
       # couldn't find a post; bounce to list
       self.redirect('/')

@@ -6,19 +6,6 @@ import simplejson as json
 from lib import userdb
 
 class BaseHandler(tornado.web.RequestHandler):
-  def render(self, template, **kwargs):
-    kwargs['is_admin'] = 'false'
-    kwargs['tinymce_valid_elements'] = ''
-    kwargs['post_char_limit'] = 1000
-    kwargs['user_id_str'] = ''
-    kwargs['user_email_address'] = ''
-    kwargs['is_staff'] = False
-    kwargs['see_admin_link'] = False
-    kwargs['sticky'] = False
-    kwargs['is_blacklisted'] = False
-
-    super(BaseHandler, self).render(template, **kwargs)
-
   def get_current_user(self):
     return self.get_secure_cookie("username")
 
