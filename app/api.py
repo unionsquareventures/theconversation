@@ -1,5 +1,6 @@
 import app.basic
 import logging
+import settings
 
 from lib import disqus
 from lib import postsdb
@@ -34,3 +35,16 @@ class DisqusCallback(app.basic.BaseHandler):
             if email.lower() != author_email.lower() and email.strip() != '':
               self.send_email('alerts@usv.com', email, subject, text)
     self.api_response('OK')
+
+class GetUserStatus(app.basic.BaseHandler):
+  def get(self):
+    status = 'none'
+    if self.current_user:
+      if self.current_user in settings.get('staff'):
+        status = 'staff'
+      elif self.is_blacklisted(self.current_user):
+        status = 'blacklisted'
+      else:
+        status = 'user'
+    self.api_response(status)
+

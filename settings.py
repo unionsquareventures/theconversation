@@ -21,10 +21,10 @@ options = {
 }
 
 default_options = {
-  # twiter details
+  # twiter details (using knowabout.it keys for testing)
   'consumer_key' : 'CmBsLlXpRg7OQY9wlRzfA',
   'consumer_secret' : 'pGFyzrXAnNZqtt2UON2RCfs8BMhHIczqn7wIVP3HpQ',
-  # disqus details
+  # disqus details (using greentile keys for testing)
   'disqus_public_key': 'OTb51wiAl9qpx2PaasJsw1QDULTSGiNcvnKf0ETCbIefSqlWNTJRlep4IJApyP9l',
   'disqus_secret_key': 'oWeoxP5t6pdSNwRzhxDqAJVDTCn8AKl5sXe6kWeh9OJM4PfsKJo4LonzmgWaJUXl',
   'disqus_short_code': 'usvbeta2',
@@ -47,7 +47,7 @@ default_options = {
     "br_ttany",
     "johnbuttrick",
     "christinacaci",
-    "garychou"
+    "garychou",
   ],
   # define the various roles and what capabilities they support
   'staff_capabilities': [

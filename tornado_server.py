@@ -34,6 +34,7 @@ class Application(tornado.web.Application):
     handlers = [
       # api stuff
       (r"/api/incr_comment_count", app.api.DisqusCallback),
+      (r"/api/user_status", app.api.GetUserStatus),
 
       # genearl site pages (and homepage)
       (r"/about", app.general.About),
