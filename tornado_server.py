@@ -11,6 +11,7 @@ import logging
 import settings 
 
 import app.account
+import app.api
 import app.basic
 import app.general
 import app.posts
@@ -31,6 +32,9 @@ class Application(tornado.web.Application):
     }
 
     handlers = [
+      # api stuff
+      (r"/api/incr_comment_count", app.api.DisqusCallback),
+
       # genearl site pages (and homepage)
       (r"/about", app.general.About),
       (r"/jobs", app.general.Jobs),

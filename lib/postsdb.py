@@ -38,6 +38,7 @@ from slugify import slugify
   'disqus_thread_id_str': '',
   'sort_score': 0.0,
   'downvotes': 0,
+  'subscribed':[]
 }
 """
 
@@ -95,6 +96,12 @@ def get_posts_by_normalized_url(normalized_url, limit):
 def get_post_by_slug(slug):
   return db.post.find_one({'slug':slug})
 
+def add_subscriber_to_post(slug, email):
+  return db.post.update({'slug':slug}, {'$addToSet': {'subscribed': email}})
+
+def remove_subscriber_from_post(slug, email):
+  return db.post.update({'slug':slug}, {'$pull': {'subscribed': email}})
+
 def insert_post(post):
   slug = slugify(post['title'])
   slug_count = len(list(db.post.find({'slug':slug})))
@@ -102,6 +109,8 @@ def insert_post(post):
     slug = '%s-%i' % (slug, slug_count)
   post['slug'] = slug
   post['slugs'] = [slug]
+  if 'subscribed' not in post.keys():
+    post['subscribed'] = []
   return db.post.update({'url':post['slug'], 'user.screen_name':post['user']['screen_name']}, post, upsert=True)
 
 def save_post(post):

@@ -1,12 +1,13 @@
 import app.basic
 
 #import logging
-#import settings
+import settings
 import tornado.web
 import tornado.options
 
 from datetime import datetime
 from urlparse import urlparse
+from lib import disqus
 from lib import userdb
 from lib import postsdb
 from lib import sanitize
@@ -128,7 +129,7 @@ class ListPosts(app.basic.BaseHandler):
         post['sort_score'] = 0.0
         post['downvotes'] = 0
         post['hackpad_url'] = ''
-        post['disqus_shortname'] = 'usvbeta2'
+        post['disqus_shortname'] = settings.get('disqus_short_code')
 
         # save the post details
         postsdb.insert_post(post)
@@ -206,10 +207,23 @@ class UpVote(app.basic.BaseHandler):
 class ViewPost(app.basic.BaseHandler):
   def get(self, slug):
     post = postsdb.get_post_by_slug(slug)
-    user_info = {}
-    if self.current_user:
-      user_info = userdb.get_user_by_screen_name(self.current_user)
-      self.render('post/view_post.html', post=post, disqus_sso={}, user_info=user_info, subscribe=False, author=post['user'])
+    if post:
+      author = userdb.get_user_by_screen_name(post['user']['screen_name'])
+      user_info = {}
+      if author and 'email_address' in author.keys():
+        user_info = {
+          'id': author['user']['id_str'],
+          'username': author['user']['username'],
+          'email': author['email_address'],
+          'avatar': author['user']['profile_image_url'],
+          'url': 'http://www.twitter.com/%s' % author['user']['screen_name'],
+        }
+
+      disqus_sso = disqus.get_sso(True, user_info)
+      self.render('post/view_post.html', post=post, subscribe=False, disqus_sso=disqus_sso)
+    else:
+      # couldn't find a post; bounce to list
+      self.redirect('/')
 
 #############
 ### WIDGET

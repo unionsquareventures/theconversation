@@ -5,6 +5,7 @@
 {% block title %}{{ post['title'] }} | {% end %}
 
 {% block content %}
+  {% import settings %}
   {% from urlparse import urlparse %}
   {% from lib import template_helpers %}
 
@@ -135,6 +136,43 @@
 
           <div class="comment-box">
             <div id="disqus_thread"></div>
+
+            <script type="text/javascript">
+              var disqus_config = function() {
+                {% raw disqus_sso %}
+                this.page.api_key = '{{ settings.get('disqus_public_key') }}';
+                this.sso = {
+                  name: "USV",
+                  button: "{{ 'http://%s/%s' % (settings.get('base_url'), 'static/img/disqus-sso-login-button.png') }}",
+                  icon: "{{ 'http://%s/%s' % (settings.get('base_url'), 'static/favicon.png') }}",
+                  url: "{% raw 'http://%s/%s%s' % (settings.get('base_url'), 'auth/twitter/?email_required=1&close_popup=1&next=', url_escape(handler.request.path)) %}",
+                  logout: "{% raw 'http://%s/%s%s' % (settings.get('base_url'), 'auth/logout/?next=', url_escape(handler.request.path)) %}",
+                  width: "600",
+                  height: "600"
+                };
+                this.callbacks.onNewComment = [function(comment) {
+                  $.get("/api/incr_comment_count", { comment: comment.id, post: "{{ str(post['slug']) }}" }, function(result){});
+                }];
+              };
+            </script>
+
+            <script type="text/javascript">
+              /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+              var disqus_shortname = "{{settings.get('disqus_short_code')}}";
+              var disqus_identifier = "{{ post['slug'] }}";
+              var disqus_title = "{{ post['title'] }}";
+              var disqus_url = "http://{{settings.get('base_url')}}/posts/{{ post['slug'] }}";
+
+              /* * * DON'T EDIT BELOW THIS LINE * * */
+              (function() {
+                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+              })();
+            </script>
+            <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+            <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
           </div>
 
         </article>
