@@ -37,7 +37,7 @@ class Mute(app.basic.BaseHandler):
   def get(self, slug):
     post = postsdb.get_post_by_slug(slug)
 
-    if self.current_user_can('mute_posts'):
+    if post and self.current_user_can('mute_posts'):
       post['muted'] = True
       postsdb.save_post(post)
 
