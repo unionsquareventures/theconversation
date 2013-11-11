@@ -3,6 +3,7 @@ import tornado.web
 import settings
 import datetime
 
+from lib import hackpad
 from lib import postsdb
 from lib import userdb
 
@@ -92,6 +93,22 @@ class DeleteUser(app.basic.BaseHandler):
         screen_name = post['user']['screen_name']
         postsdb.delete_all_posts_by_user(screen_name)
       self.ender('admin/delete_user.html', msg=msg)
+
+class GenerateNewHackpad(app.basic.BaseHandler):
+  def get(self):
+    if self.current_user not in settings.get('staff'):
+      self.redirect('/')
+    else:
+      hackpads = hackpad.create_hackpad()
+      self.api_response(hackpads)
+
+class ListAllHackpad(app.basic.BaseHandler):
+  def get(self):
+    if self.current_user not in settings.get('staff'):
+      self.redirect('/')
+    else:
+      hackpads = hackpad.list_all()
+      self.api_response(hackpads)
 
 class Mute(app.basic.BaseHandler):
   @tornado.web.authenticated

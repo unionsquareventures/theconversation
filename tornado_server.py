@@ -16,6 +16,7 @@ import app.api
 import app.basic
 import app.general
 import app.posts
+import app.redirects
 import app.search
 import app.twitter
 
@@ -42,6 +43,8 @@ class Application(tornado.web.Application):
       (r"/admin/deleted_posts", app.admin.DeletedPosts),
       (r"/admin/sort_posts", app.admin.ReCalculateScores),
       (r"/admin/stats", app.admin.AdminStats),
+      (r"/generate_hackpad/?", app.admin.GenerateNewHackpad),
+      (r"/list_hackpads", app.admin.ListAllHackpad),
       (r"/posts/([^\/]+)/bumpup", app.admin.BumpUp),
       (r"/posts/([^\/]+)/bumpdown", app.admin.BumpDown),
       (r"/posts/([^\/]+)/mute", app.admin.Mute),
@@ -57,6 +60,13 @@ class Application(tornado.web.Application):
       (r"/jobs", app.general.Jobs),
       (r"/network", app.general.Network),
       (r"/portfolio", app.general.Portfolio),
+
+      # redirect stuff (old links)
+      (r'/(?P<year>[0-9]+)/(?P<month>[0-9]+)/(?P<slug>[\w\s-]+).php$', app.redirects.RedirectPosts),
+      (r'/pages/.*$', app.redirects.RedirectMappings),
+      (r'/team.*$', app.redirects.RedirectMappings),
+      (r'/investments$', app.redirects.RedirectMappings),
+      (r'/focus$', app.redirects.RedirectMappings),
 
       # search stuff
       (r"/search", app.search.Search),

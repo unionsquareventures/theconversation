@@ -24,15 +24,22 @@ default_options = {
   # twiter details (using knowabout.it keys for testing)
   'consumer_key' : 'CmBsLlXpRg7OQY9wlRzfA',
   'consumer_secret' : 'pGFyzrXAnNZqtt2UON2RCfs8BMhHIczqn7wIVP3HpQ',
+
   # disqus details (using greentile keys for testing)
   'disqus_public_key': 'OTb51wiAl9qpx2PaasJsw1QDULTSGiNcvnKf0ETCbIefSqlWNTJRlep4IJApyP9l',
   'disqus_secret_key': 'oWeoxP5t6pdSNwRzhxDqAJVDTCn8AKl5sXe6kWeh9OJM4PfsKJo4LonzmgWaJUXl',
   'disqus_short_code': 'usvbeta2',
+
   # sendgrid details
   'sendgrid_user': '',
   'sendgrid_secret': '',
-  # other control variables
 
+  # hackpad details
+  'hackpad_oauth_client_id':'ureNCXf5AvH', 
+  'hackpad_oauth_secret':'u1flIDEjGBuHW7gobQOWwxmtjrYmjRW3', 
+  'hackpad_domain':'falicon',
+
+  # other control variables
   'tinymce_valid_elements': '',
   'post_char_limit': 1000,
   'sticky': None,
@@ -55,6 +62,7 @@ default_options = {
     "garychou",
     "falicon"
   ],
+
   # define the various roles and what capabilities they support
   'staff_capabilities': [
     'see_admin_link',
