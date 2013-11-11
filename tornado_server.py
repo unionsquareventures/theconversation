@@ -11,6 +11,7 @@ import logging
 import settings 
 
 import app.account
+import app.admin
 import app.api
 import app.basic
 import app.general
@@ -32,6 +33,15 @@ class Application(tornado.web.Application):
     }
 
     handlers = [
+      # account stuff
+      (r'/auth/logout/?', app.account.LogOut),
+
+      # admin stuff
+      (r'/admin', app.admin.AdminHome),
+      (r"/posts/([^\/]+)/bumpup", app.admin.BumpUp),
+      (r"/posts/([^\/]+)/bumpdown", app.admin.BumpDown),
+      (r"/posts/([^\/]+)/mute", app.admin.Mute),
+
       # api stuff
       (r"/api/incr_comment_count", app.api.DisqusCallback),
       (r"/api/user_status", app.api.GetUserStatus),
@@ -49,7 +59,6 @@ class Application(tornado.web.Application):
       # twitter stuff
       (r'/auth/twitter/?', app.twitter.Auth),
       (r'/twitter', app.twitter.Twitter),
-      (r'/auth/logout/?', app.account.LogOut),
 
       # post stuff
       (r'/feed/(?P<feed_type>[A-z-+0-9]+)$', app.posts.Feed),
