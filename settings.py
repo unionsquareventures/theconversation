@@ -18,11 +18,11 @@ options = {
 }
 
 default_options = {
-  # twiter details (using knowabout.it keys for testing)
+  # twiter details
   'twitter_consumer_key' : '',
   'twitter_consumer_secret' : '',
 
-  # disqus details (using greentile keys for testing)
+  # disqus details
   'disqus_public_key': '',
   'disqus_secret_key': '',
   'disqus_short_code': '',
