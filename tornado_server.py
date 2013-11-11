@@ -10,7 +10,7 @@ import logging
 # settings is required/used to set our environment
 import settings 
 
-import app.account
+import app.user
 import app.admin
 import app.api
 import app.basic
@@ -34,13 +34,19 @@ class Application(tornado.web.Application):
 
     handlers = [
       # account stuff
-      (r'/auth/logout/?', app.account.LogOut),
+      (r"/auth/logout/?", app.user.LogOut),
 
       # admin stuff
-      (r'/admin', app.admin.AdminHome),
+      (r"/admin", app.admin.AdminHome),
+      (r"/admin/delete_user", app.admin.DeleteUser),
+      (r"/admin/deleted_posts", app.admin.DeletedPosts),
+      (r"/admin/sort_posts", app.admin.ReCalculateScores),
+      (r"/admin/stats", app.admin.AdminStats),
       (r"/posts/([^\/]+)/bumpup", app.admin.BumpUp),
       (r"/posts/([^\/]+)/bumpdown", app.admin.BumpDown),
       (r"/posts/([^\/]+)/mute", app.admin.Mute),
+      (r"/users/(?P<username>[A-z-+0-9]+)/ban", app.admin.BanUser),
+      (r"/users/(?P<username>[A-z-+0-9]+)/unban", app.admin.UnBanUser),
 
       # api stuff
       (r"/api/incr_comment_count", app.api.DisqusCallback),
@@ -57,16 +63,17 @@ class Application(tornado.web.Application):
       (r"/tagged/(.+)", app.search.ViewByTag),
 
       # twitter stuff
-      (r'/auth/twitter/?', app.twitter.Auth),
-      (r'/twitter', app.twitter.Twitter),
+      (r"/auth/twitter/?", app.twitter.Auth),
+      (r"/twitter", app.twitter.Twitter),
 
       # post stuff
-      (r'/feed/(?P<feed_type>[A-z-+0-9]+)$', app.posts.Feed),
-      (r'/feed$', app.posts.Feed),
+      (r"/featured.*$", app.posts.FeaturedPosts),
+      (r"/feed/(?P<feed_type>[A-z-+0-9]+)$", app.posts.Feed),
+      (r"/feed$", app.posts.Feed),
       (r"/posts/([^\/]+)/upvote", app.posts.UpVote),
       (r"/posts/([^\/]+)/edit", app.posts.EditPost),
       (r"/posts/(.+)", app.posts.ViewPost),
-      (r'/widget.*?', app.posts.Widget),
+      (r"/widget.*?", app.posts.Widget),
       (r".+", app.posts.ListPosts)
     ]
 

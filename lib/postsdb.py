@@ -1,16 +1,12 @@
 import pymongo
 import re
 import settings
-import time
 
 from datetime import datetime
-from math import log
 from mongo import db
 from slugify import slugify
 
 """
-'indexes': ['-date_deleted', 'deleted', '-date_featured', 'votes', 'date_created', 'featured', 'voted_users', 'user.id_str', 'slug', 'slugs', 'url', 'tags', 'normalized_url'],
-
 {
   'date_created':new Date(),
   'title': '',
@@ -42,66 +38,91 @@ from slugify import slugify
 }
 """
 
-def get_latest_staff_posts_by_tag(tag, limit=10):
-  staff = settings.get('staff')
-  return list(db.post.find({'user.username': {'$in': staff}, 'tags':tag}, sort=[('date_featured', pymongo.DESCENDING)]).limit(limit))
+###########################
+### GET A SPECIFIC POST
+###########################
+def get_post_by_slug(slug):
+  return db.post.find_one({'slug':slug})
 
+###########################
+### GET PAGED LISTING OF POSTS
+###########################
 def get_posts_by_query(query, per_page=10, page=1):
   query_regex = re.compile('%s[\s$]' % query, re.I)
   return list(db.post.find({'$or':[{'title':query_regex}, {'body_raw':query_regex}]}, sort=[('date_created', pymongo.DESCENDING)]).skip((page-1)*per_page).limit(per_page))
 
-def get_post_count_by_query(query):
-  query_regex = re.compile('%s[\s$]' % query, re.I)
-  return len(list(db.post.find({'$or':[{'title':query_regex}, {'body_raw':query_regex}]})))
-
 def get_posts_by_tag(tag, per_page=10, page=1):
   return list(db.post.find({'tags':tag}, sort=[('date_created', pymongo.DESCENDING)]).skip((page-1)*per_page).limit(per_page))
 
-def get_post_count_by_tag(tag):
-  return len(list(db.post.find({'tags':tag})))
-
-def get_featured_posts(limit):
-  return list(db.post.find({'featured':True}, sort=[('date_featured', pymongo.DESCENDING)]).limit(limit))
+def get_featured_posts(per_page=10, page=1):
+  return list(db.post.find({'featured':True}, sort=[('date_featured', pymongo.DESCENDING)]).skip((page-1)*per_page).limit(per_page))
 
 def get_new_posts(per_page=50, page=1):
   return list(db.post.find({}, sort=[('_id', pymongo.DESCENDING)]).skip((page-1)*per_page).limit(per_page))
 
-def get_hot_posts():
-  # hot posts are calculated out of the last 'hot_post_set_count' posts
-  hot_post_set_count = settings.get('hot_post_set_count')
-  posts = list(db.post.find({}, sort=[('_id', pymongo.DESCENDING)]).limit(hot_post_set_count))
-  # now calculate a rank for each post in this set
-  for post in posts:
-    adjusted_votes = log(max(abs(post['votes']), 1), 10)
-    sign = 1
-    age_factor = 45000.0 # ~12.5 hour increments
-    timestamp = time.mktime(post['date_created'].timetuple())
-    post['score'] = adjusted_votes + round(sign * timestamp / age_factor)
-
-  # finally sort the posts by the newly added 'score' field
-  try:
-    posts = sorted(posts, key=lambda k: k['score'])
-    posts.reverse()
-  except:
-    posts = posts
-
+def get_hot_posts(per_page=50, page=1):
+  posts = list(db.post.find({}, sort=[('sort_score', pymongo.DESCENDING)]).skip((page-1)*per_page).limit(per_page))
   return posts
 
 def get_sad_posts(per_page=50, page=1):
   return list(db.post.find({'date_created':{'$gt': datetime.strptime("10/12/13", "%m/%d/%y")}, 'votes':0, 'comment_count':0, 'deleted': False, 'featured': False}, sort=[('date_created', pymongo.DESCENDING)]).skip((page-1)*per_page).limit(per_page))
 
+def get_deleted_posts(per_page=50, page=1):
+  return list(db.post.find({'deleted':True}, sort=[('date_deleted', pymongo.DESCENDING)]).skip((page-1)*per_page).limit(per_page))
+
+###########################
+### GET POST COUNTS
+###########################
+def get_featured_posts_count():
+  return len(list(db.post.find({'featured':True})))
+
+def get_post_count_by_query(query):
+  query_regex = re.compile('%s[\s$]' % query, re.I)
+  return len(list(db.post.find({'$or':[{'title':query_regex}, {'body_raw':query_regex}]})))
+
+def get_post_count():
+  return len(list(db.post.find({'date_created':{'$gt': datetime.strptime("10/12/13", "%m/%d/%y")}})))
+
+def get_delete_posts_count():
+  return len(list(db.post.find({'deleted':True})))
+
+def get_post_count_by_tag(tag):
+  return len(list(db.post.find({'tags':tag})))
+
+###########################
+### GET LIST OF POSTS BY CRITERIA
+###########################
+def get_latest_staff_posts_by_tag(tag, limit=10):
+  staff = settings.get('staff')
+  return list(db.post.find({'user.username': {'$in': staff}, 'tags':tag}, sort=[('date_featured', pymongo.DESCENDING)]).limit(limit))
+
 def get_posts_by_normalized_url(normalized_url, limit):
   return list(db.post.find({'normalized_url':normalized_url, 'deleted':False}, sort=[('_id', pymongo.DESCENDING)]).limit(limit))
 
-def get_post_by_slug(slug):
-  return db.post.find_one({'slug':slug})
+def get_posts_with_min_votes(min_votes):
+  return list(db.post.find({'deleted':False, 'votes':{'$gt':min_votes}}, {'slug':1, 'date_created':1, 'downvotes':1, 'user.screen_name':1, 'comment_count':1, 'votes':1}, sort=[('date_created', pymongo.DESCENDING)]))
 
+###########################
+### UPDATE POST DETAIL
+###########################
 def add_subscriber_to_post(slug, email):
   return db.post.update({'slug':slug}, {'$addToSet': {'subscribed': email}})
 
 def remove_subscriber_from_post(slug, email):
   return db.post.update({'slug':slug}, {'$pull': {'subscribed': email}})
 
+def save_post(post):
+  return db.post.update({'_id':post['_id']}, post)
+
+def update_post_score(slug, score):
+  return db.post.update({'slug':slug}, {'$set':{'sort_score': score}})
+
+def delete_all_posts_by_user(screen_name):
+  db.post.update({'user.screen_name':screen_name}, {'$set':{'deleted':True, 'date_delated': datetime.utcnow()}}, multi=True)
+
+###########################
+### ADD A NEW POST
+###########################
 def insert_post(post):
   slug = slugify(post['title'])
   slug_count = len(list(db.post.find({'slug':slug})))
@@ -113,5 +134,4 @@ def insert_post(post):
     post['subscribed'] = []
   return db.post.update({'url':post['slug'], 'user.screen_name':post['user']['screen_name']}, post, upsert=True)
 
-def save_post(post):
-  return db.post.update({'_id':post['_id']}, post)
+

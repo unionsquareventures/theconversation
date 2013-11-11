@@ -28,6 +28,20 @@ class EditPost(app.basic.BaseHandler):
       # not available to edit right now
       self.redirect('/posts/%s' % slug)
 
+##################
+### FEATURED POSTS
+### /featured.*$
+##################
+class FeaturedPosts(app.basic.BaseHandler):
+  def get(self):
+    page = abs(int(self.get_argument('page', '1')))
+    per_page = abs(int(self.get_argument('per_page', '9')))
+
+    featured_posts = postsdb.get_featured_posts(per_page, page)
+    total_count = postsdb.get_featured_posts_count()
+
+    self.render('post/featured_posts.html', featured_posts=featured_posts, total_count=total_count, page=page, per_page=per_page)
+
 ##############
 ### FEED
 ### /feed
@@ -35,19 +49,19 @@ class EditPost(app.basic.BaseHandler):
 class Feed(app.basic.BaseHandler):
   def get(self, feed_type="hot"):
     #action = self.get_argument('action', '')
-    #count = int(self.get_argument('count', 0))
-    #per_page = self.get_argument('per_page', 20)
+    page = abs(int(self.get_argument('page', '1')))
+    per_page = abs(int(self.get_argument('per_page', '9')))
 
     posts = []
     if feed_type == 'new':
       # show the newest posts
-      posts = postsdb.get_new_posts()
+      posts = postsdb.get_new_posts(per_page, page)
     elif feed_type == 'sad':
       # show the sad posts
-      posts = postsdb.get_sad_posts()
+      posts = postsdb.get_sad_posts(per_page, page)
     else:
       # get the current hot posts
-      posts = postsdb.get_hot_posts()
+      posts = postsdb.get_hot_posts(per_page, page)
 
     self.render('feed.xml', posts=posts)
 
@@ -58,27 +72,31 @@ class Feed(app.basic.BaseHandler):
 class ListPosts(app.basic.BaseHandler):
   def get(self):
     sort_by = self.get_argument('sort_by', 'hot')
+    page = abs(int(self.get_argument('page', '1')))
+    per_page = abs(int(self.get_argument('per_page', '20')))
     msg = ''
-    featured_posts = postsdb.get_featured_posts(6)
+    featured_posts = postsdb.get_featured_posts(6, 1)
     posts = []
     is_blacklisted = False
     if self.current_user:
       is_blacklisted = self.is_blacklisted(self.current_user)
     if sort_by == 'new':
       # show the newest posts
-      posts = postsdb.get_new_posts()
+      posts = postsdb.get_new_posts(per_page, page)
     elif sort_by == 'sad':
       # show the sad posts
-      posts = postsdb.get_sad_posts()
+      posts = postsdb.get_sad_posts(per_page, page)
     else:
       # get the current hot posts
-      posts = postsdb.get_hot_posts()
+      posts = postsdb.get_hot_posts(per_page, page)
     new_post = {}
     self.render('post/lists_posts.html', sort_by=sort_by, msg=msg, new_post=new_post, posts=posts, featured_posts=featured_posts, is_blacklisted=is_blacklisted)
 
   @tornado.web.authenticated
   def post(self):
     sort_by = self.get_argument('sort_by', 'hot')
+    page = abs(int(self.get_argument('page', '1')))
+    per_page = abs(int(self.get_argument('per_page', '9')))
     is_blacklisted = False
     if self.current_user:
       is_blacklisted = self.is_blacklisted(self.current_user)
@@ -186,20 +204,20 @@ class ListPosts(app.basic.BaseHandler):
 
     new_post = {}
     msg = ''
-    featured_posts = postsdb.get_featured_posts(6)
+    featured_posts = postsdb.get_featured_posts(6, 1)
 
     if bypass_dup_check == '' and posts:
       # we should have duplicate list of posts already from above
       posts = posts
     elif sort_by == 'new':
       # show the newest posts
-      posts = postsdb.get_new_posts()
+      posts = postsdb.get_new_posts(per_page, page)
     elif sort_by == 'sad':
       # show the sad posts
-      posts = postsdb.get_sad_posts()
+      posts = postsdb.get_sad_posts(per_page, page)
     else:
       # get the current hot posts
-      posts = postsdb.get_hot_posts()
+      posts = postsdb.get_hot_posts(per_page, page)
 
     self.render('post/lists_posts.html', sort_by=sort_by, msg=msg, new_post=new_post, posts=posts, featured_posts=featured_posts, is_blacklisted=is_blacklisted)
 
@@ -273,10 +291,9 @@ class Widget(app.basic.BaseHandler):
     else:
       # list posts
       #action = self.get_argument('action', '')
-      #count = int(self.get_argument('count', 0))
-      #per_page = self.get_argument('per_page', 20)
+      page = abs(int(self.get_argument('page', '1')))
+      per_page = abs(int(self.get_argument('per_page', '9')))
 
-      posts = []
       # get the current hot posts
-      posts = postsdb.get_hot_posts()
+      posts = postsdb.get_hot_posts(per_page, page)
       self.render('post/widget.js', posts=posts)

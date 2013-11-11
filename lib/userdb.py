@@ -21,3 +21,6 @@ def create_new_user(user, access_token):
 
 def save_user(user):
   return db.user_info.update({'user.id_str': user['user']['id_str']}, user)
+
+def get_user_count():
+  return db.user_info.count()
