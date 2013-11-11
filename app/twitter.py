@@ -10,8 +10,8 @@ from lib import userdb
 ####################
 class Auth(app.basic.BaseHandler):
   def get(self):
-    consumer_key = settings.get('consumer_key')
-    consumer_secret = settings.get('consumer_secret')
+    consumer_key = settings.get('twitter_consumer_key')
+    consumer_secret = settings.get('twitter_consumer_secret')
     callback_host = 'http://%s/twitter' % self.request.headers['host']
     auth = tweepy.OAuthHandler(consumer_key, consumer_secret, callback_host)
     auth_url = auth.get_authorization_url(True)

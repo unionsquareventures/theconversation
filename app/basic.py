@@ -1,5 +1,5 @@
 import tornado.web
-
+import requests
 import settings
 import simplejson as json
 
@@ -10,13 +10,18 @@ class BaseHandler(tornado.web.RequestHandler):
     return self.get_secure_cookie("username")
 
   def send_email(self, from_user, to_user, subject, text):
-    sendgrid = self.settings['sendgrid']
-    return sendgrid.send_email(lambda x: None, **{
-      'from': from_user,
-      'to': to_user,
-      'subject': subject,
-      'text': text,
-    })
+    return requests.post(
+      "https://sendgrid.com/api/mail.send.json",
+      data={
+        "api_user":settings.get('sendgrid_user'),
+        "api_key":settings.get('sendgrid_secret'),
+        "from": from_user,
+        "to": to_user,
+        "subject": subject,
+        "text": text
+      },
+      verify=False
+    )
 
   def is_blacklisted(self, screen_name):
     u = userdb.get_user_by_screen_name(screen_name)

@@ -5,45 +5,41 @@ tornado.options.define("environment", default="dev", help="environment")
 options = {
   'dev' : {
     'mongo_database' : {'host' : 'localhost', 'port' : 27017, 'db' : 'usv'},
-    'redis_database' : {'host' : 'localhost', 'port' : 6379, 'db': 'usv'},
     'base_url' : 'localhost:8001',
   },
   'test' : {
-    'mongo_database' : {'host' : '', 'port' : 27017, 'db' : 'usv'},
-    'redis_database' : {'host' : 'localhost', 'port' : 6379, 'db': 'usv'},
+    'mongo_database' : {'host' : 'localhost', 'port' : 27017, 'db' : 'usv'},
     'base_url' : 'localhost:8001',
   },
   'prod' : {
-    'mongo_database' : {'host' : '', 'port' : 27017, 'db' : 'usv'},
-    'redis_database' : {'host' : 'localhost', 'port' : 6379, 'db': 'usv'},
+    'mongo_database' : {'host' : 'localhost', 'port' : 27017, 'db' : 'usv'},
     'base_url' : 'www.usv.com',
   }
 }
 
 default_options = {
   # twiter details (using knowabout.it keys for testing)
-  'consumer_key' : 'CmBsLlXpRg7OQY9wlRzfA',
-  'consumer_secret' : 'pGFyzrXAnNZqtt2UON2RCfs8BMhHIczqn7wIVP3HpQ',
+  'twitter_consumer_key' : '',
+  'twitter_consumer_secret' : '',
 
   # disqus details (using greentile keys for testing)
-  'disqus_public_key': 'OTb51wiAl9qpx2PaasJsw1QDULTSGiNcvnKf0ETCbIefSqlWNTJRlep4IJApyP9l',
-  'disqus_secret_key': 'oWeoxP5t6pdSNwRzhxDqAJVDTCn8AKl5sXe6kWeh9OJM4PfsKJo4LonzmgWaJUXl',
-  'disqus_short_code': 'usvbeta2',
+  'disqus_public_key': '',
+  'disqus_secret_key': '',
+  'disqus_short_code': '',
 
   # sendgrid details
   'sendgrid_user': '',
   'sendgrid_secret': '',
 
   # hackpad details
-  'hackpad_oauth_client_id':'ureNCXf5AvH', 
-  'hackpad_oauth_secret':'u1flIDEjGBuHW7gobQOWwxmtjrYmjRW3', 
-  'hackpad_domain':'falicon',
+  'hackpad_oauth_client_id':'', 
+  'hackpad_oauth_secret':'', 
+  'hackpad_domain':'',
 
   # other control variables
   'tinymce_valid_elements': '',
   'post_char_limit': 1000,
   'sticky': None,
-
   'read_only' : False,
   'max_simultaneous_connections' : 10,
   'hot_post_set_count': 200,
@@ -60,7 +56,6 @@ default_options = {
     "johnbuttrick",
     "christinacaci",
     "garychou",
-    "falicon"
   ],
 
   # define the various roles and what capabilities they support

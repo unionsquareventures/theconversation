@@ -1,6 +1,6 @@
 import app.basic
 
-#import logging
+import logging
 import settings
 import tornado.web
 import tornado.options
@@ -184,7 +184,6 @@ class ListPosts(app.basic.BaseHandler):
             # finally let's save the updates
             postsdb.save_post(saved_post)
 
-    """
     # Send email to USVers if OP is USV
     if self.get_current_user_role() == 'staff' and tornado.options.options.environment == 'prod':
       subject = 'USV.com: %s posted "%s"' % (post.user['username'], post.title)
@@ -200,7 +199,6 @@ class ListPosts(app.basic.BaseHandler):
           acc = userdb.get_user_by_screen_name(u)
           self.send_email('web@usv.com', acc['email_address'], subject, text)
           logging.info("Email sent to %s" % acc['email_address'])
-    """
 
     new_post = {}
     msg = ''
