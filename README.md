@@ -17,23 +17,16 @@ Configuration
 
 General app settings are controlled via the settings.py file. You will need to provide dev/local values for the following settings:
 
-* twiter details
-'twitter_consumer_key' : '',
-'twitter_consumer_secret' : '',
-
-* disqus details
-'disqus_public_key': '',
-'disqus_secret_key': '',
-'disqus_short_code': '',
-
-* sendgrid details
-'sendgrid_user': '',
-'sendgrid_secret': '',
-
-* hackpad details
-'hackpad_oauth_client_id':'', 
-'hackpad_oauth_secret':'', 
-'hackpad_domain':'',
+* 'twitter_consumer_key' : '',
+* 'twitter_consumer_secret' : '',
+* 'disqus_public_key': '',
+* 'disqus_secret_key': '',
+* 'disqus_short_code': '',
+* 'sendgrid_user': '',
+* 'sendgrid_secret': '',
+* 'hackpad_oauth_client_id':'', 
+* 'hackpad_oauth_secret':'', 
+* 'hackpad_domain':'',
 
 Installation
 ------------
