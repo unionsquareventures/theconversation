@@ -19,22 +19,22 @@ options = {
 
 default_options = {
   # twiter details (using knowabout.it keys for testing)
-  'twitter_consumer_key' : 'CmBsLlXpRg7OQY9wlRzfA',
-  'twitter_consumer_secret' : 'pGFyzrXAnNZqtt2UON2RCfs8BMhHIczqn7wIVP3HpQ',
+  'twitter_consumer_key' : '',
+  'twitter_consumer_secret' : '',
 
   # disqus details (using greentile keys for testing)
-  'disqus_public_key': '149uCjtPTHpaRpL28uJmtp5qzLcvyBdY4wS4f4SxedwrjShviFufSEab4C40sjLW',
-  'disqus_secret_key': 'VAOTCCyeqE0ZuObfXMC170VOFMseuRnpvBi4cZ8tve9rFPlVyqYW6LZnLpCEheXM',
-  'disqus_short_code': 'falconsrule',
+  'disqus_public_key': '',
+  'disqus_secret_key': '',
+  'disqus_short_code': '',
 
   # sendgrid details
   'sendgrid_user': '',
   'sendgrid_secret': '',
 
   # hackpad details
-  'hackpad_oauth_client_id':'ureNCXf5AvH', 
-  'hackpad_oauth_secret':'u1flIDEjGBuHW7gobQOWwxmtjrYmjRW3', 
-  'hackpad_domain':'falicon',
+  'hackpad_oauth_client_id':'', 
+  'hackpad_oauth_secret':'', 
+  'hackpad_domain':'',
 
   # other control variables
   'tinymce_valid_elements': '',
