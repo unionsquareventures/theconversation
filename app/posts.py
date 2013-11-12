@@ -7,7 +7,6 @@ import tornado.options
 
 from datetime import datetime
 from urlparse import urlparse
-from lib import disqus
 from lib import userdb
 from lib import postsdb
 from lib import sanitize
@@ -89,8 +88,7 @@ class ListPosts(app.basic.BaseHandler):
     else:
       # get the current hot posts
       posts = postsdb.get_hot_posts(per_page, page)
-    new_post = {}
-    self.render('post/lists_posts.html', sort_by=sort_by, msg=msg, new_post=new_post, posts=posts, featured_posts=featured_posts, is_blacklisted=is_blacklisted)
+    self.render('post/lists_posts.html', sort_by=sort_by, msg=msg, posts=posts, featured_posts=featured_posts, is_blacklisted=is_blacklisted)
 
   @tornado.web.authenticated
   def post(self):
@@ -98,6 +96,7 @@ class ListPosts(app.basic.BaseHandler):
     page = abs(int(self.get_argument('page', '1')))
     per_page = abs(int(self.get_argument('per_page', '9')))
     is_blacklisted = False
+    msg = 'success'
     if self.current_user:
       is_blacklisted = self.is_blacklisted(self.current_user)
     post = {}
@@ -156,13 +155,13 @@ class ListPosts(app.basic.BaseHandler):
           post['featured'] = False
           post['date_featured'] = None
 
-        account = userdb.get_user_by_screen_name(self.current_user)
+        user = userdb.get_user_by_screen_name(self.current_user)
         post['date_created'] = datetime.now()
-        post['user_id_str'] = account['user']['id_str']
+        post['user_id_str'] = user['user']['id_str']
         post['username'] = self.current_user
-        post['user'] = account['user']
+        post['user'] = user['user']
         post['votes'] = 1
-        post['voted_users'] = [account['user']]
+        post['voted_users'] = [user['user']]
         post['muted'] = False
         post['comment_count'] = 0
         post['disqus_thread_id_str'] = ''
@@ -174,6 +173,7 @@ class ListPosts(app.basic.BaseHandler):
         if post['slug'] == '':
           # save the post details
           postsdb.insert_post(post)
+          msg = 'success'
         else:
           # attempt to edit the post (make sure they are the author)
           saved_post = postsdb.get_post_by_slug(post['slug'])
@@ -183,9 +183,10 @@ class ListPosts(app.basic.BaseHandler):
               saved_post[key] = post[key]
             # finally let's save the updates
             postsdb.save_post(saved_post)
+            msg = 'success'
 
     # Send email to USVers if OP is USV
-    if self.get_current_user_role() == 'staff' and tornado.options.options.environment == 'prod':
+    if self.current_user in settings.get('staff') and tornado.options.options.environment == 'prod':
       subject = 'USV.com: %s posted "%s"' % (post.user['username'], post.title)
       if post.url: # post.url is the link to external content (if any)
         post_link = 'External Link: %s \n\n' % post.url
@@ -200,8 +201,6 @@ class ListPosts(app.basic.BaseHandler):
           self.send_email('web@usv.com', acc['email_address'], subject, text)
           logging.info("Email sent to %s" % acc['email_address'])
 
-    new_post = {}
-    msg = ''
     featured_posts = postsdb.get_featured_posts(6, 1)
 
     if bypass_dup_check == '' and posts:
@@ -217,7 +216,7 @@ class ListPosts(app.basic.BaseHandler):
       # get the current hot posts
       posts = postsdb.get_hot_posts(per_page, page)
 
-    self.render('post/lists_posts.html', sort_by=sort_by, msg=msg, new_post=new_post, posts=posts, featured_posts=featured_posts, is_blacklisted=is_blacklisted)
+    self.render('post/lists_posts.html', sort_by=sort_by, msg=msg, posts=posts, featured_posts=featured_posts, is_blacklisted=is_blacklisted)
 
 ##########################
 ### UPVOTE A SPECIFIC POST
@@ -254,26 +253,19 @@ class UpVote(app.basic.BaseHandler):
 ########################
 class ViewPost(app.basic.BaseHandler):
   def get(self, slug):
+    subscribe = self.get_argument('subscribe', '')
+    if subscribe != '':
+      show_subscribe_modal = True
+    else:
+      show_subscribe_modal = False
+    email = ''
     post = postsdb.get_post_by_slug(slug)
-    if post:
-      user_id_str = ''
-      if self.current_user:
-        user = userdb.get_user_by_screen_name(self.current_user)
-        if user:
-          user_id_str = user['user']['id_str']
-      author = userdb.get_user_by_screen_name(post['user']['screen_name'])
-      user_info = {}
-      if author and 'email_address' in author.keys():
-        user_info = {
-          'id': author['user']['id_str'],
-          'username': author['user']['username'],
-          'email': author['email_address'],
-          'avatar': author['user']['profile_image_url'],
-          'url': 'http://www.twitter.com/%s' % author['user']['screen_name'],
-        }
+    if self.current_user:
+      user = userdb.get_user_by_screen_name(self.current_user)
+      if user:
+        email = user['email_address']
 
-      disqus_sso = disqus.get_sso(True, user_info)
-      self.render('post/view_post.html', post=post, subscribe=False, disqus_sso=disqus_sso, user_id_str=user_id_str)
+      self.render('post/view_post.html', post=post, subscribe=False, email=email, show_subscribe_modal=show_subscribe_modal)
     else:
       # couldn't find a post; bounce to list
       self.redirect('/')

@@ -16,6 +16,9 @@ def get_user_by_id_str(id_str):
 def get_user_by_screen_name(screen_name):
   return db.user_info.find_one({'user.screen_name': screen_name})
 
+def get_user_by_email(email_address):
+  return db.user_info.find_one({'email_address':email_address})
+
 def create_new_user(user, access_token):
   return db.user_info.update({'user.id_str': user['id_str']}, {'user':user, 'access_token':access_token, 'email_address':'', 'role':''}, upsert=True)
 

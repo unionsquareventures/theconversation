@@ -26,12 +26,13 @@ class Auth(app.basic.BaseHandler):
 class Twitter(app.basic.BaseHandler):
   def get(self):
     oauth_verifier = self.get_argument('oauth_verifier', '')
-    consumer_key = settings.get('consumer_key')
-    consumer_secret = settings.get('consumer_secret')
+    consumer_key = settings.get('twitter_consumer_key')
+    consumer_secret = settings.get('twitter_consumer_secret')
     auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
     auth.set_request_token(self.get_secure_cookie('request_token_key'), self.get_secure_cookie('request_token_secret'))
     auth.get_access_token(oauth_verifier)
     screen_name = auth.get_username()
+    bounce_to = '/'
 
     access_token = {
       'secret': auth.access_token.secret,
@@ -41,11 +42,13 @@ class Twitter(app.basic.BaseHandler):
     }
 
     # check if we have this user already or not in the system
-    account = userdb.get_user_by_screen_name(screen_name)
-    if account:
+    user = userdb.get_user_by_screen_name(screen_name)
+    if user:
       # set the cookies based on account details
-      self.set_secure_cookie("user_id_str", account['user']['id_str'])
-      self.set_secure_cookie("username", account['user']['screen_name'])
+      self.set_secure_cookie("user_id_str", user['user']['id_str'])
+      self.set_secure_cookie("username", user['user']['screen_name'])
+      if user['email_address'] == '':
+        bounce_to = '/auth/email'
     else:
       # need to create the account (so get more details from Twitter)
       auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
@@ -67,9 +70,10 @@ class Twitter(app.basic.BaseHandler):
       # and set our cookies
       self.set_secure_cookie("user_id_str", user.id_str)
       self.set_secure_cookie("username", user.screen_name)
+      bounce_to = '/auth/email'
 
     # let's save the screen_name to a cookie as well so we can use it for restricted bounces if need be
     self.set_secure_cookie('screen_name', screen_name, expires_days=30)
 
     # bounce to account
-    self.redirect('/')
+    self.redirect(bounce_to)

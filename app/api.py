@@ -11,6 +11,7 @@ class DisqusCallback(app.basic.BaseHandler):
     comment = self.get_argument('comment', '')
     post_slug = self.get_argument('post', '')
     post = postsdb.get_post_by_slug(post_slug)
+
     if post:
       # increment the comment count for this post
       post['comment_count'] += 1

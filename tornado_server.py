@@ -35,6 +35,7 @@ class Application(tornado.web.Application):
 
     handlers = [
       # account stuff
+      (r"/auth/email/?", app.user.EmailSettings),
       (r"/auth/logout/?", app.user.LogOut),
 
       # admin stuff

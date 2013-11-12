@@ -25,7 +25,7 @@
             <br/>
             <label for="email">Email</label>
             <br/>
-            <input id="email" name="email" type="text" placeholder="me@myself.com" value="" style="width: 100%">
+            <input id="email" name="email" type="text" placeholder="me@myself.com" value="{{email}}" style="width: 100%">
             <p>This email address will not be shared or displayed.</p>
           </div>
           <div class="modal-footer">
@@ -58,7 +58,7 @@
                 <img class="avatar" src="{{ template_helpers.twitter_avatar_size(post['user']['profile_image_url_https'], 'original') }}" alt="thumbnail">
               </a>
               <div class="visible-xs">
-                {% if post['user']['id_str'] == user_id_str or current_user in settings.get('staff') %}
+                {% if post['user']['screen_name'] == current_user or current_user in settings.get('staff') %}
                   <p><a href="/posts/{{ post['slug'] }}/edit" class="btn">Edit</a></p>
                 {% end %}
               </div>
@@ -138,17 +138,6 @@
 
             <script type="text/javascript">
               var disqus_config = function() {
-                {% raw disqus_sso %}
-                this.page.api_key = '{{ settings.get('disqus_public_key') }}';
-                this.sso = {
-                  name: "USV",
-                  button: "{{ 'http://%s/%s' % (settings.get('base_url'), 'static/img/disqus-sso-login-button.png') }}",
-                  icon: "{{ 'http://%s/%s' % (settings.get('base_url'), 'static/favicon.png') }}",
-                  url: "{% raw 'http://%s/%s%s' % (settings.get('base_url'), 'auth/twitter/?email_required=1&close_popup=1&next=', url_escape(handler.request.path)) %}",
-                  logout: "{% raw 'http://%s/%s%s' % (settings.get('base_url'), 'auth/logout/?next=', url_escape(handler.request.path)) %}",
-                  width: "600",
-                  height: "600"
-                };
                 this.callbacks.onNewComment = [function(comment) {
                   $.get("/api/incr_comment_count", { comment: comment.id, post: "{{ str(post['slug']) }}" }, function(result){});
                 }];
@@ -179,7 +168,7 @@
 
       <!-- Allow editing if USVer or the OP -->
      <div class="col-sm-2 hidden-xs">
-       {% if post['user']['id_str'] == user_id_str or current_user in settings.get('staff') %}
+       {% if post['user']['screen_name'] == current_user or current_user in settings.get('staff') %}
          <p><a href="/posts/{{ post['slug'] }}/edit" class="btn">Edit</a></p>
        {% end %}
        {% if current_user in settings.get('staff') %}
@@ -189,4 +178,12 @@
 
     </div>
   </div>
+{% end %}
+
+{% block javascript %}
+  {% if show_subscribe_modal %}
+    <script type="text/javascript">
+      $("#subscribe-modal").modal('show');
+    </script>
+  {% end %}
 {% end %}

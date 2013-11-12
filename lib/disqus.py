@@ -1,9 +1,8 @@
 import base64
-import cookielib
 import hashlib
 import hmac
 import json
-import mechanize
+import requests
 import settings
 import time
 
@@ -22,6 +21,26 @@ def get_sso(format_html, user_info):
   else:
     return "%(message)s %(sig)s %(timestamp)s" % dict(message=message, timestamp=timestamp, sig=sig)
 
+def create_thread(title, identifier, user_info):
+  api_link = 'https://disqus.com/api/3.0/threads/create.json'
+  thread_info = {
+    'forum': settings.get('disqus_short_code'),
+    'title': title.encode('utf-8'),
+    'identifier':identifier,
+    'api_secret':settings.get('disqus_secret_key'),
+    'remote_auth': get_sso(False, user_info)
+  }
+  return do_api_request(api_link, 'POST', thread_info)
+
+def subscribe_to_thread(thread_id, user_info):
+  api_link = 'https://disqus.com/api/3.0/threads/subscribe.json'
+  info = {
+    'api_secret': settings.get('disqus_secret_key'),
+    'remote_auth': get_sso(False, user_info),
+    'thread': thread_id,
+  }
+  return do_api_request(api_link, 'POST', info)
+
 def get_post_details(post_id):
   message = {'id':'','message':'','author':{'username':'', 'email':''}}
   api_link = 'https://disqus.com/api/3.0/posts/details.json'
@@ -37,16 +56,31 @@ def get_post_details(post_id):
         message['author']['email'] = disqus['response']['author']['email']
   return message
 
-def do_api_request(api_link):
+def get_thread_details(thread_id):
+  api_link = 'https://disqus.com/api/3.0/threads/details.json?api_key=%s&thread:ident=%s&forum=%s' % (settings.get('disqus_public_key'), thread_id, settings.get('disqus_short_code'))
+  return do_api_request(api_link, 'GET')
+
+def do_api_request(api_link, method='GET', params={}):
   try:
-    br = mechanize.Browser()
-    cj = cookielib.LWPCookieJar()
-    br.set_cookiejar(cj)
-    br.set_handle_robots(False)
-    br.addheaders = [('User-agent', 'Mozilla/5.0 (X11; U; Linux i686; en-US; rv:1.9.0.1) Gecko/2008071615 Fedora/3.0.1-1.fc9 Firefox/3.0.1')]
-    r = br.open(api_link)
-    data = r.read()
-    disqus = json.loads(data)
+    if method.upper() == 'GET':
+      if len(params.keys()) > 0:
+        r = requests.get(
+          api_link,
+          data=params,
+          verify=False
+        )
+      else:
+        r = requests.get(
+          api_link,
+          verify=False
+        )
+    else:
+      r = requests.post(
+        api_link,
+        data=params,
+        verify=False
+      )
+    disqus = r.json
   except:
     disqus = {}
   return disqus
