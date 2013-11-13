@@ -105,7 +105,7 @@ class LogOut(app.basic.BaseHandler):
     self.redirect('/')
 
 ##########################
-### USER PUBLIC PROFILE
+### USER PROFILE
 ### /user/(.+)
 ##########################
 class Profile(app.basic.BaseHandler):
@@ -120,19 +120,3 @@ class Profile(app.basic.BaseHandler):
 
     self.render('user/profile.html', screen_name=screen_name, posts=posts, page=page, per_page=per_page)
 
-###########################
-### USER SHARES
-### /user_shares
-###########################
-class UserShares(app.basic.BaseHandler):
-  @tornado.web.authenticated
-  def get(self):
-    tag = self.get_argument('tag', '')
-    per_page = int(self.get_argument('per_page', 10))
-    page = int(self.get_argument('page',1))
-    if tag == '':
-      posts = postsdb.get_posts_by_screen_name(self.current_user, per_page, page)
-    else:
-      posts = postsdb.get_posts_by_screen_name_and_tag(self.current_user, tag, per_page, page)
-
-    self.render('user/user_shares.html', posts=posts, page=page, per_page=per_page)
