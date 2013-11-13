@@ -138,6 +138,6 @@ def insert_post(post):
   post['slugs'] = [slug]
   if 'subscribed' not in post.keys():
     post['subscribed'] = []
-  return db.post.update({'url':post['slug'], 'user.screen_name':post['user']['screen_name']}, post, upsert=True)
-
+  db.post.update({'url':post['slug'], 'user.screen_name':post['user']['screen_name']}, post, upsert=True)
+  return post['slug']
 

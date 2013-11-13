@@ -1,16 +1,18 @@
 import app.basic
 
 import logging
+import re
 import settings
 import tornado.web
 import tornado.options
 
 from datetime import datetime
 from urlparse import urlparse
-from lib import userdb
+from lib import mentionsdb
 from lib import postsdb
 from lib import sanitize
 from lib import tagsdb
+from lib import userdb
 
 ###############
 ### EDIT A POST
@@ -173,7 +175,7 @@ class ListPosts(app.basic.BaseHandler):
 
         if post['slug'] == '':
           # save the post details
-          postsdb.insert_post(post)
+          post['slug'] = postsdb.insert_post(post)
           msg = 'success'
         else:
           # attempt to edit the post (make sure they are the author)
@@ -185,6 +187,11 @@ class ListPosts(app.basic.BaseHandler):
             # finally let's save the updates
             postsdb.save_post(saved_post)
             msg = 'success'
+
+        # log any @ mentions in the post
+        mentions = re.findall(r'@([^\s]+)', post['body_raw'])
+        for mention in mentions:
+          mentionsdb.add_mention(mention.lower(), post['slug'])
 
     # Send email to USVers if OP is USV
     if self.current_user in settings.get('staff') and tornado.options.options.environment == 'prod':

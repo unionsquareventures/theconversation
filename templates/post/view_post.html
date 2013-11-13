@@ -5,8 +5,7 @@
 {% block title %}{{ post['title'] }} | {% end %}
 
 {% block content %}
-  {% from urlparse import urlparse %}
-  {% from lib import template_helpers %}
+  {% import re %}
 
   <div class="modal" id="subscribe-modal">
     <form id="subscribe-form" action="/auth/email/" method="POST">
@@ -73,6 +72,7 @@
                 </a>
               #}
 
+              {% set post['body_html'] = re.sub(r'@([^\s]+)', r'<a href="/user/\1">\1</a>', post['body_html']) %}
               {% raw post['body_html'] %}
 
               {% if post['url'] and (urlparse(post['url']).netloc == "twitter.com" or urlparse(post['url']).netloc == "www.twitter.com") %}

@@ -1,8 +1,6 @@
 {% extends '../base.html' %}
 
 {% block content %}
-  {% from urlparse import urlparse %}
-  {% from lib import template_helpers %}
   <div id="main" role="main">
     <section class="search-feed centered clearfix">
       <h1 class="general-page-headline">{{ total_count }} result{% if total_count != 1 %}s{% end %} for
