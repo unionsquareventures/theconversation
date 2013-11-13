@@ -5,7 +5,8 @@ from mongo import db
   'user': { 'id_str':'', 'auth_type': '', 'username': '', 'fullname': '', 'screen_name': '', 'profile_image_url_https': '', 'profile_image_url': '', 'is_blacklisted': False }
   'access_token': { 'secret': '', 'user_id': '', 'screen_name': '', 'key': '' },
   'email_address': '',
-  'role': ''
+  'role': '',
+  'tags':[]
 }
 
 """
@@ -27,3 +28,7 @@ def save_user(user):
 
 def get_user_count():
   return db.user_info.count()
+
+def add_tags_to_user(screen_name, tags=[]):
+  return db.user_info.update({'user.screen_name':screen_name}, {'$addToSet':{'tags':{'$each':tags}}})
+

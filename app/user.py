@@ -6,15 +6,6 @@ from lib import postsdb
 from lib import userdb
 
 ###########################
-### LOG USER OUT OF ACCOUNT
-### /auth/logout
-###########################
-class LogOut(app.basic.BaseHandler):
-  def get(self):
-    self.clear_all_cookies()
-    self.redirect('/')
-
-###########################
 ### EMAIL SETTINGS
 ### /auth/email/?
 ###########################
@@ -104,3 +95,44 @@ class EmailSettings(app.basic.BaseHandler):
     else:
       self.redirect('/')
 
+###########################
+### LOG USER OUT OF ACCOUNT
+### /auth/logout
+###########################
+class LogOut(app.basic.BaseHandler):
+  def get(self):
+    self.clear_all_cookies()
+    self.redirect('/')
+
+##########################
+### USER PUBLIC PROFILE
+### /user/(.+)
+##########################
+class Profile(app.basic.BaseHandler):
+  def get(self, screen_name):
+    tag = self.get_argument('tag', '')
+    per_page = int(self.get_argument('per_page', 10))
+    page = int(self.get_argument('page',1))
+    if tag == '':
+      posts = postsdb.get_posts_by_screen_name(screen_name, per_page, page)
+    else:
+      posts = postsdb.get_posts_by_screen_name_and_tag(screen_name, tag, per_page, page)
+
+    self.render('user/profile.html', screen_name=screen_name, posts=posts, page=page, per_page=per_page)
+
+###########################
+### USER SHARES
+### /user_shares
+###########################
+class UserShares(app.basic.BaseHandler):
+  @tornado.web.authenticated
+  def get(self):
+    tag = self.get_argument('tag', '')
+    per_page = int(self.get_argument('per_page', 10))
+    page = int(self.get_argument('page',1))
+    if tag == '':
+      posts = postsdb.get_posts_by_screen_name(self.current_user, per_page, page)
+    else:
+      posts = postsdb.get_posts_by_screen_name_and_tag(self.current_user, tag, per_page, page)
+
+    self.render('user/user_shares.html', posts=posts, page=page, per_page=per_page)

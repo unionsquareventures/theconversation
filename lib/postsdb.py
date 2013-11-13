@@ -54,6 +54,12 @@ def get_posts_by_query(query, per_page=10, page=1):
 def get_posts_by_tag(tag, per_page=10, page=1):
   return list(db.post.find({'tags':tag}, sort=[('date_created', pymongo.DESCENDING)]).skip((page-1)*per_page).limit(per_page))
 
+def get_posts_by_screen_name(screen_name, per_page=10, page=1):
+  return list(db.post.find({'user.screen_name':screen_name}, sort=[('date_created', pymongo.DESCENDING)]).skip((page-1)*per_page).limit(per_page))
+
+def get_posts_by_screen_name_and_tag(screen_name, tag, per_page=10, page=1):
+  return list(db.post.find({'user.screen_name':screen_name, 'tags':tag}, sort=[('date_created', pymongo.DESCENDING)]).skip((page-1)*per_page).limit(per_page))
+
 def get_featured_posts(per_page=10, page=1):
   return list(db.post.find({'featured':True}, sort=[('date_featured', pymongo.DESCENDING)]).skip((page-1)*per_page).limit(per_page))
 

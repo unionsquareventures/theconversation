@@ -187,7 +187,7 @@
         </ul>
         <div id="login">
           {% if current_user %}
-            Welcome, @{{ current_user }}! &nbsp;
+            Welcome, @<a href="/user_shares">{{ current_user }}</a>! &nbsp;
             {% if current_user in settings.get('staff') %}
               <a class="login" href="/admin">Admin</a>
             {% end %}

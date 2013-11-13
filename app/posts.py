@@ -139,6 +139,7 @@ class ListPosts(app.basic.BaseHandler):
         # Handle tags
         post['tags'] = [t.strip().lower() for t in post['tags']]
         post['tags'] = [t for t in post['tags'] if t]
+        userdb.add_tags_to_user(self.current_user, post['tags'])
         for tag in post['tags']:
           tagsdb.save_tag(tag)
 
