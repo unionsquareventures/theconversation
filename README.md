@@ -10,7 +10,9 @@ Built with:
  * [Disqus](http://disqus.com/api/docs/)
  * [Twitter](http://dev.twitter.com)
  * [Hackpad](https://hackpad.com/Hackpad-API-v1.0-k9bpcEeOo2Q)
- * [Sendgrid](http://sendgrid.com/docs/API_Reference/) 
+ * [Sendgrid](http://sendgrid.com/docs/API_Reference/)
+ * [Google API](https://developers.google.com/url-shortener/v1/getting_started)
+ * [Bitly](https://github.com/bitly/bitly-api-python)
 
 Configuration
 -------------
@@ -41,3 +43,7 @@ python tornado_server.py
 
 * Site should be viewable at http://localhost:8001
 
+Documentation
+------------
+
+Basic business logic, organization details, and other documentation can be found in the documentation folder.
