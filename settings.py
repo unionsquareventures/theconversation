@@ -32,12 +32,15 @@ default_options = {
   'sendgrid_secret': '',
 
   # hackpad details
-  'hackpad_oauth_client_id':'', 
-  'hackpad_oauth_secret':'', 
-  'hackpad_domain':'',
+  'hackpad_oauth_client_id': '', 
+  'hackpad_oauth_secret': '', 
+  'hackpad_domain': '',
 
   # google api key
-  'google_api_key':'',
+  'google_api_key': '',
+
+  # bitly access token
+  'bitly_access_token': '',
 
   # other control variables
   'tinymce_valid_elements': '',

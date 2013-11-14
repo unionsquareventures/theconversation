@@ -8,6 +8,7 @@ import tornado.options
 
 from datetime import datetime
 from urlparse import urlparse
+from lib import bitly
 from lib import google
 from lib import mentionsdb
 from lib import postsdb
@@ -137,9 +138,12 @@ class ListPosts(app.basic.BaseHandler):
         url = '%s%s' % ('.'.join(netloc), path)
         post['normalized_url'] = url
         posts = postsdb.get_posts_by_normalized_url(post['normalized_url'], 5)
+
         long_url = post['url']
         if long_url.find('goo.gl') > -1:
           long_url = google.expand_url(post['url'])
+        if long_url.find('bit.ly') > -1 or long_url.find('bitly.com') > -1:
+          long_url = bitly.expand_url(post['url'].replace('http://bitly.com','').replace('http://bit.ly',''))
         post['domain'] = urlparse(long_url).netloc
 
       if len(posts) == 0 or bypass_dup_check != '':
