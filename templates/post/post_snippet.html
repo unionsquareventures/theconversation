@@ -6,7 +6,7 @@
 <div class="content">
   {% if 'url' in p and p['url'] %}
     <a class="title" href="{{ p['url'] }}" rel="nofollow" target="_blank">{{ p['title'] }}</a>
-    <a href="{{ p['url'] }}" rel="nofollow" class="source" target="_blank">{{ urlparse(p['url']).netloc }}</a>
+    <a href="{{ p['url'] }}" rel="nofollow" class="source" target="_blank">{% if 'domain' in p.keys() %}{{p['domain']}}{% else %}{{ urlparse(p['url']).netloc }}{% end %}</a>
   {% else %}
     <a class="title" href="/posts/{{ p['slug'] }}" target="_blank">{{ p['title'] }}</a>
     <a href="/posts/{{ p['slug'] }}" class="source" target="_blank">usv.com</a>

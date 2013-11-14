@@ -36,6 +36,9 @@ default_options = {
   'hackpad_oauth_secret':'', 
   'hackpad_domain':'',
 
+  # google api key
+  'google_api_key':'',
+
   # other control variables
   'tinymce_valid_elements': '',
   'post_char_limit': 1000,
