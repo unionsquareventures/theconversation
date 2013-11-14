@@ -1,0 +1,6 @@
+There are a number of unique features available when viewing the details of a given share:
+
+1. The user who submitted the share should have the ability to edit the share details.  Editing a share does not create a new slug (even if the title is updated).
+
+2. Comments should be powered by Disqus, the user who created the share should be the admin of the thread, and anyone should be able to 'subscribe' to the thread for notifications.
+
