@@ -11,33 +11,11 @@
         <li class="{{ 'is-active' if section == 'mentions' else '' }}"><a class="sort btn" href="?section=mentions">Mentions</a></li>
       </ul>
 
-      <ul class="swipe-wrap feed">
-        {% for post in posts %}
-          <div class="featured-post">
-            <div class="content">
-              <a class="title" href="/posts/{{ post['slug'] }}">{{ post['title'] }}</a>
-              {% if post['url'] %}
-                <a href="{{ post['url'] }}" class="source" target="_blank">{{ urlparse(post['url']).netloc }}</a>
-              {% else %}
-                <a href="/posts/{{ post['slug'] }}" class="source">usv.com</a>
-              {% end %}
-              <div class="excerpt">{{ post['body_truncated'] }}</div>
-              <div class="meta">
-                <div class="avatar">
-                  <a href="http://www.twitter.com/{{ post['user']['username'] }}" target="_blank">
-                    <img title="{{ post['user']['username'] }}" src="{{ post['user']['profile_image_url_https'] }}" alt="thumbnail">
-                  </a>
-                </div>
-                @{{ post['user']['username'] }}
-                <span class="time">{{ template_helpers.pretty_date(post['date_created']) }}</span>
-                <a href="/posts/{{ post['slug'] }}/upvote" class="votes-count ajax_upvote_link upvote-button">
-                  <span class="glyphicon glyphicon-chevron-up"></span>
-                  <span class="value">{{ post['votes'] }} vote{{ 's' if post['votes'] != 1 else '' }}</span>
-                </a>
-                <a class="dsq-comment-count" href="/posts/{{ post['slug'] }}" data-disqus-url="/posts/{{post['slug']}}" data-disqus-identifier="{{ str(post['_id']) }}" target="_blank">{{ post['comment_count'] }} comment{{ 's' if post['comment_count'] != 1 else '' }}</a>
-              </div>
-            </div>
-          </div>
+      <ul class="feed sort-by-new">
+        {% for p in posts %}
+          <li>
+            {% include ../post/post_snippet.html %}
+          </li>
         {% end %}
       </ul>
 

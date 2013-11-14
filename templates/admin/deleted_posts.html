@@ -27,7 +27,7 @@
                   <i class="icon-arrow-up icon"></i>
                   <span class="value">{{ post['votes'] }} vote{{ 's' if post['votes'] != 1 else '' }}</span>
                 </a>
-                <a class="dsq-comment-count" href="/posts/{{ post['slug'] }}" data-disqus-url="/posts/{{post['slug']}}" data-disqus-identifier="{{ str(post['_id']) }}" target="_blank">{{ post['comment_count'] }} comment{{ 's' if post['comment_count'] != 1 else '' }}</a>
+                <a class="dsq-comment-count" href="/posts/{{ post['slug'] }}" data-disqus-url="/posts/{{post['slug']}}" data-disqus-identifier="{{ str(post['slug']) }}" target="_blank">{{ post['comment_count'] }} comment{{ 's' if post['comment_count'] != 1 else '' }}</a>
               </div>
             </div>
           </div>

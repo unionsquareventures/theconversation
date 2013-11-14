@@ -3,6 +3,7 @@ import re
 import slugify
 import sanitize
 
+from datetime import datetime
 from mongo import db
 
 old_posts = {
@@ -280,7 +281,7 @@ users = [
 ]
 
 for key, val in old_posts.iteritems():
-  api_link = val
+  api_link = 'http://www.usv.com%s' % val
   r = requests.get(
     api_link,
     verify=False
@@ -289,7 +290,7 @@ for key, val in old_posts.iteritems():
   html = re.sub(r'\n', ' ', html)
 
   post = {
-    'date_created':'',
+    'date_created':datetime.utcnow(),
     'title':'',
     'slugs':[],
     'slug':'',
@@ -325,9 +326,9 @@ for key, val in old_posts.iteritems():
       if user['screen_name'] == username:
         post['user'] = user
 
-  m = re.search(r'<span class="post-date">([^<]+)<', html)
-  if m:
-    post['date_created'] = m.group(1).strip()
+  #m = re.search(r'<span class="post-date">([^<]+)<', html)
+  #if m:
+  #  post['date_created'] = m.group(1).strip()
 
   m = re.search(r'(\d+) vote', html)
   if m:
@@ -355,5 +356,6 @@ for key, val in old_posts.iteritems():
     if m:
       post['tags'].append(m.group(1).strip())
 
-  db.post.update({'slug':post['slug']}, post, upsert=True)
-  print "added %s" % post['slug']
+  if 'user' in post.keys() and 'username' in post['user'].keys():
+    db.post.update({'slug':post['slug']}, post, upsert=True)
+    print "added %s" % post['slug']
