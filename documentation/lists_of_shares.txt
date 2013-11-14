@@ -13,3 +13,7 @@ The specific calculation is:
 4. Tagged - date sorted list of shares that have a given tag. No restrictions apply.
 
 5. User shares - date sorted list of shares a given user has added to the system. No restrictions apply.
+
+6. Tagged by user shares - date sorted list of shares that include a given tag the given user has added to the system. No restrictions apply.
+
+7. @ mentions - date sorted list of shares a given user has been @ mentioned within the body post of. No restrictions apply.
