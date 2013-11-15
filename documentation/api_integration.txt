@@ -1,0 +1,12 @@
+The following API's are currently being used in various points of the project:
+
+1. Twitter - via the Tweepy library. Primarily used for account creation and log in. The javascript library from Twitter is also used for 'share' features on each 'share'
+
+2. Disqus. Used to power the comments on each share.  See disqus_integration.txt documentation for more details.
+
+3. Hackpad. Used by staff to create hackpad entries.
+
+4. GoogleApis. Used to get the long url for goo.gl short link shares.
+
+5. Bit.ly. Used to get the long url for bit.ly short link shares.
+
