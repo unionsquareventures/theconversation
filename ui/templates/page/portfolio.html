@@ -168,7 +168,33 @@
 	
 			}
 		
-		});
+		// RANDOM SORT
+		function USV_sort(order) {
+			$(".investments-list").each(function(){
+				// get current ul
+				var $ul = $(this);
+				// get array of list items in current ul
+				var $liArr = $ul.children(".company-container");
+				// sort array of list items in current ul randomly
+				$liArr.sort(function(a,b){
+				// Get a random number between 0 and 10
+				var temp = parseInt( Math.random()*10 );
+				// Get 1 or 0, whether temp is odd or even
+				var isOddOrEven = temp%2;
+				// Get +1 or -1, whether temp greater or smaller than 5
+				var isPosOrNeg = temp>5 ? 1 : -1;
+				// Return -1, 0, or +1
+				return( isOddOrEven*isPosOrNeg );
+				})
+				// append list items to ul
+				.appendTo($ul);
+			});
+			$(".investments-list").show()
+		}
+		USV_sort('random');
+		
+		
+	}); // end document.ready()
 	</script>
 {% end %}
 
@@ -218,7 +244,7 @@
 
 				<h2 class="subsection section-heading" id="current-portfolio">Current Portfolio<span class="filter-label" style="display:none"></span>
 					</h2>
-				<div class="row investments-list">
+				<div class="row investments-list" style="display:none">
 
 				{% for c in current %}
 					<div class="col-sm-4 col-xs-6 company-container current" usv-investment="{{ c.name }}" usv:investment_series="{{ c.investment_series }}" usv:investment_series_slug="{{ slugify(c.investment_series) }}" usv:city_slug="{{ slugify(c.locations) }}" usv:city="{{ c.locations }}" usv:investment_date_slug="{{ c.investment_year }}" usv:investment_date="{{ c.investment_year }}" usv:investment_categories_slug="{{ slugify(c.categories) }}" usv:investment_categories="{{ c.categories }}">
@@ -251,7 +277,7 @@
 				<h2 class="subsection section-heading" id="past-portfolio" style="clear:both">Exited Investments<span class="filter-label" style="display:none"></span>
 					</h2>	
 
-				<div class="row investments-list">
+				<div class="row investments-list" style="display:none">
 
 					{% for c in exited %}
 						<div class="col-sm-4 col-xs-6 company-container past" usv-investment="{{ c.name }}" usv:investment_series="{{ c.investment_series }}" usv:investment_series_slug="{{ slugify(c.investment_series) }}" usv:city_slug="{{ slugify(c.locations) }}" usv:city="{{ c.locations }}" usv:investment_date_slug="{{ c.investment_year }}" usv:investment_date="{{ c.investment_year }}" usv:investment_categories_slug="{{ slugify(c.categories) }}" usv:investment_categories="{{ c.categories }}">
