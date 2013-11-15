@@ -170,28 +170,58 @@
 		
 		// RANDOM SORT
 		function USV_sort(order) {
-			$(".investments-list").each(function(){
-				// get current ul
-				var $ul = $(this);
-				// get array of list items in current ul
-				var $liArr = $ul.children(".company-container");
-				// sort array of list items in current ul randomly
-				$liArr.sort(function(a,b){
-				// Get a random number between 0 and 10
-				var temp = parseInt( Math.random()*10 );
-				// Get 1 or 0, whether temp is odd or even
-				var isOddOrEven = temp%2;
-				// Get +1 or -1, whether temp greater or smaller than 5
-				var isPosOrNeg = temp>5 ? 1 : -1;
-				// Return -1, 0, or +1
-				return( isOddOrEven*isPosOrNeg );
-				})
-				// append list items to ul
-				.appendTo($ul);
-			});
+			if (order == "random") {
+				$(".investments-list").each(function(){
+					// get current ul
+					var $ul = $(this);
+					// get array of list items in current ul
+					var $liArr = $ul.children(".company-container");
+					// sort array of list items in current ul randomly
+					$liArr.sort(function(a,b){
+						// Get a random number between 0 and 10
+						var temp = parseInt( Math.random()*10 );
+						// Get 1 or 0, whether temp is odd or even
+						var isOddOrEven = temp%2;
+						// Get +1 or -1, whether temp greater or smaller than 5
+						var isPosOrNeg = temp>5 ? 1 : -1;
+						// Return -1, 0, or +1
+						return( isOddOrEven*isPosOrNeg );
+					})
+					// append list items to ul
+					.appendTo($ul);
+				});
+			}
+			
+			if (order == "alphabetical") {
+					$(".investments-list").each(function(){
+					// get current ul
+					var $ul = $(this);
+					// get array of list items in current ul
+					var $liArr = $ul.children(".company-container");
+					// sort array of list items in current ul randomly
+					$liArr.sort(function(a,b){
+						if (a.getAttribute('usv-investment') > b.getAttribute('usv-investment'))
+						  return 1;
+						if (a.getAttribute('usv-investment') < b.getAttribute('usv-investment'))
+						  return -1;
+						// a must be equal to b
+						return 0;
+					})
+					// append list items to ul
+					.appendTo($ul);
+				});			
+			}
+			
 			$(".investments-list").show()
 		}
 		USV_sort('random');
+		$(".sort-tabs a").click(function(e) {
+			e.preventDefault()
+			var order = $(this).attr("usv-sort");
+			USV_sort(order);
+			$('.sort-tabs li').removeClass('active');
+			$(this).parent().addClass('active');
+		});
 		
 		
 	}); // end document.ready()
@@ -213,7 +243,11 @@
 
 
 				<div id="portfolio-filter">
-				<p class="" style="white-space:nowrap; margin-top: 0;">By initial investment:</p>
+				<ul class="sort-tabs" id="sort">
+					<li class="active"><a href="#" usv-sort="random">Random sort</a></li>
+					<li class=""><a href="#" usv-sort="alphabetical">Alphabetical sort</a></li>
+				</ul>
+				<p class="" style="white-space:nowrap;">By initial investment:</p>
 				<ul class="filter-tabs" id="series">
 					<li class="all active"><a href="#" usv-filter="all">All</a></li>
 				</ul>

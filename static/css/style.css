@@ -2719,11 +2719,13 @@ span.staff {
 }
 }
 /* ================================ Jobs Page =========================== */
-.filter-tabs {
+.filter-tabs,
+.sort-tabs {
     margin:0;
     padding:0;
 }
-.filter-tabs li {
+.filter-tabs li,
+.sort-tabs li {
     display:inline-block;
     vertical-align:baseline;
     zoom:1;
@@ -2733,7 +2735,8 @@ span.staff {
     padding:0;
     list-style:none;
 }
- .filter-tabs li a {
+ .filter-tabs li a,
+.sort-tabs li a {
     text-decoration:none;
     display:block;
     background-color:#eee;
@@ -2743,13 +2746,16 @@ span.staff {
     color:gray;
     font-size:0.85em;
 }
- .filter-tabs li a:hover {
+ .filter-tabs li a:hover,
+.sort-tabs li a:hover {
     background-color:#ddd;
 }
- .filter-tabs li.heading {
+ .filter-tabs li.heading,
+.sort-tabs li.heading {
     display:block;
 }
- .filter-tabs li.active a {
+ .filter-tabs li.active a,
+.sort-tabs li.active a {
     background-color:#86aa3b;
     border-color:#86AA3B;
     color:#fff;
