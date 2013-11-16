@@ -3,9 +3,59 @@ import tornado.web
 import settings
 import datetime
 
+from lib import companiesdb
 from lib import hackpad
 from lib import postsdb
 from lib import userdb
+
+###########################
+### ADMIN COMPANY
+### /admin/company
+###########################
+class AdminCompany(app.basic.BaseHandler):
+  @tornado.web.authenticated
+  def get(self):
+    if self.current_user not in settings.get('staff'):
+      self.redirect('/')
+    else:
+      slug = self.get_argument('slug', '')
+
+      company = {
+        'id':'', 'name':'', 'url':'', 'description':'', 'logo_filename':'',
+        'locations':'', 'investment_series':'', 'investment_year':'', 'categories':'',
+        'satus':'', 'slug':'', 'investment_post_slug':''
+      }
+      if slug != '':
+        company = companiesdb.get_company_by_slug(slug)
+        if not company:
+          company = {
+            'id':'', 'name':'', 'url':'', 'description':'', 'logo_filename':'',
+            'locations':'', 'investment_series':'', 'investment_year':'', 'categories':'',
+            'satus':'', 'slug':'', 'investment_post_slug':''
+          }
+
+      self.render('admin/admin_company.html', company=company)
+
+  @tornado.web.authenticated
+  def post(self):
+    if self.current_user not in settings.get('staff'):
+      self.redirect('/')
+    else:
+      company = {}
+      company['id'] = self.get_argument('', '')
+      company['name'] = self.get_argument('', '')
+      company['url'] = self.get_argument('', '')
+      company['description'] = self.get_argument('', '')
+      company['logo_filename'] = self.get_argument('', '')
+      company['locations'] = self.get_argument('', '')
+      company['investment_series'] = self.get_argument('', '')
+      company['investment_year'] = self.get_argument('', '')
+      company['categories'] = self.get_argument('', '')
+      company['status'] = self.get_argument('', '')
+      company['slug'] = self.get_argument('', '')
+      company['investment_post_slug'] = self.get_argument('', '')
+
+      self.render('admin/admin_company.html', company=company)
 
 ###########################
 ### List the available admin tools

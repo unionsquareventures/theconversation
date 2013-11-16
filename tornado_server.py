@@ -41,6 +41,7 @@ class Application(tornado.web.Application):
 
       # admin stuff
       (r"/admin", app.admin.AdminHome),
+      (r"/admin/company", app.admin.AdminCompany),
       (r"/admin/delete_user", app.admin.DeleteUser),
       (r"/admin/deleted_posts", app.admin.DeletedPosts),
       (r"/admin/sort_posts", app.admin.ReCalculateScores),
