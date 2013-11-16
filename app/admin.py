@@ -7,6 +7,10 @@ from lib import hackpad
 from lib import postsdb
 from lib import userdb
 
+###########################
+### List the available admin tools
+### /admin
+###########################
 class AdminHome(app.basic.BaseHandler):
   @tornado.web.authenticated
   def get(self):
@@ -15,6 +19,10 @@ class AdminHome(app.basic.BaseHandler):
     else:
       self.render('admin/admin_home.html')
 
+###########################
+### View system statistics
+### /admin/stats
+###########################
 class AdminStats(app.basic.BaseHandler):
   def get(self):
     if self.current_user not in settings.get('staff'):
@@ -25,6 +33,10 @@ class AdminStats(app.basic.BaseHandler):
 
     self.render('admin/admin_stats.html', total_posts=total_posts, total_users=total_users)
 
+###########################
+### Add a user to the blacklist
+### /users/(?P<username>[A-z-+0-9]+)/ban
+###########################
 class BanUser(app.basic.BaseHandler):
   @tornado.web.authenticated
   def get(self, screen_name):
@@ -35,6 +47,10 @@ class BanUser(app.basic.BaseHandler):
         userdb.save_user(user)
     self.redirect('/')
 
+###########################
+### Move the sort_score for a post up (for hot list)
+### /posts/([^\/]+)/bumpup
+###########################
 class BumpUp(app.basic.BaseHandler):
   @tornado.web.authenticated
   def get(self, slug):
@@ -46,6 +62,10 @@ class BumpUp(app.basic.BaseHandler):
 
     self.redirect('/?sort_by=hot')
 
+###########################
+### Move the sort_socre for post down (for hot list)
+### /posts/([^\/]+)/bumpdown
+###########################
 class BumpDown(app.basic.BaseHandler):
   @tornado.web.authenticated
   def get(self, slug):
@@ -57,6 +77,10 @@ class BumpDown(app.basic.BaseHandler):
 
     self.redirect('/?sort_by=hot')
 
+###########################
+### List posts that are marekd as deleted
+### /admin/delete_user
+###########################
 class DeletedPosts(app.basic.BaseHandler):
   @tornado.web.authenticated
   def get(self):
@@ -71,6 +95,10 @@ class DeletedPosts(app.basic.BaseHandler):
 
       self.render('admin/deleted_posts.html', deleted_posts=deleted_posts, total_count=total_count, page=page, per_page=per_page)
 
+###########################
+### Mark all shares by a user as 'deleted'
+### /admin/deleted_posts
+###########################
 class DeleteUser(app.basic.BaseHandler):
   @tornado.web.authenticated
   def get(self):
@@ -94,6 +122,10 @@ class DeleteUser(app.basic.BaseHandler):
         postsdb.delete_all_posts_by_user(screen_name)
       self.ender('admin/delete_user.html', msg=msg)
 
+###########################
+### Create a new hackpad
+### /generate_hackpad/?
+###########################
 class GenerateNewHackpad(app.basic.BaseHandler):
   def get(self):
     if self.current_user not in settings.get('staff'):
@@ -102,6 +134,10 @@ class GenerateNewHackpad(app.basic.BaseHandler):
       hackpads = hackpad.create_hackpad()
       self.api_response(hackpads)
 
+###########################
+### List all hackpads
+### /list_hackpads
+###########################
 class ListAllHackpad(app.basic.BaseHandler):
   def get(self):
     if self.current_user not in settings.get('staff'):
@@ -110,6 +146,10 @@ class ListAllHackpad(app.basic.BaseHandler):
       hackpads = hackpad.list_all()
       self.api_response(hackpads)
 
+###########################
+### Mute (hide) a post
+### /posts/([^\/]+)/mute
+###########################
 class Mute(app.basic.BaseHandler):
   @tornado.web.authenticated
   def get(self, slug):
@@ -121,6 +161,10 @@ class Mute(app.basic.BaseHandler):
 
     self.redirect('/?sort_by=hot')
 
+###########################
+### Recalc the sort socres (for hot list)
+### /admin/sort_posts
+###########################
 class ReCalculateScores(app.basic.BaseHandler):
   def get(self):
     # set our config values up
@@ -191,6 +235,10 @@ class ReCalculateScores(app.basic.BaseHandler):
 
     self.render('admin/recalc_scores.html', data=data, staff_bonus=staff_bonus, time_penalty_multiplier=time_penalty_multiplier, grace_period=grace_period, comments_multiplier=comments_multiplier, votes_multiplier=votes_multiplier, min_votes=min_votes)
 
+###########################
+### Remove user from blacklist
+### /users/(?P<username>[A-z-+0-9]+)/unban
+###########################
 class UnBanUser(app.basic.BaseHandler):
   @tornado.web.authenticated
   def get(self, screen_name):

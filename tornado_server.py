@@ -56,6 +56,7 @@ class Application(tornado.web.Application):
       # api stuff
       (r"/api/incr_comment_count", app.api.DisqusCallback),
       (r"/api/user_status", app.api.GetUserStatus),
+      (r"/api/voted_users/(.+)", app.api.GetVotedUsers),
 
       # genearl site pages (and homepage)
       (r"/about", app.general.About),

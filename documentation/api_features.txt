@@ -1,0 +1,7 @@
+The following features are currently supported via the API
+
+1. Alerts on Disqus comments
+
+2. Get user status (normal, staff, blacklisted)
+
+3. Get list of users who have voted on a share

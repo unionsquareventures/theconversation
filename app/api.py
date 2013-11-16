@@ -6,6 +6,10 @@ from lib import disqus
 from lib import postsdb
 from lib import userdb
 
+#########################
+### Alerting to share owner (and other subscribers) on new Disqus comments
+### /api/incr_comment_count
+#########################
 class DisqusCallback(app.basic.BaseHandler):
   def get(self):
     comment = self.get_argument('comment', '')
@@ -37,6 +41,10 @@ class DisqusCallback(app.basic.BaseHandler):
               self.send_email('alerts@usv.com', email, subject, text)
     self.api_response('OK')
 
+#########################
+### Get a user's status
+### /api/user_status
+#########################
 class GetUserStatus(app.basic.BaseHandler):
   def get(self):
     status = 'none'
@@ -49,3 +57,14 @@ class GetUserStatus(app.basic.BaseHandler):
         status = 'user'
     self.api_response(status)
 
+#########################
+### Get list of users who have voted on a post
+### /api/voted_users/(.+)
+#########################
+class GetVotedUsers(app.basic.BaseHandler):
+  def get(self, slug):
+    voted_users = []
+    post = postsdb.get_post_by_slug(slug)
+    if post:
+      voted_users = post['voted_users']
+    self.api_response(voted_users)

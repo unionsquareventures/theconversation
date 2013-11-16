@@ -1,5 +1,9 @@
 import app.basic
 
+#####################
+### REDIRECT OLD LINKS TO NEW LOCATIONS
+### /pages/.*$ /team.*$ /investments$ /focus$
+#####################
 class RedirectMappings(app.basic.BaseHandler):
   def get(self, filepath):
     new_url = '/'
@@ -36,6 +40,10 @@ class RedirectMappings(app.basic.BaseHandler):
 
     self.redirect(new_url, permanent=True)
 
+#####################
+### REDIRECT OLD POST REQUESTS TO NEW LOCATIONS
+### /(?P<year>[0-9]+)/(?P<month>[0-9]+)/(?P<slug>[\w\s-]+).php$
+#####################
 class RedirectPosts(app.basic.BaseHandler):
   def get(self, year, month, slug):
     new_url = '/'

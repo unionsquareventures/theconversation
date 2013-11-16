@@ -69,7 +69,7 @@ class Feed(app.basic.BaseHandler):
     self.render('feed.xml', posts=posts)
 
 ##############
-### LIST POSTS
+### LIST POSTS and SHARE POST
 ### /
 ##############
 class ListPosts(app.basic.BaseHandler):
