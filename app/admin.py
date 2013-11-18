@@ -42,18 +42,21 @@ class AdminCompany(app.basic.BaseHandler):
       self.redirect('/')
     else:
       company = {}
-      company['id'] = self.get_argument('', '')
-      company['name'] = self.get_argument('', '')
-      company['url'] = self.get_argument('', '')
-      company['description'] = self.get_argument('', '')
-      company['logo_filename'] = self.get_argument('', '')
-      company['locations'] = self.get_argument('', '')
-      company['investment_series'] = self.get_argument('', '')
-      company['investment_year'] = self.get_argument('', '')
-      company['categories'] = self.get_argument('', '')
-      company['status'] = self.get_argument('', '')
-      company['slug'] = self.get_argument('', '')
-      company['investment_post_slug'] = self.get_argument('', '')
+      company['id'] = self.get_argument('id', '')
+      company['name'] = self.get_argument('name', '')
+      company['url'] = self.get_argument('url', '')
+      company['description'] = self.get_argument('description', '')
+      company['logo_filename'] = self.get_argument('logo_filename', '')
+      company['locations'] = self.get_argument('locations', '')
+      company['investment_series'] = self.get_argument('investment_series', '')
+      company['investment_year'] = self.get_argument('investment_year', '')
+      company['categories'] = self.get_argument('categories', '')
+      company['status'] = self.get_argument('status', '')
+      company['slug'] = self.get_argument('slug', '')
+      company['investment_post_slug'] = self.get_argument('investment_post_slug', '')
+
+      # save the company details
+      companiesdb.save_company(company)
 
       self.render('admin/admin_company.html', company=company)
 
