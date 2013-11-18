@@ -67,4 +67,4 @@ class GetVotedUsers(app.basic.BaseHandler):
     post = postsdb.get_post_by_slug(slug)
     if post:
       voted_users = post['voted_users']
-    self.api_response(voted_users)
+    self.render('post/voted_users.html', voted_users=voted_users)
