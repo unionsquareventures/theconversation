@@ -21,6 +21,10 @@ def get_sso(format_html, user_info):
   else:
     return "%(message)s %(sig)s %(timestamp)s" % dict(message=message, timestamp=timestamp, sig=sig)
 
+def user_details(api_key, access_token, api_secret, user_id):
+  api_link = 'https://disqus.com/api/3.0/users/details.json?access_token=%s&api_key=%s&api_secret=%s&user=%s' % (access_token, api_key, api_secret, int(user_id))
+  return do_api_request(api_link)
+
 def create_thread(title, identifier, user_info):
   api_link = 'https://disqus.com/api/3.0/threads/create.json'
   thread_info = {

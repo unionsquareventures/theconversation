@@ -9,6 +9,9 @@
       <ul class="tabs">
         <li class="{{ 'is-active' if section == 'shares' else '' }}"><a class="sort btn" href="?section=shares">{{screen_name}} Shares</a></li>
         <li class="{{ 'is-active' if section == 'mentions' else '' }}"><a class="sort btn" href="?section=mentions">Mentions</a></li>
+        {% if screen_name == current_user %}
+          <li class=""><a class="sort btn" href="/user/settings">Settings</a></li>
+        {% end %}
       </ul>
 
       <ul class="feed sort-by-new">

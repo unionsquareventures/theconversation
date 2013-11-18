@@ -126,3 +126,14 @@ class Profile(app.basic.BaseHandler):
 
     self.render('user/profile.html', screen_name=screen_name, posts=posts, section=section, page=page, per_page=per_page)
 
+###########################
+### USER SETTINGS
+### /user/settings/?
+###########################
+class UserSettings(app.basic.BaseHandler):
+  @tornado.web.authenticated
+  def get(self):
+    user = userdb.get_user_by_screen_name(self.current_user)
+    self.render('user/settings.html', user=user)
+
+

@@ -14,6 +14,7 @@ import app.user
 import app.admin
 import app.api
 import app.basic
+import app.disqus
 import app.general
 import app.posts
 import app.redirects
@@ -37,6 +38,7 @@ class Application(tornado.web.Application):
       # account stuff
       (r"/auth/email/?", app.user.EmailSettings),
       (r"/auth/logout/?", app.user.LogOut),
+      (r"/user/settings/?", app.user.UserSettings),
       (r"/user/(.+)", app.user.Profile),
 
       # admin stuff
@@ -58,6 +60,11 @@ class Application(tornado.web.Application):
       (r"/api/incr_comment_count", app.api.DisqusCallback),
       (r"/api/user_status", app.api.GetUserStatus),
       (r"/api/voted_users/(.+)", app.api.GetVotedUsers),
+
+      # disqus stuff
+      (r"/auth/disqus", app.disqus.Auth),
+      (r"/remove/disqus", app.disqus.Remove),
+      (r"/disqus", app.disqus.Disqus),
 
       # genearl site pages (and homepage)
       (r"/about", app.general.About),
