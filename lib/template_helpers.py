@@ -1,5 +1,6 @@
 from lib.sanitize import tinymce_valid_elements
 import datetime
+import settings
 
 def tinymce_valid_elements_wrapper(media=True):
   return tinymce_valid_elements(media=media)
@@ -31,3 +32,7 @@ def pretty_date(d):
     return '1 hour ago'
   else:
     return '{} hours ago'.format(s/3600)
+  
+# display a permalink to a post
+def post_permalink(p):
+  return settings.get('base_url') + "/posts/" + p['slug']

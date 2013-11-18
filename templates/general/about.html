@@ -244,10 +244,8 @@
 
     <h2 class="section-heading" id="team-heading" style="text-transform:uppercase; font-weight: 300">Our Focus</h2>            
     <div class="row">
-      {% for post in related_posts %}
-        <div class="col-sm-6 col-md-4 related-post">
-          {% module featured_post(post=post, urlparse=urlparse, show_votes=False, show_source=False) %}
-        </div>
+      {% for p in related_posts %}
+          {% include ../post/featured_post_snippet.html %}
       {% end %}
     </div>
     <hr />
