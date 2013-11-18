@@ -1,3 +1,4 @@
+import os
 import tornado.options
 
 tornado.options.define("environment", default="dev", help="environment")
@@ -8,8 +9,8 @@ options = {
     'base_url' : 'localhost:8001',
   },
   'test' : {
-    'mongo_database' : {'host' : 'localhost', 'port' : 27017, 'db' : 'usv'},
-    'base_url' : 'localhost:8001',
+    'mongo_database' : {'host' : os.environ.get('MONGODB_URL'), 'port' : 27017, 'db' : os.environ.get('DB_NAME')},
+    'base_url' : os.environ.get('BASE_URL'),
   },
   'prod' : {
     'mongo_database' : {'host' : 'localhost', 'port' : 27017, 'db' : 'usv'},
@@ -81,7 +82,12 @@ default_options = {
 }
 
 def get(key):
-  env = tornado.options.options.environment
+  # check for an environmental variable (used w Heroku) first
+  if os.environ.get('ENVIRONMENT'):
+    env = os.environ.get('ENVIRONMENT')
+  else:
+    env = tornado.options.options.environment
+  
   if env not in options:
     raise Exception("Invalid Environment (%s)" % tornado.options.options.environment)
 
