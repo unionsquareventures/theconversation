@@ -1,0 +1,7 @@
+<ul>
+  {% for user in voted_users %}
+    <li>
+      <a href="http://www.twitter.com/{{ user['screen_name'] }}" target="_blank">{{user['screen_name']}}</a>
+    </li>
+  {% end %}
+</ul>
