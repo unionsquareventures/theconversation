@@ -40,7 +40,7 @@
       <div class="col-sm-8 col-sm-offset-2">
         <article class="usv-post">
           <h1 class="post-title">
-            {% if post['url'] %}
+            {% if 'url' in post and post['url'] %}
               <a href="{{ post['url'] }}" title='view original link on {{ urlparse(post['url']).netloc }}' target="_blank">{{ post['title'] }}
                 <span class="glyphicon glyphicon-new-window"></span>
               </a>
@@ -48,7 +48,7 @@
               {{ post['title'] }}
             {% end %}
           </h1>
-          {% if post['url'] %}
+          {% if 'url' in post and post['url'] %}
             <p style="margin-top:0; margin-bottom: 25px"><a class="post-source" style="color: #999" href="{{ post['url'] }}" target="_blank">{{ urlparse(post['url']).netloc }} &rarr;</a></p>
           {% end %}
           <div>
@@ -75,7 +75,7 @@
               {% set post['body_html'] = re.sub(r'@([^\s]+)', r'<a href="/user/\1">@\1</a>', post['body_html']) %}
               {% raw post['body_html'] %}
 
-              {% if post['url'] and (urlparse(post['url']).netloc == "twitter.com" or urlparse(post['url']).netloc == "www.twitter.com") %}
+              {% if 'url' in post and post['url'] and (urlparse(post['url']).netloc == "twitter.com" or urlparse(post['url']).netloc == "www.twitter.com") %}
                 <br /><br />
                 <blockquote class="twitter-tweet">
                   <a href="{{ post['url'] }}"></a>
@@ -83,13 +83,13 @@
                 <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
               {% end %}
 
-              {% if post['url'] and (urlparse(post['url']).netloc == "youtube.com" or urlparse(post['url']).netloc == "www.youtube.com") %}
+              {% if 'url' in post and post['url'] and (urlparse(post['url']).netloc == "youtube.com" or urlparse(post['url']).netloc == "www.youtube.com") %}
                 {% set vid_id = post['url'].split("=")[1] %}
                 <br /><br />
                 <iframe width="560" height="315" src="http://youtube.com/embed/{{ vid_id }}" frameborder="0" allowfullscreen></iframe>
               {% end %}
 
-              {% if post['url'] and (urlparse(post['url']).netloc == "vimeo.com" or urlparse(post['url']).netloc == "www.vimeo.com") %}
+              {% if 'url' in post and post['url'] and (urlparse(post['url']).netloc == "vimeo.com" or urlparse(post['url']).netloc == "www.vimeo.com") %}
                 {% set vid_id = urlparse(post['url']).path %}
                 <iframe src="//player.vimeo.com/video{{ vid_id }}" width="500" height="281" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
               {% end %}
