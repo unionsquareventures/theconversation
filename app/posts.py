@@ -80,9 +80,11 @@ class ListPosts(app.basic.BaseHandler):
     msg = ''
     featured_posts = postsdb.get_featured_posts(6, 1)
     posts = []
+
     is_blacklisted = False
     if self.current_user:
       is_blacklisted = self.is_blacklisted(self.current_user)
+
     if sort_by == 'new':
       # show the newest posts
       posts = postsdb.get_new_posts(per_page, page)
@@ -92,6 +94,7 @@ class ListPosts(app.basic.BaseHandler):
     else:
       # get the current hot posts
       posts = postsdb.get_hot_posts(per_page, page)
+
     self.render('post/lists_posts.html', sort_by=sort_by, msg=msg, posts=posts, featured_posts=featured_posts, is_blacklisted=is_blacklisted)
 
   @tornado.web.authenticated
