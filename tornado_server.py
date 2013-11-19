@@ -42,6 +42,7 @@ class Application(tornado.web.Application):
       (r'/team.*$', app.redirects.RedirectMappings),
       (r'/investments$', app.redirects.RedirectMappings),
       (r'/focus$', app.redirects.RedirectMappings),
+      (r"/admin/company", app.admin.AdminCompany),
     
       # account stuff
       (r"/auth/email/?", app.user.EmailSettings),
