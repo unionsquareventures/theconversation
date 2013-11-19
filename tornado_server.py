@@ -48,8 +48,6 @@ class Application(tornado.web.Application):
       (r"/user/settings/?", app.user.UserSettings),
       (r"/user/(.+)", app.user.Profile),
 
-      # a test line
-
       # admin stuff
       (r"/admin", app.admin.AdminHome),
       (r"/admin/company", app.admin.AdminCompany),
