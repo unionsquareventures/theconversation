@@ -65,12 +65,6 @@ class Application(tornado.web.Application):
       (r"/remove/disqus", app.disqus.Remove),
       (r"/disqus", app.disqus.Disqus),
 
-      # genearl site pages (and homepage)
-      (r"/about", app.general.About),
-      (r"/jobs", app.general.Jobs),
-      (r"/network", app.general.Network),
-      (r"/portfolio", app.general.Portfolio),
-
       # search stuff
       (r"/search", app.search.Search),
       (r"/tagged/(.+)", app.search.ViewByTag),
