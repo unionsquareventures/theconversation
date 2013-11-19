@@ -3,6 +3,8 @@ import tornado.options
 
 tornado.options.define("environment", default="dev", help="environment")
 
+active_theme = "usv"
+
 options = {
   'dev' : {
     'mongo_database' : {'host' : 'localhost', 'port' : 27017, 'db' : 'usv'},
