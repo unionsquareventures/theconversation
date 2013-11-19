@@ -43,6 +43,12 @@ class Application(tornado.web.Application):
       (r'/investments$', app.redirects.RedirectMappings),
       (r'/focus$', app.redirects.RedirectMappings),
       (r"/admin/company", app.admin.AdminCompany),
+
+      #general site pages
+      (r"/about", app.general.About),
+      (r"/jobs", app.general.Jobs),
+      (r"/network", app.general.Network),
+      (r"/portfolio", app.general.Portfolio),
     
       # account stuff
       (r"/auth/email/?", app.user.EmailSettings),
@@ -73,12 +79,6 @@ class Application(tornado.web.Application):
       (r"/auth/disqus", app.disqus.Auth),
       (r"/remove/disqus", app.disqus.Remove),
       (r"/disqus", app.disqus.Disqus),
-
-      # genearl site pages (and homepage)
-      (r"/about", app.general.About),
-      (r"/jobs", app.general.Jobs),
-      (r"/network", app.general.Network),
-      (r"/portfolio", app.general.Portfolio),
 
       # search stuff
       (r"/search", app.search.Search),
