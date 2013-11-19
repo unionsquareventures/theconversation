@@ -35,6 +35,13 @@ class Application(tornado.web.Application):
     }
 
     handlers = [
+      # redirect stuff (old links)
+      (r'/(?P<year>[0-9]+)/(?P<month>[0-9]+)/(?P<slug>[\w\s-]+).php$', app.redirects.RedirectPosts),
+      (r'/pages/.*$', app.redirects.RedirectMappings),
+      (r'/team.*$', app.redirects.RedirectMappings),
+      (r'/investments$', app.redirects.RedirectMappings),
+      (r'/focus$', app.redirects.RedirectMappings),
+    
       # account stuff
       (r"/auth/email/?", app.user.EmailSettings),
       (r"/auth/logout/?", app.user.LogOut),
