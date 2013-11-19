@@ -1,113 +1,141 @@
-import os
-import tornado.httpserver
-import tornado.httpclient
-import tornado.ioloop
-import tornado.options
+import settings
 import tornado.web
-
+import tornado.auth
+from tornado.httpserver import HTTPServer
 import logging
+from tornado.options import define, options
+import sys
+import os
+import mimetypes
+import json
+import urlparse
+import ssl
+import functools
+from raven.contrib.tornado import AsyncSentryClient
 
-# settings is required/used to set our environment
-import settings 
+from handlers.base import BaseHandler
+from handlers.post import PostHandler
+from handlers.auth import TwitterLoginHandler, LogoutHandler, CloseHandler
+from handlers.fake_error import FakeErrorHandler
+from handlers.deleted_posts import DeletedPostsHandler
+from handlers.featured_posts import FeaturedPostsHandler
+from handlers.hackpad import HackpadHandler
+from handlers.delete_user import DeleteUserHandler
+from handlers.blacklist_user import BlacklistUserHandler
+from handlers.search import SearchHandler
+from handlers.old_post import OldPostHandler
+from handlers.email import EmailHandler
+from handlers.page import PageHandler
+from handlers.old_page import OldPageHandler
+from handlers.api import APIHandler
+from handlers.admin import AdminHandler
+from handlers.redirect import RedirectHandler
+from handlers.widget import WidgetHandler
+import ui
+from redis import StrictRedis
+from lib.sendgrid import Sendgrid
+from lib.disqus import Disqus
+import json
 
-import app.user
-import app.admin
-import app.api
-import app.basic
-import app.disqus
-import app.general
-import app.posts
-import app.redirects
-import app.search
-import app.twitter
+import newrelic.agent
+path = os.path.join(settings.PROJECT_ROOT, 'server_setup/conf/newrelic.ini')
+newrelic.agent.initialize(path, settings.DEPLOYMENT_STAGE)
 
-class Application(tornado.web.Application):
-  def __init__(self):
+define("port", default=8888, help="run on the given port", type=int)
 
-    debug = (tornado.options.options.environment == "dev")
+def init_app(bundle=True, auth_passthrough=False):
+    sentry_client = AsyncSentryClient(settings.sentry_dsn)
+    sendgrid = Sendgrid(settings.sendgrid_user, settings.sendgrid_secret, sentry_client)
+    disqus = Disqus(settings.disqus_public_key, settings.disqus_secret_key,
+                    settings.disqus_apikey, sentry_client)
+    # Connect to Redis with a 200 msec timeout
+    redis = StrictRedis.from_url(settings.redis_url, socket_timeout=.2)
+    # Bundle JS/CSS
+    if settings.tornado_config['debug'] and bundle:
+        logging.info('Bundling JS/CSS')
+        #ui.template_processors.bundle_styles()
+        #ui.template_processors.bundle_javascript()
+    # Old post URLs mapping
+    f = open('old_post_urls.json', 'r')
+    old_post_urls = json.loads(f.read())
+    f.close()
+    logging.info('Starting server on port %s' % options.port)
+    application = tornado.web.Application([
+            (r'/auth/twitter/', TwitterLoginHandler),
+            (r'/auth/logout/?', LogoutHandler),
+            (r'/auth/email/?', EmailHandler),
+            (r'/auth/close_popup/?', CloseHandler),
 
-    app_settings = {
-      "cookie_secret" : "change_me",
-      "login_url": "/",
-      "debug": debug,
-      "static_path" : os.path.join(os.path.dirname(__file__), "static"),
-      "template_path" : os.path.join(os.path.dirname(__file__), "templates"),
-    }
+            (r'/fake_error/?', FakeErrorHandler),
+            (r'/delete_user/?', DeleteUserHandler),
+            (r'/deleted_posts/?', DeletedPostsHandler),
+            (r'/users/(?P<username>[A-z-+0-9]+)/(?P<action>.*)$', BlacklistUserHandler),
+            (r'/featured.*$', FeaturedPostsHandler),
+            (r'/search/?', SearchHandler),
 
-    handlers = [
-      # redirect stuff (old links)
-      # and usv-specific admin
-      (r'/(?P<year>[0-9]+)/(?P<month>[0-9]+)/(?P<slug>[\w\s-]+).php$', app.redirects.RedirectPosts),
-      (r'/pages/.*$', app.redirects.RedirectMappings),
-      (r'/team.*$', app.redirects.RedirectMappings),
-      (r'/investments$', app.redirects.RedirectMappings),
-      (r'/focus$', app.redirects.RedirectMappings),
-      (r"/admin/company", app.admin.AdminCompany),
-        
-      #general site pages
-      (r"/about", app.general.About),
-      (r"/jobs", app.general.Jobs),
-      (r"/network", app.general.Network),
-      (r"/portfolio", app.general.Portfolio),  
-      
-      # account stuff
-      (r"/auth/email/?", app.user.EmailSettings),
-      (r"/auth/logout/?", app.user.LogOut),
-      (r"/user/settings/?", app.user.UserSettings),
-      (r"/user/(.+)", app.user.Profile),
+            (r'/(?P<year>[0-9]+)/(?P<month>[0-9]+)/(?P<slug>[\w\s-]+).php$', OldPostHandler),
 
-      # admin stuff
-      (r"/admin", app.admin.AdminHome),
-      (r"/admin/delete_user", app.admin.DeleteUser),
-      (r"/admin/deleted_posts", app.admin.DeletedPosts),
-      (r"/admin/sort_posts", app.admin.ReCalculateScores),
-      (r"/admin/stats", app.admin.AdminStats),
-      (r"/generate_hackpad/?", app.admin.GenerateNewHackpad),
-      (r"/list_hackpads", app.admin.ListAllHackpad),
-      (r"/posts/([^\/]+)/bumpup", app.admin.BumpUp),
-      (r"/posts/([^\/]+)/bumpdown", app.admin.BumpDown),
-      (r"/posts/([^\/]+)/mute", app.admin.Mute),
-      (r"/users/(?P<username>[A-z-+0-9]+)/ban", app.admin.BanUser),
-      (r"/users/(?P<username>[A-z-+0-9]+)/unban", app.admin.UnBanUser),
+            (r'/pages/.*$', OldPageHandler),
+            (r'/team.*$', OldPageHandler),
+            (r'/investments$', OldPageHandler),
+            (r'/focus$', OldPageHandler),
 
-      # api stuff
-      (r"/api/incr_comment_count", app.api.DisqusCallback),
-      (r"/api/user_status", app.api.GetUserStatus),
-      (r"/api/voted_users/(.+)", app.api.GetVotedUsers),
+            (r'/portfolio.*$', PageHandler),
+            (r'/portfolio/migrate$', PageHandler),
+            (r'/about.*$', PageHandler),
+            (r'/network.*$', PageHandler),
+            (r'/tools.*$', PageHandler),
+            (r'/jobs.*$', PageHandler),
 
-      # disqus stuff
-      (r"/auth/disqus", app.disqus.Auth),
-      (r"/remove/disqus", app.disqus.Remove),
-      (r"/disqus", app.disqus.Disqus),
+            (r'/?', PostHandler),
+            (r'/posts/?', PostHandler),
+            (r'/(?P<action>tagged)/(?P<tag>[A-z-+0-9 ]*)$', PostHandler),
+            (r'/posts/(?P<action>upvote)$', PostHandler),
+            (r'/posts/(?P<action>new)$', PostHandler),
+            (r'/posts/(?P<id>[\w\s-]+$)', PostHandler),
+            (r'/posts/(?P<id>[\w\s-]+)/(?P<action>.*)$', PostHandler),
+            (r'/feed/(?P<feed_type>[A-z-+0-9]+)$', PostHandler),
+            (r'/feed$', PostHandler),
+            (r'/popular$', PostHandler),
 
-      # search stuff
-      (r"/search", app.search.Search),
-      (r"/tagged/(.+)", app.search.ViewByTag),
+            (r'/widget.*?', WidgetHandler),
 
-      # twitter stuff
-      (r"/auth/twitter/?", app.twitter.Auth),
-      (r"/twitter", app.twitter.Twitter),
+            (r'/generate_hackpad/?', HackpadHandler),
 
-      # post stuff
-      (r"/featured.*$", app.posts.FeaturedPosts),
-      (r"/feed/(?P<feed_type>[A-z-+0-9]+)$", app.posts.Feed),
-      (r"/feed$", app.posts.Feed),
-      (r"/posts/([^\/]+)/upvote", app.posts.UpVote),
-      (r"/posts/([^\/]+)/edit", app.posts.EditPost),
-      (r"/posts/(.+)", app.posts.ViewPost),
-      (r"/widget.*?", app.posts.Widget),
-      (r".+", app.posts.ListPosts)
-    ]
+            # API calls
+            (r'/api/user_status/?', APIHandler),
+            (r'/api/(?P<action>.*)$', APIHandler),
 
-    tornado.web.Application.__init__(self, handlers, **app_settings)
+            (r'/admin/(?P<action>.*)$', AdminHandler),
+            (r'/admin$', AdminHandler),
 
-def main():
-  tornado.options.define("port", default=8001, help="Listen on port", type=int)
-  tornado.options.parse_command_line()
-  logging.info("starting tornado_server on 0.0.0.0:%d" % tornado.options.options.port)
-  http_server = tornado.httpserver.HTTPServer(request_callback=Application(), xheaders=True)
-  http_server.listen(tornado.options.options.port)
-  tornado.ioloop.IOLoop.instance().start()
+            # For redirects from old content.usv.com
+            (r'/pages/(?P<person>[A-z-+0-9]+)$', RedirectHandler),
+            (r'/pages/(?P<person>[A-z-+0-9]+)/$', RedirectHandler),
+            (r'/.*$', RedirectHandler),
 
-if __name__ == "__main__":
-  main()
+            ], ui_modules = ui.template_modules(),
+            ui_methods = ui.template_methods(),
+            redis=redis,
+            sendgrid=sendgrid,
+            disqus=disqus,
+            old_post_urls=old_post_urls,
+            auth_passthrough=auth_passthrough,
+            **settings.tornado_config)
+    application.sentry_client = sentry_client
+    return application
+
+
+if __name__ == '__main__':
+    tornado.options.parse_command_line()
+    application = init_app()
+    application.listen(options.port)
+    io_loop = tornado.ioloop.IOLoop.instance()
+
+    # Watch the modules JS and CSS files for changes.
+    # Re-bundle the JS/CSS accordingly upon modification.
+    if settings.tornado_config['debug']:
+        logging.info('Watching UI modules for changes...')
+        ui.watch_modules(io_loop)
+
+    io_loop.start()
