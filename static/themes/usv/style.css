@@ -1,5 +1,9 @@
 /* USV THEME */
 
+#logo {
+	background:transparent url(/static/img/usv-logo-green-70x70.png?v=3) 0 0 no-repeat scroll;
+}
+
 #mobile-logo {
 	background:transparent url(/static/img/usv-logo-green-44x44.png?v=2) no-repeat center center;
 }

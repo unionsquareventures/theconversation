@@ -595,7 +595,6 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
     color:transparent;
     font:0/0 a;
     text-shadow:none;
-    background:transparent url(/static/img/usv-logo-green-44x44.png?v=2) no-repeat center center;
 }
 
 
@@ -691,9 +690,6 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
  #logo {
     width:70px;
     height:70px;
-    /*background:transparent url(/static/img/usv-logo-text-white-313x26.png?v=3) 0 0 no-repeat scroll;
-    */
- background:transparent url(/static/img/usv-logo-green-70x70.png?v=3) 0 0 no-repeat scroll;
     background-size:70px 70px;
     margin-bottom:0px;
     /*margin-top:25px;
