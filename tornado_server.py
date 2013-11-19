@@ -36,6 +36,7 @@ class Application(tornado.web.Application):
 
     handlers = [
       # redirect stuff (old links)
+      # and usv-specific admin
       (r'/(?P<year>[0-9]+)/(?P<month>[0-9]+)/(?P<slug>[\w\s-]+).php$', app.redirects.RedirectPosts),
       (r'/pages/.*$', app.redirects.RedirectMappings),
       (r'/team.*$', app.redirects.RedirectMappings),
