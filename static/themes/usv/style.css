@@ -1,5 +1,9 @@
 /* USV THEME */
 
+#site-header, #mobile-header {
+	background: #555;
+}
+
 #logo {
 	background:transparent url(/static/img/usv-logo-green-70x70.png?v=3) 0 0 no-repeat scroll;
 }
