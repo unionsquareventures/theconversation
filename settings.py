@@ -4,8 +4,8 @@ import tornado.options
 tornado.options.define("environment", default="dev", help="environment")
 
 active_theme = "usv"
-site_title = "Conversations"
-site_description = "This is a website where people talk"
+site_title = "Union Square Ventures"
+site_description ="Union Square Ventures (USV) is a New York City-based venture capital firm. We invest in networks that transform existing industries"
 
 options = {
   'dev' : {
