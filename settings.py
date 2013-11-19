@@ -3,7 +3,7 @@ import tornado.options
 
 tornado.options.define("environment", default="dev", help="environment")
 
-active_theme = "default"
+active_theme = "usv"
 site_title = "Conversations"
 site_description = "This is a website where people talk"
 
