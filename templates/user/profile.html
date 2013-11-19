@@ -1,0 +1,51 @@
+{% extends '../base.html' %}
+
+{% block body_class %}conversation{% end %}
+
+{% block content %}
+  <div id="main" role="main">
+    <section class="hot-newest-feed">
+
+      <ul class="tabs">
+        <li class="{{ 'is-active' if section == 'shares' else '' }}"><a class="sort btn" href="?section=shares">{{screen_name}} Shares</a></li>
+        <li class="{{ 'is-active' if section == 'mentions' else '' }}"><a class="sort btn" href="?section=mentions">Mentions</a></li>
+        {% if screen_name == current_user %}
+          <li class=""><a class="sort btn" href="/user/settings">Settings</a></li>
+        {% end %}
+      </ul>
+
+      <ul class="feed sort-by-new">
+        {% for p in posts %}
+          <li>
+            {% include ../post/post_snippet.html %}
+          </li>
+        {% end %}
+      </ul>
+
+      <div id="pagination-next-prev"></div>
+
+    </section>
+  </div>
+{% end %}
+
+{% block javascript %}
+  <script type="text/javascript">
+    $(document).ready(function() {
+      {% if current_user %}
+        $('#submit-modal .submit').show();
+        {% if current_user in settings.get('staff') %}
+          $('#submit-modal .login').hide();
+          $('#submit-modal .submit-staff').show();
+          $('a.mute').click(function(e) {
+            e.preventDefault();
+            if (confirm("are you sure?")) {
+              window.location = this.href;
+            }
+          })
+        {% else %}
+          $('#submit-modal .login').hide();
+        {% end %}
+      {% end %}
+    }); 
+  </script>
+{% end %}

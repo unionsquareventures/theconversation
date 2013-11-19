@@ -1,54 +1,68 @@
 from tornado import escape
 from tornado.auth import _oauth10a_signature
-from tornado import httpclient
-import urllib as urllib_parse
+import urllib
 from urlparse import urljoin
+import requests
+import settings
 import time
 import binascii
 import uuid
-import json
-from functools import partial
+import logging
+import sys
 
 """
-A wrapper for the Hackpad API.
-
-Documentation: https://hackpad.com/Public-Hackpad-API-Draft-nGhsrCJFlP7
+Hackpad API. Documentation: https://hackpad.com/Public-Hackpad-API-Draft-nGhsrCJFlP7
 """
-class HackpadAPI(object):
-    def __init__(self, oauth_client_id, oauth_secret, domain='www'):
-        self.consumer_token = dict(key=oauth_client_id, secret=oauth_secret)
-        self.base_url = 'https://%s.hackpad.com/api/1.0/' % domain
-        self.http = httpclient.AsyncHTTPClient()
 
-    def _oauth_request(self, path, user_callback, **kwargs):
-        url = urljoin(self.base_url, path)
-        args = dict(
-            oauth_consumer_key=escape.to_basestring(self.consumer_token['key']),
-            oauth_signature_method='HMAC-SHA1',
-            oauth_timestamp=str(int(time.time())),
-            oauth_nonce=escape.to_basestring(binascii.b2a_hex(uuid.uuid4().bytes)),
-            oauth_version='1.0a',
-        )
-        signature = _oauth10a_signature(self.consumer_token, kwargs.get('method', 'GET'), url, args)
-        args['oauth_signature'] = signature
-        req_url = url + '?' + urllib_parse.urlencode(args)
-        # Fetch the response
-        callback = partial(self._response, user_callback)
-        self.http.fetch(req_url, callback, **kwargs)
+# Returns all of the pad IDs
+def list_all():
+  return do_api_request('pads/all', 'GET')
 
-    # Parse the JSON response, and invoke the provided callback
-    def _response(self, user_callback, resp):
-        resp_json = json.loads(resp.body)
-        user_callback(resp_json)
+# Creates and returns the new pad ID
+def create_hackpad():
+  return do_api_request('pad/create', 'POST', {}, 'Hackpad Title\nHackpad contents.')
 
-    # Returns all of the pad IDs
-    def list_all(self, user_callback):
-        self._oauth_request('pads/all', user_callback)
+def do_api_request(path, method, post_data={}, body=''):
+  try:
+    url = urljoin('https://%s.hackpad.com/api/1.0/' % settings.get('hackpad_domain'), path)
+    args = dict(
+      oauth_consumer_key=escape.to_basestring(settings.get('hackpad_oauth_client_id')),
+      oauth_signature_method='HMAC-SHA1',
+      oauth_timestamp=str(int(time.time())),
+      oauth_nonce=escape.to_basestring(binascii.b2a_hex(uuid.uuid4().bytes)),
+      oauth_version='1.0a',
+    )
+    signature = _oauth10a_signature(
+      {
+        'key':settings.get('hackpad_oauth_client_id'),
+        'secret':settings.get('hackpad_oauth_secret')
+      },
+      method,
+      url,
+      args
+    )
+    args['oauth_signature'] = signature
+    api_link = url + '?' + urllib.urlencode(args)
+    logging.info(api_link)
 
-    # Creates and returns the new pad ID
-    def create(self, user_callback):
-        self._oauth_request('pad/create', user_callback,
-                                method='POST', headers={'Content-Type': 'text/plain'},
-                                body="Hackpad Title\nHackpad contents.")
+    hackpad = {}
+    if method.lower() == 'post':
+      r = requests.post(
+        api_link,
+        data=body,
+        headers={'Content-Type': 'text/plain'},
+        verify=False
+      )
+      hackpad = r.json
+    else:
+      r = requests.get(
+        api_link,
+        headers={'Content-Type': 'text/plain'},
+        verify=False
+      )
+      hackpad = r.json
+  except:
+    logging.info(sys.exc_info()[0])
+    hackpad = {}
 
-    # More methods can be added (see docs)
+  return hackpad

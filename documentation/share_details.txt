@@ -1,0 +1,9 @@
+There are a number of unique features available when viewing the details of a given share:
+
+1. The user who submitted the share should have the ability to edit the share details.  Editing a share does not create a new slug (even if the title is updated).
+
+2. Comments should be powered by Disqus, the user who created the share should be the admin of the thread, and anyone should be able to 'subscribe' to the thread for notifications.
+
+3. @ mentions of a user within the body text should be clickable to the list of 'user shares'. From the backend a list of shares a user is mentioned in should be saved (should we alert the user on these mentions? Should we add an icon or notifications bar to the top of the site to alert users when the return of new mentions?).
+
+4. We should attempt to expand short urls into the related long urls so that we can associate the proper domain to the share (goo.gl and bit.ly for example). The links (and stored url) should still use the short link so that the user can track click counts; the long url should only be used for storing/displaying the domain associated to the share. 

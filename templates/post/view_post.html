@@ -1,0 +1,189 @@
+{% extends '../base.html' %}
+
+{% block body_class %}conversation{% end %}
+
+{% block title %}{{ post['title'] }} | {% end %}
+
+{% block content %}
+  {% import re %}
+
+  <div class="modal" id="subscribe-modal">
+    <form id="subscribe-form" action="/auth/email/" method="POST">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h4 class="modal-title">Subscribe to this post</h4>
+          </div>
+          <div class="modal-body">
+            {% raw xsrf_form_html() %}
+            <input type="hidden" name="next" value="http://usv.com/posts/{{post['slug']}}" />
+            <input type="hidden" name="subscribe_to" value="{{ post['slug'] }}" />
+            <p>Your post has been submitted! If you would like to receive email updates when people comment on this and all future posts you submit, please provide your email address.</p>
+            <p>If you are currently a Disqus user, please make sure to use the same email address you typically use with Disqus, so your notifications will show up on your main Disqus dashboard.</p>
+            <br/>
+            <label for="email">Email</label>
+            <br/>
+            <input id="email" name="email" type="text" placeholder="me@myself.com" value="{{email}}" style="width: 100%">
+            <p>This email address will not be shared or displayed.</p>
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn">Submit</button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <div id="main" role="main">
+    <div class="row article-post single community">
+      <div class="col-sm-8 col-sm-offset-2">
+        <article class="usv-post">
+          <h1 class="post-title">
+            {% if 'url' in post and post['url'] %}
+              <a href="{{ post['url'] }}" title='view original link on {{ urlparse(post['url']).netloc }}' target="_blank">{{ post['title'] }}
+                <span class="glyphicon glyphicon-new-window"></span>
+              </a>
+            {% else %}
+              {{ post['title'] }}
+            {% end %}
+          </h1>
+          {% if 'url' in post and post['url'] %}
+            <p style="margin-top:0; margin-bottom: 25px"><a class="post-source" style="color: #999" href="{{ post['url'] }}" target="_blank">{{ urlparse(post['url']).netloc }} &rarr;</a></p>
+          {% end %}
+          <div>
+            <div class="profile-photo">
+              <a href="http://www.twitter.com/{{ post['user']['username'] }}" title="@{{ post['user']['username'] }}" target="_blank">
+                <img class="avatar" src="{{ template_helpers.twitter_avatar_size(post['user']['profile_image_url_https'], 'original') }}" alt="thumbnail">
+              </a>
+              <div class="visible-xs">
+                {% if post['user']['screen_name'] == current_user or current_user in settings.get('staff') %}
+                  <p><a href="/posts/{{ post['slug'] }}/edit" class="btn">Edit</a></p>
+                {% end %}
+              </div>
+            </div>
+            <div class="post-body">
+              <span class="post-author"><a href="http://www.twitter.com/{{ post['user']['username'] }}" title="@{{ post['user']['username'] }}">@{{ post['user']['username'] }}</a>
+                <span class="text-muted">&nbsp;<span style="color: #ddd">&bull;</span>&nbsp; {{ template_helpers.pretty_date(post['date_created']) }}</span>
+              </span>
+              {#
+                <a class="shared-link" href="http://apple.com/example-of-very-long-url-slug" target="_blank" title="Source: http://apple.com/example-of-very-long-url-slug">
+                  <span>apple.com/example-of-very-long-url-slug &rarr;</span>
+                </a>
+              #}
+
+              {% set post['body_html'] = re.sub(r'@([^\s]+)', r'<a href="/user/\1">@\1</a>', post['body_html']) %}
+              {% raw post['body_html'] %}
+
+              {% if 'url' in post and post['url'] and (urlparse(post['url']).netloc == "twitter.com" or urlparse(post['url']).netloc == "www.twitter.com") %}
+                <br /><br />
+                <blockquote class="twitter-tweet">
+                  <a href="{{ post['url'] }}"></a>
+                </blockquote>
+                <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+              {% end %}
+
+              {% if 'url' in post and post['url'] and (urlparse(post['url']).netloc == "youtube.com" or urlparse(post['url']).netloc == "www.youtube.com") %}
+                {% set vid_id = post['url'].split("=")[1] %}
+                <br /><br />
+                <iframe width="560" height="315" src="http://youtube.com/embed/{{ vid_id }}" frameborder="0" allowfullscreen></iframe>
+              {% end %}
+
+              {% if 'url' in post and post['url'] and (urlparse(post['url']).netloc == "vimeo.com" or urlparse(post['url']).netloc == "www.vimeo.com") %}
+                {% set vid_id = urlparse(post['url']).path %}
+                <iframe src="//player.vimeo.com/video{{ vid_id }}" width="500" height="281" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+              {% end %}
+
+              {% if post['has_hackpad'] and post['hackpad_url'] %}
+                <p><a class="post-body-hackpad-link" target="_blank" href="{{ post['hackpad_url'] }}">Hackpad &rarr;</a></p>
+              {% end %}
+            </div>
+          </div>
+
+          <div class="post-meta clearfix row hidden-xs">
+            <div class="col-sm-3 col-xs-6 upvote">
+              <a href="/posts/{{ post['slug'] }}/upvote" class="votes-count ajax_upvote_link upvote-button">
+                <i class="icon-arrow-up icon"></i>
+                <span class="value">{{ post['votes'] }} vote{{ 's' if post['votes'] != 1 else '' }}</span>
+              </a>
+            </div>
+            <div class="col-xs-6 tags">
+              {% if post['tags'] %}
+                <span class="post-tags">
+                  {% for count, tag in enumerate(post['tags']) %}
+                    <a href="/tagged/{{ url_escape(tag) }}">#{{ tag }}</a>{% if count < len(post['tags']) - 1 %}, {% end %}
+                  {% end %}
+                </span>
+              {% end %}
+            </div>
+            <div class="col-sm-3 tweet">
+              <a href="https://twitter.com/share" class="twitter-share-button" data-via="">Tweet</a>
+              <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>  
+            </div> 
+          </div>
+
+          <div class="meta visible-xs">
+            <div class="post-meta mobile clearfix row">
+              <div class="col-xs-6 upvote">
+              </div>
+              <div class="col-xs-6 tweet">
+                <a href="https://twitter.com/share" class="twitter-share-button" data-via="">Tweet</a>
+                <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>  
+              </div> 
+            </div>
+          </div>
+
+          <div class="comment-box">
+            <div id="disqus_thread"></div>
+
+            <script type="text/javascript">
+              var disqus_config = function() {
+                this.callbacks.onNewComment = [function(comment) {
+                  $.get("/api/incr_comment_count", { comment: comment.id, post: "{{ str(post['slug']) }}" }, function(result){});
+                }];
+              };
+            </script>
+
+            <script type="text/javascript">
+              /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+              var disqus_shortname = "{{settings.get('disqus_short_code')}}";
+              var disqus_identifier = "{{ post['slug'] }}";
+              var disqus_title = "{{ post['title'] }}";
+              var disqus_url = "http://{{settings.get('base_url')}}/posts/{{ post['slug'] }}";
+
+              /* * * DON'T EDIT BELOW THIS LINE * * */
+              (function() {
+                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+              })();
+            </script>
+            <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+            <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+          </div>
+
+        </article>
+      </div>
+
+      <!-- Allow editing if USVer or the OP -->
+     <div class="col-sm-2 hidden-xs">
+       {% if post['user']['screen_name'] == current_user or current_user in settings.get('staff') %}
+         <p><a href="/posts/{{ post['slug'] }}/edit" class="btn">Edit</a></p>
+       {% end %}
+       {% if current_user in settings.get('staff') %}
+         <p><a href="https://partners.mongohq.com/app18119720-heroku-com/mongo/app18119720/collections/post/documents/%7B%22%24oid%22%3A%22{{ post['slug'] }}%22%7D">mongohq</a></p>
+       {% end %}
+     </div>
+
+    </div>
+  </div>
+{% end %}
+
+{% block javascript %}
+  {% if show_subscribe_modal %}
+    <script type="text/javascript">
+      $("#subscribe-modal").modal('show');
+    </script>
+  {% end %}
+{% end %}

@@ -1,0 +1,10 @@
+There are a number of 'admin only' features that are required to maintain the health of the system.
+
+1. Recalculate 'hot' scores.
+
+2. View system statistics.
+
+3. View shares marked as 'deleted'. Include ability to 
+
+4. View and manage the current blacklist.
+

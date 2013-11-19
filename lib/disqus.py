@@ -1,168 +1,90 @@
 import base64
-import urllib
-import functools
-from tornado import httpclient, escape
 import hashlib
 import hmac
 import json
-import time
+import requests
 import settings
-import raven
-import logging
+import time
 
-class Disqus(object):
-    """Base Disqus object"""
+def get_sso(format_html, user_info):
+  # create a JSON packet of our data attributes
+  data = json.dumps(user_info)
+  # encode the data to base64
+  message = base64.b64encode(data)
+  # generate a timestamp for signing the message
+  timestamp = int(time.time())
+  # generate our hmac signature
+  sig = hmac.HMAC(settings.get('disqus_secret_key'), '%s %s' % (message, timestamp), hashlib.sha1).hexdigest()
+  if format_html:
+    # return a script tag to insert the sso message
+    return """this.page.remote_auth_s3 = "%(message)s %(sig)s %(timestamp)s";""" % dict(message=message, timestamp=timestamp, sig=sig, pub_key=settings.get('disqus_public_key'))
+  else:
+    return "%(message)s %(sig)s %(timestamp)s" % dict(message=message, timestamp=timestamp, sig=sig)
 
-    _BASE_URL = "https://disqus.com/api/3.0/"
+def user_details(api_key, access_token, api_secret, user_id):
+  api_link = 'https://disqus.com/api/3.0/users/details.json?access_token=%s&api_key=%s&api_secret=%s&user=%s' % (access_token, api_key, api_secret, int(user_id))
+  return do_api_request(api_link)
 
-    def __init__(self, public, secret, forum, sentry_client):
-        self._public = public
-        self._secret = secret
-        self._forum = forum
-        self._sentry_client = sentry_client
+def create_thread(title, identifier, user_info):
+  api_link = 'https://disqus.com/api/3.0/threads/create.json'
+  thread_info = {
+    'forum': settings.get('disqus_short_code'),
+    'title': title.encode('utf-8'),
+    'identifier':identifier,
+    'api_secret':settings.get('disqus_secret_key'),
+    'remote_auth': get_sso(False, user_info)
+  }
+  return do_api_request(api_link, 'POST', thread_info)
 
-    def subscribe(self, callback, user_info, thread_id):
-        info = {
-            'api_secret': self._secret,
-            'remote_auth': self.get_sso(False, user_info),
-            'thread': thread_id,
-        }
-        api_url = "%s%s" % (self._BASE_URL, 'threads/subscribe.json')
-        post_body = urllib.urlencode(info)
-        http = httpclient.HTTPClient()
-        request = httpclient.HTTPRequest(api_url, method='POST', body=post_body)
-        try:
-            http.fetch(request, callback=functools.partial(self._on_subscribe,
-                                                    callback, thread_id, user_info))
-        except httpclient.HTTPError:
-            pass
+def subscribe_to_thread(thread_id, user_info):
+  api_link = 'https://disqus.com/api/3.0/threads/subscribe.json'
+  info = {
+    'api_secret': settings.get('disqus_secret_key'),
+    'remote_auth': get_sso(False, user_info),
+    'thread': thread_id,
+  }
+  return do_api_request(api_link, 'POST', info)
 
-    def _on_subscribe(self, callback, thread_id, user_info, result):
-        result = escape.json_decode(result.body)
-        if int(result.get('code')):
-            # Sentry error
-            logging.warning('[Disqus API] "subscribe" error %s: "%s" %s' %
-                                        (str(result.get('code')), thread_id, str(user_info)))
-            self._sentry_client.captureMessage('[Disqus API] "subscribe" error: %s' %
-                                                        str(result.get('code')),
-                                                        thread_id=thread_id,
-                                                        user_info=user_info,
-                                                        disqus_response=result.get('response', ''))
-            callback(None)
-            return
-        callback(result['response'])
+def get_post_details(post_id):
+  message = {'id':'','message':'','author':{'username':'', 'email':''}}
+  api_link = 'https://disqus.com/api/3.0/posts/details.json'
+  api_key = settings.get('disqus_public_key')
+  api_link = 'https://disqus.com/api/3.0/posts/details.json?api_key=%s&post=%s' % (api_key, post_id)
+  disqus = do_api_request(api_link)
+  if 'response' in disqus.keys():
+    if 'id' in disqus['response'].keys():
+      message['id'] = disqus['response']['id']
+      message['message'] = disqus['response']['message']
+      message['author']['username'] = disqus['response']['author']['username']
+      if 'email' in disqus['response']['author'].keys():
+        message['author']['email'] = disqus['response']['author']['email']
+  return message
 
+def get_thread_details(thread_id):
+  api_link = 'https://disqus.com/api/3.0/threads/details.json?api_key=%s&thread:ident=%s&forum=%s' % (settings.get('disqus_public_key'), thread_id, settings.get('disqus_short_code'))
+  return do_api_request(api_link, 'GET')
 
-    def create_thread(self, callback, user_info, thread_info):
-        thread_info.update({
-            'forum': self._forum,
-            'api_secret': self._secret,
-            'remote_auth': self.get_sso(False, user_info)
-        })
-        api_url = "%s%s" % (self._BASE_URL, 'threads/create.json')
-        post_body = urllib.urlencode(thread_info)
-        http = httpclient.HTTPClient()
-        request = httpclient.HTTPRequest(api_url, method='POST', body=post_body)
-        try:
-            http.fetch(request, callback=functools.partial(self._on_create, callback, thread_info))
-        except httpclient.HTTPError:
-            pass
-
-    def _on_create(self, callback, thread_info, response):
-        result = escape.json_decode(response.body)
-        if int(result.get('code')):
-            # Sentry error
-            logging.warning('[Disqus API] "create" error %s: %s' %
-                                            (str(result.get('code')), str(thread_info)))
-            print result
-            self._sentry_client.captureMessage('[Disqus API] "create" Error: %s' %
-                                                        str(result.get('code')),
-                                                        thread_info=thread_info,
-                                                        disqus_response=result.get('response', ''))
-            callback(None)
-            return
-        callback(result['response'])
-
-    def post_comment(self, callback, user_info, thread_info):
-        comment_info = {
-            'thread': thread_info.disqus_id,
-            'message': thread_info.body_raw
-        }
-        api_url = "%s%s" % (self._BASE_URL, 'posts/create.json')
-        post_body = urllib.urlencode(comment_info)
-        http = httpclient.HTTPClient()
-        request = httpclient.HTTPRequest(api_url, method='POST', body=post_body)
-        try:
-            http.fetch(request, callback=functools.partial(self._on_post, callback, thread_info))
-        except httpclient.HTTPError:
-            pass
-    
-    def _on_post(self, callback, thread_info, response):
-        result = escape.json_decode(response.body)
-        if int(result.get('code')):
-            # Sentry error
-            logging.warning('[Disqus API] "create" error %s: %s' %
-                                            (str(result.get('code')), str(thread_info)))
-            self._sentry_client.captureMessage('[Disqus API] "create" Error: %s' %
-                                                        str(result.get('code')),
-                                                        thread_info=thread_info,
-                                                        disqus_response=result.get('response', ''))
-            callback(None)
-            return
-        callback(result['response'])
-
-    def thread_details(self, callback, thread_identifier):
-        info = {
-            'thread:ident': thread_identifier,
-            'forum': self._forum,
-            'api_secret': self._secret,
-        }
-        api_url = "%s%s" % (self._BASE_URL, 'threads/details.json')
-        post_body = urllib.urlencode(info)
-        api_url += '?' + post_body
-        http = httpclient.HTTPClient()
-        request = httpclient.HTTPRequest(api_url, method='GET')
-        try:
-            http.fetch(request, callback=functools.partial(self._on_details, callback, thread_identifier))
-        except httpclient.HTTPError:
-            pass
-
-    def _on_details(self, callback, thread_identifier, response):
-        result = escape.json_decode(response.body)
-        if int(result.get('code')):
-            # Sentry error
-            logging.warning('[Disqus API] "details" error %s: %s' %
-                                            (str(result.get('code')), str(thread_identifier)))
-            self._sentry_client.captureMessage('[Disqus API] "details" Error: %s' %
-                                                        str(result.get('code')),
-                                                        thread_info=thread_identifier,
-                                                        disqus_response=result.get('response', ''))
-            callback(None)
-            return
-        callback(result['response'])
-
-
-    def get_sso(self, format_html, user_info):
-        # create a JSON packet of our data attributes
-        data = json.dumps(user_info)
-        # encode the data to base64
-        message = base64.b64encode(data)
-        # generate a timestamp for signing the message
-        timestamp = int(time.time())
-        # generate our hmac signature
-        sig = hmac.HMAC(self._secret, '%s %s' % (message, timestamp), hashlib.sha1).hexdigest()
-
-        if format_html:
-            # return a script tag to insert the sso message
-            return """this.page.remote_auth_s3 = "%(message)s %(sig)s %(timestamp)s";""" % dict(
-                message=message,
-                timestamp=timestamp,
-                sig=sig,
-                pub_key=self._public,
-            )
-        else:
-            return "%(message)s %(sig)s %(timestamp)s" % dict(
-                    message=message,
-                    timestamp=timestamp,
-                    sig=sig,
-            )
+def do_api_request(api_link, method='GET', params={}):
+  try:
+    if method.upper() == 'GET':
+      if len(params.keys()) > 0:
+        r = requests.get(
+          api_link,
+          data=params,
+          verify=False
+        )
+      else:
+        r = requests.get(
+          api_link,
+          verify=False
+        )
+    else:
+      r = requests.post(
+        api_link,
+        data=params,
+        verify=False
+      )
+    disqus = r.json
+  except:
+    disqus = {}
+  return disqus

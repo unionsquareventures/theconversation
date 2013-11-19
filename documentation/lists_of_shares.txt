@@ -1,0 +1,19 @@
+There are a number of ways that a user can view a list of 'shares' in the system.
+
+1. Hot - Currently calculated via a cron job run every 5 minutes. Meant to order shares by a combination of time, votes, and active conversation.
+
+Normal users can only have one item per page appear in the 'hot' list, while 'staff' are not limited to the same restriction. Staff also get a small bonus bump for each share (making their shares more likely to be in the 'hot' list than others).
+
+The specific calculation is:
+
+2. Newest - date sorted list of shares. No other restrictions applied.
+
+3. Featured - staff members have the ability to mark any post as 'featured'. Featured lists are then date sorted (newest first), and appear on the home page in the 'featured' column.
+
+4. Tagged - date sorted list of shares that have a given tag. No restrictions apply.
+
+5. User shares - date sorted list of shares a given user has added to the system. No restrictions apply.
+
+6. Tagged by user shares - date sorted list of shares that include a given tag the given user has added to the system. No restrictions apply.
+
+7. @ mentions - date sorted list of shares a given user has been @ mentioned within the body post of. No restrictions apply.

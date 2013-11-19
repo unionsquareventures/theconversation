@@ -1,0 +1,24 @@
+{% extends "../base.html" %}
+
+{% block content %}
+  <div id="main" role="main">
+
+    <section class="hot-newest-feed">
+      <ul class="tabs">
+        <li class=""><a class="sort btn" href="?section=shares">{{user['user']['screen_name']}} Shares</a></li>
+        <li class=""><a class="sort btn" href="?section=mentions">Mentions</a></li>
+        <li class="active"><a class="sort btn" href="/user/settings">Settings</a></li>
+      </ul>
+
+      <div>
+        {% if 'disqus_user_id' in user.keys() and user['disqus_user_id'] != '' %}
+          <a href="/remove/disqus" class="btn">Remove Disqus Connection</a>
+        {% else %}
+          <a href="/auth/disqus">Connect your Disqus account</a>
+        {% end %}
+      </div>
+
+    </section>
+  </div>
+{% end %}
+
