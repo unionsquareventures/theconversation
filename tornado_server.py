@@ -72,13 +72,6 @@ class Application(tornado.web.Application):
       (r"/network", app.general.Network),
       (r"/portfolio", app.general.Portfolio),
 
-      # redirect stuff (old links)
-      (r'/(?P<year>[0-9]+)/(?P<month>[0-9]+)/(?P<slug>[\w\s-]+).php$', app.redirects.RedirectPosts),
-      (r'/pages/.*$', app.redirects.RedirectMappings),
-      (r'/team.*$', app.redirects.RedirectMappings),
-      (r'/investments$', app.redirects.RedirectMappings),
-      (r'/focus$', app.redirects.RedirectMappings),
-
       # search stuff
       (r"/search", app.search.Search),
       (r"/tagged/(.+)", app.search.ViewByTag),
