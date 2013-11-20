@@ -55,7 +55,19 @@ default_options = {
   'max_simultaneous_connections' : 10,
   'hot_post_set_count': 200,
   'staff':[
-    "a-staff-member's-username"
+    "_zachary",
+    "alexandermpease",
+    "bwats",
+    "aweissman",
+    "fredwilson",
+    "albertwenger",
+    "bradusv",
+    "nickgrossman",
+    "br_ttany",
+    "johnbuttrick",
+    "christinacaci",
+    "garychou",
+    "falicon"
   ],
 
   # define the various roles and what capabilities they support
