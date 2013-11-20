@@ -24,10 +24,10 @@
   <link rel="stylesheet" href="{{ static_url("css/qtip.css") }}" />
   <!-- dont cache style.css yes, since we're still developing on it heavily -->
   <link rel="stylesheet" href="{{ static_url("css/style.css") }}" />
-  
+
   <!-- Theme files -->
   <link rel="stylesheet" href="{{ static_url("themes/%s/style.css") % settings.active_theme }}" />
-  
+
   <script src="{{ static_url("js/vendor/respond.min.js") }}"></script>
   <style type="text/css">
     .jPanelMenu-panel {
@@ -187,6 +187,10 @@
         <h1 id="usv-name"><a href="/">{{ settings.site_title }}</a></h1>
         <ul id="main-nav">
           <li id="nav-conversation"><a href="/">Conversation</a></li>
+          <li id="nav-about"><a href="/about">About</a></li>
+          <li id="nav-portfolio"><a href="/portfolio">Portfolio</a></li>
+          <li id="nav-network"><a href="/network">Network</a></li>
+          <li id="nav-jobs"><a href="/jobs">Jobs</a></li>
         </ul>
         <div id="login">
           {% if current_user %}
@@ -213,7 +217,8 @@
       <div class="container">
         <div class="row">
           <div class="col-sm-3">
-
+            <h4>Contact Us</h4>
+            <p>If you would like to share your ideas, business, or feedback with us, please send us email at <a href="mailto:info@usv.com">info@usv.com</a>. All business plan submissions must include a clear description of your operations and current progress.</p>
           </div>
           <div class="col-sm-6">
             <div class="footer-search-container">
@@ -223,7 +228,15 @@
             </div>
           </div>
           <div class="col-sm-3" style="text-align:right">
-
+            <h4>Union Square Ventures</h4>
+            <p class="address">
+              915 Broadway, 19th Floor<br>
+              New York, NY 10010
+            </p>
+            <p class="telephone">
+              <strong>Tel</strong> &nbsp;&nbsp;(212) 994-7880<br>
+              <strong>Fax</strong> &nbsp;&nbsp;(212) 994-7399<br>
+            </p>
           </div>
         </div>
       </div>
@@ -269,7 +282,7 @@
   <script type="text/javascript" src="{{ static_url("js/jquery.qtip.min.js") }}"></script>
   <script type="text/javascript" src="{{ static_url("js/support_functions.js") }}"></script>
   <script src="http://platform.twitter.com/widgets.js"  type="text/javascript"></script>
-  
+
   {% block javascript %}{% end %}
   <script type="text/javascript">
     $(function() {

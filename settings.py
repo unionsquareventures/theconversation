@@ -1,17 +1,15 @@
 import os
 import tornado.options
 
-foo = "bar"
-
 tornado.options.define("environment", default="dev", help="environment")
 
-active_theme = "default"
-site_title = "Conversation"
-site_description = "This is a website where people talk"
+active_theme = "usv"
+site_title = "Union Square Ventures"
+site_description ="Union Square Ventures (USV) is a New York City-based venture capital firm. We invest in networks that transform existing industries"
 
 options = {
   'dev' : {
-    'mongo_database' : {'host' : 'localhost', 'port' : 27017, 'db' : 'usv'},
+    'mongo_database' : {'host' : os.environ.get('MONGODB_URL'), 'port' : 27017, 'db' : os.environ.get('DB_NAME')},
     'base_url' : 'localhost:8001',
   },
   'test' : {
@@ -19,35 +17,35 @@ options = {
     'base_url' : os.environ.get('BASE_URL'),
   },
   'prod' : {
-    'mongo_database' : {'host' : 'localhost', 'port' : 27017, 'db' : 'usv'},
+    'mongo_database' : {'host' : os.environ.get('MONGODB_URL'), 'port' : 27017, 'db' : os.environ.get('DB_NAME')},
     'base_url' : 'www.usv.com',
   }
 }
 
 default_options = {
   # twiter details (using knowabout.it keys for testing)
-  'twitter_consumer_key' : '',
-  'twitter_consumer_secret' : '',
+  'twitter_consumer_key' : os.environ.get("TWITTER_CONSUMER_KEY"),
+  'twitter_consumer_secret' : os.environ.get("TWITTER_CONSUMER_SECRET"),
 
   # disqus details (using greentile keys for testing)
-  'disqus_public_key': '',
-  'disqus_secret_key': '',
-  'disqus_short_code': '',
+  'disqus_public_key': os.environ.get("DISQUS_PUBLIC_KEY"),
+  'disqus_secret_key': os.environ.get("DISQUS_SECRET_KEY"),
+  'disqus_short_code': os.environ.get("DISQUS_SHORTNAME"),
 
   # sendgrid details
-  'sendgrid_user': '',
-  'sendgrid_secret': '',
+  'sendgrid_user': os.environ.get("SENDGRID_USER"),
+  'sendgrid_secret': os.environ.get("SENDGRID_SECRET"),
 
   # hackpad details
-  'hackpad_oauth_client_id': '', 
-  'hackpad_oauth_secret': '', 
-  'hackpad_domain': '',
+  'hackpad_oauth_client_id': os.environ.get("HACKPAD_OAUTH_CLIENT_ID"), 
+  'hackpad_oauth_secret': os.environ.get("HACKPAD_OAUTH_SECRET"), 
+  'hackpad_domain': os.environ.get("HACKPAD_DOMAIN"),
 
   # google api key
-  'google_api_key': '',
+  'google_api_key': os.environ.get("GOOGLE_API_KEY"),
 
   # bitly access token
-  'bitly_access_token': '',
+  'bitly_access_token': os.environ.get("BITLY_ACCESS_TOKEN"),
 
   # other control variables
   'tinymce_valid_elements': '',
@@ -93,7 +91,7 @@ def get(key):
     env = os.environ.get('ENVIRONMENT')
   else:
     env = tornado.options.options.environment
-  
+
   if env not in options:
     raise Exception("Invalid Environment (%s)" % tornado.options.options.environment)
 
@@ -106,4 +104,3 @@ def get(key):
     return v
 
   return default_options.get(key)
-
