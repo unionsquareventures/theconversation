@@ -280,6 +280,8 @@ class ViewPost(app.basic.BaseHandler):
       show_subscribe_modal = False
     email = ''
     post = postsdb.get_post_by_slug(slug)
+    if not post:
+      tornado.web.HTTPError(404)
     if self.current_user:
       user = userdb.get_user_by_screen_name(self.current_user)
       if user:
@@ -287,8 +289,7 @@ class ViewPost(app.basic.BaseHandler):
 
       self.render('post/view_post.html', post=post, subscribe=False, email=email, show_subscribe_modal=show_subscribe_modal)
     else:
-      # couldn't find a post; bounce to list
-      self.redirect('/')
+      self.render('post/view_post.html', post=post, subscribe=False, email=None, show_subscribe_modal=False)
 
 #############
 ### WIDGET
