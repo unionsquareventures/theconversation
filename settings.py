@@ -1,8 +1,6 @@
 import os
 import tornado.options
 
-foo = "bar"
-
 tornado.options.define("environment", default="dev", help="environment")
 
 active_theme = "default"
