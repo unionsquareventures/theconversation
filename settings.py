@@ -9,7 +9,7 @@ site_description ="Union Square Ventures (USV) is a New York City-based venture 
 
 options = {
   'dev' : {
-    'mongo_database' : {'host' : 'localhost', 'port' : 27017, 'db' : 'usv'},
+    'mongo_database' : {'host' : os.environ.get('MONGODB_URL'), 'port' : 27017, 'db' : os.environ.get('DB_NAME')},
     'base_url' : 'localhost:8001',
   },
   'test' : {
@@ -17,7 +17,7 @@ options = {
     'base_url' : os.environ.get('BASE_URL'),
   },
   'prod' : {
-    'mongo_database' : {'host' : 'localhost', 'port' : 27017, 'db' : 'usv'},
+    'mongo_database' : {'host' : os.environ.get('MONGODB_URL'), 'port' : 27017, 'db' : os.environ.get('DB_NAME')},
     'base_url' : 'www.usv.com',
   }
 }
