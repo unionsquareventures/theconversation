@@ -23,7 +23,7 @@ import app.twitter
 class Application(tornado.web.Application):
   def __init__(self):
 
-    debug = (tornado.options.options.environment == "dev")
+    debug = (settings.get('environment') == "dev")
 
     app_settings = {
       "cookie_secret" : "change_me",
