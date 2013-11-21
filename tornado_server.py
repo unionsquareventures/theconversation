@@ -17,7 +17,6 @@ import app.basic
 import app.disqus
 import app.general
 import app.posts
-import app.redirects
 import app.search
 import app.twitter
 
