@@ -12,13 +12,13 @@
 <head>
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-  <title>{% block title %}{% end %}{{ settings.site_title }}</title>
-  <meta name="description" content="{{ settings.site_description }}" />
+  <title>{% block title %}{% end %}{{ settings.get('site_title') }}</title>
+  <meta name="description" content="{{ settings.get('site_description') }}" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="alternate" type="application/rss+xml" title="{{ settings.site_title }} - Latest Posts" href="/feed/new" />
-  <link rel="alternate" type="application/rss+xml" title="{{ settings.site_title }} - Hot Posts" href="/feed/hot" />
+  <link rel="alternate" type="application/rss+xml" title="{{ settings.get('site_title') }} - Latest Posts" href="/feed/new" />
+  <link rel="alternate" type="application/rss+xml" title="{{ settings.get('site_title') }} - Hot Posts" href="/feed/hot" />
   <link rel="apple-touch-icon" sizes="57x57" href="{{ static_url("img/usv-touch-icon.png") }}" />
-  <link rel="shortcut icon" href="{{ static_url("themes/%s/img/favicon.png") % settings.active_theme }}" type="image/png" />
+  <link rel="shortcut icon" href="{{ static_url("themes/%s/img/favicon.png") % settings.get('active_theme') }}" type="image/png" />
   <link rel="stylesheet" href="{{ static_url("css/bootstrap.min.css") }}" />
   <link rel="stylesheet" href="{{ static_url("css/jquery.qtip.min.css") }}" />
   <link rel="stylesheet" href="{{ static_url("css/qtip.css") }}" />
@@ -26,7 +26,7 @@
   <link rel="stylesheet" href="{{ static_url("css/style.css") }}" />
   
   <!-- Theme files -->
-  <link rel="stylesheet" href="{{ static_url("themes/%s/style.css") % settings.active_theme }}" />
+  <link rel="stylesheet" href="{{ static_url("themes/%s/style.css") % settings.get('active_theme') }}" />
   
   <script src="{{ static_url("js/vendor/respond.min.js") }}"></script>
   <style type="text/css">
@@ -178,13 +178,13 @@
   <div class="shell">
     <div id="mobile-header">
       <a id="menu-trigger" href="#">Open Menu</a>
-      <a id="mobile-logo" href="/">{{ settings.site_title }}</a>
+      <a id="mobile-logo" href="/">{{ settings.get('site_title') }}</a>
       <a id="submit-trigger" href="#submit-form">Submit Post</a>
     </div>
     <header id="site-header">
       <div class="container">
-        <a id="logo" href="/">{{ settings.site_title }}</a>
-        <h1 id="usv-name"><a href="/">{{ settings.site_title }}</a></h1>
+        <a id="logo" href="/">{{ settings.get('site_title') }}</a>
+        <h1 id="usv-name"><a href="/">{{ settings.get('site_title') }}</a></h1>
         <ul id="main-nav">
           <li id="nav-conversation"><a href="/">Conversation</a></li>
         </ul>

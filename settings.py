@@ -3,10 +3,6 @@ import tornado.options
 
 tornado.options.define("environment", default="dev", help="environment")
 
-active_theme = "default"
-site_title = "Conversation"
-site_description = "This is a website where people talk"
-
 options = {
   'dev' : {
     'mongo_database' : {'host' : 'localhost', 'port' : 27017, 'db' : 'usv'},
@@ -23,6 +19,10 @@ options = {
 }
 
 default_options = {
+  'active_theme': "default",
+  'site_title': "Conversation",
+  'site_description': "This is a website where people talk",
+
   # twiter details (using knowabout.it keys for testing)
   'twitter_consumer_key' : '',
   'twitter_consumer_secret' : '',
