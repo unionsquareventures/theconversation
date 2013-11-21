@@ -25,7 +25,7 @@ $('.ajax_upvote_link').on('click', function(e) {
       if(data['data']['votes'] != 1) {
         plural = 's';
       }
-      upvote_link.children('.value').text(resp['data']['votes'] + ' vote' + plural);
+      upvote_link.children('.value').text(data['data']['votes'] + ' vote' + plural);
     }
   });
 });
