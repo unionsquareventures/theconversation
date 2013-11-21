@@ -236,7 +236,7 @@ class ListPosts(app.basic.BaseHandler):
       # get the current hot posts
       posts = postsdb.get_hot_posts(per_page, page)
 
-    self.render('post/lists_posts.html', sort_by=sort_by, msg=msg, posts=posts, featured_posts=featured_posts, is_blacklisted=is_blacklisted)
+    self.render('post/lists_posts.html', sort_by=sort_by, msg=msg, posts=posts, featured_posts=featured_posts, is_blacklisted=is_blacklisted, new_post=post)
 
 ##########################
 ### UPVOTE A SPECIFIC POST
