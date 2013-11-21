@@ -18,7 +18,7 @@
   <link rel="alternate" type="application/rss+xml" title="{{ settings.get('site_title') }} - Latest Posts" href="/feed/new" />
   <link rel="alternate" type="application/rss+xml" title="{{ settings.get('site_title') }} - Hot Posts" href="/feed/hot" />
   <link rel="apple-touch-icon" sizes="57x57" href="{{ static_url("img/usv-touch-icon.png") }}" />
-  <link rel="shortcut icon" href="{{ static_url("themes/%s/img/favicon.png") % settings.get('active_theme') }}" type="image/png" />
+  <link rel="shortcut icon" href="{{ static_url("themes/%s/img/favicon.png" % settings.get('active_theme')) }}" type="image/png" />
   <link rel="stylesheet" href="{{ static_url("css/bootstrap.min.css") }}" />
   <link rel="stylesheet" href="{{ static_url("css/jquery.qtip.min.css") }}" />
   <link rel="stylesheet" href="{{ static_url("css/qtip.css") }}" />
@@ -26,7 +26,7 @@
   <link rel="stylesheet" href="{{ static_url("css/style.css") }}" />
   
   <!-- Theme files -->
-  <link rel="stylesheet" href="{{ static_url("themes/%s/style.css") % settings.get('active_theme') }}" />
+  <link rel="stylesheet" href="{{ static_url("themes/%s/style.css" % settings.get('active_theme')) }}" />
   
   <script src="{{ static_url("js/vendor/respond.min.js") }}"></script>
   <style type="text/css">
