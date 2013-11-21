@@ -24,7 +24,6 @@
                 @{{ post['user']['username'] }}
                 <span class="time">{{ template_helpers.pretty_date(post['date_created']) }}</span>
                 <a href="/posts/{{ post['slug'] }}/upvote" class="votes-count ajax_upvote_link upvote-button">
-                  <i class="icon-arrow-up icon"></i>
                   <span class="value">{{ post['votes'] }} vote{{ 's' if post['votes'] != 1 else '' }}</span>
                 </a>
                 <a class="dsq-comment-count" href="/posts/{{ post['slug'] }}" data-disqus-url="/posts/{{post['slug']}}" data-disqus-identifier="{{ str(post['slug']) }}" target="_blank">{{ post['comment_count'] }} comment{{ 's' if post['comment_count'] != 1 else '' }}</a>
