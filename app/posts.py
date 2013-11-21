@@ -140,7 +140,6 @@ class ListPosts(app.basic.BaseHandler):
           path = path[:-1]
         url = '%s%s' % ('.'.join(netloc), path)
         post['normalized_url'] = url
-        posts = postsdb.get_posts_by_normalized_url(post['normalized_url'], 5)
 
         long_url = post['url']
         if long_url.find('goo.gl') > -1:
@@ -222,19 +221,8 @@ class ListPosts(app.basic.BaseHandler):
           logging.info("Email sent to %s" % acc['email_address'])
 
     featured_posts = postsdb.get_featured_posts(6, 1)
-
-    if bypass_dup_check == '' and posts:
-      # we should have duplicate list of posts already from above
-      posts = posts
-    elif sort_by == 'new':
-      # show the newest posts
-      posts = postsdb.get_new_posts(per_page, page)
-    elif sort_by == 'sad':
-      # show the sad posts
-      posts = postsdb.get_sad_posts(per_page, page)
-    else:
-      # get the current hot posts
-      posts = postsdb.get_hot_posts(per_page, page)
+    sort_by = "new"
+    posts = postsdb.get_new_posts(per_page, page)
 
     self.render('post/lists_posts.html', sort_by=sort_by, msg=msg, posts=posts, featured_posts=featured_posts, is_blacklisted=is_blacklisted, new_post=post)
 
