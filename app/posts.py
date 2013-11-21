@@ -253,7 +253,7 @@ class UpVote(app.basic.BaseHandler):
       if post:
         can_vote = True
         for u in post['voted_users']:
-          if 'username' in u and u['username'] == self.current_user:
+          if u['username'] == self.current_user:
             can_vote = False
         if not can_vote and not self.current_user_can('upvote_multiple_times'):
           msg = {'error': 'You have already upvoted this post.'}
@@ -265,7 +265,7 @@ class UpVote(app.basic.BaseHandler):
           postsdb.save_post(post)
           msg = {'votes': post['votes']}
 
-      self.api_response(msg)
+    self.api_response(msg)
 
 ########################
 ### VIEW A SPECIFIC POST
