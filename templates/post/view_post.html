@@ -162,6 +162,14 @@
 
           </div>
 
+          {% for user in post['voted_users'] %}
+            <hr />
+            <p>
+              <img class="avatar" src="{{ template_helpers.twitter_avatar_size(post['user']['profile_image_url_https'], 'original') }}" alt="thumbnail" style="max-height:25px;" />
+              <a href="http://www.twitter.com/{{ user['screen_name'] }}" target="_blank">{{user['screen_name']}}</a> gave this post some props
+            </p>
+          {% end %}
+
         </article>
       </div>
 
