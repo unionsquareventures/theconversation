@@ -93,7 +93,10 @@ def get(key):
     env = tornado.options.options.environment
   
   if env not in options:
-    raise Exception("Invalid Environment (%s)" % tornado.options.options.environment)
+    raise Exception("Invalid Environment (%s)" % env)
+
+  if key == 'environment':
+    return env
 
   v = options.get(env).get(key) or default_options.get(key)
 
