@@ -47,10 +47,12 @@
           <td>
             <img src="/static/img/connect-disqus-active.png" /> &nbsp;
             <a href="http://disqus.com/{{ user['disqus_username'] }}">{{ user['disqus_username'] }}</a> &nbsp;
-            <a href="/remove/disqus" >Remove Disqus Connection</a>
+            
           </td>
           <td></td>
-          <td></td>
+          <td>
+            <a href="/remove/disqus" >Remove Disqus Connection</a>
+          </td>
           {% else %}
           <td>
             <img src="/static/img/connect-disqus-inactive.png" /> &nbsp;
