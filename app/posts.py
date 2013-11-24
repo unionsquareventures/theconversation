@@ -17,6 +17,16 @@ from lib import tagsdb
 from lib import userdb
 
 ###############
+### New Post
+### /posts
+###############
+class NewPost(app.basic.BaseHandler):
+  @tornado.web.authenticated
+  def get(self):
+    post = {}
+    self.render('post/new_post.html', post=post)
+
+###############
 ### EDIT A POST
 ### /posts/([^\/]+)/edit
 ###############
@@ -140,7 +150,6 @@ class ListPosts(app.basic.BaseHandler):
           path = path[:-1]
         url = '%s%s' % ('.'.join(netloc), path)
         post['normalized_url'] = url
-        posts = postsdb.get_posts_by_normalized_url(post['normalized_url'], 5)
 
         long_url = post['url']
         if long_url.find('goo.gl') > -1:
@@ -206,7 +215,7 @@ class ListPosts(app.basic.BaseHandler):
           mentionsdb.add_mention(mention.lower(), post['slug'])
 
     # Send email to USVers if OP is USV
-    if self.current_user in settings.get('staff') and tornado.options.options.environment == 'prod':
+    if self.current_user in settings.get('staff') and settings.get('environment') == 'prod':
       subject = 'USV.com: %s posted "%s"' % (post.user['username'], post.title)
       if post.url: # post.url is the link to external content (if any)
         post_link = 'External Link: %s \n\n' % post.url
@@ -222,21 +231,10 @@ class ListPosts(app.basic.BaseHandler):
           logging.info("Email sent to %s" % acc['email_address'])
 
     featured_posts = postsdb.get_featured_posts(6, 1)
+    sort_by = "new"
+    posts = postsdb.get_new_posts(per_page, page)
 
-    if bypass_dup_check == '' and posts:
-      # we should have duplicate list of posts already from above
-      posts = posts
-    elif sort_by == 'new':
-      # show the newest posts
-      posts = postsdb.get_new_posts(per_page, page)
-    elif sort_by == 'sad':
-      # show the sad posts
-      posts = postsdb.get_sad_posts(per_page, page)
-    else:
-      # get the current hot posts
-      posts = postsdb.get_hot_posts(per_page, page)
-
-    self.render('post/lists_posts.html', sort_by=sort_by, msg=msg, posts=posts, featured_posts=featured_posts, is_blacklisted=is_blacklisted)
+    self.render('post/lists_posts.html', sort_by=sort_by, msg=msg, posts=posts, featured_posts=featured_posts, is_blacklisted=is_blacklisted, new_post=post)
 
 ##########################
 ### UPVOTE A SPECIFIC POST
@@ -253,7 +251,7 @@ class UpVote(app.basic.BaseHandler):
       if post:
         can_vote = True
         for u in post['voted_users']:
-          if u['screen_name'] == self.current_user:
+          if u['username'] == self.current_user:
             can_vote = False
         if not can_vote and not self.current_user_can('upvote_multiple_times'):
           msg = {'error': 'You have already upvoted this post.'}
@@ -265,7 +263,7 @@ class UpVote(app.basic.BaseHandler):
           postsdb.save_post(post)
           msg = {'votes': post['votes']}
 
-      self.api_response(msg)
+    self.api_response(msg)
 
 ########################
 ### VIEW A SPECIFIC POST

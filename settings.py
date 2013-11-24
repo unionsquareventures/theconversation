@@ -23,6 +23,10 @@ options = {
 }
 
 default_options = {
+  'active_theme': "default",
+  'site_title': "Conversation",
+  'site_description': "This is a website where people talk",
+
   # twiter details (using knowabout.it keys for testing)
   'twitter_consumer_key' : os.environ.get("TWITTER_CONSUMER_KEY"),
   'twitter_consumer_secret' : os.environ.get("TWITTER_CONSUMER_SECRET"),
@@ -93,7 +97,10 @@ def get(key):
     env = tornado.options.options.environment
 
   if env not in options:
-    raise Exception("Invalid Environment (%s)" % tornado.options.options.environment)
+    raise Exception("Invalid Environment (%s)" % env)
+
+  if key == 'environment':
+    return env
 
   v = options.get(env).get(key) or default_options.get(key)
 

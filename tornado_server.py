@@ -17,14 +17,15 @@ import app.basic
 import app.disqus
 import app.general
 import app.posts
-import app.redirects
 import app.search
 import app.twitter
+import app.error
+import app.redirects
 
 class Application(tornado.web.Application):
   def __init__(self):
 
-    debug = (tornado.options.options.environment == "dev")
+    debug = (settings.get('environment') == "dev")
 
     app_settings = {
       "cookie_secret" : "change_me",
@@ -92,11 +93,13 @@ class Application(tornado.web.Application):
       (r"/featured.*$", app.posts.FeaturedPosts),
       (r"/feed/(?P<feed_type>[A-z-+0-9]+)$", app.posts.Feed),
       (r"/feed$", app.posts.Feed),
+      (r"/posts/new.*?", app.posts.NewPost),
       (r"/posts/([^\/]+)/upvote", app.posts.UpVote),
       (r"/posts/([^\/]+)/edit", app.posts.EditPost),
       (r"/posts/(.+)", app.posts.ViewPost),
+      (r"/posts$", app.posts.ListPosts),
       (r"/widget.*?", app.posts.Widget),
-      (r".+", app.posts.ListPosts)
+      (r'/$', app.posts.ListPosts),
     ]
 
     tornado.web.Application.__init__(self, handlers, **app_settings)

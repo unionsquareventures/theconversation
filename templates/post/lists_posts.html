@@ -79,12 +79,12 @@
         <li><a href="https://hackpad.com/USV.com-sHgpc56rkCZ">Bugs &amp; Feature Reqs</a></li>
       </ul>
 
-      {% if msg == "success" %}
+      {% if msg == "success" and new_post %}
         <div class="alert alert-success" style="color: #333">
           <p style="margin-top:0"><b>Thanks!</b> Your post has been published. Here's the link: </p>  
-          <p><a href="/posts/{{ post['slug'] }}">http://usv.com/posts/{{ post['slug'] }}</a></p>
+          <p><a href="/posts/{{ new_post['slug'] }}">http://usv.com/posts/{{ new_post['slug'] }}</a></p>
           <p>
-            <a href="https://twitter.com/share" class="twitter-share-button" data-url="/posts/{{ p['slug'] }}" data-text="{{ new_p['title'] }}" data-via="usvcommunity" data-size="large" data-count="none">Tweet</a>
+            <a href="https://twitter.com/share" class="twitter-share-button" data-url="/posts/{{ new_post['slug'] }}" data-text="{{ new_post['title'] }}" data-via="usvcommunity" data-size="large" data-count="none">Tweet</a>
             <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
           </p>
           <p>To start, it's on the "NEWEST" page. As it gathers votes and comments, it'll move to the "HOT" page and work its way up.</p>
