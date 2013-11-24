@@ -17,6 +17,16 @@ from lib import tagsdb
 from lib import userdb
 
 ###############
+### New Post
+### /posts
+###############
+class NewPost(app.basic.BaseHandler):
+  @tornado.web.authenticated
+  def get(self):
+    post = {}
+    self.render('post/new_post.html', post=post)
+
+###############
 ### EDIT A POST
 ### /posts/([^\/]+)/edit
 ###############
