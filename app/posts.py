@@ -205,7 +205,7 @@ class ListPosts(app.basic.BaseHandler):
           mentionsdb.add_mention(mention.lower(), post['slug'])
 
     # Send email to USVers if OP is USV
-    if self.current_user in settings.get('staff') and tornado.options.options.environment == 'prod':
+    if self.current_user in settings.get('staff') and settings.get('environment') == 'prod':
       subject = 'USV.com: %s posted "%s"' % (post.user['username'], post.title)
       if post.url: # post.url is the link to external content (if any)
         post_link = 'External Link: %s \n\n' % post.url
