@@ -19,6 +19,7 @@ import app.general
 import app.posts
 import app.search
 import app.twitter
+import app.error
 
 class Application(tornado.web.Application):
   def __init__(self):
@@ -80,7 +81,7 @@ class Application(tornado.web.Application):
       (r"/posts/([^\/]+)/edit", app.posts.EditPost),
       (r"/posts/(.+)", app.posts.ViewPost),
       (r"/widget.*?", app.posts.Widget),
-      (r".+", app.posts.ListPosts)
+      (r'/$', app.posts.ListPosts),
     ]
 
     tornado.web.Application.__init__(self, handlers, **app_settings)
