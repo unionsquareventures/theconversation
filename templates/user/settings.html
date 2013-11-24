@@ -10,14 +10,20 @@
         <li class="active"><a class="sort btn" href="/user/settings">Settings</a></li>
       </ul>
     -->
-    
+    <style>
+      .alert.low-pro {
+        padding: 5px 15px;
+      }
+    </style>
+
       {% if msg and msg == "updated" %}
-        <div class="alert alert-success">
-          Your settings have been updated.
+        <div class="alert alert-success low-pro">
+          Updated!
         </div>
       {% end %}
-    
-      <h1>Settings</h1>
+      
+      <h1 class="settings" style="margin: 0 0 10px;padding: 0;text-transform:uppercase; font-size: 18px">Settings</h1>
+  
       <table class="table">
         <form id="submit-form" class="" action="/auth/email/" method="POST">
           {% module xsrf_form_html() %}
@@ -25,20 +31,38 @@
           <th>Email</th>
           <td><input type="text" class="form-control" name="email" value="{{ user['email_address'] }}" /></td>
           <td><input type="submit" value="Update" class="btn btn-default" /></td>
+          <td>
+            {% if not user['email_address'] %}
+              <div class="alert alert-info low-pro">
+                &larr; Please add your email address.
+              </div>
+            {% end %}
+          </td>
         </tr>
         </form>
         <tr>
           <th>Disqus</th>
-          <td>
+          
           {% if 'disqus_user_id' in user.keys() and user['disqus_user_id'] != '' %}
+          <td>
             <img src="/static/img/connect-disqus-active.png" /> &nbsp;
+            {{ user['disqus_user_id'] }} &nbsp;
             <a href="/remove/disqus" class="btn">Remove Disqus Connection</a>
-          {% else %}
-            <img src="/static/img/connect-disqus-inactive.png" /> &nbsp;
-            <a href="/auth/disqus">Connect your Disqus account</a>
-          {% end %}
           </td>
           <td></td>
+          <td></td>
+          {% else %}
+          <td>
+            <img src="/static/img/connect-disqus-inactive.png" /> &nbsp;
+            <a href="/auth/disqus">Connect your Disqus account</a>
+          </td>
+          <td></td>
+          <td>
+            <div class="alert alert-info low-pro">
+              &larr; Log in with Disqus to receive emails when people comment on your posts.
+            </div>
+          </td>
+          {% end %}
         </tr>
         <tr>
           <th>Twitter</th>
@@ -51,6 +75,7 @@
           {% end %}
           </td>
           <td></td>
+          <td class="text-muted">(currently this cannot be changed)</td>
         </tr>
       </table>
 
