@@ -46,8 +46,8 @@
           {% if 'disqus_user_id' in user.keys() and user['disqus_user_id'] != '' %}
           <td>
             <img src="/static/img/connect-disqus-active.png" /> &nbsp;
-            {{ user['disqus_user_id'] }} &nbsp;
-            <a href="/remove/disqus" class="btn">Remove Disqus Connection</a>
+            <a href="http://disqus.com/{{ user['disqus_username'] }}">{{ user['disqus_username'] }}</a> &nbsp;
+            <a href="/remove/disqus" >Remove Disqus Connection</a>
           </td>
           <td></td>
           <td></td>
