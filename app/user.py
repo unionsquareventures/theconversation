@@ -89,12 +89,8 @@ class EmailSettings(app.basic.BaseHandler):
             if thread_id != 0:
               # Subscribe a user to the thread specified in response
               disqus.subscribe_to_thread(thread_id, user_info)
-    if error != '':
-      self.render('user/email_subscribe.html', email=email, error=error, next_page=next_page, subscribe_to=subscribe_to, status=status)
-    elif slug != '':
-      self.redirect('/posts/%s' % slug)
-    else:
-      self.redirect('/')
+    
+    self.redirect("/user/settings?msg=updated")
 
 ###########################
 ### LOG USER OUT OF ACCOUNT
@@ -133,7 +129,8 @@ class Profile(app.basic.BaseHandler):
 class UserSettings(app.basic.BaseHandler):
   @tornado.web.authenticated
   def get(self):
+    msg = self.get_argument("msg", None)
     user = userdb.get_user_by_screen_name(self.current_user)
-    self.render('user/settings.html', user=user)
+    self.render('user/settings.html', user=user, msg=msg)
 
 

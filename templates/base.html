@@ -112,10 +112,13 @@
         <div id="login">
           {% if current_user %}
             Welcome, <a href="/user/{{current_user}}" class="login">@{{ current_user }}</a>! &nbsp;
+            
+            <a class="login" href="/user/settings">Settings</a>&nbsp;
+            
             {% if current_user in settings.get('staff') %}
-              <a class="login" href="/admin">Admin</a>
+              <a class="login" href="/admin">Admin</a> &nbsp;
             {% end %}
-            &nbsp;
+            
             <a class="login" href="/auth/logout">Logout</a>
           {% else %}
             <a class="login" href="/auth/twitter/">Log in with Twitter</a>
