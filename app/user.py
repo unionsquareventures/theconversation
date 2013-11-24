@@ -4,6 +4,7 @@ import app.basic
 from lib import disqus
 from lib import mentionsdb
 from lib import postsdb
+from lib import tagsdb
 from lib import userdb
 
 ###########################
@@ -118,13 +119,18 @@ class Profile(app.basic.BaseHandler):
     if section == 'mentions':
       # get the @ mention list for this user
       posts = mentionsdb.get_mentions_by_user(screen_name.lower(), per_page, page)
+    elif section =='bumps':
+      posts = postsdb.get_posts_by_bumps(screen_name, per_page, page)
     else:
       if tag == '':
         posts = postsdb.get_posts_by_screen_name(screen_name, per_page, page)
       else:
         posts = postsdb.get_posts_by_screen_name_and_tag(screen_name, tag, per_page, page)
 
-    self.render('user/profile.html', screen_name=screen_name, posts=posts, section=section, page=page, per_page=per_page)
+    # also get the list of tags this user has put in
+    tags = tagsdb.get_user_tags(self.current_user)
+
+    self.render('user/profile.html', screen_name=screen_name, posts=posts, section=section, page=page, per_page=per_page, tags=tags, tag=tag)
 
 ###########################
 ### USER SETTINGS

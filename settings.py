@@ -23,11 +23,11 @@ default_options = {
   'site_title': "Conversation",
   'site_description': "This is a website where people talk",
 
-  # twiter details (using knowabout.it keys for testing)
+  # twiter details
   'twitter_consumer_key' : '',
   'twitter_consumer_secret' : '',
 
-  # disqus details (using greentile keys for testing)
+  # disqus details
   'disqus_public_key': '',
   'disqus_secret_key': '',
   'disqus_short_code': '',
@@ -37,9 +37,9 @@ default_options = {
   'sendgrid_secret': '',
 
   # hackpad details
-  'hackpad_oauth_client_id': '', 
-  'hackpad_oauth_secret': '', 
-  'hackpad_domain': '',
+  'hackpad_oauth_client_id':'', 
+  'hackpad_oauth_secret':'', 
+  'hackpad_domain':'',
 
   # google api key
   'google_api_key': '',
@@ -67,7 +67,6 @@ default_options = {
     "johnbuttrick",
     "christinacaci",
     "garychou",
-    "falicon"
   ],
 
   # define the various roles and what capabilities they support
