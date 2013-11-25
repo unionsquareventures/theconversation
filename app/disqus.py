@@ -46,6 +46,7 @@ class Disqus(app.basic.BaseHandler):
         account['disqus_refresh_token'] = user_data['refresh_token']
         account['disqus_token_type'] = user_data['token_type']
         userdb.save_user(account)
+        
     except:
       # trouble logging in
       data = {}

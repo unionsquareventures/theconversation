@@ -71,7 +71,6 @@ default_options = {
     "johnbuttrick",
     "christinacaci",
     "garychou",
-    "falicon"
   ],
 
   # define the various roles and what capabilities they support

@@ -4,6 +4,7 @@ import app.basic
 from lib import disqus
 from lib import mentionsdb
 from lib import postsdb
+from lib import tagsdb
 from lib import userdb
 
 ###########################
@@ -64,19 +65,12 @@ class EmailSettings(app.basic.BaseHandler):
             post = postsdb.get_post_by_slug(subscribe_to)
             if post:
               slug = post['slug']
+              
             # Attempt to create the post's thread
-            user_info = {
-              'id': user['user']['id_str'],
-              'username': user['user']['username'],
-              'email': user['email_address'],
-              'avatar': user['user']['profile_image_url'],
-              'url': 'http://www.twitter.com/%s' % user['user']['screen_name'],
-            }
-
             thread_id = 0
             try:
               # Attempt to create the thread.
-              thread_details = disqus.create_thread(post['title'], slug, user_info)
+              thread_details = disqus.create_thread(post['title'], slug, user['disqus_access_token'])
               thread_id = thread_details['response']['id']
             except:
               try:
@@ -88,7 +82,7 @@ class EmailSettings(app.basic.BaseHandler):
 
             if thread_id != 0:
               # Subscribe a user to the thread specified in response
-              disqus.subscribe_to_thread(thread_id, user_info)
+              disqus.subscribe_to_thread(thread_id, user['disqus_access_token'])
     
     self.redirect("/user/settings?msg=updated")
 
@@ -114,13 +108,18 @@ class Profile(app.basic.BaseHandler):
     if section == 'mentions':
       # get the @ mention list for this user
       posts = mentionsdb.get_mentions_by_user(screen_name.lower(), per_page, page)
+    elif section =='bumps':
+      posts = postsdb.get_posts_by_bumps(screen_name, per_page, page)
     else:
       if tag == '':
         posts = postsdb.get_posts_by_screen_name(screen_name, per_page, page)
       else:
         posts = postsdb.get_posts_by_screen_name_and_tag(screen_name, tag, per_page, page)
 
-    self.render('user/profile.html', screen_name=screen_name, posts=posts, section=section, page=page, per_page=per_page)
+    # also get the list of tags this user has put in
+    tags = tagsdb.get_user_tags(self.current_user)
+
+    self.render('user/profile.html', screen_name=screen_name, posts=posts, section=section, page=page, per_page=per_page, tags=tags, tag=tag)
 
 ###########################
 ### USER SETTINGS

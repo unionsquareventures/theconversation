@@ -18,6 +18,7 @@ import app.disqus
 import app.general
 import app.posts
 import app.search
+import app.stats
 import app.twitter
 import app.error
 import app.redirects
@@ -84,6 +85,9 @@ class Application(tornado.web.Application):
       # search stuff
       (r"/search", app.search.Search),
       (r"/tagged/(.+)", app.search.ViewByTag),
+
+      # stats stuff
+      (r"/stats/shares/weekly", app.stats.WeeklyShareStats),
 
       # twitter stuff
       (r"/auth/twitter/?", app.twitter.Auth),
