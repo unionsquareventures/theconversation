@@ -15,6 +15,7 @@ from lib import postsdb
 from lib import sanitize
 from lib import tagsdb
 from lib import userdb
+from lib import disqus
 
 ###############
 ### New Post
@@ -229,7 +230,27 @@ class ListPosts(app.basic.BaseHandler):
           acc = userdb.get_user_by_screen_name(u)
           self.send_email('web@usv.com', acc['email_address'], subject, text)
           logging.info("Email sent to %s" % acc['email_address'])
-
+  
+    # Subscribe to Disqus
+    # Attempt to create the post's thread
+    acc = userdb.get_user_by_screen_name(current_user)
+    thread_id = 0
+    try:
+      # Attempt to create the thread.
+      thread_details = disqus.create_thread(post['title'], post.slug, acc['disqus_access_token'])
+      thread_id = thread_details['response']['id']
+    except:
+      try:
+        # trouble creating the thread, try to just get the thread via the slug
+        thread_details = disqus.get_thread_details(post.slug)
+        thread_id = thread_details['response']['id']
+      except:
+        thread_id = 0
+    
+    if thread_id != 0:
+      # Subscribe a user to the thread specified in response
+      disqus.subscribe_to_thread(thread_id, acc['disqus_access_token'])
+      
     featured_posts = postsdb.get_featured_posts(6, 1)
     sort_by = "new"
     posts = postsdb.get_new_posts(per_page, page)

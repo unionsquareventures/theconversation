@@ -64,19 +64,12 @@ class EmailSettings(app.basic.BaseHandler):
             post = postsdb.get_post_by_slug(subscribe_to)
             if post:
               slug = post['slug']
+              
             # Attempt to create the post's thread
-            user_info = {
-              'id': user['user']['id_str'],
-              'username': user['user']['username'],
-              'email': user['email_address'],
-              'avatar': user['user']['profile_image_url'],
-              'url': 'http://www.twitter.com/%s' % user['user']['screen_name'],
-            }
-
             thread_id = 0
             try:
               # Attempt to create the thread.
-              thread_details = disqus.create_thread(post['title'], slug, user_info)
+              thread_details = disqus.create_thread(post['title'], slug, user['disqus_access_token'])
               thread_id = thread_details['response']['id']
             except:
               try:
@@ -88,7 +81,7 @@ class EmailSettings(app.basic.BaseHandler):
 
             if thread_id != 0:
               # Subscribe a user to the thread specified in response
-              disqus.subscribe_to_thread(thread_id, user_info)
+              disqus.subscribe_to_thread(thread_id, user['disqus_access_token'])
     
     self.redirect("/user/settings?msg=updated")
 
