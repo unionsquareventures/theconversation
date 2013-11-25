@@ -13,7 +13,7 @@
           {% if t['_id'] == tag %}
             <strong>#{{t['_id']}} ({{t['count']}})</strong>
           {% else %}
-            <a href="/user/{{screen_name}}?tag={{t['_id']}}">#{{t['_id']}} ({{t['count']}})</a>
+            <a href="/user/{{screen_name}}?tag={{url_escape(t['_id'])}}">#{{t['_id']}} ({{t['count']}})</a>
           {% end %}
           &nbsp;&nbsp;&nbsp;&nbsp;
         {% end %}
