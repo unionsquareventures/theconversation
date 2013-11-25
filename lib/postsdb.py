@@ -47,6 +47,9 @@ def get_post_by_slug(slug):
 ###########################
 ### GET PAGED LISTING OF POSTS
 ###########################
+def get_posts_by_bumps(screen_name, per_page, page):
+  return list(db.post.find({'voted_users.screen_name':screen_name, 'user.screen_name':{'$ne':screen_name}}, sort=[('date_created', pymongo.DESCENDING)]).skip((page-1)*per_page).limit(per_page))
+
 def get_posts_by_query(query, per_page=10, page=1):
   query_regex = re.compile('%s[\s$]' % query, re.I)
   return list(db.post.find({'$or':[{'title':query_regex}, {'body_raw':query_regex}]}, sort=[('date_created', pymongo.DESCENDING)]).skip((page-1)*per_page).limit(per_page))
@@ -77,6 +80,12 @@ def get_deleted_posts(per_page=50, page=1):
   return list(db.post.find({'deleted':True}, sort=[('date_deleted', pymongo.DESCENDING)]).skip((page-1)*per_page).limit(per_page))
 
 ###########################
+### AGGREGATE QUERIES
+###########################
+def get_unique_posters(start_date, end_date):
+  return db.post.group(["user.screen_name"], {'date_created':{'$gte': start_date, '$lte': end_date}}, {"count":0}, "function(o, p){p.count++}" )
+
+###########################
 ### GET POST COUNTS
 ###########################
 def get_featured_posts_count():
@@ -88,6 +97,9 @@ def get_post_count_by_query(query):
 
 def get_post_count():
   return len(list(db.post.find({'date_created':{'$gt': datetime.strptime("10/12/13", "%m/%d/%y")}})))
+
+def get_post_count_for_range(start_date, end_date):
+  return len(list(db.post.find({'date_created':{'$gte': start_date, '$lte': end_date}})))
 
 def get_delete_posts_count():
   return len(list(db.post.find({'deleted':True})))

@@ -29,6 +29,8 @@ General app settings are controlled via the settings.py file. You will need to p
 * 'hackpad_oauth_client_id':'', 
 * 'hackpad_oauth_secret':'', 
 * 'hackpad_domain':'',
+* 'google_api_key': '',
+* 'bitly_access_token': '',
 
 Installation
 ------------
