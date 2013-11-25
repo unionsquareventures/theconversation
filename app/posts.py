@@ -233,7 +233,7 @@ class ListPosts(app.basic.BaseHandler):
   
     # Subscribe to Disqus
     # Attempt to create the post's thread
-    acc = userdb.get_user_by_screen_name(current_user)
+    acc = userdb.get_user_by_screen_name(self.current_user)
     thread_id = 0
     try:
       # Attempt to create the thread.
