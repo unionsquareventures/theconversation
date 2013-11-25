@@ -13,8 +13,8 @@ options = {
     'base_url' : os.environ.get('BASE_URL'),
   },
   'prod' : {
-    'mongo_database' : {'host' : 'localhost', 'port' : 27017, 'db' : 'usv'},
-    'base_url' : 'www.usv.com',
+    'mongo_database' : {'host' : os.environ.get('MONGODB_URL'), 'port' : 27017, 'db' : os.environ.get('DB_NAME')},
+    'base_url' : os.environ.get('BASE_URL'),
   }
 }
 
@@ -23,11 +23,11 @@ default_options = {
   'site_title': "Conversation",
   'site_description': "This is a website where people talk",
 
-  # twiter details
+  # twiter details (using knowabout.it keys for testing)
   'twitter_consumer_key' : '',
   'twitter_consumer_secret' : '',
 
-  # disqus details
+  # disqus details (using greentile keys for testing)
   'disqus_public_key': '',
   'disqus_secret_key': '',
   'disqus_short_code': '',
@@ -90,14 +90,14 @@ def get(key):
     env = os.environ.get('ENVIRONMENT')
   else:
     env = tornado.options.options.environment
-  
+
   if env not in options:
     raise Exception("Invalid Environment (%s)" % env)
 
   if key == 'environment':
     return env
 
-  v = options.get(env).get(key) or default_options.get(key)
+  v = options.get(env).get(key) or os.environ.get(key.upper()) or default_options.get(key)
 
   if callable(v):
     return v
