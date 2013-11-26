@@ -17,10 +17,12 @@ class About(app.basic.BaseHandler):
 ########################
 class Jobs(app.basic.BaseHandler):
   def get(self):
-    job_list = jobsdb.get_json('Twitter')
-    for job in job_list:
-      jobsdb.save_job(job)
-    self.render('general/jobs.html')
+    #jobsdb.update_all()  
+    jobs = jobsdb.get_all() 
+    print len(jobs)
+    print jobs[0]
+    print jobs[0]['company']
+    self.render('general/jobs.html', jobs=jobs)
 
 
 ###############

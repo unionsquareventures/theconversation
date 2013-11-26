@@ -6,27 +6,42 @@ import settings
 import urllib2, json
 import feedparser
 from mongo import db
+import companiesdb
 
 INDEED_API_URL = 'http://api.indeed.com/ads/apisearch'
 INDEED_PUBLISHER_ID = '9648379283006957'
 
-
 """
 {
-  'id': 0
-  'company': ''
-  'jobtitle': ''
-  'city': ''
-  'state': ''
-  'country': ''
-  'formattedLocation': ''
-  'date': ''
-  'location': ''
-  'url': ''
-  'jobkey': '' # Unique identifier from Indeed
-  'position': '' # From Gary's parse_position
+    "_id": {
+        "$oid": "52951ad2bf814a94370317a0"
+    },
+    "city": "San Francisco",
+    "position": "Operations", # Job title determined by Gary's parse_position
+    "date": "Tue, 26 Nov 2013 03:07:57 GMT",
+    "latitude": 37.774727,
+    "url": "http://www.indeed.com/rc/clk?jk=d16f4523a3212c0b&qd=9FdQIF7yu...",
+    "jobtitle": "TV Production Associate",
+    "company": "Twitter",
+    "formattedLocationFull": "San Francisco, CA",
+    "longitude": -122.41758,
+    "onmousedown": "indeed_clk(this, '842');",
+    "snippet": "use tools such as the new Mirror API...", 
+    "source": "Twitter",
+    "state": "CA",
+    "sponsored": false,
+    "country": "US",
+    "formattedLocation": "San Francisco, CA",
+    "jobkey": "d16f4523a3212c0b", #Unique job id from Indeed
+    "id": 349,
+    "expired": false,
+    "formattedRelativeTime": "19 hours ago"
 }
 """
+
+''' Returns all jobs '''
+def get_all():
+	return list(db.job.find())
 
 ''' Saves a job to the database. Job argument is a dict.'''
 def save_job(job):
@@ -44,12 +59,19 @@ def save_job(job):
   return db.job.update({'jobkey':job['jobkey']}, job, upsert=True)
 
 ###############################
-### Non-model files and scripts
+### Non-model functions and scripts
 ###############################
 
 ''' Updates job listings for all companies '''
 def update_all():
-	pass
+    '''
+    job_list = jobsdb.get_json(c)
+    for job in job_list:
+      jobsdb.save_job(job)
+    '''
+    for c in companiesdb.get_companies_by_status('current'):
+	    print c['name']
+	
 
 ''' Returns a list of jobs (each one a dict) for a given company '''
 def get_json(company):
