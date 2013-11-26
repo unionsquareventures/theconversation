@@ -5,10 +5,13 @@
 {% block body_class %}portfolio{% end %}
 
 {% block content %}
-  {% import slugify %}
   <div class="row">
     <div class="col-sm-3 hidden-xs">
       <div id="portfolio-filter">
+        <ul class="sort-tabs" id="sort">
+                <li class="active"><a href="#" usv-sort="random">Random sort</a></li>
+                <li class=""><a href="#" usv-sort="alphabetical">Alphabetical sort</a></li>
+        </ul>
         <p class="" style="white-space:nowrap; margin-top: 0;">By initial investment:</p>
         <ul class="filter-tabs" id="series">
           <li class="all active"><a href="#" usv-filter="all">All</a></li>
@@ -36,21 +39,21 @@
       <h2 class="subsection section-heading" id="current-portfolio">Current Portfolio<span class="filter-label" style="display:none"></span></h2>
       <div class="row investments-list">
         {% for c in current %}
-          <div class="col-sm-4 col-xs-6 company-container current" usv-investment="{{ c.name }}" usv:investment_series="{{ c.investment_series }}" usv:investment_series_slug="{{ slugify(c.investment_series) }}" usv:city_slug="{{ slugify(c.locations) }}" usv:city="{{ c.locations }}" usv:investment_date_slug="{{ c.investment_year }}" usv:investment_date="{{ c.investment_year }}" usv:investment_categories_slug="{{ slugify(c.categories) }}" usv:investment_categories="{{ c.categories }}">
+          <div class="col-sm-4 col-xs-6 company-container current" usv-investment="{{ c['name'] }}" usv:investment_series="{{ c['investment_series'] }}" usv:investment_series_slug="{{ slugify(c['investment_series']) }}" usv:city_slug="{{ slugify(c['locations']) }}" usv:city="{{ c['locations'] }}" usv:investment_date_slug="{{ c['investment_year'] }}" usv:investment_date="{{ c['investment_year'] }}" usv:investment_categories_slug="{{ slugify(c['categories']) }}" usv:investment_categories="{{ c['categories'] }}">
             <div class="company card">
-              <a class="open-investment" usv-investment="{{ c.name }}" href="{{ c.url }}"><img alt="{{ c.name }}" src="/static/img/logos/{{ c.slug }}.png" class="logo mt-image-none extra-padding" style="" width="220" height="150"></a>
+              <a class="open-investment" usv-investment="{{ c['name'] }}" href="{{ c['url'] }}"><img alt="{{ c['name'] }}" src="/static/img/logos/{{ c['slug'] }}.png" class="logo mt-image-none extra-padding" style="" width="220" height="150"></a>
               <p class="summary">
-                <a class="company-link" href="{{ c.url }}">{{ c.name }}</a> {% raw c.description %}
+                <a class="company-link" href="{{ c['url'] }}">{{ c['name'] }}</a> {% raw c['description'] %}
               </p>
               <span class="since-date">
-                <a href="/posts/{{ c.investment_post_slug }}">{{ c.investment_year }}, {{ c.investment_series }}</a>
+                <a href="/posts/{{ c['investment_post_slug'] }}">{{ c['investment_year'] }}, {{ c['investment_series'] }}</a>
               </span>
-              <a class="about-investment" href="/posts/{{ c.investment_post_slug }}">
+              <a class="about-investment" href="/posts/{{ c['investment_post_slug'] }}">
                 <span class="glyphicon glyphicon-info-sign"></span>
               </a>
               {% if current_user in settings.get('staff') %}
                 <span class="editlink">
-                  <a href="{{ c.editlink() }}" target="_blank">edit</a>
+                  <a href="#EDITLINK" target="_blank">edit</a>
                 </span>
               {% end %}
             </div>
@@ -60,27 +63,25 @@
       <h2 class="subsection section-heading" id="past-portfolio" style="clear:both">Exited Investments<span class="filter-label" style="display:none"></span></h2>  
       <div class="row investments-list">
         {% for c in exited %}
-          <div class="col-sm-4 col-xs-6 company-container past" usv-investment="{{ c.name }}" usv:investment_series="{{ c.investment_series }}" usv:investment_series_slug="{{ slugify(c.investment_series) }}" usv:city_slug="{{ slugify(c.locations) }}" usv:city="{{ c.locations }}" usv:investment_date_slug="{{ c.investment_year }}" usv:investment_date="{{ c.investment_year }}" usv:investment_categories_slug="{{ slugify(c.categories) }}" usv:investment_categories="{{ c.categories }}">
-            <div class="company">
-              <a class="open-investment" usv-investment="{{ c.name }}" href="{{ c.url }}"><img alt="{{ c.name }}" src="/static/img/logos/{{ c.slug }}.png" class="logo mt-image-none extra-padding" style="" width="220" height="150"></a>
-              <p class="summary">
-                <a class="company-link" href="{{ c.url }}">{{ c.name }}</a> {% raw c.description %}
-              </p>
-              <span class="since-date">
-                <a href="/posts/{{ c.investment_post_slug }}">
-                  {{ c.investment_year }}, {{ c.investment_series }}
-                </a>
-              </span>
-              <a class="about-investment" href="/posts/{{ c.investment_post_slug }}">
-                <span class="glyphicon glyphicon-info-sign"></span>
-              </a>
-              {% if current_user in settings.get('staff') %}
-                <span class="editlink">
-                  <a href="{{ c.editlink() }}" target="_blank">edit</a>
+          <div class="col-sm-4 col-xs-6 company-container past" usv-investment="{{ c['name'] }}" usv:investment_series="{{ c['investment_series'] }}" usv:investment_series_slug="{{ slugify(c['investment_series']) }}" usv:city_slug="{{ slugify(c['locations']) }}" usv:city="{{ c['locations'] }}" usv:investment_date_slug="{{ c['investment_year'] }}" usv:investment_date="{{ c['investment_year'] }}" usv:investment_categories_slug="{{ slugify(c['categories']) }}" usv:investment_categories="{{ c['categories'] }}">
+              <div class="company card">
+                <a class="open-investment" usv-investment="{{ c['name'] }}" href="{{ c['url'] }}"><img alt="{{ c['name'] }}" src="/static/img/logos/{{ c['slug'] }}.png" class="logo mt-image-none extra-padding" style="" width="220" height="150"></a>
+                <p class="summary">
+                  <a class="company-link" href="{{ c['url'] }}">{{ c['name'] }}</a> {% raw c['description'] %}
+                </p>
+                <span class="since-date">
+                  <a href="/posts/{{ c['investment_post_slug'] }}">{{ c['investment_year'] }}, {{ c['investment_series'] }}</a>
                 </span>
-              {% end %}
+                <a class="about-investment" href="/posts/{{ c['investment_post_slug'] }}">
+                  <span class="glyphicon glyphicon-info-sign"></span>
+                </a>
+                {% if current_user in settings.get('staff') %}
+                  <span class="editlink">
+                    <a href="#EDITLINK" target="_blank">edit</a>
+                  </span>
+                {% end %}
+              </div>
             </div>
-          </div>
         {% end %}
       </div>
     </div>
@@ -225,6 +226,61 @@
           }
         }
       }
+      
+      // RANDOM SORT
+      function USV_sort(order) {
+              if (order == "random") {
+                      $(".investments-list").each(function(){
+                              // get current ul
+                              var $ul = $(this);
+                              // get array of list items in current ul
+                              var $liArr = $ul.children(".company-container");
+                              // sort array of list items in current ul randomly
+                              $liArr.sort(function(a,b){
+                                      // Get a random number between 0 and 10
+                                      var temp = parseInt( Math.random()*10 );
+                                      // Get 1 or 0, whether temp is odd or even
+                                      var isOddOrEven = temp%2;
+                                      // Get +1 or -1, whether temp greater or smaller than 5
+                                      var isPosOrNeg = temp>5 ? 1 : -1;
+                                      // Return -1, 0, or +1
+                                      return( isOddOrEven*isPosOrNeg );
+                              })
+                              // append list items to ul
+                              .appendTo($ul);
+                      });
+              }
+              
+              if (order == "alphabetical") {
+                              $(".investments-list").each(function(){
+                              // get current ul
+                              var $ul = $(this);
+                              // get array of list items in current ul
+                              var $liArr = $ul.children(".company-container");
+                              // sort array of list items in current ul randomly
+                              $liArr.sort(function(a,b){
+                                      if (a.getAttribute('usv-investment') > b.getAttribute('usv-investment'))
+                                        return 1;
+                                      if (a.getAttribute('usv-investment') < b.getAttribute('usv-investment'))
+                                        return -1;
+                                      // a must be equal to b
+                                      return 0;
+                              })
+                              // append list items to ul
+                              .appendTo($ul);
+                      });                        
+              }
+              
+              $(".investments-list").show()
+      }
+      USV_sort('random');
+      $(".sort-tabs a").click(function(e) {
+              e.preventDefault()
+              var order = $(this).attr("usv-sort");
+              USV_sort(order);
+              $('.sort-tabs li').removeClass('active');
+              $(this).parent().addClass('active');
+      });
     });
   </script>
 {% end %}
