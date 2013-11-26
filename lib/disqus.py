@@ -7,6 +7,9 @@ import requests
 import settings
 import time
 
+from lib import postsdb
+from lib import userdb
+
 def check_for_thread(short_code, link):
   api_link = 'https://disqus.com/api/3.0/threads/details.json?api_key=%s&thread:link=%s&forum=%s' % (settings.get('disqus_public_key'), link, short_code)
   return do_api_request(api_link, 'GET')
@@ -68,6 +71,28 @@ def subscribe_to_thread(thread_id, access_token):
     'thread': thread_id,
   }
   return do_api_request(api_link, 'POST', info)
+
+def subscribe_to_all_your_threads(username):
+  account = userdb.get_user_by_screen_name(username)
+  # subscribe this author to all of their previous posts
+  author_posts = postsdb.get_posts_by_screen_name(username, per_page=1000, page=1)
+  for post in author_posts:
+    thread_id = 0
+    try:
+      # Attempt to create the thread.
+      thread_details = disqus.create_thread(post['title'], post['slug'], account['disqus_access_token'])
+      thread_id = thread_details['response']['id']
+    except:
+      try:
+        # trouble creating the thread, try to just get the thread via the slug
+        thread_details = disqus.get_thread_details(post.slug)
+        thread_id = thread_details['response']['id']
+      except:
+        thread_id = 0
+    if thread_id != 0:
+      # Subscribe a user to the thread specified in response
+      disqus.subscribe_to_thread(thread_id, account['disqus_access_token'])
+      logging.info("subscribed user to %s" % post['title'])
 
 def user_details(api_key, access_token, api_secret, user_id):
   api_link = 'https://disqus.com/api/3.0/users/details.json?access_token=%s&api_key=%s&api_secret=%s&user=%s' % (access_token, api_key, api_secret, int(user_id))
