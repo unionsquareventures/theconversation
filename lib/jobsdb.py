@@ -28,6 +28,29 @@ INDEED_PUBLISHER_ID = '9648379283006957'
 }
 """
 
+''' Saves a job to the database. Job argument is a dict.'''
+def save_job(job):
+  if 'id' not in job.keys() or job['id'] == '':
+    # need to create a new job id
+    job['id'] = db.job.count() + 1
+
+  job['id'] = int(job['id'])
+
+  # If this is a new job, need to add Gary's position field
+  if 'position' not in job.keys() or job['position'] == '':
+    job['position'] = parse_position(job['jobtitle'])
+  
+  # Indeed's jobkey is the unique identifier
+  return db.job.update({'jobkey':job['jobkey']}, job, upsert=True)
+
+###############################
+### Non-model files and scripts
+###############################
+
+''' Updates job listings for all companies '''
+def update_all():
+	pass
+
 ''' Returns a list of jobs (each one a dict) for a given company '''
 def get_json(company):
 	# Create and call api url
@@ -38,17 +61,6 @@ def get_json(company):
 	api_url += '&l=&sort=&radius=&st=&jt=&start=$start&limit=1000&fromage=$indeed_fromage&filter=&co=&latlong=1&chnl=&userip=1.2.3.4&v=2&format=json'
 	data = json.load(urllib2.urlopen(api_url)) # data is a dict
 	return data['results']
-
-''' Adds a job to the database. Overwrite flag specifies to overwrite/modify jobs we already have listed '''
-def add_job(job_dict, overwrite=False):
-	# Check if this job already exists
-	if not overwrite:# and job['jobkey'] in db.jobs.:
-		print 'Job already in database, not overwritten'
-		return 
-	
-	url = entry['link']
-	position = parse_position(entry['title'])
-	#location
 
 ''' Parses job position title from a string '''
 def parse_position(string):
@@ -107,10 +119,6 @@ def parse_position(string):
 	else:
 		return 'Other'
 
-
-	
-
-	
-
+# To run as script or cronjob
 if __name__ == "__main__":
 	print db.company

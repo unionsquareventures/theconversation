@@ -1,5 +1,5 @@
 import app.basic
-from lib import companiesdb, jobs
+from lib import companiesdb, jobsdb
 
 #############
 ### ABOUT USV
@@ -17,7 +17,9 @@ class About(app.basic.BaseHandler):
 ########################
 class Jobs(app.basic.BaseHandler):
   def get(self):
-    print db
+    job_list = jobsdb.get_json('Twitter')
+    for job in job_list:
+      jobsdb.save_job(job)
     self.render('general/jobs.html')
 
 
