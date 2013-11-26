@@ -1,5 +1,5 @@
 import app.basic
-from lib import companiesdb
+from lib import companiesdb, jobs
 
 #############
 ### ABOUT USV
@@ -17,6 +17,7 @@ class About(app.basic.BaseHandler):
 ########################
 class Jobs(app.basic.BaseHandler):
   def get(self):
+    print db
     self.render('general/jobs.html')
 
 

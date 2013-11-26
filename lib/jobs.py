@@ -42,7 +42,7 @@ def get_json(company):
 ''' Adds a job to the database. Overwrite flag specifies to overwrite/modify jobs we already have listed '''
 def add_job(job_dict, overwrite=False):
 	# Check if this job already exists
-	if not overwrite and job['jobkey'] in db.jobs.:
+	if not overwrite:# and job['jobkey'] in db.jobs.:
 		print 'Job already in database, not overwritten'
 		return 
 	
@@ -113,4 +113,4 @@ def parse_position(string):
 	
 
 if __name__ == "__main__":
-	get_json("Twitter")
+	print db.company
