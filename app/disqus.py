@@ -56,7 +56,7 @@ class Disqus(app.basic.BaseHandler):
       logging.info(e)
       # trouble logging in
       data = {}
-    self.redirect('/user/settings?section=social_accounts')
+    self.redirect('/user/settings?msg=updated')
 
 class Remove(app.basic.BaseHandler):
   @tornado.web.authenticated
@@ -72,4 +72,4 @@ class Remove(app.basic.BaseHandler):
       del account['disqus_token_type']
       userdb.save_user(account)
 
-    self.redirect('/user/settings?section=social_accounts')
+    self.redirect('/user/settings?msg=updated')
