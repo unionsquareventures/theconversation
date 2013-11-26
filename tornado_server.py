@@ -30,7 +30,7 @@ class Application(tornado.web.Application):
 
     app_settings = {
       "cookie_secret" : "change_me",
-      "login_url": "/",
+      "login_url": "/auth/twitter",
       "debug": debug,
       "static_path" : os.path.join(os.path.dirname(__file__), "static"),
       "template_path" : os.path.join(os.path.dirname(__file__), "templates"),
@@ -98,6 +98,7 @@ class Application(tornado.web.Application):
       (r"/feed/(?P<feed_type>[A-z-+0-9]+)$", app.posts.Feed),
       (r"/feed$", app.posts.Feed),
       (r"/posts/new$", app.posts.NewPost),
+      (r"/bookmarklet$", app.posts.NewPost),
       (r"/posts/([^\/]+)/upvote", app.posts.UpVote),
       (r"/posts/([^\/]+)/edit", app.posts.EditPost),
       (r"/posts/(.+)", app.posts.ViewPost),
