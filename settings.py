@@ -32,7 +32,7 @@ options = {
 
 default_options = {
   'active_theme': "default",
-  'site_title': "Conversation",
+  'site_title': "The Conversation",
   'site_description': "This is a website where people talk",
 
   # twiter details (using knowabout.it keys for testing)
