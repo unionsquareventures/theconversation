@@ -16,7 +16,6 @@ from lib import sanitize
 from lib import tagsdb
 from lib import userdb
 from lib import disqus
-import simplejson as json
 
 ###############
 ### New Post
@@ -292,23 +291,15 @@ class UpVote(app.basic.BaseHandler):
 ########################
 class ViewPost(app.basic.BaseHandler):
   def get(self, slug):
-    subscribe = self.get_argument('subscribe', '')
-    if subscribe != '':
-      show_subscribe_modal = True
-    else:
-      show_subscribe_modal = False
-    email = ''
     post = postsdb.get_post_by_slug(slug)
     if not post:
-      tornado.web.HTTPError(404)
+      tornado.web.HTTPError(404)    
+    
+    user = None
     if self.current_user:
       user = userdb.get_user_by_screen_name(self.current_user)
-      if user:
-        email = user['email_address']
 
-      self.render('post/view_post.html', post=post, subscribe=False, email=email, show_subscribe_modal=show_subscribe_modal)
-    else:
-      self.render('post/view_post.html', post=post, subscribe=False, email=None, show_subscribe_modal=False)
+    self.render('post/view_post.html', user_obj=user, post=post)
 
 #############
 ### WIDGET
