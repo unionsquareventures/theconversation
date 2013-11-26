@@ -97,7 +97,7 @@ class Application(tornado.web.Application):
       (r"/featured.*$", app.posts.FeaturedPosts),
       (r"/feed/(?P<feed_type>[A-z-+0-9]+)$", app.posts.Feed),
       (r"/feed$", app.posts.Feed),
-      (r"/posts/new.*?", app.posts.NewPost),
+      (r"/posts/new$", app.posts.NewPost),
       (r"/posts/([^\/]+)/upvote", app.posts.UpVote),
       (r"/posts/([^\/]+)/edit", app.posts.EditPost),
       (r"/posts/(.+)", app.posts.ViewPost),
