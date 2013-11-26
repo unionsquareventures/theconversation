@@ -16,6 +16,7 @@ from lib import sanitize
 from lib import tagsdb
 from lib import userdb
 from lib import disqus
+import simplejson as json
 
 ###############
 ### New Post
@@ -237,7 +238,7 @@ class ListPosts(app.basic.BaseHandler):
     thread_id = 0
     try:
       # Attempt to create the thread.
-      thread_details = disqus.create_thread(post['title'], post.slug, acc['disqus_access_token'])
+      thread_details = disqus.create_thread(post['title'], post['slug'], acc['disqus_access_token'])
       thread_id = thread_details['response']['id']
     except:
       try:
@@ -246,7 +247,6 @@ class ListPosts(app.basic.BaseHandler):
         thread_id = thread_details['response']['id']
       except:
         thread_id = 0
-    
     if thread_id != 0:
       # Subscribe a user to the thread specified in response
       disqus.subscribe_to_thread(thread_id, acc['disqus_access_token'])

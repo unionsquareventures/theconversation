@@ -96,7 +96,7 @@ def do_api_request(api_link, method='GET', params={}):
         data=params,
         verify=False
       )
-    disqus = r.json
+    disqus = r.json()
   except:
     disqus = {}
   return disqus
