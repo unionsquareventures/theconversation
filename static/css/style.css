@@ -669,7 +669,7 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
     display:table;
 }
  #site-header, #mobile-header {
-    background: #888;
+    background: #555;
  box-shadow:inset 0 -3px 0 rgba(0,0,0,0.10);
 }
  #site-header:after {
@@ -2830,6 +2830,20 @@ span.staff {
     background-color:#86aa3b;
 }
 
+
+/*================================================================
+# 
+# =Settings Page
+#
+================================================================*/
+
+tr.complete th,
+tr.complete td {
+    color: #aaa;
+}
+tr.complete span.glyphicon-ok {
+    color: green;
+}
 
 /*================================================================
 # 

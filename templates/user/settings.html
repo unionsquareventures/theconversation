@@ -27,7 +27,31 @@
       <table class="table">
         <form id="submit-form" class="" action="/auth/email/" method="POST">
           {% module xsrf_form_html() %}
-        <tr>
+        
+        <tr class="complete">
+          <th class="step">
+            1 <span class="glyphicon glyphicon-ok"></span>
+          </th>
+          <th>Twitter</th>
+          <td>
+          {% if 'user' in user.keys() %}
+            <img src="/static/img/connect-twitter-active.png" /> &nbsp;
+            @{{ current_user }}
+          {% else %}
+            <img src="/static/img/connect-twitter-inactive.png" /> &nbsp;
+          {% end %}
+          </td>
+          <td></td>
+          <td class="text-muted">(currently this cannot be changed)</td>
+        </tr>
+        
+        {% if user['email_address'] %}
+        <tr class="complete">
+          <th class="step">2 <span class="glyphicon glyphicon-ok"></span></th>
+        {% else %}
+        <tr class="">
+          <th class="step">2</th>
+        {% end %}
           <th>Email</th>
           <td><input type="text" class="form-control" name="email" value="{{ user['email_address'] }}" /></td>
           <td><input type="submit" value="Update" class="btn btn-default" /></td>
@@ -40,13 +64,18 @@
           </td>
         </tr>
         </form>
-        <tr>
+        {% if 'disqus_user_id' in user.keys() and user['disqus_user_id'] != '' %}
+        <tr class="complete">
+          <th class="step">3 <span class="glyphicon glyphicon-ok"></span></th>
+        {% else %}
+        <tr class="">
+          <th class="step">2</th>
+        {% end %}
           <th>Disqus</th>
-          
           {% if 'disqus_user_id' in user.keys() and user['disqus_user_id'] != '' %}
           <td>
             <img src="/static/img/connect-disqus-active.png" /> &nbsp;
-            <a href="http://disqus.com/{{ user['disqus_username'] }}">{{ user['disqus_username'] }}</a> &nbsp;
+            {{ user['disqus_username'] }} &nbsp;
             
           </td>
           <td></td>
@@ -65,19 +94,6 @@
             </div>
           </td>
           {% end %}
-        </tr>
-        <tr>
-          <th>Twitter</th>
-          <td>
-          {% if 'user' in user.keys() %}
-            <img src="/static/img/connect-twitter-active.png" /> &nbsp;
-            @{{ current_user }}
-          {% else %}
-            <img src="/static/img/connect-twitter-inactive.png" /> &nbsp;
-          {% end %}
-          </td>
-          <td></td>
-          <td class="text-muted">(currently this cannot be changed)</td>
         </tr>
       </table>
 
