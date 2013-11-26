@@ -79,7 +79,7 @@ audio:not([controls]) {
 /* ========================================================================== Base ========================================================================== */
 /** * 1. Prevent system color scheme's background color being used in Firefox, IE, * and Opera. * 2. Prevent system color scheme's text color being used in Firefox, IE, and * Opera. * 3. Correct text resizing oddly in IE 6/7 when body `font-size` is set using * `em` units. * 4. Prevent iOS text size adjust after orientation change, without disabling * user zoom. */
 html {
-    background:#555;
+    background:#888;
     /* 1 */
  color:#000;
     /* 2 */
@@ -468,7 +468,7 @@ textarea {
 /* ================================ Variables =============================== */
 /* ================================ Defaults ================================ */
 html {
-    background:#333;
+    background:#888;
 }
 .shell {
     background-color:#fff;
@@ -2833,6 +2833,20 @@ span.staff {
 
 /*================================================================
 # 
+# =Settings Page
+#
+================================================================*/
+
+tr.complete th,
+tr.complete td {
+    color: #aaa;
+}
+tr.complete span.glyphicon-ok {
+    color: green;
+}
+
+/*================================================================
+# 
 # =Stats Page
 #
 ================================================================*/
@@ -3069,7 +3083,7 @@ ul.stats .stat-notes {
  }
 /* ================================ Site Footer =========================== */
 #site-footer {
-    background-color:#333;
+    background-color:#888;
     border-top:1px solid #86aa3b;
     /*margin-top:35px;
     */

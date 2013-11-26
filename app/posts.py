@@ -237,7 +237,7 @@ class ListPosts(app.basic.BaseHandler):
     thread_id = 0
     try:
       # Attempt to create the thread.
-      thread_details = disqus.create_thread(post['title'], post.slug, acc['disqus_access_token'])
+      thread_details = disqus.create_thread(post['title'], post['slug'], acc['disqus_access_token'])
       thread_id = thread_details['response']['id']
     except:
       try:
@@ -246,7 +246,6 @@ class ListPosts(app.basic.BaseHandler):
         thread_id = thread_details['response']['id']
       except:
         thread_id = 0
-    
     if thread_id != 0:
       # Subscribe a user to the thread specified in response
       disqus.subscribe_to_thread(thread_id, acc['disqus_access_token'])
@@ -292,23 +291,15 @@ class UpVote(app.basic.BaseHandler):
 ########################
 class ViewPost(app.basic.BaseHandler):
   def get(self, slug):
-    subscribe = self.get_argument('subscribe', '')
-    if subscribe != '':
-      show_subscribe_modal = True
-    else:
-      show_subscribe_modal = False
-    email = ''
     post = postsdb.get_post_by_slug(slug)
     if not post:
-      tornado.web.HTTPError(404)
+      tornado.web.HTTPError(404)    
+    
+    user = None
     if self.current_user:
       user = userdb.get_user_by_screen_name(self.current_user)
-      if user:
-        email = user['email_address']
 
-      self.render('post/view_post.html', post=post, subscribe=False, email=email, show_subscribe_modal=show_subscribe_modal)
-    else:
-      self.render('post/view_post.html', post=post, subscribe=False, email=None, show_subscribe_modal=False)
+    self.render('post/view_post.html', user_obj=user, post=post)
 
 #############
 ### WIDGET

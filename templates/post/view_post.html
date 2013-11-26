@@ -7,34 +7,6 @@
 {% block content %}
   {% import re %}
 
-  <div class="modal" id="subscribe-modal">
-    <form id="subscribe-form" action="/auth/email/" method="POST">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            <h4 class="modal-title">Subscribe to this post</h4>
-          </div>
-          <div class="modal-body">
-            {% raw xsrf_form_html() %}
-            <input type="hidden" name="next" value="http://usv.com/posts/{{post['slug']}}" />
-            <input type="hidden" name="subscribe_to" value="{{ post['slug'] }}" />
-            <p>Your post has been submitted! If you would like to receive email updates when people comment on this and all future posts you submit, please provide your email address.</p>
-            <p>If you are currently a Disqus user, please make sure to use the same email address you typically use with Disqus, so your notifications will show up on your main Disqus dashboard.</p>
-            <br/>
-            <label for="email">Email</label>
-            <br/>
-            <input id="email" name="email" type="text" placeholder="me@myself.com" value="{{email}}" style="width: 100%">
-            <p>This email address will not be shared or displayed.</p>
-          </div>
-          <div class="modal-footer">
-            <button type="submit" class="btn">Submit</button>
-          </div>
-        </div>
-      </div>
-    </form>
-  </div>
-
   <div id="main" role="main">
     <div class="row article-post single community">
       <div class="col-sm-8 col-sm-offset-2">
@@ -116,8 +88,8 @@
               {% end %}
             </div>
             <div class="col-sm-3 tweet">
-              <a href="https://twitter.com/share" class="twitter-share-button" data-via="">Tweet</a>
-              <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>  
+              <a href="https://twitter.com/share" class="twitter-share-button" data-text="{{ post['title'] }}" data-via="{{ post['user']['screen_name'] }}" data-hashtags="usvconversation">Tweet</a>
+              <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script> 
             </div> 
           </div>
 
@@ -131,6 +103,12 @@
               </div> 
             </div>
           </div>
+
+          {% if current_user == post['user']['username'] and ('disqus_user_id' not in user_obj.keys() or user_obj['disqus_user_id'] == '') %} 
+            <div class="alert alert-info">
+              If you'd like to receive email notifications of new comments, <a href="/auth/disqus">link to Disqus here</a>.
+            </div>
+          {% end %}
 
           <div class="comment-box">
             <div id="disqus_thread"></div>
@@ -188,9 +166,5 @@
 {% end %}
 
 {% block javascript %}
-  {% if show_subscribe_modal %}
-    <script type="text/javascript">
-      $("#subscribe-modal").modal('show');
-    </script>
-  {% end %}
+
 {% end %}

@@ -2,11 +2,13 @@ import urllib2
 import urllib
 import simplejson as json
 import tornado.web
-
+import logging
 import settings
 import app.basic
 
 from lib import userdb
+from lib import postsdb
+from lib import disqus
 
 class Auth(app.basic.BaseHandler):
   @tornado.web.authenticated
@@ -47,10 +49,14 @@ class Disqus(app.basic.BaseHandler):
         account['disqus_token_type'] = user_data['token_type']
         userdb.save_user(account)
         
-    except:
+        # todo: subscribe user to all previous threads they've written
+        # disqus.subscribe_to_all_your_threads(self.current_user)
+        
+    except Exception, e:
+      logging.info(e)
       # trouble logging in
       data = {}
-    self.redirect('/user/settings?section=social_accounts')
+    self.redirect('/user/settings?msg=updated')
 
 class Remove(app.basic.BaseHandler):
   @tornado.web.authenticated
@@ -66,4 +72,4 @@ class Remove(app.basic.BaseHandler):
       del account['disqus_token_type']
       userdb.save_user(account)
 
-    self.redirect('/user/settings?section=social_accounts')
+    self.redirect('/user/settings?msg=updated')

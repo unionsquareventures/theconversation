@@ -1,6 +1,19 @@
 import os
 import tornado.options
 
+# Environmenal settings for heroku#
+# If you are developing for heroku and want to set your settings as environmental vars
+# create settings_local_environ.py in the root folder and use:
+# os.environ['KEY'] = 'value'
+# to simulate using heroku config vars
+# this is better than using a .env file and foreman
+# since it still allows you to see logging.info() output.
+# Make sure to also put import os in this settings_local_environ.py
+try:
+  import settings_local_environ
+except:
+  pass
+
 tornado.options.define("environment", default="dev", help="environment")
 
 active_theme = "usv"
@@ -18,7 +31,7 @@ options = {
   },
   'prod' : {
     'mongo_database' : {'host' : os.environ.get('MONGODB_URL'), 'port' : 27017, 'db' : os.environ.get('DB_NAME')},
-    'base_url' : 'www.usv.com',
+    'base_url' : os.environ.get('BASE_URL'),
   }
 }
 
@@ -28,13 +41,13 @@ default_options = {
   'site_description': "This is a website where people talk",
 
   # twiter details (using knowabout.it keys for testing)
-  'twitter_consumer_key' : os.environ.get("TWITTER_CONSUMER_KEY"),
-  'twitter_consumer_secret' : os.environ.get("TWITTER_CONSUMER_SECRET"),
+  'twitter_consumer_key' : '',
+  'twitter_consumer_secret' : '',
 
   # disqus details (using greentile keys for testing)
-  'disqus_public_key': os.environ.get("DISQUS_PUBLIC_KEY"),
-  'disqus_secret_key': os.environ.get("DISQUS_SECRET_KEY"),
-  'disqus_short_code': os.environ.get("DISQUS_SHORTNAME"),
+  'disqus_public_key': '',
+  'disqus_secret_key': '',
+  'disqus_short_code': '',
 
   # sendgrid details
   'sendgrid_user': os.environ.get("SENDGRID_USER"),
@@ -101,7 +114,7 @@ def get(key):
   if key == 'environment':
     return env
 
-  v = options.get(env).get(key) or default_options.get(key)
+  v = options.get(env).get(key) or os.environ.get(key.upper()) or default_options.get(key)
 
   if callable(v):
     return v
