@@ -1,7 +1,5 @@
 import app.basic
-
 from lib import companiesdb
-from lib import postsdb
 
 #############
 ### ABOUT USV
@@ -20,6 +18,7 @@ class About(app.basic.BaseHandler):
 class Jobs(app.basic.BaseHandler):
   def get(self):
     self.render('general/jobs.html')
+
 
 ###############
 ### USV NETWORK

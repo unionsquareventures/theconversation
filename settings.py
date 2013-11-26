@@ -23,7 +23,7 @@ options = {
 }
 
 default_options = {
-  'active_theme': "default",
+  'active_theme': "usv",
   'site_title': "Conversation",
   'site_description': "This is a website where people talk",
 
