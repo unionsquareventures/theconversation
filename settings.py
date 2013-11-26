@@ -7,7 +7,8 @@ import tornado.options
 # os.environ['KEY'] = 'value'
 # to simulate using heroku config vars
 # this is better than using a .env file and foreman
-# since it still allows you to see logging.info() output
+# since it still allows you to see logging.info() output.
+# Make sure to also put import os in this settings_local_environ.py
 try:
   import settings_local_environ
 except:
