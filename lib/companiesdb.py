@@ -31,5 +31,6 @@ def save_company(company):
     company['id'] = db.company.count() + 1
 
   company['id'] = int(company['id'])
+  
   return db.company.update({'slug':company['slug']}, company, upsert=True)
 
