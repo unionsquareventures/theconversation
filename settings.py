@@ -1,6 +1,18 @@
 import os
 import tornado.options
 
+# Environmenal settings for heroku#
+# If you are developing for heroku and want to set your settings as environmental vars
+# create settings_local_environ.py in the root folder and use:
+# os.environ['KEY'] = 'value'
+# to simulate using heroku config vars
+# this is better than using a .env file and foreman
+# since it still allows you to see logging.info() output
+try:
+  import settings_local_environ
+except:
+  pass
+
 tornado.options.define("environment", default="dev", help="environment")
 
 active_theme = "usv"
