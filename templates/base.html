@@ -111,7 +111,7 @@
             
             <a class="login" href="/user/settings">Settings</a>&nbsp;
             
-            {% if current_user in settings.get('staff') %}
+            {% if current_user_can('see_admin_link') %}
               <a class="login" href="/admin">Admin</a> &nbsp;
             {% end %}
             
