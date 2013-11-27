@@ -1,5 +1,6 @@
 import app.basic
 from lib import companiesdb, jobsdb, postsdb
+from slugify import slugify
 
 #############
 ### ABOUT USV
@@ -23,7 +24,7 @@ class Jobs(app.basic.BaseHandler):
     locations = jobsdb.get_locations()
     companies = jobsdb.get_companies()
     self.render('general/jobs.html', 
-      jobs=jobs, categories=categories, locations=locations, companies=companies)
+      jobs=jobs, categories=categories, locations=locations, companies=companies, slugify=slugify)
 
 
 ###############
