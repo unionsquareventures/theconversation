@@ -222,12 +222,18 @@ class Mute(app.basic.BaseHandler):
 class ReCalculateScores(app.basic.BaseHandler):
   def get(self):
     # set our config values up
-    staff_bonus = int(self.get_argument('staff_bonus', -3))
-    time_penalty_multiplier = float(self.get_argument('time_penalty_multiplier', 2.0))
-    grace_period = float(self.get_argument('grace_period', 6.0))
-    comments_multiplier = float(self.get_argument('comments_multiplier', 3.0))
-    votes_multiplier = float(self.get_argument('votes_multiplier', 1.0))
-    min_votes = float(self.get_argument('min_votes', 0))
+    #staff_bonus = int(self.get_argument('staff_bonus', -3))
+    staff_bonus = -3
+    #time_penalty_multiplier = float(self.get_argument('time_penalty_multiplier', 2.0))
+    time_penalty_multiplier = 2.0
+    #grace_period = float(self.get_argument('grace_period', 6.0))
+    grace_period = 6.0
+    #comments_multiplier = float(self.get_argument('comments_multiplier', 3.0))
+    comments_multiplier = 3.0
+    #votes_multiplier = float(self.get_argument('votes_multiplier', 1.0))
+    votes_multiplier = 1.0
+    #min_votes = float(self.get_argument('min_votes', 2))
+    min_votes = 2
 
     # get all the posts that have at least the 'min vote threshold'
     posts = postsdb.get_posts_with_min_votes(min_votes)
