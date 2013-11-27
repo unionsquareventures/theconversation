@@ -48,40 +48,46 @@
               <li><a href="#category" usv:filter="category">By Job Category</a></li>
               <li><a href="#location" usv:filter="location">By Location</a></li>
               <li><a href="#company" usv:filter="company">By Company</a></li>
-              <li><a href="#title" usv:filter="title">By Title</a></li>
+              <!--<li><a href="#title" usv:filter="title">By Title</a></li>-->
             </ul>
           </div>
 
-          <div id="jobs-menu">
+          <div id="jobs-menu" class="filter-menu">
+            <div usv:filter="category">
             <h2>Categories</h2>
-            <div id="yo">
               <ul class="side-nav" id="category">
                 {% for c in categories %}
                   <li><a href="#category,{{ c }}">{{ c }}</a></li>
                 {% end %}
               </ul>
+            </div>
 
+            <div usv:filter="location">
               <h2>Location</h2>
               <ul class="side-nav" id="location">
                 {% for l in locations %}
                   <li><a href="#location,{{ l }}">{{ l }}</a></li>
                 {% end %}
               </ul>
+            </div>
 
+            <div usv:filter="company">
               <h2>Company</h2>
               <ul class="side-nav" id="company">
                 {% for c in companies %}
                   <li><a href="#company,{{ c }}">{{ c }}</a></li>
                 {% end %}
               </ul>
+            </div>
 
+              <!--
               <ul class="side-nav" id="title">
                 <li><a href="#title,c-level">C-Level</a></li>
                 <li><a href="#title,director">Director</a></li>
                 <li><a href="#title,internships">Internships</a></li>
                 <li><a href="#title,vice-president">Vice President</a></li>
               </ul>
-            </div> <!--yo-->
+              -->
           </div><!--jobs-menu-->
         </div><!--col-sm-3-->
       
@@ -117,18 +123,18 @@
     
     //If URL has a hash, do relevant filtering on page load
     if (window.location.hash) {
-      var query = window.location.hash.split("#")[1];
+      /*var query = window.location.hash.split("#")[1];
       filter_button = $( "a[usv-filter='" + query + "']" );
       if(filter_button.length > 0) {
-         filter_portfolio(filter_button, query);                   
+         filter_jobs(filter_button, query);                   
       }
+      */
     }
 
     $(".filter-tabs a").click(function(e) {
       e.preventDefault();
-      console.log('success');
       var query = $(this).attr("usv:filter");
-      //filter_portfolio(this, query);
+      filter_jobs(this, query);
     });
 
   }); //$(document).ready();
@@ -143,6 +149,28 @@
       }
     })
   }*/
+
+    function filter_jobs(filter_button, query) {
+      $('.filter-menu div').each(function(){
+          console.log("usv:" + query)
+          if ($(this).attr("usv:filter") == query) {
+            $(this).show();
+          } else {
+            $(this).hide();
+          }
+        });
+      
+
+      /*$('.company').each(function(){
+          console.log("usv:" + query)
+          if ($(this).attr("usv:" + query)) {
+            $(this).show();
+          } else {
+            $(this).hide();
+          }
+        });
+      */
+    } // filter_jobs
 
       function filter_portfolio(filter_button, query) {
         /* Query should be a slugified string */
@@ -167,7 +195,7 @@
           $('.filter-tabs li').removeClass('active');
           // make all the "alls" active
           $('.all').addClass('active');
-          $('body').ScrollTo();
+          //$('body').ScrollTo();
           console.log('phoo');
           window.location.hash = '';
         } else {
