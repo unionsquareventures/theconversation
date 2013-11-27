@@ -1,5 +1,5 @@
 import app.basic
-from lib import companiesdb, jobsdb
+from lib import companiesdb, jobsdb, postsdb
 
 #############
 ### ABOUT USV
@@ -17,11 +17,10 @@ class About(app.basic.BaseHandler):
 ########################
 class Jobs(app.basic.BaseHandler):
   def get(self):
-    #jobsdb.update_all()  
+    #jobsdb.update_all() 
+    categories = jobsdb.get_categories() 
+    print categories
     jobs = jobsdb.get_all() 
-    print len(jobs)
-    print jobs[0]
-    print jobs[0]['company']
     self.render('general/jobs.html', jobs=jobs)
 
 

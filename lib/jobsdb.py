@@ -3,8 +3,8 @@ import sys
 sys.path.insert(0, '/Users/AlexanderPease/git/usv/website/usv')
 import settings
 
-import urllib2, json
-import feedparser
+import urllib
+import json
 from mongo import db
 import companiesdb
 
@@ -58,30 +58,35 @@ def save_job(job):
   # Indeed's jobkey is the unique identifier
   return db.job.update({'jobkey':job['jobkey']}, job, upsert=True)
 
+''' Returns complete list of categories, i.e. Gary's position field'''
+def get_categories():
+	aggregation = db.job.aggregate(
+					{ '$group' : 
+						{ '_id' : "$position" }
+					})
+
 ###############################
 ### Non-model functions and scripts
 ###############################
 
 ''' Updates job listings for all companies '''
 def update_all():
-    '''
-    job_list = jobsdb.get_json(c)
-    for job in job_list:
-      jobsdb.save_job(job)
-    '''
     for c in companiesdb.get_companies_by_status('current'):
 	    print c['name']
-	
+	    job_list = get_json(c['name'])
+	    for job in job_list:
+	      save_job(job)
 
 ''' Returns a list of jobs (each one a dict) for a given company '''
 def get_json(company):
-	# Create and call api url
-	# company_name = urllib.urlencode(company_name) 
+	query = {'publisher': INDEED_PUBLISHER_ID, 'company': company}
+	print '!!!!!!!!!!!!!!'
+	#print urllib.urlencode(query)
 	api_url = INDEED_API_URL + '?publisher=%s' % INDEED_PUBLISHER_ID
 	api_url += '&q=company%3A' # %3A doesn't work with %s for some reason
 	api_url += '(%s)' % company
 	api_url += '&l=&sort=&radius=&st=&jt=&start=$start&limit=1000&fromage=$indeed_fromage&filter=&co=&latlong=1&chnl=&userip=1.2.3.4&v=2&format=json'
-	data = json.load(urllib2.urlopen(api_url)) # data is a dict
+	data = json.load(urllib.urlopen(api_url)) # data is a dict
 	return data['results']
 
 ''' Parses job position title from a string '''
