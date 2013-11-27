@@ -18,10 +18,12 @@ class About(app.basic.BaseHandler):
 class Jobs(app.basic.BaseHandler):
   def get(self):
     #jobsdb.update_all() 
-    categories = jobsdb.get_categories() 
-    print categories
     jobs = jobsdb.get_all() 
-    self.render('general/jobs.html', jobs=jobs)
+    categories = jobsdb.get_categories() 
+    locations = jobsdb.get_locations()
+    companies = jobsdb.get_companies()
+    self.render('general/jobs.html', 
+      jobs=jobs, categories=categories, locations=locations, companies=companies)
 
 
 ###############

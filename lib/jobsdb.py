@@ -60,10 +60,32 @@ def save_job(job):
 
 ''' Returns complete list of categories, i.e. Gary's position field'''
 def get_categories():
+	# Position is the field name for Gary's categories
+	return get_aggregation("$position")
+
+''' Returns complete list of locations with jobs'''
+def get_locations():
+	return get_aggregation("$formattedLocation")
+
+''' Returns complete list of companies with jobs'''
+def get_companies():
+	return get_aggregation("$company")
+
+''' Lower level method using db.aggregate() 
+	Returns list in alphabetical order'''
+def get_aggregation(arg):
+	# I'm sure there's a more elegant way to do this
+	id_name = '_id'
 	aggregation = db.job.aggregate(
 					{ '$group' : 
-						{ '_id' : "$position" }
+						{ id_name : arg }
 					})
+	result = aggregation['result'] # result is a dict
+	return_list = []
+	for return_dict in result:
+		return_list.append(return_dict['_id'])
+	return sorted(return_list)
+
 
 ###############################
 ### Non-model functions and scripts

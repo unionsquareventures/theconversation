@@ -8,8 +8,8 @@
     <h2 class="mobile-page-headline section-heading">Jobs</h2>
     <div class="jobs-container">
       
-      <header>
-        <!--
+      <!--
+      <header>  
         <ul class="stats">
           <li>
             <span class="stat">796</span>
@@ -24,7 +24,6 @@
             <span class="label">cities</span>
           </li>
         </ul>
-        -->
         <div class="job-search">
           <form id="jobform" method="GET" action="http://www.indeed.com/jobs">
             <div class="form-row">
@@ -39,161 +38,61 @@
           </form>
         </div>
       </header>
+      -->
 
       <div id="jobs-content" class="row">
         <div class="col-sm-3">
           <div class="job-tabs-container">
             <h2>Sort</h2>
             <ul class="job-tabs filter-tabs">
-              <li><a href="#in" rel="in">By Job</a></li>
-              <li><a href="#location" rel="location">By Location</a></li>
-              <li><a href="#company" rel="company">By Company</a></li>
-              <li><a href="#title" rel="title">By Title</a></li>
+              <li><a href="#category" id="filter-category" class="filter_button">By Job Category</a></li>
+              <li><a href="#location" id="filter-location" class="filter_button">By Location</a></li>
+              <li><a href="#company" id="filter-company" class="filter_button">By Company</a></li>
+              <li><a href="#title" id="filter-title" class="filter_button">By Title</a></li>
             </ul>
           </div>
 
           <div id="jobs-menu">
             <h2>Categories</h2>
             <div id="yo">
-              <ul class="side-nav" id="in">
-                <li><a href="#in,administrative">Administrative</a></li>
-                <li><a href="#in,community-management-support">Community Management &amp; Support</a></li>
-                <li><a href="#in,content-editorial">Content &amp; Editorial</a></li>
-                <li><a href="#in,customer-support">Customer Support</a></li>
-                <li><a href="#in,data-analytics">Data &amp; Analytics</a></li>
-                <li><a href="#in,database-administration">Database Administration</a></li>
-                <li><a href="#in,design">Design</a></li>
-                <li><a href="#in,design-interaction-ux">Design - Interaction/UX</a></li>
-                <li><a href="#in,design-visual-artist">Design - Visual/Artist</a></li>
-                <li><a href="#in,engineering">Engineering</a></li>
-                <li><a href="#in,engineering-front-end">Engineering - Front End</a></li>
-                <li><a href="#in,engineering-management">Engineering - Management</a></li>
-                <li><a href="#in,engineering-mobile">Engineering - Mobile</a></li>
-                <li><a href="#in,engineering-operations">Engineering - Operations</a></li>
-                <li><a href="#in,engineering-qa">Engineering - QA</a></li>
-                <li><a href="#in,engineering-senior">Engineering - Senior</a></li>
-                <li><a href="#in,general-management">General Management</a></li>
-                <li><a href="#in,hr-recruiting">HR &amp; Recruiting</a></li>
-                <li><a href="#in,international">International</a></li>
-                <li><a href="#in,legal-finance">Legal &amp; Finance</a></li>
-                <li><a href="#in,marketing">Marketing</a></li>
-                <li><a href="#in,operations">Operations</a></li>
-                <li><a href="#in,product-management">Product Management</a></li>
-                <li><a href="#in,project-management">Project Management</a></li>
-                <li><a href="#in,sales-business-development">Sales &amp; Business Development</a></li>
+              <ul class="side-nav" id="category">
+                {% for c in categories %}
+                  <li><a href="#category,{{ c }}">{{ c }}</a></li>
+                {% end %}
               </ul>
 
+              <h2>Location</h2>
               <ul class="side-nav" id="location">
-                <li><a href="#location,amsterdam-nl">Amsterdam, NL</a></li>
-                <li><a href="#location,atlanta-ga">Atlanta, GA</a></li>
-                <li><a href="#location,austin-tx">Austin, TX</a></li>
-                <li><a href="#location,berlin-de">Berlin, DE</a></li>
-                <li><a href="#location,boston-ma">Boston, MA</a></li>
-                <li><a href="#location,brooklyn-ny">Brooklyn, NY</a></li>
-                <li><a href="#location,broomfield-co">Broomfield, CO</a></li>
-                <li><a href="#location,canada-ca">Canada, CA</a></li>
-                <li><a href="#location,chicago-il">Chicago, IL</a></li>
-                <li><a href="#location,columbia-ca">Columbia, CA</a></li>
-                <li><a href="#location,delhi-in">Delhi, IN</a></li>
-                <li><a href="#location,denver-co">Denver, CO</a></li>
-                <li><a href="#location,des-moines-ia">Des Moines, IA</a></li>
-                <li><a href="#location,detroit-mi">Detroit, MI</a></li>
-                <li><a href="#location,deutschland-de">Deutschland, DE</a></li>
-                <li><a href="#location,dublin-ie">Dublin, IE</a></li>
-                <li><a href="#location,düsseldorf-de">Düsseldorf, DE</a></li>
-                <li><a href="#location,eindhoven-nl">Eindhoven, NL</a></li>
-                <li><a href="#location,hong-kong-hk">Hong Kong, HK</a></li>
-                <li><a href="#location,hudson-ny">Hudson, NY</a></li>
-                <li><a href="#location,ireland-ie">Ireland, IE</a></li>
-                <li><a href="#location,london-gb">London, GB</a></li>
-                <li><a href="#location,long-island-city-ny">Long Island City, NY</a></li>
-                <li><a href="#location,los-angeles-ca">Los Angeles, CA</a></li>
-                <li><a href="#location,madrid-es">Madrid, ES</a></li>
-                <li><a href="#location,milano-it">Milano, IT</a></li>
-                <li><a href="#location,montréal-ca">Montréal, CA</a></li>
-                <li><a href="#location,mumbai-in">Mumbai, IN</a></li>
-                <li><a href="#location,münchen-de">München, DE</a></li>
-                <li><a href="#location,neuilly-sur-seine-fr">Neuilly-sur-Seine, FR</a></li>
-                <li><a href="#location,new-york-ny">New York, NY</a></li>
-                <li><a href="#location,new-ky">New, KY</a></li>
-                <li><a href="#location,palo-alto-ca">Palo Alto, CA</a></li>
-                <li><a href="#location,paris-fr">Paris, FR</a></li>
-                <li><a href="#location,pittsburgh-pa">Pittsburgh, PA</a></li>
-                <li><a href="#location,raleigh-nc">Raleigh, NC</a></li>
-                <li><a href="#location,rochester-ny">Rochester, NY</a></li>
-                <li><a href="#location,san-francisco-ca">San Francisco, CA</a></li>
-                <li><a href="#location,san-mateo-ca">San Mateo, CA</a></li>
-                <li><a href="#location,seattle-wa">Seattle, WA</a></li>
-                <li><a href="#location,singapore-sg">Singapore, SG</a></li>
-                <li><a href="#location,sunnyvale-ca">Sunnyvale, CA</a></li>
-                <li><a href="#location,sydney-au">Sydney, AU</a></li>
-                <li><a href="#location,são-paulo-br">São Paulo, BR</a></li>
-                <li><a href="#location,tarzana-ca">Tarzana, CA</a></li>
-                <li><a href="#location,toronto-ca">Toronto, CA</a></li>
-                <li><a href="#location,united-kingdom-gb">United Kingdom, GB</a></li>
-                <li><a href="#location,united-states">United States</a></li>
-                <li><a href="#location,washington-dc">Washington, DC</a></li>
-                <li><a href="#location,Москва-ru">Москва, RU</a></li>
-                <li><a href="#location,תל-אביב--יפו-il">תל אביב -יפו, IL</a></li>
-                <li><a href="#location,東京都-jp">東京都, JP</a></li>
-                <li><a href="#location,서울-kr">서울, KR</a></li>
+                {% for l in locations %}
+                  <li><a href="#location,{{ l }}">{{ l }}</a></li>
+                {% end %}
               </ul>
+
+              <h2>Company</h2>
               <ul class="side-nav" id="company">
-                <li><a href="#company,10gen">10gen</a></li>
-                <li><a href="#company,amee">AMEE</a></li>
-                <li><a href="#company,auxmoney">Auxmoney</a></li>
-                <li><a href="#company,brewster">Brewster</a></li>
-                <li><a href="#company,canvas">Canvas</a></li>
-                <li><a href="#company,codecademy">Codecademy</a></li>
-                <li><a href="#company,covestor">Covestor</a></li>
-                <li><a href="#company,disqus">Disqus</a></li>
-                <li><a href="#company,duolingo">Duolingo</a></li>
-                <li><a href="#company,dwolla">Dwolla</a></li>
-                <li><a href="#company,edmodo">Edmodo</a></li>
-                <li><a href="#company,etsy">Etsy</a></li>
-                <li><a href="#company,flurry">Flurry</a></li>
-                <li><a href="#company,foursquare">Foursquare</a></li>
-                <li><a href="#company,funding-circle">Funding Circle</a></li>
-                <li><a href="#company,getglue">GetGlue</a></li>
-                <li><a href="#company,hailo">Hailo</a></li>
-                <li><a href="#company,heyzap">Heyzap</a></li>
-                <li><a href="#company,kickstarter">Kickstarter</a></li>
-                <li><a href="#company,kitchensurfing">Kitchensurfing</a></li>
-                <li><a href="#company,lending-club">Lending Club</a></li>
-                <li><a href="#company,meetup">Meetup</a></li>
-                <li><a href="#company,return-path">Return Path</a></li>
-                <li><a href="#company,science-exchange">Science Exchange</a></li>
-                <li><a href="#company,shapeways">Shapeways</a></li>
-                <li><a href="#company,siftscience">SiftScience</a></li>
-                <li><a href="#company,simulmedia">Simulmedia</a></li>
-                <li><a href="#company,skillshare">Skillshare</a></li>
-                <li><a href="#company,soundcloud">SoundCloud</a></li>
-                <li><a href="#company,stack-exchange">Stack Exchange</a></li>
-                <li><a href="#company,targetspot">TargetSpot</a></li>
-                <li><a href="#company,twilio">Twilio</a></li>
-                <li><a href="#company,twitter">Twitter</a></li>
-                <li><a href="#company,wattpad">Wattpad</a></li>
-                <li><a href="#company,work-market">Work Market</a></li>
-                <li><a href="#company,younow">YouNow</a></li>
+                {% for c in companies %}
+                  <li><a href="#company,{{ c }}">{{ c }}</a></li>
+                {% end %}
               </ul>
+
               <ul class="side-nav" id="title">
                 <li><a href="#title,c-level">C-Level</a></li>
                 <li><a href="#title,director">Director</a></li>
                 <li><a href="#title,internships">Internships</a></li>
                 <li><a href="#title,vice-president">Vice President</a></li>
               </ul>
-            </div>
-          </div>
-        </div>
-        
-
-
+            </div> <!--yo-->
+          </div><!--jobs-menu-->
+        </div><!--col-sm-3-->
+      
+      
         <div class="col-sm-9">
           <div class="tab_container">
-            <div id="in" class="tab_content"><a name="in,administrative"></a><div class="cat"><h3 class="heading">Administrative <span class="count">(11)</span></h3><div class="jobs">
-
+            <!--<div id="in" class="tab_content"><a name="in,administrative"></a><div class="cat"><h3 class="heading">Administrative <span class="count">(11)</span></h3>
+            -->
+            <div class="jobs">
               {% for j in jobs %}
-              <div class="job">
+              <div class="job" usv:company="{{ j['company'] }}" usv:location="{{ j['formattedLocation'] }}" usv:category="{{ j['position'] }}">
                 <div class="col-a">{{ j['formattedLocation'] }}</div>
                 <div class="col-b">
                   <a href="{{ j['url'] }}">{{ j['jobtitle'] }}</a> 
@@ -201,98 +100,57 @@
                 </div>
               </div>
               {% end %}
+            </div>
+          </div>
+        </div><!--col-sm-9-->
 
+      </div>
+    </div>
+  </div>
 {% end %} <!-- end block content -->
 
 
 {% block javascript %}
 
-<script>
-    $(document).ready(function() {
-      var series_options = [];
-      $('.company').each(function() {
-        var series = $(this).parent().attr('usv:investment_series');
-        if ($.inArray(series, series_options) == -1) {
-          // we haven't seen this one yet
-          if (series != "" && typeof(series) != "undefined") {
-            series_options.push(series);
+<script type="text/javascript">
+  $(document).ready(function() {
+    
+    $(".filter-button").click(function(e) {
+        e.preventDefault();
+        console.log('success');
+        //var query = $(this).attr("usv-filter");
+        //filter_portfolio(this, query);
+    });
+    
+    //If URL has a hash, do relevant filtering
+    if (window.location.hash) {
+      var query = window.location.hash.split("#")[1];
+      filter_button = $( "a[usv-filter='" + query + "']" );
+      if(filter_button.length > 0) {
+         filter_portfolio(filter_button, query);                   
+      }
+    }
+
+    $(".filter-tabs a").click(function(e) {
+      e.preventDefault()
+      var query = $(this).attr("usv-filter");
+      filter_portfolio(this, query);
+    });
+
+  }
+
+      
+      function filter_company(filter_button, company) {
+        $('.job').each(function(){
+          if ($(this).attr("usv:company") == company){
+            $(this).show();
           }
-        }
-      });
-      series_options.sort();
-      series_options.reverse();
-      var city_options = [];
-      $('.company').each(function() {
-        var cities_str = $(this).parent().attr('usv:city')
-        if (cities_str) {
-          cities = cities_str.split(',');
-          for (var i = 0; i < cities.length; i++) {
-            city = cities[i].replace(/^\s\s*/, '').replace(/\s\s*$/, '');
-            if ($.inArray(city, city_options) == -1) {
-              // we haven't seen this one yet
-              if (city != "" && typeof(city) != "undefined") {
-                city_options.push(city.replace(/^\s\s*/, '').replace(/\s\s*$/, ''));
-              }
-            }
+          else {
+            $(this).hide();
           }
-        }
-      });
-      city_options.sort();
-      city_options.reverse();
-      var year_options = [];
-      $('.company').each(function() {
-        var year = $(this).parent().attr('usv:investment_date');
-        if ($.inArray(year, year_options) == -1) {
-          // we haven't seen this one yet
-          if (year != "" && typeof(year) != "undefined") {
-            year_options.push(year);
-          }
-        }
-      });
-      year_options.sort();
-      var category_options = [];
-      $('.company').each(function() {
-        var categories_str = $(this).parent().attr('usv:investment_categories')
-        if (categories_str) {
-          categories = categories_str.split(',');
-          for (var i = 0; i < categories.length; i++) {
-            cat = categories[i].replace(/^\s\s*/, '').replace(/\s\s*$/, '');
-            if ($.inArray(cat, category_options) == -1) {
-              // we haven't seen this one yet
-              if (cat != "" && typeof(cat) != "undefined") {
-                category_options.push(cat);
-              }
-            }
-          }
-        }
-      });
-      category_options.sort();
-      category_options.reverse();
-      var all_options = series_options.concat(city_options).concat(year_options).concat(category_options);        
-      for (var i = 0; i < series_options.length; i++ ) {
-        $("#series li:first").after('<li><a href="#" usv-filter="' + series_options[i].slugify() + '">' + series_options[i] + '</a></li>');
+        })
       }
-      for (var i = 0; i < city_options.length; i++ ) {
-        $("#locations li:first").after('<li><a href="#" usv-filter="' + city_options[i].slugify() + '">' + city_options[i] + '</a></li>');
-      }
-      for (var i = 0; i < year_options.length; i++ ) {
-        $("#years li:first").after('<li><a href="#" usv-filter="' + year_options[i].slugify() + '">' + year_options[i] + '</a></li>');
-      }
-      for (var i = 0; i < category_options.length; i++ ) {
-        $("#categories li:first").after('<li><a href="#" usv-filter="' + category_options[i].slugify() + '">' + category_options[i] + '</a></li>');
-      }
-      $(".filter-tabs a").click(function(e) {
-        e.preventDefault()
-        var query = $(this).attr("usv-filter");
-        filter_portfolio(this, query);
-      });
-      if (window.location.hash) {
-        var query = window.location.hash.split("#")[1];
-        filter_button = $( "a[usv-filter='" + query + "']" );
-        if(filter_button.length > 0) {
-           filter_portfolio(filter_button, query);                   
-        }
-      }
+
       function filter_portfolio(filter_button, query) {
         /* Query should be a slugified string */
         // deactivate all other tabs
@@ -345,41 +203,5 @@
         }
       }
     });
-</script>
-
-
-
-
-
-
-<!-- Old JS -->
-<script type="text/javascript">
-  $(document).ready(function() {
-    // set the click handler
-    $("ul.job-tabs li").click(function(event) {
-      event.preventDefault();
-      // deactivate where we were
-      var prevTab = $("ul.tabs li.active").find("a").attr("rel");
-      $("yo ul.active").removeClass("active");
-      $("#yo ul#" + prevTab).hide(); 
-      $("ul.tabs li").removeClass("active");
-      $(".tab_content").hide();
-      // set the new tab active
-      $(this).addClass("active");
-      var activeTab = $(this).find("a").attr("href");  
-      //window.location.hash = activeTab;
-      $("div" + activeTab).fadeIn('fast');
-      // side nav
-      $("#yo ul" + activeTab).addClass("active");
-      $("#yo ul" + activeTab).fadeIn('fast');
-      return false;
-    });
-    // Setup Search Box
-    var companies = ' company:("10gen" OR "AMEE" OR "Auxmoney" OR "Boxee" OR "Brewster" OR "C2FO" OR "Canvas" OR "CircleUp" OR "Codecademy" OR "Coinbase" OR "Covestor" OR "Disqus" OR "DuckDuckGo" OR "Duolingo" OR "Dwolla" OR "Edmodo" OR "Etsy" OR "Firebase" OR "Flurry" OR "Foursquare" OR "Funding Circle" OR "GetGlue" OR "Hailo" OR "Heyzap" OR "Kickstarter" OR "Kik" OR "Kitchensurfing" OR "Lending Club" OR "Meetup" OR "Return Path" OR "Science Exchange" OR "Shapeways" OR "SiftScience" OR "SigFig" OR "Simulmedia" OR "Skillshare" OR "SoundCloud" OR "Stack Exchange" OR "TargetSpot" OR "Turntable.fm" OR "Twilio" OR "Twitter" OR "Wattpad" OR "Work Market" OR "YieldMo" OR "YouNow" OR "Zemanta")';
-    $('#jobform').submit(function() {
-      var query = $('input#q').val();
-      $('input#q').val(query+companies);
-    });
-  });
-</script>
+  </script>
 {% end %}
