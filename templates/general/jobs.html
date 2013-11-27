@@ -52,10 +52,10 @@
             </ul>
           </div>
 
-          <div id="jobs-menu" class="filter-menu">
+          <div id="jobs-menu" class="filter-menu" style="display:none;">
             <div usv:filter="category">
-            <h2>Categories</h2>
-              <ul class="side-nav" id="category">
+              <h2>Categories</h2>
+              <ul class="side-nav">
                 {% for c in categories %}
                   <li><a href="#category,{{ c }}">{{ c }}</a></li>
                 {% end %}
@@ -64,7 +64,7 @@
 
             <div usv:filter="location">
               <h2>Location</h2>
-              <ul class="side-nav" id="location">
+              <ul class="side-nav">
                 {% for l in locations %}
                   <li><a href="#location,{{ l }}">{{ l }}</a></li>
                 {% end %}
@@ -73,7 +73,7 @@
 
             <div usv:filter="company">
               <h2>Company</h2>
-              <ul class="side-nav" id="company">
+              <ul class="side-nav">
                 {% for c in companies %}
                   <li><a href="#company,{{ c }}">{{ c }}</a></li>
                 {% end %}
@@ -131,46 +131,49 @@
       */
     }
 
+    // For clicking on filter options, ex. By Job Category
     $(".filter-tabs a").click(function(e) {
       e.preventDefault();
       var query = $(this).attr("usv:filter");
-      filter_jobs(this, query);
+      filter_menu(this, query);
+      $("#jobs-menu").show();
+    });
+
+    // Clicking on a specific filter link, ex. Administrative
+    $(".side-nav a").click(function(e) {
+      e.preventDefault();
+      var filter_type = $(this).parent().parent().parent().attr("usv:filter");
+      var query = $(this).text();
+      //console.log(query, filter_type);
+      filter_jobs(filter_type, query);
     });
 
   }); //$(document).ready();
 
-  /*function filter_company(filter_button, company) {
-    $('.job').each(function(){
-      if ($(this).attr("usv:company") == company){
+  // Shows and hides left hand menu filter links
+  function filter_menu(filter_button, query) {
+    $('.filter-menu div').each(function(){
+      if ($(this).attr("usv:filter") == query) {
         $(this).show();
-      }
-      else {
+      } else {
         $(this).hide();
       }
-    })
-  }*/
+    });
 
-    function filter_jobs(filter_button, query) {
-      $('.filter-menu div').each(function(){
-          console.log("usv:" + query)
-          if ($(this).attr("usv:filter") == query) {
-            $(this).show();
-          } else {
-            $(this).hide();
-          }
-        });
-      
+    // light up clicked button
 
-      /*$('.company').each(function(){
-          console.log("usv:" + query)
-          if ($(this).attr("usv:" + query)) {
-            $(this).show();
-          } else {
-            $(this).hide();
-          }
-        });
-      */
-    } // filter_jobs
+  } // filter_menu
+
+  // Shows and hides jobs based on filtering
+  function filter_jobs(filter_type, query) {
+    $('.job').each(function(){
+      if ($(this).attr("usv:" + filter_type) == query) {
+        $(this).show();
+      } else {
+        $(this).hide();
+      }
+    });
+  } // filter_jobs
 
       function filter_portfolio(filter_button, query) {
         /* Query should be a slugified string */
