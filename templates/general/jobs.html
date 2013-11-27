@@ -43,12 +43,12 @@
       <div id="jobs-content" class="row">
         <div class="col-sm-3">
           <div class="job-tabs-container">
-            <h2>Sort</h2>
+            <h2>Filter</h2>
             <ul class="job-tabs filter-tabs">
-              <li><a href="#category" id="filter-category" class="filter_button">By Job Category</a></li>
-              <li><a href="#location" id="filter-location" class="filter_button">By Location</a></li>
-              <li><a href="#company" id="filter-company" class="filter_button">By Company</a></li>
-              <li><a href="#title" id="filter-title" class="filter_button">By Title</a></li>
+              <li><a href="#category" usv:filter="category">By Job Category</a></li>
+              <li><a href="#location" usv:filter="location">By Location</a></li>
+              <li><a href="#company" usv:filter="company">By Company</a></li>
+              <li><a href="#title" usv:filter="title">By Title</a></li>
             </ul>
           </div>
 
@@ -112,17 +112,10 @@
 
 {% block javascript %}
 
-<script type="text/javascript">
+<script>
   $(document).ready(function() {
     
-    $(".filter-button").click(function(e) {
-        e.preventDefault();
-        console.log('success');
-        //var query = $(this).attr("usv-filter");
-        //filter_portfolio(this, query);
-    });
-    
-    //If URL has a hash, do relevant filtering
+    //If URL has a hash, do relevant filtering on page load
     if (window.location.hash) {
       var query = window.location.hash.split("#")[1];
       filter_button = $( "a[usv-filter='" + query + "']" );
@@ -132,24 +125,24 @@
     }
 
     $(".filter-tabs a").click(function(e) {
-      e.preventDefault()
-      var query = $(this).attr("usv-filter");
-      filter_portfolio(this, query);
+      e.preventDefault();
+      console.log('success');
+      var query = $(this).attr("usv:filter");
+      //filter_portfolio(this, query);
     });
 
-  }
+  }); //$(document).ready();
 
-      
-      function filter_company(filter_button, company) {
-        $('.job').each(function(){
-          if ($(this).attr("usv:company") == company){
-            $(this).show();
-          }
-          else {
-            $(this).hide();
-          }
-        })
+  /*function filter_company(filter_button, company) {
+    $('.job').each(function(){
+      if ($(this).attr("usv:company") == company){
+        $(this).show();
       }
+      else {
+        $(this).hide();
+      }
+    })
+  }*/
 
       function filter_portfolio(filter_button, query) {
         /* Query should be a slugified string */
@@ -175,10 +168,12 @@
           // make all the "alls" active
           $('.all').addClass('active');
           $('body').ScrollTo();
+          console.log('phoo');
           window.location.hash = '';
         } else {
           window.location.hash = query;
-          $('body').ScrollTo();
+          //$('body').ScrollTo();
+          console.log('foo');
         }
         // hide & show section headings
         if ($('.company-container.current:visible').length == 0) {
@@ -202,6 +197,5 @@
           }
         }
       }
-    });
   </script>
 {% end %}
