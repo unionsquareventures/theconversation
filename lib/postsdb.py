@@ -70,11 +70,11 @@ def get_new_posts(per_page=50, page=1):
   return list(db.post.find({}, sort=[('_id', pymongo.DESCENDING)]).skip((page-1)*per_page).limit(per_page))
 
 def get_hot_posts(per_page=50, page=1):
-  posts = list(db.post.find({}, sort=[('sort_score', pymongo.DESCENDING)]).skip((page-1)*per_page).limit(per_page))
+  posts = list(db.post.find({"votes": { "$gte" : 2 }}, sort=[('sort_score', pymongo.DESCENDING)]).skip((page-1)*per_page).limit(per_page))
   return posts
 
 def get_sad_posts(per_page=50, page=1):
-  return list(db.post.find({'date_created':{'$gt': datetime.strptime("10/12/13", "%m/%d/%y")}, 'votes':0, 'comment_count':0, 'deleted': False, 'featured': False}, sort=[('date_created', pymongo.DESCENDING)]).skip((page-1)*per_page).limit(per_page))
+  return list(db.post.find({'date_created':{'$gt': datetime.strptime("10/12/13", "%m/%d/%y")}, 'votes':1, 'comment_count':0, 'deleted': False, 'featured': False}, sort=[('date_created', pymongo.DESCENDING)]).skip((page-1)*per_page).limit(per_page))
 
 def get_deleted_posts(per_page=50, page=1):
   return list(db.post.find({'deleted':True}, sort=[('date_deleted', pymongo.DESCENDING)]).skip((page-1)*per_page).limit(per_page))
@@ -118,7 +118,7 @@ def get_posts_by_normalized_url(normalized_url, limit):
   return list(db.post.find({'normalized_url':normalized_url, 'deleted':False}, sort=[('_id', pymongo.DESCENDING)]).limit(limit))
 
 def get_posts_with_min_votes(min_votes):
-  return list(db.post.find({'deleted':False, 'votes':{'$gt':min_votes}}, {'slug':1, 'date_created':1, 'downvotes':1, 'user.screen_name':1, 'comment_count':1, 'votes':1}, sort=[('date_created', pymongo.DESCENDING)]))
+  return list(db.post.find({'deleted':False, 'votes':{'$gt':min_votes}}, {'slug':1, 'date_created':1, 'downvotes':1, 'user.username':1, 'comment_count':1, 'votes':1, 'title':1}, sort=[('date_created', pymongo.DESCENDING)]))
 
 ###########################
 ### UPDATE POST DETAIL

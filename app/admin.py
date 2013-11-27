@@ -2,6 +2,7 @@ import app.basic
 import tornado.web
 import settings
 import datetime
+import logging
 
 from lib import companiesdb
 from lib import hackpad
@@ -221,12 +222,18 @@ class Mute(app.basic.BaseHandler):
 class ReCalculateScores(app.basic.BaseHandler):
   def get(self):
     # set our config values up
-    staff_bonus = int(self.get_argument('staff_bonus', -3))
-    time_penalty_multiplier = float(self.get_argument('time_penalty_multiplier', 2.0))
-    grace_period = float(self.get_argument('grace_period', 6.0))
-    comments_multiplier = float(self.get_argument('comments_multiplier', 3.0))
-    votes_multiplier = float(self.get_argument('votes_multiplier', 1.0))
-    min_votes = float(self.get_argument('min_votes', 2))
+    #staff_bonus = int(self.get_argument('staff_bonus', -3))
+    staff_bonus = -3
+    #time_penalty_multiplier = float(self.get_argument('time_penalty_multiplier', 2.0))
+    time_penalty_multiplier = 2.0
+    #grace_period = float(self.get_argument('grace_period', 6.0))
+    grace_period = 6.0
+    #comments_multiplier = float(self.get_argument('comments_multiplier', 3.0))
+    comments_multiplier = 3.0
+    #votes_multiplier = float(self.get_argument('votes_multiplier', 1.0))
+    votes_multiplier = 1.0
+    #min_votes = float(self.get_argument('min_votes', 2))
+    min_votes = 2
 
     # get all the posts that have at least the 'min vote threshold'
     posts = postsdb.get_posts_with_min_votes(min_votes)
@@ -250,9 +257,10 @@ class ReCalculateScores(app.basic.BaseHandler):
       base_score = post['downvotes'] * -1
 
       # determine if we should assign a staff bonus or not
-      staff_bonus = 0
-      if post['user']['screen_name'] in settings.get('staff'):
+      if post['user']['username'] in settings.get('staff'):
         staff_bonus = staff_bonus
+      else:
+        staff_bonus = 0
 
       # determine how to weight votes
       votes_base_score = 0
@@ -261,30 +269,40 @@ class ReCalculateScores(app.basic.BaseHandler):
       if post['votes'] > 8 and post['comment_count'] == 0:
         votes_base_score = -2
 
+      scores = {}
       # now actually calculate the score
-      score = base_score
-      score += (votes_base_score + post['votes'] * votes_multiplier)
-      score += (post['comment_count'] * comments_multiplier)
-      score += staff_bonus
-      score += (time_penalty * time_penalty_multiplier * -1)
+      total_score = base_score
+      
+      scores['votes'] = (votes_base_score + post['votes'] * votes_multiplier)
+      total_score += scores['votes']
+      
+      scores['comments'] = (post['comment_count'] * comments_multiplier)
+      total_score += scores['comments']
+      
+      scores['time'] = (time_penalty * time_penalty_multiplier * -1)
+      total_score += scores['time']
+      
+      total_score += staff_bonus
+      post['scores'] = scores
 
       # and save the new score
-      postsdb.update_post_score(post['slug'], score)
+      postsdb.update_post_score(post['slug'], total_score)
 
       data.append({
         'username': post['user']['username'],
         'title': post['title'],
-        'slug': post['id'],
+        'slug': post['slug'],
         'date_created': post['date_created'],
-        'hours_elapsed': ['hours_elapsed'],
-        'votes': ['votes'],
+        'hours_elapsed': hours_elapsed,
+        'votes': post['votes'],
         'comment_count': post['comment_count'],
         'staff_bonus': staff_bonus,
         'time_penalty': time_penalty,
-        'score': score,
+        'total_score': total_score,
+        'scores': scores
       })
-
-    data = sorted(data, key=lambda k: k['score'], reverse=True)
+  
+    data = sorted(data, key=lambda k: k['total_score'], reverse=True)
 
     self.render('admin/recalc_scores.html', data=data, staff_bonus=staff_bonus, time_penalty_multiplier=time_penalty_multiplier, grace_period=grace_period, comments_multiplier=comments_multiplier, votes_multiplier=votes_multiplier, min_votes=min_votes)
 
