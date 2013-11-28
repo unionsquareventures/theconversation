@@ -164,23 +164,23 @@
     document.write('<div id="usv-widget-content">');
     document.write('<ul id="usv-posts">');
       {% for post in posts %}
-        {% if 'previous_author_username' in locals() and previous_author_username == post.user.username %}
+        {% if 'previous_author_username' in locals() and previous_author_username == post['user']['username'] %}
           {% set repeat = True %}
         {% else %}
           {% set repeat = False %}
         {% end %}
-        var title = RegExp.escape("{{ post.title }}");
+        var title = RegExp.escape("{{ post['title'] }}");
         document.write('<li {% if repeat %}class="repeat"{% end %}>');
-          document.write('<img class="avatar" src="{{ post.user.profile_image_url }}" />');
-          document.write('<h3 class="usv-post-title"><a href="{{ post.permalink() }}?referer=widget" target="_blank">' + title + '</a></h3>');
-          document.write('<span class="usv-post-author">@{{ post.user.username }}</span>');
-          {% if post.comment_count > 0 %}
-            document.write('<a class="usv-post-comment-link" href="{{ post.permalink() }}?referer=widget"><span class="usv-post-comment-count">');
-            document.write('{{ post.comment_count }}');
+          document.write('<img class="avatar" src="{{ post["user"]["profile_image_url"] }}" />');
+          document.write('<h3 class="usv-post-title"><a href="http://www.usv.com/posts/{{ post["slug"] }}?referer=widget" target="_blank">' + title + '</a></h3>');
+          document.write('<span class="usv-post-author">@{{ post["user"]["username"] }}</span>');
+          {% if post['comment_count'] > 0 %}
+            document.write('<a class="usv-post-comment-link" href="href="http://www.usv.com/posts/{{ post["slug"] }}?referer=widget"><span class="usv-post-comment-count">');
+            document.write('{{ post["comment_count"] }}');
             document.write('</span></a>');
           {% end %}
         document.write('</li>');
-        {% set previous_author_username = post.user.username %}  
+        {% set previous_author_username = post['user']['username'] %}  
       {% end %}
     document.write('</ul>');
     document.write('<ul id="usv-nav">');
