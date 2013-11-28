@@ -231,7 +231,7 @@ class ListPosts(app.basic.BaseHandler):
     if self.current_user in settings.get('staff') and settings.get('environment') == 'prod':
       subject = 'USV.com: %s posted "%s"' % (post['user']['username'], post['title'])
       if post['url']: # post.url is the link to external content (if any)
-        post_link = 'External Link: %s \n\n' % post'[url']
+        post_link = 'External Link: %s \n\n' % post['url']
       else:
         post_link = ''
       post_url = "http://%s/posts/%s" % (settings.base_url, post['slug'])
