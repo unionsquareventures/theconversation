@@ -229,13 +229,13 @@ class ListPosts(app.basic.BaseHandler):
 
     # Send email to USVers if OP is USV
     if self.current_user in settings.get('staff') and settings.get('environment') == 'prod':
-      subject = 'USV.com: %s posted "%s"' % (post.user['username'], post.title)
-      if post.url: # post.url is the link to external content (if any)
-        post_link = 'External Link: %s \n\n' % post.url
+      subject = 'USV.com: %s posted "%s"' % (post['user']['username'], post['title'])
+      if post['url']: # post.url is the link to external content (if any)
+        post_link = 'External Link: %s \n\n' % post'[url']
       else:
         post_link = ''
-      post_url = "http://%s/posts/%s" % (settings.base_url, post.slug)
-      text = '"%s" ( %s ) posted by %s. \n\n %s %s' % (post.title.encode('ascii', errors='ignore'), post_url, post.user['username'].encode('ascii', errors='ignore'), post_link, post.body_text)
+      post_url = "http://%s/posts/%s" % (settings.base_url, post['slug'])
+      text = '"%s" ( %s ) posted by %s. \n\n %s %s' % (post['title'].encode('ascii', errors='ignore'), post_url, post['user']['username'].encode('ascii', errors='ignore'), post_link, post['body_text'])
       # now attempt to actually send the emails
       for u in settings.get('staff'):
         if u != self.current_user:
