@@ -124,7 +124,9 @@ class ListPosts(app.basic.BaseHandler):
     msg = 'success'
     if self.current_user:
       is_blacklisted = self.is_blacklisted(self.current_user)
+    
     post = {}
+    post['slug'] = self.get_argument('slug', None)
     post['title'] = unicode(self.get_argument('title', '').decode('utf-8'))
     post['url'] = self.get_argument('url', '')
     post['body_raw'] = self.get_argument('body_raw', '')
@@ -188,25 +190,28 @@ class ListPosts(app.basic.BaseHandler):
           post['date_featured'] = None
 
         user = userdb.get_user_by_screen_name(self.current_user)
-        post['date_created'] = datetime.now()
-        post['user_id_str'] = user['user']['id_str']
-        post['username'] = self.current_user
-        post['user'] = user['user']
-        post['votes'] = 1
-        post['voted_users'] = [user['user']]
-        post['muted'] = False
-        post['comment_count'] = 0
-        post['disqus_thread_id_str'] = ''
-        post['sort_score'] = 0.0
-        post['downvotes'] = 0
-        post['hackpad_url'] = ''
-        post['disqus_shortname'] = settings.get('disqus_short_code')
-
-        if post['slug'] == '':
-          # save the post details
+        
+        if not post['slug']:
+          # No slug -- this is a new post.
+          # initiate fields that are new
+          post['disqus_shortname'] = settings.get('disqus_short_code')
+          post['muted'] = False
+          post['comment_count'] = 0
+          post['disqus_thread_id_str'] = ''
+          post['sort_score'] = 0.0
+          post['downvotes'] = 0
+          post['hackpad_url'] = ''
+          post['date_created'] = datetime.now()
+          post['user_id_str'] = user['user']['id_str']
+          post['username'] = self.current_user
+          post['user'] = user['user']
+          post['votes'] = 1
+          post['voted_users'] = [user['user']]
+          #save it
           post['slug'] = postsdb.insert_post(post)
           msg = 'success'
         else:
+          # this is an existing post.
           # attempt to edit the post (make sure they are the author)
           saved_post = postsdb.get_post_by_slug(post['slug'])
           if saved_post and self.current_user == saved_post['user']['screen_name']:
