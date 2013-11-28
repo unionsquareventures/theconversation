@@ -13,6 +13,7 @@ class BaseHandler(tornado.web.RequestHandler):
     # add any variables we want available to all templates
     
     kwargs['current_user_can'] = self.current_user_can 
+    kwargs['settings'] = settings 
   
     super(BaseHandler, self).render(template, **kwargs)
     
