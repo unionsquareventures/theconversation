@@ -51,7 +51,7 @@
                   <span class="value">{{ p['votes'] }} vote{{ 's' if p['votes'] != 1 else '' }}</span>
                 </a>
                 <a href="/posts/{{ p['slug'] }}" ><span class="glyphicon glyphicon-comment" style="margin: 0;"></span></a> 
-                <a class="dsq-comment-count" data-disqus-url="{{ settings.get('base_url') }}/posts/{{ str(p['slug']) }}" data-disqus-identifier="{{ str(p['_id']) }}" href="/posts/{{ p['slug'] }}#disqus_thread">{{ p['comment_count'] }} comment{{ 's' if p['comment_count'] != 1 else '' }}</a>
+                <a class="dsq-comment-count" data-disqus-url="{{ settings.get('base_url') }}/posts/{{ str(p['slug']) }}" data-disqus-identifier="{{ str(p['_id']) }}" href="/posts/{{ p['slug'] }}">{{ p['comment_count'] }} comment{{ 's' if p['comment_count'] != 1 else '' }}</a>
               </div>
             </div>
           </li>
