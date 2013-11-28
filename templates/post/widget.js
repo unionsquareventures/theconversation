@@ -175,7 +175,7 @@
           document.write('<h3 class="usv-post-title"><a href="http://www.usv.com/posts/{{ post["slug"] }}?referer=widget" target="_blank">' + title + '</a></h3>');
           document.write('<span class="usv-post-author">@{{ post["user"]["username"] }}</span>');
           {% if post['comment_count'] > 0 %}
-            document.write('<a class="usv-post-comment-link" href="href="http://www.usv.com/posts/{{ post["slug"] }}?referer=widget"><span class="usv-post-comment-count">');
+            document.write('<a class="usv-post-comment-link" href="http://www.usv.com/posts/{{ post["slug"] }}?referer=widget"><span class="usv-post-comment-count">');
             document.write('{{ post["comment_count"] }}');
             document.write('</span></a>');
           {% end %}
