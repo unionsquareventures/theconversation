@@ -9,30 +9,30 @@
   document.write("<style type='text/css'>\
     @font-face { \
       font-family: 'usv-proximanova-bold'; \
-      src: url('{{ base_url }}/static/fonts/proximanova-bold-webfont.eot'); \
+      src: url('{{ settings.get('base_url') }}/static/fonts/proximanova-bold-webfont.eot'); \
       src: local('proximanova-bold'),  \
          local('proximanova-bold'),  \
-         url('{{ base_url }}/static/fonts/proximanova-bold-webfont.otf') format('opentype'), \
-         url('{{ base_url }}/static/fonts/proximanova-bold-webfont.svg#font') format('svg');  \
+         url('{{ settings.get('base_url') }}/static/fonts/proximanova-bold-webfont.otf') format('opentype'), \
+         url('{{ settings.get('base_url') }}/static/fonts/proximanova-bold-webfont.svg#font') format('svg');  \
     } \
     @font-face { \
       font-family: 'usv-proximanova-light'; \
-      src: url('{{ base_url }}/static/fonts/proximanova-light-webfont.eot'); \
+      src: url('{{ settings.get('base_url') }}/static/fonts/proximanova-light-webfont.eot'); \
       src: local('proximanova-light'),  \
          local('proximanova-light'),  \
-         url('{{ base_url }}/static/fonts/proximanova-light-webfont.otf') format('opentype'), \
-         url('{{ base_url }}/static/fonts/proximanova-light-webfont.svg#font') format('svg');  \
+         url('{{ settings.get('base_url') }}/static/fonts/proximanova-light-webfont.otf') format('opentype'), \
+         url('{{ settings.get('base_url') }}/static/fonts/proximanova-light-webfont.svg#font') format('svg');  \
     } \
     @font-face{ \
       font-family:'Glyphicons Halflings'; \
-      src:url('{{ base_url }}/static/fonts/glyphicons-halflings-regular.eot'); \
-      src:url('{{ base_url }}/static/fonts/glyphicons-halflings-regular.eot?#iefix')  \
+      src:url('{{ settings.get('base_url') }}/static/fonts/glyphicons-halflings-regular.eot'); \
+      src:url('{{ settings.get('base_url') }}/static/fonts/glyphicons-halflings-regular.eot?#iefix')  \
       format('embedded-opentype'), \
-        url('{{ base_url }}/static/fonts/glyphicons-halflings-regular.woff')  \
+        url('{{ settings.get('base_url') }}/static/fonts/glyphicons-halflings-regular.woff')  \
       format('woff'), \
-        url('{{ base_url }}/static/fonts/glyphicons-halflings-regular.ttf')  \
+        url('{{ settings.get('base_url') }}/static/fonts/glyphicons-halflings-regular.ttf')  \
       format('truetype'), \
-        url('{{ base_url }}/static/fonts/glyphicons-halflings-regular.svg#glyphicons-halflingsregular') format('svg') \
+        url('{{ settings.get('base_url') }}/static/fonts/glyphicons-halflings-regular.svg#glyphicons-halflingsregular') format('svg') \
       } \
     } \
     #usv-widget, \
@@ -52,7 +52,7 @@
       margin: 0 !important; \
       font-weight: normal !important; \
       padding: 0 !important; \
-      background: #555 url('{{ base_url }}/static/img/usv-logo-green-50x50.png') 0 0 no-repeat; \
+      background: #555 url('{{ settings.get('base_url') }}/static/img/usv-logo-green-50x50.png') 0 0 no-repeat; \
       height: 50px !important; \
       font-size: 16px !important; \
     } \
@@ -116,7 +116,7 @@
     } \
     #usv-widget ul#usv-posts .usv-post-comment-count { \
       margin-left: 8px; \
-      background: url('{{ base_url }}/static/img/comment-icon-gray.png') left center no-repeat; \
+      background: url('{{ settings.get('base_url') }}/static/img/comment-icon-gray.png') left center no-repeat; \
       padding-left: 18px; \
     } \
     #usv-widget ul#usv-nav { \
@@ -146,7 +146,7 @@
       color: #628F20; \
     } \
   </style>");
-  
+
   document.write('<div id="usv-widget">');
   document.write('<h1 id="usv-title"><a href="http://www.usv.com?referer=widget" target="_blank">Conversation @ USV</a></h1>');
   document.write('<div id="usv-widget-content">');
