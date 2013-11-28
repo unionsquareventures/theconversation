@@ -25,6 +25,8 @@ class NewPost(app.basic.BaseHandler):
   @tornado.web.authenticated
   def get(self):
     post = {}
+    post['title'] = self.get_argument('title', '')
+    post['url'] = self.get_argument('url', '')
     self.render('post/new_post.html', post=post)
 
 ###############
