@@ -27,7 +27,11 @@ class NewPost(app.basic.BaseHandler):
     post = {}
     post['title'] = self.get_argument('title', '')
     post['url'] = self.get_argument('url', '')
-    self.render('post/new_post.html', post=post)
+    is_bookmarklet = False
+    if self.request.path.find('/bookmarklet') == 0:
+      is_bookmarklet = True
+      
+    self.render('post/new_post.html', post=post, is_bookmarklet=is_bookmarklet)
 
 ###############
 ### EDIT A POST

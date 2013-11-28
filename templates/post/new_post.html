@@ -4,6 +4,17 @@
 
 {% block submit_area %}{% end %}
 
+{% block css %}
+  {% if is_bookmarklet %}
+  <style type="text/css">
+    #site-header,
+    .col-sm-8 h2 {
+      display: none !important;
+    }
+  </style>
+  {% end %}
+{% end %}
+
 {% block content %}
   <div class="row">
     <div class="col-sm-8 col-sm-offset-2">
