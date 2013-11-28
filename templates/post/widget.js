@@ -1,9 +1,11 @@
 (function() {
-  /* begin our anon function */
+/* begin our anon function */
+
   RegExp.escape= function(s) {
     //return s.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&')
     return s.replace("'", "\'");
   };
+
 
   /* Load up CSS -- remember to add "\" to the end of each line */
   document.write("<style type='text/css'>\
@@ -78,7 +80,7 @@
       padding: 10px 7px 0 !important; \
     } \
     #usv-widget ul#usv-posts { \
-      padding: 0;   \    
+      padding: 0;	 \		
       margin: 0 !important; \
     } \
     #usv-widget ul#usv-posts li { \
@@ -112,11 +114,21 @@
       color: #000; \
     } \
     #usv-widget ul#usv-posts .usv-post-author { \
-      font-size: 12px !important; \  
+      font-size: 12px !important; \	
+    } \
+    #usv-widget ul#usv-posts a.usv-post-comment-link { \
+      color: #628F20; \
+      font-weight: bold; \
+      margin-left: 5px; \
+      padding-right: 5px; \
+    }\
+    #usv-widget ul#usv-posts a.usv-post-comment-link:hover { \
+      border-bottom: 1px solid; \
+      text-decoration: none; \
     } \
     #usv-widget ul#usv-posts .usv-post-comment-count { \
       margin-left: 8px; \
-      background: url('{{ settings.get('base_url') }}/static/img/comment-icon-gray.png') left center no-repeat; \
+      background: url('{{ settings.get('base_url') }}/static/img/comment-icon-green.png') left center no-repeat; \
       padding-left: 18px; \
     } \
     #usv-widget ul#usv-nav { \
@@ -148,34 +160,35 @@
   </style>");
 
   document.write('<div id="usv-widget">');
-  document.write('<h1 id="usv-title"><a href="http://www.usv.com?referer=widget" target="_blank">Conversation @ USV</a></h1>');
-  document.write('<div id="usv-widget-content">');
-  document.write('<ul id="usv-posts">');
-  {% for post in posts %}
-    {% if 'previous_author_username' in locals() and previous_author_username == post['user']['username'] %}
-      {% set repeat = True %}
-    {% else %}
-      {% set repeat = False %}
-    {% end %}
-    var title = RegExp.escape("{{ post['title'] }}");
-    document.write('<li {% if repeat %}class="repeat"{% end %}>');
-    document.write('<img class="avatar" src="{{ post['user']['profile_image_url'] }}" />');
-    document.write('<h3 class="usv-post-title"><a href="http://usv.com/posts/{{post['slug']}}?referer=widget" target="_blank">' + title + '</a></h3>');
-    document.write('<span class="usv-post-author">@{{ post['user']['username'] }}</span>');
-    {% if post['comment_count'] > 0 %}
-      document.write('<span class="usv-post-comment-count">');
-      document.write('{{ post['comment_count'] }}');
-      document.write('</span>');
-    {% end %}
-    document.write('</li>');
-    {% set previous_author_username = post['user']['username'] %}  
-  {% end %}
-  document.write('</ul>');
-  document.write('<ul id="usv-nav">');
-  document.write('<li id="usv-more"><a href="http://www.usv.com?referer=widget" target="_blank">More &rarr;</a></li>');
-  document.write('<li id="usv-tools"><a href="http://www.usv.com/#tools" target="_blank">Add this to your site</a></li>');
-  document.write('</ul>');
-  document.write('</div>');  
+    document.write('<h1 id="usv-title"><a href="http://www.usv.com?referer=widget" target="_blank">Conversation @ USV</a></h1>');
+    document.write('<div id="usv-widget-content">');
+    document.write('<ul id="usv-posts">');
+      {% for post in posts %}
+        {% if 'previous_author_username' in locals() and previous_author_username == post.user.username %}
+          {% set repeat = True %}
+        {% else %}
+          {% set repeat = False %}
+        {% end %}
+        var title = RegExp.escape("{{ post.title }}");
+        document.write('<li {% if repeat %}class="repeat"{% end %}>');
+          document.write('<img class="avatar" src="{{ post.user.profile_image_url }}" />');
+          document.write('<h3 class="usv-post-title"><a href="{{ post.permalink() }}?referer=widget" target="_blank">' + title + '</a></h3>');
+          document.write('<span class="usv-post-author">@{{ post.user.username }}</span>');
+          {% if post.comment_count > 0 %}
+            document.write('<a class="usv-post-comment-link" href="{{ post.permalink() }}?referer=widget"><span class="usv-post-comment-count">');
+            document.write('{{ post.comment_count }}');
+            document.write('</span></a>');
+          {% end %}
+        document.write('</li>');
+        {% set previous_author_username = post.user.username %}  
+      {% end %}
+    document.write('</ul>');
+    document.write('<ul id="usv-nav">');
+      document.write('<li id="usv-more"><a href="http://www.usv.com?referer=widget" target="_blank">More &rarr;</a></li>');
+      document.write('<li id="usv-tools"><a href="http://www.usv.com/#tools" target="_blank">Add this to your site</a></li>');
+    document.write('</ul>');
+    document.write('</div>');	
   document.write('</div>');
+
 /* call it */
 })();
