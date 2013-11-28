@@ -83,7 +83,7 @@ class Feed(app.basic.BaseHandler):
       # get the current hot posts
       posts = postsdb.get_hot_posts(per_page, page)
 
-    self.render('feed.xml', posts=posts)
+    self.render('post/feed.xml', posts=posts)
 
 ##############
 ### LIST POSTS and SHARE POST
