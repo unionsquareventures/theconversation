@@ -254,7 +254,7 @@ class ReCalculateScores(app.basic.BaseHandler):
         time_penalty = time_penalty * 2
 
       # get our base score from downvotes
-      base_score = post['downvotes'] * -1
+      #base_score = post['downvotes'] * -1
 
       # determine if we should assign a staff bonus or not
       if post['user']['username'] in settings.get('staff'):
