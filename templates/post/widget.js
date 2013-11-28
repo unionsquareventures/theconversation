@@ -160,7 +160,7 @@
   </style>");
 
   document.write('<div id="usv-widget">');
-    document.write('<h1 id="usv-title"><a href="http://www.usv.com?referer=widget" target="_blank">Conversation @ USV</a></h1>');
+    document.write('<h1 id="usv-title"><a href="http://www.usv.com?referer=widget" target="_blank">#usvconversation</a></h1>');
     document.write('<div id="usv-widget-content">');
     document.write('<ul id="usv-posts">');
       {% for post in posts %}
