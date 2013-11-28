@@ -22,7 +22,7 @@ os.environ['DB_NAME'] = 'app18119720'
 #
 os.environ['ENVIRONMENT'] = "prod"
 
-os.environ['BASE_URL'] = "http://www.usv.com"
+os.environ['BASE_URL'] = "www.usv.com"
 os.environ['COOKIE_SECRET'] = "5atEhl8WPsfA3OEmBZChGbDANDddXyKEX5gUnqKjDzIA"
 
 os.environ['DISQUS_PUBLIC_KEY'] = "4ckXraUg1DUNC8D7nw9eFqqeTVkco5pKEaq6WsRH44psJME3RqswbwK0CeP1OSyb"
