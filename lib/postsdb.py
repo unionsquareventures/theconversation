@@ -67,14 +67,14 @@ def get_featured_posts(per_page=10, page=1):
   return list(db.post.find({'featured':True}, sort=[('date_featured', pymongo.DESCENDING)]).skip((page-1)*per_page).limit(per_page))
 
 def get_new_posts(per_page=50, page=1):
-  return list(db.post.find({}, sort=[('_id', pymongo.DESCENDING)]).skip((page-1)*per_page).limit(per_page))
+  return list(db.post.find({"deleted": { "$ne": True }}, sort=[('_id', pymongo.DESCENDING)]).skip((page-1)*per_page).limit(per_page))
 
 def get_hot_posts(per_page=50, page=1):
-  posts = list(db.post.find({"votes": { "$gte" : 2 }}, sort=[('sort_score', pymongo.DESCENDING)]).skip((page-1)*per_page).limit(per_page))
+  posts = list(db.post.find({"votes": { "$gte" : 2 }, "deleted": { "$ne": True }}, sort=[('sort_score', pymongo.DESCENDING)]).skip((page-1)*per_page).limit(per_page))
   return posts
 
 def get_sad_posts(per_page=50, page=1):
-  return list(db.post.find({'date_created':{'$gt': datetime.strptime("10/12/13", "%m/%d/%y")}, 'votes':1, 'comment_count':0, 'deleted': False, 'featured': False}, sort=[('date_created', pymongo.DESCENDING)]).skip((page-1)*per_page).limit(per_page))
+  return list(db.post.find({'date_created':{'$gt': datetime.strptime("10/12/13", "%m/%d/%y")}, 'votes':1, 'comment_count':0, 'deleted': { "$ne": True } , 'featured': False}, sort=[('date_created', pymongo.DESCENDING)]).skip((page-1)*per_page).limit(per_page))
 
 def get_deleted_posts(per_page=50, page=1):
   return list(db.post.find({'deleted':True}, sort=[('date_deleted', pymongo.DESCENDING)]).skip((page-1)*per_page).limit(per_page))
