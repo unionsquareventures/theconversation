@@ -20,7 +20,7 @@ os.environ['DB_NAME'] = 'app18119720'
 #
 # ENVIRONMENT.  dev for local DB.  test for dev.usv.com db
 #
-os.environ['ENVIRONMENT'] = "prod"
+os.environ['ENVIRONMENT'] = "production"
 
 os.environ['BASE_URL'] = "www.usv.com"
 os.environ['COOKIE_SECRET'] = "5atEhl8WPsfA3OEmBZChGbDANDddXyKEX5gUnqKjDzIA"
