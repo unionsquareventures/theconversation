@@ -54,7 +54,7 @@
       margin: 0 !important; \
       font-weight: normal !important; \
       padding: 0 !important; \
-      background: #555 url('{{ settings.get('base_url') }}/static/img/usv-logo-green-50x50.png') 0 0 no-repeat; \
+      background: #555 url('{{ settings.get('base_url') }}/static/themes/usv/img/usv-logo-green-50x50.png') 0 0 no-repeat; \
       height: 50px !important; \
       font-size: 16px !important; \
     } \

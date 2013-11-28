@@ -1,4 +1,3 @@
 .DS_Store
 *.pyc
 .env
-settings_local_environ.py
