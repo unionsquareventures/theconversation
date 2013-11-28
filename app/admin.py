@@ -255,6 +255,7 @@ class ReCalculateScores(app.basic.BaseHandler):
 
       # get our base score from downvotes
       #base_score = post['downvotes'] * -1
+      base_score = 0
 
       # determine if we should assign a staff bonus or not
       if post['user']['username'] in settings.get('staff'):
