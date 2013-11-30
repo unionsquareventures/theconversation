@@ -55,27 +55,27 @@
           <div id="jobs-menu" class="filter-menu" style="display:none;">
             <div usv:filter="category">
               <h2>Categories</h2>
-              <ul class="side-nav">
+              <ul class="side-nav" id="category">
                 {% for c in categories %}
-                  <li><a href="#category,{{ c }}">{{ c }}</a></li>
+                  <li><a href="#{{ slugify(c) }}">{{ c }}</a></li>
                 {% end %}
               </ul>
             </div>
 
             <div usv:filter="location">
               <h2>Location</h2>
-              <ul class="side-nav">
+              <ul class="side-nav" id="location">
                 {% for l in locations %}
-                  <li><a href="#location,{{ l }}">{{ l }}</a></li>
+                  <li><a href="#{{ slugify(l) }}">{{ l }}</a></li>
                 {% end %}
               </ul>
             </div>
 
             <div usv:filter="company">
               <h2>Company</h2>
-              <ul class="side-nav">
+              <ul class="side-nav" id="company">
                 {% for c in companies %}
-                  <li><a href="#company,{{ c }}">{{ c }}</a></li>
+                  <li><a href="#{{ slugify(c) }}">{{ c }}</a></li>
                 {% end %}
               </ul>
             </div>
@@ -98,7 +98,7 @@
             -->
             <div class="jobs">
               {% for j in jobs %}
-              <div class="job" usv:company="{{ j['company'] }}" usv:location="{{ j['formattedLocation'] }}" usv:category="{{ j['position'] }}">
+              <div class="job" usv:company-slug="{{ slugify(j['company']) }}" usv:company="{{ j['company'] }}" usv:location="{{ j['formattedLocation'] }}" usv:location-slug="{{ slugify(j['formattedLocation']) }}" usv:category="{{ j['position'] }}" usv:category-slug="{{ slugify(j['position']) }}">
                 <div class="col-a">{{ j['formattedLocation'] }}</div>
                 <div class="col-b">
                   <a href="{{ j['url'] }}">{{ j['jobtitle'] }}</a> 
@@ -135,23 +135,31 @@
     $(".filter-tabs a").click(function(e) {
       e.preventDefault();
       var query = $(this).attr("usv:filter");
-      filter_menu(this, query);
-      $("#jobs-menu").show();
+      filter_menu(query);
     });
 
     // Clicking on a specific filter link, ex. Administrative
     $(".side-nav a").click(function(e) {
       e.preventDefault();
       var filter_type = $(this).parent().parent().parent().attr("usv:filter");
-      var query = $(this).text();
-      //console.log(query, filter_type);
+      //var query = $(this).text();
+      var query = this.href.split("#")[1];
+      window.location.hash = filter_type + "=" + query;
       filter_jobs(filter_type, query);
     });
+    
+    if (window.location.hash) {
+      query = window.location.hash.split("#")[1];
+      filter_type = query.split('=')[0];
+      filter_menu(filter_type);
+      filter_jobs(query);
+    }
 
   }); //$(document).ready();
 
   // Shows and hides left hand menu filter links
-  function filter_menu(filter_button, query) {
+  function filter_menu(query) {
+    $("#jobs-menu").show();
     $('.filter-menu div').each(function(){
       if ($(this).attr("usv:filter") == query) {
         $(this).show();
@@ -167,7 +175,7 @@
   // Shows and hides jobs based on filtering
   function filter_jobs(filter_type, query) {
     $('.job').each(function(){
-      if ($(this).attr("usv:" + filter_type) == query) {
+      if ($(this).attr("usv:" + filter_type + "-slug") == query) {
         $(this).show();
       } else {
         $(this).hide();
