@@ -7,6 +7,7 @@ import urllib
 import json
 from mongo import db
 import companiesdb
+import pymongo
 
 INDEED_API_URL = 'http://api.indeed.com/ads/apisearch'
 INDEED_PUBLISHER_ID = '9648379283006957'
@@ -39,9 +40,9 @@ INDEED_PUBLISHER_ID = '9648379283006957'
 }
 """
 
-''' Returns all jobs '''
+''' Returns all jobs, default sorted by date added '''
 def get_all():
-	return list(db.job.find())
+	return list(db.job.find(sort=[('date', pymongo.ASCENDING)]))
 
 ''' Saves a job to the database. Job argument is a dict.'''
 def save_job(job):
@@ -94,22 +95,46 @@ def get_aggregation(arg):
 ''' Updates job listings for all companies '''
 def update_all():
     for c in companiesdb.get_companies_by_status('current'):
-	    print c['name']
+	    print 'Pulling jobs for %s' % c['name']
 	    job_list = get_json(c['name'])
+	    job_list = clean_jobs(c['name'], job_list)
 	    for job in job_list:
 	      save_job(job)
 
 ''' Returns a list of jobs (each one a dict) for a given company '''
 def get_json(company):
 	query = {'publisher': INDEED_PUBLISHER_ID, 'company': company}
-	print '!!!!!!!!!!!!!!'
-	#print urllib.urlencode(query)
 	api_url = INDEED_API_URL + '?publisher=%s' % INDEED_PUBLISHER_ID
 	api_url += '&q=company%3A' # %3A doesn't work with %s for some reason
 	api_url += '(%s)' % company
 	api_url += '&l=&sort=&radius=&st=&jt=&start=$start&limit=1000&fromage=$indeed_fromage&filter=&co=&latlong=1&chnl=&userip=1.2.3.4&v=2&format=json'
 	data = json.load(urllib.urlopen(api_url)) # data is a dict
 	return data['results']
+
+''' Ensures all jobs are for the given company only'''
+def clean_jobs(company, job_list):
+	good_jobs = []
+	for job in job_list:
+		# Rules for certain portfolio companies
+		job['company'] = job['company'].replace('.com', '') # Kickstarter.com, etc. 
+		job['company'] = job['company'].replace('Labs', '') # foursquare labs
+		job['company'] = job['company'].replace('USA', '') # Funding Circle USA
+		job['company'] = job['company'].replace('Inc.', '') # Twilio Inc. 
+		job['company'] = job['company'].replace('Inc', '') # WorkMarket Inc
+		job['company'] = job['company'].replace('Wealth Management', '') # SigFig Wealth Management
+		job['company'] = job['company'].replace('DISQUS', 'Disqus')
+		job['company'] = job['company'].replace('Heyzap', 'HeyZap')
+		job['company'] = job['company'].replace('foursquare', 'Foursquare')
+		
+		# Remove job from list if company name is not an exact match
+		if job['company'].lower() == company.lower():
+			good_jobs.append(job)
+		else:
+			print "!!!!!!!!!!!!!!!!"
+			print "Removed job for company %s" % job['company']
+
+	return good_jobs
+
 
 ''' Parses job position title from a string '''
 def parse_position(string):
