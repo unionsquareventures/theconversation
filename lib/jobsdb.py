@@ -125,6 +125,8 @@ def clean_jobs(company, job_list):
 		job['company'] = job['company'].replace('DISQUS', 'Disqus')
 		job['company'] = job['company'].replace('Heyzap', 'HeyZap')
 		job['company'] = job['company'].replace('foursquare', 'Foursquare')
+		job['company'] = job['company'].replace('.TV', '') # VHX.tv
+		job['company'] = job['company'].replace('.tv', '') # Kickstarter.com, etc.
 		
 		# Remove job from list if company name is not an exact match
 		if job['company'].lower() == company.lower():
