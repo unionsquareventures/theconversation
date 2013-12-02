@@ -88,6 +88,7 @@ class Application(tornado.web.Application):
       (r"/posts/([^\/]+)/edit", app.posts.EditPost),
       (r"/posts/(.+)", app.posts.ViewPost),
       (r"/posts$", app.posts.ListPosts),
+      (r"/widget/demo.*?", app.posts.WidgetDemo),
       (r"/widget.*?", app.posts.Widget),
       (r'/$', app.posts.ListPosts),
     ]
