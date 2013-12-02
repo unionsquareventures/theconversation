@@ -103,7 +103,7 @@ class ListPosts(app.basic.BaseHandler):
     if self.current_user:
       is_blacklisted = self.is_blacklisted(self.current_user)
 
-    if sort_by == 'newest':
+    if sort_by == 'new':
       # show the newest posts
       posts = postsdb.get_new_posts(per_page, page)
     elif sort_by == 'sad':
