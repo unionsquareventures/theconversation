@@ -91,3 +91,4 @@ for post in posts:
   })
 
 data = sorted(data, key=lambda k: k['total_score'], reverse=True)
+print "All posts sorted!"
