@@ -16,10 +16,6 @@ except:
 
 tornado.options.define("environment", default="dev", help="environment")
 
-active_theme = "usv"
-site_title = "Union Square Ventures"
-site_description ="Union Square Ventures (USV) is a New York City-based venture capital firm. We invest in networks that transform existing industries"
-
 options = {
   'dev' : {
     'mongo_database' : {'host' : os.environ.get('MONGODB_URL'), 'port' : 27017, 'db' : os.environ.get('DB_NAME')},
@@ -36,9 +32,9 @@ options = {
 }
 
 default_options = {
-  'active_theme': "default",
-  'site_title': "The Conversation",
-  'site_description': "This is a website where people talk",
+  'active_theme': "usv",
+  'site_title': "Union Square Ventures",
+  'site_description': "Union Square Ventures (USV) is a New York City-based venture capital firm. We invest in networks that transform existing industries",
 
   # twiter details (using knowabout.it keys for testing)
   'twitter_consumer_key' : '',

@@ -99,6 +99,7 @@ class Application(tornado.web.Application):
       (r"/feed$", app.posts.Feed),
       (r"/posts/new$", app.posts.NewPost),
       (r"/bookmarklet$", app.posts.NewPost),
+      (r"/posts/page/(?P<page>[0-9]+)$", app.posts.ListPosts),
       (r"/posts/([^\/]+)/upvote", app.posts.UpVote),
       (r"/posts/([^\/]+)/edit", app.posts.EditPost),
       (r"/posts/(.+)", app.posts.ViewPost),

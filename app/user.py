@@ -117,7 +117,7 @@ class Profile(app.basic.BaseHandler):
         posts = postsdb.get_posts_by_screen_name_and_tag(screen_name, tag, per_page, page)
 
     # also get the list of tags this user has put in
-    tags = tagsdb.get_user_tags(self.current_user)
+    tags = tagsdb.get_user_tags(screen_name)
 
     self.render('user/profile.html', screen_name=screen_name, posts=posts, section=section, page=page, per_page=per_page, tags=tags, tag=tag)
 

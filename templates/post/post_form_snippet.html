@@ -8,7 +8,7 @@
 		<div class="field-errors">{% try %}{{ field_errors(errors, 'title') }}{% except %}{% end %}</div>
 	  </dt>
 	  <dd>
-		<input id="post_title" name="title" type="text" class="form-control" placeholder="Your Post Title" required="" value="{% try %}{{post['title']}}{% except %}{% end %}">
+		<input id="post_title" name="title" type="text" class="form-control" placeholder="Your Post Title" required="" value="{% try %}{{ post['title'] }}{% except %}{% end %}">
 	  </dd>
 	  <dt>
 		<label for="url">Link</label>

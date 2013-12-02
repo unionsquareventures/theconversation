@@ -12,12 +12,12 @@
         <div class="col-xs-12">  
           <div id="slideshow">
             <ul class="bjqs" style="padding: 0">
-              <li><img src="/static/img/network/usvnetwork-1.jpg" /></li>
-              <li><img src="/static/img/network/usvnetwork-2.jpg" /></li>
-              <li><img src="/static/img/network/usvnetwork-3.jpg" /></li>
-              <li><img src="/static/img/network/usvnetwork-4.jpg" /></li>
-              <li><img src="/static/img/network/usvnetwork-5.jpg" /></li>
-              <li><img src="/static/img/network/usvnetwork-6.jpg" /></li>
+              <li style="display:none"><img src="/static/img/network/usvnetwork-1.jpg" /></li>
+              <li style="display:none"><img src="/static/img/network/usvnetwork-2.jpg" /></li>
+              <li style="display:none"><img src="/static/img/network/usvnetwork-3.jpg" /></li>
+              <li style="display:none"><img src="/static/img/network/usvnetwork-4.jpg" /></li>
+              <li style="display:none"><img src="/static/img/network/usvnetwork-5.jpg" /></li>
+              <li style="display:none"><img src="/static/img/network/usvnetwork-6.jpg" /></li>
             </ul>
           </div>
           <div class="deck" style="margin-bottom: 25px">
@@ -37,10 +37,8 @@
       {% if len(related_posts) > 0 %}
         <h2 class="section-heading" id="team-heading" style="text-transform:uppercase; font-weight: 300">Network Updates</h2>            
         <div class="row">
-          {% for post in related_posts %}
-            <div class="col-sm-4 related-post">
-              {% module featured_post(post=post, urlparse=urlparse, show_votes=False, show_source=False) %}
-            </div>
+          {% for p in related_posts %}
+            {% include ../post/featured_post_snippet.html %}
           {% end %}        
         </div>
         <hr />
@@ -50,7 +48,6 @@
       {% end %}
     </article>
   </div>
-  <script src="/static/js/vendor/bjqs-1.3.min.js"></script>
 {% end %}
 
 {% block javascript %}
@@ -76,4 +73,5 @@
       });
     });
   </script>
+  <script src="/static/js/vendor/bjqs-1.3.min.js"></script>
   {% end %}
