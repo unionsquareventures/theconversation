@@ -1,8 +1,6 @@
 import app.basic
+from lib import companiesdb, jobsdb, postsdb
 from slugify import slugify
-
-from lib import companiesdb
-from lib import postsdb
 
 #############
 ### ABOUT USV
@@ -20,7 +18,14 @@ class About(app.basic.BaseHandler):
 ########################
 class Jobs(app.basic.BaseHandler):
   def get(self):
-    self.render('general/jobs.html')
+    #jobsdb.update_all() 
+    jobs = jobsdb.get_all() 
+    categories = jobsdb.get_categories() 
+    locations = jobsdb.get_locations()
+    companies = jobsdb.get_companies()
+    self.render('general/jobs.html', 
+      jobs=jobs, categories=categories, locations=locations, companies=companies, slugify=slugify)
+
 
 ###############
 ### USV NETWORK
