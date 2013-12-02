@@ -25,7 +25,13 @@ class NewPost(app.basic.BaseHandler):
   @tornado.web.authenticated
   def get(self):
     post = {}
-    self.render('post/new_post.html', post=post)
+    post['title'] = self.get_argument('title', '')
+    post['url'] = self.get_argument('url', '')
+    is_bookmarklet = False
+    if self.request.path.find('/bookmarklet') == 0:
+      is_bookmarklet = True
+      
+    self.render('post/new_post.html', post=post, is_bookmarklet=is_bookmarklet)
 
 ###############
 ### EDIT A POST
@@ -77,20 +83,21 @@ class Feed(app.basic.BaseHandler):
       # get the current hot posts
       posts = postsdb.get_hot_posts(per_page, page)
 
-    self.render('feed.xml', posts=posts)
+    self.render('post/feed.xml', posts=posts)
 
 ##############
 ### LIST POSTS and SHARE POST
 ### /
 ##############
 class ListPosts(app.basic.BaseHandler):
-  def get(self):
-    sort_by = self.get_argument('sort_by', 'hot')
-    page = abs(int(self.get_argument('page', '1')))
+  def get(self, page=1, sort_by="hot"):
+    sort_by = self.get_argument('sort_by', sort_by)
+    page = abs(int(self.get_argument('page', page)))
     per_page = abs(int(self.get_argument('per_page', '20')))
     msg = ''
     featured_posts = postsdb.get_featured_posts(6, 1)
     posts = []
+    post = {}
 
     is_blacklisted = False
     if self.current_user:
@@ -106,7 +113,7 @@ class ListPosts(app.basic.BaseHandler):
       # get the current hot posts
       posts = postsdb.get_hot_posts(per_page, page)
 
-    self.render('post/lists_posts.html', sort_by=sort_by, msg=msg, posts=posts, featured_posts=featured_posts, is_blacklisted=is_blacklisted)
+    self.render('post/lists_posts.html', sort_by=sort_by, page=page, msg=msg, posts=posts, post=post, featured_posts=featured_posts, is_blacklisted=is_blacklisted)
 
   @tornado.web.authenticated
   def post(self):
@@ -117,8 +124,11 @@ class ListPosts(app.basic.BaseHandler):
     msg = 'success'
     if self.current_user:
       is_blacklisted = self.is_blacklisted(self.current_user)
+    
     post = {}
-    post['title'] = unicode(self.get_argument('title', '').decode('utf-8'))
+    post['slug'] = self.get_argument('slug', None)
+    #post['title'] = unicode(self.get_argument('title', '').decode('utf-8'))
+    post['title'] = self.get_argument('title', '')
     post['url'] = self.get_argument('url', '')
     post['body_raw'] = self.get_argument('body_raw', '')
     post['tags'] = self.get_argument('tags', '').split(',')
@@ -181,25 +191,28 @@ class ListPosts(app.basic.BaseHandler):
           post['date_featured'] = None
 
         user = userdb.get_user_by_screen_name(self.current_user)
-        post['date_created'] = datetime.now()
-        post['user_id_str'] = user['user']['id_str']
-        post['username'] = self.current_user
-        post['user'] = user['user']
-        post['votes'] = 1
-        post['voted_users'] = [user['user']]
-        post['muted'] = False
-        post['comment_count'] = 0
-        post['disqus_thread_id_str'] = ''
-        post['sort_score'] = 0.0
-        post['downvotes'] = 0
-        post['hackpad_url'] = ''
-        post['disqus_shortname'] = settings.get('disqus_short_code')
-
-        if post['slug'] == '':
-          # save the post details
+        
+        if not post['slug']:
+          # No slug -- this is a new post.
+          # initiate fields that are new
+          post['disqus_shortname'] = settings.get('disqus_short_code')
+          post['muted'] = False
+          post['comment_count'] = 0
+          post['disqus_thread_id_str'] = ''
+          post['sort_score'] = 0.0
+          post['downvotes'] = 0
+          post['hackpad_url'] = ''
+          post['date_created'] = datetime.now()
+          post['user_id_str'] = user['user']['id_str']
+          post['username'] = self.current_user
+          post['user'] = user['user']
+          post['votes'] = 1
+          post['voted_users'] = [user['user']]
+          #save it
           post['slug'] = postsdb.insert_post(post)
           msg = 'success'
         else:
+          # this is an existing post.
           # attempt to edit the post (make sure they are the author)
           saved_post = postsdb.get_post_by_slug(post['slug'])
           if saved_post and self.current_user == saved_post['user']['screen_name']:
@@ -217,13 +230,13 @@ class ListPosts(app.basic.BaseHandler):
 
     # Send email to USVers if OP is USV
     if self.current_user in settings.get('staff') and settings.get('environment') == 'prod':
-      subject = 'USV.com: %s posted "%s"' % (post.user['username'], post.title)
-      if post.url: # post.url is the link to external content (if any)
-        post_link = 'External Link: %s \n\n' % post.url
+      subject = 'USV.com: %s posted "%s"' % (post['user']['username'], post['title'])
+      if post['url']: # post.url is the link to external content (if any)
+        post_link = 'External Link: %s \n\n' % post['url']
       else:
         post_link = ''
-      post_url = "http://%s/posts/%s" % (settings.base_url, post.slug)
-      text = '"%s" ( %s ) posted by %s. \n\n %s %s' % (post.title.encode('ascii', errors='ignore'), post_url, post.user['username'].encode('ascii', errors='ignore'), post_link, post.body_text)
+      post_url = "http://%s/posts/%s" % (settings.base_url, post['slug'])
+      text = '"%s" ( %s ) posted by %s. \n\n %s %s' % (post['title'].encode('ascii', errors='ignore'), post_url, post['user']['username'].encode('ascii', errors='ignore'), post_link, post['body_text'])
       # now attempt to actually send the emails
       for u in settings.get('staff'):
         if u != self.current_user:
@@ -237,7 +250,7 @@ class ListPosts(app.basic.BaseHandler):
     thread_id = 0
     try:
       # Attempt to create the thread.
-      thread_details = disqus.create_thread(post['title'], post['slug'], acc['disqus_access_token'])
+      thread_details = disqus.create_thread(post['title'], post['_id'], acc['disqus_access_token'])
       thread_id = thread_details['response']['id']
     except:
       try:
@@ -251,10 +264,10 @@ class ListPosts(app.basic.BaseHandler):
       disqus.subscribe_to_thread(thread_id, acc['disqus_access_token'])
       
     featured_posts = postsdb.get_featured_posts(6, 1)
-    sort_by = "new"
+    sort_by = "newest"
     posts = postsdb.get_new_posts(per_page, page)
 
-    self.render('post/lists_posts.html', sort_by=sort_by, msg=msg, posts=posts, featured_posts=featured_posts, is_blacklisted=is_blacklisted, new_post=post)
+    self.render('post/lists_posts.html', sort_by=sort_by, msg=msg, page=page, posts=posts, featured_posts=featured_posts, is_blacklisted=is_blacklisted, new_post=post)
 
 ##########################
 ### UPVOTE A SPECIFIC POST
@@ -318,3 +331,12 @@ class Widget(app.basic.BaseHandler):
       # get the current hot posts
       posts = postsdb.get_hot_posts(per_page, page)
       self.render('post/widget.js', posts=posts)
+
+###################
+### WIDGET DEMO
+### /widget/demo.*?
+###################
+class WidgetDemo(app.basic.BaseHandler):
+  def get(self, extra_path=''):
+    self.render('post/widget_demo.html')
+

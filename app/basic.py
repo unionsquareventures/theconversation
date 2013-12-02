@@ -8,6 +8,15 @@ import httplib
 from lib import userdb
 
 class BaseHandler(tornado.web.RequestHandler):
+  def render(self, template, **kwargs):
+  
+    # add any variables we want available to all templates
+    
+    kwargs['current_user_can'] = self.current_user_can 
+    kwargs['settings'] = settings 
+  
+    super(BaseHandler, self).render(template, **kwargs)
+    
   def get_current_user(self):
     return self.get_secure_cookie("username")
 

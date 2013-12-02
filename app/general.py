@@ -45,4 +45,4 @@ class Portfolio(app.basic.BaseHandler):
   def get(self):
     current = companiesdb.get_companies_by_status('current')
     exited = companiesdb.get_companies_by_status('exited')
-    self.render('general/portfolio.html', current=current, exited=exited)
+    self.render('general/portfolio.html', current=current, exited=exited, slugify=slugify)

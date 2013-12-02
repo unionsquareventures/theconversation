@@ -50,7 +50,8 @@
                 <a href="/posts/{{ p['slug'] }}/upvote" class="votes-count ajax_upvote_link upvote-button">
                   <span class="value">{{ p['votes'] }} vote{{ 's' if p['votes'] != 1 else '' }}</span>
                 </a>
-                <a href="/posts/{{ p['slug'] }}" ><span class="glyphicon glyphicon-comment" style="margin: 0;"></span></a> <a class="dsq-comment-count" data-disqus-identifier="{{ str(p['slug']) }}" href="/posts/{{ p['slug'] }}">{{ p['comment_count'] }} comment{{ 's' if p['comment_count'] != 1 else '' }}</a>
+                <a href="/posts/{{ p['slug'] }}" ><span class="glyphicon glyphicon-comment" style="margin: 0;"></span></a> 
+                <a class="dsq-comment-count" data-disqus-url="{{ settings.get('base_url') }}/posts/{{ str(p['slug']) }}" data-disqus-identifier="{{ str(p['_id']) }}" href="/posts/{{ p['slug'] }}">{{ p['comment_count'] }} comment{{ 's' if p['comment_count'] != 1 else '' }}</a>
               </div>
             </div>
           </li>
@@ -61,10 +62,10 @@
     <section class="hot-newest-feed">
 
       <ul class="tabs">
-        <li class="{{ 'is-active' if sort_by == 'hot' else '' }}"><a class="sort btn" href="?sort_by=hot">Hot</a></li>
-        <li class="{{ 'is-active' if sort_by == 'new' else '' }}"><a class="sort btn" href="?sort_by=new">Newest</a></li>
+        <li class="{{ 'is-active' if sort_by == 'hot' else '' }}"><a class="sort btn" href="/hot">Hot</a></li>
+        <li class="{{ 'is-active' if sort_by == 'new' else '' }}"><a class="sort btn" href="/new">Newest</a></li>
         {% if current_user in settings.get('staff') %}
-          <li class="{{ 'is-active' if sort_by == 'sad' else '' }}"><a class="sort btn" href="?sort_by=sad">Sad</a></li>
+          <li class="{{ 'is-active' if sort_by == 'sad' else '' }}"><a class="sort btn" href="/sad">Sad</a></li>
         {% end %}
         {% if not is_blacklisted %}
           <li class="submit-btn">
@@ -105,8 +106,16 @@
           {% set previous_author_username = p['user']['username'] %}       
         {% end %}
       </ul>
-
-      <div id="pagination-next-prev"></div>
+      
+      <div id="pagination-next-prev" style="margin-top: 20px;">
+        {%  if page == 2 %}
+        <a href="/{{ sort_by }}" class="btn btn-default prev pull-left">Previous</a>
+        {% elif page != 1 %}
+        <a href="/{{ sort_by }}/page/{{ page - 1 }}" class="prev btn btn-default pull-left">Previous</a>
+        {% end %}
+        
+        <a href="/{{ sort_by }}/page/{{ page + 1 }}" class="btn btn-default next pull-right">Next</a>
+      </div>
 
     </section>
   </div>
