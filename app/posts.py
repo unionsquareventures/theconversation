@@ -332,3 +332,12 @@ class Widget(app.basic.BaseHandler):
       # get the current hot posts
       posts = postsdb.get_hot_posts(per_page, page)
       self.render('post/widget.js', posts=posts)
+
+###################
+### WIDGET DEMO
+### /widget/demo.*?
+###################
+class WidgetDemo(app.basic.BaseHandler):
+  def get(self, extra_path=''):
+    self.render('post/widget_demo.html')
+
