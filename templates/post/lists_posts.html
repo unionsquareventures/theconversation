@@ -62,10 +62,10 @@
     <section class="hot-newest-feed">
 
       <ul class="tabs">
-        <li class="{{ 'is-active' if sort_by == 'hot' else '' }}"><a class="sort btn" href="?sort_by=hot">Hot</a></li>
-        <li class="{{ 'is-active' if sort_by == 'new' else '' }}"><a class="sort btn" href="?sort_by=new">Newest</a></li>
+        <li class="{{ 'is-active' if sort_by == 'hot' else '' }}"><a class="sort btn" href="/hot">Hot</a></li>
+        <li class="{{ 'is-active' if sort_by == 'new' else '' }}"><a class="sort btn" href="/new">Newest</a></li>
         {% if current_user in settings.get('staff') %}
-          <li class="{{ 'is-active' if sort_by == 'sad' else '' }}"><a class="sort btn" href="?sort_by=sad">Sad</a></li>
+          <li class="{{ 'is-active' if sort_by == 'sad' else '' }}"><a class="sort btn" href="/sad">Sad</a></li>
         {% end %}
         {% if not is_blacklisted %}
           <li class="submit-btn">
@@ -106,18 +106,16 @@
           {% set previous_author_username = p['user']['username'] %}       
         {% end %}
       </ul>
-
-      {% if 'page' in locals() %}
+      
       <div id="pagination-next-prev" style="margin-top: 20px;">
         {%  if page == 2 %}
-        <a href="/" class="btn btn-default prev pull-left">Previous</a>
+        <a href="/{{ sort_by }}" class="btn btn-default prev pull-left">Previous</a>
         {% elif page != 1 %}
-        <a href="/posts/page/{{ page - 1 }}" class="prev btn btn-default pull-left">Previous</a>
+        <a href="/{{ sort_by }}/page/{{ page - 1 }}" class="prev btn btn-default pull-left">Previous</a>
         {% end %}
         
-        <a href="/posts/page/{{ page + 1 }}" class="btn btn-default next pull-right">Next</a>
+        <a href="/{{ sort_by }}/page/{{ page + 1 }}" class="btn btn-default next pull-right">Next</a>
       </div>
-      {% end %}
 
     </section>
   </div>

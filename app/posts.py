@@ -90,9 +90,8 @@ class Feed(app.basic.BaseHandler):
 ### /
 ##############
 class ListPosts(app.basic.BaseHandler):
-  def get(self, page=1):
-    sort_by = self.get_argument('sort_by', 'hot')
-
+  def get(self, page=1, sort_by="hot"):
+    sort_by = self.get_argument('sort_by', sort_by)
     page = abs(int(self.get_argument('page', page)))
     per_page = abs(int(self.get_argument('per_page', '20')))
     msg = ''
@@ -104,7 +103,7 @@ class ListPosts(app.basic.BaseHandler):
     if self.current_user:
       is_blacklisted = self.is_blacklisted(self.current_user)
 
-    if sort_by == 'new':
+    if sort_by == 'newest':
       # show the newest posts
       posts = postsdb.get_new_posts(per_page, page)
     elif sort_by == 'sad':
@@ -264,10 +263,10 @@ class ListPosts(app.basic.BaseHandler):
       disqus.subscribe_to_thread(thread_id, acc['disqus_access_token'])
       
     featured_posts = postsdb.get_featured_posts(6, 1)
-    sort_by = "new"
+    sort_by = "newest"
     posts = postsdb.get_new_posts(per_page, page)
 
-    self.render('post/lists_posts.html', sort_by=sort_by, msg=msg, posts=posts, featured_posts=featured_posts, is_blacklisted=is_blacklisted, new_post=post)
+    self.render('post/lists_posts.html', sort_by=sort_by, msg=msg, page=page, posts=posts, featured_posts=featured_posts, is_blacklisted=is_blacklisted, new_post=post)
 
 ##########################
 ### UPVOTE A SPECIFIC POST
