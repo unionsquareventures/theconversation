@@ -118,7 +118,7 @@ def get_posts_by_normalized_url(normalized_url, limit):
   return list(db.post.find({'normalized_url':normalized_url, 'deleted': { "$ne": True }}, sort=[('_id', pymongo.DESCENDING)]).limit(limit))
 
 def get_posts_with_min_votes(min_votes):
-  return list(db.post.find({'deleted': { "$ne": True }, 'votes':{'$gt':min_votes}}, {'slug':1, 'date_created':1, 'downvotes':1, 'user.username':1, 'comment_count':1, 'votes':1, 'title':1}, sort=[('date_created', pymongo.DESCENDING)]))
+  return list(db.post.find({'deleted': { "$ne": True }, 'votes':{'$gte':min_votes}}, {'slug':1, 'date_created':1, 'downvotes':1, 'user.username':1, 'comment_count':1, 'votes':1, 'title':1}, sort=[('date_created', pymongo.DESCENDING)]))
 
 ###########################
 ### UPDATE POST DETAIL
