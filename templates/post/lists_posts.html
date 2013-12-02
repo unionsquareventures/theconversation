@@ -107,7 +107,15 @@
         {% end %}
       </ul>
 
-      <div id="pagination-next-prev"></div>
+      <div id="pagination-next-prev" style="margin-top: 20px;">
+        {%  if page == 2 %}
+        <a href="/" class="btn btn-default prev pull-left">Previous</a>
+        {% elif page != 1 %}
+        <a href="/posts/page/{{ page - 1 }}" class="prev btn btn-default pull-left">Previous</a>
+        {% end %}
+        
+        <a href="/posts/page/{{ page + 1 }}" class="btn btn-default next pull-right">Next</a>
+      </div>
 
     </section>
   </div>

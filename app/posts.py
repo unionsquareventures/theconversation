@@ -92,7 +92,8 @@ class Feed(app.basic.BaseHandler):
 class ListPosts(app.basic.BaseHandler):
   def get(self, page=1):
     sort_by = self.get_argument('sort_by', 'hot')
-    page = abs(int(self.get_argument('page', '1')))
+
+    page = abs(int(self.get_argument('page', page)))
     per_page = abs(int(self.get_argument('per_page', '20')))
     msg = ''
     featured_posts = postsdb.get_featured_posts(6, 1)
@@ -113,7 +114,7 @@ class ListPosts(app.basic.BaseHandler):
       # get the current hot posts
       posts = postsdb.get_hot_posts(per_page, page)
 
-    self.render('post/lists_posts.html', sort_by=sort_by, msg=msg, posts=posts, post=post, featured_posts=featured_posts, is_blacklisted=is_blacklisted)
+    self.render('post/lists_posts.html', sort_by=sort_by, page=page, msg=msg, posts=posts, post=post, featured_posts=featured_posts, is_blacklisted=is_blacklisted)
 
   @tornado.web.authenticated
   def post(self):
