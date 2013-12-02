@@ -11,30 +11,30 @@
   document.write("<style type='text/css'>\
     @font-face { \
       font-family: 'usv-proximanova-bold'; \
-      src: url('{{ settings.get('base_url') }}/static/fonts/proximanova-bold-webfont.eot'); \
+      src: url('http://{{ settings.get('base_url') }}/static/fonts/proximanova-bold-webfont.eot'); \
       src: local('proximanova-bold'),  \
          local('proximanova-bold'),  \
-         url('{{ settings.get('base_url') }}/static/fonts/proximanova-bold-webfont.otf') format('opentype'), \
-         url('{{ settings.get('base_url') }}/static/fonts/proximanova-bold-webfont.svg#font') format('svg');  \
+         url('http://{{ settings.get('base_url') }}/static/fonts/proximanova-bold-webfont.otf') format('opentype'), \
+         url('http://{{ settings.get('base_url') }}/static/fonts/proximanova-bold-webfont.svg#font') format('svg');  \
     } \
     @font-face { \
       font-family: 'usv-proximanova-light'; \
-      src: url('{{ settings.get('base_url') }}/static/fonts/proximanova-light-webfont.eot'); \
+      src: url('http://{{ settings.get('base_url') }}/static/fonts/proximanova-light-webfont.eot'); \
       src: local('proximanova-light'),  \
-         local('proximanova-light'),  \
-         url('{{ settings.get('base_url') }}/static/fonts/proximanova-light-webfont.otf') format('opentype'), \
-         url('{{ settings.get('base_url') }}/static/fonts/proximanova-light-webfont.svg#font') format('svg');  \
+         local('proximanova-light'),  \ 
+         url('http://{{ settings.get('base_url') }}/static/fonts/proximanova-light-webfont.otf') format('opentype'), \
+         url('http://{{ settings.get('base_url') }}/static/fonts/proximanova-light-webfont.svg#font') format('svg');  \
     } \
     @font-face{ \
       font-family:'Glyphicons Halflings'; \
-      src:url('{{ settings.get('base_url') }}/static/fonts/glyphicons-halflings-regular.eot'); \
-      src:url('{{ settings.get('base_url') }}/static/fonts/glyphicons-halflings-regular.eot?#iefix')  \
+      src:url('http://{{ settings.get('base_url') }}/static/fonts/glyphicons-halflings-regular.eot'); \
+      src:url('http://{{ settings.get('base_url') }}/static/fonts/glyphicons-halflings-regular.eot?#iefix')  \
       format('embedded-opentype'), \
-        url('{{ settings.get('base_url') }}/static/fonts/glyphicons-halflings-regular.woff')  \
+        url('http://{{ settings.get('base_url') }}/static/fonts/glyphicons-halflings-regular.woff')  \
       format('woff'), \
-        url('{{ settings.get('base_url') }}/static/fonts/glyphicons-halflings-regular.ttf')  \
+        url('http://{{ settings.get('base_url') }}/static/fonts/glyphicons-halflings-regular.ttf')  \
       format('truetype'), \
-        url('{{ settings.get('base_url') }}/static/fonts/glyphicons-halflings-regular.svg#glyphicons-halflingsregular') format('svg') \
+        url('http://{{ settings.get('base_url') }}/static/fonts/glyphicons-halflings-regular.svg#glyphicons-halflingsregular') format('svg') \
       } \
     } \
     #usv-widget, \
@@ -54,8 +54,8 @@
       margin: 0 !important; \
       font-weight: normal !important; \
       padding: 0 !important; \
-      background: #555 url('{{ settings.get('base_url') }}/static/themes/usv/img/usv-logo-green-50x50.png') 0 0 no-repeat; \
-      height: 50px !important; \
+      background: #555 url('http://{{ settings.get('base_url') }}/static/themes/usv/img/usv-logo-green-44x44.png') 0 0 no-repeat; \
+      height: 44px !important; \
       font-size: 16px !important; \
     } \
     #usv-widget h1#usv-title a { \
@@ -66,7 +66,7 @@
       font-weight: 100; \
       font-style: normal; \
       letter-spacing: normal !important; \
-      padding-top: 18px; \
+      padding-top: 14px; \
       font-size: 16px !important; \
       line-height: 1em !important; \
       text-shadow: none !important; \
@@ -77,7 +77,7 @@
     #usv-widget-content { \
       border: 1px solid #ddd; \
       border-top: none; \
-      padding: 10px 7px 0 !important; \
+      padding: 10px 5px 0 !important; \
     } \
     #usv-widget ul#usv-posts { \
       padding: 0;	 \		
@@ -100,11 +100,12 @@
       width: 36px; \
       height: 36px; \
       position: absolute; \
-      top: 2px; \
+      top: 0px; \
       left: 0px; \
     } \
     #usv-widget ul#usv-posts h3.usv-post-title { \
-      font-family: 'usv-proximanova-bold','Helvetica Neue', Arial, sans-serif;; \
+      font-family: 'usv-proximanova-bold','Helvetica Neue', Arial, sans-serif; \
+      font-size: 14px !important; \
       margin: 0px; \
       line-height: 1.2em; \
       font-weight: normal !important; \
@@ -128,7 +129,7 @@
     } \
     #usv-widget ul#usv-posts .usv-post-comment-count { \
       margin-left: 8px; \
-      background: url('{{ settings.get('base_url') }}/static/img/comment-icon-green.png') left center no-repeat; \
+      background: url('http://{{ settings.get('base_url') }}/static/img/comment-icon-green.png') left center no-repeat; \
       padding-left: 18px; \
     } \
     #usv-widget ul#usv-nav { \
