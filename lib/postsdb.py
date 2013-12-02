@@ -175,7 +175,7 @@ def sort_posts():
   min_votes = 2
 
   # get all the posts that have at least the 'min vote threshold'
-  posts = postsdb.get_posts_with_min_votes(min_votes)
+  posts = get_posts_with_min_votes(min_votes)
 
   data = []
   for post in posts:
@@ -226,7 +226,7 @@ def sort_posts():
     post['scores'] = scores
 
     # and save the new score
-    postsdb.update_post_score(post['slug'], total_score)
+    update_post_score(post['slug'], total_score)
 
     data.append({
       'username': post['user']['username'],
