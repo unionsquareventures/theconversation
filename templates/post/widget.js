@@ -21,7 +21,6 @@
       font-family: 'usv-proximanova-light'; \
       src: url('http://{{ settings.get('base_url') }}/static/fonts/proximanova-light-webfont.eot'); \
       src: local('proximanova-light'),  \
-         local('proximanova-light'),  \ 
          url('http://{{ settings.get('base_url') }}/static/fonts/proximanova-light-webfont.otf') format('opentype'), \
          url('http://{{ settings.get('base_url') }}/static/fonts/proximanova-light-webfont.svg#font') format('svg');  \
     } \
