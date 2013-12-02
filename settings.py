@@ -26,7 +26,7 @@ options = {
   },
   'prod' : {
     'mongo_database' : {'host' : os.environ.get('MONGODB_URL'), 'port' : 27017, 'db' : os.environ.get('DB_NAME')},
-    'base_url' : os.environ.get('BASE_URL'),
+    'base_url' : 'www.usv.com',
   }
 }
 
