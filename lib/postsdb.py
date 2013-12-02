@@ -180,7 +180,7 @@ def sort_posts():
   data = []
   for post in posts:
     # determine how many hours have elapsed since this post was created
-    tdelta = datetime.datetime.now() - post['date_created']
+    tdelta = datetime.now() - post['date_created']
     hours_elapsed = tdelta.seconds/3600 + tdelta.days*24
 
     # determine the penalty for time decay
