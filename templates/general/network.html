@@ -1,0 +1,77 @@
+{% extends '../base.html' %}
+
+{% block title %}Network | {% end %}
+
+{% block body_class %}network{% end %}
+
+{% block content %}
+  <div id="main" role="main">
+    <h2 class="mobile-page-headline section-heading">USV Network</h2>
+    <article class="page">
+      <div class="row">
+        <div class="col-xs-12">  
+          <div id="slideshow">
+            <ul class="bjqs" style="padding: 0">
+              <li style="display:none"><img src="/static/img/network/usvnetwork-1.jpg" /></li>
+              <li style="display:none"><img src="/static/img/network/usvnetwork-2.jpg" /></li>
+              <li style="display:none"><img src="/static/img/network/usvnetwork-3.jpg" /></li>
+              <li style="display:none"><img src="/static/img/network/usvnetwork-4.jpg" /></li>
+              <li style="display:none"><img src="/static/img/network/usvnetwork-5.jpg" /></li>
+              <li style="display:none"><img src="/static/img/network/usvnetwork-6.jpg" /></li>
+            </ul>
+          </div>
+          <div class="deck" style="margin-bottom: 25px">
+            <p>The USV Network connects portfolio companies to each other, to educational content, and to external resources. We believe that creating a community for portfolio companies to share experiences helps propel companies forward, faster.</p>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-6">
+          <p>We connect portfolio peers through the online USV Network as well as multiple in-person events. Our in-person summits provide open conversations to share best practices and lessons learned. Our current summit groups include: CEOs, Engineering Leadership, Product, Design, Mobile, People, Data, Community, and Business Development. Each group meets twice a year. We also provide workshops on different topics including Growth, Legal, Finance, Taxes, Sales, and Policy.</p>
+        </div>
+        <div class="col-sm-6">
+          <p>To help create deeper relationships, all USV portfolio company team members are encouraged to apply for our Peer Mentoring program. The digital USV Network provides a place for on-going conversations and recommended resources.</p>
+          <p>USV portfolio company staff: sign in to the <a href="http://yammer.com/usvnetwork">USV Network on Yammer</a><a href="#"><br></a></p>
+        </div>
+      </div>
+      {% if len(related_posts) > 0 %}
+        <h2 class="section-heading" id="team-heading" style="text-transform:uppercase; font-weight: 300">Network Updates</h2>            
+        <div class="row">
+          {% for p in related_posts %}
+            {% include ../post/featured_post_snippet.html %}
+          {% end %}        
+        </div>
+        <hr />
+        <div style="text-align:center">
+          <a class="btn" href="/tagged/usv-network?author=usv">More Network Updates</a>
+        </div>
+      {% end %}
+    </article>
+  </div>
+{% end %}
+
+{% block javascript %}
+  <link rel="stylesheet" href="{{ static_url("css/bjqs.css") }}" />
+  <script type="text/javascript">
+    $(document).ready(function() {
+      rp_max_height = 0;
+      $('.featured-post').each(function() {
+        if ($(this).height() > rp_max_height) {
+          rp_max_height = $(this).height();
+        }
+      })
+      $('.featured-post').height(rp_max_height);
+      $('#slideshow').bjqs({
+        'height' : 225,
+        'width' : 1060,
+        'responsive' : true,
+        'showcontrols' : false, 
+        'automatic': true,
+        'animspeed': 5000,
+        'animduration' : 2000,
+        'showmarkers': false
+      });
+    });
+  </script>
+  <script src="/static/js/vendor/bjqs-1.3.min.js"></script>
+  {% end %}

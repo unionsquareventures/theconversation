@@ -140,6 +140,8 @@
 
           </div>
 
+
+          {% if False %}
           {% for user in post['voted_users'] %}
             <hr />
             <p>
@@ -148,6 +150,7 @@
               <a href="http://www.twitter.com/{{ user['screen_name'] }}" target="_blank">{{user['screen_name']}}</a> gave this post some props
               {% end %}
             </p>
+          {% end %}
           {% end %}
 
         </article>

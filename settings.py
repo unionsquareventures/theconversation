@@ -17,7 +17,7 @@ tornado.options.define("environment", default="dev", help="environment")
 
 options = {
   'dev' : {
-    'mongo_database' : {'host' : 'localhost', 'port' : 27017, 'db' : 'usv'},
+    'mongo_database' : {'host' : os.environ.get('MONGODB_URL'), 'port' : 27017, 'db' : os.environ.get('DB_NAME')},
     'base_url' : 'localhost:8001',
   },
   'test' : {
@@ -31,9 +31,9 @@ options = {
 }
 
 default_options = {
-  'active_theme': "default",
-  'site_title': "The Conversation",
-  'site_description': "This is a website where people talk",
+  'active_theme': "usv",
+  'site_title': "Union Square Ventures",
+  'site_description': "Union Square Ventures (USV) is a New York City-based venture capital firm. We invest in networks that transform existing industries",
 
   # twiter details (using knowabout.it keys for testing)
   'twitter_consumer_key' : '',
@@ -45,19 +45,19 @@ default_options = {
   'disqus_short_code': '',
 
   # sendgrid details
-  'sendgrid_user': '',
-  'sendgrid_secret': '',
+  'sendgrid_user': os.environ.get("SENDGRID_USER"),
+  'sendgrid_secret': os.environ.get("SENDGRID_SECRET"),
 
   # hackpad details
-  'hackpad_oauth_client_id':'', 
-  'hackpad_oauth_secret':'', 
-  'hackpad_domain':'',
+  'hackpad_oauth_client_id': os.environ.get("HACKPAD_OAUTH_CLIENT_ID"), 
+  'hackpad_oauth_secret': os.environ.get("HACKPAD_OAUTH_SECRET"), 
+  'hackpad_domain': os.environ.get("HACKPAD_DOMAIN"),
 
   # google api key
-  'google_api_key': '',
+  'google_api_key': os.environ.get("GOOGLE_API_KEY"),
 
   # bitly access token
-  'bitly_access_token': '',
+  'bitly_access_token': os.environ.get("BITLY_ACCESS_TOKEN"),
 
   # other control variables
   'tinymce_valid_elements': '',
@@ -118,4 +118,3 @@ def get(key):
     return v
 
   return default_options.get(key)
-
