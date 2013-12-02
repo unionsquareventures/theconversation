@@ -1,6 +1,5 @@
 # Need to import tornado setting manually if running as a standalone script
 import sys
-sys.path.insert(0, '/Users/AlexanderPease/git/usv/website/usv')
 import settings
 
 import urllib
@@ -11,6 +10,8 @@ import pymongo
 
 INDEED_API_URL = 'http://api.indeed.com/ads/apisearch'
 INDEED_PUBLISHER_ID = '9648379283006957'
+
+#db.job.ensure_index('jobkey')
 
 """
 {
