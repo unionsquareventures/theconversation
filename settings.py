@@ -34,6 +34,8 @@ default_options = {
   'active_theme': "default",
   'site_title': "The Conversation",
   'site_description': "This is a website where people talk",
+  
+  'project_root': os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..")),
 
   # twiter details (using knowabout.it keys for testing)
   'twitter_consumer_key' : '',
