@@ -40,7 +40,7 @@ default_options = {
   'site_title': "Union Square Ventures",
   'site_description': "Union Square Ventures (USV) is a New York City-based venture capital firm. We invest in networks that transform existing industries",
 
-  'project_root': os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..")),
+  'project_root': os.path.abspath(os.path.join(os.path.dirname(__file__))),
 
   # twiter details (using knowabout.it keys for testing)
   'twitter_consumer_key' : '',

@@ -8,3 +8,4 @@ bleach
 beautifulsoup4
 tweepy
 feedparser
+newrelic
