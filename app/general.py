@@ -18,7 +18,6 @@ class About(app.basic.BaseHandler):
 ########################
 class Jobs(app.basic.BaseHandler):
   def get(self):
-    #jobsdb.update_all() 
     jobs = jobsdb.get_all() 
     categories = jobsdb.get_categories() 
     locations = jobsdb.get_locations()
