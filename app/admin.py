@@ -3,11 +3,13 @@ import tornado.web
 import settings
 import datetime
 import logging
+import json
 
 from lib import companiesdb
 from lib import hackpad
 from lib import postsdb
 from lib import userdb
+from lib import disqus
 
 ###########################
 ### ADMIN COMPANY
@@ -321,3 +323,14 @@ class UnBanUser(app.basic.BaseHandler):
         userdb.save_user(user)
     self.redirect('/')
 
+###########################
+### Manage Disqus Data
+### /admin/disqus
+###########################
+class ManageDisqus(app.basic.BaseHandler):
+  def get(self):
+    if not self.current_user_can('manage_disqus'):
+      return self.write("not authorized")
+    
+    response = disqus.get_all_threads()
+    self.write(response)

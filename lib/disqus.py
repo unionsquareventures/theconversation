@@ -21,7 +21,7 @@ def create_thread(title, identifier, access_token):
     'title': title.encode('utf-8'),
     'identifier':identifier,
     'api_secret':settings.get('disqus_secret_key'),
-    'api_key': settings.get('disqus_api_key'),
+    'api_key': settings.get('disqus_public_key'),
     'access_token': access_token
   }
   return do_api_request(api_link, 'POST', thread_info)
@@ -66,7 +66,7 @@ def subscribe_to_thread(thread_id, access_token):
   api_link = 'https://disqus.com/api/3.0/threads/subscribe.json'
   info = {
     'api_secret': settings.get('disqus_secret_key'),
-    'api_key': settings.get('disqus_api_key'),
+    'api_key': settings.get('disqus_public_key'),
     'access_token': access_token,
     'thread': thread_id,
   }
@@ -97,6 +97,14 @@ def subscribe_to_all_your_threads(username):
 def user_details(api_key, access_token, api_secret, user_id):
   api_link = 'https://disqus.com/api/3.0/users/details.json?access_token=%s&api_key=%s&api_secret=%s&user=%s' % (access_token, api_key, api_secret, int(user_id))
   return do_api_request(api_link)
+
+def get_all_threads():
+  api_link = 'https://disqus.com/api/3.0/threads/list.json'
+  info = {
+    'api_key': settings.get('disqus_public_key'),
+    'forum': settings.get('disqus_short_code'),
+  }
+  return do_api_request(api_link, 'GET', info)
 
 #####################################################
 #### ACTUALLY HANDLE THE REQUESTS/RESPOSNE TO THE API
