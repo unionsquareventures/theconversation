@@ -101,7 +101,7 @@ def user_details(api_key, access_token, api_secret, user_id):
 def get_all_threads():
   api_link = 'https://disqus.com/api/3.0/threads/list.json'
   info = {
-    'public_key': settings.get('disqus_public_key'),
+    'api_secret': settings.get('disqus_secret_key'),
     'forum': settings.get('disqus_short_code'),
   }
   return do_api_request(api_link, 'GET', info)
