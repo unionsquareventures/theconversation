@@ -98,7 +98,8 @@ default_options = {
     'edit_posts',
     'upvote_multiple_times',
     'super_upvote_posts',
-    'downvote_posts'
+    'downvote_posts',
+    'manage_disqus'
   ],
   'user_capabilities': []
 }
