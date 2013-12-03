@@ -234,7 +234,7 @@ class ListPosts(app.basic.BaseHandler):
         post_link = 'External Link: %s \n\n' % post['url']
       else:
         post_link = ''
-      post_url = "http://%s/posts/%s" % (settings.base_url, post['slug'])
+      post_url = "http://%s/posts/%s" % (settings.get('base_url'), post['slug'])
       text = '"%s" ( %s ) posted by %s. \n\n %s %s' % (post['title'].encode('ascii', errors='ignore'), post_url, post['user']['username'].encode('ascii', errors='ignore'), post_link, post['body_text'])
       # now attempt to actually send the emails
       for u in settings.get('staff'):
