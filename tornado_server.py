@@ -55,6 +55,7 @@ class Application(tornado.web.Application):
       (r"/jobs", app.general.Jobs),
       (r"/network", app.general.Network),
       (r"/portfolio", app.general.Portfolio),  
+      (r"/hangoutwith/(?P<who>[A-z]+)", app.general.Hangouts),  
 
       # account stuff
       (r"/auth/email/?", app.user.EmailSettings),
