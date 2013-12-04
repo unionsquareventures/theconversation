@@ -1,8 +1,0 @@
-Comments on a given share are powered by Disqus ( http://disqus.com ).
-
-By integrating Disqus we are attempting to take advantage of their full featured commeting system and offload the handling of comment alerts (and reply-by-email conversations)
-
-To allow for this, when a user adds a new share to the system, a new Disqus thread should be created with the user as an owner of that thread.
-
-The intent is to make sure disqus can alert the user of any new comments posted to the thread (and not just the responses to their direct comments in the discussion).
-

@@ -1,4 +1,0 @@
-As much as possible the app should have a clean, full featured, mobile web experience.
-
-We are currently accomplishing that via:
-

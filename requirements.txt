@@ -1,9 +1,0 @@
-tornado
-bitly_api
-requests
-simplejson
-pymongo
-slugify
-bleach
-beautifulsoup4
-tweepy
