@@ -1,0 +1,46 @@
+{% extends '../base.html' %}
+
+{% block content %}
+<div id="main" role="main">
+    <section class="search-feed centered clearfix">
+    <h1 class="general-page-headline">{{ total_count }} result{% if total_count != 1 %}s{% end %} for
+        <span class="search-term"> “{{ tag or query }}”</span>
+    </h1>
+
+    {% if total_count > 0 %}
+        <ul class="feed">
+            {% for post in posts %}
+            <li>
+                <div class="content">
+                    <a class="title" href="/posts/{{ post.slug }}">{{ post.title }}</a>
+                    {% if post.url %}
+                        <a href="{{ post.url }}" class="source" target="_blank">{{ urlparse(post.url).netloc }}</a>
+                    {% else %}
+                        <a href="/posts/{{ post.slug }}" class="source" target="_blank">usv.com</a>
+                    {% end %}
+                    <div class="excerpt">{{ post.body_truncated }}</div>
+                    <div class="meta">
+                        <div class="thumbnail">
+                            <a href="http://www.twitter.com/{{ post.user.username }}" targer="_blank">
+                                <img src="{{
+                                twitter_avatar_size(post.user.profile_image_url_https, 'normal') }}" alt="thumbnail">
+                            </a>
+                        </div>
+                        <a class="username" href="http://www.twitter.com/{{ post.user.username }}" targer="_blank">
+                            @{{ post.user.username }}
+                        </a>
+                        <span class="time">{{ pretty_date(post.date_created) }}</span>
+                        {% module ajax_upvote_link(post=post) %}
+                        <a class="comments-count" href="/posts/{{ post.slug }}#disqus_thread"
+                            data-disqus-identifier="{{ post.id }}">0 comments</a>
+                    </div>
+                </div>
+            </li>
+            {% end %}
+        </ul><!--end of feed-->
+
+        {% module paginator(page, per_page, total_count, show_pages=True) %}
+        {% end %}
+        </section><!--end of featured-feed-->
+</div><!--end of main-->
+{% end %}

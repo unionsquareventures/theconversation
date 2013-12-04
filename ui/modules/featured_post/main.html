@@ -1,0 +1,25 @@
+<li class="featured-post card usv">
+	<div class="content">
+		  <a class="title" href="/posts/{{ post.slug }}">{{ post.title }}</a>
+	  {% if show_source %}
+	  {% if post.url %}
+		  <a href="{{ post.url }}" class="source" target="_blank">{{ urlparse(post.url).netloc }}</a>
+	  {% else %}
+		  <a href="/posts/{{ post.slug }}" class="source">usv.com</a>
+	  {% end %}
+	  {% end %}
+	  <div class="excerpt">{{ post.body_truncated }}</div>
+	  <div class="meta">
+		  <a style="color: #999" class="username" href="http://www.twitter.com/{{ post.user.username }}" target="_blank">@{{ post.user.username }}</a>
+		  
+		  {% if show_votes %}
+		  {% module ajax_upvote_link(post=post) %}
+		  {% end %}
+		  <br class="meta-break" style="display:none" />
+		  <span class="time" style="margin-right: 12px;"><a href="/posts/{{ post.slug }}" ><span class="glyphicon glyphicon-link" style="margin: 0;font-size: 90%"></span> {{ pretty_date(post.date_created) }}</span>
+		  
+		  <a class="/posts/{{ post.slug }} comment-count" href="/posts/{{ post.slug }}"
+			  data-disqus-identifier="{{ post.id }}" {% if post.url %}target="_blank"{% end %}>{{ post.show_comment_count() }}</a>
+	  </div>
+	</div>
+</li>

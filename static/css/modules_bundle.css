@@ -1,0 +1,4 @@
+/Library/Ruby/Gems/1.8/gems/less-2.2.1/bin/lessc:20:in `read': No such file or directory - -x (Errno::ENOENT)
+	from /Library/Ruby/Gems/1.8/gems/less-2.2.1/bin/lessc:20
+	from /usr/bin/lessc:19:in `load'
+	from /usr/bin/lessc:19

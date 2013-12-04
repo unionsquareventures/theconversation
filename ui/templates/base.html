@@ -1,0 +1,211 @@
+{% if 'body_class' not in locals() %}
+{% set body_class = "" %}
+{% end %}
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<head>
+	<!-- test -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>{% block title %}{% end %}Union Square Ventures</title>
+    <meta name="description" content="Union Square Ventures (USV) is a New York City-based venture capital firm. We invest in networks that disrupt existing industries.">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="alternate" type="application/rss+xml" title="Union Square Ventures - Latest Posts" href="{{ base_url }}/feed/new" />
+    <link rel="alternate" type="application/rss+xml" title="Union Square Ventures - Hot Posts" href="{{ base_url }}/feed/hot" />
+    <link rel="apple-touch-icon" sizes="57x57" href="{{ static_url("img/usv-touch-icon.png") }}"/>
+    <link rel="shortcut icon" href="{{ static_url("img/usv-favicon.png") }}" type="image/png" />
+
+    <link rel="stylesheet" href="{{ static_url("css/bootstrap.min.css") }}">
+    <!-- dont cache style.css yes, since we're still developing on it heavily -->
+    <link rel="stylesheet" href="/static/css/style.css?{{ settings.css_modified_time }}">
+    <script src="{{ static_url("js/vendor/respond.min.js") }}"></script>
+
+    {% block css %}
+    {% end %}
+
+    <script src="{{ static_url("js/vendor/jquery-1.9.1.min.js") }}"></script>
+    <script src="{{ static_url("js/bootstrap.min.js") }}"></script>
+    <script type="text/javascript">
+        USV_is_admin = {{ 'true' if is_admin() else 'false' }};
+        USV_tinymce_valid_elements = "{{ tinymce_valid_elements(media=is_admin()) }}";
+        USV_tinymce_post_char_limit = {{ settings.post_char_limit }};
+        USV_user_id_str = '{{ user_id_str }}';
+        USV_user_email_address = '{{ user_email_address }}';
+
+        $(function() {
+                $('.submit-button').on('click', function() {
+                    $(this).parent('form').submit();
+                    e.stopPropagation();
+                    e.preventDefault();
+                });
+        });
+        
+        $(document).ready(function() {
+           window.mySwipe = Swipe(document.getElementById('slider')); 
+        });
+    </script>
+    <script src="{{ static_url("js/vendor/modernizr-2.6.2.min.js") }}"></script>
+    <script type="text/javascript" src="{{ static_url("js/tinymce/jquery.tinymce.min.js") }}"></script>
+    <script src="{{ static_url("js/plugins.js") }}"></script>
+    <script src="{{ static_url("js/scripts.js") }}"></script>
+    <script src="{{ static_url("js/swipe.js") }}"></script>
+    <script src="{{ static_url("js/modules_bundle.js") }}"></script>
+    <script src="{{ static_url("js/vendor/jquery.scrollto.js") }}"></script>
+    {% block javascript %}
+    {% end %}
+</head>
+
+<body data-menu-position="closed" class="{% block body_class %}{% end %} {% if is_staff(username) %}staff{% end %}">
+
+
+  <style type="text/css">
+      .jPanelMenu-panel {
+        z-index: auto !important;
+      }
+  </style>
+
+  {% block submit_area %}
+      <div class="modal fade in" id="submit-modal">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+              <h3 class="modal-title submit" style="display: none">Submit a post!</h3>
+              <h4 class="modal-title login">Please login to post or vote</h4>
+            </div>
+            <div class="modal-body submit" style="display: none">
+                {% module post_form(classes="", id="") %}
+            </div>
+            <div class="modal-body login">
+              <img src="/static/img/sign-in-with-twitter-gray.png" alt="Sign in with Twitter" id="twitter-login-button" style="cursor: pointer; margin-top: 15px;" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+<!--
+      <div class="modal" id="login-modal">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+              <h4 class="modal-title">Please login to post or vote</h4>
+            </div>
+            <div class="modal-body">
+              <img src="/static/img/sign-in-with-twitter-gray.png" alt="Sign in with Twitter" id="twitter-login-button" style="cursor: pointer;" />
+            </div>
+          </div>
+        </div>
+      </div>
+-->
+
+  {% end %}
+
+    <div class="shell">
+        <div id="mobile-header">
+            <a id="menu-trigger" href="#">Open Menu</a>
+            <a id="mobile-logo" href="/">Union Square Ventures</a>
+            <a id="submit-trigger" href="#submit-form">Submit Post</a>
+        </div>
+
+            <header id="site-header">
+                <div class="container">
+                <a id="logo" href="/">Union Square Ventures</a>
+                <h1 id="usv-name"><a href="/">Union Square Ventures</a></h1>
+                <ul id="main-nav">
+                  <li id="nav-conversation"><a href="/">Conversation</a></li>
+                  <li id="nav-about"><a href="/about">About</a></li>
+                  <!--<li><a href="/team/">Team</a></li>-->
+                  <li id="nav-portfolio"><a href="/portfolio">Portfolio</a></li>
+                  <li id="nav-network"><a href="/network">Network</a></li>
+                  <li id="nav-jobs"><a href="/jobs">Jobs</a></li>
+                </ul>
+                <div id="login">
+                    {% if username %}
+                        Welcome, @{{ username }}! &nbsp;
+                        {% if current_user_can('see_admin_link') %}
+                        <a class="login" href="/admin">Admin</a>
+                        {% end %} &nbsp;
+                        <a class="login" href="/auth/logout">Logout</a>
+                    {% else %}
+                        <a class="login" href="/auth/twitter/">Log in with Twitter</a>
+                    {% end %}
+                    
+                    
+                    
+                    <a href="/feed/hot" onclick="(function(){var z=document.createElement('script');z.src='https://www.subtome.com/load.js';document.body.appendChild(z);})(); return false"><img src="/static/img/feed-icon-14x14.png" title="Subscribe" style="margin-left: 10px"></a>
+                </div>
+                </div>
+            </header><!--end of site-header-->
+            {% block precontent %}
+            {% end %}
+
+            <div id="content">
+            <div class="container">
+                
+            {% block content %}
+            {% end %}
+            </div><!-- /.container -->
+            </div><!-- /.#content -->
+
+
+        <footer id="site-footer">
+            <div class="container">
+                <div class="row">
+                    
+                    <div class="col-sm-3">
+                        <h4>Contact Us</h4>
+                        <p>If you would like to share your ideas, business, or feedback with us, please send us email at <a href="mailto:info@usv.com">info@usv.com</a>. All business plan submissions must include a clear description of your operations and current progress.</p>
+                        
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="footer-search-container">
+                        <form action="/search" method="get">
+                          <input type="search" placeholder="Search" name="query" style="width:300px; margin: 0 auto" />
+                          <!--<a class="submit-button" href="#"></a>-->
+                        </form>
+                        </div>
+                    </div>
+                    <div class="col-sm-3" style="text-align:right">
+                        <h4>Union Square Ventures</h4>
+                        <p class="address">
+                            915 Broadway, 19th Floor<br>
+                            New York, NY 10010
+                        </p>
+                        <p class="telephone">
+                            <strong>Tel</strong> &nbsp;&nbsp;(212) 994-7880<br>
+                            <strong>Fax</strong> &nbsp;&nbsp;(212) 994-7399<br>
+                        </p>
+                            
+                    </div>
+                        
+                </div>
+                
+            </div>
+        </footer><!--end of footer-->
+
+    </div><!--end of shell-->
+
+	<nav id="mobile-menu">
+        <ul>
+        	<li class="heading">USV COMMUNITY</li>
+            <li><a href="/?sort_by=hot">Hot</a></li>
+            <li><a href="/?sort_by=new">Newest</a></li>
+            <li><a href="/featured">Featured</a></li>
+            <li class="heading">UNION SQUARE VENTURES</li>
+            <li><a href="/about/">About</a></li>
+            <li><a href="/portfolio/">Portfolio</a></li>
+            <li><a href="/network/">Network</a></li>
+            <li><a href="/jobs/">Jobs</a></li>
+        </ul>
+    </nav>
+
+    {% module analytics_tags(settings=settings) %}
+    
+    <script src="http://platform.twitter.com/widgets.js"  type="text/javascript"></script>
+
+</body>
+</html>

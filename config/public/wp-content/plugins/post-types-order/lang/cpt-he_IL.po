@@ -1,0 +1,163 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Post Types Order\n"
+"POT-Creation-Date: 2012-12-07 16:41+0200\n"
+"PO-Revision-Date: 2013-07-04 09:42+0200\n"
+"Last-Translator: Ronny Sherer <ronny@hoojima.com>\n"
+"Language-Team: Lunasite Team <info@lunasite.co.il>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.5.5\n"
+"X-Poedit-KeywordsList: _;gettext;gettext_noop;__;_e\n"
+"X-Poedit-Basepath: ../\n"
+"Language: Hebrew\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: post-types-order.php:107
+msgid "Post Types Order must be configured. Please go to"
+msgstr "חובה להגדיר את תוסף מיון הפרסומים (Post Types Order). נא לגשת ל:"
+
+#: post-types-order.php:107
+msgid "Settings Page"
+msgstr "דף ההגדרות"
+
+#: post-types-order.php:107
+msgid "make the configuration and save"
+msgstr "הגדר ושמור"
+
+#: post-types-order.php:445 post-types-order.php:449 post-types-order.php:460
+msgid "Re-Order"
+msgstr "מיון ידני"
+
+#: post-types-order.php:468
+msgid ""
+"This plugin can't work without javascript, because it's use drag and drop "
+"and AJAX."
+msgstr ""
+"תוסף זה אינו יכול לפעול ללא ג'אוה סקריפט, מכיוון שהוא משתמש בתכונות גרירה-"
+"שחרור ו-AJAX."
+
+#: post-types-order.php:481
+msgid "Update"
+msgstr "עדכן"
+
+#: post-types-order.php:497
+msgid "Items Order Updated"
+msgstr "סדר האיברים עודכן"
+
+#: post-types-order.php:514
+msgid "Pages"
+msgstr "דפים"
+
+#: include/functions.php:65
+msgid ""
+"Did you find this plugin useful? Please support our work with a donation or "
+"write an article about this plugin in your blog with a link to our site"
+msgstr ""
+"האם תוסף זה שימושי בעיניך? אנא תימכו  בעמלינו ע\"י תרומה או כיתבו מאמר אודות "
+"התוסף בבלוג  עם קישור לאתרינו"
+
+#: include/functions.php:66
+msgid "Did you know there is available an Advanced version of this plug-in?"
+msgstr "האם ידעתם שקיימת גרסה מתקדמת של תוסף זה?"
+
+#: include/functions.php:66
+msgid "Read more"
+msgstr "קרא עוד"
+
+#: include/functions.php:67
+msgid "Check our"
+msgstr "בדקו את התוסף שלנו"
+
+#: include/functions.php:67
+msgid ""
+"plugin which allow to custom sort categories and custom taxonomies terms"
+msgstr "אשר מאפשר למיין כרצונכם קטגוריות וטקסונומיות"
+
+#: include/options.php:16
+msgid "Settings Saved"
+msgstr "ההגדרות נשמרו"
+
+#: include/options.php:28
+msgid "General Settings"
+msgstr "הגדרות כלליות"
+
+#: include/options.php:34
+msgid "General"
+msgstr "כללי"
+
+#: include/options.php:39
+msgid "Minimum Level to use this plugin"
+msgstr "רמת הרשאה מינימלית כדי להשתמש בפלאגאין"
+
+#: include/options.php:42
+msgid "Subscriber"
+msgstr "מנוי"
+
+#: include/options.php:43
+msgid "Contributor"
+msgstr "תורם"
+
+#: include/options.php:44
+msgid "Author"
+msgstr "כותב"
+
+#: include/options.php:45
+msgid "Editor"
+msgstr "עורך"
+
+#: include/options.php:46
+msgid "Administrator"
+msgstr "מנהל"
+
+#: include/options.php:52
+msgid "Auto Sort"
+msgstr "מיון אוטומטי"
+
+#: include/options.php:56
+msgid ""
+"If checked, the plug-in will automatically update the wp-queries to use the "
+"new order (<b>No code update is necessarily</b>).<br /> If you need more "
+"order customizations you will need to uncheck this and include 'menu_order' "
+"into your theme queries"
+msgstr ""
+"אם מסומן, התוסף ימין אוטומטית את השאילתות לפי המיון החדש (<b>לא נדרשים "
+"שינויים בקוד</b>).<br>אם נדרש לך התאמות סדר נוספות יהיה צורך לבטל את הסימון "
+"ולהוסיף את 'menu_order' לשאילתות של התבנית שלך"
+
+#: include/options.php:58
+msgid "Show Examples"
+msgstr "הצג דוגמאות"
+
+#: include/options.php:61
+msgid "The following PHP code will still return the post in the set-up Order"
+msgstr "קוג ה-PHP הבא עדיין יציג את הפרסום לפי המיון של הגדרתו"
+
+#: include/options.php:74
+msgid "Or"
+msgstr "או"
+
+#: include/options.php:83
+msgid ""
+"If the Auto Sort is uncheck you will need to use the \"orderby\" and \"order"
+"\" parameters"
+msgstr ""
+"אם המיון האוטומטי אינו מופעל, ידרש שימוש בפרמטרים: \"מיון לפי\" ו \"מיון\""
+
+#: include/options.php:98
+msgid "Admin Sort"
+msgstr "מיון ממשק הניהול"
+
+#: include/options.php:102
+msgid ""
+"To affect the admin interface, to see the post types per your new sort, this "
+"need to be checked"
+msgstr ""
+"תיבה זו צריכה להיות מסומנת כדי להשפיע על ממשק הניהול, לראות את הפוסטים "
+"המותאמים עבור המין החדש"
+
+#: include/options.php:111
+msgid "Save Settings"
+msgstr "שמור הגדרות"

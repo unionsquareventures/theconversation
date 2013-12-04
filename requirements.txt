@@ -1,0 +1,16 @@
+tornado
+pymongo
+markdown
+mongoengine
+fabric
+pytz
+bleach
+raven
+BeautifulSoup4
+redis
+hiredis
+slugify
+nose
+newrelic
+dateutils
+gspread

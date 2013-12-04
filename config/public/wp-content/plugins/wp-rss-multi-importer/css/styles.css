@@ -1,0 +1,187 @@
+.wprss-input {
+    background: none repeat scroll 0 0 #EAF2FA;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    padding-left: 10px;
+    padding-top: 10px;
+    width: 1020px;
+}
+
+.wprss-input p { line-height: 28px; }
+
+.wprss-input label {
+    float: left;
+    width: 95px !important;
+    font-weight:bold !important;
+}
+    
+.wprss-input input {
+    height: 28px;
+    margin-bottom: 0;
+    padding: 0 0 0 5px;
+    width: 400px;
+}
+
+.wprss-input .category_list{
+	margin-left:10px;
+}
+
+.wprss-input .chk_feed{
+	margin-left:10px;
+	color:red !important;
+}
+
+
+.rss-output p {
+  margin-bottom: 0em;
+
+}
+
+.errorfld {	
+	border:1px solid red !important;
+}
+
+#errormsg{
+	color:red;
+	margin-left:10px;
+	!important;
+}
+
+.addbutton{
+	margin-left:510px;
+}
+
+.addCategory{
+	margin-left:510px;
+}
+
+
+.save_warning{
+	color:red !important;
+}
+
+
+#element_to_pop_up {
+    background-color:#fff;
+    border-radius:15px;
+    color:#000;
+    display:none;
+    padding:20px;
+    min-width:400px;
+    min-height: 180px;
+max-width:450px;
+}
+.bClose{
+    cursor:pointer;
+    position:absolute;
+    right:10px;
+    top:5px;
+}
+
+.ftpost_head{
+	float:left;
+	margin-right:30px;
+	margin-left:25px;
+	font-weight:bold;
+}
+
+.ftpost_l{
+	margin:10px;
+	margin-right:50px;
+}
+.ftpost_r{
+	margin:10px;
+}
+
+.info_titles{
+font-size:18px 	!important;
+}
+	
+p.info_text{
+border-bottom: 1px solid #DDDDDD;
+padding-bottom:8px;	
+	
+}
+
+.MP_box{
+	border: 1px solid #CCC;
+	border-radius: 25px 25px;
+	margin: 10px 0 10px 0;
+	padding: 10px 15px;	
+	background:#1F88C9;
+	
+}
+.MP_title{
+color:white !important;	
+text-align:center;
+}
+
+.txtorange{
+	color: #FF6600;
+	font-size:15px;
+	text-align:center;
+}
+
+.txtwhite{
+	color: #FFFFFF;
+	font-size:15px;
+	text-align:center;
+}
+
+.default-list-name{
+
+	margin-top:5px;
+	margin-bottom:5px;
+	clear:both;
+}
+.default-list-image{
+	margin-bottom:10px;
+	float:left;
+}
+
+.default-list-tags{
+	float:left;
+	margin-left:10px;
+}
+.default-tags-text{
+	margin-left:125px;
+	font-size:18px;
+
+}
+.default-image-text{
+		font-size:18px;
+		margin-left:100px;
+		
+}
+
+.default-filter-text{
+		font-size:18px;
+		margin-left:90px;
+		
+} 
+.default-tags-text-more{
+	margin-left:220px;
+	font-size:12px;
+
+}
+.default-image-text-more{
+		font-size:12px;
+		margin-left:150px;
+		
+}
+
+.default-tags-exclude-more{
+		font-size:12px;
+		margin-left:90px;
+		
+}
+
+.default-tags-filter-more{
+		font-size:12px;
+		margin-left:130px;
+		
+}
+
+.default-image-wrapper{
+	margin-top:15px;
+}

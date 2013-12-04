@@ -1,0 +1,20 @@
+<div class="post_footer">
+  {% if post.has_hackpad and post.hackpad_url %}
+    <div class="hackpad">
+      <b><i class="icon-edit icon"></i> Hackpad: </b>
+      <a href="{{ post.hackpad_url }}#" class="hackpad_link">{{ post.hackpad_url.split('/')[-1] }}</a>
+    </div>
+  {% end %}
+  <div class="share_buttons">
+    <div class="share_button">
+      <a href="http://www.tumblr.com/share" title="Share on Tumblr" style="display:inline-block; overflow:hidden; width:81px; height:20px; background:url('http://platform.tumblr.com/v1/share_1.png') top left no-repeat transparent;"></a>
+    </div>
+    <div class="share_button" id="share_button_facebook">
+      <div class="fb-like" data-send="false" data-layout="button_count" data-width="90" data-show-faces="false" data-font="arial"></div>
+    </div>
+    <div class="share_button">
+      <a href="https://twitter.com/share" class="twitter-share-button" data-count="none">Tweet</a>
+      <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+    </div>
+  </div>
+</div>

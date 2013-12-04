@@ -1,0 +1,27 @@
+{% extends "../base.html" %}
+
+{% block javascript %}
+{% end %}
+
+{% block content %}
+
+	<div class="row">
+		<div class="col-lg-8">
+			<h3>USV.com Hot Posts Widget</h3>		
+			
+			<p>Use this handy widget to display hot conversations from USV.com on your website.</p>
+			<p>Simply paste the following code in the spot on your site where you'd like the widget to be:</p>
+			<pre>
+<code>&lt;script src=&quot;http://www.usv.com/widget?type=hot_posts&quot; type=&quot;text/javascript&quot;&gt;&lt;/script&gt;&lt;div id=&quot;usv-widget&quot;&gt;&lt;/div&gt;</code></pre>
+			<p>That's it!</p>
+		
+		</div>
+		<div class="col-lg-3">
+			
+			<script src="/widget" type="text/javascript"></script>
+			<div id="usv-widget"></div>
+			
+		</div>
+	</div>
+
+{% end %}

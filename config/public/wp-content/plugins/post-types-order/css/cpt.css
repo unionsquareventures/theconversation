@@ -1,0 +1,21 @@
+#order-post-type #sortable { list-style-type: none; margin: 10px 0 0; padding: 0; width: 100%; }
+#order-post-type #sortable ul { margin-left:20px; list-style: none; }
+#order-post-type #sortable li { padding: 2px 0px; margin: 4px 0px;  border: 1px solid #DDDDDD; cursor: move; -moz-border-radius:6px;}
+#order-post-type #sortable li span { display: block; background: #f7f7f7;  padding: 5px 10px; color:#808080; font-size:13px; font-weight:bold;}
+#order-post-type #sortable li.placeholder{border: dashed 2px #ccc;background-color:#FFF;height:25px;}
+
+#icon-settings {background-image:url("../images/admin-icon-settings.gif");background-repeat:no-repeat;}
+h2.subtitle {font-size: 15px; font-style: italic; font-weight: bold}
+.wrap .example { color: #666666; font-size: 11px; font-weight: bold}
+
+#cpt_info_box {padding: 0 10px; border: 1px dashed #21759B; background-color: #F1F1F1}
+#cpt_info_box p {font-size: 12px}
+#cpt_info_box #donate_form {float: right; padding: 5px 0 10px 10px}
+
+.menu_pto {margin-bottom: -2px; display: inline; padding-right: 2px}
+
+#p_right {float: right; width: 210px; }
+.p_s_item {float: right; padding: 0px 5px; margin-top: 15px; margin-bottom: 5px}
+.p_s_item.s_gp {padding-top: 2px; margin-left: 5px}
+
+.clear {clear: both}
