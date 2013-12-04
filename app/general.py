@@ -56,4 +56,6 @@ class Hangouts(app.basic.BaseHandler):
       return(self.write('no hangout specified'))
     if who == "everyone":
       self.redirect("https://plus.google.com/hangouts/_/event/csjrctgcaphdptmqacnfisq0i2g")
+    elif who == "fred":
+      self.redirect("https://plus.google.com/hangouts/_/event/cis1kcq11fkqlj12egf0pu74tlc")
     
