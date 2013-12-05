@@ -82,7 +82,7 @@
 
       {% if msg == "success" and new_post %}
         <div class="alert alert-success" style="color: #333">
-          <p style="margin-top:0"><b>Thanks!</b> Your post has been published. Here's the link: </p>  
+          <p style="margin-top:0"><strong>Thanks!</strong> Your post has been published. Here's the link: </p>  
           <p><a href="/posts/{{ new_post['slug'] }}">http://usv.com/posts/{{ new_post['slug'] }}</a></p>
           <p>
             <a href="https://twitter.com/share" class="twitter-share-button" data-url="/posts/{{ new_post['slug'] }}" data-text="{{ new_post['title'] }}" data-via="usvcommunity" data-size="large" data-count="none">Tweet</a>
@@ -90,6 +90,17 @@
           </p>
           <p>To start, it's on the "NEWEST" page. As it gathers votes and comments, it'll move to the "HOT" page and work its way up.</p>
           <p>In the meantime, check out what else is new and give some love...</p>
+        </div>
+      {% elif msg == "existing post" and len(dups) > 0 %}
+        <div class="alert alert-success" style="color: #333">
+          <p style="margin-top:0"><strong>This URL might have already been submitted.</strong> Does it match one of these?</p>
+          <p>
+            <ul>
+              {% for p in dups %}
+                <li><a href="{{ p['url'] }}" target="_blank">{{ p['title'] }}</a></li>
+              {% end %}
+            </ul>
+          </p>
         </div>
       {% end %}
 
