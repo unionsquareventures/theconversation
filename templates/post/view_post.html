@@ -123,7 +123,7 @@
 
             <script type="text/javascript">
               /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
-              var disqus_shortname = "{{settings.get('disqus_short_code')}}";
+              var disqus_shortname = "{{ post['disqus_shortname'] or settings.get('disqus_short_code') }}";
               var disqus_identifier = "{{ post['_id'] }}";
               var disqus_title = "{{ post['title'] }}";
               var disqus_url = "http://{{settings.get('base_url')}}/posts/{{ post['slug'] }}";
