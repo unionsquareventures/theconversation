@@ -146,7 +146,7 @@ class ListPosts(app.basic.BaseHandler):
       post['date_deleted'] = datetime.now()
 
     bypass_dup_check = self.get_argument('bypass_dup_check', '')
-    posts = []
+    dups = []
 
     # make sure user isn't blacklisted
     if not self.is_blacklisted(self.current_user):
@@ -169,7 +169,8 @@ class ListPosts(app.basic.BaseHandler):
           long_url = bitly.expand_url(post['url'].replace('http://bitly.com','').replace('http://bit.ly',''))
         post['domain'] = urlparse(long_url).netloc
 
-      if len(posts) == 0 or bypass_dup_check != '':
+      dups = postsdb.get_posts_by_normalized_url(post['normalized_url'], 1)
+      if len(dups) == 0 or bypass_dup_check != '':
         # Handle tags
         post['tags'] = [t.strip().lower() for t in post['tags']]
         post['tags'] = [t for t in post['tags'] if t]
@@ -191,7 +192,7 @@ class ListPosts(app.basic.BaseHandler):
           post['date_featured'] = None
 
         user = userdb.get_user_by_screen_name(self.current_user)
-        
+
         if not post['slug']:
           # No slug -- this is a new post.
           # initiate fields that are new
@@ -227,6 +228,10 @@ class ListPosts(app.basic.BaseHandler):
         mentions = re.findall(r'@([^\s]+)', post['body_raw'])
         for mention in mentions:
           mentionsdb.add_mention(mention.lower(), post['slug'])
+
+      else:
+        # this link was already shared
+        msg = 'existing post' 
 
     # Send email to USVers if OP is staff
     if self.current_user in settings.get('staff'):
@@ -271,7 +276,7 @@ class ListPosts(app.basic.BaseHandler):
     sort_by = "newest"
     posts = postsdb.get_new_posts(per_page, page)
 
-    self.render('post/lists_posts.html', sort_by=sort_by, msg=msg, page=page, posts=posts, featured_posts=featured_posts, is_blacklisted=is_blacklisted, new_post=post)
+    self.render('post/lists_posts.html', sort_by=sort_by, msg=msg, page=page, posts=posts, featured_posts=featured_posts, is_blacklisted=is_blacklisted, new_post=post, dups=dups)
 
 ##########################
 ### UPVOTE A SPECIFIC POST
