@@ -5,6 +5,11 @@
 {% block content %}
   <div id="main" role="main">
     <section class="featured-feed clearfix mobile-hidden">
+
+      <h3>Twitter profile</h3>
+      <p>Check out more shared by <a href="http://twitter.com/{{screen_name}}" target="_blank">@{{screen_name}}</a> on <a href="http://twitter.com">Twitter</a>.</p>
+      <br />
+
       <h3>Tags by {{screen_name}}</h3>
       {% if len(tags['result']) == 0 %}
         <p>{{screen_name}} has not tagged any shares yet.</p>

@@ -25,7 +25,7 @@
           {% end %}
           <div>
             <div class="profile-photo">
-              <a href="http://www.twitter.com/{{ post['user']['username'] }}" title="@{{ post['user']['username'] }}" target="_blank">
+              <a href="/user/{{ post['user']['username'] }}" title="@{{ post['user']['username'] }}">
                 <img class="avatar" src="{{ template_helpers.twitter_avatar_size(post['user']['profile_image_url_https'], 'original') }}" alt="thumbnail">
               </a>
               <div class="visible-xs">
@@ -35,7 +35,7 @@
               </div>
             </div>
             <div class="post-body">
-              <span class="post-author"><a href="http://www.twitter.com/{{ post['user']['username'] }}" title="@{{ post['user']['username'] }}">@{{ post['user']['username'] }}</a>
+              <span class="post-author"><a href="/user/{{ post['user']['username'] }}" title="@{{ post['user']['username'] }}">@{{ post['user']['username'] }}</a>
                 <span class="text-muted">&nbsp;<span style="color: #ddd">&bull;</span>&nbsp; {{ template_helpers.pretty_date(post['date_created']) }}</span>
               </span>
               {#
@@ -145,7 +145,7 @@
             <p>
               <img class="avatar" src="{{ template_helpers.twitter_avatar_size(post['user']['profile_image_url_https'], 'original') }}" alt="thumbnail" style="max-height:25px;" />
               {% if 'screen_name' in user %}
-              <a href="http://www.twitter.com/{{ user['screen_name'] }}" target="_blank">{{user['screen_name']}}</a> gave this post some props
+              <a href="/user/{{ user['screen_name'] }}">{{user['screen_name']}}</a> gave this post some props
               {% end %}
             </p>
           {% end %}

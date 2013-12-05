@@ -1,6 +1,6 @@
 {% for user in voted_users %}
   <p>
     <img src="{{ user['profile_image_url_https'] }}" style="max-height:25px;vertical-align:middle;" />
-    <a href="http://www.twitter.com/{{ user['screen_name'] }}" target="_blank">{{user['screen_name']}}</a>
+    <a href="/user/{{ user['screen_name'] }}">{{user['screen_name']}}</a>
   </p>
 {% end %}
