@@ -68,3 +68,19 @@ class GetVotedUsers(app.basic.BaseHandler):
     if post:
       voted_users = post['voted_users']
     self.render('post/voted_users.html', voted_users=voted_users)
+    
+#########################
+### Check to see if we already have a post by url
+### /api/check_for_url?url=foo
+#########################
+class CheckForUrl(app.basic.BaseHandler):
+  def get(self, url):
+    response = {
+      "exists": False,
+      "posts": []
+    }
+    posts = postsdb.get_post_by_url(url)
+    if len(posts) > 0:
+      response["exists"] = True
+      response["posts"] = posts
+    self.api_response(response)

@@ -12,7 +12,7 @@
             <li>
               <div class="content">
                 <a class="title" href="/posts/{{ post['slug'] }}">{{ post['title'] }}</a>
-                {% if post['url'] %}
+                {% if 'url' in post and post['url'] %}
                   <a href="{{ post['url'] }}" class="source" target="_blank">{{ urlparse(post['url']).netloc }}</a>
                 {% else %}
                   <a href="/posts/{{ post['slug'] }}" class="source" target="_blank">usv.com</a>

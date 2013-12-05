@@ -1,3 +1,4 @@
+#-*- coding:utf-8 -*-
 import app.basic
 
 import logging
@@ -127,7 +128,6 @@ class ListPosts(app.basic.BaseHandler):
     
     post = {}
     post['slug'] = self.get_argument('slug', None)
-    #post['title'] = unicode(self.get_argument('title', '').decode('utf-8'))
     post['title'] = self.get_argument('title', '')
     post['url'] = self.get_argument('url', '')
     post['body_raw'] = self.get_argument('body_raw', '')

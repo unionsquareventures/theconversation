@@ -10,6 +10,7 @@ from lib import hackpad
 from lib import postsdb
 from lib import userdb
 from lib import disqus
+from disqusapi import DisqusAPI
 
 ###########################
 ### ADMIN COMPANY
@@ -332,5 +333,9 @@ class ManageDisqus(app.basic.BaseHandler):
     if not self.current_user_can('manage_disqus'):
       return self.write("not authorized")
     
-    response = disqus.get_all_threads()
-    self.write(response)
+    from disqusapi import DisqusAPI
+    disqus = DisqusAPI(settings.get('disqus_secret_key'), settings.get('disqus_public_key'))
+    for result in disqus.trends.listThreads():
+        self.write(result)
+    #response = disqus.get_all_threads()
+    #self.write(response)
