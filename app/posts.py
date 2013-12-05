@@ -306,13 +306,13 @@ class ViewPost(app.basic.BaseHandler):
   def get(self, slug):
     post = postsdb.get_post_by_slug(slug)
     if not post:
-      tornado.web.HTTPError(404)    
+      raise tornado.web.HTTPError(404)    
     
     user = None
     if self.current_user:
       user = userdb.get_user_by_screen_name(self.current_user)
-
-    self.render('post/view_post.html', user_obj=user, post=post)
+    return
+    #self.render('post/view_post.html', user_obj=user, post=post)
 
 #############
 ### WIDGET
