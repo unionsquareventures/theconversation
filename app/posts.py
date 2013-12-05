@@ -311,8 +311,8 @@ class ViewPost(app.basic.BaseHandler):
     user = None
     if self.current_user:
       user = userdb.get_user_by_screen_name(self.current_user)
-    return
-    #self.render('post/view_post.html', user_obj=user, post=post)
+    
+    self.render('post/view_post.html', user_obj=user, post=post)
 
 #############
 ### WIDGET
