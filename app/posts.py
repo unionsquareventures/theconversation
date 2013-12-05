@@ -1,3 +1,4 @@
+#-*- coding:utf-8 -*-
 import app.basic
 
 import logging
@@ -127,7 +128,6 @@ class ListPosts(app.basic.BaseHandler):
     
     post = {}
     post['slug'] = self.get_argument('slug', None)
-    #post['title'] = unicode(self.get_argument('title', '').decode('utf-8'))
     post['title'] = self.get_argument('title', '')
     post['url'] = self.get_argument('url', '')
     post['body_raw'] = self.get_argument('body_raw', '')
@@ -306,12 +306,12 @@ class ViewPost(app.basic.BaseHandler):
   def get(self, slug):
     post = postsdb.get_post_by_slug(slug)
     if not post:
-      tornado.web.HTTPError(404)    
+      raise tornado.web.HTTPError(404)    
     
     user = None
     if self.current_user:
       user = userdb.get_user_by_screen_name(self.current_user)
-
+    
     self.render('post/view_post.html', user_obj=user, post=post)
 
 #############
