@@ -1,5 +1,5 @@
 <div class="avatar">
-  <a href="http://www.twitter.com/{{ p['user']['username'] }}" target="_blank">
+  <a href="/user/{{ p['user']['username'] }}">
     <img title="{{ p['user']['username'] }}" src="{{ p['user']['profile_image_url_https'] }}" alt="thumbnail">
   </a>
 </div>
@@ -12,7 +12,7 @@
     <a href="/posts/{{ p['slug'] }}" class="source" target="_blank">usv.com</a>
   {% end %}
   <div class="meta">
-    <a class="username-link" href="http://www.twitter.com/{{ p['user']['username'] }}" target="_blank" style="color: #999">@{{ p['user']['username'] }}</a>
+    <a class="username-link" href="/user/{{ p['user']['username'] }}" style="color: #999">@{{ p['user']['username'] }}</a>
     <span class="username" style="">@{{ p['user']['username'] }}</span>
     <span class="time"><a href="/posts/{{ p['slug'] }}" ><span class="glyphicon glyphicon-link" style="margin: 0;font-size: 90%"></span> {{ template_helpers.pretty_date(p['date_created']) }}</a></span>
     <a href="/posts/{{ p['slug'] }}/upvote" class="votes-count ajax_upvote_link upvote-button">

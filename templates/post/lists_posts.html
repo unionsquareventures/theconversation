@@ -32,7 +32,7 @@
         {% for p in featured_posts %}
           <li class="featured-post card" style="">
             <div class="avatar">
-              <a href="http://www.twitter.com/{{ p['user']['username'] }}" target="_blank"><img title="{{ p['user']['username'] }}" src="{{ template_helpers.twitter_avatar_size(p['user']['profile_image_url_https'], 'normal') }}" alt="thumbnail"></a>
+              <a href="/user/{{ p['user']['username'] }}"><img title="{{ p['user']['username'] }}" src="{{ template_helpers.twitter_avatar_size(p['user']['profile_image_url_https'], 'normal') }}" alt="thumbnail"></a>
             </div>
             <div class="content">
               <a class="title" style="padding-bottom: 5px; margin-left: 70px;" href="/posts/{{ p['slug'] }}">{{ p['title'] }}</a>
@@ -42,7 +42,7 @@
                 <a href="/posts/{{ p['slug'] }}" class="source">usv.com</a>
               {% end %}
               <div class="meta" style="text-align: left !important; margin-left: 70px;">
-                <a style="color: #999" class="username" href="http://www.twitter.com/{{ p['user']['username'] }}" target="_blank">@{{ p['user']['username'] }}</a>
+                <a style="color: #999" class="username" href="/user/{{ p['user']['username'] }}">@{{ p['user']['username'] }}</a>
                 <a href="/posts/{{ p['slug'] }}"><span class="glyphicon glyphicon-link" style="margin: 0;font-size: 90%"></span> {{ template_helpers.pretty_date(p['date_created']) }}</span></a>
               </div>
               <div class="excerpt">{% raw p['body_truncated'] %}</div>
@@ -90,17 +90,6 @@
           </p>
           <p>To start, it's on the "NEWEST" page. As it gathers votes and comments, it'll move to the "HOT" page and work its way up.</p>
           <p>In the meantime, check out what else is new and give some love...</p>
-        </div>
-      {% elif msg == "existing post" and len(dups) > 0 %}
-        <div class="alert alert-success" style="color: #333">
-          <p style="margin-top:0"><strong>This URL might have already been submitted.</strong> Does it match one of these?</p>
-          <p>
-            <ul>
-              {% for p in dups %}
-                <li><a href="{{ p['url'] }}" target="_blank">{{ p['title'] }}</a></li>
-              {% end %}
-            </ul>
-          </p>
         </div>
       {% end %}
 
