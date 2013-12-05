@@ -47,7 +47,7 @@ class Twitter(app.basic.BaseHandler):
       # set the cookies based on account details
       self.set_secure_cookie("user_id_str", user['user']['id_str'])
       self.set_secure_cookie("username", user['user']['screen_name'])
-      if user['email_address'] == '':
+      if 'email_address' not in user or ('email_address' in user and user['email_address'] == ''):
         bounce_to = '/user/settings?1'
     else:
       # need to create the account (so get more details from Twitter)
