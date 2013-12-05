@@ -58,4 +58,10 @@ class Hangouts(app.basic.BaseHandler):
       self.redirect("https://plus.google.com/hangouts/_/event/csjrctgcaphdptmqacnfisq0i2g")
     elif who == "fred":
       self.redirect("https://plus.google.com/hangouts/_/event/cis1kcq11fkqlj12egf0pu74tlc")
+    elif who == "andy":
+      self.redirect("https://plus.google.com/hangouts/_/event/coak3i6919ch7m9dvlq50no4smo")
+    elif who == "albert":
+      self.redirect("https://plus.google.com/hangouts/_/event/cdhdic31990mu30tmdbec3ucbos")
+    elif who == "brad":
+      self.redirect("https://plus.google.com/hangouts/_/event/cq29i1aohb1abtc1qs8fpgstrio")
     
