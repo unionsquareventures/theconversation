@@ -144,7 +144,7 @@
           {% for user in post['voted_users'] %}
             <hr />
             <p>
-              <img class="avatar" src="{{user['profile_image_url_https']}}" alt="thumbnail" style="max-height:25px;" />
+              <img class="avatar" src="{{ user.get('profile_image_url_https', '') }}" alt="thumbnail" style="max-height:25px;" />
               {% if 'screen_name' in user and user['screen_name'] != post['user']['screen_name'] %}
                 <a href="http://www.twitter.com/{{ user['screen_name'] }}" target="_blank">{{user['screen_name']}}</a> bumped this post.
               {% elif 'screen_name' in user %}
