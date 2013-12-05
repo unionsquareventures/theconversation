@@ -7,3 +7,4 @@ slugify
 bleach
 beautifulsoup4
 tweepy
+disqusapi
