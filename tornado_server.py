@@ -23,6 +23,10 @@ import app.twitter
 import app.error
 import app.redirects
 
+import newrelic.agent
+path = os.path.join(settings.get("project_root"), 'newrelic.ini')
+newrelic.agent.initialize(path, settings.get("environment"))
+
 class Application(tornado.web.Application):
   def __init__(self):
 
@@ -51,6 +55,7 @@ class Application(tornado.web.Application):
       (r"/jobs", app.general.Jobs),
       (r"/network", app.general.Network),
       (r"/portfolio", app.general.Portfolio),  
+      (r"/hangoutwith/(?P<who>[A-z]+)", app.general.Hangouts),  
 
       # account stuff
       (r"/auth/email/?", app.user.EmailSettings),

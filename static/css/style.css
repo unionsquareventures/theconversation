@@ -2929,8 +2929,7 @@ ul.stats .stat-notes {
     list-style:none;
 }
  #jobs-menu .side-nav a {
-    text-decoration:none;
-    color:#779734;
+    
 }
  #jobs-menu .side-nav a:hover {
     text-decoration:underline;

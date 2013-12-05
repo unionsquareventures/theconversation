@@ -241,8 +241,8 @@ class ListPosts(app.basic.BaseHandler):
       for u in settings.get('staff'):
         if u != self.current_user:
           acc = userdb.get_user_by_screen_name(u)
-          self.send_email('web@usv.com', acc['email_address'], subject, text)
-          logging.info("Email sent to %s" % acc['email_address'])
+          #self.send_email('web@usv.com', acc['email_address'], subject, text)
+          #logging.info("Email sent to %s" % acc['email_address'])
   
     # Subscribe to Disqus
     # Attempt to create the post's thread

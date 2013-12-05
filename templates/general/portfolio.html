@@ -37,7 +37,9 @@
         <div id="close-investment"><a href="" class="btn btn-small">Close</a></div>
       </div>
       <h2 class="subsection section-heading" id="current-portfolio">Current Portfolio<span class="filter-label" style="display:none"></span></h2>
-      <div class="row investments-list">
+      <div class="row investments-list" style="display:none">
+        <!-- this row is initially set to display:none because it's being sorted w js
+             and then being shown -->
         {% for c in current %}
           <div class="col-sm-4 col-xs-6 company-container current" usv-investment="{{ c['name'] }}" usv:investment_series="{{ c['investment_series'] }}" usv:investment_series_slug="{{ slugify(c['investment_series']) }}" usv:city_slug="{{ slugify(c['locations']) }}" usv:city="{{ c['locations'] }}" usv:investment_date_slug="{{ c['investment_year'] }}" usv:investment_date="{{ c['investment_year'] }}" usv:investment_categories_slug="{{ slugify(c['categories']) }}" usv:investment_categories="{{ c['categories'] }}">
             <div class="company card">
@@ -61,7 +63,9 @@
         {% end %}
       </div>
       <h2 class="subsection section-heading" id="past-portfolio" style="clear:both">Exited Investments<span class="filter-label" style="display:none"></span></h2>  
-      <div class="row investments-list">
+      <div class="row investments-list" style="display:none">
+        <!-- this row is initially set to display:none because it's being sorted w js
+          and then being shown -->
         {% for c in exited %}
           <div class="col-sm-4 col-xs-6 company-container past" usv-investment="{{ c['name'] }}" usv:investment_series="{{ c['investment_series'] }}" usv:investment_series_slug="{{ slugify(c['investment_series']) }}" usv:city_slug="{{ slugify(c['locations']) }}" usv:city="{{ c['locations'] }}" usv:investment_date_slug="{{ c['investment_year'] }}" usv:investment_date="{{ c['investment_year'] }}" usv:investment_categories_slug="{{ slugify(c['categories']) }}" usv:investment_categories="{{ c['categories'] }}">
               <div class="company card">

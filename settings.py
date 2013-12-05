@@ -7,7 +7,8 @@ import tornado.options
 # os.environ['KEY'] = 'value'
 # to simulate using heroku config vars
 # this is better than using a .env file and foreman
-# since it still allows you to see logging.info() output
+# since it still allows you to see logging.info() output.
+# Make sure to also put import os in this settings_local_environ.py
 try:
   import settings_local_environ
 except:
@@ -26,7 +27,11 @@ options = {
   },
   'prod' : {
     'mongo_database' : {'host' : os.environ.get('MONGODB_URL'), 'port' : 27017, 'db' : os.environ.get('DB_NAME')},
-    'base_url' : os.environ.get('BASE_URL'),
+    'base_url' : 'www.usv.com',
+  },
+  'production' : {
+    'mongo_database' : {'host' : os.environ.get('MONGODB_URL'), 'port' : 27017, 'db' : os.environ.get('DB_NAME')},
+    'base_url' : 'www.usv.com',
   }
 }
 

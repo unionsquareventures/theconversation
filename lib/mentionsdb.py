@@ -11,6 +11,8 @@ from mongo import db
 }
 """
 
+db.mentions.ensure_index('screen_name')
+
 def add_mention(screen_name, slug):
   return db.mentions.update({'screen_name': screen_name, 'slug': slug}, {'screen_name': screen_name, 'slug': slug, 'date_created': datetime.utcnow()}, upsert=True)
 
