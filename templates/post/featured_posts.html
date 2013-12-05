@@ -7,32 +7,18 @@
     <section class=" centered clearfix">
       <h2 class="section-heading" style="margin-top:0">Featured Posts</h2>
       <div class="row">
-        {% for post in featured_posts %}
+        {% for p in featured_posts %}
+          {% include featured_post_snippet.html %}
         {% end %}
       </div>
-      {% if pages > 1 %}
-        <div id="pagination">
-          <ul>
-            {% if previous %}
-              <li><a href="{{ get_page_url(previous) }}">&laquo;</a></li>
-            {% else %}
-              <li class="disabled"><span>&laquo;</span></li>
-            {% end %}
-            {% if show_pages == True %}
-              {% for page_num in page_range %}
-                {% if page_num != page %}
-                  <li><a href="{{ get_page_url(page_num) }}">{{ page_num }}</a></li>
-                {% else %}
-                  <li class="active"><span>{{ page_num }}</span></li>
-                {% end %}
-              {% end %}
-            {% end %}
-            {% if next %}
-              <li><a href="{{ get_page_url(next) }}">&raquo;</a></li>
-            {% else %}
-              <li class="disabled"><span>&raquo;</span></li>
-            {% end %}
-          </ul>
+      {% if 'page' in locals() %}
+      <div id="pagination-next-prev" style="margin-top: 20px;">
+          {%  if page == 2 %}
+          <a href="/{{ sort_by }}" class="btn btn-default prev pull-left">Previous</a>
+          {% elif page != 1 %}
+          <a href="/{{ sort_by }}/page/{{ page - 1 }}" class="prev btn btn-default pull-left">Previous</a>
+          {% end %}
+          <a href="/{{ sort_by }}/page/{{ page + 1 }}" class="btn btn-default next pull-right">Next</a>
         </div>
       {% end %}
     </section>
