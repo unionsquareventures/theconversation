@@ -5,21 +5,21 @@ import app.basic
 ### /pages/.*$ /team.*$ /investments$ /focus$
 #####################
 class RedirectMappings(app.basic.BaseHandler):
-  def get(self, filepath):
+  def get(self):
     new_url = '/'
-    if filepath.find('brad') > -1:
+    if self.request.path.find('brad') > -1:
       new_url = '/about#brad-burnham'
-    elif filepath.find('fred') > -1:
+    elif self.request.path.find('fred') > -1:
       new_url = '/about#fred-wilson'
-    elif filepath.find('albert') > -1:
+    elif self.request.path.find('albert') > -1:
       new_url = '/about#albert-wenger'
-    elif filepath.find('/team') > -1:
+    elif self.request.path.find('/team') > -1:
       new_url = '/about'
-    elif filepath.find('focus') > -1:
+    elif self.request.path.find('focus') > -1:
       new_url = '/about'
-    elif filepath.find('investments') > -1:
+    elif self.request.path.find('investments') > -1:
       new_url = '/portfolio'
-    elif filepath.find('pages') > -1:
+    elif self.request.path.find('pages') > -1:
       team = [
         'brad-burnham',
         'fred-wilson',
@@ -35,7 +35,7 @@ class RedirectMappings(app.basic.BaseHandler):
         'brian-watson'
       ]
       for person in team:
-        if filepath.find(person) > -1:
+        if self.request.path.find(person) > -1:
           new_url = '/about#' + person
 
     self.redirect(new_url, permanent=True)
