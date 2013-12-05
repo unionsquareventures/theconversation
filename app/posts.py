@@ -229,20 +229,21 @@ class ListPosts(app.basic.BaseHandler):
           mentionsdb.add_mention(mention.lower(), post['slug'])
 
     # Send email to USVers if OP is USV
-    if self.current_user in settings.get('staff') and settings.get('environment') == 'prod':
-      subject = 'USV.com: %s posted "%s"' % (post['user']['username'], post['title'])
-      if post['url']: # post.url is the link to external content (if any)
+    if self.current_user in settings.get('staff') and settings.get('environment') == 'test':
+      subject = 'USV.com: %s posted "%s"' % (self.current_user, post['title'])
+      if 'url' in post and post['url']: # post.url is the link to external content (if any)
         post_link = 'External Link: %s \n\n' % post['url']
       else:
         post_link = ''
       post_url = "http://%s/posts/%s" % (settings.get('base_url'), post['slug'])
-      text = '"%s" ( %s ) posted by %s. \n\n %s %s' % (post['title'].encode('ascii', errors='ignore'), post_url, post['user']['username'].encode('ascii', errors='ignore'), post_link, post['body_text'])
+      text = '"%s" ( %s ) posted by %s. \n\n %s %s' % (post['title'].encode('ascii', errors='ignore'), post_url, self.current_user, post_link, post['body_text'])
       # now attempt to actually send the emails
       for u in settings.get('staff'):
         if u != self.current_user:
           acc = userdb.get_user_by_screen_name(u)
-          #self.send_email('web@usv.com', acc['email_address'], subject, text)
-          #logging.info("Email sent to %s" % acc['email_address'])
+          if acc:
+            self.send_email('web@usv.com', acc['email_address'], subject, text)
+            logging.info("Email sent to %s" % acc['email_address'])
   
     # Subscribe to Disqus
     # Attempt to create the post's thread
