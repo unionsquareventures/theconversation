@@ -169,7 +169,13 @@ class ListPosts(app.basic.BaseHandler):
           long_url = bitly.expand_url(post['url'].replace('http://bitly.com','').replace('http://bit.ly',''))
         post['domain'] = urlparse(long_url).netloc
 
-      dups = postsdb.get_posts_by_normalized_url(post['normalized_url'], 1)
+      dups = postsdb.get_posts_by_normalized_url(post.get('normalized_url', ""), 1)
+      if len(dups) > 0 and bypass_dup_check != "true":
+        ## 
+        ## If there are dupes, kick them back to the post add form
+        ##
+        self.render('post/new_post.html', post=post, dups=dups)
+      
       if len(dups) == 0 or bypass_dup_check != '':
         # Handle tags
         post['tags'] = [t.strip().lower() for t in post['tags']]
@@ -241,7 +247,7 @@ class ListPosts(app.basic.BaseHandler):
       else:
         post_link = ''
       post_url = "http://%s/posts/%s" % (settings.get('base_url'), post['slug'])
-      text = '"%s" ( %s ) posted by %s. \n\n %s %s' % (post['title'].encode('ascii', errors='ignore'), post_url, self.current_user, post_link, post['body_text'])
+      text = '"%s" ( %s ) posted by %s. \n\n %s %s' % (post['title'].encode('ascii', errors='ignore'), post_url, self.current_user, post_link, post.get('body_text', ""))
       # now attempt to actually send the emails
       for u in settings.get('staff'):
         if u != self.current_user:

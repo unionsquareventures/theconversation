@@ -5,7 +5,7 @@
 {% block submit_area %}{% end %}
 
 {% block css %}
-  {% if is_bookmarklet %}
+  {% if 'is_bookmarklet' in locals() and is_bookmarklet %}
   <style type="text/css">
     #site-header,
     .col-sm-8 h2 {
