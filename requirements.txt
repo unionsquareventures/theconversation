@@ -9,4 +9,4 @@ beautifulsoup4
 tweepy
 feedparser
 newrelic
-disqusapi
+disqus-python
