@@ -140,16 +140,18 @@
 
           </div>
 
+          {% set tmp = post['voted_users'].reverse() %}
           {% for user in post['voted_users'] %}
             <hr />
             <p>
-              <img class="avatar" src="{{ template_helpers.twitter_avatar_size(post['user']['profile_image_url_https'], 'original') }}" alt="thumbnail" style="max-height:25px;" />
-              {% if 'screen_name' in user %}
-              <a href="/user/{{ user['screen_name'] }}">{{user['screen_name']}}</a> gave this post some props
+              <img class="avatar" src="{{user['profile_image_url_https']}}" alt="thumbnail" style="max-height:25px;" />
+              {% if 'screen_name' in user and user['screen_name'] != post['user']['screen_name'] %}
+                <a href="http://www.twitter.com/{{ user['screen_name'] }}" target="_blank">{{user['screen_name']}}</a> bumped this post.
+              {% elif 'screen_name' in user %}
+                <a href="http://www.twitter.com/{{ user['screen_name'] }}" target="_blank">{{user['screen_name']}}</a> posted this.
               {% end %}
             </p>
           {% end %}
-
         </article>
       </div>
 
