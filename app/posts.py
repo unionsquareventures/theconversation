@@ -170,7 +170,7 @@ class ListPosts(app.basic.BaseHandler):
         post['domain'] = urlparse(long_url).netloc
 
       dups = postsdb.get_posts_by_normalized_url(post.get('normalized_url', ""), 1)
-      if len(dups) > 0 and bypass_dup_check != "true":
+      if post.get('normalized_url') != "" and len(dups) > 0 and bypass_dup_check != "true":
         ## 
         ## If there are dupes, kick them back to the post add form
         ##
