@@ -171,71 +171,70 @@ class ListPosts(app.basic.BaseHandler):
 
       ok_to_post = True
       dups = postsdb.get_posts_by_normalized_url(post.get('normalized_url', ""), 1)
-      for dup in dups:
-        if dup['username'] != self.current_user:
-          ok_to_post = False
-      if ok_to_post or bypass_dup_check != '':
-        # Handle tags
-        post['tags'] = [t.strip().lower() for t in post['tags']]
-        post['tags'] = [t for t in post['tags'] if t]
-        userdb.add_tags_to_user(self.current_user, post['tags'])
-        for tag in post['tags']:
-          tagsdb.save_tag(tag)
+      if post['url'] != '' and len(dups) > 0 and bypass_dup_check != "true":
+        ## 
+        ## If there are dupes, kick them back to the post add form
+        ##
+        logging.info('why are you here?')
+        return (self.render('post/new_post.html', post=post, dups=dups))
+        
+      # Handle tags
+      post['tags'] = [t.strip().lower() for t in post['tags']]
+      post['tags'] = [t for t in post['tags'] if t]
+      userdb.add_tags_to_user(self.current_user, post['tags'])
+      for tag in post['tags']:
+        tagsdb.save_tag(tag)
 
-        # format the content as needed
-        post['body_html'] = sanitize.html_sanitize(post['body_raw'], media=self.current_user_can('post_rich_media'))
-        post['body_text'] = sanitize.html_to_text(post['body_html'])
-        post['body_truncated'] = sanitize.truncate(post['body_text'], 500)
+      # format the content as needed
+      post['body_html'] = sanitize.html_sanitize(post['body_raw'], media=self.current_user_can('post_rich_media'))
+      post['body_text'] = sanitize.html_to_text(post['body_html'])
+      post['body_truncated'] = sanitize.truncate(post['body_text'], 500)
 
-        # determine if this should be a featured post or not
-        if self.current_user_can('feature_posts') and post['featured'] != '':
-          post['featured'] = True
-          post['date_featured'] = datetime.now()
-        else:
-          post['featured'] = False
-          post['date_featured'] = None
-
-        user = userdb.get_user_by_screen_name(self.current_user)
-
-        if not post['slug']:
-          # No slug -- this is a new post.
-          # initiate fields that are new
-          post['disqus_shortname'] = settings.get('disqus_short_code')
-          post['muted'] = False
-          post['comment_count'] = 0
-          post['disqus_thread_id_str'] = ''
-          post['sort_score'] = 0.0
-          post['downvotes'] = 0
-          post['hackpad_url'] = ''
-          post['date_created'] = datetime.now()
-          post['user_id_str'] = user['user']['id_str']
-          post['username'] = self.current_user
-          post['user'] = user['user']
-          post['votes'] = 1
-          post['voted_users'] = [user['user']]
-          #save it
-          post['slug'] = postsdb.insert_post(post)
-          msg = 'success'
-        else:
-          # this is an existing post.
-          # attempt to edit the post (make sure they are the author)
-          saved_post = postsdb.get_post_by_slug(post['slug'])
-          if saved_post and self.current_user == saved_post['user']['screen_name']:
-            # looks good - let's update the saved_post values to new values
-            for key in post.keys():
-              saved_post[key] = post[key]
-            # finally let's save the updates
-            postsdb.save_post(saved_post)
-            msg = 'success'
-
-        # log any @ mentions in the post
-        mentions = re.findall(r'@([^\s]+)', post['body_raw'])
-        for mention in mentions:
-          mentionsdb.add_mention(mention.lower(), post['slug'])
-
+      # determine if this should be a featured post or not
+      if self.current_user_can('feature_posts') and post['featured'] != '':
+        post['featured'] = True
+        post['date_featured'] = datetime.now()
       else:
-        # this link was already shared
-        msg = 'existing post' 
+        post['featured'] = False
+        post['date_featured'] = None
+
+      user = userdb.get_user_by_screen_name(self.current_user)
+
+      if not post['slug']:
+        # No slug -- this is a new post.
+        # initiate fields that are new
+        post['disqus_shortname'] = settings.get('disqus_short_code')
+        post['muted'] = False
+        post['comment_count'] = 0
+        post['disqus_thread_id_str'] = ''
+        post['sort_score'] = 0.0
+        post['downvotes'] = 0
+        post['hackpad_url'] = ''
+        post['date_created'] = datetime.now()
+        post['user_id_str'] = user['user']['id_str']
+        post['username'] = self.current_user
+        post['user'] = user['user']
+        post['votes'] = 1
+        post['voted_users'] = [user['user']]
+        #save it
+        post['slug'] = postsdb.insert_post(post)
+        msg = 'success'
+      else:
+        # this is an existing post.
+        # attempt to edit the post (make sure they are the author)
+        saved_post = postsdb.get_post_by_slug(post['slug'])
+        if saved_post and self.current_user == saved_post['user']['screen_name']:
+          # looks good - let's update the saved_post values to new values
+          for key in post.keys():
+            saved_post[key] = post[key]
+          # finally let's save the updates
+          postsdb.save_post(saved_post)
+          msg = 'success'
+
+      # log any @ mentions in the post
+      mentions = re.findall(r'@([^\s]+)', post['body_raw'])
+      for mention in mentions:
+        mentionsdb.add_mention(mention.lower(), post['slug'])
 
     # Send email to USVers if OP is staff
     if self.current_user in settings.get('staff'):
@@ -280,10 +279,7 @@ class ListPosts(app.basic.BaseHandler):
     sort_by = "newest"
     posts = postsdb.get_new_posts(per_page, page)
 
-    if msg == 'existing post':
-      self.render('post/new_post.html', post=post, dups=dups)
-    else:
-      self.render('post/lists_posts.html', sort_by=sort_by, msg=msg, page=page, posts=posts, featured_posts=featured_posts, is_blacklisted=is_blacklisted, new_post=post, dups=dups)
+    self.render('post/lists_posts.html', sort_by=sort_by, msg=msg, page=page, posts=posts, featured_posts=featured_posts, is_blacklisted=is_blacklisted, new_post=post, dups=dups)
 
 ##########################
 ### UPVOTE A SPECIFIC POST
