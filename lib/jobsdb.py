@@ -1,7 +1,3 @@
-# Need to import tornado setting manually if running as a standalone script
-import sys
-import settings
-
 import urllib
 import json
 from mongo import db
