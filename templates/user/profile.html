@@ -6,10 +6,12 @@
   <div id="main" role="main">
     <section class="featured-feed clearfix mobile-hidden">
 
-      <h3>Twitter profile</h3>
-      <p>Check out more shared by <a href="http://twitter.com/{{screen_name}}" target="_blank">@{{screen_name}}</a> on <a href="http://twitter.com">Twitter</a>.</p>
-      <br />
+      <div class="well" style="text-align:center">
+        <img src="{{ user['user'].get('profile_image_url') }}" />  
+        <h2 style="margin-bottom: 0;"><a href="http://twitter.com/{{screen_name}}" target="_blank">@{{screen_name}}</a> on Twitter</h2>
+      </div>
 
+      {% if tags %}
       <h3>Tags by {{screen_name}}</h3>
       {% if len(tags['result']) == 0 %}
         <p>{{screen_name}} has not tagged any shares yet.</p>
@@ -23,22 +25,38 @@
           &nbsp;&nbsp;&nbsp;&nbsp;
         {% end %}
       {% end %}
+      {% end %}
     </section>
 
     <section class="hot-newest-feed">
 
-      <ul class="tabs">
-        <li class="{{ 'is-active' if section == 'shares' else '' }}"><a class="sort btn" href="?section=shares">{{screen_name}} Shares</a></li>
-        <li class="{{ 'is-active' if section == 'bumps' else '' }}"><a class="sort btn" href="?section=bumps">Bumps</a></li>
-        <li class="{{ 'is-active' if section == 'mentions' else '' }}"><a class="sort btn" href="?section=mentions">Mentions</a></li>
+      <ul class="nav nav-tabs" style="margin-top: 0">
+        <li class="{{ 'active' if section == 'shares' else '' }}"><a class="" href="/user/{{ screen_name }}/shares">Shares</a></li>
+        <li class="{{ 'active' if section == 'bumps' else '' }}"><a class="" href="/user/{{ screen_name }}/bumps">Bumps</a></li>
+        <li class="{{ 'active' if section == 'mentions' else '' }}"><a class="" href="/user/{{ screen_name }}/mentions">Mentions</a></li>
         {% if screen_name == current_user %}
-          <li class=""><a class="sort btn" href="/user/settings">Settings</a></li>
+          <li class="{{ 'active' if section == 'settings' else '' }}"><a class="" href="/user/{{ screen_name }}/settings">Settings</a></li>
         {% end %}
       </ul>
+      <br />
 
-      {% if len(posts) == 0 %}
+      {% if posts and len(posts) == 0 %}
         <p>There are currently no shares for this view available.</p>
       {% else %}
+
+        {% if section != "settings" %}
+        <h3 style="margin-top:0">
+          {% if section == "shares" %}
+              Posts {{ screen_name }} has shared:
+          {% elif section == "bumps" %}
+            Posts {{ screen_name }} has bumped:
+          {% elif section == "mentions" %}
+            Posts that mention {{ screen_name }}:
+          {% end %}
+        </h3>
+        {% end %}
+        
+        {% if section != "settings" %}
         <ul class="feed sort-by-new">
           {% for p in posts %}
             <li>
@@ -49,6 +67,99 @@
       {% end %}
 
       <div id="pagination-next-prev"></div>
+      {% end #not settings %}
+      {% if section == "settings" %}
+        
+        {% if msg and msg == "updated" %}
+          <div class="alert alert-success low-pro">
+            Updated!
+          </div>
+        {% end %}
+        
+        {% if msg and msg == "twitter-thanks" %}
+          <div class="alert alert-info low-pro">
+            Great!  Now can update your settings and be off to the races.
+          </div>
+        {% end %}
+        
+      <table class="table">
+        <form id="submit-form" class="" action="/auth/email/" method="POST">
+          {% module xsrf_form_html() %}
+        
+        <tr class="complete">
+          <th class="step">
+            1 <span class="glyphicon glyphicon-ok"></span>
+          </th>
+          <th>
+            {% if 'user' in user.keys() %}
+              <img src="/static/img/connect-twitter-active.png" /> &nbsp;
+            {% else %}
+              <img src="/static/img/connect-twitter-inactive.png" /> &nbsp;
+            {% end %}
+          </th>
+          <td>
+            @{{ current_user }}
+          </td>
+          <td></td>
+          <td class="text-muted">(currently this cannot be changed)</td>
+        </tr>
+        
+        {% if 'email_address' in user and user['email_address'] %}
+        <tr class="complete">
+          <th class="step">2 <span class="glyphicon glyphicon-ok"></span></th>
+        {% else %}
+        <tr class="">
+          <th class="step">2</th>
+        {% end %}
+          <th>Email</th>
+          <td><input type="text" class="form-control" name="email" value="{{ user['email_address'] }}" /></td>
+          <td><input type="submit" value="Update" class="btn btn-default" /></td>
+          <td>
+            {% if 'email_address' not in user or not user['email_address'] %}
+              <div class="alert alert-info low-pro">
+                &larr; Please add your email address.
+              </div>
+            {% end %}
+          </td>
+        </tr>
+        </form>
+        {% if 'disqus_user_id' in user.keys() and user['disqus_user_id'] != '' %}
+        <tr class="complete">
+          <th class="step">3 <span class="glyphicon glyphicon-ok"></span></th>
+        {% else %}
+        <tr class="">
+          <th class="step">2</th>
+        {% end %}
+          <th>
+            {% if 'disqus_user_id' in user.keys() and user['disqus_user_id'] != '' %}
+            <img src="/static/img/connect-disqus-active.png" /> &nbsp;
+            {% else %}
+            <img src="/static/img/connect-disqus-inactive.png" /> &nbsp;
+            {% end %}
+          </th>
+          {% if 'disqus_user_id' in user.keys() and user['disqus_user_id'] != '' %}
+          <td>
+            {{ user['disqus_username'] }} &nbsp;
+          </td>
+          <td></td>
+          <td>
+            <a href="/remove/disqus" >Remove Disqus Connection</a>
+          </td>
+          {% else %}
+          <td>
+            <a href="/auth/disqus">Connect your Disqus account</a>
+          </td>
+          <td></td>
+          <td>
+            <div class="alert alert-info low-pro">
+              &larr; Log in with Disqus to receive emails when people comment on your posts.
+            </div>
+          </td>
+          {% end %}
+        </tr>
+      </table>
+      {% end %}
+  
 
     </section>
   </div>
