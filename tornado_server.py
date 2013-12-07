@@ -39,8 +39,8 @@ class Application(tornado.web.Application):
       # account stuff
       (r"/auth/email/?", app.user.EmailSettings),
       (r"/auth/logout/?", app.user.LogOut),
-      (r"/user/settings/?", app.user.UserSettings),
-      (r"/user/(.+)", app.user.Profile),
+      (r"/user/(?P<username>[A-z-+0-9]+)/settings/?", app.user.UserSettings),
+      (r"/user/(?P<screen_name>[A-z-+0-9]+)/(?P<section>[A-z]+)", app.user.Profile),
 
       # admin stuff
       (r"/admin", app.admin.AdminHome),

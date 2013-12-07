@@ -109,7 +109,7 @@
           {% if current_user %}
             Welcome, <a href="/user/{{current_user}}" class="login">@{{ current_user }}</a>! &nbsp;
             
-            <a class="login" href="/user/settings">Settings</a>&nbsp;
+            <a class="login" href="/user/{{current_user}}/settings">Settings</a>&nbsp;
             
             {% if current_user_can('see_admin_link') %}
               <a class="login" href="/admin">Admin</a> &nbsp;
