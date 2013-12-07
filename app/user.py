@@ -100,7 +100,7 @@ class LogOut(app.basic.BaseHandler):
 ### /user/(.+)
 ##########################
 class Profile(app.basic.BaseHandler):
-  def get(self, screen_name, section):
+  def get(self, screen_name, section="shares"):
     user = userdb.get_user_by_screen_name(screen_name)
     #section = self.get_argument('section', 'shares')
     tag = self.get_argument('tag', '')
