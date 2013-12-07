@@ -10,5 +10,14 @@ def get_user_tags(screen_name):
   ])
   return tags
 
+def get_hot_tags():
+  tags = db.post.aggregate([
+    {'$unwind':'$tags'},
+    {'$group': {'_id': '$tags', 'count': {'$sum': 1}}},
+    {"$sort": SON([("count", -1), ("_id", -1)])},
+    {"$limit": 30}
+  ])
+  return tags
+
 def save_tag(tag):
   return db.tag.update({'name':tag}, {'name':tag}, upsert=True)
