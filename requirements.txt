@@ -8,3 +8,5 @@ bleach
 beautifulsoup4
 tweepy
 disqus-python
+splinter
+selenium
