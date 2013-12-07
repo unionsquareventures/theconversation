@@ -99,6 +99,7 @@ class ListPosts(app.basic.BaseHandler):
     featured_posts = postsdb.get_featured_posts(6, 1)
     posts = []
     post = {}
+    hot_tags = tagsdb.get_hot_tags()
 
     is_blacklisted = False
     if self.current_user:
@@ -114,7 +115,7 @@ class ListPosts(app.basic.BaseHandler):
       # get the current hot posts
       posts = postsdb.get_hot_posts(per_page, page)
 
-    self.render('post/lists_posts.html', sort_by=sort_by, page=page, msg=msg, posts=posts, post=post, featured_posts=featured_posts, is_blacklisted=is_blacklisted)
+    self.render('post/lists_posts.html', sort_by=sort_by, page=page, msg=msg, posts=posts, post=post, featured_posts=featured_posts, is_blacklisted=is_blacklisted, tags=hot_tags)
 
   @tornado.web.authenticated
   def post(self):

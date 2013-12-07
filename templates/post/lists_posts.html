@@ -14,8 +14,19 @@
 
 {% block content %}
 
-  <div id="main" role="main">
+  <div id="main" role="main">    
     <section class="featured-feed clearfix mobile-hidden">
+      
+      {% if 'tags' in globals() and len(tags) > 0 %}
+      <div style="text-align:center; margin-bottom: 20px">
+      <ul class="filter-tabs">
+        {% for t in tags['result'] %}
+            <li><a class="" href="/tagged/{{t['_id']}}">#{{t['_id']}} ({{t['count']}})</a></li>
+        {% end %}
+      </ul>
+    </div>
+      {% end %}
+      
       <div id='slider' class='swipe visible-xs row' style='visibility: visible;'>
         <ul class='swipe-wrap feed'>
 
