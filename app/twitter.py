@@ -48,7 +48,7 @@ class Twitter(app.basic.BaseHandler):
       self.set_secure_cookie("user_id_str", user['user']['id_str'])
       self.set_secure_cookie("username", user['user']['screen_name'])
       if 'email_address' not in user or ('email_address' in user and user['email_address'] == ''):
-        bounce_to = '/user/settings?1'
+        bounce_to = '/user/%s/settings?1' % screen_name
     else:
       # need to create the account (so get more details from Twitter)
       auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
@@ -70,7 +70,7 @@ class Twitter(app.basic.BaseHandler):
       # and set our cookies
       self.set_secure_cookie("user_id_str", user.id_str)
       self.set_secure_cookie("username", user.screen_name)
-      bounce_to = '/user/settings?msg=twitter-thanks'
+      bounce_to = '/user/%s/settings?msg=twitter-thanks' % screen_name
 
     # let's save the screen_name to a cookie as well so we can use it for restricted bounces if need be
     self.set_secure_cookie('screen_name', screen_name, expires_days=30)

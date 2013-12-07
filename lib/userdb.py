@@ -10,7 +10,7 @@ from mongo import db
 }
 
 """
-db.user_info.ensure_index('user.screen_name')
+#db.user_info.ensure_index('user.screen_name')
 
 def get_user_by_id_str(id_str):
   return db.user_info.find_one({'user.id_str': id_str})
