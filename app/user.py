@@ -102,6 +102,9 @@ class LogOut(app.basic.BaseHandler):
 class Profile(app.basic.BaseHandler):
   def get(self, screen_name, section="shares"):
     user = userdb.get_user_by_screen_name(screen_name)
+    if not user:
+      raise tornado.web.HTTPError(404)
+    
     #section = self.get_argument('section', 'shares')
     tag = self.get_argument('tag', '')
     per_page = int(self.get_argument('per_page', 10))
@@ -130,9 +133,13 @@ class UserSettings(app.basic.BaseHandler):
   @tornado.web.authenticated
   def get(self, username):
     if username != self.current_user:
-      return self.write("Unauthorized")
+      raise tornado.web.HTTPError(401)
+      
     msg = self.get_argument("msg", None)
     user = userdb.get_user_by_screen_name(self.current_user)
+    if not user:
+      raise tornado.web.HTTPError(404)
+      
     #self.render('user/settings.html', user=user, msg=msg)
     self.render('user/profile.html', user=user, screen_name=self.current_user, posts=None, section="settings", page=None, per_page=None, tags=None, tag=None, msg=msg)
 
