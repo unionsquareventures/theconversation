@@ -60,6 +60,18 @@
                 <br /><br />
                 <iframe width="560" height="315" src="http://youtube.com/embed/{{ vid_id }}" frameborder="0" allowfullscreen></iframe>
               {% end %}
+              
+              {% if 'url' in post and post['url'] and (urlparse(post['url']).netloc == "hackpad.com" or urlparse(post['url']) == "www.hackpad.com") %}
+              {% set pad_id = post['url'].split("-")[-1] %}
+              <style type="text/css">
+                #hackpad-{{ pad_id }} {
+                  width:120% !important;
+                  border-right: 1px solid #ddd !important;
+                }
+              </style>
+              <br style="clear:both" /><br />
+              <script src="https://hackpad.com/{{ pad_id }}.js"></script>              
+              {% end %}
 
               {% if 'url' in post and post['url'] and (urlparse(post['url']).netloc == "vimeo.com" or urlparse(post['url']).netloc == "www.vimeo.com") %}
                 {% set vid_id = urlparse(post['url']).path %}
