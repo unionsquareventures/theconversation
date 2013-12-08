@@ -65,6 +65,18 @@
                 {% set vid_id = urlparse(post['url']).path %}
                 <iframe src="//player.vimeo.com/video{{ vid_id }}" width="500" height="281" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
               {% end %}
+              
+              {% if 'url' in post and post['url'] and (urlparse(post['url']).netloc == "hackpad.com" or urlparse(post['url']) == "www.hackpad.com") %}
+              {% set pad_id = post['url'].split("-")[-1] %}
+              <style type="text/css">
+                #hackpad-{{ pad_id }} {
+                  width:120% !important;
+                  border-right: 1px solid #ddd !important;
+                }
+              </style>
+              <br style="clear:both" />
+              <script src="https://hackpad.com/{{ pad_id }}.js"></script>              
+              {% end %}
 
               {% if post['has_hackpad'] and post['hackpad_url'] %}
                 <p><a class="post-body-hackpad-link" target="_blank" href="{{ post['hackpad_url'] }}">Hackpad &rarr;</a></p>
