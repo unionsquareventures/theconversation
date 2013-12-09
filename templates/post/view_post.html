@@ -100,18 +100,19 @@
               {% end %}
             </div>
             <div class="col-sm-3 tweet">
-              <a href="https://twitter.com/share" class="twitter-share-button" data-text="{{ post['title'] }}" data-via="{{ post['user']['screen_name'] }}" data-hashtags="usvconversation">Tweet</a>
-              <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script> 
+              <a href="https://twitter.com/share" class="twitter-share-button" data-text="{{ post['title'] }}" data-via="{{ post['user']['screen_name'] }}" data-hashtags="usvconversation">Tweet</a> 
             </div> 
           </div>
 
           <div class="meta visible-xs">
             <div class="post-meta mobile clearfix row">
               <div class="col-xs-6 upvote">
+                <a href="/posts/{{ post['slug'] }}/upvote" class="votes-count ajax_upvote_link upvote-button">
+                  <span class="value">{{ post['votes'] }} vote{{ 's' if post['votes'] != 1 else '' }}</span>
+                </a>
               </div>
               <div class="col-xs-6 tweet">
-                <a href="https://twitter.com/share" class="twitter-share-button" data-via="">Tweet</a>
-                <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>  
+                <a href="https://twitter.com/share" class="twitter-share-button" data-text="{{ post['title'] }}" data-via="{{ post['user']['screen_name'] }}" data-hashtags="usvconversation">Tweet</a>  
               </div> 
             </div>
           </div>
@@ -182,5 +183,5 @@
 {% end %}
 
 {% block javascript %}
-
+                <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
 {% end %}
