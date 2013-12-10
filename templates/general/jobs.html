@@ -334,22 +334,34 @@
       $(this).hide();
     });
 
-    // Iterate over filter_types
-    for (var i=0; i<hash_array.length; i++) {
-      filter_type = hash_array[i][0];
-      // Iterate over each query
-      for (var j=1; j<hash_array[i].length; j++) {
-        query = hash_array[i][j];
+    // Check each job for all [filter_type, query] pairs
+    $('.job').each(function() {
+      show_flag = true;
+      // Iterate over filter_types
+      for (var i=0; i<hash_array.length; i++) {
+        filter_flag = false; // Must be true for each filter_type
+        filter_type = hash_array[i][0];
+        // Iterate over each query
+        for (var j=1; j<hash_array[i].length; j++) {
+          query = hash_array[i][j];
 
-        // Match each job to [filter_type, query] pair
-        console.log("Matching: " + filter_type + ", " + query);
-        $('.job').each(function() {
+          // Match query
           if ($(this).attr("usv:" + filter_type + "-slug") == query) {
-            $(this).show();
+            filter_flag = true;
           }
-        });
+        }
+
+        // If previous filter_type did not match any queries, hide job
+        if (filter_flag == false) {
+          show_flag = false;
+        }
       }
-    }
+
+      // After all filter_types pass test, show the job
+      if (show_flag) {
+        $(this).show();
+      }
+    });
   } // filter_jobs
 
 
