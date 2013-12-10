@@ -143,12 +143,20 @@
     
     //If URL has a hash, do relevant filtering on page load
     if (window.location.hash) {
+      parse_hash();
       var entire_query = window.location.hash.split("#")[1];
       var filter_type = entire_query.split("=")[0]
       var query = entire_query.split("=")[1]
       filter_menu(filter_type);
       filter_jobs(filter_type, query);
     }
+
+    // Filters jobs every time a change is made to the hash
+    $(window).on('hashchange', function() {
+      console.log('hash changed');
+      parse_hash();
+    });
+    
 
     // For clicking on filter options, ex. By Job Category
     $(".job-tabs a").click(function(e) {
@@ -167,6 +175,7 @@
       filter_jobs(filter_type, query);
     });
     */
+    
 
     // Clicking on a specific filter link, ex. Administrative
     // FOR NEW BRITTANY DROPDOWNS
@@ -175,11 +184,83 @@
       var filter_type = $(this).parent().parent().attr("usv:filter");
       console.log(filter_type);
       var query = this.href.split("#")[1];
-      window.location.hash = filter_type + "=" + query;
-      filter_jobs(filter_type, query);
+      add_hash(filter_type, query)
+      //location.hash = filter_type + "=" + query;
+      //filter_jobs(filter_type, query);
     });
 
   }); //$(document).ready();
+
+  // Adds a query to the hash
+  function add_hash(filter_type, query) {
+    hash_array = parse_hash();
+
+    // See if filter_type already in hash_array
+    filter_type_flag = false;
+    for (var i=0; i<hash_array.length; i++) {
+      if hash_array[i][0] == filter_type {
+        filter_type_flag = true; // filter_type already exists
+        
+        // For this filter_type, see if query already exists
+        query_flag = false;
+        for (var j=0; j<hash_array[i].length; j++) {
+          if hash_array[i][j] == query {
+            query_flag = true; // Query already exists
+            hash_array[i].splice(j,1); //Remove query from the hash
+          }
+        }
+        // Adds query if it didn't already exist
+        if (query_flag == false){
+          hash_array[i].push(query);
+        } 
+      }
+    }
+
+    // Adds filter_type and query if filter_type didn't already exist
+    if (filter_type_flag == false) {
+        hash_array.push([filter_type, query]);
+    }
+
+    // Reset the window's hash
+    console.log(hash_array);
+    set_hash(hash_array);
+  }
+
+
+  // Parses the hash into an array of arrays
+  // Ex: [[company, duolingo], [location, NYC, SF]]
+  function parse_hash() {
+    var entire_query = window.location.hash.split("#")[1];
+    var filter_types = entire_query.split("&");
+
+    // Iterate over all filter types
+    return_array = [];
+    for (var i=0; i<filter_types.length; i++) {
+      filter_array = []; 
+      filter_type = filter_types[i] // ie. company, category or location
+      filter_array.push(filter_type.split("=")[0]); //adds filter_type as first element in subarray
+
+      // Split out all the queries for each filter_type
+      queries = filter_type.split("=")[1];
+      queries = queries.split(",");
+
+      //Iterate over all these queries
+      for (var j=0; j<queries.length; j++) {
+        query = queries[j];
+        filter_array.push(query);
+      }
+
+      //Add filter_array to return_array
+      return_array.push(filter_array);
+    }
+    return return_array;
+  }
+
+  // Sets the hash
+  function set_hash(hash_array) {
+
+  }
+
 
   // Shows and hides jobs based on filtering
   function filter_jobs(filter_type, query) {
