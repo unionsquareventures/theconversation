@@ -16,23 +16,7 @@
     <span class="username" style="">@{{ p['user']['username'] }}</span>
     <span class="time"><a href="/posts/{{ p['slug'] }}" ><span class="glyphicon glyphicon-link" style="margin: 0;font-size: 90%"></span> {{ template_helpers.pretty_date(p['date_created']) }}</a></span>
     <a href="/posts/{{ p['slug'] }}" ><span class="glyphicon glyphicon-comment" style="margin: 0;"></span></a> <a class="dsq-comment-count" data-disqus-identifier="{{ str(p['_id']) }}" href="/posts/{{ p['slug'] }}">{{ p['comment_count'] }} comment{{ 's' if p['comment_count'] != 1 else '' }}</a>
-      {% set has_voted = False %}
-      {% for v in p['voted_users'] %}
-      {% if 'current_user' in globals() and 'username' in v and current_user == v['username'] %}
-      {% set has_voted = True %}
-      {% end %}
-      {% end %}
-      <div class="volume {% if has_voted %}bumped{% end %}">
-        <a title="bump up this post"href="/posts/{{ p['slug'] }}/upvote" class="votes-count ajax_upvote_link upvote-button">
-          <table>
-            <td class="upvote-icon"><span class="glyphicon glyphicon-circle-arrow-up"></span></td>
-            <td class="value">
-              {% if p['votes'] > 1 %}
-              {{ p['votes'] - 1 }}
-              {% end %}
-            </td>
-          </table>
-        </a>
-      </div>
+      
+      {% include bumpit_snippet.html %}
   </div>
 </div>

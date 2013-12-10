@@ -1,0 +1,28 @@
+{% set has_voted = False %}
+{% for v in p['voted_users'] %}
+{% if 'current_user' in globals() and 'username' in v and current_user == v['username'] %}
+{% set has_voted = True %}
+{% end %}
+{% end %}
+<div class="volume {% if has_voted %}bumped{% end %}">
+  <a title="bumps" href="/posts/{{ p['slug'] }}/{% if has_voted %}unbump{%else%}bump{%end%}" class="votes-count ajax_upvote_link upvote-button">
+	<table>
+	  <td class="upvote-icon"><span class="glyphicon glyphicon-circle-arrow-up"></span></td>
+	  <td class="value">
+		{% if p['votes'] > 1 %}
+		{{ p['votes'] - 1 }}
+		{% end %}
+	  </td>
+	</table>
+  </a>
+  <div class="voted_users" style="display:none">
+	{% for v in p['voted_users'] %}
+	{% if 'username' in v and v['username'] != p['user']['username']  %}
+	  <div class="voted_user"><img src="{{ v.get('profile_image_url') }}" /> {{ v.get('username') }}</div>
+	{% end %}
+	{% end %}
+	{% if len(p['voted_users']) == 1 %}
+	  <p>be the first to bump this up!</p>
+	{% end %}
+  </div>
+</div>

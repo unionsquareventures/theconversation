@@ -105,36 +105,6 @@ class BanUser(app.basic.BaseHandler):
     self.redirect('/')
 
 ###########################
-### Move the sort_score for a post up (for hot list)
-### /posts/([^\/]+)/bumpup
-###########################
-class BumpUp(app.basic.BaseHandler):
-  @tornado.web.authenticated
-  def get(self, slug):
-    post = postsdb.get_post_by_slug(slug)
-
-    if self.current_user_can('super_upvote_posts'):
-      post['sort_score'] += 0.25
-      postsdb.save_post(post)
-
-    self.redirect('/?sort_by=hot')
-
-###########################
-### Move the sort_socre for post down (for hot list)
-### /posts/([^\/]+)/bumpdown
-###########################
-class BumpDown(app.basic.BaseHandler):
-  @tornado.web.authenticated
-  def get(self, slug):
-    post = postsdb.get_post_by_slug(slug)
-
-    if self.current_user_can('downvote_posts'):
-      post['sort_score'] -= 0.25
-      postsdb.save_post(post)
-
-    self.redirect('/?sort_by=hot')
-
-###########################
 ### List posts that are marekd as deleted
 ### /admin/delete_user
 ###########################
