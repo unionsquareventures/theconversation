@@ -102,21 +102,46 @@
               <div>
                 <div class="col-sm-3">
                   <div class="btn-group">
-                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                    <a data-toggle="dropdown">
                       Company 
                       <span class="caret"></span>
-                    </button>
+                    </a>
                     <ul class="dropdown-menu" role="menu" usv:filter="company">
                       {% for c in companies %}
                         <li><a id="{{ slugify(c) }}" href="#{{ slugify(c) }}">{{ c }}</a></li>
                       {% end %}
-                      <li><a href="#">Action</a></li>
                     </ul>
                   </div>
                 </div>
-                <div class="col-sm-3">Location</div>
-                <div class="col-sm-6">Job Title</div>
-              </div>
+
+                <div class="col-sm-3">
+                  <div class="btn-group">
+                    <a data-toggle="dropdown">
+                      Location 
+                      <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu" role="menu" usv:filter="location">
+                      {% for l in locations %}
+                        <li><a id="{{ slugify(l) }}" href="#{{ slugify(l) }}">{{ l }}</a></li>
+                      {% end %}
+                    </ul>
+                  </div>
+                </div>
+
+                <div class="col-sm-6">
+                  <div class="btn-group">
+                    <a data-toggle="dropdown">
+                      Job Title 
+                      <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu" role="menu" usv:filter="category">
+                      {% for c in categories %}
+                        <li><a id="{{ slugify(c) }}" href="#{{ slugify(c) }}">{{ c }}</a></li>
+                      {% end %}
+                    </ul>
+                  </div>
+                </div>
+              </div> 
 
               <!-- Jobs rows -->
               {% for j in jobs %}
