@@ -251,11 +251,7 @@ class ListPosts(app.basic.BaseHandler):
         if u != self.current_user:
           acc = userdb.get_user_by_screen_name(u)
           if acc:
-            if settings.get('environment') == 'prod':
-              self.send_email('web@usv.com', acc['email_address'], subject, text)
-              logging.info("Email sent to %s" % acc['email_address'])
-            else:
-              logging.info("If this were prod, we would have sent email to %s" % acc['email_address'])
+            self.send_email('web@usv.com', acc['email_address'], subject, text)
   
     # Subscribe to Disqus
     # Attempt to create the post's thread
