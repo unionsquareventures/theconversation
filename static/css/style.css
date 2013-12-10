@@ -2642,12 +2642,10 @@ span.staff {
     margin-top: 0;
 } 
 .article-post .upvote-button, .article-post .comments-button {
-    text-decoration:none;
-    color:#86aa3b;
-    margin:5px 0 0 0;
-    padding-left:22px;
-    
-    /*display:block;*/
+
+}
+.article-post .volume {
+    margin-top: -6px;
 }
  .article-post .upvote-button:hover, .article-post .comments-button:hover {
     text-decoration:underline;
@@ -2655,6 +2653,24 @@ span.staff {
 .article-post .upvote-button {
     background:transparent url(/static/img/icon-upvote-big.png) no-repeat 0 center;
 }
+.article-post ul.bumps {
+    padding: 0;
+    margin: 0;
+}
+.article-post ul.bumps li {
+    display: block;
+    padding: 10px;
+    float: left;
+}
+.article-post ul.bumps li:last-child {
+    /*clear: both;
+    float: none;
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    */
+}
+
+
  @media only screen and (-webkit-min-device-pixel-ratio:1.3), only screen and (min--moz-device-pixel-ratio:1.3), only screen and (-o-min-device-pixel-ratio:1.3 / 1), only screen and (min-resolution:125dpi), only screen and (min-resolution:1.3dppx) {
     .article-post .upvote-button {
     background:transparent url(/static/img/icon-upvote-big_2x.png) no-repeat 0 center;
