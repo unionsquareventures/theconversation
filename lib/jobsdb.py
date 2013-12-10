@@ -104,8 +104,9 @@ def get_json(company):
 	api_url = INDEED_API_URL + '?publisher=%s' % INDEED_PUBLISHER_ID
 	api_url += '&q=company%3A' # %3A doesn't work with %s for some reason
 	api_url += '(%s)' % company
-	api_url += '&l=&sort=&radius=&st=&jt=&start=$start&limit=1000&fromage=$indeed_fromage&filter=&co=&latlong=1&chnl=&userip=1.2.3.4&v=2&format=json'
+	api_url += '&limit=1000&filter=&co=&chnl=&userip=1.2.3.4&v=2&format=json'
 	data = json.load(urllib.urlopen(api_url)) # data is a dict
+	print api_url
 	return data['results']
 
 ''' Ensures all jobs are for the given company only'''
@@ -124,13 +125,16 @@ def clean_jobs(company, job_list):
 		job['company'] = job['company'].replace('foursquare', 'Foursquare')
 		job['company'] = job['company'].replace('.TV', '') # VHX.tv
 		job['company'] = job['company'].replace('.tv', '') # Kickstarter.com, etc.
+
+		# Above rules may result in last char being a space
+		job['company'] = job['company'].strip()
 		
 		# Remove job from list if company name is not an exact match
-		if job['company'].lower() == company.lower():
+		if company.lower() == job['company'].lower():
 			good_jobs.append(job)
+			print "Added job: %s | %s | %s" % (job['company'], job['formattedLocation'], job['jobtitle'])
 		else:
-			print "!!!!!!!!!!!!!!!!"
-			print "Removed job for company %s" % job['company']
+			print "Removed job: %s | %s | %s" % (job['company'], job['formattedLocation'], job['jobtitle'])
 
 	return good_jobs
 
