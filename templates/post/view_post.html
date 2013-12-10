@@ -6,7 +6,8 @@
 
 {% block content %}
   {% import re %}
-
+  {% set p = post %}
+  
   <div id="main" role="main">
     <div class="row article-post single community">
       <div class="col-sm-8 col-sm-offset-2">
@@ -97,10 +98,8 @@
           </div>
 
           <div class="post-meta clearfix row hidden-xs">
-            <div class="col-sm-3 col-xs-6 upvote">
-              <a href="/posts/{{ post['slug'] }}/upvote" class="votes-count ajax_upvote_link upvote-button">
-                <span class="value">{{ post['votes'] }} vote{{ 's' if post['votes'] != 1 else '' }}</span>
-              </a>
+            <div class="col-sm-3 col-xs-6">
+              {% include bumpit_snippet.html %}
             </div>
             <div class="col-xs-6 tags">
               {% if 'tags' in post and post['tags'] %}
@@ -118,10 +117,8 @@
 
           <div class="meta visible-xs">
             <div class="post-meta mobile clearfix row">
-              <div class="col-xs-6 upvote">
-                <a href="/posts/{{ post['slug'] }}/upvote" class="votes-count ajax_upvote_link upvote-button">
-                  <span class="value">{{ post['votes'] }} vote{{ 's' if post['votes'] != 1 else '' }}</span>
-                </a>
+              <div class="col-xs-6">
+                {% include bumpit_snippet.html %}
               </div>
               <div class="col-xs-6 tweet">
                 <a href="https://twitter.com/share" class="twitter-share-button" data-text="{{ post['title'] }}" data-via="{{ post['user']['screen_name'] }}" data-hashtags="usvconversation">Tweet</a>  
@@ -134,6 +131,27 @@
               If you'd like to receive email notifications of new comments, <a href="/auth/disqus">link to Disqus here</a>.
             </div>
           {% end %}
+          
+          {% set tmp = post['voted_users'].reverse() %}
+          <ul class="bumps clearfix">
+          {% for user in post['voted_users'] %}
+              <li>
+                {% if 'screen_name' in user and user['screen_name'] != post['user']['screen_name'] %}
+                <span class="glyphicon glyphicon-circle-arrow-up" style="color: #ccc"></span>
+                {% else %} 
+                <span class="glyphicon glyphicon-plus-sign" style="color: #CE3B00"></span>
+                {% end %}
+              <img class="avatar" src="{{ user.get('profile_image_url_https', '') }}" alt="thumbnail" style="max-height:25px;" />
+              {% if 'screen_name' in user and user['screen_name'] != post['user']['screen_name'] %}
+                <a href="/user/{{ user['screen_name'] }}">{{user['screen_name']}}</a>
+              {% elif 'screen_name' in user %}
+                <a href="/user/{{ user['screen_name'] }}">{{user['screen_name']}}</a> posted this.
+              {% end %}
+            </li>
+          {% end %}
+            </ul>
+          
+          <hr style="margin-top:25px"/>
 
           <div class="comment-box">
             <div id="disqus_thread"></div>
@@ -164,21 +182,6 @@
             <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
 
           </div>
-
-          {% if False %}
-          {% set tmp = post['voted_users'].reverse() %}
-          {% for user in post['voted_users'] %}
-            <hr />
-            <p>
-              <img class="avatar" src="{{ user.get('profile_image_url_https', '') }}" alt="thumbnail" style="max-height:25px;" />
-              {% if 'screen_name' in user and user['screen_name'] != post['user']['screen_name'] %}
-                <a href="http://www.twitter.com/{{ user['screen_name'] }}" target="_blank">{{user['screen_name']}}</a> bumped this post.
-              {% elif 'screen_name' in user %}
-                <a href="http://www.twitter.com/{{ user['screen_name'] }}" target="_blank">{{user['screen_name']}}</a> posted this.
-              {% end %}
-            </p>
-          {% end %}
-          {% end %}
         </article>
       </div>
 
