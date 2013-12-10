@@ -283,15 +283,15 @@ class ListPosts(app.basic.BaseHandler):
     self.render('post/lists_posts.html', sort_by=sort_by, msg=msg, page=page, posts=posts, featured_posts=featured_posts, is_blacklisted=is_blacklisted, new_post=post, dups=dups)
 
 ##########################
-### UPVOTE A SPECIFIC POST
-### /posts/([^\/]+)/upvote
+### Bump Up A SPECIFIC POST
+### /posts/([^\/]+)/bump
 ##########################
-class UpVote(app.basic.BaseHandler):
+class Bump(app.basic.BaseHandler):
   def get(self, slug):
     # user must be logged in
     msg = {}
     if not self.current_user:
-      msg = {'error': 'You must be logged in to upvote.', 'redirect': True}
+      msg = {'error': 'You must be logged in to bump.', 'redirect': True}
     else:
       post = postsdb.get_post_by_slug(slug)
       if post:
@@ -299,13 +299,41 @@ class UpVote(app.basic.BaseHandler):
         for u in post['voted_users']:
           if u['username'] == self.current_user:
             can_vote = False
-        if not can_vote and not self.current_user_can('upvote_multiple_times'):
+        if not can_vote:
           msg = {'error': 'You have already upvoted this post.'}
         else:
           user = userdb.get_user_by_screen_name(self.current_user)
           # Increment the vote count
           post['votes'] += 1
           post['voted_users'].append(user['user'])
+          postsdb.save_post(post)
+          msg = {'votes': post['votes']}
+
+    self.api_response(msg)
+
+##########################
+### Un-Bump A SPECIFIC POST
+### /posts/([^\/]+)/unbump
+##########################
+class UnBump(app.basic.BaseHandler):
+  def get(self, slug):
+    # user must be logged in
+    msg = {}
+    if not self.current_user:
+      msg = {'error': 'You must be logged in to bump.', 'redirect': True}
+    else:
+      post = postsdb.get_post_by_slug(slug)
+      if post:
+        can_vote = True
+        for u in post['voted_users']:
+          if u['username'] == self.current_user:
+            can_unbump = True
+        if not can_unbump:
+          msg = {'error': "You can't unbump this post!"}
+        else:
+          user = userdb.get_user_by_screen_name(self.current_user)
+          post['votes'] -= 1
+          post['voted_users'].remove(user['user'])
           postsdb.save_post(post)
           msg = {'votes': post['votes']}
 

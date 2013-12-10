@@ -1111,6 +1111,9 @@ body.staff .hot-newest-feed .title {
  .featured-post .title:hover {
     color:#86aa3b;
 }
+.featured-post .title {
+    padding-right: 80px;
+}
  .feed .excerpt ,
  .featured-post .excerpt{
     color:#000;
@@ -1163,6 +1166,9 @@ body.staff .hot-newest-feed .title {
     right: 0;
     width: 80px;
 }
+.featured-post .volume {
+    width: 120px;
+}
 .volume td {
     vertical-align: middle;
 }
@@ -1177,13 +1183,37 @@ body.staff .hot-newest-feed .title {
     color: #999 !important;
 }
 .volume.bumped a {
-    color: #CE3B00 !important;
-    color: #86AA3B !important;
+    color: #CE3B00 !important; /* RED */
+    /*color: #86AA3B !important; */ /*GREEN*/
 }
 
 .feed .volume span {
     margin-right: 5px !important;
 }
+.voted_users {
+    font-size: .9em;
+    white-space: nowrap;
+}
+.voted_user {
+    margin-bottom: 10px;
+    white-space: nowrap;
+}
+.voted_user img {
+    width: 25px; height: 25px;
+    vertical-align: middle;
+}
+.volume .popover-title {
+    display: none;
+}
+.volume .popover-content {
+    padding: 10px 6px 0;
+}
+.volume .popover-content p {
+    text-align:center;
+    margin: 0 6px 10px !important;
+    white-space: nowrap;
+}
+
 
  .feed .meta a,
  .featured-post .meta a {
