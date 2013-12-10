@@ -1074,7 +1074,7 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
     -moz-transition:color 0.15s ease-out;
     transition:color 0.15s ease-out;
 }
-body.staff .hot-newest-feed .title {
+.hot-newest-feed .title {
     padding-right: 70px;
 }
 
