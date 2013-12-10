@@ -48,20 +48,23 @@
           <div class="job-tabs-container">
             <h2>Filter</h2>
 
-            <ul class="job-tabs filter-tabs">
+            <!--<ul class="job-tabs filter-tabs">
               <li><a href="#category" usv:filter="category">By Job Category</a></li>
               <li><a href="#location" usv:filter="location">By Location</a></li>
               <li><a href="#company" usv:filter="company">By Company</a></li>
-            </ul>
+            </ul>-->
           </div>
 
           <div id="jobs-menu" class="filter-menu">
-            <div usv:filter="category">
-              <h2>Categories</h2>
-
-              <ul class="side-nav filter-tabs" id="category">
-                {% for c in categories %}
-                  <li><a id="{{ slugify(c) }}" href="#{{ slugify(c) }}">{{ c }}</a></li>
+            <div usv:filter="company">
+              <h2>Company</h2>
+              <ul class="side-nav filter-tabs" id="company">
+                {% for c in companies %}
+                  <li>
+                    <a id="{{ slugify(c) }}" href="#{{ slugify(c) }}">{{ c }}
+                      <span class="glyphicon glyphicon-remove-circle">
+                    </a>
+                  </li>
                 {% end %}
               </ul>
             </div>
@@ -70,16 +73,25 @@
               <h2>Location</h2>
               <ul class="side-nav filter-tabs" id="location">
                 {% for l in locations %}
-                  <li><a id="{{ slugify(l) }}" href="#{{ slugify(l) }}">{{ l }}</a></li>
+                  <li>
+                    <a id="{{ slugify(l) }}" href="#{{ slugify(l) }}">{{ l }}
+                      <span class="glyphicon glyphicon-remove-circle">
+                    </a>
+                  </li>
                 {% end %}
               </ul>
             </div>
 
-            <div usv:filter="company">
-              <h2>Company</h2>
-              <ul class="side-nav filter-tabs" id="company">
-                {% for c in companies %}
-                  <li><a id="{{ slugify(c) }}" href="#{{ slugify(c) }}">{{ c }}</a></li>
+            <div usv:filter="category">
+              <h2>Categories</h2>
+
+              <ul class="side-nav filter-tabs" id="category">
+                {% for c in categories %}
+                  <li>
+                    <a id="{{ slugify(c) }}" href="#{{ slugify(c) }}">{{ c }}
+                      <span class="glyphicon glyphicon-remove-circle">
+                    </a>
+                  </li>
                 {% end %}
               </ul>
             </div>
@@ -186,15 +198,12 @@
     });
 
     // Clicking on a specific filter link, ex. Administrative
-    /*$(".side-nav a").click(function(e) {
+    $(".side-nav a").click(function(e) {
       e.preventDefault();
       var filter_type = $(this).parent().parent().parent().attr("usv:filter");
-      //var query = $(this).text();
       var query = this.href.split("#")[1];
-      window.location.hash = filter_type + "=" + query;
-      filter_jobs(filter_type, query);
+      add_hash(filter_type, query);
     });
-    */
     
 
     // Clicking on a specific filter link, ex. Administrative
@@ -259,7 +268,7 @@
   function parse_hash() {
     var entire_query = window.location.hash.split("#")[1];
     if (!entire_query) {
-      return [];
+      return []; // i.e. show all
     }
 
     var filter_types = entire_query.split("&");
