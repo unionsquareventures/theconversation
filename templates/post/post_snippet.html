@@ -18,7 +18,7 @@
     <a href="/posts/{{ p['slug'] }}" ><span class="glyphicon glyphicon-comment" style="margin: 0;"></span></a> <a class="dsq-comment-count" data-disqus-identifier="{{ str(p['_id']) }}" href="/posts/{{ p['slug'] }}">{{ p['comment_count'] }} comment{{ 's' if p['comment_count'] != 1 else '' }}</a>
       {% set has_voted = False %}
       {% for v in p['voted_users'] %}
-      {% if current_user == v['username'] %}
+      {% if 'current_user' in globals() and current_user == v['username'] %}
       {% set has_voted = True %}
       {% end %}
       {% end %}
