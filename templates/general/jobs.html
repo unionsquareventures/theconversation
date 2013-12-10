@@ -143,17 +143,14 @@
     
     //If URL has a hash, do relevant filtering on page load
     if (window.location.hash) {
-      //parse_hash();
-      var entire_query = window.location.hash.split("#")[1];
-      var filter_type = entire_query.split("=")[0]
-      var query = entire_query.split("=")[1]
       //filter_menu(filter_type);
-      //filter_jobs(filter_type, query);
+      filter_jobs();
     }
 
     // Filters jobs every time a change is made to the hash
     $(window).on('hashchange', function() {
-      //filter_jobs();
+      //filter_menu(filter_type);
+      filter_jobs();
     });
     
 
@@ -264,7 +261,7 @@
 
   // Sets the hash
   function set_hash(hash_array) {
-    if (hash_array == []) {
+    if (hash_array == [] || hash_array == null) {
       window.location.hash = "";
       return;
     }
@@ -293,9 +290,46 @@
     window.location.hash = hash_string; // this triggers jquery event
   }
 
+  // Shows and hides jobs based on filtering
+  function filter_jobs() {
+    hash_array = parse_hash();
+    
+    // If no hash_array, show all jobs
+    if (hash_array == [] || hash_array == null) {
+      $('.job').each(function() {
+        $(this).show();
+        //$("#jobs-heading .filter-label").hide()
+        //$('.side-nav li').removeClass('active');
+      });
+      return;
+    }
+
+    // Else, hide all jobs and then choose which to show
+    $('.job').each(function() {
+      $(this).hide();
+    });
+
+    // Iterate over filter_types
+    for (var i=0; i<hash_array.length; i++) {
+      filter_type = hash_array[i][0];
+      // Iterate over each query
+      for (var j=1; j<hash_array[i].length; j++) {
+        query = hash_array[i][j];
+
+        // Match each job to [filter_type, query] pair
+        console.log("Matching: " + filter_type + ", " + query);
+        $('.job').each(function() {
+          if ($(this).attr("usv:" + filter_type + "-slug") == query) {
+            $(this).show();
+          }
+        });
+      }
+    }
+  } // filter_jobs
+
 
   // Shows and hides jobs based on filtering
-  function filter_jobs(filter_type, query) {
+  /*function filter_jobs(filter_type, query) {
     if (filter_type == "all" && query == "all") {
       $('.job').each(function(){
         $(this).show();
@@ -323,6 +357,7 @@
     $("#jobs-heading .filter-label").text('matching "' + nice_label + '"').show();
     
   } // filter_jobs
+  */
 
   // Shows and hides left hand menu filter links
   function filter_menu(filter_type) {
