@@ -1074,7 +1074,8 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
     -moz-transition:color 0.15s ease-out;
     transition:color 0.15s ease-out;
 }
-.hot-newest-feed .title {
+.hot-newest-feed .title,
+.feed .title {
     padding-right: 70px;
 }
 
@@ -1113,6 +1114,9 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 }
 .featured-post .title {
     padding-right: 80px;
+}
+.featured-post.card.usv .title {
+    padding-right: 0;
 }
  .feed .excerpt ,
  .featured-post .excerpt{
