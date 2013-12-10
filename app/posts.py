@@ -17,6 +17,7 @@ from lib import sanitize
 from lib import tagsdb
 from lib import userdb
 from lib import disqus
+from lib import template_helpers
 
 ###############
 ### New Post
@@ -42,7 +43,7 @@ class EditPost(app.basic.BaseHandler):
   @tornado.web.authenticated
   def get(self, slug):
     post = postsdb.get_post_by_slug(slug)
-    if post and post['user']['screen_name'] == self.current_user:
+    if post and post['user']['screen_name'] == self.current_user or self.current_user_can('edit_posts'):
       # available to edit this post
       self.render('post/edit_post.html', post=post)
     else:
@@ -302,12 +303,21 @@ class Bump(app.basic.BaseHandler):
           msg = {'error': 'You have already upvoted this post.'}
         else:
           user = userdb.get_user_by_screen_name(self.current_user)
+          
           # Increment the vote count
           post['votes'] += 1
           post['voted_users'].append(user['user'])
           postsdb.save_post(post)
           msg = {'votes': post['votes']}
-
+          
+          # send email notification to post author
+          author = userdb.get_user_by_screen_name(post['user']['username'])
+          if 'email_address' in author.keys():
+            subject = "[#usvconversation] @%s just bumped up your post: %s" % (self.current_user, post['title'])
+            text = "Woo!\n\nhttp://%s" % template_helpers.post_permalink(post)
+            logging.info('sent email to %s' % author['email_address'])
+            self.send_email('USV.com <web@usv.com>', author['email_address'], subject, text)
+          
     self.api_response(msg)
 
 ##########################
