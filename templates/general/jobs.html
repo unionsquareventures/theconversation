@@ -212,7 +212,7 @@
 
   }); //$(document).ready();
 
-  // Adds a query to the hash
+  // Adds or subtracts a query to the hash
   function add_hash(filter_type, query) {
     if (filter_type == null || query == null) {
       return;
@@ -228,10 +228,19 @@
         
         // For this filter_type, see if query already exists
         query_flag = false;
-        for (var j=0; j<hash_array[i].length; j++) {
+        num_queries = hash_array[i].length
+        for (var j=0; j<num_queries; j++) {
           if (hash_array[i][j] == query) {
             query_flag = true; // Query already exists
             hash_array[i].splice(j,1); //Remove query from the hash
+            num_queries = num_queries - 1;
+
+            // Delete the filter_type if no more queries
+            if (hash_array[i].length == 1) {
+              hash_array.splice(i, 1);
+              console.log('removed category');
+              console.log(hash_array);
+            }
           }
         }
         // Adds query if it didn't already exist
@@ -295,7 +304,7 @@
     // Iterate over filter_types
     for (var i=0; i<hash_array.length; i++) {
       if (i>0) {
-        hash_string = hash_string + "&";
+        hash_string = hash_string + "&"; // for second, third, etc. category types
       }
       
       // Add filter_type
