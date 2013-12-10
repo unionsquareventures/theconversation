@@ -15,21 +15,24 @@
     <a class="username-link" href="/user/{{ p['user']['username'] }}" style="color: #999">@{{ p['user']['username'] }}</a>
     <span class="username" style="">@{{ p['user']['username'] }}</span>
     <span class="time"><a href="/posts/{{ p['slug'] }}" ><span class="glyphicon glyphicon-link" style="margin: 0;font-size: 90%"></span> {{ template_helpers.pretty_date(p['date_created']) }}</a></span>
-    <a href="/posts/{{ p['slug'] }}/upvote" class="votes-count ajax_upvote_link upvote-button">
-      <span class="value">{{ p['votes'] }} vote{{ 's' if p['votes'] != 1 else '' }}</span>
-    </a>
     <a href="/posts/{{ p['slug'] }}" ><span class="glyphicon glyphicon-comment" style="margin: 0;"></span></a> <a class="dsq-comment-count" data-disqus-identifier="{{ str(p['_id']) }}" href="/posts/{{ p['slug'] }}">{{ p['comment_count'] }} comment{{ 's' if p['comment_count'] != 1 else '' }}</a>
-    {% if current_user in settings.get('staff') and False %}
-      &nbsp;&nbsp;
-      <span class="volume">
-        {% if not p['muted'] %}
-          <a title="mute (remove from front page)" style="color: #333; opacity:.5; font-size: 1.2em" href="/posts/{{ p['slug'] }}/mute" class="mute"><span class="glyphicon glyphicon-volume-off"></span></a>
-          <a title="make this quieter" style="color: red; opacity:.5; font-size: 1.2em" href="/posts/{{ p['slug'] }}/bumpdown"><span class="glyphicon glyphicon-volume-down"></span></a>
-          <a title="make this louder" style="color: blue;  opacity:.5; font-size: 1.1em;" href="/posts/{{ p['slug'] }}/bumpup"><span class="glyphicon glyphicon-volume-up"></span></a>
-        {% else %}
-          <a title="unmute this post" style="color: blue;  opacity:.5; font-size: 1.1em;" href="/posts/{{ p['slug'] }}/unmute"><span class="glyphicon glyphicon-volume-off"></span></a>
-        {% end %}
-      </span>
-    {% end %}
+      {% set has_voted = False %}
+      {% for v in p['voted_users'] %}
+      {% if current_user == v['username'] %}
+      {% set has_voted = True %}
+      {% end %}
+      {% end %}
+      <div class="volume {% if has_voted %}bumped{% end %}">
+        <a title="bump up this post"href="/posts/{{ p['slug'] }}/upvote" class="votes-count ajax_upvote_link upvote-button">
+          <table>
+            <td class="upvote-icon"><span class="glyphicon glyphicon-circle-arrow-up"></span></td>
+            <td class="value">
+              {% if p['votes'] > 1 %}
+              {{ p['votes'] - 1 }}
+              {% end %}
+            </td>
+          </table>
+        </a>
+      </div>
   </div>
 </div>

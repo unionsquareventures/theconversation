@@ -21,11 +21,8 @@ $('.ajax_upvote_link').on('click', function(e) {
         }
         return;
       }
-      var plural = '';
-      if(data['data']['votes'] != 1) {
-        plural = 's';
-      }
-      upvote_link.children('.value').text(data['data']['votes'] + ' vote' + plural);
+      upvote_link.find('.value').text(data['data']['votes'] - 1);
+      upvote_link.parent().addClass('bumped');
     }
   });
 });
