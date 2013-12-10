@@ -39,7 +39,7 @@ INDEED_PUBLISHER_ID = '9648379283006957'
 
 ''' Returns all jobs, default sorted by date added '''
 def get_all():
-	return list(db.job.find(sort=[('date', pymongo.ASCENDING)]))
+	return list(db.job.find(sort=[('company', pymongo.ASCENDING)]))
 
 ''' Saves a job to the database. Job argument is a dict.'''
 def save_job(job):

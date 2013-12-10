@@ -42,18 +42,20 @@
       -->
 
       <div id="jobs-content" class="row">
+
+        <!-- LH menu/tags -->
         <div class="col-sm-3">
           <div class="job-tabs-container">
             <h2>Filter</h2>
+
             <ul class="job-tabs filter-tabs">
               <li><a href="#category" usv:filter="category">By Job Category</a></li>
               <li><a href="#location" usv:filter="location">By Location</a></li>
               <li><a href="#company" usv:filter="company">By Company</a></li>
-              <!--<li><a href="#title" usv:filter="title">By Title</a></li>-->
             </ul>
           </div>
 
-          <div id="jobs-menu" class="filter-menu" style="display:none;">
+          <div id="jobs-menu" class="filter-menu">
             <div usv:filter="category">
               <h2>Categories</h2>
 
@@ -81,19 +83,10 @@
                 {% end %}
               </ul>
             </div>
-
-              <!--
-              <ul class="side-nav" id="title">
-                <li><a href="#title,c-level">C-Level</a></li>
-                <li><a href="#title,director">Director</a></li>
-                <li><a href="#title,internships">Internships</a></li>
-                <li><a href="#title,vice-president">Vice President</a></li>
-              </ul>
-              -->
-          </div><!--jobs-menu-->
+          </div>
         </div><!--col-sm-3-->
       
-      
+        <!-- Job listings -->
         <div class="col-sm-9">
           <!-- Heading -->
           <h2 class="subsection section-heading" id="jobs-heading" style="clear:both; border-bottom:none">Jobs <span class="filter-label" style="display:none"></span></h2> 
@@ -165,17 +158,23 @@
 <script>
   
   $(document).ready(function() {
+    // Assumes all jobs and tags are not shown on page load
+    // Just makes loading behavior look better, executes this first
+    //$('.job').hide();
+    $('.side-nav a').hide();
+
+
     
-    //If URL has a hash, do relevant filtering on page load
+    // Filter on page load if URL has a hash
     if (window.location.hash) {
-      //filter_menu(filter_type);
       filter_jobs();
+      filter_tags();
     }
 
     // Filters jobs every time a change is made to the hash
     $(window).on('hashchange', function() {
-      //filter_menu(filter_type);
       filter_jobs();
+      filter_tags();
     });
     
 
@@ -203,11 +202,8 @@
     $(".dropdown-menu a").click(function(e) {
       e.preventDefault();
       var filter_type = $(this).parent().parent().attr("usv:filter");
-      console.log(filter_type);
       var query = this.href.split("#")[1];
-      add_hash(filter_type, query)
-      //location.hash = filter_type + "=" + query;
-      //filter_jobs(filter_type, query);
+      add_hash(filter_type, query); // this triggers jquery event that filters jobs
     });
 
   }); //$(document).ready();
@@ -238,8 +234,6 @@
             // Delete the filter_type if no more queries
             if (hash_array[i].length == 1) {
               hash_array.splice(i, 1);
-              console.log('removed category');
-              console.log(hash_array);
             }
           }
         }
@@ -256,7 +250,6 @@
     }
 
     // Reset the window's hash
-    //console.log(hash_array);
     set_hash(hash_array);
   }
 
@@ -265,6 +258,10 @@
   // Ex: [[company, duolingo], [location, NYC, SF]]
   function parse_hash() {
     var entire_query = window.location.hash.split("#")[1];
+    if (!entire_query) {
+      return [];
+    }
+
     var filter_types = entire_query.split("&");
 
     // Iterate over all filter types
@@ -288,8 +285,6 @@
       return_array.push(filter_array);
     }
     
-    console.log("Returning parse_hash");
-    console.log(return_array);
     return return_array;
   }
 
@@ -320,7 +315,6 @@
         } 
       }
     }
-    console.log(hash_string);
     window.location.hash = hash_string; // this triggers jquery event
   }
 
@@ -339,9 +333,7 @@
     }
 
     // Else, hide all jobs and then choose which to show
-    $('.job').each(function() {
-      $(this).hide();
-    });
+    $('.job').hide();
 
     // Check each job for all [filter_type, query] pairs
     $('.job').each(function() {
@@ -374,39 +366,35 @@
   } // filter_jobs
 
 
-  // Shows and hides jobs based on filtering
-  /*function filter_jobs(filter_type, query) {
-    if (filter_type == "all" && query == "all") {
-      $('.job').each(function(){
-        $(this).show();
-        $("#jobs-heading .filter-label").hide()
-        $('.side-nav li').removeClass('active');
-      });
-      return
-    }
-    $('.job').each(function(){
-      if ($(this).attr("usv:" + filter_type + "-slug") == query) {
-        $(this).show();
-      } else {
-        $(this).hide();
+  // Shows and hides left hand menu filter links
+  function filter_tags() {
+    // Hide them all
+    $('.side-nav a').hide();
+
+    // Show if matches a hash query
+    hash_array = parse_hash();
+    $(".side-nav a").each(function() {
+      // Iterate over filter_types
+      for (var i=0; i<hash_array.length; i++) {
+        filter_type = hash_array[i][0];
+
+        // Iterate over each query
+        for (var j=1; j<hash_array[i].length; j++) {
+          query = hash_array[i][j];
+
+          // Match query
+          //console.log($(this).parent().parent().parent().attr("usv:filter"));
+          //console.log(filter_type);
+          //console.log(this.href.split("#")[1]);
+          //console.log(query);
+          if ($(this).parent().parent().parent().attr("usv:filter") == filter_type &&  this.href.split("#")[1] == query) {
+            $(this).show();
+          }
+        }
       }
     });
-    
-    // light off all wrong buttons
-    $('.side-nav li').removeClass('active');
-
-    // light up the right button
-    $("#" + query).parent().addClass("active");
-    
-    // set the filter heading
-    var nice_label = $("#" + query).text();
-    $("#jobs-heading .filter-label").text('matching "' + nice_label + '"').show();
-    
-  } // filter_jobs
-  */
-
-  // Shows and hides left hand menu filter links
-  function filter_menu(filter_type) {
+  }
+    /*
     $("#jobs-menu").show();
     $('.job-tabs li').removeClass('active');
 
@@ -422,11 +410,8 @@
       } else {
         $(this).hide();
       }
-    
-    filter_jobs("all", "all");
-    
     });
-  } // filter_menu
+  */ // filter_menu
 
   </script>
 {% end %}
