@@ -143,18 +143,17 @@
     
     //If URL has a hash, do relevant filtering on page load
     if (window.location.hash) {
-      parse_hash();
+      //parse_hash();
       var entire_query = window.location.hash.split("#")[1];
       var filter_type = entire_query.split("=")[0]
       var query = entire_query.split("=")[1]
-      filter_menu(filter_type);
-      filter_jobs(filter_type, query);
+      //filter_menu(filter_type);
+      //filter_jobs(filter_type, query);
     }
 
     // Filters jobs every time a change is made to the hash
     $(window).on('hashchange', function() {
-      console.log('hash changed');
-      parse_hash();
+      //filter_jobs();
     });
     
 
@@ -193,18 +192,22 @@
 
   // Adds a query to the hash
   function add_hash(filter_type, query) {
+    if (filter_type == null || query == null) {
+      return;
+    }
+
     hash_array = parse_hash();
 
     // See if filter_type already in hash_array
     filter_type_flag = false;
     for (var i=0; i<hash_array.length; i++) {
-      if hash_array[i][0] == filter_type {
+      if (hash_array[i][0] == filter_type) {
         filter_type_flag = true; // filter_type already exists
         
         // For this filter_type, see if query already exists
         query_flag = false;
         for (var j=0; j<hash_array[i].length; j++) {
-          if hash_array[i][j] == query {
+          if (hash_array[i][j] == query) {
             query_flag = true; // Query already exists
             hash_array[i].splice(j,1); //Remove query from the hash
           }
@@ -222,7 +225,7 @@
     }
 
     // Reset the window's hash
-    console.log(hash_array);
+    //console.log(hash_array);
     set_hash(hash_array);
   }
 
@@ -253,12 +256,41 @@
       //Add filter_array to return_array
       return_array.push(filter_array);
     }
+    
+    console.log("Returning parse_hash");
+    console.log(return_array);
     return return_array;
   }
 
   // Sets the hash
   function set_hash(hash_array) {
+    if (hash_array == []) {
+      window.location.hash = "";
+      return;
+    }
 
+    hash_string = "#";
+    // Iterate over filter_types
+    for (var i=0; i<hash_array.length; i++) {
+      if (i>0) {
+        hash_string = hash_string + "&";
+      }
+      
+      // Add filter_type
+      hash_string = hash_string + hash_array[i][0] + "=";
+
+      // Add each query
+      for (var j=1; j<hash_array[i].length; j++) {
+        hash_string = hash_string + hash_array[i][j];
+
+        // Add comma if not last query
+        if (j+1<hash_array[i].length) {
+          hash_string = hash_string + ",";
+        } 
+      }
+    }
+    console.log(hash_string);
+    window.location.hash = hash_string; // this triggers jquery event
   }
 
 
