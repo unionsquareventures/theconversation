@@ -312,7 +312,7 @@ class Bump(app.basic.BaseHandler):
             subject = "[#usvconversation] @%s just bumped up your post: %s" % (self.current_user, post['title'])
             text = "Woo!\n\nhttp://%s" % template_helpers.post_permalink(post)
             logging.info('sent email to %s' % author['email_address'])
-            self.send_email('USV.com <web@usv.com>', author['email_address'], subject, text)
+            self.send_email('web@usv.com', author['email_address'], subject, text)
           
     self.api_response(msg)
 
