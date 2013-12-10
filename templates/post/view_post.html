@@ -119,27 +119,6 @@
               If you'd like to receive email notifications of new comments, <a href="/auth/disqus">link to Disqus here</a>.
             </div>
           {% end %}
-          
-          {% set tmp = post['voted_users'].reverse() %}
-          <ul class="bumps clearfix">
-          {% for user in post['voted_users'] %}
-              <li>
-                {% if 'screen_name' in user and user['screen_name'] != post['user']['screen_name'] %}
-                <span class="glyphicon glyphicon-circle-arrow-up" style="color: #ccc"></span>
-                {% else %} 
-                <span class="glyphicon glyphicon-plus-sign" style="color: #CE3B00"></span>
-                {% end %}
-              <img class="avatar" src="{{ user.get('profile_image_url_https', '') }}" alt="thumbnail" style="max-height:25px;" />
-              {% if 'screen_name' in user and user['screen_name'] != post['user']['screen_name'] %}
-                <a href="/user/{{ user['screen_name'] }}">{{user['screen_name']}}</a>
-              {% elif 'screen_name' in user %}
-                <a href="/user/{{ user['screen_name'] }}">{{user['screen_name']}}</a> posted this.
-              {% end %}
-            </li>
-          {% end %}
-            </ul>
-          
-          <hr style="margin-top:25px"/>
 
           <div class="comment-box">
             <div id="disqus_thread"></div>
@@ -170,6 +149,28 @@
             <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
 
           </div>
+          
+          <hr />
+          
+          {% set tmp = post['voted_users'].reverse() %}
+          <ul class="bumps clearfix">
+          {% for user in post['voted_users'] %}
+              <li>
+                {% if 'screen_name' in user and user['screen_name'] != post['user']['screen_name'] %}
+                <span class="glyphicon glyphicon-circle-arrow-up" style="color: #ccc"></span>
+                {% else %} 
+                <span class="glyphicon glyphicon-plus-sign" style="color: #CE3B00"></span>
+                {% end %}
+              <img class="avatar" src="{{ user.get('profile_image_url_https', '') }}" alt="thumbnail" style="max-height:25px;" />
+              {% if 'screen_name' in user and user['screen_name'] != post['user']['screen_name'] %}
+                <a href="/user/{{ user['screen_name'] }}">{{user['screen_name']}}</a>
+              {% elif 'screen_name' in user %}
+                <a href="/user/{{ user['screen_name'] }}">{{user['screen_name']}}</a> posted this.
+              {% end %}
+            </li>
+          {% end %}
+            </ul>
+          
         </article>
       </div>
 
