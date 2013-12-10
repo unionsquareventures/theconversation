@@ -1159,8 +1159,25 @@ body.staff .hot-newest-feed .title {
 
 .feed .volume {
     position: absolute;
-    top: 10px;
+    top: 25px;
     right: 0;
+}
+.volume td {
+    vertical-align: middle;
+}
+.volume .glyphicon {
+    font-size: 1.4em;
+}
+.volume .value {
+    font-size: 1.25em;
+    font-family: "proximanova-regular";
+}
+.volume a {
+    color: #999 !important;
+}
+.volume.bumped a {
+    color: #CE3B00 !important;
+    color: #86AA3B !important;
 }
 
 .feed .volume span {
@@ -1224,7 +1241,7 @@ body.staff .hot-newest-feed .title {
 }
  .feed .votes-count {
     padding-left:15px;
-    background:transparent url(/static/img/icon-upvote.png) no-repeat 0 center;
+    /*background:transparent url(/static/img/icon-upvote.png) no-repeat 0 center;*/
 }
  @media only screen and (-webkit-min-device-pixel-ratio:1.3), only screen and (min--moz-device-pixel-ratio:1.3), only screen and (-o-min-device-pixel-ratio:1.3 / 1), only screen and (min-resolution:125dpi), only screen and (min-resolution:1.3dppx) {
     .feed .votes-count {
