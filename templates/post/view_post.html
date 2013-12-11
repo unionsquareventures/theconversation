@@ -9,8 +9,14 @@
   {% set p = post %}
   
   <div id="main" role="main">
+    
     <div class="row article-post single community">
       <div class="col-sm-8 col-sm-offset-2">
+        {% if msg and msg == "updated" %}
+        <div class="alert alert-success">
+          Post updated!
+        </div>
+        {% end %}
         <article class="usv-post">
           <h1 class="post-title">
             {% if 'url' in post and post['url'] %}
