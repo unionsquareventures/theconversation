@@ -45,7 +45,7 @@
                 </a>
               #}
 
-              {% set post['body_html'] = re.sub(r'@([^\s]+)', r'<a href="/user/\1">@\1</a>', post['body_html']) %}
+              {% set post['body_html'] = re.sub(r'@([^\s,\.!<?"]+)', r'<a href="/user/\1">@\1</a>', post['body_html']) %}
               {% raw post['body_html'] %}
 
               {% if 'url' in post and post['url'] and (urlparse(post['url']).netloc == "twitter.com" or urlparse(post['url']).netloc == "www.twitter.com") %}
