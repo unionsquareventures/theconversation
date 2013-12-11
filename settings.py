@@ -17,7 +17,7 @@ tornado.options.define("environment", default="dev", help="environment")
 
 options = {
   'dev' : {
-    'mongo_database' : {'host' : 'localhost', 'port' : 27017, 'db' : 'usv'},
+    'mongo_database' : {'host' : os.environ.get('MONGODB_URL'), 'port' : 27017, 'db' : os.environ.get('DB_NAME')},
     'base_url' : 'localhost:8001',
   },
   'test' : {
