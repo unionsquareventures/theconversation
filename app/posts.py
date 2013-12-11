@@ -148,6 +148,11 @@ class ListPosts(app.basic.BaseHandler):
       post['date_deleted'] = datetime.now()
 
     bypass_dup_check = self.get_argument('bypass_dup_check', '')
+    is_edit = False
+    if post['slug']:
+      bypass_dup_check = "true"
+      is_edit = True
+
     dups = []
 
     # make sure user isn't blacklisted
@@ -176,7 +181,6 @@ class ListPosts(app.basic.BaseHandler):
         ## 
         ## If there are dupes, kick them back to the post add form
         ##
-        logging.info('why are you here?')
         return (self.render('post/new_post.html', post=post, dups=dups))
         
       # Handle tags
@@ -276,7 +280,10 @@ class ListPosts(app.basic.BaseHandler):
     sort_by = "newest"
     posts = postsdb.get_new_posts(per_page, page)
 
-    self.render('post/lists_posts.html', sort_by=sort_by, msg=msg, page=page, posts=posts, featured_posts=featured_posts, is_blacklisted=is_blacklisted, new_post=post, dups=dups)
+    if is_edit:
+      self.redirect('/posts/%s?msg=updated' % post['slug'])
+    else:
+      self.render('post/lists_posts.html', sort_by=sort_by, msg=msg, page=page, posts=posts, featured_posts=featured_posts, is_blacklisted=is_blacklisted, new_post=post, dups=dups)
 
 ##########################
 ### Bump Up A SPECIFIC POST
@@ -352,7 +359,9 @@ class ViewPost(app.basic.BaseHandler):
   def get(self, slug):
     post = postsdb.get_post_by_slug(slug)
     if not post:
-      raise tornado.web.HTTPError(404)    
+      raise tornado.web.HTTPError(404)  
+    
+    msg = self.get_argument('msg', None)  
     
     user = None
     if self.current_user:
@@ -365,7 +374,7 @@ class ViewPost(app.basic.BaseHandler):
         voted_users.append(i)
     post['voted_users'] = voted_users
     
-    self.render('post/view_post.html', user_obj=user, post=post)
+    self.render('post/view_post.html', user_obj=user, post=post, msg=msg)
 
 #############
 ### WIDGET
