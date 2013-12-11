@@ -102,9 +102,10 @@ def update_all():
     for c in companiesdb.get_companies_by_status('current'):
 	    print 'Pulling jobs for %s' % c['name']
 	    job_list = get_json(c)
-	    job_list = clean_jobs(c, job_list)
-	    for job in job_list:
-	      save_job(job)
+	    if job_list:
+		    job_list = clean_jobs(c, job_list)
+	    	for job in job_list:
+	      	save_job(job)
 
 ''' Returns a list of jobs (each one a dict) for a given company '''
 def get_json(company):
@@ -118,10 +119,11 @@ def get_json(company):
 	api_url += '&q=company%3A' # %3A doesn't work with %s for some reason
 	api_url += '(%s)' % indeed_slug
 	results = []
-	for co in INDEED_COUNTRIES:	
-		api_url += '&limit=1000&filter=&co=%s&chnl=&userip=1.2.3.4&v=2&format=json' % co
+	for co in ['us']: #INDEED_COUNTRIES:	
+		api_url += '&limit=1000&filter=&co=&chnl=&userip=1.2.3.4&v=2&format=json'
 		data = json.load(urllib.urlopen(api_url)) # data is a dict
-		results.append(data['results'])
+		if data['results']:
+			results.extend(data['results'])
 
 	return results
 	#query = {'publisher': INDEED_PUBLISHER_ID, 'company': company}
@@ -138,10 +140,8 @@ def get_json(company):
 ''' Ensures all jobs are for the given company only'''
 def clean_jobs(company, job_list):
 	good_jobs = []
-	print type(job_list)
 	for job in job_list:
-		print type(job)
-		print job
+		# job
 		# Rules for certain portfolio companies
 		job['company'] = job['company'].replace('.com', '') # Kickstarter.com, etc. 
 		job['company'] = job['company'].replace('Labs', '') # foursquare labs
@@ -225,7 +225,3 @@ def parse_position(string):
 	#	return 'International'
 	else:
 		return 'Other'
-
-# To run as script or cronjob
-if __name__ == "__main__":
-	print db.company
