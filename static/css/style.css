@@ -1184,11 +1184,15 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
     font-family: "proximanova-regular";
 }
 .volume a {
-    color: #999 !important;
+    /*color: #86AA3B !important;*/ /*GREEN*/
+    color: #aaa !important;
+}
+.volume a:hover {
+    color: #888 !important;
 }
 .volume.bumped a {
-    color: #CE3B00 !important; /* RED */
-    /*color: #86AA3B !important; */ /*GREEN*/
+    /*color: #CE3B00 !important; */ /* RED */
+    color: #B2665E !important; /* pink */
 }
 
 .feed .volume span {
