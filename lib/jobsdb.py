@@ -6,8 +6,16 @@ import pymongo
 
 INDEED_API_URL = 'http://api.indeed.com/ads/apisearch'
 INDEED_PUBLISHER_ID = '9648379283006957'
-
-#db.job.ensure_index('jobkey')
+INDEED_COUNTRIES = ['us',
+					'gb', # Great Britain
+					'ca',
+					'de',
+					'il',
+					'fr',
+					'nl', # Netherlands
+					'se', # Sweden
+					'ie', # Ireland
+					'jp'] # Japan
 
 """
 {
@@ -93,26 +101,47 @@ def get_aggregation(arg):
 def update_all():
     for c in companiesdb.get_companies_by_status('current'):
 	    print 'Pulling jobs for %s' % c['name']
-	    job_list = get_json(c['name'])
-	    job_list = clean_jobs(c['name'], job_list)
+	    job_list = get_json(c)
+	    job_list = clean_jobs(c, job_list)
 	    for job in job_list:
 	      save_job(job)
 
 ''' Returns a list of jobs (each one a dict) for a given company '''
 def get_json(company):
-	query = {'publisher': INDEED_PUBLISHER_ID, 'company': company}
+	if 'indeed_slug' in company.keys():
+		indeed_slug = company['indeed_slug']
+	else:
+		indeed_slug = company['name']
+
+    # Ping API in every country
 	api_url = INDEED_API_URL + '?publisher=%s' % INDEED_PUBLISHER_ID
 	api_url += '&q=company%3A' # %3A doesn't work with %s for some reason
-	api_url += '(%s)' % company
+	api_url += '(%s)' % indeed_slug
+	results = []
+	for co in INDEED_COUNTRIES:	
+		api_url += '&limit=1000&filter=&co=%s&chnl=&userip=1.2.3.4&v=2&format=json' % co
+		data = json.load(urllib.urlopen(api_url)) # data is a dict
+		results.append(data['results'])
+
+	return results
+	#query = {'publisher': INDEED_PUBLISHER_ID, 'company': company}
+	'''
+	api_url = INDEED_API_URL + '?publisher=%s' % INDEED_PUBLISHER_ID
+	api_url += '&q=company%3A' # %3A doesn't work with %s for some reason
+	api_url += '(%s)' % indeed_slug
 	api_url += '&limit=1000&filter=&co=&chnl=&userip=1.2.3.4&v=2&format=json'
 	data = json.load(urllib.urlopen(api_url)) # data is a dict
 	print api_url
 	return data['results']
+	'''
 
 ''' Ensures all jobs are for the given company only'''
 def clean_jobs(company, job_list):
 	good_jobs = []
+	print type(job_list)
 	for job in job_list:
+		print type(job)
+		print job
 		# Rules for certain portfolio companies
 		job['company'] = job['company'].replace('.com', '') # Kickstarter.com, etc. 
 		job['company'] = job['company'].replace('Labs', '') # foursquare labs
@@ -120,9 +149,9 @@ def clean_jobs(company, job_list):
 		job['company'] = job['company'].replace('Inc.', '') # Twilio Inc. 
 		job['company'] = job['company'].replace('Inc', '') # WorkMarket Inc
 		job['company'] = job['company'].replace('Wealth Management', '') # SigFig Wealth Management
-		job['company'] = job['company'].replace('DISQUS', 'Disqus')
-		job['company'] = job['company'].replace('Heyzap', 'HeyZap')
-		job['company'] = job['company'].replace('foursquare', 'Foursquare')
+		#job['company'] = job['company'].replace('DISQUS', 'Disqus')
+		#job['company'] = job['company'].replace('Heyzap', 'HeyZap')
+		#job['company'] = job['company'].replace('foursquare', 'Foursquare')
 		job['company'] = job['company'].replace('.TV', '') # VHX.tv
 		job['company'] = job['company'].replace('.tv', '') # Kickstarter.com, etc.
 
@@ -130,7 +159,8 @@ def clean_jobs(company, job_list):
 		job['company'] = job['company'].strip()
 		
 		# Remove job from list if company name is not an exact match
-		if company.lower() == job['company'].lower():
+		if company['name'].lower() == job['company'].lower():
+			job['company'] = company['name'] # ensures exact name, i.e. not DISQUS
 			good_jobs.append(job)
 			print "Added job: %s | %s | %s" % (job['company'], job['formattedLocation'], job['jobtitle'])
 		else:
