@@ -179,12 +179,14 @@
     if (window.location.hash) {
       filter_jobs();
       filter_tags();
+      filter_title();
     }
 
     // Filters jobs every time a change is made to the hash
     $(window).on('hashchange', function() {
       filter_jobs();
       filter_tags();
+      filter_title();
     });
     
 
@@ -397,6 +399,40 @@
       }
     }); 
   } // filter_tags
+
+  function filter_title() {
+    hash_array = parse_hash();
+    title = " matching ";
+
+    for (var i=0; i<hash_array.length; i++) {
+        if (i == 0) {
+          title = title.concat('"')
+        }
+        else {
+          title = title.concat(' and "')
+        }
+        title = title.concat(hash_array[i][0] + ": ");
+
+        for (var j=1; j<hash_array[i].length; j++) {
+          title = title.concat(hash_array[i][j]);
+          if (j == hash_array[i].length-1 ) {
+            title = title.concat('"')
+          } 
+          else {
+            title = title.concat(", ");
+          }
+        }
+      }
+
+    // Only show if there were any queries
+    if (title == " matching") {
+      $("#jobs-heading .filter-label").text(title).hide();
+    }
+    else {
+       $("#jobs-heading .filter-label").text(title).show();
+    }
+    
+  }
 
   /*
   // Shows and hides left hand menu filter links
