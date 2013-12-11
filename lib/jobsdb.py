@@ -104,8 +104,8 @@ def update_all():
 	    job_list = get_json(c)
 	    if job_list:
 		    job_list = clean_jobs(c, job_list)
-	    	for job in job_list:
-	      	save_job(job)
+		    for job in job_list:
+	      		save_job(job)
 
 ''' Returns a list of jobs (each one a dict) for a given company '''
 def get_json(company):
@@ -119,8 +119,8 @@ def get_json(company):
 	api_url += '&q=company%3A' # %3A doesn't work with %s for some reason
 	api_url += '(%s)' % indeed_slug
 	results = []
-	for co in ['us']: #INDEED_COUNTRIES:	
-		api_url += '&limit=1000&filter=&co=&chnl=&userip=1.2.3.4&v=2&format=json'
+	for co in INDEED_COUNTRIES:	
+		api_url += '&limit=1000&filter=&co=%s&chnl=&userip=1.2.3.4&v=2&format=json' % co
 		data = json.load(urllib.urlopen(api_url)) # data is a dict
 		if data['results']:
 			results.extend(data['results'])
@@ -149,9 +149,6 @@ def clean_jobs(company, job_list):
 		job['company'] = job['company'].replace('Inc.', '') # Twilio Inc. 
 		job['company'] = job['company'].replace('Inc', '') # WorkMarket Inc
 		job['company'] = job['company'].replace('Wealth Management', '') # SigFig Wealth Management
-		#job['company'] = job['company'].replace('DISQUS', 'Disqus')
-		#job['company'] = job['company'].replace('Heyzap', 'HeyZap')
-		#job['company'] = job['company'].replace('foursquare', 'Foursquare')
 		job['company'] = job['company'].replace('.TV', '') # VHX.tv
 		job['company'] = job['company'].replace('.tv', '') # Kickstarter.com, etc.
 

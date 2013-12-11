@@ -77,7 +77,9 @@
               <ul class="side-nav filter-tabs" id="location">
                 {% for l in locations %}
                   <li>
-                    <a id="{{ slugify(l) }}" href="#{{ slugify(l) }}">{{ l }}</a>
+                    <a id="{{ slugify(l) }}" href="#{{ slugify(l) }}">{{ l }}
+                      <span></span>
+                    </a>
                   </li>
                 {% end %}
               </ul>
@@ -89,7 +91,9 @@
               <ul class="side-nav filter-tabs" id="category">
                 {% for c in categories %}
                   <li>
-                    <a id="{{ slugify(c) }}" href="#{{ slugify(c) }}">{{ c }}</a>
+                    <a id="{{ slugify(c) }}" href="#{{ slugify(c) }}">{{ c }}
+                      <span></span>
+                    </a>
                   </li>
                 {% end %}
               </ul>
@@ -158,7 +162,7 @@
             <div class="job" usv:company-slug="{{ slugify(j['company']) }}" usv:company="{{ j['company'] }}" usv:location="{{ j['formattedLocation'] }}" usv:location-slug="{{ slugify(j['formattedLocation']) }}" usv:category="{{ j['position'] }}" usv:category-slug="{{ slugify(j['position']) }}">
               <div class="col-sm-3">{{ j['company'] }}</div>
               <div class="col-sm-3">{{ j['formattedLocation'] }}</div>
-              <div class="col-sm-6"><a href="{{ j['url'] }}">{{ j['jobtitle'] }}</a></div>
+              <div class="col-sm-6"><a href="{{ j['url'] }}" target="_blank">{{ j['jobtitle'] }}</a></div>
             </div>
             {% end %}
           </div>
@@ -414,7 +418,14 @@
         title = title.concat(hash_array[i][0] + ": ");
 
         for (var j=1; j<hash_array[i].length; j++) {
-          title = title.concat(hash_array[i][j]);
+          text = hash_array[i][j];
+
+          // Un-slugify company names
+          if (hash_array[i][0] == 'company') {
+            text = text.replace("-", " ");
+          }
+
+          title = title.concat(text);
           if (j == hash_array[i].length-1 ) {
             title = title.concat('"')
           } 
