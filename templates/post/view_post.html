@@ -6,10 +6,17 @@
 
 {% block content %}
   {% import re %}
-
+  {% set p = post %}
+  
   <div id="main" role="main">
+    
     <div class="row article-post single community">
       <div class="col-sm-8 col-sm-offset-2">
+        {% if msg and msg == "updated" %}
+        <div class="alert alert-success">
+          Post updated!
+        </div>
+        {% end %}
         <article class="usv-post">
           <h1 class="post-title">
             {% if 'url' in post and post['url'] %}
@@ -25,7 +32,7 @@
           {% end %}
           <div>
             <div class="profile-photo">
-              <a href="http://www.twitter.com/{{ post['user']['username'] }}" title="@{{ post['user']['username'] }}" target="_blank">
+              <a href="/user/{{ post['user']['username'] }}" title="@{{ post['user']['username'] }}">
                 <img class="avatar" src="{{ template_helpers.twitter_avatar_size(post['user']['profile_image_url_https'], 'original') }}" alt="thumbnail">
               </a>
               <div class="visible-xs">
@@ -35,7 +42,7 @@
               </div>
             </div>
             <div class="post-body">
-              <span class="post-author"><a href="http://www.twitter.com/{{ post['user']['username'] }}" title="@{{ post['user']['username'] }}">@{{ post['user']['username'] }}</a>
+              <span class="post-author"><a href="/user/{{ post['user']['username'] }}" title="@{{ post['user']['username'] }}">@{{ post['user']['username'] }}</a>
                 <span class="text-muted">&nbsp;<span style="color: #ddd">&bull;</span>&nbsp; {{ template_helpers.pretty_date(post['date_created']) }}</span>
               </span>
               {#
@@ -44,7 +51,7 @@
                 </a>
               #}
 
-              {% set post['body_html'] = re.sub(r'@([^\s]+)', r'<a href="/user/\1">@\1</a>', post['body_html']) %}
+              {% set post['body_html'] = re.sub(r'@([^\s,\.!<?"]+)', r'<a href="/user/\1">@\1</a>', post['body_html']) %}
               {% raw post['body_html'] %}
 
               {% if 'url' in post and post['url'] and (urlparse(post['url']).netloc == "twitter.com" or urlparse(post['url']).netloc == "www.twitter.com") %}
@@ -60,10 +67,34 @@
                 <br /><br />
                 <iframe width="560" height="315" src="http://youtube.com/embed/{{ vid_id }}" frameborder="0" allowfullscreen></iframe>
               {% end %}
+              
+              {% if 'url' in post and post['url'] and (urlparse(post['url']).netloc == "hackpad.com" or urlparse(post['url']) == "www.hackpad.com") %}
+              {% set pad_id = post['url'].split("-")[-1] %}
+              <style type="text/css">
+                #hackpad-{{ pad_id }} {
+                  width:120% !important;
+                  border-right: 1px solid #ddd !important;
+                }
+              </style>
+              <br style="clear:both" /><br />
+              <script src="https://hackpad.com/{{ pad_id }}.js"></script>              
+              {% end %}
 
               {% if 'url' in post and post['url'] and (urlparse(post['url']).netloc == "vimeo.com" or urlparse(post['url']).netloc == "www.vimeo.com") %}
                 {% set vid_id = urlparse(post['url']).path %}
                 <iframe src="//player.vimeo.com/video{{ vid_id }}" width="500" height="281" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+              {% end %}
+              
+              {% if 'url' in post and post['url'] and (urlparse(post['url']).netloc == "hackpad.com" or urlparse(post['url']) == "www.hackpad.com") %}
+              {% set pad_id = post['url'].split("-")[-1] %}
+              <style type="text/css">
+                #hackpad-{{ pad_id }} {
+                  width:120% !important;
+                  border-right: 1px solid #ddd !important;
+                }
+              </style>
+              <br style="clear:both" />
+              <script src="https://hackpad.com/{{ pad_id }}.js"></script>              
               {% end %}
 
               {% if post['has_hackpad'] and post['hackpad_url'] %}
@@ -73,10 +104,8 @@
           </div>
 
           <div class="post-meta clearfix row hidden-xs">
-            <div class="col-sm-3 col-xs-6 upvote">
-              <a href="/posts/{{ post['slug'] }}/upvote" class="votes-count ajax_upvote_link upvote-button">
-                <span class="value">{{ post['votes'] }} vote{{ 's' if post['votes'] != 1 else '' }}</span>
-              </a>
+            <div class="col-sm-3 col-xs-6">
+              {% include bumpit_snippet.html %}
             </div>
             <div class="col-xs-6 tags">
               {% if 'tags' in post and post['tags'] %}
@@ -88,18 +117,17 @@
               {% end %}
             </div>
             <div class="col-sm-3 tweet">
-              <a href="https://twitter.com/share" class="twitter-share-button" data-text="{{ post['title'] }}" data-via="{{ post['user']['screen_name'] }}" data-hashtags="usvconversation">Tweet</a>
-              <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script> 
+              <a href="https://twitter.com/share" class="twitter-share-button" data-text="{{ post['title'] }}" data-via="{{ post['user']['screen_name'] }}" data-hashtags="usvconversation">Tweet</a> 
             </div> 
           </div>
 
           <div class="meta visible-xs">
             <div class="post-meta mobile clearfix row">
-              <div class="col-xs-6 upvote">
+              <div class="col-xs-6">
+                {% include bumpit_snippet.html %}
               </div>
               <div class="col-xs-6 tweet">
-                <a href="https://twitter.com/share" class="twitter-share-button" data-via="">Tweet</a>
-                <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>  
+                <a href="https://twitter.com/share" class="twitter-share-button" data-text="{{ post['title'] }}" data-via="{{ post['user']['screen_name'] }}" data-hashtags="usvconversation">Tweet</a>  
               </div> 
             </div>
           </div>
@@ -139,20 +167,28 @@
             <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
 
           </div>
-
-
-          {% if False %}
+          
+          <hr />
+          
+          {% set tmp = post['voted_users'].reverse() %}
+          <ul class="bumps clearfix">
           {% for user in post['voted_users'] %}
-            <hr />
-            <p>
-              <img class="avatar" src="{{ template_helpers.twitter_avatar_size(post['user']['profile_image_url_https'], 'original') }}" alt="thumbnail" style="max-height:25px;" />
-              {% if 'screen_name' in user %}
-              <a href="http://www.twitter.com/{{ user['screen_name'] }}" target="_blank">{{user['screen_name']}}</a> gave this post some props
+              <li>
+                {% if 'screen_name' in user and user['screen_name'] != post['user']['screen_name'] %}
+                <span class="glyphicon glyphicon-circle-arrow-up" style="color: #ccc"></span>
+                {% else %} 
+                <span class="glyphicon glyphicon-plus-sign" style="color: #CE3B00"></span>
+                {% end %}
+              <img class="avatar" src="{{ user.get('profile_image_url_https', '') }}" alt="thumbnail" style="max-height:25px;" />
+              {% if 'screen_name' in user and user['screen_name'] != post['user']['screen_name'] %}
+                <a href="/user/{{ user['screen_name'] }}">{{user['screen_name']}}</a>
+              {% elif 'screen_name' in user %}
+                <a href="/user/{{ user['screen_name'] }}">{{user['screen_name']}}</a> posted this.
               {% end %}
-            </p>
+            </li>
           {% end %}
-          {% end %}
-
+            </ul>
+          
         </article>
       </div>
 
@@ -171,5 +207,5 @@
 {% end %}
 
 {% block javascript %}
-
+                <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
 {% end %}

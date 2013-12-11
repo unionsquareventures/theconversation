@@ -67,7 +67,10 @@ class GetVotedUsers(app.basic.BaseHandler):
     post = postsdb.get_post_by_slug(slug)
     if post:
       voted_users = post['voted_users']
-    self.render('post/voted_users.html', voted_users=voted_users)
+      for user in voted_users:
+        if user.get('username') == post['user']['username']:
+          voted_users.remove(user)
+      self.render('post/voted_users.html', voted_users=voted_users)
     
 #########################
 ### Check to see if we already have a post by url

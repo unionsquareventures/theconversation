@@ -84,7 +84,7 @@ class EmailSettings(app.basic.BaseHandler):
               # Subscribe a user to the thread specified in response
               disqus.subscribe_to_thread(thread_id, user['disqus_access_token'])
     
-    self.redirect("/user/settings?msg=updated")
+    self.redirect("/user/%s/settings?msg=updated" % user['user']['screen_name'])
 
 ###########################
 ### LOG USER OUT OF ACCOUNT
@@ -100,8 +100,12 @@ class LogOut(app.basic.BaseHandler):
 ### /user/(.+)
 ##########################
 class Profile(app.basic.BaseHandler):
-  def get(self, screen_name):
-    section = self.get_argument('section', 'shares')
+  def get(self, screen_name, section="shares"):
+    user = userdb.get_user_by_screen_name(screen_name)
+    if not user:
+      raise tornado.web.HTTPError(404)
+    
+    #section = self.get_argument('section', 'shares')
     tag = self.get_argument('tag', '')
     per_page = int(self.get_argument('per_page', 10))
     page = int(self.get_argument('page',1))
@@ -119,7 +123,7 @@ class Profile(app.basic.BaseHandler):
     # also get the list of tags this user has put in
     tags = tagsdb.get_user_tags(screen_name)
 
-    self.render('user/profile.html', screen_name=screen_name, posts=posts, section=section, page=page, per_page=per_page, tags=tags, tag=tag)
+    self.render('user/profile.html', user=user, screen_name=screen_name, posts=posts, section=section, page=page, per_page=per_page, tags=tags, tag=tag, msg=None)
 
 ###########################
 ### USER SETTINGS
@@ -127,9 +131,15 @@ class Profile(app.basic.BaseHandler):
 ###########################
 class UserSettings(app.basic.BaseHandler):
   @tornado.web.authenticated
-  def get(self):
+  def get(self, username):
+    if username != self.current_user:
+      raise tornado.web.HTTPError(401)
+      
     msg = self.get_argument("msg", None)
     user = userdb.get_user_by_screen_name(self.current_user)
-    self.render('user/settings.html', user=user, msg=msg)
-
+    if not user:
+      raise tornado.web.HTTPError(404)
+      
+    #self.render('user/settings.html', user=user, msg=msg)
+    self.render('user/profile.html', user=user, screen_name=self.current_user, posts=None, section="settings", page=None, per_page=None, tags=None, tag=None, msg=msg)
 

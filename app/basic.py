@@ -4,6 +4,7 @@ import settings
 import simplejson as json
 import os
 import httplib
+import logging
 
 from lib import userdb
 
@@ -21,19 +22,24 @@ class BaseHandler(tornado.web.RequestHandler):
     return self.get_secure_cookie("username")
 
   def send_email(self, from_user, to_user, subject, text):
-    return requests.post(
-      "https://sendgrid.com/api/mail.send.json",
-      data={
-        "api_user":settings.get('sendgrid_user'),
-        "api_key":settings.get('sendgrid_secret'),
-        "from": from_user,
-        "to": to_user,
-        "subject": subject,
-        "text": text
-      },
-      verify=False
-    )
-
+    if settings.get('environment') != "prod":
+      logging.info("If this were prod, we would have sent email to %s" % to_user)
+      return
+    else:
+      return requests.post(
+        "https://sendgrid.com/api/mail.send.json",
+        data={
+          "api_user":settings.get('sendgrid_user'),
+          "api_key":settings.get('sendgrid_secret'),
+          "from": from_user,
+          "to": to_user,
+          "subject": subject,
+          "text": text
+        },
+        verify=False
+      )
+      
+    
   def is_blacklisted(self, screen_name):
     u = userdb.get_user_by_screen_name(screen_name)
     if u and 'user' in u.keys() and 'is_blacklisted' in u['user'].keys() and u['user']['is_blacklisted']:

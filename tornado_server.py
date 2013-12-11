@@ -60,8 +60,9 @@ class Application(tornado.web.Application):
       # account stuff
       (r"/auth/email/?", app.user.EmailSettings),
       (r"/auth/logout/?", app.user.LogOut),
-      (r"/user/settings/?", app.user.UserSettings),
-      (r"/user/(.+)", app.user.Profile),
+      (r"/user/(?P<username>[A-z-+0-9]+)/settings/?", app.user.UserSettings),
+      (r"/user/(?P<screen_name>[A-z-+0-9]+)", app.user.Profile),
+      (r"/user/(?P<screen_name>[A-z-+0-9]+)/(?P<section>[A-z]+)", app.user.Profile),
 
       # admin stuff
       (r"/admin", app.admin.AdminHome),
@@ -72,8 +73,6 @@ class Application(tornado.web.Application):
       (r"/admin/disqus", app.admin.ManageDisqus),
       (r"/generate_hackpad/?", app.admin.GenerateNewHackpad),
       (r"/list_hackpads", app.admin.ListAllHackpad),
-      (r"/posts/([^\/]+)/bumpup", app.admin.BumpUp),
-      (r"/posts/([^\/]+)/bumpdown", app.admin.BumpDown),
       (r"/posts/([^\/]+)/mute", app.admin.Mute),
       (r"/users/(?P<username>[A-z-+0-9]+)/ban", app.admin.BanUser),
       (r"/users/(?P<username>[A-z-+0-9]+)/unban", app.admin.UnBanUser),
@@ -111,7 +110,9 @@ class Application(tornado.web.Application):
       (r"/(?P<sort_by>new)$", app.posts.ListPosts),
       (r"/(?P<sort_by>sad)$", app.posts.ListPosts),
       (r"/(?P<sort_by>[^\/]+)/page/(?P<page>[0-9]+)$", app.posts.ListPosts),
-      (r"/posts/([^\/]+)/upvote", app.posts.UpVote),
+      (r"/posts/([^\/]+)/upvote", app.posts.Bump),
+      (r"/posts/([^\/]+)/bump", app.posts.Bump),
+      (r"/posts/([^\/]+)/unbump", app.posts.UnBump),
       (r"/posts/([^\/]+)/edit", app.posts.EditPost),
       (r"/posts/(.+)", app.posts.ViewPost),
       (r"/posts$", app.posts.ListPosts),

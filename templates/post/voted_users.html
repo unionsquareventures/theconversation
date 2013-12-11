@@ -1,6 +1,18 @@
+<!DOCTYPE html>
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="{{ static_url("css/bootstrap.min.css") }}" />
+  <link rel="stylesheet" href="{{ static_url("css/style.css") }}" />
+</head>
+<body>
+{% set tmp = voted_users.reverse() %}
 {% for user in voted_users %}
   <p>
-    <img src="{{ user['profile_image_url_https'] }}" style="max-height:25px;vertical-align:middle;" />
-    <a href="http://www.twitter.com/{{ user['screen_name'] }}" target="_blank">{{user['screen_name']}}</a>
+    <img src="{{ user.get('profile_image_url_https', '') }}" style="max-height:25px;vertical-align:middle;" />
+    <a href="http://www.twitter.com/{{ user['username'] }}" target="_blank">{{user['username']}}</a>
   </p>
 {% end %}
+</body>
+</html>

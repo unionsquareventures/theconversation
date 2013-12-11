@@ -113,7 +113,7 @@
           {% if current_user %}
             Welcome, <a href="/user/{{current_user}}" class="login">@{{ current_user }}</a>! &nbsp;
             
-            <a class="login" href="/user/settings">Settings</a>&nbsp;
+            <a class="login" href="/user/{{current_user}}/settings">Settings</a>&nbsp;
             
             {% if current_user_can('see_admin_link') %}
               <a class="login" href="/admin">Admin</a> &nbsp;
@@ -222,11 +222,20 @@
       });
     });
 
-    /*$('.votes-count').each(function() {
-      $(this).qtip({
+    $('ul.feed .votes-count').each(function() {
+      var options = {
+        'content': $(this).siblings('.voted_users').html(),
+        'placement': 'bottom',
+        'trigger': 'hover',
+        'html': true,
+        'delay': {'show': 500, 'hide': 500}
+      }
+      $(this).popover(options)
+      
+      /*$(this).qtip({
         content: {
           text: function(event, api) {
-            var slug = api.elements.target.attr('href').replace('/posts/', '').replace('/upvote', '')
+            var slug = api.elements.target.attr('href').replace('/posts/', '').replace('/bump', '').replace('/unbump', '')
             $.ajax({
               url: '/api/voted_users/' + slug
             })
@@ -242,8 +251,8 @@
           viewport: $(window)
         },
         style: 'qtip-wiki'
-      });
-    });*/
+      });*/
+    });
 
   </script>
 </body>

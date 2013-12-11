@@ -10,3 +10,4 @@ tweepy
 feedparser
 newrelic
 disqus-python
+selenium
