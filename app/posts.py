@@ -359,6 +359,13 @@ class ViewPost(app.basic.BaseHandler):
     if self.current_user:
       user = userdb.get_user_by_screen_name(self.current_user)
     
+    # remove dupes from voted_users
+    voted_users = []
+    for i in post['voted_users']:
+      if i not in voted_users:
+        voted_users.append(i)
+    post['voted_users'] = voted_users
+    
     self.render('post/view_post.html', user_obj=user, post=post)
 
 #############

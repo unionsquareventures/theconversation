@@ -200,7 +200,7 @@ class ReCalculateScores(app.basic.BaseHandler):
     #time_penalty_multiplier = float(self.get_argument('time_penalty_multiplier', 2.0))
     time_penalty_multiplier = 2.0
     #grace_period = float(self.get_argument('grace_period', 6.0))
-    grace_period = 6.0
+    grace_period = 12.0
     #comments_multiplier = float(self.get_argument('comments_multiplier', 3.0))
     comments_multiplier = 3.0
     #votes_multiplier = float(self.get_argument('votes_multiplier', 1.0))
