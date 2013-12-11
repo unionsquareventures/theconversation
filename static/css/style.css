@@ -2954,7 +2954,7 @@ ul.stats .stat-notes {
     color:gray;
     font-size:1em;
     font-weight:600;
-    margin:0 0 10px 0;
+    margin:10px 0 10px 0;
 }
  #jobs-content #jobs-menu {
     display:none;

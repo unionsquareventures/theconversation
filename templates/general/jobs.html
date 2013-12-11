@@ -45,15 +45,17 @@
 
         <!-- LH menu/tags -->
         <div class="col-sm-3">
+          <!--
           <div class="job-tabs-container">
             <h2>Filter</h2>
-
             <ul class="job-tabs filter-tabs">
               <li><a href="#company" usv:filter="company">By Company</a></li>
               <li><a href="#location" usv:filter="location">By Location</a></li>
               <li><a href="#category" usv:filter="category">By Job Category</a></li>
             </ul>
+            
           </div>
+          -->
 
           <div id="jobs-menu" class="filter-menu">
             <div usv:filter="company">
@@ -61,7 +63,10 @@
               <ul class="side-nav filter-tabs" id="company">
                 {% for c in companies %}
                   <li>
-                    <a id="{{ slugify(c) }}" href="#{{ slugify(c) }}">{{ c }}</a>
+                    <a id="{{ slugify(c) }}" href="#{{ slugify(c) }}">
+                      {{ c }}
+                      <span></span>
+                    </a>
                   </li>
                 {% end %}
               </ul>
@@ -102,6 +107,7 @@
 
           <div class="jobs" style="border-bottom:none">
             <!--Column headers -->
+            <!--
             <div>
               <div class="col-sm-3">
                 <div class="btn-group">
@@ -144,7 +150,8 @@
                   </ul>
                 </div>
               </div>
-            </div> <!-- / Column Headers-->
+            </div>
+            -->
 
             <!-- Jobs rows -->
             {% for j in jobs %}
@@ -168,17 +175,10 @@
 <script>
   
   $(document).ready(function() {
-    // Assumes all jobs and tags are not shown on page load
-    // Just makes loading behavior look better, executes this first
-    //$('.job').hide();
-
-
-    
     // Filter on page load if URL has a hash
     if (window.location.hash) {
       filter_jobs();
       filter_tags();
-      filter_menu('company'); // Default to showing company
     }
 
     // Filters jobs every time a change is made to the hash
@@ -192,7 +192,6 @@
     $(".job-tabs a").click(function(e) {
       e.preventDefault();
       var query = $(this).attr("usv:filter");
-      filter_menu(query);
     });
 
     // Clicking on a specific filter link, ex. Administrative
@@ -371,6 +370,35 @@
     });
   } // filter_jobs
 
+  // Lights up specific filter tags when selected
+  function filter_tags() {
+    // Hide them all
+    $('.filter-tabs li').removeClass('active');
+    $('.filter-tabs li span').removeClass('glyphicon glyphicon-remove');
+
+    // Show if matches a hash query
+    hash_array = parse_hash();
+    $(".filter-tabs li").each(function() {
+      // Iterate over filter_types
+      for (var i=0; i<hash_array.length; i++) {
+        filter_type = hash_array[i][0];
+
+        // Iterate over each query
+        for (var j=1; j<hash_array[i].length; j++) {
+          query = hash_array[i][j];
+          // Match query
+          this_filter_type = $(this).parent().parent().attr("usv:filter");
+          this_query = $(this).children('a').attr('href').split("#")[1];
+          if (this_filter_type == filter_type && this_query == query) {
+            $(this).addClass('active');
+            $(this).find('span').addClass("glyphicon glyphicon-remove");
+          }
+        }
+      }
+    }); 
+  } // filter_tags
+
+  /*
   // Shows and hides left hand menu filter links
   function filter_menu(query) {
     // Light up the category selected
@@ -379,7 +407,6 @@
         $(this).addClass('active');
       } else {
         $(this).removeClass('active');
-        console.log('remove')
       }
     });
 
@@ -393,85 +420,7 @@
     });
 
   } // filter_menu
-
-
-  // Lights up specific filter tags when selected
-  function filter_tags() {
-    // Hide them all
-    $('.filter-tabs li').removeClass('active');
-
-    // Show if matches a hash query
-    hash_array = parse_hash();
-    $(".filter-tabs li").each(function() {
-      // Iterate over filter_types
-      for (var i=0; i<hash_array.length; i++) {
-        filter_type = hash_array[i][0];
-
-        // Iterate over each query
-        for (var j=1; j<hash_array[i].length; j++) {
-          query = hash_array[i][j];
-          // Match query
-          //console.log($(this).parent().parent().parent().attr("usv:filter"));
-          //console.log(filter_type);
-          //console.log(this.href.split("#")[1]);
-          //console.log(query);
-          this_filter_type = $(this).parent().parent().attr("usv:filter");
-          this_query = $(this).children('a').attr('href').split("#")[1];
-          if (this_filter_type == filter_type && this_query == query) {
-            $(this).addClass('active');
-          }
-        }
-      }
-    });
-  } // filter_tags
-
-  // Set title at top of page
-  function filter_title() {
-    hash_array = parse_hash();
-    //var nice_label = $("#" + query).text();
-    //$("#jobs-heading .filter-label").text('matching "' + nice_label + '"').show();
-
-    var nice_label = " matching "
-
-    // Iterate over filter_types
-    for (var i=0; i<hash_array.length; i++) {
-      filter_type = hash_array[i][0];
-
-      if (filter_type == 'company') {
-        nice_label = "foo";
-      }
-
-      // Iterate over each query
-      for (var j=1; j<hash_array[i].length; j++) {
-        query = hash_array[i][j];
-        this_filter_type = $(this).parent().parent().attr("usv:filter");
-        this_query = $(this).children('a').attr('href').split("#")[1];
-        if (this_filter_type == filter_type && this_query == query) {
-          $(this).addClass('active');
-        }
-      }
-    }
-
-  }
-
-    /*
-    $("#jobs-menu").show();
-    $('.job-tabs li').removeClass('active');
-
-     $('.job-tabs a').each(function(){
-       if ($(this).attr("usv:filter") == filter_type) {
-         $(this).parent().addClass('active')
-       }
-     });
-
-    $('.filter-menu div').each(function(){
-      if ($(this).attr("usv:filter") == filter_type) {
-        $(this).show();
-      } else {
-        $(this).hide();
-      }
-    });
-  */ // filter_menu
+  */
 
   </script>
 {% end %}
