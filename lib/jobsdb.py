@@ -6,8 +6,16 @@ import pymongo
 
 INDEED_API_URL = 'http://api.indeed.com/ads/apisearch'
 INDEED_PUBLISHER_ID = '9648379283006957'
-
-#db.job.ensure_index('jobkey')
+INDEED_COUNTRIES = ['us',
+					'gb', # Great Britain
+					'ca',
+					'de',
+					'il',
+					'fr',
+					'nl', # Netherlands
+					'se', # Sweden
+					'ie', # Ireland
+					'jp'] # Japan
 
 """
 {
@@ -39,7 +47,7 @@ INDEED_PUBLISHER_ID = '9648379283006957'
 
 ''' Returns all jobs, default sorted by date added '''
 def get_all():
-	return list(db.job.find(sort=[('date', pymongo.ASCENDING)]))
+	return list(db.job.find(sort=[('company', pymongo.ASCENDING)]))
 
 ''' Saves a job to the database. Job argument is a dict.'''
 def save_job(job):
@@ -55,6 +63,11 @@ def save_job(job):
   
   # Indeed's jobkey is the unique identifier
   return db.job.update({'jobkey':job['jobkey']}, job, upsert=True)
+
+''' Clears our db of all jobs. This is useful so that Indeed takes categories
+	of recognizing when a job is no longer posted. '''
+def remove_jobs():
+	return db.job.remove() 
 
 ''' Returns complete list of categories, i.e. Gary's position field'''
 def get_categories():
@@ -91,27 +104,53 @@ def get_aggregation(arg):
 
 ''' Updates job listings for all companies '''
 def update_all():
+    # Wipe jobs first...
+    remove_jobs()
+
+    # Then pull all from Indeed (so no jobs in DB are old)
     for c in companiesdb.get_companies_by_status('current'):
 	    print 'Pulling jobs for %s' % c['name']
-	    job_list = get_json(c['name'])
-	    job_list = clean_jobs(c['name'], job_list)
-	    for job in job_list:
-	      save_job(job)
+	    job_list = get_json(c)
+	    if job_list:
+		    job_list = clean_jobs(c, job_list)
+		    for job in job_list:
+	      		save_job(job)
 
 ''' Returns a list of jobs (each one a dict) for a given company '''
 def get_json(company):
-	query = {'publisher': INDEED_PUBLISHER_ID, 'company': company}
+	if 'indeed_slug' in company.keys():
+		indeed_slug = company['indeed_slug']
+	else:
+		indeed_slug = company['name']
+
+    # Ping API in every country
 	api_url = INDEED_API_URL + '?publisher=%s' % INDEED_PUBLISHER_ID
 	api_url += '&q=company%3A' # %3A doesn't work with %s for some reason
-	api_url += '(%s)' % company
-	api_url += '&l=&sort=&radius=&st=&jt=&start=$start&limit=1000&fromage=$indeed_fromage&filter=&co=&latlong=1&chnl=&userip=1.2.3.4&v=2&format=json'
+	api_url += '(%s)' % indeed_slug
+	results = []
+	for co in INDEED_COUNTRIES:	
+		api_url += '&limit=1000&filter=&co=%s&chnl=&userip=1.2.3.4&v=2&format=json' % co
+		data = json.load(urllib.urlopen(api_url)) # data is a dict
+		if data['results']:
+			results.extend(data['results'])
+
+	return results
+	#query = {'publisher': INDEED_PUBLISHER_ID, 'company': company}
+	'''
+	api_url = INDEED_API_URL + '?publisher=%s' % INDEED_PUBLISHER_ID
+	api_url += '&q=company%3A' # %3A doesn't work with %s for some reason
+	api_url += '(%s)' % indeed_slug
+	api_url += '&limit=1000&filter=&co=&chnl=&userip=1.2.3.4&v=2&format=json'
 	data = json.load(urllib.urlopen(api_url)) # data is a dict
+	print api_url
 	return data['results']
+	'''
 
 ''' Ensures all jobs are for the given company only'''
 def clean_jobs(company, job_list):
 	good_jobs = []
 	for job in job_list:
+		# job
 		# Rules for certain portfolio companies
 		job['company'] = job['company'].replace('.com', '') # Kickstarter.com, etc. 
 		job['company'] = job['company'].replace('Labs', '') # foursquare labs
@@ -119,18 +158,19 @@ def clean_jobs(company, job_list):
 		job['company'] = job['company'].replace('Inc.', '') # Twilio Inc. 
 		job['company'] = job['company'].replace('Inc', '') # WorkMarket Inc
 		job['company'] = job['company'].replace('Wealth Management', '') # SigFig Wealth Management
-		job['company'] = job['company'].replace('DISQUS', 'Disqus')
-		job['company'] = job['company'].replace('Heyzap', 'HeyZap')
-		job['company'] = job['company'].replace('foursquare', 'Foursquare')
 		job['company'] = job['company'].replace('.TV', '') # VHX.tv
 		job['company'] = job['company'].replace('.tv', '') # Kickstarter.com, etc.
+
+		# Above rules may result in last char being a space
+		job['company'] = job['company'].strip()
 		
 		# Remove job from list if company name is not an exact match
-		if job['company'].lower() == company.lower():
+		if company['name'].lower() == job['company'].lower():
+			job['company'] = company['name'] # ensures exact name, i.e. not DISQUS
 			good_jobs.append(job)
+			print "Added job: %s | %s | %s" % (job['company'], job['formattedLocation'], job['jobtitle'])
 		else:
-			print "!!!!!!!!!!!!!!!!"
-			print "Removed job for company %s" % job['company']
+			print "Removed job: %s | %s | %s" % (job['company'], job['formattedLocation'], job['jobtitle'])
 
 	return good_jobs
 
@@ -191,7 +231,3 @@ def parse_position(string):
 	#	return 'International'
 	else:
 		return 'Other'
-
-# To run as script or cronjob
-if __name__ == "__main__":
-	print db.company
