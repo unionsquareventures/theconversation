@@ -64,6 +64,11 @@ def save_job(job):
   # Indeed's jobkey is the unique identifier
   return db.job.update({'jobkey':job['jobkey']}, job, upsert=True)
 
+''' Clears our db of all jobs. This is useful so that Indeed takes categories
+	of recognizing when a job is no longer posted. '''
+def remove_jobs():
+	return db.job.remove() 
+
 ''' Returns complete list of categories, i.e. Gary's position field'''
 def get_categories():
 	# Position is the field name for Gary's categories
@@ -99,6 +104,10 @@ def get_aggregation(arg):
 
 ''' Updates job listings for all companies '''
 def update_all():
+    # Wipe jobs first...
+    remove_jobs()
+
+    # Then pull all from Indeed (so no jobs in DB are old)
     for c in companiesdb.get_companies_by_status('current'):
 	    print 'Pulling jobs for %s' % c['name']
 	    job_list = get_json(c)
