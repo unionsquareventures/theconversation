@@ -5,6 +5,7 @@ import settings
 from datetime import datetime
 from mongo import db
 from slugify import slugify
+import userdb
 
 """
 {
@@ -37,6 +38,12 @@ from slugify import slugify
   'subscribed':[]
 }
 """
+
+###########################
+### GET ALL POSTS
+###########################
+def get_all():
+  return db.post.find()
 
 ###########################
 ### GET A SPECIFIC POST
@@ -250,5 +257,32 @@ def sort_posts():
 ### RUN VIA SCRIPTS/UPDATE_POSTS_USER_DATA.PY
 ###########################
 def update_posts_user_data():
-  pass
+  print "Updating user data for all posts..."
+  for post in get_all():
+    # user
+    user = post['user']
+    if user:
+        new_user = userdb.get_user_by_id_str(user['id_str'])
+        post['user'] = new_user['user']
+
+    # voted_users
+    voted_users = post['voted_users']
+    new_voted_users = []
+    for voted_user in voted_users:
+      new_voted_user = userdb.get_user_by_id_str(voted_user['id_str'])
+      new_voted_users.append(new_voted_user['user'])
+    post['voted_users'] = new_voted_users
+
+    # Save post
+    save_post(post)
+ 
+  print "Finished updating user data for all posts"
+
+
+
+
+
+
+
+
 
