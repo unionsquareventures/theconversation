@@ -245,3 +245,10 @@ def sort_posts():
   data = sorted(data, key=lambda k: k['total_score'], reverse=True)
   print "All posts sorted!"
 
+###########################
+### UPDATES USER DATA FOR ALL POSTS
+### RUN VIA SCRIPTS/UPDATE_POSTS_USER_DATA.PY
+###########################
+def update_posts_user_data():
+  pass
+
