@@ -112,7 +112,7 @@
           <th class="step">2</th>
         {% end %}
           <th>Email</th>
-          <td><input type="text" class="form-control" name="email" value="{{ user['email_address'] }}" /></td>
+          <td><input type="text" class="form-control" name="email" value="{{ user.get('email_address') }}" /></td>
           <td><input type="submit" value="Update" class="btn btn-default" /></td>
           <td>
             {% if 'email_address' not in user or not user['email_address'] %}
