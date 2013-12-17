@@ -4,6 +4,6 @@ import sys
 sys.path.insert(0, '/Users/AlexanderPease/git/usv/website/usv')
 import settings
 
-from lib import userdb
+from lib import postsdb
 
-userdb.update_twitter_profile_images() 
+postsdb.update_posts_user_data() 
