@@ -23,7 +23,7 @@
   <link rel="stylesheet" href="{{ static_url("css/jquery.qtip.min.css") }}" />
   <link rel="stylesheet" href="{{ static_url("css/qtip.css") }}" />
   <!-- dont cache style.css yes, since we're still developing on it heavily -->
-  <link rel="stylesheet" href="{{ static_url("css/style.css") }}" />
+  <link rel="stylesheet" href="{{ static_url("css/style.css") }}&foo=bar" />
 
   <!-- Theme files -->
   <link rel="stylesheet" href="{{ static_url("themes/%s/%s.css" % (settings.get('active_theme'), settings.get('active_theme'))) }}" />
