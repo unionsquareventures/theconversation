@@ -1,15 +1,20 @@
+'''
+This file is for reference. It is not being called in settings, but you can
+use it to copy over environment variables to your locacl settings_local_environ.py
+file, which is called by settings.py at runtime
+'''
 import os
-#
-# DEV DB
-#
-#os.environ['MONGODB_URL'] = "mongodb://usv_dev:TheDevDB@ds047198.mongolab.com:47198/usv_dev_nick"
-#os.environ['DB_NAME'] = "usv_dev_nick"
-
 #
 # PROD DB
 #
 os.environ['MONGODB_URL'] = 'mongodb://heroku:cC4MKy5YYanQy6vH@chang.mongohq.com:10032/app18119720'
 os.environ['DB_NAME'] = 'app18119720'
+
+#
+# DEV DB
+#
+#os.environ['MONGODB_URL'] = "mongodb://usv_dev:TheDevDB@ds047198.mongolab.com:47198/usv_dev_nick"
+#os.environ['DB_NAME'] = "usv_dev_nick"
 
 #
 # ENVIRONMENT.  dev for local DB.  test for dev.usv.com db
