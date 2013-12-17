@@ -1,19 +1,19 @@
 {% set has_voted = False %}
+{% set link_title = "bump it up" %}
 {% for v in p['voted_users'] %}
 {% if 'current_user' in globals() and 'username' in v and current_user == v['username'] %}
 {% set has_voted = True %}
+{% set link_title = "click to unbump" %}
 {% end %}
 {% end %}
 <div class="volume {% if has_voted %}bumped{% end %}">
-  <a title="bumps" href="/posts/{{ p['slug'] }}/{% if has_voted %}unbump{%else%}bump{%end%}" class="votes-count ajax_upvote_link upvote-button">
-	<table>
-	  <td class="upvote-icon"><span class="glyphicon glyphicon-circle-arrow-up"></span></td>
-	  <td class="value">
+  <a title="{{ link_title }}" href="/posts/{{ p['slug'] }}/{% if has_voted %}unbump{%else%}bump{%end%}" class="votes-count ajax_upvote_link upvote-button btn">
+	<span class="glyphicon glyphicon-arrow-up"></span>
+	 <span class="value">
 		{% if p['votes'] > 1 %}
 		{{ p['votes'] - 1 }}
 		{% end %}
-	  </td>
-	</table>
+	</span>
   </a>
   <div class="voted_users" style="display:none">
 	{% for v in p['voted_users'] %}

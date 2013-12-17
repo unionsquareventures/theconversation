@@ -1074,8 +1074,14 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
     -moz-transition:color 0.15s ease-out;
     transition:color 0.15s ease-out;
 }
+<<<<<<< HEAD
 .hot-newest-feed .title {
     padding-right: 70px;
+=======
+.hot-newest-feed .title,
+.feed .title {
+    padding-right: 80px;
+>>>>>>> 5f3ea24... restyle bump it up
 }
 
  .feed .title .glyphicon {
@@ -1164,31 +1170,42 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
     position: absolute;
     top: 25px;
     right: 0;
-    width: 80px;
+    width: 60px;
 }
 .featured-post .volume {
     width: 120px;
 }
-.volume td {
-    vertical-align: middle;
-}
+
 .volume .glyphicon {
-    font-size: 1.4em;
+    position: absolute;
+    left: 5px;
+    top: 3px;
+    color: #86AA3B !important;
 }
 .volume .value {
-    font-size: 1.25em;
     font-family: "proximanova-regular";
 }
-.volume a {
+.volume a.votes-count {
     /*color: #86AA3B !important;*/ /*GREEN*/
-    color: #aaa !important;
+    /*color: #aaa !important; */
+    color: gray !important;
+    border-radius: 2px;
+    border-bottom: none;
+    padding: 2px 5px 2px 30px;
+    position: relative;
+    background: #eee;
+    border: 1px solid #ddd !important;
+    box-shadow: none;
 }
-.volume a:hover {
-    color: #888 !important;
+.volume a.votes-count:hover {
+    background: #ddd;
+    /*color: #fff !important;*/
 }
-.volume.bumped a {
+.volume.bumped a.votes-count .glyphicon {
     /*color: #CE3B00 !important; */ /* RED */
-    color: #B2665E !important; /* pink */
+    /*color: #fff !important;
+    background: #86AA3B !important;*/
+    color: #bbb !important;
 }
 
 .feed .volume span {
@@ -1207,7 +1224,9 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
     vertical-align: middle;
 }
 .volume .popover-title {
-    display: none;
+    /*display: none;*/
+    text-align:center;
+    white-space: nowrap;
 }
 .volume .popover-content {
     padding: 10px 6px 0;
