@@ -264,7 +264,7 @@ class ListPosts(app.basic.BaseHandler):
     thread_id = 0
     try:
       # Attempt to create the thread.
-      thread_details = disqus.create_thread(post['title'], post['_id'], acc['disqus_access_token'])
+      thread_details = disqus.create_thread(post['title'], post['slug'], acc['disqus_access_token'])
       thread_id = thread_details['response']['id']
     except:
       try:
