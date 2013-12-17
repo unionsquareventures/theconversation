@@ -5,6 +5,7 @@ import settings
 from datetime import datetime
 from mongo import db
 from slugify import slugify
+import userdb
 
 """
 {
@@ -37,6 +38,12 @@ from slugify import slugify
   'subscribed':[]
 }
 """
+
+###########################
+### GET ALL POSTS
+###########################
+def get_all():
+  return db.post.find()
 
 ###########################
 ### GET A SPECIFIC POST
@@ -244,4 +251,45 @@ def sort_posts():
 
   data = sorted(data, key=lambda k: k['total_score'], reverse=True)
   print "All posts sorted!"
+
+###########################
+### UPDATES USER DATA FOR ALL POSTS
+### RUN VIA SCRIPTS/UPDATE_POSTS_USER_DATA.PY
+###########################
+def update_posts_user_data():
+  print "Updating user data for all posts..."
+  for post in get_all():
+    # user
+    try: 
+      user = post['user']
+      if user:
+          new_user = userdb.get_user_by_id_str(user['id_str'])
+          post['user'] = new_user['user']
+    except: 
+      print "Failed to update user for post of slug %s" % post['slug']
+
+    # voted_users
+    try: 
+      voted_users = post['voted_users']
+      new_voted_users = []
+      for voted_user in voted_users:
+        new_voted_user = userdb.get_user_by_id_str(voted_user['id_str'])
+        if new_voted_user:
+          new_voted_users.append(new_voted_user['user'])
+      post['voted_users'] = new_voted_users
+    except:
+      print "Failed to update voted_users for post of slug %s" % post['slug']
+
+    # Save post
+    save_post(post)
+ 
+  print "Finished updating user data for all posts"
+
+
+
+
+
+
+
+
 
