@@ -47,6 +47,10 @@ class Application(tornado.web.Application):
       (r'/pages/.*$', app.redirects.RedirectMappings),
       (r'/team.*$', app.redirects.RedirectMappings),
       (r'/investments$', app.redirects.RedirectMappings),
+      (r'/portfolio/$', app.redirects.RedirectMappings),
+      (r'/about/$', app.redirects.RedirectMappings),
+      (r'/network/$', app.redirects.RedirectMappings),
+      (r'/jobs/$', app.redirects.RedirectMappings),
       (r'/focus$', app.redirects.RedirectMappings),
       (r"/admin/company", app.admin.AdminCompany),
 
