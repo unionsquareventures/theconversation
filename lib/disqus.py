@@ -9,17 +9,20 @@ import time
 
 from lib import postsdb
 from lib import userdb
+from lib import template_helpers
 
 def check_for_thread(short_code, link):
   api_link = 'https://disqus.com/api/3.0/threads/details.json?api_key=%s&thread:link=%s&forum=%s' % (settings.get('disqus_public_key'), link, short_code)
   return do_api_request(api_link, 'GET')
 
-def create_thread(title, identifier, access_token):
+def create_thread(post, access_token):
   api_link = 'https://disqus.com/api/3.0/threads/create.json'
+  url = "http://" + template_helpers.post_permalink(post)
   thread_info = {
     'forum': settings.get('disqus_short_code'),
-    'title': title.encode('utf-8'),
-    'identifier':identifier,
+    'title': post['title'].encode('utf-8'),
+    'identifier':post['slug'],
+    'url': url,
     'api_secret':settings.get('disqus_secret_key'),
     'api_key': settings.get('disqus_public_key'),
     'access_token': access_token
