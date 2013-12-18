@@ -1182,6 +1182,8 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 }
 .volume .value {
     font-family: "proximanova-regular";
+    display: inline-block;
+    margin-right: 5px;
 }
 .volume a.votes-count {
     /*color: #86AA3B !important;*/ /*GREEN*/
@@ -1194,6 +1196,9 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
     background: #eee;
     border: 1px solid #ddd !important;
     box-shadow: none;
+}
+.volume a.votes-count.no-votes {
+    padding-left: 15px;
 }
 .volume a.votes-count:hover {
     background: #ddd;
