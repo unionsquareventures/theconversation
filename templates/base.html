@@ -273,6 +273,7 @@
              upvote_link.find('.value').text(data['data']['votes'] - 1);
              upvote_link.parent().addClass('bumped');
              upvote_link.attr('href', upvote_link.attr('href').replace('bump', 'unbump'));
+             upvote_link.removeClass('no-votes');
              /*{% if user_obj %}
              var username = "{{ current_user }}";
              var profile_image_url = "{{ user_obj['user']['profile_image_url'] }}";
