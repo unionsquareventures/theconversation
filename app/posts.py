@@ -275,7 +275,11 @@ class ListPosts(app.basic.BaseHandler):
     if thread_id != 0:
       # Subscribe a user to the thread specified in response
       disqus.subscribe_to_thread(thread_id, acc['disqus_access_token'])
-      
+      # update the thread with the disqus_thread_id_str
+      saved_post = postsdb.get_post_by_slug(post['slug'])
+      saved_post['disqus_thread_id_str'] = thread_id
+      postsdb.save_post(saved_post)
+
     featured_posts = postsdb.get_featured_posts(6, 1)
     sort_by = "newest"
     posts = postsdb.get_new_posts(per_page, page)
