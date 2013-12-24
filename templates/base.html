@@ -183,6 +183,7 @@
       window.mySwipe = Swipe(document.getElementById('slider')); 
     });
   </script>
+  {% if 'post' not in globals() %}
   <script type="text/javascript">
     /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
     var disqus_shortname = '{{settings.get("disqus_short_code")}}'; // required: replace example with your forum shortname
@@ -195,6 +196,8 @@
         (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
     }());
     </script>
+    {% end %}
+    
   <script type="text/javascript" src="{{ static_url("js/vendor/modernizr-2.6.2.min.js") }}"></script>
   <script type="text/javascript" src="{{ static_url("js/tinymce/jquery.tinymce.min.js") }}"></script>
   <script type="text/javascript" src="{{ static_url("js/plugins.js") }}"></script>
