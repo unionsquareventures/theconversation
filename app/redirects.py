@@ -7,8 +7,14 @@ import app.basic
 class RedirectMappings(app.basic.BaseHandler):
   def get(self):
     new_url = '/'
-    if self.request.path.find('/portfolio/') > -1:
+    if self.request.path.find('/portfolio/') == 0:
         new_url = '/portfolio'
+    if self.request.path.find('/network/') == 0:
+        new_url = '/network'
+    if self.request.path.find('/about/') == 0:
+        new_url = '/about'
+    if self.request.path.find('/jobs/') == 0:
+        new_url = '/jobs'
     if self.request.path.find('brad') > -1:
       new_url = '/about#brad-burnham'
     elif self.request.path.find('fred') > -1:

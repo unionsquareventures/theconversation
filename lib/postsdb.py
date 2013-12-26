@@ -71,7 +71,7 @@ def get_posts_by_screen_name_and_tag(screen_name, tag, per_page=10, page=1):
   return list(db.post.find({'deleted': { "$ne": True }, 'user.screen_name':screen_name, 'tags':tag}, sort=[('date_created', pymongo.DESCENDING)]).skip((page-1)*per_page).limit(per_page))
 
 def get_featured_posts(per_page=10, page=1):
-  return list(db.post.find({'deleted': { "$ne": True }, 'featured':True}, sort=[('date_featured', pymongo.DESCENDING)]).skip((page-1)*per_page).limit(per_page))
+  return list(db.post.find({'deleted': { "$ne": True }, 'featured':True}, sort=[('date_created', pymongo.DESCENDING)]).skip((page-1)*per_page).limit(per_page))
 
 def get_new_posts(per_page=50, page=1):
   return list(db.post.find({"deleted": { "$ne": True }}, sort=[('_id', pymongo.DESCENDING)]).skip((page-1)*per_page).limit(per_page))

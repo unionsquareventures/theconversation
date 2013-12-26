@@ -70,7 +70,7 @@ class EmailSettings(app.basic.BaseHandler):
             thread_id = 0
             try:
               # Attempt to create the thread.
-              thread_details = disqus.create_thread(post['title'], slug, user['disqus_access_token'])
+              thread_details = disqus.create_thread(post, user['disqus_access_token'])
               thread_id = thread_details['response']['id']
             except:
               try:

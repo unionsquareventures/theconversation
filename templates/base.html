@@ -23,10 +23,10 @@
   <link rel="stylesheet" href="{{ static_url("css/jquery.qtip.min.css") }}" />
   <link rel="stylesheet" href="{{ static_url("css/qtip.css") }}" />
   <!-- dont cache style.css yes, since we're still developing on it heavily -->
-  <link rel="stylesheet" href="{{ static_url("css/style.css") }}" />
-
+  <link rel="stylesheet" href="{{ static_url("css/style.css") }}&v=3" />
+  
   <!-- Theme files -->
-  <link rel="stylesheet" href="{{ static_url("themes/%s/style.css" % settings.get('active_theme')) }}" />
+  <link rel="stylesheet" href="{{ static_url("themes/%s/%s.css" % (settings.get('active_theme'), settings.get('active_theme'))) }}" />
 
   <script src="{{ static_url("js/vendor/respond.min.js") }}"></script>
   <style type="text/css">
@@ -137,8 +137,7 @@
       <div class="container">
         <div class="row">
           <div class="col-sm-3">
-            <h4>Contact Us</h4>
-            <p>If you would like to share your ideas, business, or feedback with us, please send us email at <a href="mailto:info@usv.com">info@usv.com</a>. All business plan submissions must include a clear description of your operations and current progress.</p>
+
           </div>
           <div class="col-sm-6">
             <div class="footer-search-container">
@@ -148,15 +147,7 @@
             </div>
           </div>
           <div class="col-sm-3" style="text-align:right">
-            <h4>Union Square Ventures</h4>
-            <p class="address">
-              915 Broadway, 19th Floor<br>
-              New York, NY 10010
-            </p>
-            <p class="telephone">
-              <strong>Tel</strong> &nbsp;&nbsp;(212) 994-7880<br>
-              <strong>Fax</strong> &nbsp;&nbsp;(212) 994-7399<br>
-            </p>
+
           </div>
         </div>
       </div>
@@ -170,9 +161,9 @@
       <li><a href="/featured">Featured</a></li>
       <li class="heading">UNION SQUARE VENTURES</li>
       <li><a href="/about/">About</a></li>
-      <li><a href="/portfolio/">Portfolio</a></li>
-      <li><a href="/network/">Network</a></li>
-      <li><a href="/jobs/">Jobs</a></li>
+      <li><a href="/portfolio">Portfolio</a></li>
+      <li><a href="/network">Network</a></li>
+      <li><a href="/jobs">Jobs</a></li>
     </ul>
   </nav>
   <script src="{{ static_url("js/vendor/jquery-1.9.1.min.js") }}"></script>
@@ -192,6 +183,18 @@
       window.mySwipe = Swipe(document.getElementById('slider')); 
     });
   </script>
+  <script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = '{{settings.get("disqus_short_code")}}'; // required: replace example with your forum shortname
+  
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+    </script>
   <script type="text/javascript" src="{{ static_url("js/vendor/modernizr-2.6.2.min.js") }}"></script>
   <script type="text/javascript" src="{{ static_url("js/tinymce/jquery.tinymce.min.js") }}"></script>
   <script type="text/javascript" src="{{ static_url("js/plugins.js") }}"></script>
@@ -202,12 +205,12 @@
   <script type="text/javascript" src="{{ static_url("js/jquery.qtip.min.js") }}"></script>
   <script type="text/javascript" src="{{ static_url("js/support_functions.js") }}"></script>
   <script src="http://platform.twitter.com/widgets.js"  type="text/javascript"></script>
-
+  
   <script src="http://www.google-analytics.com/urchin.js" type="text/javascript"></script>
   <script type="text/javascript">
   _uacct = "UA-11198485-1"; urchinTracker();
   </script>
-
+  
   {% block javascript %}{% end %}
   <script type="text/javascript">
     $(function() {
@@ -222,6 +225,7 @@
       });
     });
 
+
     $('ul.feed .votes-count').each(function() {
       var options = {
         'content': $(this).siblings('.voted_users').html(),
@@ -231,27 +235,68 @@
         'delay': {'show': 500, 'hide': 500}
       }
       $(this).popover(options)
-      
-      /*$(this).qtip({
-        content: {
-          text: function(event, api) {
-            var slug = api.elements.target.attr('href').replace('/posts/', '').replace('/bump', '').replace('/unbump', '')
-            $.ajax({
-              url: '/api/voted_users/' + slug
-            })
-            .then(function(content) {
-              // Set the tooltip content upon successful retrieval
-              api.set('content.text', content);
-            }, function(xhr, status, error) {
-            });
-            return 'Loading...';
+    });
+    $('.ajax_upvote_link').on('click', function(e) {
+      e.stopPropagation();
+      e.preventDefault();
+      var upvote_link = $(this);
+      if (upvote_link.parent().hasClass('bumped')) {
+        // user has already voted - this is a downvote.
+        $.ajax($(this).attr('href'), {
+          error: function(jqxhr, status, error) {
+            alert("Could not upvote, an error occurred. Please try again.");
+          },
+          success: function(data, status, jqxhr) {
+            if(data['data']['error']) {
+              if(data['data']['redirect']) {
+                $("#submit-modal").modal("show");
+              } else {
+                alert(data['data']['error']);
+              }
+              return;
+            }
+            upvote_link.find('.value').text(data['data']['votes'] - 1);
+            upvote_link.parent().removeClass('bumped');
+            upvote_link.attr('href', upvote_link.attr('href').replace('unbump', 'bump'));
           }
-        },
-        position: {
-          viewport: $(window)
-        },
-        style: 'qtip-wiki'
-      });*/
+        });
+      } else {
+        // user has not already voted. this is an upvote.
+        $.ajax($(this).attr('href'), {
+           error: function(jqxhr, status, error) {
+             alert("Could not upvote, an error occurred. Please try again.");
+           },
+           success: function(data, status, jqxhr) {
+             if(data['data']['error']) {
+               if(data['data']['redirect']) {
+                 $("#submit-modal").modal("show");
+               } else {
+                 alert(data['data']['error']);
+               }
+               return;
+             }
+             upvote_link.find('.value').text(data['data']['votes'] - 1);
+             upvote_link.parent().addClass('bumped');
+             upvote_link.attr('href', upvote_link.attr('href').replace('bump', 'unbump'));
+             upvote_link.removeClass('no-votes');
+             /*{% if user_obj %}
+             var username = "{{ current_user }}";
+             var profile_image_url = "{{ user_obj['user']['profile_image_url'] }}";
+             html = '<div class="voted_user"><img src="'+ profile_image_url +'" /> '+ username +'</div>';
+             upvote_link.siblings('.voted_users').append(html);
+             var options = {
+               'content': $(this).siblings('.voted_users').html(),
+               'placement': 'bottom',
+               'trigger': 'hover',
+               'html': true,
+               'delay': {'show': 500, 'hide': 500}
+             }
+             upvote_link.popover(options)
+             {% end %}
+             */
+           }
+         }); 
+      }
     });
 
   </script>
