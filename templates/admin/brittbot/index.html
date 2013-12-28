@@ -1,0 +1,91 @@
+{% extends ../../base.html %}
+
+{% block title %}BrittBot | {% end %}
+
+{% block content %}	<div class="header">
+		<h3 class="text-muted">BrittBot Intro Machine<h3>
+	</div>	
+	{% if error %}
+		<p class="text-danger">
+			{{ error }}
+		</p>
+	{% end %}
+	{% if sent %}
+		<p class="text-success">
+			Initial email has been sent to {{ sent }}
+		</p>
+	{% end %}
+
+	<div class="row">
+			<div class="col-lg-6">
+
+			<form class="form-horizontal" method="post" action="" role="form">
+			  		<label for="to_name" class="col-lg-2 control-label">To</label>
+			    	<div class="col-lg-8">
+			    		{{ form['to_name'] }}
+			    	</div>
+			  	</div>
+			  	<div class="form-group">
+			  		<label for="to_email" class="col-lg-2 control-label">Email</label>
+			    	<div class="col-lg-8">
+			    		{{ form['to_email'] }}
+			    	</div>
+			  	</div>
+			  	<div class="form-group">
+			  		<label for="for_name" class="col-lg-2 control-label">For</label>
+			    	<div class="col-lg-8">
+			    		{{ form['for_name'] }}
+			    	</div>
+			  	</div>
+			  	<div class="form-group">
+			  		<label for="for_email" class="col-lg-2 control-label">Email</label>
+			    	<div class="col-lg-8">
+			    		{{ form['for_email'] }}
+			    	</div>
+			  	</div>
+			  	<div class="form-group">
+			  		<label for="purpose" class="col-lg-2 control-label">Purpose</label>
+			    	<div class="col-lg-8">
+			    		{{ form['purpose'] }}
+			    	</div>
+			  	</div>
+
+			  	<div class="form-group">
+			    	<div class="col-lg-offset-2 col-lg-10">
+			      		<button type="submit" class="btn btn-primary">Send</button>
+			    	</div>
+			  	</div>
+
+
+			</form>
+		</div><!--first column-->
+
+		<div class="col-lg-5">
+			<p id="message">
+			</p>
+		</div><!--second column-->
+	</div><!--end of row-->
+
+{% end %} <!-- end block content -->
+
+{% block javascript %}
+  	<!-- Script for dynamically displaying preview of email --> 
+  	<script>
+		$("input, textarea").keyup(function () {
+			var to_name = $("#id_to_name").val();
+			var to_email = $("#id_to_email").val();
+			var for_name = $("#id_for_name").val();
+			var purpose = $("#id_purpose").val();
+			var preview_ask = "To: " + to_email + "</br> </br>" + 
+				"Hi " + to_name + 
+				", </br>" + for_name +
+				" wants to meet with you to " + purpose +
+				"</br></br> If you're open to the connection please <a href=>click here</a>. This will automatically generate an email from brittany@usv.com to connect the two of you. </br></br> Thanks! Brittany";
+			$("#message").html(preview_ask);
+		 }).keyup();
+	</script>
+{% end %}
+
+
+
+

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>BrittBot</title>
+	<!-- Bootstrap --> 
+	<link href="{{ STATIC_URL }}css/bootstrap.min.css" rel="stylesheet" media="screen">
+  	<script src="{{ STATIC_URL }}js/bootstrap.min.js"></script>
+  	<link href="{{ STATIC_URL }}css/brittbot.css" rel="stylesheet" media="screen">
+</head>
+
+<body>
+	<h3>BrittBot Intro Machine</h3>
+	{% if error %}
+		<p class="text-danger">
+			{{ error }}
+		</p>
+	{% endif %}
+	{% if intro %}
+		<p class="text-success">
+			Brittany@usv.com has now sent a two-way email intro connecting you to {{ intro.for_name }} ({{ intro.for_email }}). Thanks!
+		</p>
+	{% endif %}
+</body>
+</html>
+
+
+
