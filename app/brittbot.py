@@ -14,15 +14,19 @@ class Index(app.basic.BaseHandler):
 	@tornado.web.authenticated
 	def get(self):
 		sent = self.get_argument('sent', '')
+		err = self.get_argument('err', '')
+
+		# Form fields
 		to_name = self.get_argument('to_name', '')
 		to_email = self.get_argument('to_email', '')
 		for_name = self.get_argument('for_name', '')
 		for_email = self.get_argument('for_email', '')
 		purpose = self.get_argument('purpose', '')
 		form = {'to_name': to_name, 'to_email': to_email, 'for_name': for_name, 'for_email': for_email, 'purpose': purpose}
-  		self.render('admin/brittbot/index.html', form=form, message=None, error=None,  sent=None)
-		#return render_to_response('index.html', {'form': form, 'sent': sent}, context_instance=RequestContext(request))
 
+  		self.render('admin/brittbot/index.html', form=form, err=err,  sent=sent)
+
+	# If form is submitted correctly, send initial email
 	@tornado.web.authenticated
 	def post(self):
 		# Get submitted form data
@@ -51,7 +55,7 @@ class Index(app.basic.BaseHandler):
 			return redirect('/?sent=%s' % intro.to_name) # Always redirect after successful POST
 		except:
 			intro.delete()
-			return render_to_response('index.html', {'form': form, 'error': 'Could not send email'}, context_instance=RequestContext(request))
+			self.render('index.html', form=form, err='Could not send email')
 
 '''
 Handles response from the initial email.

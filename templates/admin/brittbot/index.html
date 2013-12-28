@@ -5,9 +5,9 @@
 {% block content %}	<div class="header">
 		<h3 class="text-muted">BrittBot Intro Machine<h3>
 	</div>	
-	{% if error %}
+	{% if err %}
 		<p class="text-danger">
-			{{ error }}
+			{{ err }}
 		</p>
 	{% end %}
 	{% if sent %}
@@ -20,33 +20,34 @@
 			<div class="col-lg-6">
 
 			<form class="form-horizontal" method="post" action="" role="form">
+			  	<div class="form-group">
 			  		<label for="to_name" class="col-lg-2 control-label">To</label>
 			    	<div class="col-lg-8">
-			    		{{ form['to_name'] }}
+			    		<input id="to_name" class="form-control" placeholder="{{ form['to_name'] }}">
 			    	</div>
 			  	</div>
 			  	<div class="form-group">
 			  		<label for="to_email" class="col-lg-2 control-label">Email</label>
 			    	<div class="col-lg-8">
-			    		{{ form['to_email'] }}
+			    		<input id="to_email" class="form-control" placeholder="{{ form['to_email'] }}">
 			    	</div>
 			  	</div>
 			  	<div class="form-group">
 			  		<label for="for_name" class="col-lg-2 control-label">For</label>
 			    	<div class="col-lg-8">
-			    		{{ form['for_name'] }}
+			    		<input id="for_name" class="form-control" placeholder="{{ form['for_name'] }}">
 			    	</div>
 			  	</div>
 			  	<div class="form-group">
 			  		<label for="for_email" class="col-lg-2 control-label">Email</label>
 			    	<div class="col-lg-8">
-			    		{{ form['for_email'] }}
+			    		<input id="for_email" class="form-control" placeholder="{{ form['for_email'] }}">
 			    	</div>
 			  	</div>
 			  	<div class="form-group">
 			  		<label for="purpose" class="col-lg-2 control-label">Purpose</label>
 			    	<div class="col-lg-8">
-			    		{{ form['purpose'] }}
+			    		<textarea id="purpose" class="form-control" placeholder="{{ form['purpose'] }}" rows="3"></textarea>
 			    	</div>
 			  	</div>
 
