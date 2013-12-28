@@ -56,8 +56,6 @@
 			      		<button type="submit" class="btn btn-primary">Send</button>
 			    	</div>
 			  	</div>
-
-
 			</form>
 		</div><!--first column-->
 
@@ -73,10 +71,10 @@
   	<!-- Script for dynamically displaying preview of email --> 
   	<script>
 		$("input, textarea").keyup(function () {
-			var to_name = $("#id_to_name").val();
-			var to_email = $("#id_to_email").val();
-			var for_name = $("#id_for_name").val();
-			var purpose = $("#id_purpose").val();
+			var to_name = $("#to_name").val();
+			var to_email = $("#to_email").val();
+			var for_name = $("#for_name").val();
+			var purpose = $("#purpose").val();
 			var preview_ask = "To: " + to_email + "</br> </br>" + 
 				"Hi " + to_name + 
 				", </br>" + for_name +
