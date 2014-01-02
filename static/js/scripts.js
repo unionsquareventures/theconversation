@@ -56,12 +56,12 @@ function USV_setup_tinymce() {
         // Setup TinyMCE
         var tinymce_plugins = "advlist, autolink, autosave, code, link, paste, preview";
         var tinymce_toolbar = "undo redo | bold italic strikethrough bullist numlist | blockquote link unlink | code";
-        if(USV_is_admin) {
+        /*if(USV_is_admin) {
             tinymce_plugins += ", image, media";
             tinymce_toolbar += ", | image | media";
         } else {
           tinymce_plugins += ", charcount";
-        }
+        }*/
 
         var show_tinymce = true;
         if(/Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent)) {
@@ -79,7 +79,8 @@ function USV_setup_tinymce() {
           // General options
           theme : "modern",
           width: '100%',
-          height: '150px',
+          height: '120px',
+          statusbar: false,
 
           valid_elements: USV_tinymce_valid_elements,
           charcount_max_chars: USV_tinymce_post_char_limit,
