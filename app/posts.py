@@ -329,6 +329,26 @@ class Bump(app.basic.BaseHandler):
     self.api_response(msg)
 
 ##########################
+### Upvote Up A SPECIFIC POST
+### /posts/([^\/]+)/bump
+##########################
+class SuperUpVote(app.basic.BaseHandler):
+  def get(self, slug):
+    # user must be logged in
+    msg = {}
+    if not self.current_user:
+      msg = {'error': 'You must be logged in to bump.', 'redirect': True}
+    else:
+      post = postsdb.get_post_by_slug(slug)
+      if post:
+          # Increment the vote count
+          post['votes'] += 1
+          postsdb.save_post(post)
+          msg = {'votes': post['votes']}
+
+    self.api_response(msg)
+
+##########################
 ### Un-Bump A SPECIFIC POST
 ### /posts/([^\/]+)/unbump
 ##########################
