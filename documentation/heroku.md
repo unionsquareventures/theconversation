@@ -103,6 +103,16 @@ INFO:root:starting tornado_server on 0.0.0.0:8001
 
 Voila!
 
+Now you can test locally and see if things work.  Assuming they do, push to heroku:
+
+```
+% git push heroku master
+```
+
+(assuming that your remote is named "heroku", which it may or may not be.
+
+Voila again!
+
 
 
 
