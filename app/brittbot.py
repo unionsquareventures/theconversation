@@ -41,24 +41,25 @@ class Index(app.basic.BaseHandler):
 		# Save intro to database
 		try:
 			#intro['sent_initial'] = datetime.date.today()
-			intro = brittbotdb.save_intro(intro)
+			brittbotdb.save_intro(intro)
 		except:
-			self.redirect('brittbot?err=%s' % 'Failed to save file to database. Email was not sent.')
+			pass # multiple redirects in function apparently a problem
+			#self.redirect('brittbot?err=%s' % 'Failed to save file to database. Email was not sent.')
 
 		# Send initial email
 		try:
-			email_subject = "Intro to %s?" % form['for_name']
-			text_body = 'Hi %s, %s wants to meet with you to %s If you are open to the connection please email reply to brittany@usv.com. This will automatically generate an email from brittany@usv.com to connect the two of you. Thanks! Brittany' % (form['to_name'], form['for_name'], form['purpose'])
-			html_body = 'Hi %s,<br> %s wants to meet with you to %s <br><br>If you are open to the connection please <a href="%s%s">click here</a>. This will automatically generate an email from brittany@usv.com to connect the two of you. <br><br> Thanks! Brittany' % (form['to_name'], form['for_name'], form['purpose'], settings.get('RESPONSE_URL'), form['id'])
+			email_subject = "Intro to %s?" % intro['for_name']
+			text_body = 'Hi %s, %s wants to meet with you to %s If you are open to the connection please email reply to brittany@usv.com. This will automatically generate an email from brittany@usv.com to connect the two of you. Thanks! Brittany' % (intro['to_name'], intro['for_name'], intro['purpose'])
+			html_body = 'Hi %s,<br> %s wants to meet with you to %s <br><br>If you are open to the connection please <a href="%s%s">click here</a>. This will automatically generate an email from brittany@usv.com to connect the two of you. <br><br> Thanks! Brittany' % (intro['to_name'], intro['for_name'], intro['purpose'], settings.get('RESPONSE_URL'), intro['id'])
 			msg = EmailMultiAlternatives(email_subject, text_body, settings.get('EMAIL_HOST_USER'), [to_email])
 			msg.attach_alternative(html_body, "text/html")
 			#msg.send()		
-			print "Sent to: %s" % to_email
+			print "Sent to: %s" % intro['to_email']
 			print "Subject: %s" % email_subject
 			print "Body: %s" % text_body
 			print "Host: %s" % settings.get('EMAIL_HOST_USER')
 
-			self.redirect('brittbot?sent=%s' % to_name) # Always redirect after successful POST
+			self.redirect('brittbot?sent=%s' % intro['to_name']) # Always redirect after successful POST
 		except:
 			brittbotdb.remove_intro(intro)
 			self.redirect('brittbot?err=%s' % 'Email failed to send.')
