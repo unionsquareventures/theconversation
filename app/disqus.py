@@ -50,7 +50,7 @@ class Disqus(app.basic.BaseHandler):
         userdb.save_user(account)
         
         # todo: subscribe user to all previous threads they've written
-        # disqus.subscribe_to_all_your_threads(self.current_user)
+        disqus.subscribe_to_all_your_threads(self.current_user)
         
     except Exception, e:
       logging.info(e)

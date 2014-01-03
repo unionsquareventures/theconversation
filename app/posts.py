@@ -281,6 +281,7 @@ class ListPosts(app.basic.BaseHandler):
       saved_post['disqus_thread_id_str'] = thread_id
       postsdb.save_post(saved_post)
 
+    # Queue up posts to show on list
     featured_posts = postsdb.get_featured_posts(6, 1)
     sort_by = "newest"
     posts = postsdb.get_new_posts(per_page, page)

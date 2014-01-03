@@ -67,6 +67,9 @@ def grep_short_code(link):
 
   return short_code
 
+#
+# Subscribe to a thread
+#
 def subscribe_to_thread(thread_id, access_token):
   api_link = 'https://disqus.com/api/3.0/threads/subscribe.json'
   info = {
@@ -77,31 +80,29 @@ def subscribe_to_thread(thread_id, access_token):
   }
   return do_api_request(api_link, 'POST', info)
 
+#
+# Subscribe to all your threads
+#
 def subscribe_to_all_your_threads(username):
   account = userdb.get_user_by_screen_name(username)
-  # subscribe this author to all of their previous posts
-  author_posts = postsdb.get_posts_by_screen_name(username, per_page=1000, page=1)
-  for post in author_posts:
-    print post['title']
-    thread_id = 0
-    try:
-      # Attempt to create the thread.
-      thread_details = create_thread(post, account['disqus_access_token'])
-      print thread_details
-      thread_id = thread_details['response']['id']
-    except Exception, e:
-      try:
-        # trouble creating the thread, try to just get the thread via the slug
-        thread_details = get_thread_details(post.slug)
-        thread_id = thread_details['response']['id']
-      except:
-        thread_id = 0
-    if thread_id != 0:
-      # Subscribe a user to the thread specified in response
-      subscribe_to_thread(thread_id, account['disqus_access_token'])
-      logging.info("subscribed user to %s" % post['title'])
-    else:
-      print "couldn't get thread id"
+  # todo: get disqus_user_id
+  # temp: nick's ID
+  if 'disqus_user_id' not in account:
+    return
+  
+  threads = get_all_threads(account['disqus_user_id'])['response']
+  my_threads = []
+  for thread in threads:
+    if 'link' not in thread or thread['link'] is None:
+      continue
+    if thread['link'].find('http://localhost') >= 0:
+      continue
+    my_threads.append(thread)
+  if 'disqus_access_token' in account:
+    for thread in my_threads:
+      subscribe_to_thread(thread['id'], account['disqus_access_token'])
+  return
+  
 
 def remove_all_your_threads(username):
   #account = userdb.get_user_by_screen_name(username)
@@ -119,12 +120,15 @@ def user_details(api_key, access_token, api_secret, user_id):
   api_link = 'https://disqus.com/api/3.0/users/details.json?access_token=%s&api_key=%s&api_secret=%s&user=%s' % (access_token, api_key, api_secret, int(user_id))
   return do_api_request(api_link)
 
+#
+# Get Threads
+#
 def get_all_threads(disqus_user_id=None):
   api_link = 'https://disqus.com/api/3.0/threads/list.json'
   info = {
     'api_secret': settings.get('disqus_secret_key'),
     'forum': settings.get('disqus_short_code'),
-    'limit': 2
+    'limit': 100
   }
   if disqus_user_id:
     info.update({
