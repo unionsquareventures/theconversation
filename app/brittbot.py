@@ -34,11 +34,14 @@ class Index(app.basic.BaseHandler):
 		for_email = self.get_argument('for_email', '')
 		purpose = self.get_argument('purpose', '')
 		form = {'to_name': to_name, 'to_email': to_email, 'for_name': for_name, 'for_email': for_email, 'purpose': purpose}
-
+		print form
 
 		# TODO: Server side error handling? 
 
 		# Save intro to database
+		#intro.sent = datetime.date.today()
+		#intro.save()
+		#intro = 
 
 		intro_id = 5
 
@@ -47,22 +50,20 @@ class Index(app.basic.BaseHandler):
 			email_subject = "Intro to %s?" % form['for_name']
 			text_body = 'Hi %s, %s wants to meet with you to %s If you are open to the connection please email reply to brittany@usv.com. This will automatically generate an email from brittany@usv.com to connect the two of you. Thanks! Brittany' % (form['to_name'], form['for_name'], form['purpose'])
 			html_body = 'Hi %s,<br> %s wants to meet with you to %s <br><br>If you are open to the connection please <a href="%s%s">click here</a>. This will automatically generate an email from brittany@usv.com to connect the two of you. <br><br> Thanks! Brittany' % (form['to_name'], form['for_name'], form['purpose'], settings.get('RESPONSE_URL'), intro_id)
-			
-			print "sending to: %s" % to_email
-			print "subject: %s" % email_subject
-			print "body: %s" % text_body
-			print "host: %s" % settings.EMAIL_HOST_USER
-
 			msg = EmailMultiAlternatives(email_subject, text_body, settings.get('EMAIL_HOST_USER'), [to_email])
 			msg.attach_alternative(html_body, "text/html")
-			#msg.send()
+			#msg.send()		
+			print "Sent to: %s" % to_email
+			print "Subject: %s" % email_subject
+			print "Body: %s" % text_body
+			print "Host: %s" % settings.get('EMAIL_HOST_USER')
 
-			print "email sent"
-			#intro.sent = datetime.date.today()
-			#intro.save()
 			return redirect('brittbot?sent=%s' % to_name) # Always redirect after successful POST
 		except:
 			self.redirect('brittbot?err=%s' % 'Email failed to send')
+
+		
+			
 
 '''
 Handles response from the initial email.
