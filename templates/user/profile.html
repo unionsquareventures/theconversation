@@ -9,6 +9,9 @@
       <div class="well" style="text-align:center">
         <img src="{{ user['user'].get('profile_image_url') }}" />  
         <h2 style="margin-bottom: 0;"><a href="http://twitter.com/{{screen_name}}" target="_blank">@{{screen_name}}</a> on Twitter</h2>
+        {% if current_user in settings.get('staff') %}
+          <p><a href="https://partners.mongohq.com/app18119720-heroku-com/mongo/app18119720/collections/user_info/documents/o:{{ user['_id'] }}" target="_blank">mongohq</a></p>
+        {% end %}
       </div>
 
       {% if tags %}
