@@ -26,6 +26,9 @@ def get_user_by_screen_name(screen_name):
 
 def get_user_by_email(email_address):
   return db.user_info.find_one({'email_address':email_address})
+  
+def get_disqus_users():
+  return db.user_info.find({'disqus_user_id': { '$exists': 'true' }})
 
 def create_new_user(user, access_token):
   return db.user_info.update({'user.id_str': user['id_str']}, {'user':user, 'access_token':access_token, 'email_address':'', 'role':''}, upsert=True)
