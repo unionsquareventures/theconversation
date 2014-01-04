@@ -1,9 +1,11 @@
 from mongo import db
+import postsdb
 
 # For update_twitter
 import tweepy
 import settings
 import urllib2
+
 
 """
 {
@@ -76,7 +78,12 @@ def update_twitter(id_str=None, api=None):
 
     updated_user = {'access_token': user['access_token'], 'user': user_data}
     save_user(updated_user)
-    print "Updated user @%s" % user['user']['username']
+    print "++ Updated user @%s" % user['user']['username']
+    user_posts = postsdb.get_posts_by_screen_name(twitter_user.screen_name, per_page=100, page=1)
+    for p in user_posts:
+      p['user'] = user_data
+      postsdb.save_post(p)
+      print "++++ Updated %s info for %s" % (p['user']['screen_name'], p['title'])
 
 ''' Only updates a user if their twitter profile image URL returns a 404 '''
 def update_twitter_profile_images():
@@ -86,6 +93,7 @@ def update_twitter_profile_images():
   api = tweepy.API(auth) 
 
   for user in get_all():
+    print "Checking user %s" % user['user']['screen_name']
     try:
         response= urllib2.urlopen(user['user']['profile_image_url_https'])
     except urllib2.HTTPError, e:
