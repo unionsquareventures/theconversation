@@ -88,7 +88,9 @@ def subscribe_to_all_your_threads(username):
   # todo: get disqus_user_id
   # temp: nick's ID
   if 'disqus_user_id' not in account:
+    logging.info('ERROR: no disqus user ID')
     return
+  logging.info('subscribing to disqus threads for user %s' % username)
   
   threads = get_all_threads(account['disqus_user_id'])['response']
   my_threads = []
@@ -101,6 +103,7 @@ def subscribe_to_all_your_threads(username):
   if 'disqus_access_token' in account:
     for thread in my_threads:
       subscribe_to_thread(thread['id'], account['disqus_access_token'])
+      logging.info('subscribed to thread: %s' % thread['title'])
   return
   
 
