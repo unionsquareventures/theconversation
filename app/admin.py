@@ -321,7 +321,7 @@ class Gmail(app.basic.BaseHandler):
     if self.current_user not in settings.get('staff'):
       self.redirect('/')
 
-    query = self.get_argument('q')
+    query = self.get_argument('q', '')
     if not query:
       correspondences = []
     else:
@@ -347,16 +347,10 @@ class Gmail(app.basic.BaseHandler):
         correspondence = {'usv_member': usv_member['name'], 'total_emails_in': total_emails_in, 'total_emails_out': total_emails_out, 'recent_email_in': recent_email_in, 'recent_email_out': recent_email_out}
         correspondences.append(correspondence)
 
-    return self.render('admin/gmail.html', correspondences=correspondences)
+    return self.render('admin/gmail.html', correspondences=correspondences, query=query)
 
-  ''' Queries GMail of all USV_Members directly 
-      Returns list of fake Correspondence instances (as dicts) '''
-  def gmail_query(self, query):
-    
-    return correspondences
-
-
-  ''' Simple query to the inbox, returns how many emails match query and the date of the latest email '''
+  ''' Simple query to the inbox, returns how many emails match query and the date of the latest email.
+      Query must be a single string, i.e. not "science exchange" '''
   def search_mail(self, mail, query):
       if not query:
         query = "ALL"
