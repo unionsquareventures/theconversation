@@ -40,7 +40,7 @@ class Index(app.basic.BaseHandler):
 
 		# Save intro to database
 		try:
-			#intro['sent_initial'] = datetime.date.today()
+			intro['sent_initial'] = datetime.date.today()
 			brittbotdb.save_intro(intro)
 		except:
 			pass # multiple redirects in function apparently a problem
@@ -48,25 +48,45 @@ class Index(app.basic.BaseHandler):
 
 		# Send initial email
 		try:
-			email_subject = "Intro to %s?" % intro['for_name']
-			text_body = 'Hi %s, %s wants to meet with you to %s If you are open to the connection please email reply to brittany@usv.com. This will automatically generate an email from brittany@usv.com to connect the two of you. Thanks! Brittany' % (intro['to_name'], intro['for_name'], intro['purpose'])
-			html_body = 'Hi %s,<br> %s wants to meet with you to %s <br><br>If you are open to the connection please <a href="%s%s">click here</a>. This will automatically generate an email from brittany@usv.com to connect the two of you. <br><br> Thanks! Brittany' % (intro['to_name'], intro['for_name'], intro['purpose'], settings.get('RESPONSE_URL'), intro['id'])
-			msg = EmailMultiAlternatives(email_subject, text_body, settings.get('EMAIL_HOST_USER'), [to_email])
-			msg.attach_alternative(html_body, "text/html")
-			#msg.send()		
-			print "Sent to: %s" % intro['to_email']
-			print "Subject: %s" % email_subject
-			print "Body: %s" % text_body
-			print "Host: %s" % settings.get('EMAIL_HOST_USER')
-
-			self.redirect('brittbot?sent=%s' % intro['to_name']) # Always redirect after successful POST
+			subject = "Intro to %s?" % intro['for_name']
+			response_url = settings.get('BB_RESPONSE_URL')
+			#text_body = 'Hi %s, %s wants to meet with you to %s If you are open to the connection please email reply to brittany@usv.com. This will automatically generate an email from brittany@usv.com to connect the two of you. Thanks! Brittany' % (intro['to_name'], intro['for_name'], intro['purpose'])
+			body = 'Hi %s,<br> %s wants to meet with you to %s <br><br>If you are open to the connection please <a href="%s?id=%s">click here</a>. This will automatically generate an email from brittany@usv.com to connect the two of you. <br><br> Thanks! Brittany' % (intro['to_name'], intro['for_name'], intro['purpose'], response_url, intro['id'])
+			self.send_email(settings.get('BB_EMAIL_HOST_USER'), intro['to_email'], subject, html_body)
+			self.redirect('brittbot?sent=%s (%s)' % (intro['to_name'], intro['to_email'])) # Always redirect after successful POST
 		except:
 			brittbotdb.remove_intro(intro)
 			self.redirect('brittbot?err=%s' % 'Email failed to send.')
 
 
+###########################
+### Creates the actual intro email
+### once the initial user has acquiesced
+### /admin/brittbot/response
+###########################
+class Response(app.basic.BaseHandler):		
+	def get(self):
+		# Get intro from database
+		intro_id = self.get_argument('id', '')
+		try:
+			intro = brittbotdb.get_by_id(intro_id)
+		except:
+			self.render('admin/brittbot/response.html', err="Sorry! I couldn't find this intro in my database. Please contact brittany@usv.com")
+
+		if 'connected' in intro.keys():
+			self.render('admin/brittbot/response.html', err="Your email has already been sent! Stop clicking the link!")
+
+		subject = "%s <-> %s" % (intro.for_name, intro.to_name)
+		email_body = 'Great that you guys are connecting!'
+		#send_mail(email_subject, email_body, settings.EMAIL_HOST_USER, [intro.to_email, intro.for_email], fail_silently=False)
+		try:
+			self.send_email(settings.get('BB_EMAIL_HOST_USER'), [intro['to_email'], intro.for_email], subject, body)
+		except: 
+			self.render('admin/brittbot/response.html', err="Sorry, there was a problem with our email server. Please try again or contact brittany@usv.com")
 		
-			
+		intro['connected'] = datetime.date.today()
+		brittbotdb.save_intro(intro)
+		return self.render('admin/brittbot/response.html', intro=intro)
 
 '''
 Handles response from the initial email.
@@ -88,6 +108,39 @@ But there is no way to let most email client include a POST link (and for good r
 	intro.connected = datetime.date.today()
 	intro.save()
 	return render_to_response('response.html', {'intro': intro}, context_instance=RequestContext(request))
+'''
+
+''' From http://rosettacode.org/wiki/Send_an_email#Python '''
+'''
+import smtplib
+def sendemail(from_addr, to_addr_list, cc_addr_list,
+              subject, message,
+              login, password,
+              smtpserver='smtp.gmail.com:587'):
+    header  = 'From: %s\n' % from_addr
+    header += 'To: %s\n' % ','.join(to_addr_list)
+    header += 'Cc: %s\n' % ','.join(cc_addr_list)
+    header += 'Subject: %s\n\n' % subject
+    message = header + message
+  
+    server = smtplib.SMTP(smtpserver)
+    server.starttls()
+    server.login(login,password)
+    problems = server.sendmail(from_addr, to_addr_list, message)
+    server.quit()
+'''
+''' Old email crap
+#msg = EmailMultiAlternatives(email_subject, text_body, settings.get('EMAIL_HOST_USER'), [to_email])
+#msg.attach_alternative(html_body, "text/html")
+#msg.send()	
+
+self.sendemail(from_addr    = settings.get('BB_EMAIL_HOST_USER'), 
+          to_addr_list = intro['to_email'],
+          cc_addr_list = settings.get('BB_EMAIL_HOST_USER'), 
+          subject      = subject, 
+          message      = html_body, 
+          login        = settings.get('BB_EMAIL_HOST_USER'),
+          password     = settings.get('BB_EMAIL_HOST_PASSWORD'))
 '''
 
 
