@@ -1,0 +1,53 @@
+{% extends '../base.html' %}
+
+{% block title %}CRM | {% end %}
+
+{% block content %}
+	
+	<h2>Email Search</h2> 
+	
+	<form class="form-horizontal" method="get" action="">
+		<div class="input-prepend" style="display:block">
+			<span class="add-on"><i class="icon-search"></i></span>
+	  		<input type="text" name="q" id="id_q" />
+		</div>
+	</form>
+
+	<table class="table table-striped">
+		<tr>
+			<th>Name</th>
+			<th>Total Emails In</th>
+			<th>Latest Email In</th>
+			<th>Total Emails Out</th>
+			<th>Latest Email Out</th>
+		</tr>
+		
+		{% for correspondence in correspondences %}
+		<tr>	
+			<td>
+				{{ correspondence['usv_member'] }}
+			</td>
+			<td>
+				{{ correspondence['total_emails_in'] }}
+			</td>
+			<td>
+				{% if correspondence['recent_email_in'] %}
+					{{ correspondence['recent_email_in'] }}
+				{% else %}
+					N/A
+				{% end %}
+			</td>
+			<td>
+				{{ correspondence['total_emails_out'] }}
+			</td>
+			<td>
+				{% if correspondence['recent_email_out'] %}
+					{{ correspondence['recent_email_out'] }}
+				{% else %}
+					N/A
+				{% end %}
+			</td>
+		</tr>
+		{% end %}
+	</table>
+{% end %}

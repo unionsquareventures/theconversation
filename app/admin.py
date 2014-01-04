@@ -4,6 +4,7 @@ import settings
 import datetime
 import logging
 import json
+import re, time, imaplib
 
 from lib import companiesdb
 from lib import hackpad
@@ -310,3 +311,94 @@ class ManageDisqus(app.basic.BaseHandler):
         self.write(result)
     #response = disqus.get_all_threads()
     #self.write(response)
+
+###########################
+### Manage Disqus Data
+### /admin/gmail
+###########################
+class Gmail(app.basic.BaseHandler):
+  def get(self):
+    if self.current_user not in settings.get('staff'):
+      self.redirect('/')
+
+    query = self.get_argument('q')
+    if not query:
+      correspondences = []
+    else:
+      #insert mongodb here
+      accounts = [{'name': 'Zander', 'account': 'alexander@usv.com', 'password': 'xccpiujmworlroqo'}]
+      '''
+      andy@usv.com|suikdmttsmkjepuo|1|aweissman|Andy
+      alexander@usv.com|xccpiujmworlroqo|2|AlexanderMPease|Zander
+      brian@usv.com|yatzfzxxktcarhxl|3|bwats|Brian
+      brittany@usv.com|runtosrypbtgvxwa|4|br_ttany|Brittany
+      nick@usv.com|hqmjbxedxnwybjmp|5|nickgrossman|Nick
+      albert@usv.com|qcbkkdnlkzcyuofh|6|albertwenger|Albert
+      brad@usv.com|hbymelmupazseurg|7|bradusv|Brad
+      john@usv.com|ujcthvzfpflisvmm|8||John
+      '''
+
+      # Query each account
+      correspondences = []
+      for usv_member in accounts:
+        mail = self.email_login(usv_member['account'], usv_member['password'])
+        total_emails_in, recent_email_in = self.search_mail(mail, "FROM " + query)
+        total_emails_out, recent_email_out = self.search_mail(mail, "TO " + query)
+        correspondence = {'usv_member': usv_member['name'], 'total_emails_in': total_emails_in, 'total_emails_out': total_emails_out, 'recent_email_in': recent_email_in, 'recent_email_out': recent_email_out}
+        correspondences.append(correspondence)
+
+    return self.render('admin/gmail.html', correspondences=correspondences)
+
+  ''' Queries GMail of all USV_Members directly 
+      Returns list of fake Correspondence instances (as dicts) '''
+  def gmail_query(self, query):
+    
+    return correspondences
+
+
+  ''' Simple query to the inbox, returns how many emails match query and the date of the latest email '''
+  def search_mail(self, mail, query):
+      if not query:
+        query = "ALL"
+      result, data = mail.search(None, query) # data is a list, but there is only data[0]. data[0] is a string of all the email ids for the given query. ex: ['1 2 4']
+      ids = data[0] # ids is a space separated string containing all the ids of email messages
+      id_list = ids.split() # id_list is an array of all the ids of email messages
+
+      # Get date of latest email
+      if id_list:
+        latest_id = id_list[-1]
+        result, data = mail.fetch(latest_id, "(RFC822)") # fetch the email body (RFC822) for the given ID
+        raw_email = data[0][1] # raw_email is the body, i.e. the raw text of the whole email including headers and alternate payloads     
+        date = self.get_mail_date(raw_email)
+      else:
+        date = None
+      return len(id_list), date
+
+  ''' Login into an account '''
+  def email_login(self, account, password):
+    try:
+      mail = imaplib.IMAP4_SSL('imap.gmail.com')
+      result, message = mail.login(account, password)
+      mail.select("[Gmail]/All Mail", readonly=True) #mark as unread 
+      if result != 'OK':
+        raise Exception
+      print 'Logged in as ' + account
+      return mail
+    except:
+      print "Failed to log into " + account
+      return None
+
+  ''' Parses raw email and returns date sent. Picks out dates of the form "26 Aug 2013" '''
+  def get_mail_date(self, raw_email):
+    if raw_email:
+      #Date: Mon, 5 Nov 2012 17:45:38 -0500
+      date_string = re.search(r'[0-3]*[0-9] [A-Z][a-z][a-z] 20[0-9][0-9]', raw_email)
+      if date_string:
+        time_obj = time.strptime(date_string.group(), "%d %b %Y")
+        return datetime.date(time_obj.tm_year, time_obj.tm_mon, time_obj.tm_mday)
+      else:
+        return None
+    else:
+      raise Exception
+
+
