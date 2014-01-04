@@ -18,7 +18,7 @@
     <section class="featured-feed clearfix mobile-hidden">
       
       {% if 'tags' in globals() and len(tags) > 0 %}
-      <h3 style="text-align:center; text-transform:uppercase; color:#999; margin: 5px 0 15px; font-size: 14px; line-height:1.428571429;">Popular tags (last 14 days):</h3>
+      <!--<h3 style="text-align:center; text-transform:uppercase; color:#999; margin: 5px 0 15px; font-size: 14px; line-height:1.428571429;">Popular tags (last 14 days):</h3>-->
       <div style="text-align:center; margin-bottom: 20px">
       <ul class="filter-tabs tags">
         {% for t in tags['result'] %}
@@ -195,5 +195,17 @@
       */
       
     }); 
+  </script>
+  <script type="text/javascript">
+  /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+  /*var disqus_shortname = '{{settings.get("disqus_short_code")}}'; // required: replace example with your forum shortname
+  */
+  /* * * DON'T EDIT BELOW THIS LINE * * */
+  /*(function () {
+      var s = document.createElement('script'); s.async = true;
+      s.type = 'text/javascript';
+      s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+      (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+  }());*/
   </script>
 {% end %}

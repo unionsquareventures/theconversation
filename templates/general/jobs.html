@@ -1,0 +1,472 @@
+{% extends '../base.html' %}
+
+{% block body_class %}jobs{% end %}
+{% block title %}Jobs | {% end %}
+
+{% block content %}
+
+  <div id="main" role="main">
+    <h2 class="mobile-page-headline section-heading">Jobs</h2>
+    <div class="jobs-container">
+
+      <!--
+      <header>  
+        <ul class="stats">
+          <li>
+            <span class="stat">796</span>
+            <span class="label">jobs</span>
+          </li>
+          <li>
+            <span class="stat">36</span>
+            <span class="label">companies</span>
+          </li>
+          <li>
+            <span class="stat">53</span>
+            <span class="label">cities</span>
+          </li>
+        </ul>
+        <div class="job-search">
+          <form id="jobform" method="GET" action="http://www.indeed.com/jobs">
+            <div class="form-row">
+              <input type="text" name="q" value="" size="25" id="q" placeholder="Job Title or Keywords">
+            </div>
+            <div class="form-row">
+              <input type="text" name="l" value="" size="" id="l" placeholder="City, State or Zip">
+            </div>
+            <div class="form-button">
+              <input type="submit" value="Search" name="">
+            </div>
+          </form>
+        </div>
+      </header>
+      -->
+
+      <div id="jobs-content" class="row">
+
+        <!-- LH menu/tags -->
+        <div class="col-sm-3">
+          <!--
+          <div class="job-tabs-container">
+            <h2>Filter</h2>
+            <ul class="job-tabs filter-tabs">
+              <li><a href="#company" usv:filter="company">By Company</a></li>
+              <li><a href="#location" usv:filter="location">By Location</a></li>
+              <li><a href="#category" usv:filter="category">By Job Category</a></li>
+            </ul>
+            
+          </div>
+          -->
+
+          <div id="jobs-menu" class="filter-menu">
+            <div usv:filter="company">
+              <h2>Company</h2>
+              <ul class="side-nav filter-tabs" id="company">
+                {% for c in companies %}
+                  <li>
+                    <a id="{{ slugify(c) }}" href="#{{ slugify(c) }}">
+                      {{ c }}
+                      <span></span>
+                    </a>
+                  </li>
+                {% end %}
+              </ul>
+            </div>
+
+            <div usv:filter="location">
+              <h2>Location</h2>
+              <ul class="side-nav filter-tabs" id="location">
+                {% for l in locations %}
+                  <li>
+                    <a id="{{ slugify(l) }}" href="#{{ slugify(l) }}">{{ l }}
+                      <span></span>
+                    </a>
+                  </li>
+                {% end %}
+              </ul>
+            </div>
+
+            <div usv:filter="category">
+              <h2>Categories</h2>
+
+              <ul class="side-nav filter-tabs" id="category">
+                {% for c in categories %}
+                  <li>
+                    <a id="{{ slugify(c) }}" href="#{{ slugify(c) }}">{{ c }}
+                      <span></span>
+                    </a>
+                  </li>
+                {% end %}
+              </ul>
+            </div>
+          </div>
+        </div><!-- LH menu/tags -->
+      
+        <!-- Job listings -->
+        <div class="col-sm-9">
+          <!-- Heading -->
+          <h2 class="subsection section-heading" id="jobs-heading" style="clear:both; border-bottom:none">
+            Jobs 
+            <span class="filter-label" style="display:none"></span>
+          </h2>
+
+          <div class="jobs" style="border-bottom:none">
+            <!--Column headers -->
+            <!--
+            <div>
+              <div class="col-sm-3">
+                <div class="btn-group">
+                  <a data-toggle="dropdown">
+                    Company 
+                    <span class="caret"></span>
+                  </a>
+                  <ul class="dropdown-menu" role="menu" usv:filter="company">
+                    {% for c in companies %}
+                      <li><a id="{{ slugify(c) }}" href="#{{ slugify(c) }}">{{ c }}</a></li>
+                    {% end %}
+                  </ul>
+                </div>
+              </div>
+
+              <div class="col-sm-3">
+                <div class="btn-group">
+                  <a data-toggle="dropdown">
+                    Location 
+                    <span class="caret"></span>
+                  </a>
+                  <ul class="dropdown-menu" role="menu" usv:filter="location">
+                    {% for l in locations %}
+                      <li><a id="{{ slugify(l) }}" href="#{{ slugify(l) }}">{{ l }}</a></li>
+                    {% end %}
+                  </ul>
+                </div>
+              </div>
+
+              <div class="col-sm-6">
+                <div class="btn-group">
+                  <a data-toggle="dropdown">
+                    Job Title 
+                    <span class="caret"></span>
+                  </a>
+                  <ul class="dropdown-menu" role="menu" usv:filter="category">
+                    {% for c in categories %}
+                      <li><a id="{{ slugify(c) }}" href="#{{ slugify(c) }}">{{ c }}</a></li>
+                    {% end %}
+                  </ul>
+                </div>
+              </div>
+            </div>
+            -->
+
+            <!-- Jobs rows -->
+            {% for j in jobs %}
+            <div class="job" usv:company-slug="{{ slugify(j['company']) }}" usv:company="{{ j['company'] }}" usv:location="{{ j['formattedLocation'] }}" usv:location-slug="{{ slugify(j['formattedLocation']) }}" usv:category="{{ j['position'] }}" usv:category-slug="{{ slugify(j['position']) }}">
+              <div class="col-sm-3">{{ j['company'] }}</div>
+              <div class="col-sm-3">{{ j['formattedLocation'] }}</div>
+              <div class="col-sm-6"><a href="{{ j['url'] }}" target="_blank">{{ j['jobtitle'] }}</a></div>
+            </div>
+            {% end %}
+          </div>
+        </div><!--col-sm-9-->
+
+      </div>
+    </div>
+  </div>
+{% end %} <!-- end block content -->
+
+
+{% block javascript %}
+
+<script>
+  
+  $(document).ready(function() {
+    // Filter on page load if URL has a hash
+    if (window.location.hash) {
+      filter_jobs();
+      filter_tags();
+      filter_title();
+    }
+
+    // Filters jobs every time a change is made to the hash
+    $(window).on('hashchange', function() {
+      filter_jobs();
+      filter_tags();
+      filter_title();
+    });
+    
+
+    // Shows/hides filters for each category, ex. By Job Category
+    $(".job-tabs a").click(function(e) {
+      e.preventDefault();
+      var query = $(this).attr("usv:filter");
+    });
+
+    // Clicking on a specific filter link, ex. Administrative
+    $(".side-nav a").click(function(e) {
+      e.preventDefault();
+      var filter_type = $(this).parent().parent().parent().attr("usv:filter");
+      var query = this.href.split("#")[1];
+      add_hash(filter_type, query);
+    });
+    
+    // Clicking on a specific filter link, ex. Administrative
+    // FOR NEW BRITTANY DROPDOWNS
+    $(".dropdown-menu a").click(function(e) {
+      e.preventDefault();
+      var filter_type = $(this).parent().parent().attr("usv:filter");
+      var query = this.href.split("#")[1];
+      add_hash(filter_type, query); // this triggers jquery event that filters jobs
+    });
+
+  }); //$(document).ready();
+
+  // Adds or subtracts a query to the hash
+  function add_hash(filter_type, query) {
+    if (filter_type == null || query == null) {
+      return;
+    }
+
+    hash_array = parse_hash();
+
+    // See if filter_type already in hash_array
+    filter_type_flag = false;
+    for (var i=0; i<hash_array.length; i++) {
+      if (hash_array[i][0] == filter_type) {
+        filter_type_flag = true; // filter_type already exists
+        
+        // For this filter_type, see if query already exists
+        query_flag = false;
+        num_queries = hash_array[i].length
+        for (var j=0; j<num_queries; j++) {
+          if (hash_array[i][j] == query) {
+            query_flag = true; // Query already exists
+            hash_array[i].splice(j,1); //Remove query from the hash
+            num_queries = num_queries - 1;
+
+            // Delete the filter_type if no more queries
+            if (hash_array[i].length == 1) {
+              hash_array.splice(i, 1);
+            }
+          }
+        }
+        // Adds query if it didn't already exist
+        if (query_flag == false){
+          hash_array[i].push(query);
+        } 
+      }
+    }
+
+    // Adds filter_type and query if filter_type didn't already exist
+    if (filter_type_flag == false) {
+        hash_array.push([filter_type, query]);
+    }
+
+    // Reset the window's hash
+    set_hash(hash_array);
+  }
+
+
+  // Parses the hash into an array of arrays
+  // Ex: [[company, duolingo], [location, NYC, SF]]
+  function parse_hash() {
+    var entire_query = window.location.hash.split("#")[1];
+    if (!entire_query) {
+      return []; // i.e. show all
+    }
+
+    var filter_types = entire_query.split("&");
+
+    // Iterate over all filter types
+    return_array = [];
+    for (var i=0; i<filter_types.length; i++) {
+      filter_array = []; 
+      filter_type = filter_types[i] // ie. company, category or location
+      filter_array.push(filter_type.split("=")[0]); //adds filter_type as first element in subarray
+
+      // Split out all the queries for each filter_type
+      queries = filter_type.split("=")[1];
+      queries = queries.split(",");
+
+      //Iterate over all these queries
+      for (var j=0; j<queries.length; j++) {
+        query = queries[j];
+        filter_array.push(query);
+      }
+
+      //Add filter_array to return_array
+      return_array.push(filter_array);
+    }
+    
+    return return_array;
+  }
+
+  // Sets the hash
+  function set_hash(hash_array) {
+    if (hash_array == [] || hash_array == null) {
+      window.location.hash = "";
+      return;
+    }
+
+    hash_string = "#";
+    // Iterate over filter_types
+    for (var i=0; i<hash_array.length; i++) {
+      if (i>0) {
+        hash_string = hash_string + "&"; // for second, third, etc. category types
+      }
+      
+      // Add filter_type
+      hash_string = hash_string + hash_array[i][0] + "=";
+
+      // Add each query
+      for (var j=1; j<hash_array[i].length; j++) {
+        hash_string = hash_string + hash_array[i][j];
+
+        // Add comma if not last query
+        if (j+1<hash_array[i].length) {
+          hash_string = hash_string + ",";
+        } 
+      }
+    }
+    window.location.hash = hash_string; // this triggers jquery event
+  }
+
+  // Shows and hides jobs based on filtering
+  function filter_jobs() {
+    hash_array = parse_hash();
+    
+    // If no hash_array, show all jobs
+    if (hash_array == [] || hash_array == null) {
+      $('.job').each(function() {
+        $(this).show();
+        //$("#jobs-heading .filter-label").hide()
+        //$('.side-nav li').removeClass('active');
+      });
+      return;
+    }
+
+    // Else, hide all jobs and then choose which to show
+    $('.job').hide();
+
+    // Check each job for all [filter_type, query] pairs
+    $('.job').each(function() {
+      show_flag = true;
+      // Iterate over filter_types
+      for (var i=0; i<hash_array.length; i++) {
+        filter_flag = false; // Must be true for each filter_type
+        filter_type = hash_array[i][0];
+        // Iterate over each query
+        for (var j=1; j<hash_array[i].length; j++) {
+          query = hash_array[i][j];
+
+          // Match query
+          if ($(this).attr("usv:" + filter_type + "-slug") == query) {
+            filter_flag = true;
+          }
+        }
+
+        // If previous filter_type did not match any queries, hide job
+        if (filter_flag == false) {
+          show_flag = false;
+        }
+      }
+
+      // After all filter_types pass test, show the job
+      if (show_flag) {
+        $(this).show();
+      }
+    });
+  } // filter_jobs
+
+  // Lights up specific filter tags when selected
+  function filter_tags() {
+    // Hide them all
+    $('.filter-tabs li').removeClass('active');
+    $('.filter-tabs li span').removeClass('glyphicon glyphicon-remove');
+
+    // Show if matches a hash query
+    hash_array = parse_hash();
+    $(".filter-tabs li").each(function() {
+      // Iterate over filter_types
+      for (var i=0; i<hash_array.length; i++) {
+        filter_type = hash_array[i][0];
+
+        // Iterate over each query
+        for (var j=1; j<hash_array[i].length; j++) {
+          query = hash_array[i][j];
+          // Match query
+          this_filter_type = $(this).parent().parent().attr("usv:filter");
+          this_query = $(this).children('a').attr('href').split("#")[1];
+          if (this_filter_type == filter_type && this_query == query) {
+            $(this).addClass('active');
+            $(this).find('span').addClass("glyphicon glyphicon-remove");
+          }
+        }
+      }
+    }); 
+  } // filter_tags
+
+  function filter_title() {
+    hash_array = parse_hash();
+    title = " matching ";
+
+    for (var i=0; i<hash_array.length; i++) {
+        if (i == 0) {
+          title = title.concat('"')
+        }
+        else {
+          title = title.concat(' and "')
+        }
+        title = title.concat(hash_array[i][0] + ": ");
+
+        for (var j=1; j<hash_array[i].length; j++) {
+          text = hash_array[i][j];
+
+          // Un-slugify company names
+          if (hash_array[i][0] == 'company') {
+            text = text.replace("-", " ");
+          }
+
+          title = title.concat(text);
+          if (j == hash_array[i].length-1 ) {
+            title = title.concat('"')
+          } 
+          else {
+            title = title.concat(", ");
+          }
+        }
+      }
+
+    // Only show if there were any queries
+    if (title == " matching ") {
+      $("#jobs-heading .filter-label").text(title).hide();
+    }
+    else {
+       $("#jobs-heading .filter-label").text(title).show();
+    } 
+  }
+
+  /*
+  // Shows and hides left hand menu filter links
+  function filter_menu(query) {
+    // Light up the category selected
+    $('.job-tabs li').each(function(){
+      if ($(this).children('a').attr("usv:filter") == query) {
+        $(this).addClass('active');
+      } else {
+        $(this).removeClass('active');
+      }
+    });
+
+    // Show only filters of a certain category
+    $('.filter-menu div').each(function(){
+      if ($(this).attr("usv:filter") == query) {
+        $(this).show();
+      } else {
+        $(this).hide();
+      }
+    });
+
+  } // filter_menu
+  */
+
+  </script>
+{% end %}

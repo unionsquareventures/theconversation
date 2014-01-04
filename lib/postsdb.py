@@ -5,6 +5,7 @@ import settings
 from datetime import datetime
 from mongo import db
 from slugify import slugify
+import userdb
 
 """
 {
@@ -39,6 +40,12 @@ from slugify import slugify
 """
 
 ###########################
+### GET ALL POSTS
+###########################
+def get_all():
+  return db.post.find()
+
+###########################
 ### GET A SPECIFIC POST
 ###########################
 def get_post_by_slug(slug):
@@ -64,7 +71,7 @@ def get_posts_by_screen_name_and_tag(screen_name, tag, per_page=10, page=1):
   return list(db.post.find({'deleted': { "$ne": True }, 'user.screen_name':screen_name, 'tags':tag}, sort=[('date_created', pymongo.DESCENDING)]).skip((page-1)*per_page).limit(per_page))
 
 def get_featured_posts(per_page=10, page=1):
-  return list(db.post.find({'deleted': { "$ne": True }, 'featured':True}, sort=[('date_featured', pymongo.DESCENDING)]).skip((page-1)*per_page).limit(per_page))
+  return list(db.post.find({'deleted': { "$ne": True }, 'featured':True}, sort=[('date_created', pymongo.DESCENDING)]).skip((page-1)*per_page).limit(per_page))
 
 def get_new_posts(per_page=50, page=1):
   return list(db.post.find({"deleted": { "$ne": True }}, sort=[('_id', pymongo.DESCENDING)]).skip((page-1)*per_page).limit(per_page))
@@ -152,4 +159,137 @@ def insert_post(post):
     post['subscribed'] = []
   db.post.update({'url':post['slug'], 'user.screen_name':post['user']['screen_name']}, post, upsert=True)
   return post['slug']
+
+
+###########################
+### SORT ALL POSTS
+### RUN BY HEROKU SCHEDULER EVERY 5 MIN
+### VIA SCRIPTS/SORT_POSTS.PY
+###########################
+def sort_posts():
+  # set our config values up
+  #staff_bonus = int(self.get_argument('staff_bonus', -3))
+  staff_bonus = -3
+  #time_penalty_multiplier = float(self.get_argument('time_penalty_multiplier', 2.0))
+  time_penalty_multiplier = 2.0
+  #grace_period = float(self.get_argument('grace_period', 6.0))
+  grace_period = 18.0
+  #comments_multiplier = float(self.get_argument('comments_multiplier', 3.0))
+  comments_multiplier = 3.0
+  #votes_multiplier = float(self.get_argument('votes_multiplier', 1.0))
+  votes_multiplier = 1.0
+  #min_votes = float(self.get_argument('min_votes', 2))
+  min_votes = 2
+
+  # get all the posts that have at least the 'min vote threshold'
+  posts = get_posts_with_min_votes(min_votes)
+
+  data = []
+  for post in posts:
+    # determine how many hours have elapsed since this post was created
+    tdelta = datetime.now() - post['date_created']
+    hours_elapsed = tdelta.seconds/3600 + tdelta.days*24
+
+    # determine the penalty for time decay
+    time_penalty = 0
+    if hours_elapsed > grace_period:
+      time_penalty = hours_elapsed - grace_period
+    if hours_elapsed > 12:
+      time_penalty = time_penalty * 1.5
+    if hours_elapsed > 18:
+      time_penalty = time_penalty * 2
+
+    # get our base score from downvotes
+    #base_score = post['downvotes'] * -1
+    base_score = 0
+
+    # determine if we should assign a staff bonus or not
+    if post['user']['username'] in settings.get('staff'):
+      staff_bonus = staff_bonus
+    else:
+      staff_bonus = 0
+
+    # determine how to weight votes
+    votes_base_score = 0
+    if post['votes'] == 1 and post['comment_count'] > 2:
+      votes_base_score = -2
+    if post['votes'] > 8 and post['comment_count'] == 0:
+      votes_base_score = -2
+
+    scores = {}
+    # now actually calculate the score
+    total_score = base_score
+    
+    scores['votes'] = (votes_base_score + post['votes'] * votes_multiplier)
+    total_score += scores['votes']
+    
+    scores['comments'] = (post['comment_count'] * comments_multiplier)
+    total_score += scores['comments']
+    
+    scores['time'] = (time_penalty * time_penalty_multiplier * -1)
+    total_score += scores['time']
+    
+    total_score += staff_bonus
+    post['scores'] = scores
+
+    # and save the new score
+    update_post_score(post['slug'], total_score)
+
+    data.append({
+      'username': post['user']['username'],
+      'title': post['title'],
+      'slug': post['slug'],
+      'date_created': post['date_created'],
+      'hours_elapsed': hours_elapsed,
+      'votes': post['votes'],
+      'comment_count': post['comment_count'],
+      'staff_bonus': staff_bonus,
+      'time_penalty': time_penalty,
+      'total_score': total_score,
+      'scores': scores
+    })
+
+  data = sorted(data, key=lambda k: k['total_score'], reverse=True)
+  print "All posts sorted!"
+
+###########################
+### UPDATES USER DATA FOR ALL POSTS
+### RUN VIA SCRIPTS/UPDATE_POSTS_USER_DATA.PY
+###########################
+def update_posts_user_data():
+  print "Updating user data for all posts..."
+  for post in get_all():
+    # user
+    try: 
+      user = post['user']
+      if user:
+          new_user = userdb.get_user_by_id_str(user['id_str'])
+          post['user'] = new_user['user']
+    except: 
+      print "Failed to update user for post of slug %s" % post['slug']
+
+    # voted_users
+    try: 
+      voted_users = post['voted_users']
+      new_voted_users = []
+      for voted_user in voted_users:
+        new_voted_user = userdb.get_user_by_id_str(voted_user['id_str'])
+        if new_voted_user:
+          new_voted_users.append(new_voted_user['user'])
+      post['voted_users'] = new_voted_users
+    except:
+      print "Failed to update voted_users for post of slug %s" % post['slug']
+
+    # Save post
+    save_post(post)
+ 
+  print "Finished updating user data for all posts"
+
+
+
+
+
+
+
+
 

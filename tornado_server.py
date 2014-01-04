@@ -21,6 +21,11 @@ import app.search
 import app.stats
 import app.twitter
 import app.error
+import app.redirects
+
+import newrelic.agent
+path = os.path.join(settings.get("project_root"), 'newrelic.ini')
+newrelic.agent.initialize(path, settings.get("environment"))
 
 class Application(tornado.web.Application):
   def __init__(self):
@@ -35,7 +40,27 @@ class Application(tornado.web.Application):
       "template_path" : os.path.join(os.path.dirname(__file__), "templates"),
     }
 
-    handlers = [    
+    handlers = [
+      # redirect stuff (old links)
+      # and usv-specific admin
+      (r'/(?P<year>[0-9]+)/(?P<month>[0-9]+)/(?P<slug>[\w\s-]+).php$', app.redirects.RedirectPosts),
+      (r'/pages/.*$', app.redirects.RedirectMappings),
+      (r'/team.*$', app.redirects.RedirectMappings),
+      (r'/investments$', app.redirects.RedirectMappings),
+      (r'/portfolio/$', app.redirects.RedirectMappings),
+      (r'/about/$', app.redirects.RedirectMappings),
+      (r'/network/$', app.redirects.RedirectMappings),
+      (r'/jobs/$', app.redirects.RedirectMappings),
+      (r'/focus$', app.redirects.RedirectMappings),
+      (r"/admin/company", app.admin.AdminCompany),
+
+      #general site pages
+      (r"/about", app.general.About),
+      (r"/jobs", app.general.Jobs),
+      (r"/network", app.general.Network),
+      (r"/portfolio", app.general.Portfolio),  
+      (r"/hangoutwith/(?P<who>[A-z]+)", app.general.Hangouts),  
+
       # account stuff
       (r"/auth/email/?", app.user.EmailSettings),
       (r"/auth/logout/?", app.user.LogOut),

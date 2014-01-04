@@ -1,5 +1,5 @@
 .DS_Store
 *.pyc
 .env
-settings_local_environ.py
 ghostdriver.log
+settings_local_environ.py

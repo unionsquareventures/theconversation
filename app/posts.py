@@ -176,7 +176,6 @@ class ListPosts(app.basic.BaseHandler):
           long_url = bitly.expand_url(post['url'].replace('http://bitly.com','').replace('http://bit.ly',''))
         post['domain'] = urlparse(long_url).netloc
 
-      ok_to_post = True
       dups = postsdb.get_posts_by_normalized_url(post.get('normalized_url', ""), 1)
       if post['url'] != '' and len(dups) > 0 and bypass_dup_check != "true":
         ## 

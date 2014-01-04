@@ -191,6 +191,7 @@ class Mute(app.basic.BaseHandler):
 ###########################
 ### Recalc the sort socres (for hot list)
 ### /admin/sort_posts
+### Now redundant with scripts/sort_posts.py
 ###########################
 class ReCalculateScores(app.basic.BaseHandler):
   def get(self):
