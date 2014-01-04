@@ -82,7 +82,7 @@ class Application(tornado.web.Application):
       (r"/users/(?P<username>[A-z-+0-9]+)/ban", app.admin.BanUser),
       (r"/users/(?P<username>[A-z-+0-9]+)/unban", app.admin.UnBanUser),
       (r"/admin/brittbot", app.brittbot.Index),
-      
+      (r"/admin/brittbot/response", app.brittbot.Response),
 
       # api stuff
       (r"/api/incr_comment_count", app.api.DisqusCallback),
