@@ -2,15 +2,15 @@
   <input type="hidden" name="slug" value="{% try %}{{post['slug']}}{% except %}{% end %}" />
   {% raw xsrf_form_html() %}
   <div class="form-group">
-	  <label for="title" class="col-sm-1 control-label">Title</label>
-	  <div class="col-sm-11">
+	  <label for="title" class="col-xs-1 control-label">Title</label>
+	  <div class="col-xs-11">
 		  <input id="post_title" name="title" type="text" class="form-control" placeholder="Your Post Title" required="" value="{% try %}{{ post['title'] }}{% except %}{% end %}">
 		  <div class="field-errors">{% try %}{{ field_errors(errors, 'title') }}{% except %}{% end %}</div>
 		</div>
 	</div>
 	<div class="form-group">
-		<label for="url" class="col-sm-1 control-label">Link</label>
-		<div class="col-sm-11">
+		<label for="url" class="col-xs-1 control-label">Link</label>
+		<div class="col-xs-11">
 			<input id="post_url" name="url" type="text" placeholder="http://example.com" value="{% try %}{{ post['url'] }}{% except %}{% end %}" class="form-control">
 				{% if 'dups' in globals() and dups %}
 				<div class="alert alert-danger" style="color: #333">
@@ -28,8 +28,8 @@
 	</div>
 	
 	<div class="form-group">
-		<label for="body_raw" class="col-sm-1 control-label">Body</label>
-		<div class="col-sm-11 tinymce-textbox">
+		<label for="body_raw" class="col-xs-1 control-label">Body</label>
+		<div class="col-xs-11 tinymce-textbox">
 			<textarea type="text" class="form-control" id="post_body_raw" name="body_raw">
 				{% try %}
 				{{ post['body_raw'] or '' }}
@@ -40,8 +40,8 @@
 	</div>
 
 	<div class="form-group">
-		<label for="tags" class="col-sm-1 control-label">Tags</label>
-		<div class="col-sm-11">
+		<label for="tags" class="col-xs-1 control-label">Tags</label>
+		<div class="col-xs-11">
 			<input id="post_tags" name="tags" type="text" placeholder="pitch, meta, health, mobile, education" value="{% try %}{{ ', '.join(post['tags']) if post['tags'] else '' }}{% except %}{% end %}" class="form-control">
 			<span class="text-muted">(separate by commas)</span>
 		</div>
@@ -50,7 +50,7 @@
  {% if current_user in settings.get('staff') %}
 	 	
 	<div class="form-group">
-		<div class="col-sm-11 col-sm-offset-1">
+		<div class="col-xs-11 col-xs-offset-1">
 			<div class="checkbox">
 				<label>
 					<input type="checkbox" id="post_featured" name="featured" value="true" {% try %}{{ 'checked' if post['featured'] else '' }}{% except %}{% end %} /> Featured?
@@ -62,7 +62,7 @@
 		{% try %}
 			{% if not post['date_created'] %} 
 		<div class="form-group">
-			<div class="col-sm-11 col-sm-offset-1">
+			<div class="col-xs-11 col-xs-offset-1 hidden-xs">
 				<div class="checkbox">
 					<label>
 						<input type="checkbox" id="post_deleted" name="deleted" value="true" {% try %}{{ 'checked' if post['deleted'] else '' }}{% except %}{% end %} /> Deleted?
@@ -77,7 +77,7 @@
 	{% end %}
 		  
 	<div class="form-group">
-		<div class="col-sm-offset-1 col-sm-11">
+		<div class="col-xs-offset-1 col-xs-11">
 			<button type="submit" class="btn btn-primary">Submit</button>
 		</div>
 	</div>
