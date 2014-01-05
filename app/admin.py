@@ -336,10 +336,11 @@ class Gmail(app.basic.BaseHandler):
       correspondences = []
       for usv_member in accounts:
         mail = self.email_login(usv_member['account'], usv_member['password'])
-        total_emails_in, recent_email_in = self.search_mail(mail, "FROM " + query)
-        total_emails_out, recent_email_out = self.search_mail(mail, "TO " + query)
-        correspondence = {'usv_member': usv_member['account'], 'total_emails_in': total_emails_in, 'total_emails_out': total_emails_out, 'recent_email_in': recent_email_in, 'recent_email_out': recent_email_out}
-        correspondences.append(correspondence)
+        if mail:
+          total_emails_in, recent_email_in = self.search_mail(mail, "FROM " + query)
+          total_emails_out, recent_email_out = self.search_mail(mail, "TO " + query)
+          correspondence = {'usv_member': usv_member['account'], 'total_emails_in': total_emails_in, 'total_emails_out': total_emails_out, 'recent_email_in': recent_email_in, 'recent_email_out': recent_email_out}
+          correspondences.append(correspondence)
 
     return self.render('admin/gmail.html', correspondences=correspondences, query=query)
 
