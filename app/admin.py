@@ -6,10 +6,8 @@ import logging
 import json
 import re, time, imaplib
 
-from lib import companiesdb
+from lib import companiesdb, postsdb, userdb, gmaildb
 from lib import hackpad
-from lib import postsdb
-from lib import userdb
 from lib import disqus
 from disqusapi import DisqusAPI
 
@@ -280,7 +278,13 @@ class ReCalculateScores(app.basic.BaseHandler):
   
     data = sorted(data, key=lambda k: k['total_score'], reverse=True)
 
-    self.render('admin/recalc_scores.html', data=data, staff_bonus=staff_bonus, time_penalty_multiplier=time_penalty_multiplier, grace_period=grace_period, comments_multiplier=comments_multiplier, votes_multiplier=votes_multiplier, min_votes=min_votes)
+    self.render('admin/recalc_scores.html', data=data, 
+                                    staff_bonus=staff_bonus, 
+                                    time_penalty_multiplier=time_penalty_multiplier, 
+                                    grace_period=grace_period, 
+                                    comments_multiplier=comments_multiplier, 
+                                    votes_multiplier=votes_multiplier, 
+                                    min_votes=min_votes)
 
 ###########################
 ### Remove user from blacklist
@@ -325,26 +329,16 @@ class Gmail(app.basic.BaseHandler):
     if not query:
       correspondences = []
     else:
-      #insert mongodb here
-      accounts = [{'name': 'Zander', 'account': 'alexander@usv.com', 'password': 'xccpiujmworlroqo'}]
-      '''
-      andy@usv.com|suikdmttsmkjepuo|1|aweissman|Andy
-      alexander@usv.com|xccpiujmworlroqo|2|AlexanderMPease|Zander
-      brian@usv.com|yatzfzxxktcarhxl|3|bwats|Brian
-      brittany@usv.com|runtosrypbtgvxwa|4|br_ttany|Brittany
-      nick@usv.com|hqmjbxedxnwybjmp|5|nickgrossman|Nick
-      albert@usv.com|qcbkkdnlkzcyuofh|6|albertwenger|Albert
-      brad@usv.com|hbymelmupazseurg|7|bradusv|Brad
-      john@usv.com|ujcthvzfpflisvmm|8||John
-      '''
-
       # Query each account
+      accounts = gmaildb.get_all()
+      print "accounts"
+      print accounts
       correspondences = []
       for usv_member in accounts:
         mail = self.email_login(usv_member['account'], usv_member['password'])
         total_emails_in, recent_email_in = self.search_mail(mail, "FROM " + query)
         total_emails_out, recent_email_out = self.search_mail(mail, "TO " + query)
-        correspondence = {'usv_member': usv_member['name'], 'total_emails_in': total_emails_in, 'total_emails_out': total_emails_out, 'recent_email_in': recent_email_in, 'recent_email_out': recent_email_out}
+        correspondence = {'usv_member': usv_member['account'], 'total_emails_in': total_emails_in, 'total_emails_out': total_emails_out, 'recent_email_in': recent_email_in, 'recent_email_out': recent_email_out}
         correspondences.append(correspondence)
 
     return self.render('admin/gmail.html', correspondences=correspondences, query=query)
