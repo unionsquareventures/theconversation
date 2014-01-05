@@ -6,7 +6,6 @@ import tweepy
 import settings
 import urllib2
 
-
 """
 {
   'user': { 'id_str':'', 'auth_type': '', 'username': '', 'fullname': '', 'screen_name': '', 'profile_image_url_https': '', 'profile_image_url': '', 'is_blacklisted': False }
@@ -30,6 +29,9 @@ def get_user_by_screen_name(screen_name):
 
 def get_user_by_email(email_address):
   return db.user_info.find_one({'email_address':email_address})
+  
+def get_disqus_users():
+  return db.user_info.find({'disqus_user_id': { '$exists': 'true' }})
 
 def create_new_user(user, access_token):
   return db.user_info.update({'user.id_str': user['id_str']}, {'user':user, 'access_token':access_token, 'email_address':'', 'role':''}, upsert=True)
@@ -95,11 +97,10 @@ def update_twitter_profile_images():
   for user in get_all():
     print "Checking user %s" % user['user']['screen_name']
     try:
-        response= urllib2.urlopen(user['user']['profile_image_url_https'])
+      response= urllib2.urlopen(user['user']['profile_image_url_https'])
     except urllib2.HTTPError, e:
-        if e.code == 404:
-          update_twitter(id_str=user['user']['id_str'], api=api)
-      
+      if e.code == 404:
+        update_twitter(id_str=user['user']['id_str'], api=api)
 
 ''' Update all account info from twitter, i.e. profile pic 
     This currently times out for making too many API calls '''
@@ -129,5 +130,5 @@ def update_twitter_all():
     updated_user = {'access_token': user['access_token'], 'user': user_data}
     save_user(updated_user)
     print "Updated user @%s" % user['user']['username']
+<<<<<<< HEAD
 '''
-
