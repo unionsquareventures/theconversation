@@ -1,7 +1,7 @@
 # Run by Heroku scheduler every night
 # If running locally, uncomment below imports
 import sys
-sys.path.insert(0, '/Users/nick/dev/conversation')
+#sys.path.insert(0, '/Users/nick/dev/conversation')
 import settings
 import requests
 import logging
