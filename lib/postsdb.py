@@ -180,7 +180,7 @@ def sort_posts():
   #votes_multiplier = float(self.get_argument('votes_multiplier', 1.0))
   votes_multiplier = 1.0
   
-  super_upvotes_multiplier = 2.0
+  super_upvotes_multiplier = 3.0
   super_downvotes_multiplier = 3.0
 
   #min_votes = float(self.get_argument('min_votes', 2))
