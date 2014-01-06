@@ -227,6 +227,7 @@
       }
       $(this).popover(options)
     });
+    
     $('.ajax_upvote_link').on('click', function(e) {
       e.stopPropagation();
       e.preventDefault();
@@ -270,25 +271,32 @@
              upvote_link.parent().addClass('bumped');
              upvote_link.attr('href', upvote_link.attr('href').replace('bump', 'unbump'));
              upvote_link.removeClass('no-votes');
-             /*{% if user_obj %}
-             var username = "{{ current_user }}";
-             var profile_image_url = "{{ user_obj['user']['profile_image_url'] }}";
-             html = '<div class="voted_user"><img src="'+ profile_image_url +'" /> '+ username +'</div>';
-             upvote_link.siblings('.voted_users').append(html);
-             var options = {
-               'content': $(this).siblings('.voted_users').html(),
-               'placement': 'bottom',
-               'trigger': 'hover',
-               'html': true,
-               'delay': {'show': 500, 'hide': 500}
-             }
-             upvote_link.popover(options)
-             {% end %}
-             */
            }
          }); 
       }
     });
+      
+      $('.supervote-link').on('click', function(e) {
+        e.stopPropagation();
+        e.preventDefault();
+        link = $(this);
+        $.ajax($(this).attr('href'), {
+          error: function(jqxhr, status, error) {
+            alert("Could not vote, an error occurred. Please try again.");
+          },
+          success: function(data, status, jqxhr) {
+            if(data['data']['error']) {
+              if(data['data']['redirect']) {
+                console.log('redirect')
+              } else {
+                alert(data['data']['error']);
+              }
+              return;
+            }
+            link.find('.value').text(data['data']['supervotes']);
+          }
+        });
+      });
 
   </script>
 </body>

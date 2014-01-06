@@ -25,7 +25,16 @@
 	  <p>be the first to bump this up!</p>
 	{% end %}
   </div>
-  {% if current_user_can('super_upvote') %}
-  <a href="/posts/{{ p['slug'] }}/superupvote">+1</a> | <a href="/posts/{{ p['slug'] }}/superdownvote">-1</a> 
+  {% if current_user_can('super_upvote') and current_user_can('super_downvote') %}
+  <div class="supervote">
+		<a title="super downvote" class="supervote-link superdownvote" href="/posts/{{ p['slug'] }}/superdownvote">
+				<span class="glyphicon glyphicon-volume-down"></span><span class="value">{{ p.get('super_downvotes', '0') }}</span>
+			</a> &nbsp;&nbsp;
+		<a title="super upvote" class="supervote-link superupvote" href="/posts/{{ p['slug'] }}/superupvote">
+	  		<span class="glyphicon glyphicon-volume-up"></span><span class="value">{{ p.get('super_upvotes', '0') }}</span>
+	  </a>
+	  
+
+	</div>
   {% end %}
 </div>

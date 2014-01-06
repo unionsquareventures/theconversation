@@ -93,7 +93,7 @@ class Application(tornado.web.Application):
       (r"/posts/([^\/]+)/bump", app.posts.Bump),
       (r"/posts/([^\/]+)/unbump", app.posts.UnBump),
       (r"/posts/([^\/]+)/superupvote", app.posts.SuperUpVote),
-      #(r"/posts/([^\/]+)/admindownvote", app.posts.AdminDownVote),
+      (r"/posts/([^\/]+)/superdownvote", app.posts.SuperDownVote),
       (r"/posts/([^\/]+)/edit", app.posts.EditPost),
       (r"/posts/(.+)", app.posts.ViewPost),
       (r"/posts$", app.posts.ListPosts),
