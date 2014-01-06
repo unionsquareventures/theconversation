@@ -23,7 +23,7 @@ class BaseHandler(tornado.web.RequestHandler):
     return self.get_secure_cookie("username")
 
   def send_email(self, from_user, to_user, subject, text):
-    if settings.get('environment') != "prod":
+    if settings.get('environment') == "prod":
       logging.info("If this were prod, we would have sent email to %s" % to_user)
       return
     else:

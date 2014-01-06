@@ -22,6 +22,7 @@ import app.stats
 import app.twitter
 import app.error
 import app.redirects
+import app.brittbot
 
 import newrelic.agent
 path = os.path.join(settings.get("project_root"), 'newrelic.ini')
@@ -53,6 +54,7 @@ class Application(tornado.web.Application):
       (r'/jobs/$', app.redirects.RedirectMappings),
       (r'/focus$', app.redirects.RedirectMappings),
       (r"/admin/company", app.admin.AdminCompany),
+      (r"/admin/gmail", app.admin.Gmail),
 
       #general site pages
       (r"/about", app.general.About),
@@ -80,7 +82,8 @@ class Application(tornado.web.Application):
       (r"/posts/([^\/]+)/mute", app.admin.Mute),
       (r"/users/(?P<username>[A-z-+0-9]+)/ban", app.admin.BanUser),
       (r"/users/(?P<username>[A-z-+0-9]+)/unban", app.admin.UnBanUser),
-      
+      (r"/admin/brittbot", app.brittbot.Index),
+      (r"/admin/brittbot/response", app.brittbot.Response),
 
       # api stuff
       (r"/api/incr_comment_count", app.api.DisqusCallback),

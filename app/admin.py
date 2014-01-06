@@ -4,11 +4,10 @@ import settings
 import datetime
 import logging
 import json
+import re, time, imaplib
 
-from lib import companiesdb
+from lib import companiesdb, postsdb, userdb, gmaildb
 from lib import hackpad
-from lib import postsdb
-from lib import userdb
 from lib import disqus
 from disqusapi import DisqusAPI
 
@@ -279,7 +278,13 @@ class ReCalculateScores(app.basic.BaseHandler):
   
     data = sorted(data, key=lambda k: k['total_score'], reverse=True)
 
-    self.render('admin/recalc_scores.html', data=data, staff_bonus=staff_bonus, time_penalty_multiplier=time_penalty_multiplier, grace_period=grace_period, comments_multiplier=comments_multiplier, votes_multiplier=votes_multiplier, min_votes=min_votes)
+    self.render('admin/recalc_scores.html', data=data, 
+                                    staff_bonus=staff_bonus, 
+                                    time_penalty_multiplier=time_penalty_multiplier, 
+                                    grace_period=grace_period, 
+                                    comments_multiplier=comments_multiplier, 
+                                    votes_multiplier=votes_multiplier, 
+                                    min_votes=min_votes)
 
 ###########################
 ### Remove user from blacklist
@@ -310,3 +315,79 @@ class ManageDisqus(app.basic.BaseHandler):
         self.write(result)
     #response = disqus.get_all_threads()
     #self.write(response)
+
+###########################
+### Manage Disqus Data
+### /admin/gmail
+###########################
+class Gmail(app.basic.BaseHandler):
+  def get(self):
+    if self.current_user not in settings.get('staff'):
+      self.redirect('/')
+
+    query = self.get_argument('q', '')
+    if not query:
+      correspondences = []
+    else:
+      # Query each account
+      accounts = gmaildb.get_all()
+      print "accounts"
+      print accounts
+      correspondences = []
+      for usv_member in accounts:
+        mail = self.email_login(usv_member['account'], usv_member['password'])
+        if mail:
+          total_emails_in, recent_email_in = self.search_mail(mail, "FROM " + query)
+          total_emails_out, recent_email_out = self.search_mail(mail, "TO " + query)
+          correspondence = {'usv_member': usv_member['account'], 'total_emails_in': total_emails_in, 'total_emails_out': total_emails_out, 'recent_email_in': recent_email_in, 'recent_email_out': recent_email_out}
+          correspondences.append(correspondence)
+
+    return self.render('admin/gmail.html', correspondences=correspondences, query=query)
+
+  ''' Simple query to the inbox, returns how many emails match query and the date of the latest email.
+      Query must be a single string, i.e. not "science exchange" '''
+  def search_mail(self, mail, query):
+      if not query:
+        query = "ALL"
+      result, data = mail.search(None, query) # data is a list, but there is only data[0]. data[0] is a string of all the email ids for the given query. ex: ['1 2 4']
+      ids = data[0] # ids is a space separated string containing all the ids of email messages
+      id_list = ids.split() # id_list is an array of all the ids of email messages
+
+      # Get date of latest email
+      if id_list:
+        latest_id = id_list[-1]
+        result, data = mail.fetch(latest_id, "(RFC822)") # fetch the email body (RFC822) for the given ID
+        raw_email = data[0][1] # raw_email is the body, i.e. the raw text of the whole email including headers and alternate payloads     
+        date = self.get_mail_date(raw_email)
+      else:
+        date = None
+      return len(id_list), date
+
+  ''' Login into an account '''
+  def email_login(self, account, password):
+    try:
+      mail = imaplib.IMAP4_SSL('imap.gmail.com')
+      result, message = mail.login(account, password)
+      mail.select("[Gmail]/All Mail", readonly=True) #mark as unread 
+      if result != 'OK':
+        raise Exception
+      print 'Logged in as ' + account
+      return mail
+    except:
+      print "Failed to log into " + account
+      return None
+
+  ''' Parses raw email and returns date sent. Picks out dates of the form "26 Aug 2013" '''
+  def get_mail_date(self, raw_email):
+    if raw_email:
+      #Date: Mon, 5 Nov 2012 17:45:38 -0500
+      date_string = re.search(r'[0-3]*[0-9] [A-Z][a-z][a-z] 20[0-9][0-9]', raw_email)
+      if date_string:
+        time_obj = time.strptime(date_string.group(), "%d %b %Y")
+        return datetime.date(time_obj.tm_year, time_obj.tm_mon, time_obj.tm_mday)
+      else:
+        return None
+    else:
+      raise Exception
+
+
