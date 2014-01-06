@@ -330,6 +330,54 @@ class Bump(app.basic.BaseHandler):
     self.api_response(msg)
 
 ##########################
+### Super Upvote
+### /posts/([^\/]+)/superupvote
+##########################
+class SuperUpVote(app.basic.BaseHandler):
+  def get(self, slug):
+    # user must be logged in
+    msg = {}
+    if not self.current_user:
+      msg = {'error': 'You must be logged in to super upvote.', 'redirect': True}
+    elif not self.current_user_can('super_upvote'):
+      msg = {'error': 'You are not authorized to super upvote', 'redirect': True}
+    else:
+      post = postsdb.get_post_by_slug(slug)
+      if post:
+          # Increment the vote count
+          super_upvotes = post.get('super_upvotes') or 0
+          super_upvotes += 1
+          post['super_upvotes'] = super_upvotes
+          postsdb.save_post(post)
+          msg = {'supervotes': post['super_upvotes']}
+
+    self.api_response(msg)
+
+##########################
+### Super DownVote
+### /posts/([^\/]+)/superdownvote
+##########################
+class SuperDownVote(app.basic.BaseHandler):
+  def get(self, slug):
+    # user must be logged in
+    msg = {}
+    if not self.current_user:
+      msg = {'error': 'You must be logged in to super downvote.', 'redirect': True}
+    elif not self.current_user_can('super_downvote'):
+      msg = {'error': 'You are not authorized to super downvote', 'redirect': True}
+    else:
+      post = postsdb.get_post_by_slug(slug)
+      if post:
+          # Increment the vote count
+          super_downvotes = post.get('super_downvotes') or 0
+          super_downvotes += 1
+          post['super_downvotes'] = super_downvotes
+          postsdb.save_post(post)
+          msg = {'supervotes': post['super_downvotes']}
+
+    self.api_response(msg)
+    
+##########################
 ### Un-Bump A SPECIFIC POST
 ### /posts/([^\/]+)/unbump
 ##########################

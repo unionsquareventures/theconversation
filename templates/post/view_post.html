@@ -185,9 +185,6 @@
        {% if post['user']['screen_name'] == current_user or current_user in settings.get('staff') %}
          <p><a href="/posts/{{ post['slug'] }}/edit" class="btn">Edit</a></p>
        {% end %}
-       {% if current_user in settings.get('staff') %}
-         <p><a href="https://partners.mongohq.com/app18119720-heroku-com/mongo/app18119720/collections/post/documents/%7B%22%24oid%22%3A%22{{ post['slug'] }}%22%7D">mongohq</a></p>
-       {% end %}
      </div>
 
     </div>

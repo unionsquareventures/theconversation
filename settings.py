@@ -68,20 +68,7 @@ default_options = {
   'read_only' : False,
   'max_simultaneous_connections' : 10,
   'hot_post_set_count': 200,
-  'staff':[
-    "_zachary",
-    "alexandermpease",
-    "bwats",
-    "aweissman",
-    "fredwilson",
-    "albertwenger",
-    "bradusv",
-    "nickgrossman",
-    "br_ttany",
-    "johnbuttrick",
-    "christinacaci",
-    "garychou",
-  ],
+  'staff':[ 'nickgrossman'],
 
   # define the various roles and what capabilities they support
   'staff_capabilities': [
@@ -91,8 +78,8 @@ default_options = {
     'post_rich_media',
     'feature_posts',
     'edit_posts',
-    'upvote_multiple_times',
-    'super_upvote_posts',
+    'super_upvote',
+    'super_downvote',
     'downvote_posts',
     'manage_disqus'
   ],
