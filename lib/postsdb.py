@@ -35,6 +35,8 @@ import userdb
   'disqus_thread_id_str': '',
   'sort_score': 0.0,
   'downvotes': 0,
+  'super_upvotes': 0,
+  'super_downvotes': 0,
   'subscribed':[]
 }
 """
@@ -160,7 +162,6 @@ def insert_post(post):
   db.post.update({'url':post['slug'], 'user.screen_name':post['user']['screen_name']}, post, upsert=True)
   return post['slug']
 
-
 ###########################
 ### SORT ALL POSTS
 ### RUN BY HEROKU SCHEDULER EVERY 5 MIN
@@ -178,6 +179,10 @@ def sort_posts():
   comments_multiplier = 3.0
   #votes_multiplier = float(self.get_argument('votes_multiplier', 1.0))
   votes_multiplier = 1.0
+  
+  super_upvotes_multiplier = 2.0
+  super_downvotes_multiplier = 3.0
+
   #min_votes = float(self.get_argument('min_votes', 2))
   min_votes = 2
 
@@ -215,20 +220,30 @@ def sort_posts():
       votes_base_score = -2
     if post['votes'] > 8 and post['comment_count'] == 0:
       votes_base_score = -2
+      
+    super_upvotes = post.get('super_upvotes', 0)
+    super_downvotes = post.get('super_downvotes', 0)
 
     scores = {}
+    
     # now actually calculate the score
     total_score = base_score
-    
+
     scores['votes'] = (votes_base_score + post['votes'] * votes_multiplier)
     total_score += scores['votes']
     
+    scores['super_upvotes'] = super_upvotes * super_upvotes_multiplier
+    total_score += scores['super_upvotes']
+    
+    scores['super_downvotes'] = super_downvotes * super_downvotes_multiplier
+    total_score += scores['super_downvotes']
+
     scores['comments'] = (post['comment_count'] * comments_multiplier)
     total_score += scores['comments']
-    
+
     scores['time'] = (time_penalty * time_penalty_multiplier * -1)
     total_score += scores['time']
-    
+
     total_score += staff_bonus
     post['scores'] = scores
 
@@ -284,12 +299,3 @@ def update_posts_user_data():
     save_post(post)
  
   print "Finished updating user data for all posts"
-
-
-
-
-
-
-
-
-

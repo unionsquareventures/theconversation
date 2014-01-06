@@ -1164,6 +1164,12 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
     margin-right: 5px;
 }
 
+.supervote {
+    margin: 5px 0;
+    text-align: center;
+    font-size: 80%;
+    white-space: nowrap;
+}
 .feed .volume {
     position: absolute;
     top: 25px;
@@ -1174,7 +1180,7 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
     width: 120px;
 }
 
-.volume .glyphicon {
+.volume .glyphicon-arrow-up {
     position: absolute;
     left: 5px;
     top: 3px;
@@ -1184,6 +1190,20 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
     font-family: "proximanova-regular";
     display: inline-block;
     margin-right: 5px;
+}
+.volume .supervote .value {
+    display: inline;
+    margin: 0 !important;
+}
+.volume .supervote .glyphicon {
+    display: inline;
+    margin: 0 3px 0 0 !important;
+}
+.volume .superupvote {
+    color: #5A7FC2 !important;
+}
+.volume .superdownvote {
+    color: #D7636C !important;
 }
 .volume a.votes-count {
     /*color: #86AA3B !important;*/ /*GREEN*/
