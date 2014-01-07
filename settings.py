@@ -88,6 +88,7 @@ default_options = {
 
   # define the various roles and what capabilities they support
   'staff_capabilities': [
+    'connect_to_yammer',
     'see_admin_link',
     'delete_users',
     'delete_posts',

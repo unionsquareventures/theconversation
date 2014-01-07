@@ -8,11 +8,33 @@ import urllib2
 
 """
 {
-  'user': { 'id_str':'', 'auth_type': '', 'username': '', 'fullname': '', 'screen_name': '', 'profile_image_url_https': '', 'profile_image_url': '', 'is_blacklisted': False }
+  'user': { 
+    'id_str':'', 
+    'auth_type': '', 
+    'username': '', 
+    'fullname': '', 
+    'screen_name': '', 
+    'profile_image_url_https': '', 
+    'profile_image_url': '', 
+    'is_blacklisted': False 
+    },
   'access_token': { 'secret': '', 'user_id': '', 'screen_name': '', 'key': '' },
   'email_address': '',
   'role': '',
-  'tags':[]
+  'tags':[],
+  "disqus_token_type": "Bearer",
+  "disqus_access_token": "",
+  "disqus_expires_in": 0,
+  "disqus_refresh_token": "",
+  "disqus_username": "",
+  "disqus_user_id": 0,
+  'yammer' {
+    'access_token': {
+      'token'
+    }
+    lots of other stuff
+  }
+  'in_usvnetwork': False
 }
 
 """

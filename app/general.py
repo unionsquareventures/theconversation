@@ -25,17 +25,6 @@ class Jobs(app.basic.BaseHandler):
     self.render('general/jobs.html', 
       jobs=jobs, categories=categories, locations=locations, companies=companies, slugify=slugify)
 
-
-###############
-### USV NETWORK
-### /network
-###############
-class Network(app.basic.BaseHandler):
-  def get(self):
-    # get the last 6 posts tagged usv-network (and published by staff)
-    related_posts = postsdb.get_latest_staff_posts_by_tag('usv-network', 6)
-    self.render('general/network.html', related_posts=related_posts)
-
 #################
 ### USV PORTFOLIO
 ### /portfolio

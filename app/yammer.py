@@ -8,6 +8,7 @@ import app.basic
 
 from lib import userdb
 from lib import postsdb
+from lib import yammer
 
 ####################
 ### AUTH VIA YAMMER
@@ -46,21 +47,27 @@ class Yammer(app.basic.BaseHandler):
 				response = urllib2.urlopen(link, urllib.urlencode(data))
 				#  access_token should look like access_token=111122828977539|98f28d8b5b8ed787b585e69b.1-537252399|1bKwe6ghzXyS9vPDyeB9b1fHLRc
 				user_data = json.loads(response.read())
-				account['yammer_access_token'] = user_data['access_token']
-				# refresh the user token details
-				#account['disqus_username'] = user_data['username']
-				#account['disqus_user_id'] = user_data['user_id']
-				#account['disqus_access_token'] = user_data['access_token']
-				##account['disqus_expires_in'] = user_data['expires_in']
-				#account['disqus_refresh_token'] = user_data['refresh_token']
-				#account['disqus_token_type'] = user_data['token_type']
+				account['yammer'] = user_data
 				userdb.save_user(account)
 
 		except Exception, e:
 			logging.info(e)
 			# trouble logging in
 			data = {}
-		self.redirect('/user/%s/settings?msg=updated' % self.current_user)
+		
+		# OK, now we have a yammer account.  Check to see if we're in the network
+		networks = yammer.get_networks(self.current_user)
+		in_usvnetwork = False
+		for n in networks:
+			if n.get('permalink') == 'usvnetwork':
+				in_usvnetwork = True
+				account['in_usvnetwork'] = True
+				userdb.save_user(account)
+		
+		if in_usvnetwork:		
+			self.redirect('/user/%s/settings?msg=updated' % self.current_user)
+		else:
+			self.write("Sorry - looks like you are not part of the USV Network on Yammer.")
 
 class Remove(app.basic.BaseHandler):
 	@tornado.web.authenticated
@@ -68,7 +75,7 @@ class Remove(app.basic.BaseHandler):
 		# remove twitter from this account
 		account = userdb.get_user_by_screen_name(self.current_user)
 		if account:
-			del account['yammer_access_token']
+			del account['yammer']
 			userdb.save_user(account)
 
 		self.redirect('/user/%s/settings?msg=updated' % self.current_user)

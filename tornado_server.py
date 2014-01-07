@@ -17,6 +17,7 @@ import app.basic
 import app.disqus
 import app.yammer
 import app.general
+import app.network
 import app.posts
 import app.search
 import app.stats
@@ -60,9 +61,11 @@ class Application(tornado.web.Application):
       #general site pages
       (r"/about", app.general.About),
       (r"/jobs", app.general.Jobs),
-      (r"/network", app.general.Network),
       (r"/portfolio", app.general.Portfolio),  
       (r"/hangoutwith/(?P<who>[A-z]+)", app.general.Hangouts),  
+
+      # network
+      (r"/network", app.network.Welcome),
 
       # account stuff
       (r"/auth/email/?", app.user.EmailSettings),

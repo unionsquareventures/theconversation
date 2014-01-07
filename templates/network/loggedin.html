@@ -1,0 +1,44 @@
+{% extends '../base.html' %}
+
+{% block title %}USV Network | {% end %}
+
+{% block body_class %}network{% end %}
+
+{% block content %}
+	<div id="main" role="main">
+		<h2 class="mobile-page-headline section-heading">USV Network</h2>
+		<article class="page">		
+			<div class="row">
+				<div class="col-sm-4">
+					<div class="well">
+						<center>
+							<img src="{{ user['mugshot_url'] }}"/>
+							<h2>{{ user['first_name'] }} {{ user['last_name'] }}</h2>
+						</center>
+						<h3>{{ user['job_title'] }}</h3>
+						{% if 'contact' in user.keys() and 'email_addresses' in user['contact'].keys() %}
+							{% for e in user['contact']['email_addresses'] %}
+							<p>{{ e['address'] }}</p>
+							{% end %}
+						{% end %}
+						{% if 'contact' in user.keys() and 'phone_numbers' in user['contact'].keys() %}
+							{% for p in user['contact']['phone_numbers'] %}
+							<p>{{ p['type'] }}: {{ p['number'] }}</p>
+							{% end %}
+						{% end %}
+					</div><!-- /.well -->
+					
+				</div><!-- /.col-sm-9 -->
+				<div class="col-sm-8">
+					<h1>Welcome to the USV Network</h1>
+
+				</div><!-- /.col-sm-9-->
+			</div><!-- row -->
+		
+		</article>
+	</div>
+{% end %}
+
+{% block javascript %}
+
+	{% end %}
