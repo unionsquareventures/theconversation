@@ -160,6 +160,20 @@
           </td>
           {% end %}
         </tr>
+        <tr>
+          <td></td>
+          <td>Yammer</td>
+          <td></td>
+          <td></td>
+          <td>
+          {% if 'yammer_access_token' not in user.keys() %}
+            <a href="/auth/yammer">auth w yammer</a>
+          {% else %}
+          <a href="/remove/yammer">remove yammer</a>
+          {% end %}  
+          </td>
+          
+        </tr>
       </table>
       {% end %}
   

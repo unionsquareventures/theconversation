@@ -15,6 +15,7 @@ import app.admin
 import app.api
 import app.basic
 import app.disqus
+import app.yammer
 import app.general
 import app.posts
 import app.search
@@ -95,6 +96,11 @@ class Application(tornado.web.Application):
       (r"/auth/disqus", app.disqus.Auth),
       (r"/remove/disqus", app.disqus.Remove),
       (r"/disqus", app.disqus.Disqus),
+      
+      # yammer stuff
+      (r"/auth/yammer", app.yammer.Auth),
+      (r"/remove/yammer", app.yammer.Remove),
+      (r"/yammer", app.yammer.Yammer),
 
       # search stuff
       (r"/search", app.search.Search),
