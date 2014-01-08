@@ -72,6 +72,7 @@ default_options = {
 
   # define the various roles and what capabilities they support
   'staff_capabilities': [
+    'send_daily_email',
     'see_admin_link',
     'delete_users',
     'delete_posts',

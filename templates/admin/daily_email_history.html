@@ -1,0 +1,21 @@
+{% extends '../base.html' %}
+{% block title %}Daily email | {% end %}
+
+{% block content %}
+
+	<div class="row">
+		<div class="col-sm-8 col-sm-offset-2">
+		<h3>Daily Email History:</h3>
+			<ul>
+				{% for email in history %}
+				<li>Email</li>
+				{% end %}
+			</ul>
+		</div>
+	</div>
+	</form>
+
+{% end %}
+
+{% block javascript %}
+{% end %}

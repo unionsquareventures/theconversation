@@ -82,13 +82,12 @@
           </div>
         {% end %}
         
-      <table class="table">
-        <form id="submit-form" class="" action="/auth/email/" method="POST">
-          {% module xsrf_form_html() %}
+      <h3 style="margin-top:0">Connections</h3>
         
+      <table class="table">
         <tr class="complete">
           <th class="step">
-            1 <span class="glyphicon glyphicon-ok"></span>
+            <span class="glyphicon glyphicon-ok"></span>
           </th>
           <th>
             {% if 'user' in user.keys() %}
@@ -104,31 +103,12 @@
           <td class="text-muted">(currently this cannot be changed)</td>
         </tr>
         
-        {% if 'email_address' in user and user['email_address'] %}
-        <tr class="complete">
-          <th class="step">2 <span class="glyphicon glyphicon-ok"></span></th>
-        {% else %}
-        <tr class="">
-          <th class="step">2</th>
-        {% end %}
-          <th>Email</th>
-          <td><input type="text" class="form-control" name="email" value="{{ user['email_address'] }}" /></td>
-          <td><input type="submit" value="Update" class="btn btn-default" /></td>
-          <td>
-            {% if 'email_address' not in user or not user['email_address'] %}
-              <div class="alert alert-info low-pro">
-                &larr; Please add your email address.
-              </div>
-            {% end %}
-          </td>
-        </tr>
-        </form>
         {% if 'disqus_user_id' in user.keys() and user['disqus_user_id'] != '' %}
         <tr class="complete">
-          <th class="step">3 <span class="glyphicon glyphicon-ok"></span></th>
+          <th class="step"><span class="glyphicon glyphicon-ok"></span></th>
         {% else %}
         <tr class="">
-          <th class="step">2</th>
+          <th class="step"></th>
         {% end %}
           <th>
             {% if 'disqus_user_id' in user.keys() and user['disqus_user_id'] != '' %}
@@ -158,6 +138,39 @@
           {% end %}
         </tr>
       </table>
+      
+      <h3>Settings</h3>
+      <form id="submit-form" class="" action="/auth/email/" method="POST">
+      <table class="table">
+      {% module xsrf_form_html() %}
+      {% if 'email_address' in user and user['email_address'] %}
+      <tr class="complete">
+      {% else %}
+      <tr class="">
+      {% end %}
+        <th>Email</th>
+        <td colspan="2"><input type="text" class="form-control" name="email" value="{{ user['email_address'] }}" />
+          {% if 'email_address' not in user or not user['email_address'] %}
+            <div class="alert alert-info low-pro">
+              &uarr; Please add your email address.
+            </div>
+          {% end %}
+        </td>
+      </tr>
+      <tr>
+        <th>Daily Email?</th>
+        <td><input type="checkbox" name="wants_daily_email" {{ "checked" if user['wants_daily_email'] else "" }}/></td>
+        <td>Sent daily with the day's hottest posts</td>
+      </tr> 
+      <tr>
+           <th style="white-space:nowrap">Email Alerts?</th>
+           <td><input type="checkbox" name="wants_email_alerts" {{ "checked" if user['wants_email_alerts'] else "" }}/></td>
+           <td>When people bump your posts, etc</td>
+         </tr>      
+      </table>
+      <p><input type="submit" value="Update" class="btn btn-default" /></p>
+      </form>
+      
       {% end %}
   
 

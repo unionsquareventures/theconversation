@@ -50,13 +50,13 @@ class Application(tornado.web.Application):
       (r"/admin/sort_posts", app.admin.ReCalculateScores),
       (r"/admin/stats", app.admin.AdminStats),
       (r"/admin/disqus", app.admin.ManageDisqus),
+      (r"/admin/daily_email", app.admin.DailyEmail),
       (r"/generate_hackpad/?", app.admin.GenerateNewHackpad),
       (r"/list_hackpads", app.admin.ListAllHackpad),
       (r"/posts/([^\/]+)/mute", app.admin.Mute),
       (r"/users/(?P<username>[A-z-+0-9]+)/ban", app.admin.BanUser),
       (r"/users/(?P<username>[A-z-+0-9]+)/unban", app.admin.UnBanUser),
       
-
       # api stuff
       (r"/api/incr_comment_count", app.api.DisqusCallback),
       (r"/api/user_status", app.api.GetUserStatus),
