@@ -11,6 +11,7 @@ from lib import hackpad
 from lib import postsdb
 from lib import userdb
 from lib import disqus
+from lib import emailsdb
 from disqusapi import DisqusAPI
 
 ############################
@@ -32,66 +33,20 @@ class DailyEmail(app.basic.BaseHandler):
     if not slugs:
       return self.write("No posts selected")
     
-    email = self.construct_email(slugs)
+    email = emailsdb.construct_daily_email(slugs)
    
     if self.get_argument('preview', '') == "true":
       self.render('admin/daily_email.html', slugs=slugs, posts=None, email=email, has_previewed=True, has_sent=False)
     else:
-      self.send_email(email)
-      history = [1, 2]
-      self.render('admin/daily_email_history.html', history=history)
-  
-  def construct_email(self, slugs):
-    from_email = "web@usv.com"
-    subject = "Top USV.com posts for %s" % datetime.datetime.today().strftime("%a %b %d, %Y")
-    body_html = "<p>Here are the posts with the mosts for today:</p><hr />"
-    
-    posts = []
-    for slug in slugs:
-      post = postsdb.get_post_by_slug(slug)
-      posts.append(post)
-    
-    for post in posts:
-      post['url'] = post.get('url', '')
-      source = post.get('domain', '')
-      body_html += "<p><b><a href='%s'>%s</a></b> (%s)</p>" % (post['url'], post['title'], source)
-      body_html += "<p>posted by @<a href='http://%s/user/%s'>%s</a> | %s comments | %s &uarr;</p>" % (settings.get('base_url'), post['user']['username'], post['user']['username'], post['comment_count'], post['votes'])
-      body_html += "<p>%s</p>" % post['body_html']
-      body_html += "<p>discussion: <a href='http://%s/posts/%s'>http://%s/posts/%s</a></p>" % (settings.get('base_url'), post['slug'], settings.get('base_url'), post['slug'])
-      body_html += "<hr />"
-    
-    email = {
-      'from': from_email,
-      'subject': subject,
-      'body_html': body_html
-    }
-    logging.info(post)
-    return email
-    
-  def send_email(self, email):
-    recipients = userdb.get_newsletter_recipients()
-    for user in recipients:
-      # send email
-      if settings.get('environment') != "prod":
-        print "If this were prod, we would have sent email to %s" % user['email_address']
-      else:
-        requests.post(
-          "https://sendgrid.com/api/mail.send.json",
-          data={
-            "api_user":settings.get('sendgrid_user'),
-            "api_key":settings.get('sendgrid_secret'),
-            "from": email['from_email'],
-            "to": user['email_address'],
-            "subject": email['subject'],
-            "html": email['body_html']
-          },
-          verify=False
-        )
-    # log it
-    
+      emailsdb.send_daily_email(email)
+      self.redirect('/admin/daily_email/history')
 
-
-
+class DailyEmailHistory(app.basic.BaseHandler):
+  def get(self):
+    history = emailsdb.get_daily_email_log()
+    self.render('admin/daily_email_history.html', history=history)
+    
+    
 ###########################
 ### ADMIN COMPANY
 ### /admin/company

@@ -51,6 +51,7 @@ class Application(tornado.web.Application):
       (r"/admin/stats", app.admin.AdminStats),
       (r"/admin/disqus", app.admin.ManageDisqus),
       (r"/admin/daily_email", app.admin.DailyEmail),
+      (r"/admin/daily_email/history", app.admin.DailyEmailHistory),
       (r"/generate_hackpad/?", app.admin.GenerateNewHackpad),
       (r"/list_hackpads", app.admin.ListAllHackpad),
       (r"/posts/([^\/]+)/mute", app.admin.Mute),
