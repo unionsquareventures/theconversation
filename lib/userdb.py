@@ -32,6 +32,9 @@ def get_user_by_email(email_address):
   
 def get_disqus_users():
   return db.user_info.find({'disqus_user_id': { '$exists': 'true' }})
+  
+def get_newsletter_recipients():
+  return list(db.user_info.find({'wants_daily_email': "on"}))
 
 def create_new_user(user, access_token):
   return db.user_info.update({'user.id_str': user['id_str']}, {'user':user, 'access_token':access_token, 'email_address':'', 'role':''}, upsert=True)

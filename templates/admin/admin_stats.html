@@ -1,4 +1,19 @@
 {% extends "../base.html" %}
+<!--
+  Community Stats
+  # log everything per day
+  # report by day or by week
+
+  # posts
+  # comments
+  
+  # unique visitors
+  # unique visits
+  
+  # active users
+  # new users 
+  
+-->
 
 {% block content %}
   <h1><a href="/admin/">Admin</a> > Stats</h1>
@@ -14,7 +29,16 @@
       <div class="stat-notes"></div>
     </li>
   </ul>
-  {% end %}
+  
+<ul class="nav nav-tabs">
+  <li class="active"><a href="#">Home</a></li>
+  <li><a href="#">Profile</a></li>
+  <li><a href="#">Messages</a></li>
+</ul>
+  
+  
+  
+{% end %}
 
 {% block javascript %}
   <script>
