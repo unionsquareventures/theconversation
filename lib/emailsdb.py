@@ -68,7 +68,7 @@ def send_daily_email(email):
 				data={
 					"api_user":settings.get('sendgrid_user'),
 					"api_key":settings.get('sendgrid_secret'),
-					"from": email['from_email'],
+					"from": email['from'],
 					"to": user['email_address'],
 					"subject": email['subject'],
 					"html": email['body_html']
