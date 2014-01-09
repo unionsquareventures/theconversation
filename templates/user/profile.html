@@ -142,10 +142,10 @@
         {% if current_user_can('connect_to_yammer') %}
         {% if 'yammer' in user.keys() and user['yammer']['access_token']['token'] != '' %}
         <tr class="complete">
-          <th class="step">4 <span class="glyphicon glyphicon-ok"></span></th>
+          <th class="step"><span class="glyphicon glyphicon-ok"></span></th>
         {% else %}
         <tr class="">
-          <th class="step">4</th>
+          <th class="step"></th>
         {% end %}
           <th>
         {% if 'yammer' in user.keys() and user['yammer']['access_token']['token'] != '' %}
