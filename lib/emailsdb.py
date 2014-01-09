@@ -20,6 +20,7 @@ import requests
 }
 
 """
+db.user_info.ensure_index('wants_daily_email')
 	
 #
 # Construct a daily email
