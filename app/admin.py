@@ -4,11 +4,8 @@ import settings
 import datetime
 import logging
 import json
-<<<<<<< HEAD
 import re, time, imaplib
-=======
 import requests
->>>>>>> f66068ee30bb023f21057077d244e33a0cfe30a8
 
 from lib import companiesdb, postsdb, userdb, gmaildb
 from lib import hackpad
