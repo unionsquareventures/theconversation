@@ -57,6 +57,7 @@ def construct_daily_email(slugs):
 def send_daily_email(email):
 	recipients = userdb.get_newsletter_recipients()
 	recipient_usernames = [r['user']['username'] for r in recipients]
+	email_sent = False
 	for user in recipients:
 		# send email
 		if settings.get('environment') != "prod":
@@ -74,8 +75,10 @@ def send_daily_email(email):
 				},
 				verify=False
 			)
+			email_sent = True
 	# log it
-	log_daily_email(email, recipient_usernames)
+	if email_sent:
+		log_daily_email(email, recipient_usernames)
 
 #
 # Add a daily email to the log
