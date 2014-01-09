@@ -22,8 +22,9 @@ class DailyEmail(app.basic.BaseHandler):
   def get(self):
     posts = postsdb.get_hot_posts()
     has_previewed = self.get_argument("preview", False)
+    recipients = userdb.get_newsletter_recipients()
     #on this page, you'll choose from hot posts and POST the selections to the email form`
-    self.render('admin/daily_email.html', posts=posts, slugs=None, email=None, has_previewed=has_previewed, has_sent=False)
+    self.render('admin/daily_email.html', posts=posts, slugs=None, email=None, has_previewed=has_previewed, has_sent=False, recipients=recipients)
   
   def post(self):
     if not self.current_user_can('send_daily_email'):
@@ -34,9 +35,10 @@ class DailyEmail(app.basic.BaseHandler):
       return self.write("No posts selected")
     
     email = emailsdb.construct_daily_email(slugs)
+    recipients = userdb.get_newsletter_recipients()
    
     if self.get_argument('preview', '') == "true":
-      self.render('admin/daily_email.html', slugs=slugs, posts=None, email=email, has_previewed=True, has_sent=False)
+      self.render('admin/daily_email.html', slugs=slugs, posts=None, email=email, has_previewed=True, has_sent=False, recipients=recipients)
     else:
       emailsdb.send_daily_email(email)
       self.redirect('/admin/daily_email/history')
