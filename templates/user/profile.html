@@ -139,6 +139,42 @@
           </td>
           {% end %}
         </tr>
+        {% if current_user_can('connect_to_yammer') %}
+        {% if 'yammer' in user.keys() and user['yammer']['access_token']['token'] != '' %}
+        <tr class="complete">
+          <th class="step">4 <span class="glyphicon glyphicon-ok"></span></th>
+        {% else %}
+        <tr class="">
+          <th class="step">4</th>
+        {% end %}
+          <th>
+        {% if 'yammer' in user.keys() and user['yammer']['access_token']['token'] != '' %}
+            <img src="/static/img/connect-yammer-active.png" /> &nbsp;
+            {% else %}
+            <img src="/static/img/connect-yammer-inactive.png" /> &nbsp;
+            {% end %}
+          </th>
+          {% if 'yammer' in user.keys() and user['yammer']['access_token']['token'] != '' %}
+          <td>
+            USV Network
+          </td>
+          <td></td>
+          <td>
+            <a href="/remove/yammer" >Remove Yammer Connection</a>
+          </td>
+          {% else %}
+          <td>
+            <a href="/auth/yammer">Connect your Yammer account</a>
+          </td>
+          <td></td>
+          <td>
+            <div class="alert alert-info low-pro">
+              &larr; Log in to the USV Network via Yammer.
+            </div>
+          </td>
+          {% end %}
+        </tr>
+        {% end %}
       </table>
       
       <h3>Settings</h3>
