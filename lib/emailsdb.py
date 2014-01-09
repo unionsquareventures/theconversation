@@ -74,8 +74,8 @@ def send_daily_email(email):
 				},
 				verify=False
 			)
-	# log it
-	log_daily_email(email, recipient_usernames)
+			# log it
+			log_daily_email(email, recipient_usernames)
 
 #
 # Add a daily email to the log
