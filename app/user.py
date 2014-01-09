@@ -86,7 +86,13 @@ class EmailSettings(app.basic.BaseHandler):
     
     #save email prefs
     user['wants_daily_email'] = self.get_argument('wants_daily_email', False)
-    user['wants_email_updates'] = self.get_argument('wants_email_updates', True)
+    if user['wants_daily_email'] == "on":
+      user['wants_daily_email'] = True
+    
+    user['wants_email_alerts'] = self.get_argument('wants_email_alerts', False)
+    if user['wants_email_alerts'] == "on":
+      user['wants_email_alerts'] = True
+              
     userdb.save_user(user)
     
     self.redirect("/user/%s/settings?msg=updated" % user['user']['screen_name'])

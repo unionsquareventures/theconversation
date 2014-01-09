@@ -5,7 +5,7 @@
 	<form action="/admin/daily_email" method="POST">
 	
 	<div class="row">
-		<div class="col-sm-8 col-sm-offset-2">
+		<div class="col-sm-8">
 		<h3>Daily Email:</h3>
 		{% if not has_previewed %}
 			<div style="text-align: center; margin: 20px 0; padding: 20px; border-top: 1px solid #ccc; border-bottom: 1px solid #ccc;">
@@ -34,6 +34,14 @@
 				{% end %}
 			</div>
 		{% end %}
+		</div>
+		<div class="col-sm-4">
+			<h3>Recipients:</h3>
+			<div class="well">
+				{% for user in recipients %}
+					{{ user['user']['username'] }} &nbsp; 
+				{% end %}
+			</div>
 		</div>
 	</div>
 	</form>
