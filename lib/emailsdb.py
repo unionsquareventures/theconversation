@@ -38,7 +38,7 @@ def construct_daily_email(slugs):
 	for post in posts:
 		post['url'] = post.get('url', '')
 		source = post.get('domain', '')
-		body_html += "<p><b><a href='%s'>%s</a></b> <span style='color:#ccc'>%s</span></p>" % (post['url'], post['title'], source)
+		body_html += "<p><b><a href='%s'>%s</a></b></p>" % (post['url'], post['title'])
 		body_html += "<p>posted by @<a href='http://%s/user/%s'>%s</a> | %s comments | %s &uarr;</p>" % (settings.get('base_url'), post['user']['username'], post['user']['username'], post['comment_count'], post['votes'])
 		body_html += "<p>%s</p>" % post['body_html']
 		body_html += "<p>discussion: <a href='http://%s/posts/%s'>http://%s/posts/%s</a></p>" % (settings.get('base_url'), post['slug'], settings.get('base_url'), post['slug'])
