@@ -84,6 +84,9 @@ def get_hot_posts(per_page=50, page=1):
 
 def get_sad_posts(per_page=50, page=1):
   return list(db.post.find({'date_created':{'$gt': datetime.strptime("10/12/13", "%m/%d/%y")}, 'votes':1, 'comment_count':0, 'deleted': { "$ne": True } , 'featured': False}, sort=[('date_created', pymongo.DESCENDING)]).skip((page-1)*per_page).limit(per_page))
+  
+def get_daily_posts():
+  return list(db.post.find({'date_created':{'$gt': datetime.strptime("10/12/13", "%m/%d/%y")}, 'deleted': { "$ne": True }}, sort=[('date_created', pymongo.DESCENDING)]).limit(2))
 
 def get_deleted_posts(per_page=50, page=1):
   return list(db.post.find({'deleted':True}, sort=[('date_deleted', pymongo.DESCENDING)]).skip((page-1)*per_page).limit(per_page))

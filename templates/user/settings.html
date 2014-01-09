@@ -20,10 +20,8 @@
       
       <h1 class="settings" style="margin: 0 0 10px;padding: 0;text-transform:uppercase; font-size: 18px">Settings</h1>
   
+      <h2>Connections</h2>
       <table class="table">
-        <form id="submit-form" class="" action="/auth/email/" method="POST">
-          {% module xsrf_form_html() %}
-        
         <tr class="complete">
           <th class="step">
             1 <span class="glyphicon glyphicon-ok"></span>
@@ -40,7 +38,6 @@
           <td></td>
           <td class="text-muted">(currently this cannot be changed)</td>
         </tr>
-        
         {% if user['email_address'] %}
         <tr class="complete">
           <th class="step">2 <span class="glyphicon glyphicon-ok"></span></th>
@@ -92,6 +89,32 @@
           {% end %}
         </tr>
       </table>
+      
+      <h2>Settings</h2>
+      <form id="submit-form" class="" action="/auth/email/" method="POST">
+      <table class="table">
+      {% module xsrf_form_html() %}
+      {% if 'email_address' in user and user['email_address'] %}
+      <tr class="complete">
+        <th class="step"><span class="glyphicon glyphicon-ok"></span></th>
+      {% else %}
+      <tr class="">
+        <th class="step"></th>
+      {% end %}
+        <th>Email</th>
+        <td><input type="text" class="form-control" name="email" value="{{ user['email_address'] }}" /></td>
+        <td><input type="submit" value="Update" class="btn btn-default" /></td>
+        <td>
+          {% if 'email_address' not in user or not user['email_address'] %}
+            <div class="alert alert-info low-pro">
+              &larr; Please add your email address.
+            </div>
+          {% end %}
+        </td>
+      </tr>
+      </table>
+      </form>
+      
 
   </div>
 {% end %}

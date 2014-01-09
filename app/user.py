@@ -84,6 +84,11 @@ class EmailSettings(app.basic.BaseHandler):
               # Subscribe a user to the thread specified in response
               disqus.subscribe_to_thread(thread_id, user['disqus_access_token'])
     
+    #save email prefs
+    user['wants_daily_email'] = self.get_argument('wants_daily_email', False)
+    user['wants_email_updates'] = self.get_argument('wants_email_updates', True)
+    userdb.save_user(user)
+    
     self.redirect("/user/%s/settings?msg=updated" % user['user']['screen_name'])
 
 ###########################
@@ -139,6 +144,9 @@ class UserSettings(app.basic.BaseHandler):
     user = userdb.get_user_by_screen_name(self.current_user)
     if not user:
       raise tornado.web.HTTPError(404)
+    
+    user['wants_daily_email'] = user.get('wants_daily_email', False)
+    user['wants_email_alerts'] = user.get('wants_email_alerts', True)
       
     #self.render('user/settings.html', user=user, msg=msg)
     self.render('user/profile.html', user=user, screen_name=self.current_user, posts=None, section="settings", page=None, per_page=None, tags=None, tag=None, msg=msg)
