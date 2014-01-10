@@ -37,7 +37,7 @@
 		{% end %}
 		
 		{% for account in accounts %}
-			<tr class="account_row" id="{{ account }}">	
+			<tr class="account_row" id="{{ account }}" style="display:none">	
 				<td>
 					{{ account }}
 				</td>
@@ -64,20 +64,23 @@
 		// Queries API for all accounts on page load
 		$(document).ready(function() {
 			$('.account_row').each(function() {
+				$(this).show();
 				var query = window.location.href.split("q=")[1];
-				var url = "http://usv.com/admin/gmailapi?";
-				url += "q=" + query; 
-				url += "&n=" + $(this).attr('id');
+				if (query) {
+					var url = "www.usv.com/admin/gmailapi?";
+					url += "q=" + query; 
+					url += "&n=" + $(this).attr('id');
 
-				console.log("Querying " + url);
-				$.ajax(url, {
-		          error: function(jqxhr, status, error) {
-		            console.log("Error: " + error);
-		          },
-		          success: function(data, status, jqxhr) {            
-		          	updateRow(data);
-		          }
-		        });
+					console.log("Querying " + url);
+					$.ajax(url, {
+			          error: function(jqxhr, status, error) {
+			            console.log("Error: " + error);
+			          },
+			          success: function(data, status, jqxhr) {            
+			          	updateRow(data);
+			          }
+			        });
+				}
 			});
 		});
 
