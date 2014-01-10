@@ -36,7 +36,7 @@
 		{% end %}
 		</div>
 		<div class="col-sm-4">
-			<h3>Recipients:</h3>
+			<h3>Recipients ({{ len(recipients) }}):</h3>
 			<div class="well">
 				{% for user in recipients %}
 					{{ user['user']['username'] }} &nbsp; 
