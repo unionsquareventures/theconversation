@@ -64,9 +64,9 @@
 		// Queries API for all accounts on page load
 		$(document).ready(function() {
 			$('.account_row').each(function() {
-				$(this).show();
 				var query = window.location.href.split("q=")[1];
 				if (query) {
+					$(this).show();
 					var url = "gmailapi?";
 					url += "q=" + query; 
 					url += "&n=" + $(this).attr('id');
