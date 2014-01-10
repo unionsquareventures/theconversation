@@ -293,6 +293,8 @@ class GmailAPI(app.basic.BaseHandler):
 
     query = self.get_argument('q', '')
     name = self.get_argument('n','')
+    if not query or not name:
+      return
     try:
       usv_member = gmaildb.get_by_name(name)
       mail = self.email_login(usv_member['account'], usv_member['password'])
@@ -306,7 +308,7 @@ class GmailAPI(app.basic.BaseHandler):
                         'latest_email_out': recent_email_out.strftime('%b %d, %Y')}
       self.write(json.dumps(correspondence))
     except:
-      self.write(json.dumps({'name': usv_member['name'], 'err': 'None found'}))
+        self.write(json.dumps({'name': name, 'err': 'None found'}))
 
   ''' Simple query to the inbox, returns how many emails match query and the date of the latest email.
       Query must be a single string, i.e. not "science exchange" '''
