@@ -6,7 +6,7 @@ import pymongo
 
 ''' Returns all jobs, default sorted by date added '''
 def get_all():
-	return list(db.gmail.find())
+	return list(db.gmail.find(sort=[('name', pymongo.ASCENDING)]))
 
 ''' Returns account info for an email address '''
 def get_by_account(account):
