@@ -187,7 +187,12 @@
       <tr class="">
       {% end %}
         <th>Email</th>
-        <td colspan="2"><input type="text" class="form-control" name="email" value="{{ user['email_address'] }}" />
+        {% if 'email_address' in user.keys()  %}
+        {% set email_address = user['email_address'] %}
+        {% else %}
+        {% set email_address = "" %}
+        {% end %}
+        <td colspan="2"><input type="text" class="form-control" name="email" value="{{ email_address }}" />
           {% if 'email_address' not in user or not user['email_address'] %}
             <div class="alert alert-info low-pro">
               &uarr; Please add your email address.
