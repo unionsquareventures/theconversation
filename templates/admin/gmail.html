@@ -26,7 +26,7 @@
 	</br>
 
 	<table class="table table-striped">
-		{% if correspondences %}
+		{% if accounts %}
 			<tr>
 				<th>Name</th>
 				<th>Total Emails In</th>
@@ -36,32 +36,68 @@
 			</tr>
 		{% end %}
 		
-		{% for correspondence in correspondences %}
-			<tr>	
+		{% for account in accounts %}
+			<tr class="account_row" id="{{ account }}">	
 				<td>
-					{{ correspondence['usv_member'] }}
+					{{ account }}
 				</td>
-				<td>
-					{{ correspondence['total_emails_in'] }}
+				<td class="account_row_total_emails_in">
+					loading...
 				</td>
-				<td>
-					{% if correspondence['recent_email_in'] %}
-						{{ correspondence['recent_email_in'] }}
-					{% else %}
-						N/A
-					{% end %}
+				<td class="account_row_latest_email_in">
+					
 				</td>
-				<td>
-					{{ correspondence['total_emails_out'] }}
+				<td class="account_row_total_emails_out">
+					
 				</td>
-				<td>
-					{% if correspondence['recent_email_out'] %}
-						{{ correspondence['recent_email_out'] }}
-					{% else %}
-						N/A
-					{% end %}
+				<td class="account_row_latest_email_out">
+					
 				</td>
 			</tr>
 		{% end %}
 	</table>
+{% end %}
+
+{% block javascript %}
+  	<!-- Script for querying GMail API via USV.com API --> 
+  	<script>
+		// Queries API for all accounts on page load
+		$(document).ready(function() {
+			$('.account_row').each(function() {
+				var query = window.location.href.split("q=")[1];
+				var url = "http://0.0.0.0:8001/admin/gmailapi?";
+				url += "q=" + query; 
+				url += "&n=" + $(this).attr('id');
+
+				console.log("Querying " + url);
+				$.ajax(url, {
+		          error: function(jqxhr, status, error) {
+		            console.log("Error: " + error);
+		          },
+		          success: function(data, status, jqxhr) {            
+		          	updateRow(data);
+		          }
+		        });
+			});
+		});
+
+		// Updates row upon successful API call
+		function updateRow(data) {
+			var correspondence = JSON.parse(data);
+			var name = correspondence['name'];
+			if (correspondence['err']) {
+				$('#' + name).children('.account_row_total_emails_in').text(0);
+				$('#' + name).children('.account_row_latest_email_in').text('N/A');
+				$('#' + name).children('.account_row_total_emails_out').text(0);
+				$('#' + name).children('.account_row_latest_email_out').text('N/A');
+			}
+			else {
+				$('#' + name).children('.account_row_total_emails_in').text(correspondence['total_emails_in']);
+				$('#' + name).children('.account_row_latest_email_in').text(correspondence['latest_email_in']);
+				$('#' + name).children('.account_row_total_emails_out').text(correspondence['total_emails_out']);
+				$('#' + name).children('.account_row_latest_email_out').text(correspondence['latest_email_out']);
+			}	
+		}
+
+	</script>
 {% end %}

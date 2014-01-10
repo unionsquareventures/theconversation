@@ -279,7 +279,7 @@ class Gmail(app.basic.BaseHandler):
     for usv_member in accounts:
       usv_members.append(usv_member['name'])
 
-    return self.render('admin/gmail2.html', query=query, accounts=usv_members)
+    return self.render('admin/gmail.html', query=query, accounts=usv_members)
 
 
 ###########################
