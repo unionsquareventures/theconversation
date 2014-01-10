@@ -8,3 +8,10 @@ import pymongo
 def get_all():
 	return list(db.gmail.find())
 
+''' Returns account info for an email address '''
+def get_by_account(account):
+	return list(db.gmail.find({'account': account}))[0]
+
+''' Returns account info for a USVer name '''
+def get_by_name(name):
+	return list(db.gmail.find({'name': name}))[0]
