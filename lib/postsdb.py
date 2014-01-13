@@ -239,7 +239,7 @@ def sort_posts():
     total_score += scores['super_upvotes']
     
     scores['super_downvotes'] = super_downvotes * super_downvotes_multiplier
-    total_score += scores['super_downvotes']
+    total_score -= scores['super_downvotes']
 
     scores['comments'] = (post['comment_count'] * comments_multiplier)
     total_score += scores['comments']
