@@ -1,5 +1,7 @@
 from mongo import db
 import pymongo
+import json
+import logging
 
 from lib import postsdb, userdb
 
@@ -55,29 +57,18 @@ def construct_daily_email(slugs):
 # Send a daily email
 #
 def send_daily_email(email):
+	api_link = "https://sendgrid.com/api/mail.send.json"
 	recipients = userdb.get_newsletter_recipients()
 	recipient_usernames = [r['user']['username'] for r in recipients]
-	email_sent = False
-	for user in recipients:
-		# send email
-		if settings.get('environment') != "prod":
-			print "If this were prod, we would have sent email to %s" % user['email_address']
-		else:
-			requests.post(
-				"https://sendgrid.com/api/mail.send.json",
-				data={
-					"api_user":settings.get('sendgrid_user'),
-					"api_key":settings.get('sendgrid_secret'),
-					"from": email['from'],
-					"to": user['email_address'],
-					"subject": email['subject'],
-					"html": email['body_html']
-				},
-				verify=False
-			)
-			email_sent = True
-	# log it
-	if email_sent:
+	recipient_emails = [r['email_address'] for r in recipients]
+	params = {
+		"from": email['from'],
+		"to": recipient_emails,
+		"subject": email['subject'],
+		"html": email['body_html']
+	}
+	response = do_api_request(api_link, "POST", params=params)
+	if response.get('message') == 'success':
 		log_daily_email(email, recipient_usernames)
 
 #
@@ -97,3 +88,43 @@ def log_daily_email(email, recipient_usernames):
 #
 def get_daily_email_log():
 	return list(db.email.daily.find({}, sort=[('timestamp', pymongo.DESCENDING)]))
+	
+#####################################################
+#### ACTUALLY HANDLE THE REQUESTS/RESPOSNE TO THE API
+#####################################################
+def do_api_request(api_link, method='GET', params={}):
+	# add sendgrid user & api key
+	params.update({
+		'api_user': settings.get('sendgrid_user'),
+		'api_key': settings.get('sendgrid_secret')
+	})
+	try:
+		if method.upper() == 'GET':
+			if len(params.keys()) > 0:
+				r = requests.get(
+					api_link,
+					params=params,
+					verify=False
+				)
+			else:
+				r = requests.get(
+					api_link,
+					verify=False
+				)
+		else:
+			r = requests.post(
+				api_link,
+				params=params,
+				verify=False
+			)
+		response = r.json()
+	except:
+		response = {}
+	
+	logging.info("=================")
+	logging.info( api_link)
+	logging.info( json.dumps(params, indent=4))
+	logging.info( response)
+	logging.info( "=================")
+	
+	return response
