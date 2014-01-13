@@ -296,9 +296,7 @@ class GmailAPI(app.basic.BaseHandler):
     if not query or not name:
       return
     try:
-      print gmaildb.get_all()
       usv_member = gmaildb.get_by_name(name)
-      print usv_member
       mail = self.email_login(usv_member['account'], usv_member['password'])
       total_emails_in, recent_email_in = self.search_mail(mail, "FROM " + query)
       total_emails_out, recent_email_out = self.search_mail(mail, "TO " + query)
