@@ -142,9 +142,14 @@ class Profile(app.basic.BaseHandler):
 ###########################
 class UserSettings(app.basic.BaseHandler):
   @tornado.web.authenticated
-  def get(self, username):
+  def get(self, username=None):
+    if username is None and self.current_user:
+      username = self.current_user
     if username != self.current_user:
       raise tornado.web.HTTPError(401)
+    
+    if self.request.path.find("/user/settings") >= 0:
+      self.redirect('/user/%s/settings' % username)
       
     msg = self.get_argument("msg", None)
     user = userdb.get_user_by_screen_name(self.current_user)
