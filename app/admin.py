@@ -265,32 +265,50 @@ class ManageDisqus(app.basic.BaseHandler):
     #self.write(response)
 
 ###########################
-### Manage Disqus Data
+### Get correspondence data
 ### /admin/gmail
 ###########################
 class Gmail(app.basic.BaseHandler):
+  def get(self):   
+    if self.current_user not in settings.get('staff'):
+      self.redirect('/')
+
+    query = self.get_argument('q', '')
+    accounts = gmaildb.get_all()
+    usv_members = []
+    for usv_member in accounts:
+      usv_members.append(usv_member['name'])
+
+    return self.render('admin/gmail.html', query=query, accounts=usv_members)
+
+
+###########################
+### API call for correspondence data from a single USVer
+### /admin/gmailapi
+###########################
+class GmailAPI(app.basic.BaseHandler):
   def get(self):
     if self.current_user not in settings.get('staff'):
       self.redirect('/')
 
     query = self.get_argument('q', '')
-    if not query:
-      correspondences = []
-    else:
-      # Query each account
-      accounts = gmaildb.get_all()
-      print "accounts"
-      print accounts
-      correspondences = []
-      for usv_member in accounts:
-        mail = self.email_login(usv_member['account'], usv_member['password'])
-        if mail:
-          total_emails_in, recent_email_in = self.search_mail(mail, "FROM " + query)
-          total_emails_out, recent_email_out = self.search_mail(mail, "TO " + query)
-          correspondence = {'usv_member': usv_member['account'], 'total_emails_in': total_emails_in, 'total_emails_out': total_emails_out, 'recent_email_in': recent_email_in, 'recent_email_out': recent_email_out}
-          correspondences.append(correspondence)
-
-    return self.render('admin/gmail.html', correspondences=correspondences, query=query)
+    name = self.get_argument('n','')
+    if not query or not name:
+      return
+    try:
+      usv_member = gmaildb.get_by_name(name)
+      mail = self.email_login(usv_member['account'], usv_member['password'])
+      total_emails_in, recent_email_in = self.search_mail(mail, "FROM " + query)
+      total_emails_out, recent_email_out = self.search_mail(mail, "TO " + query)
+      correspondence = {'name': usv_member['name'],
+                        'account': usv_member['account'], 
+                        'total_emails_in': total_emails_in, 
+                        'total_emails_out': total_emails_out, 
+                        'latest_email_in': recent_email_in.strftime('%b %d, %Y'), 
+                        'latest_email_out': recent_email_out.strftime('%b %d, %Y')}
+      self.write(json.dumps(correspondence))
+    except:
+        self.write(json.dumps({'name': name, 'err': 'None found'}))
 
   ''' Simple query to the inbox, returns how many emails match query and the date of the latest email.
       Query must be a single string, i.e. not "science exchange" '''
@@ -337,5 +355,8 @@ class Gmail(app.basic.BaseHandler):
         return None
     else:
       raise Exception
+
+
+
 
 

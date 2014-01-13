@@ -57,6 +57,7 @@ class Application(tornado.web.Application):
       (r'/focus$', app.redirects.RedirectMappings),
       (r"/admin/company", app.admin.AdminCompany),
       (r"/admin/gmail", app.admin.Gmail),
+      (r"/admin/gmailapi", app.admin.GmailAPI),
 
       #general site pages
       (r"/about", app.general.About),
