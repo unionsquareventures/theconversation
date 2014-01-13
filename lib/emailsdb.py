@@ -123,7 +123,6 @@ def do_api_request(api_link, method='GET', params={}):
 	
 	logging.info("=================")
 	logging.info( api_link)
-	logging.info( json.dumps(params, indent=4))
 	logging.info( response)
 	logging.info( "=================")
 	
