@@ -45,6 +45,7 @@ def construct_daily_email(slugs):
 		body_html += "<p>%s</p>" % post['body_html']
 		body_html += "<p>discussion: <a href='http://%s/posts/%s'>http://%s/posts/%s</a></p>" % (settings.get('base_url'), post['slug'], settings.get('base_url'), post['slug'])
 		body_html += "<hr />"
+	body_html += "Want to unsubscribe? Visit http://%s/user/settings" % settings.get('base_url')
 	
 	email = {
 		'from': from_email,
