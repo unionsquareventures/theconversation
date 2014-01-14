@@ -6,4 +6,7 @@ import settings
 
 from lib import jobsdb
 
-jobsdb.update_all() 
+''' Requires a country argument to run '''
+country = sys.argv[1]
+jobsdb.update_country(country) 
+
