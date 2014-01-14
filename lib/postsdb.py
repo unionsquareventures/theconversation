@@ -123,7 +123,7 @@ def get_posts_by_normalized_url(normalized_url, limit):
   return list(db.post.find({'normalized_url':normalized_url, 'deleted': { "$ne": True }}, sort=[('_id', pymongo.DESCENDING)]).limit(limit))
 
 def get_posts_with_min_votes(min_votes):
-  return list(db.post.find({'deleted': { "$ne": True }, 'votes':{'$gte':min_votes}}, {'slug':1, 'date_created':1, 'downvotes':1, 'user.username':1, 'comment_count':1, 'votes':1, 'title':1}, sort=[('date_created', pymongo.DESCENDING)]))
+  return list(db.post.find({'deleted': { "$ne": True }, 'votes':{'$gte':min_votes}}, sort=[('date_created', pymongo.DESCENDING)]))
 
 ###########################
 ### UPDATE POST DETAIL
@@ -163,25 +163,22 @@ def insert_post(post):
 ### RUN BY HEROKU SCHEDULER EVERY 5 MIN
 ### VIA SCRIPTS/SORT_POSTS.PY
 ###########################
-def sort_posts():
+def sort_posts(slug="all"):
   # set our config values up
-  #staff_bonus = int(self.get_argument('staff_bonus', -3))
   staff_bonus = -3
-  #time_penalty_multiplier = float(self.get_argument('time_penalty_multiplier', 2.0))
   time_penalty_multiplier = 2.0
-  #grace_period = float(self.get_argument('grace_period', 6.0))
   grace_period = 18.0
-  #comments_multiplier = float(self.get_argument('comments_multiplier', 3.0))
   comments_multiplier = 3.0
-  #votes_multiplier = float(self.get_argument('votes_multiplier', 1.0))
   votes_multiplier = 1.0
-  super_upvotes_multiplier = 2.0
+  super_upvotes_multiplier = 3.0
   super_downvotes_multiplier = 3.0
-  #min_votes = float(self.get_argument('min_votes', 2))
   min_votes = 2
 
-  # get all the posts that have at least the 'min vote threshold'
-  posts = get_posts_with_min_votes(min_votes)
+  # get posts to score
+  if slug == "all":
+    posts = get_posts_with_min_votes(min_votes)
+  else:
+    posts = [get_post_by_slug(slug)]
 
   data = []
   for post in posts:
@@ -198,10 +195,6 @@ def sort_posts():
     if hours_elapsed > 18:
       time_penalty = time_penalty * 2
 
-    # get our base score from downvotes
-    #base_score = post['downvotes'] * -1
-    base_score = 0
-
     # determine if we should assign a staff bonus or not
     if post['user']['username'] in settings.get('staff'):
       staff_bonus = staff_bonus
@@ -214,49 +207,33 @@ def sort_posts():
       votes_base_score = -2
     if post['votes'] > 8 and post['comment_count'] == 0:
       votes_base_score = -2
-      
-    super_upvotes = post.get('super_upvotes', 0)
+
+    if 'super_upvotes' in post.keys():
+      super_upvotes = post['super_upvotes']
+    else:
+      super_upvotes = 0
+    #super_upvotes = post.get('super_upvotes', 0)
     super_downvotes = post.get('super_downvotes', 0)
 
+    # calculate the sub-scores
     scores = {}
-    
-    # now actually calculate the score
-    total_score = base_score
-
     scores['votes'] = (votes_base_score + post['votes'] * votes_multiplier)
-    total_score += scores['votes']
-    
-    scores['super_upvotes'] = super_upvotes * super_upvotes_multiplier
-    total_score += scores['super_upvotes']
-    
-    scores['super_downvotes'] = super_downvotes * super_downvotes_multiplier
-    total_score -= scores['super_downvotes']
-
+    scores['super_upvotes'] = (super_upvotes * super_upvotes_multiplier)
+    scores['super_downvotes'] = (super_downvotes * super_downvotes_multiplier * -1)
     scores['comments'] = (post['comment_count'] * comments_multiplier)
-    total_score += scores['comments']
-
     scores['time'] = (time_penalty * time_penalty_multiplier * -1)
-    total_score += scores['time']
 
+    # add up the scores
+    total_score = 0
     total_score += staff_bonus
-    post['scores'] = scores
+    for score in scores:
+      total_score += scores[score]
 
     # and save the new score
-    update_post_score(post['slug'], total_score)
+    post['scores'] = scores
+    update_post_score(post['slug'], total_score, scores)
+    print post['slug']
+    print "-- %s" % total_score
+    print "---- %s" % json.dumps(scores, indent=4)
 
-    data.append({
-      'username': post['user']['username'],
-      'title': post['title'],
-      'slug': post['slug'],
-      'date_created': post['date_created'],
-      'hours_elapsed': hours_elapsed,
-      'votes': post['votes'],
-      'comment_count': post['comment_count'],
-      'staff_bonus': staff_bonus,
-      'time_penalty': time_penalty,
-      'total_score': total_score,
-      'scores': scores
-    })
-
-  data = sorted(data, key=lambda k: k['total_score'], reverse=True)
   print "All posts sorted!"
