@@ -54,7 +54,7 @@ def update_twitter(id_str=None, api=None):
   if not api:
     consumer_key = settings.get('twitter_consumer_key')
     consumer_secret = settings.get('twitter_consumer_secret')
-    auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
+    auth = tweepy.OAuthHandler(consumer_key, consumer_secret, secure=True)
     api = tweepy.API(auth) 
 
   if id_str:
@@ -91,7 +91,7 @@ def update_twitter(id_str=None, api=None):
 def update_twitter_profile_images():
   consumer_key = settings.get('twitter_consumer_key')
   consumer_secret = settings.get('twitter_consumer_secret')
-  auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
+  auth = tweepy.OAuthHandler(consumer_key, consumer_secret, secure=True)
   api = tweepy.API(auth) 
 
   for user in get_all():
@@ -109,7 +109,7 @@ def update_twitter_profile_images():
 def update_twitter_all():
   consumer_key = settings.get('twitter_consumer_key')
   consumer_secret = settings.get('twitter_consumer_secret')
-  auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
+  auth = tweepy.OAuthHandler(consumer_key, consumer_secret, secure=True)
   api = tweepy.API(auth) 
 
   for user in get_all():
