@@ -6,16 +6,6 @@ import pymongo
 
 INDEED_API_URL = 'http://api.indeed.com/ads/apisearch'
 INDEED_PUBLISHER_ID = '9648379283006957'
-INDEED_COUNTRIES = ['US',
-					'GB', # Great Britain
-					'CA',
-					'DE',
-					'IL', # Israel
-					'FR',
-					'NL', # Netherlands
-					'SE', # Sweden
-					'IE', # Ireland
-					'JP'] # Japan
 
 """
 {
@@ -165,6 +155,7 @@ def clean_jobs(company, job_list):
 		job['company'] = job['company'].replace('Wealth Management', '') # SigFig Wealth Management
 		job['company'] = job['company'].replace('.TV', '') # VHX.tv
 		job['company'] = job['company'].replace('.tv', '') # Kickstarter.com, etc.
+		job['company'] = job['company'].replace('CloudFlare,', 'CloudFlare')
 
 		# Above rules may result in last char being a space
 		job['company'] = job['company'].strip()
