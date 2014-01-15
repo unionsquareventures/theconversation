@@ -51,7 +51,7 @@ class Twitter(app.basic.BaseHandler):
         bounce_to = '/user/%s/settings?1' % screen_name
     else:
       # need to create the account (so get more details from Twitter)
-      auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
+      auth = tweepy.OAuthHandler(consumer_key, consumer_secret, secure=True)
       api = tweepy.API(auth)
       user = api.get_user(screen_name)
       access_token['user_id'] = user.id
