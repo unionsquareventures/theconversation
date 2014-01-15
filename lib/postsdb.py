@@ -215,7 +215,7 @@ def sort_posts(slug="all"):
       votes_base_score = -2
     if post['votes'] > 8 and post['comment_count'] == 0:
       votes_base_score = -2
-    
+
     if 'super_upvotes' in post.keys():
       super_upvotes = post['super_upvotes']
     else:

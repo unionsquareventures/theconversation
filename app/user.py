@@ -165,4 +165,3 @@ class UserSettings(app.basic.BaseHandler):
       
     #self.render('user/settings.html', user=user, msg=msg)
     self.render('user/profile.html', user=user, screen_name=self.current_user, posts=None, section="settings", page=None, per_page=None, tags=None, tag=None, msg=msg)
-
