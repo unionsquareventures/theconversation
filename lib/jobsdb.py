@@ -6,16 +6,16 @@ import pymongo
 
 INDEED_API_URL = 'http://api.indeed.com/ads/apisearch'
 INDEED_PUBLISHER_ID = '9648379283006957'
-INDEED_COUNTRIES = ['us',
-					'gb', # Great Britain
-					'ca',
-					'de',
-					'il',
-					'fr',
-					'nl', # Netherlands
-					'se', # Sweden
-					'ie', # Ireland
-					'jp'] # Japan
+INDEED_COUNTRIES = ['US',
+					'GB', # Great Britain
+					'CA',
+					'DE',
+					'IL', # Israel
+					'FR',
+					'NL', # Netherlands
+					'SE', # Sweden
+					'IE', # Ireland
+					'JP'] # Japan
 
 """
 {
@@ -66,8 +66,11 @@ def save_job(job):
 
 ''' Clears our db of all jobs. This is useful so that Indeed takes categories
 	of recognizing when a job is no longer posted. '''
-def remove_jobs():
-	return db.job.remove() 
+def remove_jobs(arg=None):
+	if not arg:
+		return db.job.remove() 
+	else:
+		return db.job.remove(arg)
 
 ''' Returns complete list of categories, i.e. Gary's position field'''
 def get_categories():
@@ -103,6 +106,8 @@ def get_aggregation(arg):
 ###############################
 
 ''' Updates job listings for all companies '''
+''' Deprecated b/c too many countries causes Scheduler timeout
+	Would need to be rewritten to iterate over countries anyway
 def update_all():
     # Wipe jobs first...
     remove_jobs()
@@ -115,36 +120,36 @@ def update_all():
 		    job_list = clean_jobs(c, job_list)
 		    for job in job_list:
 	      		save_job(job)
+'''	      		
+
+''' Updates job listings for all companies in a country '''
+def update_country(country):
+    # Wipe jobs first...
+    remove_jobs({'country':country})
+
+    # Then pull all from Indeed (so no jobs in DB are old)
+    for c in companiesdb.get_companies_by_status('current'):
+	    print 'Pulling jobs for %s' % c['name']
+	    job_list = get_json(c, country)
+	    if job_list:
+		    job_list = clean_jobs(c, job_list)
+		    for job in job_list:
+	      		save_job(job)
 
 ''' Returns a list of jobs (each one a dict) for a given company '''
-def get_json(company):
+def get_json(company, country):
 	if 'indeed_slug' in company.keys():
 		indeed_slug = company['indeed_slug']
 	else:
 		indeed_slug = company['name']
 
-    # Ping API in every country
+    # Ping API
 	api_url = INDEED_API_URL + '?publisher=%s' % INDEED_PUBLISHER_ID
 	api_url += '&q=company%3A' # %3A doesn't work with %s for some reason
 	api_url += '(%s)' % indeed_slug
-	results = []
-	for co in INDEED_COUNTRIES:	
-		api_url += '&limit=1000&filter=&co=%s&chnl=&userip=1.2.3.4&v=2&format=json' % co
-		data = json.load(urllib.urlopen(api_url)) # data is a dict
-		if data['results']:
-			results.extend(data['results'])
-
-	return results
-	#query = {'publisher': INDEED_PUBLISHER_ID, 'company': company}
-	'''
-	api_url = INDEED_API_URL + '?publisher=%s' % INDEED_PUBLISHER_ID
-	api_url += '&q=company%3A' # %3A doesn't work with %s for some reason
-	api_url += '(%s)' % indeed_slug
-	api_url += '&limit=1000&filter=&co=&chnl=&userip=1.2.3.4&v=2&format=json'
+	api_url += '&limit=1000&filter=&co=%s&chnl=&userip=1.2.3.4&v=2&format=json' % country
 	data = json.load(urllib.urlopen(api_url)) # data is a dict
-	print api_url
 	return data['results']
-	'''
 
 ''' Ensures all jobs are for the given company only'''
 def clean_jobs(company, job_list):

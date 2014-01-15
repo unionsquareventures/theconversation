@@ -8,12 +8,12 @@
 
 	{% if not query %}
 		<p> 
-			Search Investment Team members accounts for correspondence.</br> 
-			Only accepts domains as arguments,
-			ex: "@startup.com"
+			Search Investment Team members accounts for correspondence.</br>
+			Only includes To: and From: field results.</br> 
+			Only accepts domains as arguments, ex: "@startup.com" 
 		</p>
 	{% else %}
-		<p>Showing results for "{{ query }}"</p>
+		<p>Showing results for "{{ query }}." Only searches To: and From: fields.</p>
 	{% end %}
 
 	<form class="form-inline" role="form" method="get" action="">

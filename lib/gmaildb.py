@@ -10,8 +10,8 @@ def get_all():
 
 ''' Returns account info for an email address '''
 def get_by_account(account):
-	return list(db.gmail.find({'account': account}))[0]
+	return db.gmail.find_one({'account': account})
 
 ''' Returns account info for a USVer name '''
 def get_by_name(name):
-	return list(db.gmail.find({'name': name}))[0]
+	return db.gmail.find_one({'name': name})
