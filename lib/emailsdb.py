@@ -109,7 +109,6 @@ def send_daily_email(email):
 	# @email (created in step 3)
 	api_link = 'https://api.sendgrid.com/api/newsletter/schedule/add.json'
 	params = {
-		'email': email,
 		'name': "Daily %s" % datetime.datetime.today().strftime("%a %b %d, %Y")
 	}
 	result = do_api_request(api_link, 'POST', params=params)
