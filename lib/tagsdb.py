@@ -11,6 +11,19 @@ def get_user_tags(screen_name):
   ])
   return tags
 
+def get_all_tags(sort=None):
+  if not sort or sort == "count":
+    sort = SON([("count", -1), ("_id", -1)])
+  if sort == "alpha":
+    sort = SON([("_id", 1)])
+  
+  tags = db.post.aggregate([
+    {'$unwind':'$tags'},
+    {'$group': {'_id': '$tags', 'count': {'$sum': 1}}},
+    {"$sort": sort}
+  ])
+  return tags
+
 def get_hot_tags():
   today = datetime.today()
   two_weeks_ago = today + timedelta(days=-14)

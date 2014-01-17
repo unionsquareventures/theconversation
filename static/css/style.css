@@ -1050,6 +1050,26 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
     color: #999;
     margin-left: 45px;
 }
+
+.feed.search .post .volume {
+    display: none
+}
+.feed.search .post .user {
+    margin-left: 0 !important;
+}
+.feed.search .content {
+    margin-left: 68px !important;
+}
+.feed.search .post .excerpt {
+    display: none;
+}
+.feed.search .post .time {
+    display: none;
+}
+.feed.search .post .time-search {
+    display: inline !important;
+}
+
 .post .content {
     margin-left: 110px;
 }
@@ -1422,7 +1442,7 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
     display:none;
 }
 .featured-feed .content, .search-feed .content {
-    margin-left:0;
+    /*margin-left:0;*/
 }
 .featured-feed .excerpt, .search-feed .excerpt {
     display:none;
@@ -3895,7 +3915,7 @@ ul.investments-list {
         width:457px;
     }
      .featured-feed .content, .search-feed .content {
-        margin-left:0;
+        /*margin-left:0;*/
     }
      .featured-feed .avatar, .search-feed .avatar {
         display:inline-block;

@@ -2,6 +2,7 @@ import app.basic
 import urllib
 
 from lib import postsdb
+from lib import tagsdb
 
 ################
 ### SEARCH POSTS
@@ -24,11 +25,18 @@ class Search(app.basic.BaseHandler):
 ### /tagged/(.+)
 #####################
 class ViewByTag(app.basic.BaseHandler):
-  def get(self, tag):
-    page = abs(int(self.get_argument('page', '1')))
-    per_page = abs(int(self.get_argument('per_page', '10')))
-    tag = urllib.unquote(tag.strip().replace('+',' ')).decode('utf8')
-    posts = postsdb.get_posts_by_tag(tag, per_page, page)
-    total_count = postsdb.get_post_count_by_tag(tag)
-    self.render('search/search_results.html', posts=posts, total_count=total_count, page=page, per_page=per_page, query=tag)
+  def get(self, tag=None):
+    if tag:
+        tag = urllib.unquote(tag.strip().replace('+',' ')).decode('utf8')
+        posts = postsdb.get_posts_by_tag(tag)
+        total_count = postsdb.get_post_count_by_tag(tag)
+    else:
+        posts = None
+        total_count = 0
+    
+    featured_posts = postsdb.get_featured_posts(5, 1)
+    tags_alpha = tagsdb.get_all_tags(sort="alpha")
+    tags_count = tagsdb.get_all_tags(sort="count")
+    
+    self.render('search/search_results.html', tag=tag, tags_alpha=tags_alpha, tags_count=tags_count, posts=posts, total_count=total_count, query=tag)
 

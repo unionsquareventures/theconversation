@@ -74,6 +74,7 @@ class Application(tornado.web.Application):
       # search stuff
       (r"/search", app.search.Search),
       (r"/tagged/(.+)", app.search.ViewByTag),
+      (r"/tags", app.search.ViewByTag),
 
       # stats stuff
       (r"/stats/shares/weekly", app.stats.WeeklyShareStats),

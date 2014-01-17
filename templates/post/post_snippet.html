@@ -21,6 +21,8 @@
     <span class="username" style="">@{{ p['user']['username'] }}</span>
     <span class="time"><a href="/posts/{{ p['slug'] }}" ><span class="glyphicon glyphicon-link" style="margin: 0;font-size: 90%"></span> {{ p['date_created'].strftime("%I:%M %p") }}</a></span>
     
+    <span class="time-search" style="display:none"><a href="/posts/{{ p['slug'] }}" ><span class="glyphicon glyphicon-link" style="margin: 0;font-size: 90%"></span> {{ p['date_created'].strftime("%m/%d/%Y") }}</a></span>
+    
     <a href="/posts/{{ p['slug'] }}" ><span class="glyphicon glyphicon-comment" style="margin: 0;"></span></a> <a class="dsq-comment-count" data-disqus-identifier="{{ str(p['_id']) }}" href="/posts/{{ p['slug'] }}">{{ p['comment_count'] }} comment{{ 's' if p['comment_count'] != 1 else '' }}</a>
   </div>
   
