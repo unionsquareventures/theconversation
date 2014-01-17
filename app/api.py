@@ -1,6 +1,7 @@
 import app.basic
 import logging
 import settings
+import datetime
 
 from lib import disqus
 from lib import postsdb
@@ -86,4 +87,18 @@ class CheckForUrl(app.basic.BaseHandler):
     if len(posts) > 0:
       response["exists"] = True
       response["posts"] = posts
+    self.api_response(response)
+
+############################
+### Get a day's worth of posts
+### /api/posts/get_day
+############################
+class PostsGetDay(app.basic.BaseHandler):
+  def get(self):
+    day = datetime.datetime.strptime(self.get_argument('day'), "%a, %d %b %Y %H:%M:%S %Z")
+    yesterday = day - datetime.timedelta(days=1)
+    posts = postsdb.get_hot_posts_by_day(day)
+    html = self.render_string('post/daily_posts_list_snippet.html', today=day, yesterday=yesterday, posts=posts, current_user_can=self.current_user_can)
+    response = {}
+    response['html'] = html
     self.api_response(response)

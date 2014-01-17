@@ -7,7 +7,8 @@ import settings
 import tornado.web
 import tornado.options
 
-from datetime import datetime
+import datetime
+import time
 from urlparse import urlparse
 from lib import bitly
 from lib import google
@@ -97,26 +98,19 @@ class ListPosts(app.basic.BaseHandler):
     page = abs(int(self.get_argument('page', page)))
     per_page = abs(int(self.get_argument('per_page', '20')))
     msg = ''
-    featured_posts = postsdb.get_featured_posts(6, 1)
+    featured_posts = postsdb.get_featured_posts(12, 1)
     posts = []
     post = {}
     hot_tags = tagsdb.get_hot_tags()
-
+    today = datetime.date.today()
+    yesterday = today - datetime.timedelta(days=1)
     is_blacklisted = False
     if self.current_user:
       is_blacklisted = self.is_blacklisted(self.current_user)
 
-    if sort_by == 'new':
-      # show the newest posts
-      posts = postsdb.get_new_posts(per_page, page)
-    elif sort_by == 'sad':
-      # show the sad posts
-      posts = postsdb.get_sad_posts(per_page, page)
-    else:
-      # get the current hot posts
-      posts = postsdb.get_hot_posts(per_page, page)
+    posts = postsdb.get_hot_posts_by_day(today)
 
-    self.render('post/lists_posts.html', sort_by=sort_by, page=page, msg=msg, posts=posts, post=post, featured_posts=featured_posts, is_blacklisted=is_blacklisted, tags=hot_tags)
+    self.render('post/lists_posts.html', msg=msg, posts=posts, post=post, featured_posts=featured_posts, is_blacklisted=is_blacklisted, tags=hot_tags, today=today, yesterday=yesterday)
 
   @tornado.web.authenticated
   def post(self):
@@ -145,7 +139,7 @@ class ListPosts(app.basic.BaseHandler):
     deleted = self.get_argument('deleted', '')
     if deleted != '':
       post['deleted'] = True
-      post['date_deleted'] = datetime.now()
+      post['date_deleted'] = datetime.datetime.now()
 
     bypass_dup_check = self.get_argument('bypass_dup_check', '')
     is_edit = False
@@ -199,7 +193,7 @@ class ListPosts(app.basic.BaseHandler):
       # determine if this should be a featured post or not
       if self.current_user_can('feature_posts') and post['featured'] != '':
         post['featured'] = True
-        post['date_featured'] = datetime.now()
+        post['date_featured'] = datetime.datetime.now()
       else:
         post['featured'] = False
         post['date_featured'] = None
@@ -216,7 +210,7 @@ class ListPosts(app.basic.BaseHandler):
         post['sort_score'] = 0.0
         post['downvotes'] = 0
         post['hackpad_url'] = ''
-        post['date_created'] = datetime.now()
+        post['date_created'] = datetime.datetime.now()
         post['user_id_str'] = user['user']['id_str']
         post['username'] = self.current_user
         post['user'] = user['user']

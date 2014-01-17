@@ -64,6 +64,7 @@ class Application(tornado.web.Application):
       (r"/api/user_status", app.api.GetUserStatus),
       (r"/api/voted_users/(.+)", app.api.GetVotedUsers),
       (r"/api/check_for_url", app.api.CheckForUrl),
+      (r"/api/posts/get_day", app.api.PostsGetDay),
 
       # disqus stuff
       (r"/auth/disqus", app.disqus.Auth),

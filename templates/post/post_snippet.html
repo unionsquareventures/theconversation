@@ -1,8 +1,9 @@
-<div class="avatar">
+<div class="user">
   <a href="/user/{{ p['user']['username'] }}">
-    <img title="{{ p['user']['username'] }}" src="{{ p['user']['profile_image_url_https'] }}" alt="thumbnail">
+    <img class="avatar" title="{{ p['user']['username'] }}" src="{{ p['user']['profile_image_url_https'] }}" alt="thumbnail">
   </a>
 </div>
+{% include bumpit_snippet.html %}
 <div class="content">
   {% if 'url' in p and p['url'] %}
     <a class="title" href="{{ p['url'] }}" rel="nofollow" target="_blank">{{ p['title'] }}</a>
@@ -11,12 +12,16 @@
     <a class="title" href="/posts/{{ p['slug'] }}" target="_blank">{{ p['title'] }}</a>
     <a href="/posts/{{ p['slug'] }}" class="source" target="_blank">usv.com</a>
   {% end %}
-  <div class="meta">
-    <a class="username-link" href="/user/{{ p['user']['username'] }}" style="color: #999">@{{ p['user']['username'] }}</a>
-    <span class="username" style="">@{{ p['user']['username'] }}</span>
-    <span class="time"><a href="/posts/{{ p['slug'] }}" ><span class="glyphicon glyphicon-link" style="margin: 0;font-size: 90%"></span> {{ template_helpers.pretty_date(p['date_created']) }}</a></span>
-    <a href="/posts/{{ p['slug'] }}" ><span class="glyphicon glyphicon-comment" style="margin: 0;"></span></a> <a class="dsq-comment-count" data-disqus-identifier="{{ str(p['_id']) }}" href="/posts/{{ p['slug'] }}">{{ p['comment_count'] }} comment{{ 's' if p['comment_count'] != 1 else '' }}</a>
-      
-      {% include bumpit_snippet.html %}
+  
+  <div class="excerpt">
+    {% raw p['body_html'] %}
   </div>
+  <div class="meta">
+    <!--<a class="username-link" href="/user/{{ p['user']['username'] }}" style="color: #999">@{{ p['user']['username'] }}</a>-->
+    <span class="username" style="">@{{ p['user']['username'] }}</span>
+    <span class="time"><a href="/posts/{{ p['slug'] }}" ><span class="glyphicon glyphicon-link" style="margin: 0;font-size: 90%"></span> {{ p['date_created'].strftime("%I:%M %p") }}</a></span>
+    
+    <a href="/posts/{{ p['slug'] }}" ><span class="glyphicon glyphicon-comment" style="margin: 0;"></span></a> <a class="dsq-comment-count" data-disqus-identifier="{{ str(p['_id']) }}" href="/posts/{{ p['slug'] }}">{{ p['comment_count'] }} comment{{ 's' if p['comment_count'] != 1 else '' }}</a>
+  </div>
+  
 </div>

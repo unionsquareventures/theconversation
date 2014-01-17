@@ -14,120 +14,56 @@
 
 {% block content %}
 
-  <div id="main" role="main">    
-    <section class="featured-feed clearfix mobile-hidden">
-      
-      {% if 'tags' in globals() and len(tags) > 0 %}
-      <h3 style="text-align:center; text-transform:uppercase; color:#999; margin: 5px 0 15px; font-size: 14px; line-height:1.428571429;">Popular tags (last 14 days):</h3>
-      <div style="text-align:center; margin-bottom: 20px">
-      <ul class="filter-tabs tags">
-        {% for t in tags['result'] %}
-            <li><a data-tag-count="{{t['count']}}" href="/tagged/{{t['_id']}}">#{{t['_id']}} ({{t['count']}})</a></li>
-        {% end %}
-      </ul>
-    </div>
-      {% end %}
-      
-      <div id='slider' class='swipe visible-xs row' style='visibility: visible;'>
-        <ul class='swipe-wrap feed'>
-
-          {% if settings.get('sticky') %}
-            {% for p in settings.get('sticky') %}
-              {% include post_snippet.html %}
-            {% end %}
-          {% end %}
-
-        </ul>
-      </div>
-
-      <ul class="feed">
-        {% for p in featured_posts %}
-          <li class="featured-post card" style="">
-            <div class="avatar">
-              <a href="/user/{{ p['user']['username'] }}"><img title="{{ p['user']['username'] }}" src="{{ template_helpers.twitter_avatar_size(p['user']['profile_image_url_https'], 'normal') }}" alt="thumbnail"></a>
-            </div>
-            <div class="content">
-              <a class="title" style="padding-bottom: 5px; margin-left: 70px;" href="/posts/{{ p['slug'] }}">{{ p['title'] }}</a>
-              {% if p['url'] != '' %}
-                <a href="{{ p['url'] }}" class="source" target="_blank">{{ urlparse(p['url']).netloc }}</a>
-              {% else %}
-                <a href="/posts/{{ p['slug'] }}" class="source">usv.com</a>
-              {% end %}
-              <div class="meta" style="text-align: left !important; margin-left: 70px;">
-                <a style="color: #999" class="username" href="/user/{{ p['user']['username'] }}">@{{ p['user']['username'] }}</a>
-                <a href="/posts/{{ p['slug'] }}"><span class="glyphicon glyphicon-link" style="margin: 0;font-size: 90%"></span> {{ template_helpers.pretty_date(p['date_created']) }}</span></a>
-              </div>
-              <div class="excerpt">{% raw p['body_truncated'] %}</div>
-              <div class="meta">
-                {% include bumpit_snippet.html %}
-                <a href="/posts/{{ p['slug'] }}" ><span class="glyphicon glyphicon-comment" style="margin: 0;"></span></a> 
-                <a class="dsq-comment-count" data-disqus-url="{{ settings.get('base_url') }}/posts/{{ str(p['slug']) }}" data-disqus-identifier="{{ str(p['_id']) }}" href="/posts/{{ p['slug'] }}">{{ p['comment_count'] }} comment{{ 's' if p['comment_count'] != 1 else '' }}</a>
-              </div>
-            </div>
-          </li>
-        {% end %}
-      </ul>
-
-    </section>
-    <section class="hot-newest-feed">
-
-      <ul class="tabs">
-        <li class="{{ 'is-active' if sort_by == 'hot' else '' }}"><a class="sort btn" href="/hot">Hot</a></li>
-        <li class="{{ 'is-active' if sort_by == 'new' else '' }}"><a class="sort btn" href="/new">Newest</a></li>
-        {% if current_user in settings.get('staff') %}
-          <li class="{{ 'is-active' if sort_by == 'sad' else '' }}"><a class="sort btn" href="/sad">Sad</a></li>
-        {% end %}
-        {% if not is_blacklisted %}
-          <li class="submit-btn">
-            <a class="btn btn-primary" role="button" data-toggle="modal" href="#submit-modal">Submit a post</a>     
-          </li>
-        {% end %}
-      </ul>
-
-      <ul class="tools hidden-xs" id="tools-desktop">
-        <li><a href="/posts/welcome-to-the-new-usvcom#comment-1066691905">Guidelines</a></li>
-        <li><a id="show-tools-btn" href="#tools">Tools</a></li>
-        <li><a href="https://hackpad.com/USV.com-sHgpc56rkCZ">Bugs &amp; Feature Reqs</a></li>
-      </ul>
-
-      {% if msg == "success" and new_post %}
-        <div class="alert alert-success" style="color: #333">
-          <p style="margin-top:0"><strong>Thanks!</strong> Your post has been published. Here's the link: </p>  
-          <p><a href="/posts/{{ new_post['slug'] }}">http://usv.com/posts/{{ new_post['slug'] }}</a></p>
-          <p>
-            <a href="https://twitter.com/share" class="twitter-share-button" data-url="/posts/{{ new_post['slug'] }}" data-text="{{ new_post['title'] }}" data-via="usvcommunity" data-size="large" data-count="none">Tweet</a>
-            <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
-          </p>
-          <p>To start, it's on the "NEWEST" page. As it gathers votes and comments, it'll move to the "HOT" page and work its way up.</p>
-          <p>In the meantime, check out what else is new and give some love...</p>
+  <div id="main" role="main">  
+  
+    <div class="row">
+      <div class="col-sm-4">
+        <div class="deck">
+          
         </div>
-      {% end %}
-
-      <ul class="feed sort-by-{{ sort_by }}">
-        {% for p in posts %}
-          {% if 'previous_author_username' in locals() and previous_author_username == p['user']['username'] %}
-            {% set repeat = True %}
-          {% else %}
-            {% set repeat = False %}
-          {% end %}
-          <li {% if repeat %}class="repeat"{% end %}>
-            {% include post_snippet.html %}
-          </li>
-          {% set previous_author_username = p['user']['username'] %}       
-        {% end %}
-      </ul>
-      
-      <div id="pagination-next-prev" style="margin-top: 20px;">
-        {%  if page == 2 %}
-        <a href="/{{ sort_by }}" class="btn btn-default prev pull-left">Previous</a>
-        {% elif page != 1 %}
-        <a href="/{{ sort_by }}/page/{{ page - 1 }}" class="prev btn btn-default pull-left">Previous</a>
+        <div class="sidebar-widget">
+          <h3>Welcome to the conversation</h3>
+          <p><a class="btn btn-primary" role="button" data-toggle="modal" href="#submit-modal">Submit a post</a></p>
+          <p style="font-size: .9em;"><a href="/posts/welcome-to-the-new-usvcom#comment-1066691905">posting guidelines</a> <span class="text-muted">|</span> <a id="show-tools-btn" href="#tools">tools</a></p>
+        </div>
+        
+        {% if 'tags' in globals() and len(tags) > 0 %}
+        <div class="sidebar-widget">
+         <h3 style="">Popular tags (last 14 days):</h3>
+         <ul class="filter-tabs tags">
+           {% for t in tags['result'] %}
+               <li><a data-tag-count="{{t['count']}}" href="/tagged/{{t['_id']}}">#{{t['_id']}} ({{t['count']}})</a></li>
+           {% end %}
+         </ul>
+         </div>
+         {% end %}
+         <div class="sidebar-widget">
+           <h3>Featured:</h3>
+           <ul class="feed">
+             {% for i, p in enumerate(featured_posts) %}
+               <li class="post featured">
+                 {% include featured_post_snippet.html %}
+               </li>
+             {% end %}
+           </ul> 
+          </div>
+      </div><!-- /.col-sm-6 -->
+      <div class="col-sm-8">
+        {% if msg == "success" and new_post %}
+          <div class="alert alert-success" style="color: #333">
+            <p style="margin-top:0"><strong>Thanks!</strong> Your post has been published. Here's the link: </p>  
+            <p><a href="/posts/{{ new_post['slug'] }}">http://usv.com/posts/{{ new_post['slug'] }}</a></p>
+            <p>
+              <a href="https://twitter.com/share" class="twitter-share-button" data-url="/posts/{{ new_post['slug'] }}" data-text="{{ new_post['title'] }}" data-via="usvcommunity" data-size="large" data-count="none">Tweet</a>
+              <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+            </p>
+          </div>
         {% end %}
         
-        <a href="/{{ sort_by }}/page/{{ page + 1 }}" class="btn btn-default next pull-right">Next</a>
-      </div>
-
-    </section>
+        {% include daily_posts_list_snippet.html %}
+        
+      </div><!-- /.col-sm-6 -->
+    </div><!-- /.row -->
   </div>
 {% end %}
 
@@ -193,6 +129,26 @@
         
       });
       */
+      
+      $('body').on('click', '.more .btn', function(e){
+        link = $(this);
+        e.preventDefault();
+        day_str = $(this).attr('data-day');
+        var d = new Date(day_str);
+        data = {
+          'day': d.toUTCString()
+        }
+        link.html('<img src="/static/img/ajax-loader.gif" />');
+        $.ajax('/api/posts/get_day', {
+          'data':data,
+          'complete': function(response) {
+              obj = $.parseJSON(response.responseText);
+              html = obj.data.html;
+              link.parent().after(html);
+              link.remove();
+            }
+        });
+      });
       
     }); 
   </script>

@@ -1,0 +1,20 @@
+<h2 class="subsection section-heading" >
+  <a href="https://twitter.com/search?q=%23usvconversation&src=typd">#usvconversation</a> for  {{ today.strftime("%a %b %d, %Y") }}:
+</h2>
+<ul class="feed">
+	{% for i, p in enumerate(posts) %}
+			{% if i == 0 %}
+				<li class="post post-lg clearfix">
+			{% elif i < 5 %}
+				<li class="post post-md clearfix">
+			{% else %}
+				<li class="post post-sm clearfix">
+			{% end %}
+			{% include post_snippet.html %}
+			</li>
+	{% end %}
+</ul>
+
+<div class="more" style="text-align:center; margin: 0;">
+  <a class="btn" style="width: 20em" data-day="{{ yesterday }}">Show previous day &darr;</a>
+</div>

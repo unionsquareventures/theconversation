@@ -228,7 +228,7 @@
       $(this).popover(options)
     });
     
-    $('.ajax_upvote_link').on('click', function(e) {
+    $('body').on('click', '.ajax_upvote_link', function(e) {
       e.stopPropagation();
       e.preventDefault();
       var upvote_link = $(this);

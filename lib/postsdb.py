@@ -1,8 +1,10 @@
 import pymongo
 import re
 import settings
-
 from datetime import datetime
+from datetime import date
+from datetime import timedelta
+
 from mongo import db
 from slugify import slugify
 
@@ -72,11 +74,15 @@ def get_new_posts(per_page=50, page=1):
   return list(db.post.find({"deleted": { "$ne": True }}, sort=[('_id', pymongo.DESCENDING)]).skip((page-1)*per_page).limit(per_page))
 
 def get_hot_posts(per_page=50, page=1):
-  posts = list(db.post.find({"votes": { "$gte" : 2 }, "deleted": { "$ne": True }}, sort=[('sort_score', pymongo.DESCENDING)]).skip((page-1)*per_page).limit(per_page))
-  return posts
+  return list(db.post.find({"votes": { "$gte" : 2 }, "deleted": { "$ne": True }}, sort=[('sort_score', pymongo.DESCENDING)]).skip((page-1)*per_page).limit(per_page))
+  
+def get_hot_posts_by_day(day=date.today()):
+  day = datetime.combine(day, datetime.min.time())
+  day_plus_one = day + timedelta(days=1)
+  return list(db.post.find({"deleted": { "$ne": True }, 'date_created': {'$gte': day, '$lte': day_plus_one}}, sort=[('sort_score', pymongo.DESCENDING)]))
 
 def get_sad_posts(per_page=50, page=1):
-  return list(db.post.find({'date_created':{'$gt': datetime.strptime("10/12/13", "%m/%d/%y")}, 'votes':1, 'comment_count':0, 'deleted': { "$ne": True } , 'featured': False}, sort=[('date_created', pymongo.DESCENDING)]).skip((page-1)*per_page).limit(per_page))
+  return list(db.post.find({'date_created':{'$gt': datetime.datetime.strptime("10/12/13", "%m/%d/%y")}, 'votes':1, 'comment_count':0, 'deleted': { "$ne": True } , 'featured': False}, sort=[('date_created', pymongo.DESCENDING)]).skip((page-1)*per_page).limit(per_page))
   
 def get_daily_posts():
   return list(db.post.find({'date_created':{'$gt': datetime.strptime("10/12/13", "%m/%d/%y")}, 'deleted': { "$ne": True }}, sort=[('date_created', pymongo.DESCENDING)]).limit(2))
@@ -101,7 +107,7 @@ def get_post_count_by_query(query):
   return len(list(db.post.find({'$or':[{'title':query_regex}, {'body_raw':query_regex}]})))
 
 def get_post_count():
-  return len(list(db.post.find({'date_created':{'$gt': datetime.strptime("10/12/13", "%m/%d/%y")}})))
+  return len(list(db.post.find({'date_created':{'$gt': datetime.datetime.strptime("10/12/13", "%m/%d/%y")}})))
 
 def get_post_count_for_range(start_date, end_date):
   return len(list(db.post.find({'date_created':{'$gte': start_date, '$lte': end_date}})))
@@ -141,7 +147,7 @@ def update_post_score(slug, score):
   return db.post.update({'slug':slug}, {'$set':{'sort_score': score}})
 
 def delete_all_posts_by_user(screen_name):
-  db.post.update({'user.screen_name':screen_name}, {'$set':{'deleted':True, 'date_delated': datetime.utcnow()}}, multi=True)
+  db.post.update({'user.screen_name':screen_name}, {'$set':{'deleted':True, 'date_delated': datetime.datetime.utcnow()}}, multi=True)
 
 ###########################
 ### ADD A NEW POST
@@ -183,7 +189,7 @@ def sort_posts(slug="all"):
   data = []
   for post in posts:
     # determine how many hours have elapsed since this post was created
-    tdelta = datetime.now() - post['date_created']
+    tdelta = datetime.datetime.now() - post['date_created']
     hours_elapsed = tdelta.seconds/3600 + tdelta.days*24
 
     # determine the penalty for time decay
