@@ -98,7 +98,7 @@ class ListPosts(app.basic.BaseHandler):
     page = abs(int(self.get_argument('page', page)))
     per_page = abs(int(self.get_argument('per_page', '20')))
     msg = ''
-    featured_posts = postsdb.get_featured_posts(12, 1)
+    featured_posts = postsdb.get_featured_posts(5, 1)
     posts = []
     post = {}
     hot_tags = tagsdb.get_hot_tags()
