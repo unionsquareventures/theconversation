@@ -17,6 +17,21 @@
   <div id="main" role="main">  
   
     <div class="row">
+      <div class="col-sm-8">
+        {% if msg == "success" and new_post %}
+          <div class="alert alert-success" style="color: #333">
+            <p style="margin-top:0"><strong>Thanks!</strong> Your post has been published. Here's the link: </p>  
+            <p><a href="/posts/{{ new_post['slug'] }}">http://usv.com/posts/{{ new_post['slug'] }}</a></p>
+            <p>
+              <a href="https://twitter.com/share" class="twitter-share-button" data-url="/posts/{{ new_post['slug'] }}" data-text="{{ new_post['title'] }}" data-via="usvcommunity" data-size="large" data-count="none">Tweet</a>
+              <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+            </p>
+          </div>
+        {% end %}
+        
+        {% include daily_posts_list_snippet.html %}
+        
+      </div><!-- /.col-sm-6 -->
       <div class="col-sm-4">
         <div class="deck">
           
@@ -38,7 +53,7 @@
          <p style="font-size: .9em; text-align:left; margin: 5px 0 0;"><a href="/tags">More tags</a></p>
          </div>
          {% end %}
-         <div class="sidebar-widget">
+         <div class="sidebar-widget" style="display:none">
            <h3>Featured:</h3>
            <ul class="feed">
              {% for i, p in enumerate(featured_posts) %}
@@ -48,21 +63,6 @@
              {% end %}
            </ul> 
           </div>
-      </div><!-- /.col-sm-6 -->
-      <div class="col-sm-8">
-        {% if msg == "success" and new_post %}
-          <div class="alert alert-success" style="color: #333">
-            <p style="margin-top:0"><strong>Thanks!</strong> Your post has been published. Here's the link: </p>  
-            <p><a href="/posts/{{ new_post['slug'] }}">http://usv.com/posts/{{ new_post['slug'] }}</a></p>
-            <p>
-              <a href="https://twitter.com/share" class="twitter-share-button" data-url="/posts/{{ new_post['slug'] }}" data-text="{{ new_post['title'] }}" data-via="usvcommunity" data-size="large" data-count="none">Tweet</a>
-              <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
-            </p>
-          </div>
-        {% end %}
-        
-        {% include daily_posts_list_snippet.html %}
-        
       </div><!-- /.col-sm-6 -->
     </div><!-- /.row -->
   </div>

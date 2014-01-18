@@ -1012,6 +1012,11 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 # =Posts List
 #
 # =========================================================*/
+/*
+#
+# =Posts List
+#
+# =========================================================*/
 
 .sidebar-widget {
     margin-bottom: 35px;
@@ -1034,7 +1039,7 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 }
 
 .feed .post-lg {
-    
+
 }
 
 .feed .post-sm {
@@ -1072,6 +1077,12 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 
 .post .content {
     margin-left: 110px;
+}
+.post-sm .content {
+    margin-left: 45px;
+}
+.post-sm .user {
+    display: none;
 }
 .post.featured .content {
     margin-left: 65px !important;
@@ -1138,7 +1149,7 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 
 .post-sm .username,
 .post-sm .time {
-    
+
 }
 
 .hot-newest-feed .title,
@@ -1181,6 +1192,9 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 }
 .featured-post .title {
     padding-right: 80px;
+}
+.featured-post.card.usv .title {
+    padding-right: 0;
 }
  .feed .excerpt ,
  .featured-post .excerpt{
@@ -1310,7 +1324,7 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 }
 
 .feed .volume span {
-    
+
 }
 .voted_users {
     font-size: .9em;
@@ -1398,110 +1412,7 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
     padding-left:15px;
     /*background:transparent url(/static/img/icon-upvote.png) no-repeat 0 center;*/
 }
- @media only screen and (-webkit-min-device-pixel-ratio:1.3), only screen and (min--moz-device-pixel-ratio:1.3), only screen and (-o-min-device-pixel-ratio:1.3 / 1), only screen and (min-resolution:125dpi), only screen and (min-resolution:1.3dppx) {
-    .feed .votes-count {
-    /*background:transparent url(/static/img/icon-upvote_2x.png) no-repeat 0 center;
-    background-size:10px 6px;*/
-}
- }
- .feed .comments-count {
-    padding-left:15px;
-    background:transparent url(/static/img/icon-comment-small.png) no-repeat 0 center;
-}
- @media only screen and (-webkit-min-device-pixel-ratio:1.3), only screen and (min--moz-device-pixel-ratio:1.3), only screen and (-o-min-device-pixel-ratio:1.3 / 1), only screen and (min-resolution:125dpi), only screen and (min-resolution:1.3dppx) {
-    .feed .comments-count {
-    background:transparent url(/static/img/icon-comment-small_2x.png) no-repeat 0 center;
-    background-size:12px 11px;
-}
- }
-.new_posts_link {
-    display:inline-block;
-    vertical-align:baseline;
-    zoom:1;
-    *display:inline;
-    *vertical-align:auto;
-    text-decoration:none;
-    margin:15px 0 10px 0;
-    padding:5px 25px 5px 10px;
-    font-size:0.85em;
-    background:#dfebc6 url(/static/img/icon-top-pointer-green.png) no-repeat right 11px;
-    background-color:#dfebc6;
-    border-radius:2px;
-    color:#68842e;
-}
- @media only screen and (-webkit-min-device-pixel-ratio:1.3), only screen and (min--moz-device-pixel-ratio:1.3), only screen and (-o-min-device-pixel-ratio:1.3 / 1), only screen and (min-resolution:125dpi), only screen and (min-resolution:1.3dppx) {
-    .new_posts_link {
-    background:#dfebc6 url(/static/img/icon-top-pointer-green_2x.png) no-repeat right 11px;
-    background-size:16px 6px;
-}
- }
- .new_posts_link:hover {
-    background-color:#eaf2d9;
-}
-.featured-feed .thumbnail, .search-feed .thumbnail {
-    display:none;
-}
-.featured-feed .content, .search-feed .content {
-    /*margin-left:0;*/
-}
-.featured-feed .excerpt, .search-feed .excerpt {
-    display:none;
-}
-.more-link {
-    text-decoration:none;
-    font-size:0.85em;
-    color:#333333;
-    float:right;
-    padding-right:15px;
-    margin-top:10px;
-    background:transparent url(/static/img/icon-right-pointer.png) no-repeat center right;
-    display:none;
-}
- .more-link:hover {
-    text-decoration:underline;
-}
- @media only screen and (-webkit-min-device-pixel-ratio:1.3), only screen and (min--moz-device-pixel-ratio:1.3), only screen and (-o-min-device-pixel-ratio:1.3 / 1), only screen and (min-resolution:125dpi), only screen and (min-resolution:1.3dppx) {
-    .more-link {
-    background:transparent url(/static/img/icon-right-pointer_2x.png) no-repeat center right;
-    background-size:6px 6px;
-}
- }
-#pagination {
-    margin:30px auto 0 auto;
-    padding:0;
-    text-align: center;
-}
- #pagination li {
-    padding:0 2px;
-    margin:0;
-    display:inline;
-    list-style:none;
-}
- #pagination a {
-    display:inline-block;
-    vertical-align:baseline;
-    zoom:1;
-    *display:inline;
-    *vertical-align:auto;
-    padding:2px 3px 1px 3px;
-    text-decoration:none;
-    color:gray;
-    font-size:1em;
-    line-height:1;
-    border:1px solid #ccc;
-    -webkit-transition:all 0.15s ease-out;
-    -moz-transition:all 0.15s ease-out;
-    transition:all 0.15s ease-out;
-}
- #pagination a:hover {
-    color:#000;
-    border:1px solid #000;
-}
- #pagination a.newer {
-    border:none;
-    padding-left:15px;
-    background:transparent url(/static/img/icon-left-pointer.png) no-repeat 0 center;
-}
+
  @media only screen and (-webkit-min-device-pixel-ratio:1.3), only screen and (min--moz-device-pixel-ratio:1.3), only screen and (-o-min-device-pixel-ratio:1.3 / 1), only screen and (min-resolution:125dpi), only screen and (min-resolution:1.3dppx) {
     #pagination a.newer {
     background:transparent url(/static/img/icon-left-pointer_2x.png) no-repeat 0 center;
