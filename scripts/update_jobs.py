@@ -19,5 +19,7 @@ INDEED_COUNTRIES = ['US',
 
 ''' Requires a country argument to run. Must be uppercase '''
 country = sys.argv[1]
-jobsdb.update_country(country) 
+jobsdb.update_country(country)
+print "Successfully updated jobs in %s" % country
+
 
