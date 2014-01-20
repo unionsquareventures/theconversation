@@ -1,20 +1,22 @@
-<h2 class="subsection section-heading" >
-  Today's conversation for  {{ today.strftime("%a %b %d, %Y") }}:
-</h2>
-<ul class="feed">
-	{% for i, p in enumerate(posts) %}
-			{% if i == 0 %}
-				<li class="post post-lg clearfix">
-			{% elif i < 7 %}
-				<li class="post post-md clearfix">
-			{% else %}
-				<li class="post post-sm clearfix">
-			{% end %}
-			{% include post_snippet.html %}
-			</li>
-	{% end %}
-</ul>
-
-<div class="more" style="text-align:center; margin: 0;">
-  <a class="btn" style="width: 20em" data-day="{{ yesterday }}">Show previous day &darr;</a>
+<div class="feed-container">
+	<h2 class="subsection section-heading" >
+	  Today's conversation for  {{ day.strftime("%a %b %d, %Y") }}:
+	</h2>
+	<ul class="feed">
+		{% for i, p in enumerate(posts) %}
+				{% if i == 0 %}
+					<li class="post post-lg clearfix">
+				{% elif i < 7 %}
+					<li class="post post-md clearfix">
+				{% else %}
+					<li class="post post-sm clearfix">
+				{% end %}
+				{% include post_snippet.html %}
+				</li>
+		{% end %}
+	</ul>
+	
+	<div class="more" style="text-align:center; margin: 0;">
+	  <a class="btn" href="/day/{{ previous_day_str }}" style="width: 20em">Show previous day &darr;</a>
+	</div>
 </div>

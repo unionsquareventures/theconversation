@@ -201,9 +201,21 @@
   <script type="text/javascript" src="{{ static_url("js/jquery.qtip.min.js") }}"></script>
   <script type="text/javascript" src="{{ static_url("js/support_functions.js") }}"></script>
   <script src="http://platform.twitter.com/widgets.js"  type="text/javascript"></script>
+  <script type="text/javascript" src="{{ static_url("js/vendor/jquery.jscroll.min.js") }}"></script>
   
   {% block javascript %}{% end %}
   <script type="text/javascript">
+
+    loadNewDay = function() {
+      console.log('hello');
+    }
+    
+    $('#posts').jscroll({
+      callback: loadNewDay,
+      contentSelector: '.feed-container',
+      loadingHtml: '<img src="/static/img/ajax-loader.gif" />'
+    });
+
     $(function() {
       $('.field-errors').each(function() {
         if($.trim($(this).html()) == '') {

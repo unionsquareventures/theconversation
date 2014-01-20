@@ -6,6 +6,7 @@ import re
 import settings
 import tornado.web
 import tornado.options
+import urllib
 
 import datetime
 import time
@@ -93,7 +94,7 @@ class Feed(app.basic.BaseHandler):
 ### /
 ##############
 class ListPosts(app.basic.BaseHandler):
-  def get(self, page=1, sort_by="hot"):
+  def get(self, day="today", page=1, sort_by="hot"):
     sort_by = self.get_argument('sort_by', sort_by)
     page = abs(int(self.get_argument('page', page)))
     per_page = abs(int(self.get_argument('per_page', '20')))
@@ -102,15 +103,21 @@ class ListPosts(app.basic.BaseHandler):
     posts = []
     post = {}
     hot_tags = tagsdb.get_hot_tags()
-    today = datetime.date.today()
-    yesterday = today - datetime.timedelta(days=1)
+    
+    if day == "today":
+      day = datetime.datetime.today()
+    else:
+      day = datetime.datetime.strptime(day, "%Y-%m-%d")
+    previous_day = day - datetime.timedelta(days=1)
+    previous_day_str = str(datetime.date(previous_day.year, previous_day.month, previous_day.day))
+    
     is_blacklisted = False
     if self.current_user:
       is_blacklisted = self.is_blacklisted(self.current_user)
 
-    posts = postsdb.get_hot_posts_by_day(today)
+    posts = postsdb.get_hot_posts_by_day(day)
 
-    self.render('post/lists_posts.html', msg=msg, posts=posts, post=post, featured_posts=featured_posts, is_blacklisted=is_blacklisted, tags=hot_tags, today=today, yesterday=yesterday)
+    self.render('post/lists_posts.html', msg=msg, posts=posts, post=post, featured_posts=featured_posts, is_blacklisted=is_blacklisted, tags=hot_tags, day=day, previous_day_str=previous_day_str)
 
   @tornado.web.authenticated
   def post(self):

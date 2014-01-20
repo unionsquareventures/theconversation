@@ -95,7 +95,7 @@ class CheckForUrl(app.basic.BaseHandler):
 ############################
 class PostsGetDay(app.basic.BaseHandler):
   def get(self):
-    day = datetime.datetime.strptime(self.get_argument('day'), "%a, %d %b %Y %H:%M:%S %Z")
+    day = datetime.datetime.strptime(self.get_argument('day'), "%Y-%m-%d %H:%M:%S")
     yesterday = day - datetime.timedelta(days=1)
     posts = postsdb.get_hot_posts_by_day(day)
     html = self.render_string('post/daily_posts_list_snippet.html', today=day, yesterday=yesterday, posts=posts, current_user_can=self.current_user_can)
