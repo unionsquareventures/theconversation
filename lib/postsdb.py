@@ -1,6 +1,7 @@
 import pymongo
 import re
 import settings
+import json
 from datetime import datetime
 from datetime import date
 from datetime import timedelta
@@ -48,6 +49,10 @@ from slugify import slugify
 def get_post_by_slug(slug):
   return db.post.find_one({'slug':slug})
 
+  
+def get_all():
+  return list(db.post.find(sort=[('date_created', pymongo.DESCENDING)]))
+
 ###########################
 ### GET PAGED LISTING OF POSTS
 ###########################
@@ -83,9 +88,6 @@ def get_hot_posts_by_day(day=date.today()):
 
 def get_sad_posts(per_page=50, page=1):
   return list(db.post.find({'date_created':{'$gt': datetime.datetime.strptime("10/12/13", "%m/%d/%y")}, 'votes':1, 'comment_count':0, 'deleted': { "$ne": True } , 'featured': False}, sort=[('date_created', pymongo.DESCENDING)]).skip((page-1)*per_page).limit(per_page))
-  
-def get_daily_posts():
-  return list(db.post.find({'date_created':{'$gt': datetime.strptime("10/12/13", "%m/%d/%y")}, 'deleted': { "$ne": True }}, sort=[('date_created', pymongo.DESCENDING)]).limit(2))
 
 def get_deleted_posts(per_page=50, page=1):
   return list(db.post.find({'deleted':True}, sort=[('date_deleted', pymongo.DESCENDING)]).skip((page-1)*per_page).limit(per_page))
@@ -143,8 +145,8 @@ def remove_subscriber_from_post(slug, email):
 def save_post(post):
   return db.post.update({'_id':post['_id']}, post)
 
-def update_post_score(slug, score):
-  return db.post.update({'slug':slug}, {'$set':{'sort_score': score}})
+def update_post_score(slug, score, scores):
+  return db.post.update({'slug':slug}, {'$set':{'daily_sort_score': score, 'scores': scores}})
 
 def delete_all_posts_by_user(screen_name):
   db.post.update({'user.screen_name':screen_name}, {'$set':{'deleted':True, 'date_delated': datetime.datetime.utcnow()}}, multi=True)
@@ -169,7 +171,7 @@ def insert_post(post):
 ### RUN BY HEROKU SCHEDULER EVERY 5 MIN
 ### VIA SCRIPTS/SORT_POSTS.PY
 ###########################
-def sort_posts(slug="all"):
+def sort_posts(day="all"):
   # set our config values up
   staff_bonus = -3
   time_penalty_multiplier = 2.0
@@ -178,29 +180,14 @@ def sort_posts(slug="all"):
   votes_multiplier = 1.0
   super_upvotes_multiplier = 3.0
   super_downvotes_multiplier = 3.0
-  min_votes = 2
 
-  # get posts to score
-  if slug == "all":
-    posts = get_posts_with_min_votes(min_votes)
+  if day == "all":
+    posts = get_all()
   else:
-    posts = [get_post_by_slug(slug)]
+    posts = get_hot_posts_by_day(day)
 
   data = []
   for post in posts:
-    # determine how many hours have elapsed since this post was created
-    tdelta = datetime.datetime.now() - post['date_created']
-    hours_elapsed = tdelta.seconds/3600 + tdelta.days*24
-
-    # determine the penalty for time decay
-    time_penalty = 0
-    if hours_elapsed > grace_period:
-      time_penalty = hours_elapsed - grace_period
-    if hours_elapsed > 12:
-      time_penalty = time_penalty * 1.5
-    if hours_elapsed > 18:
-      time_penalty = time_penalty * 2
-
     # determine if we should assign a staff bonus or not
     if post['user']['username'] in settings.get('staff'):
       staff_bonus = staff_bonus
@@ -227,7 +214,6 @@ def sort_posts(slug="all"):
     scores['super_upvotes'] = (super_upvotes * super_upvotes_multiplier)
     scores['super_downvotes'] = (super_downvotes * super_downvotes_multiplier * -1)
     scores['comments'] = (post['comment_count'] * comments_multiplier)
-    scores['time'] = (time_penalty * time_penalty_multiplier * -1)
 
     # add up the scores
     total_score = 0

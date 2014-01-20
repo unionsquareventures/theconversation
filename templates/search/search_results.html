@@ -4,6 +4,26 @@
   <div id="main" role="main">
     <div class="row">
       <div class="col-sm-6">
+        {% if not tag and total_count == 0 %}
+        <br />
+          <h3 style="text-align:right">&larr; Pick a tag</h3>
+        {% end %}   
+        {% if total_count > 0 %}
+          <h2 class="subsection section-heading" >
+            {{ total_count }} result{% if total_count != 1 %}s{% end %} for
+            <span class="search-term"> “{{ query }}”</span>
+          </h2>
+          <ul class="feed search">
+            {% for p in posts %}
+              <li class="post post-md">
+                {% include ../post/post_snippet.html %}
+              </li>
+            {% end %}
+          </ul>
+        {% end %}
+      </div><!-- /.col-sm-6 -->
+      <div class="col-sm-6">   
+        
         <div class="sidebar-widget">
           <h3 style="">All Tags:</h3>
           <!--
@@ -13,31 +33,13 @@
           </ul>
         -->
           <ul class="filter-tabs tags">
-            {% for t in tags_alpha['result'] %}
+            {% for t in tags_count['result'] %}
                 <li {% if t['_id'] == tag %}class="active"{% end %}>
                   <a data-tag-count="{{t['count']}}" href="/tagged/{{t['_id']}}">#{{t['_id']}} ({{t['count']}})</a>
                 </li>
             {% end %}
           </ul>
           </div>
-      </div><!-- /.col-sm-6 -->
-      <div class="col-sm-6">   
-        {% if not tag and total_count == 0 %}
-          <h3>&larr; Pick a tag</h3>
-        {% end %}   
-        {% if total_count > 0 %}
-          <h2 class="subsection section-heading" >
-            {{ total_count }} result{% if total_count != 1 %}s{% end %} for
-            <span class="search-term"> “{{ query }}”</span>
-          </h2>
-          <ul class="feed search">
-            {% for p in posts %}
-              <li class="post post-sm">
-                {% include ../post/post_snippet.html %}
-              </li>
-            {% end %}
-          </ul>
-        {% end %}
       </div>
   </div>
 {% end %}

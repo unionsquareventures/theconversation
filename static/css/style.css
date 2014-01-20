@@ -1134,10 +1134,10 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 }
 
 .post-lg .title {
-    font-size: 1.3em;
+    font-size: 1.3em !important;
 }
 .post-md .title {
-    font-size: 1.2em !important;
+    font-size: 1.1em !important;
 }
 .post-sm .title {
     font-size: 1em !important;
