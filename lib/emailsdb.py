@@ -110,9 +110,8 @@ def send_daily_email(email):
 		'html': email['body_html']
 	}
 	result = do_api_request(api_link, method="POST", params=params)
-	print result
 	
-	'''
+	
 	# 4) Add your list to the email
 	# POST https://api.sendgrid.com/api/newsletter/recipients/add.json
 	# @list (name of the list to assign to this email) @name (name of the email)
@@ -138,7 +137,7 @@ def send_daily_email(email):
 	if email_sent:
 		log_daily_email(email, recipient_usernames)
 
-	'''
+	
 #
 # Add a daily email to the log
 #
