@@ -1,0 +1,67 @@
+{% extends '../base.html' %}
+
+{% block title %}Correspondences | {% end %}
+
+{% block content %}
+	
+	<h2>USV Correspondence</h2> 
+
+	{% if not query %}
+		<p> 
+			Search Investment Team members accounts for correspondence.</br> 
+			Only accepts domains as arguments,
+			ex: "@startup.com"
+		</p>
+	{% else %}
+		<p>Showing results for "{{ query }}"</p>
+	{% end %}
+
+	<form class="form-inline" role="form" method="get" action="">
+  		<div class="form-group">
+		    <input name="q" type="text" class="form-control">
+		</div>
+  		<button type="submit" class="btn btn-default">Search</button>
+	</form>
+	
+	</br>
+
+	<table class="table table-striped">
+		{% if correspondences %}
+			<tr>
+				<th>Name</th>
+				<th>Total Emails In</th>
+				<th>Latest Email In</th>
+				<th>Total Emails Out</th>
+				<th>Latest Email Out</th>
+			</tr>
+		{% end %}
+		
+		{% for correspondence in correspondences %}
+			<tr>	
+				<td>
+					{{ correspondence['usv_member'] }}
+				</td>
+				<td>
+					{{ correspondence['total_emails_in'] }}
+				</td>
+				<td>
+					{% if correspondence['recent_email_in'] %}
+						{{ correspondence['recent_email_in'] }}
+					{% else %}
+						N/A
+					{% end %}
+				</td>
+				<td>
+					{{ correspondence['total_emails_out'] }}
+				</td>
+				<td>
+					{% if correspondence['recent_email_out'] %}
+						{{ correspondence['recent_email_out'] }}
+					{% else %}
+						N/A
+					{% end %}
+				</td>
+			</tr>
+		{% end %}
+	</table>
+{% end %}

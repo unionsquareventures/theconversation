@@ -84,6 +84,18 @@
                 {% set vid_id = urlparse(post['url']).path %}
                 <iframe src="//player.vimeo.com/video{{ vid_id }}" width="500" height="281" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
               {% end %}
+              
+              {% if 'url' in post and post['url'] and (urlparse(post['url']).netloc == "hackpad.com" or urlparse(post['url']) == "www.hackpad.com") %}
+              {% set pad_id = post['url'].split("-")[-1] %}
+              <style type="text/css">
+                #hackpad-{{ pad_id }} {
+                  width:120% !important;
+                  border-right: 1px solid #ddd !important;
+                }
+              </style>
+              <br style="clear:both" />
+              <script src="https://hackpad.com/{{ pad_id }}.js"></script>              
+              {% end %}
 
               {% if post['has_hackpad'] and post['hackpad_url'] %}
                 <p><a class="post-body-hackpad-link" target="_blank" href="{{ post['hackpad_url'] }}">Hackpad &rarr;</a></p>
@@ -139,11 +151,17 @@
 
             <script type="text/javascript">
               /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
-              var disqus_shortname = "{{settings.get('disqus_short_code')}}";
+              var disqus_shortname = "{{ post['disqus_shortname'] or settings.get('disqus_short_code') }}";
+              
+              
+              {% if post['disqus_shortname'] == 'usvbeta2' or post['disqus_shortname'] == 'unionsquareventures' %}
               var disqus_identifier = "{{ post['_id'] }}";
               var disqus_title = "{{ post['title'] }}";
               var disqus_url = "http://{{settings.get('base_url')}}/posts/{{ post['slug'] }}";
-
+              {% else %}
+              var disqus_url = "{{ post['url'] }}";
+              {% end %}
+              
               /* * * DON'T EDIT BELOW THIS LINE * * */
               (function() {
                 var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
@@ -184,6 +202,9 @@
      <div class="col-sm-2 hidden-xs">
        {% if post['user']['screen_name'] == current_user or current_user in settings.get('staff') %}
          <p><a href="/posts/{{ post['slug'] }}/edit" class="btn">Edit</a></p>
+       {% end %}
+       {% if current_user in settings.get('staff') %}
+         <p><a href="https://partners.mongohq.com/app18119720-heroku-com/mongo/app18119720/collections/post/documents/o:{{ post['_id'] }}" target="_blank">mongohq</a></p>
        {% end %}
      </div>
 

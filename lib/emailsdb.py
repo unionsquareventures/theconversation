@@ -195,6 +195,7 @@ def do_api_request(api_link, method='GET', params={}):
 		response = r.json()
 	except:
 		response = {}
+
 	if settings.get('environment') == "dev":
 		logging.info("=================")
 		logging.info( api_link)
@@ -202,4 +203,5 @@ def do_api_request(api_link, method='GET', params={}):
 		logging.info( response)
 		
 		logging.info( "=================")
+
 	return response

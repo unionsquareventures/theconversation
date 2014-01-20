@@ -15,12 +15,20 @@ import app.admin
 import app.api
 import app.basic
 import app.disqus
+import app.yammer
 import app.general
+import app.network
 import app.posts
 import app.search
 import app.stats
 import app.twitter
 import app.error
+import app.redirects
+import app.brittbot
+
+import newrelic.agent
+path = os.path.join(settings.get("project_root"), 'newrelic.ini')
+newrelic.agent.initialize(path, settings.get("environment"))
 
 class Application(tornado.web.Application):
   def __init__(self):
@@ -35,7 +43,31 @@ class Application(tornado.web.Application):
       "template_path" : os.path.join(os.path.dirname(__file__), "templates"),
     }
 
-    handlers = [    
+    handlers = [
+      # redirect stuff (old links)
+      # and usv-specific admin
+      (r'/(?P<year>[0-9]+)/(?P<month>[0-9]+)/(?P<slug>[\w\s-]+).php$', app.redirects.RedirectPosts),
+      (r'/pages/.*$', app.redirects.RedirectMappings),
+      (r'/team.*$', app.redirects.RedirectMappings),
+      (r'/investments$', app.redirects.RedirectMappings),
+      (r'/portfolio/$', app.redirects.RedirectMappings),
+      (r'/about/$', app.redirects.RedirectMappings),
+      (r'/network/$', app.redirects.RedirectMappings),
+      (r'/jobs/$', app.redirects.RedirectMappings),
+      (r'/focus$', app.redirects.RedirectMappings),
+      (r"/admin/company", app.admin.AdminCompany),
+      (r"/admin/gmail", app.admin.Gmail),
+      (r"/admin/gmailapi", app.admin.GmailAPI),
+
+      #general site pages
+      (r"/about", app.general.About),
+      (r"/jobs", app.general.Jobs),
+      (r"/portfolio", app.general.Portfolio),  
+      (r"/hangoutwith/(?P<who>[A-z]+)", app.general.Hangouts),  
+
+      # network
+      (r"/network", app.network.Welcome),
+
       # account stuff
       (r"/auth/email/?", app.user.EmailSettings),
       (r"/auth/logout/?", app.user.LogOut),
@@ -58,7 +90,9 @@ class Application(tornado.web.Application):
       (r"/posts/([^\/]+)/mute", app.admin.Mute),
       (r"/users/(?P<username>[A-z-+0-9]+)/ban", app.admin.BanUser),
       (r"/users/(?P<username>[A-z-+0-9]+)/unban", app.admin.UnBanUser),
-      
+      (r"/admin/brittbot", app.brittbot.Index),
+      (r"/admin/brittbot/response", app.brittbot.Response),
+
       # api stuff
       (r"/api/incr_comment_count", app.api.DisqusCallback),
       (r"/api/user_status", app.api.GetUserStatus),
@@ -69,6 +103,11 @@ class Application(tornado.web.Application):
       (r"/auth/disqus", app.disqus.Auth),
       (r"/remove/disqus", app.disqus.Remove),
       (r"/disqus", app.disqus.Disqus),
+      
+      # yammer stuff
+      (r"/auth/yammer", app.yammer.Auth),
+      (r"/remove/yammer", app.yammer.Remove),
+      (r"/yammer", app.yammer.Yammer),
 
       # search stuff
       (r"/search", app.search.Search),

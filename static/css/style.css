@@ -1115,6 +1115,9 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 .featured-post .title {
     padding-right: 80px;
 }
+.featured-post.card.usv .title {
+    padding-right: 0;
+}
  .feed .excerpt ,
  .featured-post .excerpt{
     color:#000;
@@ -3036,8 +3039,7 @@ ul.stats .stat-notes {
     list-style:none;
 }
  #jobs-menu .side-nav a {
-    text-decoration:none;
-    color:#779734;
+    
 }
  #jobs-menu .side-nav a:hover {
     text-decoration:underline;
@@ -3062,7 +3064,7 @@ ul.stats .stat-notes {
     color:gray;
     font-size:1em;
     font-weight:600;
-    margin:0 0 10px 0;
+    margin:10px 0 10px 0;
 }
  #jobs-content #jobs-menu {
     display:none;

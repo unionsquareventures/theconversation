@@ -1,6 +1,6 @@
 import tornado.web
 import app.basic
-
+import settings
 from lib import disqus
 from lib import mentionsdb
 from lib import postsdb
@@ -141,6 +141,7 @@ class Profile(app.basic.BaseHandler):
 ### /user/settings/?
 ###########################
 class UserSettings(app.basic.BaseHandler):
+  
   @tornado.web.authenticated
   def get(self, username=None):
     if username is None and self.current_user:
@@ -153,6 +154,9 @@ class UserSettings(app.basic.BaseHandler):
       
     msg = self.get_argument("msg", None)
     user = userdb.get_user_by_screen_name(self.current_user)
+    if self.current_user in settings.get('staff'):
+      user = userdb.get_user_by_screen_name(username)
+      
     if not user:
       raise tornado.web.HTTPError(404)
     

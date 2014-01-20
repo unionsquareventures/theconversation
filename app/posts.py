@@ -176,7 +176,6 @@ class ListPosts(app.basic.BaseHandler):
           long_url = bitly.expand_url(post['url'].replace('http://bitly.com','').replace('http://bit.ly',''))
         post['domain'] = urlparse(long_url).netloc
 
-      ok_to_post = True
       dups = postsdb.get_posts_by_normalized_url(post.get('normalized_url', ""), 1)
       if post['url'] != '' and len(dups) > 0 and bypass_dup_check != "true":
         ## 
@@ -224,25 +223,26 @@ class ListPosts(app.basic.BaseHandler):
         post['voted_users'] = [user['user']]
         #save it
         post['slug'] = postsdb.insert_post(post)
-        msg = 'success'
+        msg = 'success' # TODO: Conflicting with line 239
       else:
         # this is an existing post.
         # attempt to edit the post (make sure they are the author)
         saved_post = postsdb.get_post_by_slug(post['slug'])
-        if saved_post and self.current_user == saved_post['user']['screen_name']:
-          # looks good - let's update the saved_post values to new values
-          for key in post.keys():
-            saved_post[key] = post[key]
-          # finally let's save the updates
-          postsdb.save_post(saved_post)
-          msg = 'success'
+        if saved_post:
+          if self.current_user == saved_post['user']['screen_name'] or self.current_user_can('edit_posts'):
+            # looks good - let's update the saved_post values to new values
+            for key in post.keys():
+              saved_post[key] = post[key]
+            # finally let's save the updates
+            postsdb.save_post(saved_post)
+            msg = 'success'
 
       # log any @ mentions in the post
       mentions = re.findall(r'@([^\s]+)', post['body_raw'])
       for mention in mentions:
         mentionsdb.add_mention(mention.lower(), post['slug'])
 
-    # Send email to USVers if OP is staff
+    # Send email to USVers if OP is staff 
     if self.current_user in settings.get('staff'):
       subject = 'USV.com: %s posted "%s"' % (self.current_user, post['title'])
       if 'url' in post and post['url']: # post.url is the link to external content (if any)
@@ -255,7 +255,8 @@ class ListPosts(app.basic.BaseHandler):
       for u in settings.get('staff'):
         if u != self.current_user:
           acc = userdb.get_user_by_screen_name(u)
-          if acc:
+          if acc and 'email_address' in acc.keys():
+            # self.send_email checks for prod
             self.send_email('web@usv.com', acc['email_address'], subject, text)
   
     # Subscribe to Disqus

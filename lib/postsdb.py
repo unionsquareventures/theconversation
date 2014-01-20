@@ -1,10 +1,12 @@
 import pymongo
 import re
 import settings
+import json
 
 from datetime import datetime
 from mongo import db
 from slugify import slugify
+import userdb
 
 """
 {
@@ -41,6 +43,12 @@ from slugify import slugify
 """
 
 ###########################
+### GET ALL POSTS
+###########################
+def get_all():
+  return db.post.find()
+
+###########################
 ### GET A SPECIFIC POST
 ###########################
 def get_post_by_slug(slug):
@@ -66,7 +74,7 @@ def get_posts_by_screen_name_and_tag(screen_name, tag, per_page=10, page=1):
   return list(db.post.find({'deleted': { "$ne": True }, 'user.screen_name':screen_name, 'tags':tag}, sort=[('date_created', pymongo.DESCENDING)]).skip((page-1)*per_page).limit(per_page))
 
 def get_featured_posts(per_page=10, page=1):
-  return list(db.post.find({'deleted': { "$ne": True }, 'featured':True}, sort=[('date_featured', pymongo.DESCENDING)]).skip((page-1)*per_page).limit(per_page))
+  return list(db.post.find({'deleted': { "$ne": True }, 'featured':True}, sort=[('date_created', pymongo.DESCENDING)]).skip((page-1)*per_page).limit(per_page))
 
 def get_new_posts(per_page=50, page=1):
   return list(db.post.find({"deleted": { "$ne": True }}, sort=[('_id', pymongo.DESCENDING)]).skip((page-1)*per_page).limit(per_page))
@@ -137,8 +145,8 @@ def remove_subscriber_from_post(slug, email):
 def save_post(post):
   return db.post.update({'_id':post['_id']}, post)
 
-def update_post_score(slug, score):
-  return db.post.update({'slug':slug}, {'$set':{'sort_score': score}})
+def update_post_score(slug, total_score, scores):
+  return db.post.update({'slug':slug}, {'$set':{'sort_score': total_score, 'sort_score_components': scores}})
 
 def delete_all_posts_by_user(screen_name):
   db.post.update({'user.screen_name':screen_name}, {'$set':{'deleted':True, 'date_delated': datetime.utcnow()}}, multi=True)
@@ -235,5 +243,38 @@ def sort_posts(slug="all"):
     print post['slug']
     print "-- %s" % total_score
     print "---- %s" % json.dumps(scores, indent=4)
-
+    
   print "All posts sorted!"
+
+###########################
+### UPDATES USER DATA FOR ALL POSTS
+### RUN VIA SCRIPTS/UPDATE_POSTS_USER_DATA.PY
+###########################
+def update_posts_user_data():
+  print "Updating user data for all posts..."
+  for post in get_all():
+    # user
+    try: 
+      user = post['user']
+      if user:
+          new_user = userdb.get_user_by_id_str(user['id_str'])
+          post['user'] = new_user['user']
+    except: 
+      print "Failed to update user for post of slug %s" % post['slug']
+
+    # voted_users
+    try: 
+      voted_users = post['voted_users']
+      new_voted_users = []
+      for voted_user in voted_users:
+        new_voted_user = userdb.get_user_by_id_str(voted_user['id_str'])
+        if new_voted_user:
+          new_voted_users.append(new_voted_user['user'])
+      post['voted_users'] = new_voted_users
+    except:
+      print "Failed to update voted_users for post of slug %s" % post['slug']
+
+    # Save post
+    save_post(post)
+ 
+  print "Finished updating user data for all posts"

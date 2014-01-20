@@ -23,7 +23,7 @@
   <link rel="stylesheet" href="{{ static_url("css/jquery.qtip.min.css") }}" />
   <link rel="stylesheet" href="{{ static_url("css/qtip.css") }}" />
   <!-- dont cache style.css yes, since we're still developing on it heavily -->
-  <link rel="stylesheet" href="{{ static_url("css/style.css") }}" />
+  <link rel="stylesheet" href="{{ static_url("css/style.css") }}&v=3" />
   
   <!-- Theme files -->
   <link rel="stylesheet" href="{{ static_url("themes/%s/%s.css" % (settings.get('active_theme'), settings.get('active_theme'))) }}" />
@@ -104,6 +104,10 @@
         <h1 id="usv-name"><a href="/">{{ settings.get('site_title') }}</a></h1>
         <ul id="main-nav">
           <li id="nav-conversation"><a href="/">Conversation</a></li>
+          <li id="nav-about"><a href="/about">About</a></li>
+          <li id="nav-portfolio"><a href="/portfolio">Portfolio</a></li>
+          <li id="nav-network"><a href="/network">Network</a></li>
+          <li id="nav-jobs"><a href="/jobs">Jobs</a></li>
         </ul>
         <div id="login">
           {% if current_user %}
@@ -133,7 +137,8 @@
       <div class="container">
         <div class="row">
           <div class="col-sm-3">
-
+            <h4>Contact Us</h4>
+            <p>If you would like to share your ideas, business, or feedback with us, please send us email at <a href="mailto:info@usv.com">info@usv.com</a>. All business plan submissions must include a clear description of your operations and current progress.</p>
           </div>
           <div class="col-sm-6">
             <div class="footer-search-container">
@@ -143,7 +148,15 @@
             </div>
           </div>
           <div class="col-sm-3" style="text-align:right">
-
+            <h4>Union Square Ventures</h4>
+            <p class="address">
+              915 Broadway, 19th Floor<br>
+              New York, NY 10010
+            </p>
+            <p class="telephone">
+              <strong>Tel</strong> &nbsp;&nbsp;(212) 994-7880<br>
+              <strong>Fax</strong> &nbsp;&nbsp;(212) 994-7399<br>
+            </p>
           </div>
         </div>
       </div>
@@ -157,9 +170,9 @@
       <li><a href="/featured">Featured</a></li>
       <li class="heading">UNION SQUARE VENTURES</li>
       <li><a href="/about/">About</a></li>
-      <li><a href="/portfolio/">Portfolio</a></li>
-      <li><a href="/network/">Network</a></li>
-      <li><a href="/jobs/">Jobs</a></li>
+      <li><a href="/portfolio">Portfolio</a></li>
+      <li><a href="/network">Network</a></li>
+      <li><a href="/jobs">Jobs</a></li>
     </ul>
   </nav>
   <script src="{{ static_url("js/vendor/jquery-1.9.1.min.js") }}"></script>
@@ -179,18 +192,7 @@
       window.mySwipe = Swipe(document.getElementById('slider')); 
     });
   </script>
-  <script type="text/javascript">
-    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
-    var disqus_shortname = '{{settings.get("disqus_short_code")}}'; // required: replace example with your forum shortname
-  
-    /* * * DON'T EDIT BELOW THIS LINE * * */
-    (function () {
-        var s = document.createElement('script'); s.async = true;
-        s.type = 'text/javascript';
-        s.src = '//' + disqus_shortname + '.disqus.com/count.js';
-        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
-    }());
-    </script>
+    
   <script type="text/javascript" src="{{ static_url("js/vendor/modernizr-2.6.2.min.js") }}"></script>
   <script type="text/javascript" src="{{ static_url("js/tinymce/jquery.tinymce.min.js") }}"></script>
   <script type="text/javascript" src="{{ static_url("js/plugins.js") }}"></script>
@@ -201,6 +203,11 @@
   <script type="text/javascript" src="{{ static_url("js/jquery.qtip.min.js") }}"></script>
   <script type="text/javascript" src="{{ static_url("js/support_functions.js") }}"></script>
   <script src="http://platform.twitter.com/widgets.js"  type="text/javascript"></script>
+  
+  <script src="http://www.google-analytics.com/urchin.js" type="text/javascript"></script>
+  <script type="text/javascript">
+  _uacct = "UA-11198485-1"; urchinTracker();
+  </script>
   
   {% block javascript %}{% end %}
   <script type="text/javascript">
