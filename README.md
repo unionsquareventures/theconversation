@@ -1,7 +1,12 @@
 The Conversation
 =================
 
-Community link-sharing and discussion app, built for [USV.com](http://www.usv.com).
+Community link-sharing and discussion app, originally built for [USV.com](http://www.usv.com).
+
+Public dev list at [https://groups.google.com/forum/#!forum/conversation-app](https://groups.google.com/forum/#!forum/conversation-app)
+
+Technology
+===========
 
 Built with:
 
