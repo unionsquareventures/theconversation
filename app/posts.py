@@ -123,8 +123,9 @@ class ListPosts(app.basic.BaseHandler):
       is_blacklisted = self.is_blacklisted(self.current_user)
 
     posts = postsdb.get_hot_posts_by_day(day)
+    midpoint = (len(posts) - 1) / 2
 
-    self.render('post/lists_posts.html', msg=msg, posts=posts, post=post, featured_posts=featured_posts, is_blacklisted=is_blacklisted, tags=hot_tags, day=day, previous_day_str=previous_day_str, day_str=day_str, show_day_permalink=show_day_permalink, infinite_scroll=infinite_scroll)
+    self.render('post/lists_posts.html', msg=msg, posts=posts, post=post, featured_posts=featured_posts, is_blacklisted=is_blacklisted, tags=hot_tags, day=day, previous_day_str=previous_day_str, day_str=day_str, show_day_permalink=show_day_permalink, infinite_scroll=infinite_scroll, midpoint=midpoint)
 
   @tornado.web.authenticated
   def post(self):
