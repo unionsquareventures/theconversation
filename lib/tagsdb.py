@@ -32,7 +32,7 @@ def get_hot_tags():
     {'$match': {'date_created':{'$gte':two_weeks_ago}}},
     {'$group': {'_id': '$tags', 'count': {'$sum': 1}}},
     {"$sort": SON([("count", -1), ("_id", -1)])},
-    {"$limit": 40}
+    {"$limit": 24}
   ])
   return tags
 

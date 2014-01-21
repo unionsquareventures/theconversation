@@ -4,7 +4,7 @@
   <div id="main" role="main">
     <div class="row">
       <div class="col-sm-6">
-        {% if not tag and total_count == 0 %}
+        {% if 'tag' not in globals() and total_count == 0 %}
         <br />
           <h3 style="text-align:right">&larr; Pick a tag</h3>
         {% end %}   

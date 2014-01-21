@@ -10,19 +10,12 @@
   <a title="{{ link_title }}" href="/posts/{{ p['slug'] }}/{% if has_voted %}unbump{%else%}bump{%end%}" class="votes-count ajax_upvote_link upvote-button btn {% if p['votes'] == 1 %}no-votes{% end %}">
 	<span class="glyphicon glyphicon-arrow-up"></span><br />
 	 <span class="value">
-		{% if len(p['voted_users']) > 1 %}
-		{{ len(p['voted_users']) - 1 }}
-		{% end %}
+		{{ len(p['voted_users']) }}
 	</span>
   </a>
   <div class="voted_users" style="display:none">
 	{% for v in p['voted_users'] %}
-	{% if 'username' in v and v['username'] != p['user']['username']  %}
 	  <div class="voted_user"><img src="{{ v.get('profile_image_url') }}" /> {{ v.get('username') }}</div>
-	{% end %}
-	{% end %}
-	{% if len(p['voted_users']) == 1 %}
-	  <p>be the first to bump this up!</p>
 	{% end %}
   </div>
   {% if current_user_can('super_upvote') and current_user_can('super_downvote') %}

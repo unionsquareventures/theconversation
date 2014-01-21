@@ -221,10 +221,10 @@ sub {
     font-weight:500;
     text-decoration:none !important;
     text-align:center;
-    text-transform:uppercase;
+    /*text-transform:uppercase;*/
     background-color:#e1e1e1;
     box-shadow:0 1px 0 rgba(0,0,0,0.2);
-    border-radius:0;
+    /*border-radius:0;*/
 }
 .btn-block,.btn-block:visited,.btn-block:link {
     clear:both;
@@ -1020,6 +1020,7 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 
 .sidebar-widget {
     margin-bottom: 35px;
+    padding: 0 20px;
 }
 .sidebar-widget h3 {
     text-transform:uppercase; 
@@ -1027,6 +1028,21 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
     margin: 5px 0 15px; 
     font-size: 14px; 
     line-height:1.428571429;
+}
+.welcome {
+    background: #eee;
+    border-bottom: 1px solid #ddd;
+    padding: 20px;
+}
+.welcome p {
+    margin: 0 0 1em;
+}
+.welcome form.search {
+    margin-bottom: 1em;
+}
+
+h2.day-heading {
+  text-align: left !important;  
 }
 
 .feed .post {
@@ -1137,7 +1153,7 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
     font-size: 1.3em !important;
 }
 .post-md .title {
-    font-size: 1.1em !important;
+    font-size: 1em !important;
 }
 .post-sm .title {
     font-size: 1em !important;
