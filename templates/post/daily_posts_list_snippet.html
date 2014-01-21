@@ -1,6 +1,12 @@
 <div class="feed-container">
 	<h2 class="subsection section-heading" >
 	  Today's conversation for  {{ day.strftime("%a %b %d, %Y") }}:
+	  {% if show_day_permalink %}
+	  	<a href="/day/{{ day_str }}" style="text-transform:none; font-size: 70%; margin-left: 30px">
+		  	<span class="glyphicon glyphicon-link" style=""></span> 
+		  	Permalink 
+		  </a>
+	  {% end %}
 	</h2>
 	<ul class="feed">
 		{% for i, p in enumerate(posts) %}

@@ -71,6 +71,14 @@
 {% block javascript %}
   <script type="text/javascript">
     $(document).ready(function() {
+      
+      {% if infinite_scroll %}
+      $('#posts').jscroll({
+        contentSelector: '.feed-container',
+        loadingHtml: '<img src="/static/img/ajax-loader.gif" />'
+      });
+      {% end %}
+      
       if (window.location.hash == "#tools") {
         $("#tools").modal('show');
       }
@@ -130,26 +138,6 @@
         
       });
       */
-      
-      $('body').on('click', '.more .btn', function(e){
-        link = $(this);
-        e.preventDefault();
-        day_str = $(this).attr('data-day');
-        var d = new Date(day_str);
-        data = {
-          'day': d.toUTCString()
-        }
-        link.html('<img src="/static/img/ajax-loader.gif" />');
-        $.ajax('/api/posts/get_day', {
-          'data':data,
-          'complete': function(response) {
-              obj = $.parseJSON(response.responseText);
-              html = obj.data.html;
-              link.parent().after(html);
-              link.remove();
-            }
-        });
-      });
       
     }); 
   </script>

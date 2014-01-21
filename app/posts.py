@@ -108,8 +108,15 @@ class ListPosts(app.basic.BaseHandler):
       day = datetime.datetime.today()
     else:
       day = datetime.datetime.strptime(day, "%Y-%m-%d")
+    day_str = str(datetime.date(day.year, day.month, day.day))
     previous_day = day - datetime.timedelta(days=1)
     previous_day_str = str(datetime.date(previous_day.year, previous_day.month, previous_day.day))
+    
+    show_day_permalink = True
+    infinite_scroll = False
+    if self.request.path == ('/'):
+      show_day_permalink = False
+      infinite_scroll = True
     
     is_blacklisted = False
     if self.current_user:
@@ -117,7 +124,7 @@ class ListPosts(app.basic.BaseHandler):
 
     posts = postsdb.get_hot_posts_by_day(day)
 
-    self.render('post/lists_posts.html', msg=msg, posts=posts, post=post, featured_posts=featured_posts, is_blacklisted=is_blacklisted, tags=hot_tags, day=day, previous_day_str=previous_day_str)
+    self.render('post/lists_posts.html', msg=msg, posts=posts, post=post, featured_posts=featured_posts, is_blacklisted=is_blacklisted, tags=hot_tags, day=day, previous_day_str=previous_day_str, day_str=day_str, show_day_permalink=show_day_permalink, infinite_scroll=infinite_scroll)
 
   @tornado.web.authenticated
   def post(self):

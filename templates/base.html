@@ -205,17 +205,6 @@
   
   {% block javascript %}{% end %}
   <script type="text/javascript">
-
-    loadNewDay = function() {
-      console.log('hello');
-    }
-    
-    $('#posts').jscroll({
-      callback: loadNewDay,
-      contentSelector: '.feed-container',
-      loadingHtml: '<img src="/static/img/ajax-loader.gif" />'
-    });
-
     $(function() {
       $('.field-errors').each(function() {
         if($.trim($(this).html()) == '') {
