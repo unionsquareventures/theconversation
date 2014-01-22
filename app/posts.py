@@ -98,7 +98,12 @@ class ListPosts(app.basic.BaseHandler):
     sort_by = self.get_argument('sort_by', sort_by)
     page = abs(int(self.get_argument('page', page)))
     per_page = abs(int(self.get_argument('per_page', '20')))
-    msg = ''
+    msg = self.get_argument('msg', '')
+    slug = self.get_argument('slug', '')
+    new_post = None
+    if slug:
+      new_post = postsdb.get_post_by_slug(slug)
+      
     featured_posts = postsdb.get_featured_posts(5, 1)
     posts = []
     post = {}
@@ -125,7 +130,7 @@ class ListPosts(app.basic.BaseHandler):
     posts = postsdb.get_hot_posts_by_day(day)
     midpoint = (len(posts) - 1) / 2
 
-    self.render('post/lists_posts.html', msg=msg, posts=posts, post=post, featured_posts=featured_posts, is_blacklisted=is_blacklisted, tags=hot_tags, day=day, previous_day_str=previous_day_str, day_str=day_str, show_day_permalink=show_day_permalink, infinite_scroll=infinite_scroll, midpoint=midpoint)
+    self.render('post/lists_posts.html', msg=msg, posts=posts, post=post, featured_posts=featured_posts, is_blacklisted=is_blacklisted, tags=hot_tags, day=day, previous_day_str=previous_day_str, day_str=day_str, show_day_permalink=show_day_permalink, infinite_scroll=infinite_scroll, midpoint=midpoint, new_post=new_post)
 
   @tornado.web.authenticated
   def post(self):
@@ -290,15 +295,10 @@ class ListPosts(app.basic.BaseHandler):
       saved_post['disqus_thread_id_str'] = thread_id
       postsdb.save_post(saved_post)
 
-    # Queue up posts to show on list
-    featured_posts = postsdb.get_featured_posts(6, 1)
-    sort_by = "newest"
-    posts = postsdb.get_new_posts(per_page, page)
-
     if is_edit:
       self.redirect('/posts/%s?msg=updated' % post['slug'])
     else:
-      self.render('post/lists_posts.html', sort_by=sort_by, msg=msg, page=page, posts=posts, featured_posts=featured_posts, is_blacklisted=is_blacklisted, new_post=post, dups=dups)
+      self.redirect('/?msg=success&slug=%s' % post['slug'])
 
 ##########################
 ### Bump Up A SPECIFIC POST
