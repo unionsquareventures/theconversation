@@ -1007,11 +1007,7 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
     border:none;
 }
 
-/*
-#
-# =Posts List
-#
-# =========================================================*/
+
 /*
 #
 # =Posts List
@@ -1069,7 +1065,7 @@ h2.day-heading {
     margin-right: 15px;
     font-size: 80%;
     color: #999;
-    margin-left: 45px;
+    margin-left: 0px;
 }
 
 .feed.search .post .volume {
@@ -1091,15 +1087,42 @@ h2.day-heading {
     display: inline !important;
 }
 
-.post .content {
-    margin-left: 110px;
+.post .title {
+    margin-right: 60px !important;
 }
+.post .content {
+    
+}
+.post .tags a {
+    color: #999 !important;
+    margin-left: 4px;    
+}
+
+.post-lg .title {
+    font-size: 1.3em !important;
+}
+
+.post-md .title {
+    font-size: 1em !important;
+}
+
 .post-sm .content {
-    margin-left: 45px;
+    /*margin-left: 45px;*/
 }
 .post-sm .user {
-    display: none;
+    
 }
+.post-sm .title {
+    color: #343434 !important;
+    font-family: 'proximanova-semibold' !important;
+    font-size: .9em !important;
+}
+.post-sm .user img {
+    zoom: 1;
+    filter: alpha(opacity=70);
+    opacity: 0.7;
+}
+
 .post.featured .content {
     margin-left: 65px !important;
 }
@@ -1136,7 +1159,7 @@ h2.day-heading {
  .featured-post .title {
     font-family: "proximanova-bold";
     text-decoration:none;
-    line-height:1.1em;
+    line-height:1.2em;
     color:#000;
     margin-right:5px;
     display:block;
@@ -1145,28 +1168,6 @@ h2.day-heading {
     transition:color 0.15s ease-out;
 }
 
-.post.featured .title {
-    margin-bottom: 5px;
-}
-
-.post-lg .title {
-    font-size: 1.3em !important;
-}
-.post-md .title {
-    font-size: 1em !important;
-}
-.post-sm .title {
-    font-size: 1em !important;
-}
-
-.post-lg .excerpt p {
-    margin: .5em 0 .5em;
-}
-
-.post-sm .username,
-.post-sm .time {
-
-}
 
 .hot-newest-feed .title,
 .feed .title {
@@ -1268,7 +1269,7 @@ h2.day-heading {
 .feed .volume {
     position: absolute;
     top: 10px;
-    left: 0px;
+    right: 0px;
     /*width: 20px;*/
 }
 .post-sm .volume {
@@ -1276,7 +1277,6 @@ h2.day-heading {
 }
 .feed .volume a {
     display: block;
-    height: 50px;
     text-align: center;
     display: block;
 }
@@ -1316,13 +1316,13 @@ h2.day-heading {
     color: gray !important;
     border-radius: 2px;
     border-bottom: none;
-    padding: 2px;
+    padding: 2px 7px 2px 5px;
     position: relative;
-    background: #eee;
+    background: #fff;
     border: 1px solid #ddd !important;
     box-shadow: none;
     display: block;
-    width: 30px;
+    /*width: 30px;*/
     text-align: center;
 }
 .volume a.votes-count.no-votes {
@@ -1331,6 +1331,9 @@ h2.day-heading {
 .volume a.votes-count:hover {
     background: #ddd;
     /*color: #fff !important;*/
+}
+.volume.bumped a.votes-count {
+    background: #eee;
 }
 .volume.bumped a.votes-count .glyphicon {
     /*color: #CE3B00 !important; */ /* RED */
@@ -3816,7 +3819,7 @@ ul.investments-list {
         
     }
      .feed .content {
-        /*margin-left:68px;*/
+        margin-left:65px;
     }
      .feed .avatar {
         display:block;

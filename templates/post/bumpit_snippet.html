@@ -8,7 +8,7 @@
 {% end %}
 <div class="volume {% if has_voted %}bumped{% end %}">
   <a title="{{ link_title }}" href="/posts/{{ p['slug'] }}/{% if has_voted %}unbump{%else%}bump{%end%}" class="votes-count ajax_upvote_link upvote-button btn {% if p['votes'] == 1 %}no-votes{% end %}">
-	<span class="glyphicon glyphicon-arrow-up"></span><br />
+	<span class="glyphicon glyphicon-arrow-up"></span> 
 	 <span class="value">
 		{{ len(p['voted_users']) }}
 	</span>
