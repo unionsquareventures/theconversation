@@ -248,7 +248,7 @@
               }
               return;
             }
-            upvote_link.find('.value').text(data['data']['votes'] - 1);
+            upvote_link.find('.value').text(data['data']['votes']);
             upvote_link.parent().removeClass('bumped');
             upvote_link.attr('href', upvote_link.attr('href').replace('unbump', 'bump'));
           }
@@ -268,7 +268,7 @@
                }
                return;
              }
-             upvote_link.find('.value').text(data['data']['votes'] - 1);
+             upvote_link.find('.value').text(data['data']['votes']);
              upvote_link.parent().addClass('bumped');
              upvote_link.attr('href', upvote_link.attr('href').replace('bump', 'unbump'));
              upvote_link.removeClass('no-votes');
