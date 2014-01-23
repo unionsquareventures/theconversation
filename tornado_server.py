@@ -44,8 +44,7 @@ class Application(tornado.web.Application):
     }
 
     handlers = [
-      # redirect stuff (old links)
-      # and usv-specific admin
+      # redirect stuff (old links + shortcuts)
       (r'/(?P<year>[0-9]+)/(?P<month>[0-9]+)/(?P<slug>[\w\s-]+).php$', app.redirects.RedirectPosts),
       (r'/pages/.*$', app.redirects.RedirectMappings),
       (r'/team.*$', app.redirects.RedirectMappings),
@@ -55,6 +54,10 @@ class Application(tornado.web.Application):
       (r'/network/$', app.redirects.RedirectMappings),
       (r'/jobs/$', app.redirects.RedirectMappings),
       (r'/focus$', app.redirects.RedirectMappings),
+      (r'/office$', app.redirects.RedirectMappings),
+      (r'/talkto/brian$', app.redirects.RedirectMappings),
+      
+      # usv-specific admin
       (r"/admin/company", app.admin.AdminCompany),
       (r"/admin/gmail", app.admin.Gmail),
       (r"/admin/gmailapi", app.admin.GmailAPI),
@@ -62,8 +65,7 @@ class Application(tornado.web.Application):
       #general site pages
       (r"/about", app.general.About),
       (r"/jobs", app.general.Jobs),
-      (r"/portfolio", app.general.Portfolio),  
-      (r"/hangoutwith/(?P<who>[A-z]+)", app.general.Hangouts),  
+      (r"/portfolio", app.general.Portfolio),   
 
       # network
       (r"/network", app.network.Welcome),

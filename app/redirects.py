@@ -9,13 +9,17 @@ class RedirectMappings(app.basic.BaseHandler):
     new_url = '/'
     if self.request.path.find('/portfolio/') == 0:
         new_url = '/portfolio'
-    if self.request.path.find('/network/') == 0:
+    elif self.request.path == '/office':
+      new_url = 'https://foursquare.com/v/union-square-ventures/4a17665af964a52056791fe3'
+    elif self.request.path == '/talkto/brian':
+      new_url = 'https://plus.google.com/hangouts/_/event/cih6nepuqsbt1trfaegmubvpjps?authuser=0&hl=en'
+    elif self.request.path.find('/network/') == 0:
         new_url = '/network'
-    if self.request.path.find('/about/') == 0:
+    elif self.request.path.find('/about/') == 0:
         new_url = '/about'
-    if self.request.path.find('/jobs/') == 0:
+    elif self.request.path.find('/jobs/') == 0:
         new_url = '/jobs'
-    if self.request.path.find('brad') > -1:
+    elif self.request.path.find('brad') > -1:
       new_url = '/about#brad-burnham'
     elif self.request.path.find('fred') > -1:
       new_url = '/about#fred-wilson'
