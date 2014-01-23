@@ -1113,14 +1113,13 @@ h2.day-heading {
     
 }
 .post-sm .title {
-    color: #343434 !important;
     font-family: 'proximanova-semibold' !important;
     font-size: .9em !important;
 }
 .post-sm .user img {
     zoom: 1;
-    filter: alpha(opacity=70);
-    opacity: 0.7;
+    filter: alpha(opacity=75);
+    opacity: 0.75;
 }
 
 .post.featured .content {
