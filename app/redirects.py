@@ -22,6 +22,8 @@ class HangoutShortcuts(app.basic.BaseHandler):
       new_url = 'https://plus.google.com/hangouts/_/event/c46j88paq1gt2dqs2rt8ulmlfp0'
     elif self.request.path == '/conferenceroom':
       new_url = 'https://plus.google.com/hangouts/_/event/csjrctgcaphdptmqacnfisq0i2g'
+    elif self.request.path == '/conference':
+      new_url = 'https://plus.google.com/hangouts/_/event/csjrctgcaphdptmqacnfisq0i2g'
     elif self.request.path == '/eventspace':
       new_url = 'https://plus.google.com/hangouts/_/event/csrdap1091spu3cg3kvgs8o9a08'
     elif self.request.path == '/library':
