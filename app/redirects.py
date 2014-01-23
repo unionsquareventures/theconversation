@@ -57,31 +57,6 @@ class RedirectMappings(app.basic.BaseHandler):
     #
     elif self.request.path == '/office':
       new_url = 'https://foursquare.com/v/union-square-ventures/4a17665af964a52056791fe3'
-    #
-    # google hangout shortcuts
-    #
-    elif self.request.path == '/albert':
-      new_url = 'https://plus.google.com/hangouts/_/event/cdhdic31990mu30tmdbec3ucbos'
-    elif self.request.path == '/andy':
-      new_url = ''
-    elif self.request.path == '/brad':
-      new_url = ''
-    elif self.request.path == '/brian':
-      new_url = 'https://plus.google.com/hangouts/_/event/cih6nepuqsbt1trfaegmubvpjps'
-    elif self.request.path == '/brittany':
-      new_url = ''
-    elif self.request.path == '/conferenceroom':
-      new_url = ''
-    elif self.request.path == '/eventspace':
-      new_url = ''
-    elif self.request.path == '/fred':
-      new_url = 'https://plus.google.com/hangouts/_/event/cis1kcq11fkqlj12egf0pu74tlc'
-    elif self.request.path == '/john':
-      new_url = ''
-    elif self.request.path == '/nick':
-      new_url = ''
-    elif self.request.path == '/zander':
-      new_url = ''
     elif self.request.path.find('/network/') == 0:
         new_url = '/network'
     elif self.request.path.find('/about/') == 0:
