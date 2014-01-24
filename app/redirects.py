@@ -10,33 +10,36 @@ class HangoutShortcuts(app.basic.BaseHandler):
     #
     # google hangout shortcuts
     #
-    if self.request.path == '/albert':
+    # people
+    if name == 'albert':
       new_url = 'https://plus.google.com/hangouts/_/event/cdhdic31990mu30tmdbec3ucbos'
-    elif self.request.path == '/andy':
+    elif name == 'andy':
       new_url = 'https://plus.google.com/hangouts/_/event/coak3i6919ch7m9dvlq50no4smo'
-    elif self.request.path == '/brad':
+    elif name == 'brad':
       new_url = 'https://plus.google.com/hangouts/_/event/cd8eu889t345f9ht2i4tf68o26k'
-    elif self.request.path == '/brian':
+    elif name == 'brian':
       new_url = 'https://plus.google.com/hangouts/_/event/cih6nepuqsbt1trfaegmubvpjps'
-    elif self.request.path == '/brittany':
+    elif name == 'brittany':
       new_url = 'https://plus.google.com/hangouts/_/event/c46j88paq1gt2dqs2rt8ulmlfp0'
-    elif self.request.path == '/conferenceroom':
-      new_url = 'https://plus.google.com/hangouts/_/event/csjrctgcaphdptmqacnfisq0i2g'
-    elif self.request.path == '/conference':
-      new_url = 'https://plus.google.com/hangouts/_/event/csjrctgcaphdptmqacnfisq0i2g'
-    elif self.request.path == '/eventspace':
-      new_url = 'https://plus.google.com/hangouts/_/event/csrdap1091spu3cg3kvgs8o9a08'
-    elif self.request.path == '/library':
-      new_url = 'https://plus.google.com/hangouts/_/event/cltm1dbi65rplvbpcvptbm5n35s'
-    elif self.request.path == '/fred':
+    elif name == 'fred':
       new_url = 'https://plus.google.com/hangouts/_/event/cis1kcq11fkqlj12egf0pu74tlc'
-    elif self.request.path == '/john':
+    elif name == 'john':
       new_url = 'https://plus.google.com/hangouts/_/event/ctqb0oilbu12jor3sa1j9mn9jto'
-    elif self.request.path == '/nick':
+    elif name == 'nick':
       new_url = 'https://plus.google.com/hangouts/_/event/cmnm4k9uet7ctf18eqs5ih417r4'
-    elif self.request.path == '/zander':
+    elif name == 'zander':
       new_url = 'https://plus.google.com/hangouts/_/event/cagmh53vocn6pvc0b6su6k6ovd4'
-    
+    # rooms
+    elif name == 'conferenceroom':
+      new_url = 'https://plus.google.com/hangouts/_/event/csjrctgcaphdptmqacnfisq0i2g'
+    elif name == 'conference':
+      new_url = 'https://plus.google.com/hangouts/_/event/csjrctgcaphdptmqacnfisq0i2g'
+    elif name == 'eventspace':
+      new_url = 'https://plus.google.com/hangouts/_/event/csrdap1091spu3cg3kvgs8o9a08'
+    elif name == 'library':
+      new_url = 'https://plus.google.com/hangouts/_/event/cltm1dbi65rplvbpcvptbm5n35s'
+    elif name == 'live':
+      new_url = 'https://plus.google.com/hangouts/_/event/chg577i8le837l0iu858etlj44k'
     #
     # do the redirect
     #

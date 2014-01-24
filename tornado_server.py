@@ -55,7 +55,7 @@ class Application(tornado.web.Application):
       (r'/jobs/$', app.redirects.RedirectMappings),
       (r'/focus$', app.redirects.RedirectMappings),
       (r'/office$', app.redirects.RedirectMappings),
-      (r'/(?P<name>albert|andy|brad|brian|brittany|conferenceroom|eventspace|fred|john|library|nick|zander)$', app.redirects.HangoutShortcuts),
+      (r'/(?P<name>albert|andy|brad|brian|brittany|conference|live|conferenceroom|eventspace|fred|john|library|nick|zander)$', app.redirects.HangoutShortcuts),
       
       # usv-specific admin
       (r"/admin/company", app.admin.AdminCompany),
