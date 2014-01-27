@@ -206,6 +206,7 @@
        <!-- related posts -->
        <div class="sidebar-widget">
          {% for group in tag_posts %}
+            {% if len(group['posts']) > 0 %}
             <h3>More in #{{ group['tag'] }}</h3>
             <ul class="feed posts">
               {% for p in group['posts'] %}
@@ -214,6 +215,7 @@
               </li>
               {% end %}
             </ul>
+            {% end %}
          {% end %}
        </div>
     </div>

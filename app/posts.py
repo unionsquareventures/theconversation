@@ -450,11 +450,17 @@ class ViewPost(app.basic.BaseHandler):
       raise tornado.web.HTTPError(404)  
       
     tag_posts = []
+    all_keeper_posts = []
     for t in post['tags']:
       posts = postsdb.get_related_posts_by_tag(t)
+      tag_keeper_posts = []
+      for p in posts:
+        if p['slug'] != slug and p not in all_keeper_posts:
+          tag_keeper_posts.append(p)
+          all_keeper_posts.append(p)
       obj = {
         'tag': t,
-        'posts': posts
+        'posts': tag_keeper_posts
       }
       tag_posts.append(obj)
     
