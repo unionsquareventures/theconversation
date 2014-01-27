@@ -30,9 +30,6 @@ class BaseUIModule(UIModule):
 		def render(self, *args, **kwargs):
 				relpath = "{name}/main.html".format(name=self.name)
 				filepath = os.path.join(settings.get('module_dir'), relpath)
-				logging.info("+++++++++++++++++++++++++++++++++")
-				logging.info(filepath)
-				logging.info("+++++++++++++++++++++++++++++++++")
 				return self.render_string(filepath, *args, **kwargs)
 
 # Create modules using the folder name as the module name

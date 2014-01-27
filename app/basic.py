@@ -9,6 +9,16 @@ import logging
 from lib import userdb
 
 class BaseHandler(tornado.web.RequestHandler):
+  def __init__(self, *args, **kwargs):
+    super(BaseHandler, self).__init__(*args, **kwargs)
+    #user = self.get_current_user()
+    #css_file = "%s/css/threatvector.css" % settings.tornado_config['static_path']
+    #css_modified_time = os.path.getmtime(css_file)
+    self.vars = {
+                    #'user': user,
+                    #'css_modified_time': css_modified_time
+                }
+                
   def render(self, template, **kwargs):
   
     # add any variables we want available to all templates
