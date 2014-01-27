@@ -131,7 +131,9 @@ class ListPosts(app.basic.BaseHandler):
 
     posts = postsdb.get_hot_posts_by_day(day)
     previous_day_posts = postsdb.get_hot_posts_by_day(previous_day)
-    midpoint = (len(posts) - 1) / 2
+    #midpoint = (len(posts) - 1) / 2
+    # midpoint determines where post list breaks from size=md to size=sm
+    midpoint = 7
     hot_posts_past_week = postsdb.get_hot_posts_past_week()
 
     self.render('post/lists_posts.html', msg=msg, posts=posts, post=post, featured_posts=featured_posts, is_blacklisted=is_blacklisted, tags=hot_tags, day=day, previous_day=previous_day, previous_day_str=previous_day_str, day_str=day_str, show_day_permalink=show_day_permalink, infinite_scroll=infinite_scroll, midpoint=midpoint, new_post=new_post, two_days_ago=two_days_ago, two_days_ago_str=two_days_ago_str, datetime=datetime, previous_day_posts=previous_day_posts, hot_posts_past_week=hot_posts_past_week)
