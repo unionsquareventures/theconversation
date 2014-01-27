@@ -136,7 +136,6 @@
       {% end %}
       
       /* Tag weighting */
-      /*
       function compare(a,b){
         return a-b;
       }
@@ -151,13 +150,12 @@
       var scores = {}
       for (var i = 0; i < counts.length; i++) {
         score = (counts[i] * 1 / high + 1) * 100;
-        scores[i] = score;
+        scores[counts[i]] = score;
       }
       $("ul.tags a").each(function() {
         var count = parseInt($(this).attr('data-tag-count'));
-        
+        $(this).css('font-size', scores[count] + "%");
       });
-      */
       
     }); 
   </script>
