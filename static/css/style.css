@@ -2749,6 +2749,9 @@ span.staff {
 .article-post .volume {
     margin-top: -6px;
 }
+.single.article-post .volume {
+    margin-top: 0;
+}
  .article-post .upvote-button:hover, .article-post .comments-button:hover {
     text-decoration:underline;
 }
