@@ -1104,9 +1104,7 @@ h2.day-heading {
 .sidebar-widget .post-sm .tags {
     display:none;
 }
-.sidebar-widget .post-sm {
-    display:none;
-}
+
 .post.featured .content {
     margin-left: 65px !important;
 }
