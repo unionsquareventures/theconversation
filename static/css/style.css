@@ -1104,7 +1104,7 @@ h2.day-heading {
 .sidebar-widget .post-sm .tags {
     display:none;
 }
-.sidebar-widget .post-sm .volume {
+.sidebar-widget .post-sm {
     display:none;
 }
 .post.featured .content {
@@ -1288,10 +1288,13 @@ h2.day-heading {
 }
 
 .supervote {
-    margin: 5px 0;
+    position: absolute;
+    top: -18px;
+    right: 0;
     text-align: center;
-    font-size: 80%;
+    font-size: 70%;
     white-space: nowrap;
+    opacity: .75em;
 }
 .feed .volume {
     position: absolute;
@@ -1303,9 +1306,7 @@ h2.day-heading {
     top: 5px;
 }
 .feed .volume a {
-    display: block;
     text-align: center;
-    display: block;
 }
 .featured-post .volume {
     width: 120px;

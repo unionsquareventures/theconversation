@@ -19,7 +19,6 @@
 	{% end %}
   </div>
   {% if current_user_can('super_upvote') and current_user_can('super_downvote') %}
-  <!--
   <div class="supervote">
 		<a title="super downvote" class="supervote-link superdownvote" href="/posts/{{ p['slug'] }}/superdownvote">
 				<span class="glyphicon glyphicon-volume-down"></span><span class="value">{{ p.get('super_downvotes', '0') }}</span>
@@ -30,6 +29,5 @@
 	  
 
 	</div>
--->
   {% end %}
 </div>
