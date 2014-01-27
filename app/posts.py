@@ -127,8 +127,10 @@ class ListPosts(app.basic.BaseHandler):
     if self.current_user:
       is_blacklisted = self.is_blacklisted(self.current_user)
 
-    posts = postsdb.get_hot_posts_by_day(day)
+    #posts = postsdb.get_hot_posts_by_day(day)
+    posts = postsdb.get_hot_posts_24hr()
     previous_day_posts = postsdb.get_hot_posts_by_day(previous_day)
+    
     
     #midpoint = (len(posts) - 1) / 2
     # midpoint determines where post list breaks from size=md to size=sm
@@ -325,6 +327,38 @@ class ListPosts(app.basic.BaseHandler):
     else:
       self.redirect('/?msg=success&slug=%s' % post['slug'])
 
+
+##############
+### List all New Posts
+### /new
+##############
+class ListPostsNew(app.basic.BaseHandler):
+  def get(self, page=1):
+    page = abs(int(self.get_argument('page', page)))
+    per_page = abs(int(self.get_argument('per_page', '100')))
+
+    featured_posts = postsdb.get_featured_posts(5, 1)
+    posts = []
+    post = {}
+    hot_tags = tagsdb.get_hot_tags()
+
+    is_blacklisted = False
+    if self.current_user:
+      is_blacklisted = self.is_blacklisted(self.current_user)
+
+    posts = postsdb.get_new_posts(per_page=per_page, page=page)
+
+    self.vars.update({
+      'posts': posts,
+      'featured_posts': featured_posts,
+      #'featured_posts': featured_posts,
+      'is_blacklisted': is_blacklisted,
+      'tags': hot_tags,
+    })
+    self.render('post/list_new_posts.html', **self.vars)
+
+ 
+      
 ##########################
 ### Bump Up A SPECIFIC POST
 ### /posts/([^\/]+)/bump

@@ -1,5 +1,5 @@
 # Run by Heroku Scheduler every 10min
-from datetime import datetime
+from datetime import datetime, timedelta
 try:
 	import sys
 	sys.path.insert(0, '/Users/nick/dev/conversation')
@@ -8,4 +8,4 @@ except:
 
 from lib import postsdb
 
-postsdb.sort_posts(datetime.today())
+postsdb.sort_posts(datetime.today() - timedelta(days=1))

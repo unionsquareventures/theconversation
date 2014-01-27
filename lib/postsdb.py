@@ -86,6 +86,11 @@ def get_hot_posts_by_day(day=date.today()):
   day_plus_one = day + timedelta(days=1)
   return list(db.post.find({"deleted": { "$ne": True }, 'date_created': {'$gte': day, '$lte': day_plus_one}}, sort=[('daily_sort_score', pymongo.DESCENDING)]))
 
+def get_hot_posts_24hr():
+  now = datetime.now()
+  then = now - timedelta(hours=24)
+  return list(db.post.find({"deleted": { "$ne": True }, 'date_created': {'$gte': then }}, sort=[('daily_sort_score', pymongo.DESCENDING)]))
+
 def get_sad_posts(per_page=50, page=1):
   return list(db.post.find({'date_created':{'$gt': datetime.datetime.strptime("10/12/13", "%m/%d/%y")}, 'votes':1, 'comment_count':0, 'deleted': { "$ne": True } , 'featured': False}, sort=[('date_created', pymongo.DESCENDING)]).skip((page-1)*per_page).limit(per_page))
 

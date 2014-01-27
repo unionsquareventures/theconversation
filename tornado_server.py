@@ -91,7 +91,7 @@ class Application(tornado.web.Application):
       (r"/posts/new$", app.posts.NewPost),
       (r"/bookmarklet$", app.posts.NewPost),
       (r"/(?P<sort_by>hot)$", app.posts.ListPosts),
-      (r"/(?P<sort_by>new)$", app.posts.ListPosts),
+      (r"/(?P<sort_by>new)$", app.posts.ListPostsNew),
       (r"/(?P<sort_by>sad)$", app.posts.ListPosts),
       (r"/(?P<sort_by>[^\/]+)/page/(?P<page>[0-9]+)$", app.posts.ListPosts),
       (r"/posts/([^\/]+)/upvote", app.posts.Bump),

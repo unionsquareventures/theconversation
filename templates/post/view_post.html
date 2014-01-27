@@ -11,6 +11,38 @@
   <div id="main" role="main">
     
     <div class="row article-post single community">
+      <div class="col-sm-4">
+         
+         <div class="sidebar-widget welcome clearfix">
+           <form class="form form-inline search" role="form" method="GET" action="/search">
+             <div class="form-group">
+               <input type="text" class="form-control" id="query" name="query" placeholder="Search...">
+             </div>
+             <button type="submit" class="btn btn-default">Go</button>
+           </form>
+           <p>{intro here}</p>
+           
+           
+           <p class="pull-left" style="margin: 0"><a class="btn btn-primary" role="button" data-toggle="modal" href="#submit-modal">Submit a post</a></p>
+           <p style="font-size: .9em; margin-bottom: 0; padding-top: 4px" class="pull-right"><a href="/posts/welcome-to-the-new-usvcom#comment-1066691905">posting guidelines</a> <span class="text-muted">|</span> <a id="show-tools-btn" href="#tools">tools</a></p>
+         </div>
+       
+         <!-- related posts -->
+         <div class="sidebar-widget">
+           {% for group in tag_posts %}
+              {% if len(group['posts']) > 0 %}
+              <h3>More in #{{ group['tag'] }}</h3>
+              <ul class="feed posts">
+                {% for p in group['posts'] %}
+                <li class="post post-sm">
+                  {% include post_snippet.html %}
+                </li>
+                {% end %}
+              </ul>
+              {% end %}
+           {% end %}
+         </div>
+      </div>
       <div class="col-sm-7">
         {% if msg and msg == "updated" %}
         <div class="alert alert-success">
@@ -187,38 +219,7 @@
         </article>
       </div>
      
-     <div class="col-sm-5">
-       
-       <div class="sidebar-widget welcome clearfix">
-         <form class="form form-inline search" role="form" method="GET" action="/search">
-           <div class="form-group">
-             <input type="text" class="form-control" id="query" name="query" placeholder="Search...">
-           </div>
-           <button type="submit" class="btn btn-default">Go</button>
-         </form>
-         <p>{intro here}</p>
-         
-         
-         <p class="pull-left" style="margin: 0"><a class="btn btn-primary" role="button" data-toggle="modal" href="#submit-modal">Submit a post</a></p>
-         <p style="font-size: .9em; margin-bottom: 0; padding-top: 4px" class="pull-right"><a href="/posts/welcome-to-the-new-usvcom#comment-1066691905">posting guidelines</a> <span class="text-muted">|</span> <a id="show-tools-btn" href="#tools">tools</a></p>
-       </div>
      
-       <!-- related posts -->
-       <div class="sidebar-widget">
-         {% for group in tag_posts %}
-            {% if len(group['posts']) > 0 %}
-            <h3>More in #{{ group['tag'] }}</h3>
-            <ul class="feed posts">
-              {% for p in group['posts'] %}
-              <li class="post post-sm">
-                {% include post_snippet.html %}
-              </li>
-              {% end %}
-            </ul>
-            {% end %}
-         {% end %}
-       </div>
-    </div>
 
     </div>
   </div>

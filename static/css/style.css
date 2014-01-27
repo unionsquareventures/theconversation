@@ -1107,6 +1107,9 @@ body.staff .post .title {
 .sidebar-widget .post .time {
     display: none;
 }
+.sidebar-widget .post .source {
+    display: none;
+}
 .sidebar-widget .post .time-search {
     display: inline !important;
 }
