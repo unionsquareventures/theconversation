@@ -1312,6 +1312,9 @@ body.staff .post .title {
     white-space: nowrap;
     opacity: .75em;
 }
+.single .supervote {
+    display: none;
+}
 .feed .volume {
     position: absolute;
     top: 10px;
