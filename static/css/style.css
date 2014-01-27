@@ -1044,7 +1044,12 @@ h2.day-heading {
     color: #999;
     margin-left: 0px;
 }
-
+.post .time {
+    display: none !important; 
+}
+.post .comment-count {
+    margin-left: 10px;
+}
 .feed.search .post .volume {
     display: none
 }
@@ -1077,6 +1082,10 @@ body.staff .post .title {
     color: #999 !important;
     margin-left: 4px;    
 }
+.post .time-search {
+    margin-right: 0 !important;
+    margin-left: 10px;
+}
 
 .post-lg .title {
     font-size: 1.3em !important;
@@ -1094,6 +1103,12 @@ body.staff .post .title {
 }
 .sidebar-widget .post-sm .title {
     color: #000 !important;
+}
+.sidebar-widget .post .time {
+    display: none;
+}
+.sidebar-widget .post .time-search {
+    display: inline !important;
 }
 .post-sm .title {
     font-family: 'proximanova-semibold' !important;

@@ -448,6 +448,15 @@ class ViewPost(app.basic.BaseHandler):
     post = postsdb.get_post_by_slug(slug)
     if not post:
       raise tornado.web.HTTPError(404)  
+      
+    tag_posts = []
+    for t in post['tags']:
+      posts = postsdb.get_related_posts_by_tag(t)
+      obj = {
+        'tag': t,
+        'posts': posts
+      }
+      tag_posts.append(obj)
     
     msg = self.get_argument('msg', None)  
     
@@ -462,7 +471,7 @@ class ViewPost(app.basic.BaseHandler):
         voted_users.append(i)
     post['voted_users'] = voted_users
     
-    self.render('post/view_post.html', user_obj=user, post=post, msg=msg)
+    self.render('post/view_post.html', user_obj=user, post=post, msg=msg, tag_posts=tag_posts)
 
 #############
 ### WIDGET
