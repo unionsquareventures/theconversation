@@ -1067,6 +1067,9 @@ h2.day-heading {
 .post .title {
     margin-right: 60px !important;
 }
+body.staff .post .title {
+    margin-right: 100px !important;
+}
 .post .content {
     
 }
@@ -1287,8 +1290,8 @@ h2.day-heading {
 
 .supervote {
     position: absolute;
-    top: -18px;
-    right: 0;
+    top: -3px;
+    right: 50px;
     text-align: center;
     font-size: 70%;
     white-space: nowrap;
@@ -1305,6 +1308,7 @@ h2.day-heading {
 }
 .feed .volume a {
     text-align: center;
+    display: block;
 }
 .featured-post .volume {
     width: 120px;
