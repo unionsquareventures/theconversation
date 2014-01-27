@@ -51,6 +51,17 @@
           <p style="font-size: .9em; margin-bottom: 0; padding-top: 4px" class="pull-right"><a href="/posts/welcome-to-the-new-usvcom#comment-1066691905">posting guidelines</a> <span class="text-muted">|</span> <a id="show-tools-btn" href="#tools">tools</a></p>
         </div>
         
+        <div class="sidebar-widget" id="hot-posts-past-week">
+          <h3 style="">Active posts (last 7 days):</h3>
+          <ul class="feed">
+            {% for p in hot_posts_past_week %}
+              <li class="post post-sm">
+                {% include post_snippet.html %}
+              </li>
+            {% end %}
+          </ul>
+        </div>
+        
         {% if 'tags' in globals() and len(tags) > 0 %}
         <div class="sidebar-widget">
          <h3 style="">Popular tags (last 14 days):</h3>

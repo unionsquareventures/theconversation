@@ -1110,11 +1110,11 @@ h2.day-heading {
     font-size: 1em !important;
 }
 
-.post-sm .content {
-    /*margin-left: 45px;*/
+.sidebar-widget .post-sm .content {
+    margin-left: 0 !important;
 }
-.post-sm .user {
-    
+.sidebar-widget .post-sm .user {
+    display:none;
 }
 .post-sm .title {
     font-family: 'proximanova-semibold' !important;
@@ -1125,7 +1125,12 @@ h2.day-heading {
     filter: alpha(opacity=75);
     opacity: 0.75;
 }
-
+.sidebar-widget .post-sm .tags {
+    display:none;
+}
+.sidebar-widget .post-sm .volume {
+    display:none;
+}
 .post.featured .content {
     margin-left: 65px !important;
 }

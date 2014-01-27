@@ -132,6 +132,10 @@ def get_posts_by_normalized_url(normalized_url, limit):
 
 def get_posts_with_min_votes(min_votes):
   return list(db.post.find({'deleted': { "$ne": True }, 'votes':{'$gte':min_votes}}, sort=[('date_created', pymongo.DESCENDING)]))
+  
+def get_hot_posts_past_week():
+  week_ago = datetime.today() - timedelta(days=7)
+  return list(db.post.find({'deleted': { "$ne": True }, 'date_created':{'$gte':week_ago}}, sort=[('daily_sort_score', pymongo.DESCENDING)]).limit(7))
 
 ###########################
 ### UPDATE POST DETAIL
