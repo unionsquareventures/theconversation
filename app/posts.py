@@ -116,6 +116,8 @@ class ListPosts(app.basic.BaseHandler):
     day_str = str(datetime.date(day.year, day.month, day.day))
     previous_day = day - datetime.timedelta(days=1)
     previous_day_str = str(datetime.date(previous_day.year, previous_day.month, previous_day.day))
+    two_days_ago = previous_day - datetime.timedelta(days=1)
+    two_days_ago_str = str(datetime.date(two_days_ago.year, two_days_ago.month, two_days_ago.day))
     
     show_day_permalink = True
     infinite_scroll = False
@@ -128,9 +130,10 @@ class ListPosts(app.basic.BaseHandler):
       is_blacklisted = self.is_blacklisted(self.current_user)
 
     posts = postsdb.get_hot_posts_by_day(day)
+    previous_day_posts = postsdb.get_hot_posts_by_day(previous_day)
     midpoint = (len(posts) - 1) / 2
 
-    self.render('post/lists_posts.html', msg=msg, posts=posts, post=post, featured_posts=featured_posts, is_blacklisted=is_blacklisted, tags=hot_tags, day=day, previous_day_str=previous_day_str, day_str=day_str, show_day_permalink=show_day_permalink, infinite_scroll=infinite_scroll, midpoint=midpoint, new_post=new_post)
+    self.render('post/lists_posts.html', msg=msg, posts=posts, post=post, featured_posts=featured_posts, is_blacklisted=is_blacklisted, tags=hot_tags, day=day, previous_day=previous_day, previous_day_str=previous_day_str, day_str=day_str, show_day_permalink=show_day_permalink, infinite_scroll=infinite_scroll, midpoint=midpoint, new_post=new_post, two_days_ago=two_days_ago, two_days_ago_str=two_days_ago_str, datetime=datetime, previous_day_posts=previous_day_posts)
 
   @tornado.web.authenticated
   def post(self):

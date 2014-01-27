@@ -1,0 +1,29 @@
+{% set day_str = str(datetime.date(day.year, day.month, day.day)) %}
+{% set previous_day = day - datetime.timedelta(days=1) %}
+{% set previous_day_str = str(datetime.date(previous_day.year, previous_day.month, previous_day.day)) %}
+
+<div class="feed-container">
+	<h2 class="subsection section-heading day-heading" >
+		{{ day.strftime("%A, %b %d, %Y") }}:
+			<a class="pull-right" href="/day/{{ day_str }}" style="text-transform:none; font-size: 70%; margin-left: 30px">
+				<span class="glyphicon glyphicon-link" style=""></span>  Permalink
+			</a>
+	</h2>
+	<ul class="feed">
+		{% for i, p in enumerate(posts) %}
+				{% if i == 0 %}
+					<li class="post post-lg clearfix">
+				{% elif i < midpoint %}
+					<li class="post post-md clearfix">
+				{% else %}
+					<li class="post post-sm clearfix">
+				{% end %}
+				{% include post/post_snippet.html %}
+				</li>
+		{% end %}
+	</ul>
+
+	<div class="more" style="text-align:center; margin: 0;">
+		<a class="btn" href="/day/{{ previous_day_str }}" style="width: 20em">Show previous day &darr;</a>
+	</div>
+</div>

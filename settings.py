@@ -14,6 +14,7 @@ except:
   pass
 
 tornado.options.define("environment", default="dev", help="environment")
+PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__)))
 
 options = {
   'dev' : {
@@ -84,7 +85,9 @@ default_options = {
     'downvote_posts',
     'manage_disqus'
   ],
-  'user_capabilities': []
+  'user_capabilities': [], 
+  
+  'module_dir': os.path.join(PROJECT_ROOT, 'templates/modules')
 }
 
 def get(key):

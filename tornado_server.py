@@ -21,6 +21,7 @@ import app.search
 import app.stats
 import app.twitter
 import app.error
+import templates
 
 class Application(tornado.web.Application):
   def __init__(self):
@@ -106,6 +107,10 @@ class Application(tornado.web.Application):
       (r"/widget.*?", app.posts.Widget),
       (r'/$', app.posts.ListPosts),
     ]
+    
+    app_settings.update({
+      'ui_modules': templates.template_modules()
+    })
 
     tornado.web.Application.__init__(self, handlers, **app_settings)
 

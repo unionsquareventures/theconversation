@@ -29,7 +29,11 @@
           </div>
         {% end %}
         
+        <div id="todays-posts">
         {% include daily_posts_list_snippet.html %}
+        </div>
+        
+        {% module daily_posts_list_snippet(day=previous_day, datetime=datetime, posts=previous_day_posts, current_user_can=current_user_can, midpoint=midpoint) %}
         
       </div><!-- /.col-sm-6 -->
       <div class="col-sm-5">
