@@ -1015,7 +1015,7 @@ h2.day-heading {
     list-style:none;
     position:relative;
     clear: both;
-    border-radius: 6px;
+    border-radius: 0 0 6px 6px;
     background: #fffbff;
     border: 1px solid #eeebee;
     border-bottom: 1px solid #ccc;
@@ -1246,6 +1246,7 @@ feed.search .post .volume {
     background: #eee;
     border-bottom: 1px solid #ddd;
     padding: 20px;
+    border-radius: 0 0 6px 6px;
 }
 .welcome p {
     margin: 0 0 1em;
@@ -1574,6 +1575,7 @@ article.page {
     margin-bottom:40px;
     background:#eee;
     border-bottom:1px solid #ddd;
+    border-radius: 0 0 6px 6px;
     font-size:1.125em;
     font-family: "proximanova-regular";
     color:#000;
@@ -1745,6 +1747,7 @@ h2.section-heading.mobile-page-headline {
     list-style:none;
     background:#eee;
     border-bottom:1px solid #ddd;
+    border-radius: 0 0 6px 6px;
     padding:10px;
     margin-bottom:25px;
     position:relative;
@@ -1960,6 +1963,7 @@ h2.section-heading.mobile-page-headline {
     margin-bottom:25px;
     color:#aaa;
     border-bottom:1px solid #ccc;
+    border-radius: 0 0 6px 6px;
     height: 290px;
 }
 @media only screen and (min-width:900px) {
