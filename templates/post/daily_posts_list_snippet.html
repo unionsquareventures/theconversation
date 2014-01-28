@@ -1,10 +1,10 @@
 <div class="feed-container">
-	<!--<h2 class="subsection section-heading day-heading" >
+	<h2 class="subsection section-heading day-heading" >
 	  {{ day.strftime("%A, %b %d, %Y") }}:
 	  	<a class="pull-right" href="/day/{{ day_str }}" style="text-transform:none; font-size: 70%; margin-left: 30px">
 		  	<span class="glyphicon glyphicon-link" style=""></span>  Permalink
 		  </a>
-	</h2>-->
+	</h2>
 	<ul class="feed">
 		{% for i, p in enumerate(posts) %}
 				{% if i < 5 %}
