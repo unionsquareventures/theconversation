@@ -1,11 +1,9 @@
 # Run by Heroku Scheduler every 10min
-from datetime import datetime, timedelta
+import sys
 try:
-	import sys
-	sys.path.insert(0, '/Users/nick/dev/conversation')
+	sys.path.insert(0, '/Users/nick/dev/usv/usv.com')
 except:
 	print "could not import -- must be running on heroku"
-
 from lib import postsdb
 
-postsdb.sort_posts(datetime.today())
+postsdb.sort_posts()

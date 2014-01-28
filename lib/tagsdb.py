@@ -25,11 +25,13 @@ def get_all_tags(sort=None):
   return tags
 
 def get_hot_tags():
-  today = datetime.today()
-  two_weeks_ago = today + timedelta(days=-14)
+  # add the below to do a time bound query
+  #today = datetime.today()
+  #two_weeks_ago = today + timedelta(days=-14)
+  #     {'$match': {'date_created':{'$gte':two_weeks_ago}}},
+
   tags = db.post.aggregate([
     {'$unwind':'$tags'},
-    {'$match': {'date_created':{'$gte':two_weeks_ago}}},
     {'$group': {'_id': '$tags', 'count': {'$sum': 1}}},
     {"$sort": SON([("count", -1), ("_id", -1)])},
     {"$limit": 24}

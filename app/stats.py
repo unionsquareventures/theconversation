@@ -1,6 +1,6 @@
 import app.basic
 
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, date
 
 from lib import postsdb
 
@@ -11,7 +11,8 @@ from lib import postsdb
 class WeeklyShareStats(app.basic.BaseHandler):
   def get(self):
     # get the stats based on the past 7 days
-    today = datetime.today()
+    #today = datetime.today()
+    today = datetime(2014,01,13)
     week_ago = today + timedelta(days=-7)
 
     single_post_count = 0

@@ -9,6 +9,9 @@ import settings
 import urllib2
 import datetime
 import requests
+import math
+
+from werkzeug.datastructures import MultiDict
 
 # track emails sent to users
 
@@ -60,6 +63,7 @@ def construct_daily_email(slugs):
 def send_daily_email(email):
 	email_sent = False
 	recipients = userdb.get_newsletter_recipients()
+	email_name = "Daily %s" % datetime.datetime.today().strftime("%a %b %d, %Y")
 	
 	# New!  Uses the sendgrid newsletter API
 	# =====
@@ -68,56 +72,72 @@ def send_daily_email(email):
 	# @list (list name)
 	api_link = 'https://api.sendgrid.com/api/newsletter/lists/add.json'
 	params = {
-		'list': "Daily %s" % datetime.datetime.today().strftime("%a %b %d, %Y")
+		'list': email_name
 	}
-	list = do_api_request(api_link, method='POST', params=params)
-	print list
-	if not list:
-		return "Could not create List"
+	result = do_api_request(api_link, method='POST', params=params)
 	
 	# 2) add everyone from our recipients list to the sendgrid list
 	# POST https://api.sendgrid.com/api/newsletter/lists/email/add.json
 	# list=ListName  data[]={ 'email': '', 'name': '' } & data[]={ 'email': '', 'name': '' }
 	api_link = 'https://api.sendgrid.com/api/newsletter/lists/email/add.json'
-	data = []
-	for user in recipients:
-		data.append({
-			'email': user.get('email_address'),
-			'name': user.get('user').get('username')
-		})
-	params = {
-		'data': json.dumps(data),
-		'list': "Daily %s" % datetime.datetime.today().strftime("%a %b %d, %Y")
-	}
-	result = do_api_request(api_link, method='POST', params=params)
 	
+	num_groups = int(math.ceil(len(recipients) / 50))
+	recipient_groups = split_seq(recipients, num_groups) 
+
+	for i, group in enumerate(recipient_groups):
+		# sendgrid needs list add requests to be < 100 peole
+		users = MultiDict()	
+		for i, user in enumerate(group):
+			if user.get('user').get('username') != "" and user.get('email_address') != "":
+				users.add('data', '{"name":"%s","email":"%s"}' % (user.get('user').get('username'), user.get('email_address')))
+
+		params = {
+			'list': email_name,
+			'data': users.getlist('data')
+		}
+	
+		result = do_api_request(api_link, method='POST', params=params)
+		
 	# 3) create the email
 	# POST https://api.sendgrid.com/api/newsletter/add.json
 	# @identity (created in advance == the sender's identity), @name (of email), @subject, @text, @html
 	api_link = 'https://api.sendgrid.com/api/newsletter/add.json'
 	params = {
 		'identity': settings.get('sendgrid_sender_identity'),
-		'name': "Daily %s" % datetime.datetime.today().strftime("%a %b %d, %Y"),
+		'name': email_name,
 		'subject': email['subject'],
 		'text': '', #to do get text version,
 		'html': email['body_html']
 	}
 	result = do_api_request(api_link, method="POST", params=params)
 	
-	# 4) send the email
+	
+	# 4) Add your list to the email
+	# POST https://api.sendgrid.com/api/newsletter/recipients/add.json
+	# @list (name of the list to assign to this email) @name (name of the email)
+	api_link = 'https://api.sendgrid.com/api/newsletter/recipients/add.json'
+	params = {
+		'list': email_name,
+		'name': email_name,
+	}
+	result = do_api_request(api_link, method="POST", params=params)
+	print result
+	
+	# 5) send the email
 	# POST https://api.sendgrid.com/api/newsletter/schedule/add.json
-	# @email (created in step 3)
+	# @name (created in step 3)
 	api_link = 'https://api.sendgrid.com/api/newsletter/schedule/add.json'
 	params = {
-		'email': email,
-		'name': "Daily %s" % datetime.datetime.today().strftime("%a %b %d, %Y")
+		'name': email_name
 	}
 	result = do_api_request(api_link, 'POST', params=params)
 	#check email sent
 
+	# 6) Log it
 	if email_sent:
 		log_daily_email(email, recipient_usernames)
 
+	
 #
 # Add a daily email to the log
 #
@@ -136,6 +156,13 @@ def log_daily_email(email, recipient_usernames):
 def get_daily_email_log():
 	return list(db.email.daily.find({}, sort=[('timestamp', pymongo.DESCENDING)]))
 	
+
+def split_seq(seq, num_pieces):
+	newseq = []
+	splitsize = 1.0/num_pieces*len(seq)
+	for i in range(num_pieces):
+					newseq.append(seq[int(round(i*splitsize)):int(round((i+1)*splitsize))])
+	return newseq
 
 #####################################################
 #### ACTUALLY HANDLE THE REQUESTS/RESPOSNE TO THE API
@@ -165,13 +192,16 @@ def do_api_request(api_link, method='GET', params={}):
 				params=params,
 				verify=False
 			)
+		logging.info(r.url)
 		response = r.json()
 	except:
 		response = {}
-	if settings.get('environment') == "dev":
-		logging.info("=================")
-		logging.info( api_link)
-		logging.info( json.dumps(params, indent=4))
-		logging.info( response)
-		logging.info( "=================")
+
+	logging.info("=================")
+	logging.info( api_link)
+	logging.info( json.dumps(params, indent=4))
+	logging.info( response)
+	
+	logging.info( "=================")
+
 	return response

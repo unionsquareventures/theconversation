@@ -13,4 +13,9 @@
 	<a href="/posts/{{ p['slug'] }}" ><span class="glyphicon glyphicon-comment" style="margin: 0;"></span></a> <a class="dsq-comment-count" data-disqus-identifier="{{ str(p['_id']) }}" href="/posts/{{ p['slug'] }}">{{ p['comment_count'] }} comment{{ 's' if p['comment_count'] != 1 else '' }}</a>
 	</div>
 
+<br class="meta-break" style="display:none">
+<span class="time" style="margin-right: 12px;"><a href="http://{{ template_helpers.post_permalink(p) }}"><span class="glyphicon glyphicon-link" style="margin: 0;font-size: 90%"></span> {{ template_helpers.pretty_date(p['date_created']) }}</a></span><a href="{{ template_helpers.post_permalink(p) }}">
+</a><a class="comment-count" href="http://{{ template_helpers.post_permalink(p) }}" data-disqus-identifier="{{ str(p['_id']) }}">comment</a>
+</div>
+
 </div>

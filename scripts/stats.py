@@ -4,4 +4,5 @@ import settings
 import logging
 from lib import statsdb
 
-statsdb.insert_stat(stat="comments", value=5)
+#statsdb.insert_stat(stat="comments", value=5)
+

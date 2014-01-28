@@ -7,6 +7,9 @@ slugify
 bleach
 beautifulsoup4
 tweepy
+feedparser
+newrelic
 disqus-python
 splinter
 selenium
+werkzeug

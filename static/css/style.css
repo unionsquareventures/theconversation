@@ -3088,9 +3088,19 @@ ul.stats .stat-notes {
     color: #777;
 }
 
+@media only screen and (max-width:629px) {
+#jobs-heading {
+    display:none;
+ }
+
+#jobs-content .job:first-child {
+    border-top:none;
+}
+}
+
 
 @media only screen and (min-width:769px) {
-    .jobs-container .stats {
+ .jobs-container .stats {
     float:left;
     width:35%;
 }
@@ -3104,7 +3114,7 @@ ul.stats .stat-notes {
  .jobs-container #jobform {
     border-bottom:none;
 }
- }
+}
 @media only screen and (min-width:1100px) {
     .jobs-container .stats {
     width:30%;
@@ -3132,6 +3142,8 @@ ul.stats .stat-notes {
     width:26%;
 }
  }
+
+
 #jobs-menu .side-nav {
     /*display:none;*/
     margin:0;
@@ -3143,8 +3155,7 @@ ul.stats .stat-notes {
     list-style:none;
 }
  #jobs-menu .side-nav a {
-    text-decoration:none;
-    color:#779734;
+    
 }
  #jobs-menu .side-nav a:hover {
     text-decoration:underline;
@@ -3169,17 +3180,18 @@ ul.stats .stat-notes {
     color:gray;
     font-size:1em;
     font-weight:600;
-    margin:0 0 10px 0;
+    margin:10px 0 10px 0;
 }
  #jobs-content #jobs-menu {
     display:none;
 }
+
  #jobs-content .jobs {
     border-bottom:1px dotted #ccc;
-    display:none;
     margin-left:15px;
     margin-right:15px;
 }
+
  #jobs-content h3 {
     margin:0 0 8px 0;
     padding:4px 15px;
@@ -3201,6 +3213,8 @@ ul.stats .stat-notes {
     background-size:18px 6px;
 }
  }
+
+
  #jobs-content .cat:hover {
     background-color:#dfebc6;
 }
@@ -3238,7 +3252,7 @@ ul.stats .stat-notes {
     color:gray;
 }
  @media only screen and (min-width:720px) {
-    #jobs-content .col-a {
+ #jobs-content .col-a {
     float:left;
     width:25%;
     margin-right:5%;
@@ -3247,9 +3261,9 @@ ul.stats .stat-notes {
     float:left;
     width:70%;
 }
- }
+}
  @media only screen and (min-width:769px) {
-    #jobs-content #jobs-menu {
+ #jobs-content #jobs-menu {
     display:block;
 }
  #jobs-content .jobs {
