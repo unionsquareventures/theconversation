@@ -1006,21 +1006,23 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 #
 # =========================================================*/
 
+body.home #content > .container {
+    padding-top: 10px;
+}
+
 h2.subsection.section-heading.day-heading {
   text-align: left !important;  
-  margin: 0 0 20px;
+  margin: 0 0 30px -31px;
   border-bottom: 1px solid #ddd !important;
-  padding: 0 10px 10px;
+  padding: 15px 15px 10px 50px;
+  background: #eeebee;
+  border-radius: 0 6px 6px 0;
 }
 
 .post {
     list-style:none;
     position:relative;
     clear: both;
-    border-radius: 0 0 6px 6px;
-    background: #fffbff;
-    border: 1px solid #eeebee;
-    border-bottom: 1px solid #ddd;
     padding: 0px;
     margin: 0 0 20px;
     min-height: 75px;
@@ -1032,7 +1034,13 @@ h2.subsection.section-heading.day-heading {
     padding: 0 0 10px;
     margin-bottom: 15px;
 }
-
+.post .meta.meta-top {
+    padding: 13px 0 0 75px;
+    display: block;
+    background: #eeebee;
+    border-bottom: 1px solid #ddd;
+    height: 37px;
+}
 .post .user {
     position: absolute;
     height: 75px;
@@ -1041,14 +1049,30 @@ h2.subsection.section-heading.day-heading {
     font-size: 80%;
     color: #999;
     margin-left: 0px;
-    top: 10px;
+    top: 8px;
     left: 10px;
+}
+.post a.username-link {
+    color: #333 !important;
 }
 .post .volume {
     position: absolute;
-    top: 10px;
-    right: 10px;
+    top: 5px;
+    right: 8px;
     /*width: 20px;*/
+}
+#posts .post .comment-count {
+    position: absolute;
+    top: 9px;
+    right: 72px;
+}
+.post .comment-count:before {
+    content: "\e111";
+    font-family: 'Glyphicons Halflings';
+    -webkit-font-smoothing: antialiased;
+    font-style: normal;
+    font-weight: normal;
+    margin-right: 5px;
 }
 .post .meta {
     line-height: 1em;
@@ -1057,12 +1081,8 @@ h2.subsection.section-heading.day-heading {
     color:gray;
     font-size:0.85em;
 }
-.post .meta.meta-top {
-    margin: 5px 0 3px;
-    display: block;
-}
 .post .content {
-    padding: 10px 75px;
+    padding: 8px 75px 0;
     margin: 0;
 }
 .post .excerpt {
@@ -1071,11 +1091,14 @@ h2.subsection.section-heading.day-heading {
 }
 .post a.expand {
     display: none;
+    position: absolute;
+    top: 9px;
+    right: 200px;
 }
 .post .link {
-    background: #eeebee;
-    border-top: 1px solid #eeebee;
-    padding: 10px 75px;
+    /*background: #eeebee;
+    border-top: 1px solid #eeebee;*/
+    padding: 10px 75px 8px;
 }
 .post .link span.glyphicon {
     font-size: .7em;
@@ -1102,11 +1125,13 @@ h2.subsection.section-heading.day-heading {
 
 .post .title {
     /*margin-right: 60px !important;*/
+    display: block;
     font-family: "proximanova-semibold";
     text-decoration:none;
     line-height:1.2em;
     color:#000;
     margin-right:5px;
+    margin-bottom: 2px;
     /*display:block;*/
     -webkit-transition:color 0.15s ease-out;
     -moz-transition:color 0.15s ease-out;
@@ -1115,7 +1140,9 @@ h2.subsection.section-heading.day-heading {
 body.staff .post .title {
     /*margin-right: 100px !important;*/
 }
-
+.post .source a {
+    color: #999;
+}
 .post .excerpt p {
     margin: 0 0 .5em;
 }
@@ -1145,13 +1172,15 @@ body.staff .post .title {
     display: none;
 }
 .post-lg .title {
-    
+    font-size: 1.1em !important;
+    font-family: 'proximanova-bold' !important;
 }
 .post-md .title {
     font-size: 1em !important;
 }
 .post.post-sm .title {
-    font-family: 'proximanova-regular' !important;
+    font-size: 1em !important;
+    font-family: 'proximanova-bold' !important;
 }
 .feed .post-sm a.expand {
     display: inline;
@@ -1253,7 +1282,7 @@ feed.search .post .volume {
 
 .sidebar-widget {
     margin: 0 0 35px;
-    padding: 0 0px;
+    padding: 0 15px;
 }
 .sidebar-widget h3 {
     text-transform:uppercase; 
@@ -1293,7 +1322,6 @@ feed.search .post .volume {
     background: #eeebee;
     border-bottom: 1px solid #ddd;
     padding: 20px;
-    border-radius: 0 0 6px 6px;
 }
 .welcome p {
     margin: 0 0 1em;
@@ -1391,18 +1419,6 @@ body.staff .sidebar-widget .post .title {
  .feed .meta,
  .featured-post .meta {
     
-}
-
-.comment-count {
-}
-
-.comment-count:before {
-    content: "\e111";
-    font-family: 'Glyphicons Halflings';
-    -webkit-font-smoothing: antialiased;
-    font-style: normal;
-    font-weight: normal;
-    margin-right: 5px;
 }
 
 .supervote {
