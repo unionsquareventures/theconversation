@@ -38,9 +38,9 @@
 <div class="link {% if has_tags %}has-tags{% end %}">
   {% if 'url' in p and p['url'] %}
     <a class="title" href="{{ p['url'] }}" rel="nofollow" target="_blank">{{ p['title'] }}</a>
-    <a href="{{ p['url'] }}" rel="nofollow" class="source" target="_blank">{% if 'domain' in p.keys() %}{{p['domain']}}{% else %}{{ urlparse(p['url']).netloc }}{% end %}</a>
+    <div class="source"> <span class="glyphicon glyphicon-link" style=""></span> <a href="{{ p['url'] }}" rel="nofollow" class="" target="_blank">{% if 'domain' in p.keys() %}{{p['domain']}}{% else %}{{ urlparse(p['url']).netloc }}{% end %}</a></div>
   {% else %}
     <a class="title" href="/posts/{{ p['slug'] }}" target="_blank">{{ p['title'] }}</a>
-    <a href="/posts/{{ p['slug'] }}" class="source" target="_blank">usv.com</a>
+    <div class="source"><span class="glyphicon glyphicon-link" style=""></span> <a href="/posts/{{ p['slug'] }}" class="source" target="_blank">usv.com</a></div>
   {% end %}
 </div>
