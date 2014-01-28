@@ -18,12 +18,16 @@
     
     <b><a class="dsq-comment-count comment-count" data-disqus-identifier="{{ str(p['_id']) }}" href="/posts/{{ p['slug'] }}">{{ p['comment_count'] }} comment{{ 's' if p['comment_count'] != 1 else '' }}</a></b>
     
+    {% if p['body_html'] and p['body_html'].strip() != ""  %}
     <a class="expand" data-status="closed" href="/posts/{{ p['slug'] }}"><span class="glyphicon glyphicon-collapse-down"></span> expand</a>
+    {% end %}
     
   </div>
+  {% if p['body_html'] and p['body_html'].strip() != ""  %}
   <div class="excerpt">
     {% raw p['body_html'] %}
   </div>
+  {% end %}
   <div class="meta clearfix">
     <div class="tags pull-right">
       {% for i, t in enumerate(p['tags']) %}
