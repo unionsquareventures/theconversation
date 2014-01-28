@@ -1082,7 +1082,7 @@ h2.subsection.section-heading.day-heading {
     font-size:0.85em;
 }
 .post .content {
-    padding: 8px 75px 0;
+    padding: 8px 50px 0 75px;
     margin: 0;
 }
 .post .excerpt {
@@ -1098,7 +1098,7 @@ h2.subsection.section-heading.day-heading {
 .post .link {
     /*background: #eeebee;
     border-top: 1px solid #eeebee;*/
-    padding: 10px 75px 8px;
+    padding: 10px 10px 10px 75px;
 }
 .post .link span.glyphicon {
     font-size: .7em;
