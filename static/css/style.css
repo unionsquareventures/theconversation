@@ -1050,6 +1050,8 @@ h2.subsection.section-heading.day-heading {
     line-height: 1em;
     margin: 0;
     padding: 0;
+    color:gray;
+    font-size:0.85em;
 }
 .post .meta.meta-top {
     margin: 5px 0 3px;
@@ -1079,7 +1081,7 @@ h2.subsection.section-heading.day-heading {
     display: block;
 }
 .post .link.has-tags .title {
-    padding-right: 100px;
+    
 }
 .post .tags {
     position: absolute;
@@ -1371,9 +1373,7 @@ body.staff .sidebar-widget .post .title {
  }
  .feed .meta,
  .featured-post .meta {
-    color:gray;
-    font-size:0.85em;
-    text-align:left;
+    
 }
 
 .comment-count {
