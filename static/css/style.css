@@ -1008,8 +1008,9 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 
 h2.subsection.section-heading.day-heading {
   text-align: left !important;  
-  margin: 0 0 8px;
-  border-bottom: none !important;
+  margin: 0 0 20px;
+  border-bottom: 1px solid #ddd !important;
+  padding: 10px;
 }
 
 .post {
@@ -1023,6 +1024,9 @@ h2.subsection.section-heading.day-heading {
     padding: 0px;
     margin: 0 0 20px;
     min-height: 75px;
+}
+.feed .post {
+    margin: 0 20px 20px;
 }
 .feed .post.featured {
     padding: 0 0 10px;
