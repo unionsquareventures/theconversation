@@ -1010,7 +1010,7 @@ h2.subsection.section-heading.day-heading {
   text-align: left !important;  
   margin: 0 0 20px;
   border-bottom: 1px solid #ddd !important;
-  padding: 10px;
+  padding: 0 10px 10px;
 }
 
 .post {
