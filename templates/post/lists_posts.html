@@ -32,7 +32,8 @@
           <p style="font-size: .9em; margin-bottom: 0; padding-top: 4px" class="pull-right"><a href="/posts/welcome-to-the-new-usvcom#comment-1066691905">posting guidelines</a> <span class="text-muted">|</span> <a id="show-tools-btn" href="#tools">tools</a></p>
         </div>
         
-        <div class="sidebar-widget" id="hot-posts-past-week">
+        
+        <div class="sidebar-widget" id="hot-posts-past-week" style="display:none">
           <h3 style="">Active conversations (last 5 days):</h3>
           <ul class="feed">
             {% for p in hot_posts_past_week %}
@@ -65,7 +66,7 @@
            </ul> 
           </div>
       </div><!-- /.col-sm-6 -->
-      <div class="col-sm-7" id="posts">
+      <div class="col-sm-8" id="posts">
         {% if msg == "success" and new_post %}
           <div class="alert alert-success" style="color: #333">
             <p style="margin-top:0"><strong>Thanks!</strong> Your post has been published. Here's the link: </p>  
@@ -92,6 +93,24 @@
 {% block javascript %}
   <script type="text/javascript">
     $(document).ready(function() {
+      
+      $('body').on('click', 'a.expand', function(e) {
+        e.preventDefault();
+        $excerpt = $(this).parent().parent().find('.excerpt');
+        
+        if ($(this).attr('data-status') == "closed") {
+          // open it
+          $excerpt.slideDown();
+          $(this).html('<span class="glyphicon glyphicon-collapse-up"></span> close');
+          $(this).attr('data-status', 'open');
+        } else {
+          // close it
+          $excerpt.slideUp();
+          $(this).html('<span class="glyphicon glyphicon-collapse-down"></span> expand');
+          $(this).attr('data-status', 'closed');
+        }
+        
+      })
       
       {% if infinite_scroll %}
       $('#posts').jscroll({

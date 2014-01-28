@@ -11,14 +11,14 @@
 	</h2>
 	<ul class="feed">
 		{% for i, p in enumerate(posts) %}
-				{% if i == 0 %}
+				{% if i < 5 %}
 					<li class="post post-lg clearfix">
-				{% elif i < midpoint %}
-					<li class="post post-md clearfix">
+						{% include post/post_snippet_reverse.html %}
 				{% else %}
 					<li class="post post-sm clearfix">
+						{% include post/post_snippet_reverse.html %}
 				{% end %}
-				{% include post/post_snippet.html %}
+				
 				</li>
 		{% end %}
 	</ul>

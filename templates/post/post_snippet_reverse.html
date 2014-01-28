@@ -6,15 +6,17 @@
 <div class="content">
   <div class="meta-top meta">
     <a class="username-link" href="/user/{{ p['user']['username'] }}" style="color: #999">@{{ p['user']['username'] }}</a>
-
+    
     <span class="time"><a href="/posts/{{ p['slug'] }}" ><span class="glyphicon glyphicon-link" style="margin: 0;font-size: 90%"></span> {{ p['date_created'].strftime("%I:%M %p") }}</a></span>
-
+    
     <span class="time-search" style="display:none"><a href="/posts/{{ p['slug'] }}" ><span class="glyphicon glyphicon-link" style="margin: 0;font-size: 90%"></span> {{ p['date_created'].strftime("%m/%d/%Y") }}</a></span>
-
-    <!--<a href="/posts/{{ p['slug'] }}" class="comment-count" ><span class="glyphicon glyphicon-comment" style="margin: 0;"></span></a> -->
-    <a class="dsq-comment-count comment-count" data-disqus-identifier="{{ str(p['_id']) }}" href="/posts/{{ p['slug'] }}">{{ p['comment_count'] }} comment{{ 's' if p['comment_count'] != 1 else '' }}</a>
+    
+    <b><a class="dsq-comment-count comment-count" data-disqus-identifier="{{ str(p['_id']) }}" href="/posts/{{ p['slug'] }}">{{ p['comment_count'] }} comment{{ 's' if p['comment_count'] != 1 else '' }}</a></b>
+    
+    <a class="expand" data-status="closed" href="/posts/{{ p['slug'] }}"><span class="glyphicon glyphicon-collapse-down"></span> expand</a>
+    
   </div>
-  <div class="excerpt" style="display: none;">
+  <div class="excerpt">
     {% raw p['body_html'] %}
   </div>
   <div class="meta clearfix">
@@ -27,7 +29,6 @@
     </div>
   </div>
   {% include bumpit_snippet.html %}
-
 </div>
 {% if len(p['tags']) > 0 %}
 {% set has_tags = True %}
@@ -37,7 +38,7 @@
 <div class="link {% if has_tags %}has-tags{% end %}">
   {% if 'url' in p and p['url'] %}
     <a class="title" href="{{ p['url'] }}" rel="nofollow" target="_blank">{{ p['title'] }}</a>
-    <!--<a href="{{ p['url'] }}" rel="nofollow" class="source" target="_blank">{% if 'domain' in p.keys() %}{{p['domain']}}{% else %}{{ urlparse(p['url']).netloc }}{% end %}</a>-->
+    <a href="{{ p['url'] }}" rel="nofollow" class="source" target="_blank">{% if 'domain' in p.keys() %}{{p['domain']}}{% else %}{{ urlparse(p['url']).netloc }}{% end %}</a>
   {% else %}
     <a class="title" href="/posts/{{ p['slug'] }}" target="_blank">{{ p['title'] }}</a>
     <a href="/posts/{{ p['slug'] }}" class="source" target="_blank">usv.com</a>

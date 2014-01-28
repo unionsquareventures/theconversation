@@ -8,4 +8,4 @@ except:
 
 from lib import postsdb
 
-postsdb.sort_posts(datetime.today() - timedelta(days=1))
+postsdb.sort_posts(datetime.today())

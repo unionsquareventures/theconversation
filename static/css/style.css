@@ -956,14 +956,6 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
     margin:0 0 50px;
     padding:0;
 }
- .feed li,
- .featured-post {
-    margin:0;
-    padding:8px 0 5px 0;
-    list-style:none;
-    position:relative;
-    border-bottom:1px solid #dfdfdf;
-}
  .featured-post {
     background:#eee;
     padding:20px !important;
@@ -1019,20 +1011,20 @@ h2.day-heading {
 }
 
 .feed .post {
+    margin:0;
+    list-style:none;
+    position:relative;
     clear: both;
-    padding: 10px 0;
+    border-radius: 6px;
+    background: #fffbff;
+    border: 1px solid #eeebee;
+    padding: 0px;
+    margin: 0 0 20px;
+    min-height: 75px;
 }
 .feed .post.featured {
     padding: 0 0 10px;
     margin-bottom: 15px;
-}
-
-.feed .post-lg {
-
-}
-
-.feed .post-sm {
-    padding: 5px 0;
 }
 
 .post .user {
@@ -1043,40 +1035,78 @@ h2.day-heading {
     font-size: 80%;
     color: #999;
     margin-left: 0px;
+    top: 10px;
+    left: 10px;
 }
+.post .volume {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    /*width: 20px;*/
+}
+.post .meta {
+    line-height: 1em;
+    margin: 0;
+    padding: 0;
+}
+.post .meta.meta-top {
+    margin: 5px 0 3px;
+    display: block;
+}
+.post .content {
+    padding: 10px 75px;
+    margin: 0;
+}
+.post .excerpt {
+    margin: 10px 0 0 0;
+    padding: 0;
+}
+.feed .post a.expand {
+    display: none;
+}
+.post .link {
+    background: #eeebee;
+    border-top: 1px solid #eeebee;
+    padding: 10px 75px;
+}
+.post .link .title {
+    font-size: 1em;
+    display: block;
+}
+.post .link.has-tags .title {
+    padding-right: 100px;
+}
+.post .tags {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+}
+
 .post .time {
     display: none !important; 
 }
 .post .comment-count {
-    margin-left: 10px;
-}
-.feed.search .post .volume {
-    display: none
-}
-.feed.search .post .user {
-    margin-left: 0 !important;
-}
-.feed.search .content {
-    margin-left: 68px !important;
-}
-.feed.search .post .excerpt {
-    display: none;
-}
-.feed.search .post .time {
-    display: none;
-}
-.feed.search .post .time-search {
-    display: inline !important;
+    margin-left: 20px;
 }
 
 .post .title {
-    margin-right: 60px !important;
+    /*margin-right: 60px !important;*/
+    font-family: "proximanova-semibold";
+    text-decoration:none;
+    line-height:1.2em;
+    color:#000;
+    margin-right:5px;
+    /*display:block;*/
+    -webkit-transition:color 0.15s ease-out;
+    -moz-transition:color 0.15s ease-out;
+    transition:color 0.15s ease-out;
 }
 body.staff .post .title {
-    margin-right: 100px !important;
+    /*margin-right: 100px !important;*/
 }
-.post .content {
-    
+
+.post .excerpt p {
+    margin: 0 0 .5em;
 }
 .post .tags a {
     color: #999 !important;
@@ -1087,40 +1117,26 @@ body.staff .post .title {
     margin-left: 10px;
 }
 
-.post-lg .title {
-    font-size: 1.3em !important;
-}
+/* Sm, Md, Lg variants */
+.feed .post-lg {
 
+}
+.post-lg .title {
+    
+}
 .post-md .title {
     font-size: 1em !important;
 }
-
-.sidebar-widget .post-sm .content {
-    margin-left: 0 !important;
+.post.post-sm .title {
+    font-family: 'proximanova-regular' !important;
 }
-.sidebar-widget .post-sm .user {
-    display:none;
+.feed .post-sm a.expand {
+    display: inline;
+    margin: 0 0 0 20px;
+    color: #999;
 }
-.sidebar-widget .post-sm .title {
-    color: #000 !important;
-}
-.sidebar-widget .post .time {
-    display: none;
-}
-.sidebar-widget .post .source {
-    display: none;
-}
-.sidebar-widget .post .time-search {
-    display: inline !important;
-}
-.post-sm .title {
-    font-family: 'proximanova-semibold' !important;
-    font-size: .9em !important;
-}
-.post-sm .user img {
-    zoom: 1;
-    filter: alpha(opacity=75);
-    opacity: 0.75;
+.post-sm .expand span {
+    margin: 0 !important;
 }
 .sidebar-widget .post-sm .tags {
     display:none;
@@ -1160,15 +1176,26 @@ body.staff .post .title {
 }
  .feed .title,
  .featured-post .title {
-    font-family: "proximanova-bold";
-    text-decoration:none;
-    line-height:1.2em;
-    color:#000;
-    margin-right:5px;
-    display:block;
-    -webkit-transition:color 0.15s ease-out;
-    -moz-transition:color 0.15s ease-out;
-    transition:color 0.15s ease-out;
+
+}
+
+feed.search .post .volume {
+    display: none
+}
+.feed.search .post .user {
+    margin-left: 0 !important;
+}
+.feed.search .content {
+    margin-left: 68px !important;
+}
+.feed.search .post .excerpt {
+    display: none;
+}
+.feed.search .post .time {
+    display: none;
+}
+.feed.search .post .time-search {
+    display: inline !important;
 }
 
 /*
@@ -1184,7 +1211,6 @@ body.staff .post .title {
 
 .sidebar-widget {
     margin-bottom: 35px;
-    padding: 0 20px;
 }
 .sidebar-widget h3 {
     text-transform:uppercase; 
@@ -1193,6 +1219,25 @@ body.staff .post .title {
     font-size: 14px; 
     line-height:1.428571429;
 }
+.sidebar-widget .post-sm .content {
+    margin-left: 0 !important;
+}
+.sidebar-widget .post-sm .user {
+    display:none;
+}
+.sidebar-widget .post-sm .title {
+    color: #000 !important;
+}
+.sidebar-widget .post .time {
+    display: none;
+}
+.sidebar-widget .post .source {
+    display: none;
+}
+.sidebar-widget .post .time-search {
+    display: inline !important;
+}
+
 .welcome {
     background: #eee;
     border-bottom: 1px solid #ddd;
@@ -1208,8 +1253,13 @@ body.staff .post .title {
 #todays-posts .more {
     display:none;
 }
-
-
+.sidebar-widget .post .title,
+body.staff .sidebar-widget .post .title {
+    margin-right: 0 !important;
+}
+.sidebar-widget .volume {
+    display: none;
+}
 
 
 
@@ -1262,7 +1312,6 @@ body.staff .post .title {
  .feed .excerpt ,
  .featured-post .excerpt{
     color:#000;
-    padding:7px 0 10px 0;
 }
 .source {
     color: gray;
@@ -1314,19 +1363,12 @@ body.staff .post .title {
     font-size: 70%;
     white-space: nowrap;
     opacity: .75em;
+    display: none; /* todo: remove */
 }
 .single .supervote {
     display: none;
 }
-.feed .volume {
-    position: absolute;
-    top: 10px;
-    right: 0px;
-    /*width: 20px;*/
-}
-.post-sm .volume {
-    top: 5px;
-}
+
 .feed .volume a {
     text-align: center;
     display: block;
@@ -3873,7 +3915,7 @@ ul.investments-list {
         
     }
      .feed .content {
-        margin-left:65px;
+        
     }
      .feed .avatar {
         display:block;
