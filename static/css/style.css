@@ -1006,8 +1006,10 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 #
 # =========================================================*/
 
-h2.day-heading {
+h2.subsection.section-heading.day-heading {
   text-align: left !important;  
+  margin: 0 0 8px;
+  border-bottom: none !important;
 }
 
 .feed .post {
