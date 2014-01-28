@@ -1124,8 +1124,9 @@ body.staff .post .title {
 }
 .tweet-post {
     float: right;
-    border: 1px solid #ddd;
-    background: #fff;
+    border: 1px solid #eeebee;
+    border-bottom: 1px solid #ddd;
+    background: #fffbff;
     border-top: none;
     border-radius: 0 0 6px 6px;
     width: 110px;
