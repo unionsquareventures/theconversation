@@ -1013,7 +1013,6 @@ h2.subsection.section-heading.day-heading {
 }
 
 .post {
-    margin:0;
     list-style:none;
     position:relative;
     clear: both;
@@ -1136,8 +1135,8 @@ body.staff .post .title {
 
 
 /* Sm, Md, Lg variants */
-.feed .post-lg {
-
+.post.post-lg .expand {
+    display: none;
 }
 .post-lg .title {
     
@@ -3876,8 +3875,7 @@ ul.investments-list {
 
  @media only screen and (min-width:720px) {
         .feed li {
-        padding:10px 0 15px 0;
-        margin-bottom:10px;
+        
     }
  }
 @media only screen and (min-width:769px) {
