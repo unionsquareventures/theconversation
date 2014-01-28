@@ -37,10 +37,10 @@ options = {
 }
 
 default_options = {
-  'active_theme': "usv",
-  'site_title': "Union Square Ventures",
-  'site_description': "Union Square Ventures (USV) is a New York City-based venture capital firm. We invest in networks that transform existing industries",
-
+  'active_theme': "default",
+  'site_title': "The Conversation",
+  'site_intro': "This is a website where people talk",
+  
   'project_root': os.path.abspath(os.path.join(os.path.dirname(__file__))),
 
   # twiter details
