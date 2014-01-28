@@ -1,0 +1,15 @@
+{% if 'url' in p and p['url'] %}
+  <a class="title" href="{{ p['url'] }}" rel="nofollow" target="_blank">{{ p['title'] }}</a>
+{% else %}
+  <a class="title" href="/posts/{{ p['slug'] }}" target="_blank">{{ p['title'] }}</a>
+{% end %}
+
+  
+<div class="meta">
+  <a class="username-link" href="/user/{{ p['user']['username'] }}" style="color: #999">@{{ p['user']['username'] }}</a>
+
+  <span class="date"><a href="/posts/{{ p['slug'] }}" ><span class="glyphicon glyphicon-link" style="margin: 0;font-size: 90%"></span> {{ p['date_created'].strftime("%m/%d/%Y") }}</a></span>
+
+  <a class="dsq-comment-count comment-count" data-disqus-identifier="{{ str(p['_id']) }}" href="/posts/{{ p['slug'] }}">{{ p['comment_count'] }} comment{{ 's' if p['comment_count'] != 1 else '' }}</a>
+
+</div>

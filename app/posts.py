@@ -95,6 +95,7 @@ class Feed(app.basic.BaseHandler):
 ##############
 class ListPosts(app.basic.BaseHandler):
   def get(self, day="today", page=1, sort_by="hot"):
+    view = "list"
     sort_by = self.get_argument('sort_by', sort_by)
     page = abs(int(self.get_argument('page', page)))
     per_page = abs(int(self.get_argument('per_page', '20')))
@@ -138,6 +139,7 @@ class ListPosts(app.basic.BaseHandler):
     hot_posts_past_week = postsdb.get_hot_posts_past_week()
 
     self.vars.update({
+      'view': view,
       'msg': msg,
       'posts': posts,
       'previous_day_posts': previous_day_posts,
@@ -511,7 +513,12 @@ class ViewPost(app.basic.BaseHandler):
         voted_users.append(i)
     post['voted_users'] = voted_users
     
-    self.render('post/view_post.html', user_obj=user, post=post, msg=msg, tag_posts=tag_posts)
+    hot_posts_past_week = postsdb.get_hot_posts_past_week()
+    featured_posts = {}
+    
+    view = "single"
+    
+    self.render('post/view_post.html', user_obj=user, post=post, msg=msg, tag_posts=tag_posts, hot_posts_past_week=hot_posts_past_week, featured_posts=featured_posts, view=view)
 
 #############
 ### WIDGET
