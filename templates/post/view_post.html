@@ -60,7 +60,9 @@
             {% end %}
           </h1>
           {% if 'url' in post and post['url'] %}
-            <p style="margin-top:0; margin-bottom: 25px"><a class="post-source" style="color: #999" href="{{ post['url'] }}" target="_blank">{{ urlparse(post['url']).netloc }} &rarr;</a></p>
+            <p style="margin-top:0; margin-bottom: 25px">
+              <span class="glyphicon glyphicon-link" style="font-size: .8em"></span> 
+              <a class="post-source" style="color: #999" href="{{ post['url'] }}" target="_blank">{{ urlparse(post['url']).netloc }} &rarr;</a></p>
           {% end %}
           <div>
             <div class="profile-photo">
