@@ -1018,6 +1018,7 @@ h2.day-heading {
     border-radius: 6px;
     background: #fffbff;
     border: 1px solid #eeebee;
+    border-bottom: 1px solid #ccc;
     padding: 0px;
     margin: 0 0 20px;
     min-height: 75px;
