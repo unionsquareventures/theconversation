@@ -1102,11 +1102,13 @@ h2.subsection.section-heading.day-heading {
 
 .post .title {
     /*margin-right: 60px !important;*/
+    display: block;
     font-family: "proximanova-semibold";
     text-decoration:none;
     line-height:1.2em;
     color:#000;
     margin-right:5px;
+    margin-bottom: 2px;
     /*display:block;*/
     -webkit-transition:color 0.15s ease-out;
     -moz-transition:color 0.15s ease-out;
@@ -1115,7 +1117,9 @@ h2.subsection.section-heading.day-heading {
 body.staff .post .title {
     /*margin-right: 100px !important;*/
 }
-
+.post .source a {
+    color: #999;
+}
 .post .excerpt p {
     margin: 0 0 .5em;
 }
@@ -1145,13 +1149,15 @@ body.staff .post .title {
     display: none;
 }
 .post-lg .title {
-    
+    font-size: 1em !important;
+    font-family: 'proximanova-bold' !important;
 }
 .post-md .title {
     font-size: 1em !important;
 }
 .post.post-sm .title {
-    font-family: 'proximanova-regular' !important;
+    font-size: 1em !important;
+    font-family: 'proximanova-bold' !important;
 }
 .feed .post-sm a.expand {
     display: inline;
