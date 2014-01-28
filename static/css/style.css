@@ -1018,7 +1018,7 @@ h2.day-heading {
     border-radius: 0 0 6px 6px;
     background: #fffbff;
     border: 1px solid #eeebee;
-    border-bottom: 1px solid #ccc;
+    border-bottom: 1px solid #ddd;
     padding: 0px;
     margin: 0 0 20px;
     min-height: 75px;
@@ -1243,7 +1243,7 @@ feed.search .post .volume {
 }
 
 .welcome {
-    background: #eee;
+    background: #eeebee;
     border-bottom: 1px solid #ddd;
     padding: 20px;
     border-radius: 0 0 6px 6px;
@@ -1745,7 +1745,7 @@ h2.section-heading.mobile-page-headline {
 }
 .person {
     list-style:none;
-    background:#eee;
+    background:#eeebee;
     border-bottom:1px solid #ddd;
     border-radius: 0 0 6px 6px;
     padding:10px;
@@ -1956,7 +1956,7 @@ h2.section-heading.mobile-page-headline {
 .company {
     position:relative;
     margin:0 0px 25px 0px;
-    background: #eee;
+    background: #eeebee;
     text-align:left;
     list-style:none;
     padding:10px 10px 40px;
