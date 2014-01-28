@@ -5,7 +5,8 @@
 		</div>
 		<button type="submit" class="btn btn-default">Go</button>
 	</form>
-	<p>{intro here}</p>
+	<p>A running conversation about how <a href="http://www.usv.com/posts/investment-thesis-usv">networks are transforming every sector</a>,
+	and what that means for the internet, the economy and society. Welcome!</p>
 	
 	
 	<p class="pull-left" style="margin: 0"><a class="btn btn-primary" role="button" data-toggle="modal" href="#submit-modal">Submit a post</a></p>
@@ -35,13 +36,3 @@
  <p style="font-size: .9em; text-align:left; margin: 5px 0 0;"><a href="/tags">More tags</a></p>
  </div>
  {% end %}
- <div class="sidebar-widget" style="display:none">
-	 <h3>Featured:</h3>
-	 <ul class="feed">
-		 {% for i, p in enumerate(featured_posts) %}
-			 <li class="post featured">
-				 {% include featured_post_snippet.html %}
-			 </li>
-		 {% end %}
-	 </ul> 
-	</div>
