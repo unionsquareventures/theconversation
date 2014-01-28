@@ -1012,11 +1012,9 @@ body.home #content > .container {
 
 h2.subsection.section-heading.day-heading {
   text-align: left !important;  
-  margin: 0 0 30px -31px;
+  margin: 0 0 20px;
   border-bottom: 1px solid #ddd !important;
-  padding: 15px 15px 10px 50px;
-  background: #eeebee;
-  border-radius: 0 6px 6px 0;
+  padding: 0 10px 10px;
 }
 
 .post {
@@ -1181,6 +1179,9 @@ body.staff .post .title {
 .post.post-sm .title {
     font-size: 1em !important;
     font-family: 'proximanova-bold' !important;
+}
+.post.post-sm .link {
+    padding-top: 0;
 }
 .feed .post-sm a.expand {
     display: inline;
