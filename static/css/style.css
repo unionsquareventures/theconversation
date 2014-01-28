@@ -1002,7 +1002,7 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 
 /*
 #
-# =Posts List
+# =Posts
 #
 # =========================================================*/
 
@@ -1012,7 +1012,7 @@ h2.subsection.section-heading.day-heading {
   border-bottom: none !important;
 }
 
-.feed .post {
+.post {
     margin:0;
     list-style:none;
     position:relative;
@@ -1064,7 +1064,7 @@ h2.subsection.section-heading.day-heading {
     margin: 10px 0 0 0;
     padding: 0;
 }
-.feed .post a.expand {
+.post a.expand {
     display: none;
 }
 .post .link {
@@ -1122,6 +1122,17 @@ body.staff .post .title {
     margin-right: 0 !important;
     margin-left: 10px;
 }
+.tweet-post {
+    float: right;
+    border: 1px solid #ddd;
+    background: #fff;
+    border-top: none;
+    border-radius: 0 0 6px 6px;
+    width: 110px;
+    margin: -20px 10px 0 !important;
+    padding: 10px 0px 3px 15px;
+}
+
 
 /* Sm, Md, Lg variants */
 .feed .post-lg {
@@ -1206,17 +1217,24 @@ feed.search .post .volume {
 
 /*
 #
+# Single
+#
+#===========================================================*/
+.single .post .comment-count {
+    display: none;
+}
+
+
+/*
+#
 # =Sidebar
 #
 # =========================================================*/
 
-.sidebar-widget ul.tags {
-    font-size: .7em;
-}
-
 
 .sidebar-widget {
-    margin-bottom: 35px;
+    margin: 0 0 35px;
+    padding: 0 0px;
 }
 .sidebar-widget h3 {
     text-transform:uppercase; 
@@ -1225,23 +1243,31 @@ feed.search .post .volume {
     font-size: 14px; 
     line-height:1.428571429;
 }
-.sidebar-widget .post-sm .content {
-    margin-left: 0 !important;
+.sidebar-widget ul.tags {
+    font-size: .7em;
 }
-.sidebar-widget .post-sm .user {
-    display:none;
+
+.feed .post.post-sidebar {
+    border: 0 !important;
+    margin: 0px 0 10px;
+    padding: 0px 0 10px !important;
+    border-bottom: 1px solid #ddd !important;
+    background: none !important;
+    border-radius: 0 !important;
+    padding:0;
+    min-height: 0 !important;
 }
-.sidebar-widget .post-sm .title {
-    color: #000 !important;
+.feed .post.post-sidebar .title {
+    display: block;
+    font-size: .9em !important;
+    line-height: 1.3em !important;
+    margin-bottom: 3px;
 }
-.sidebar-widget .post .time {
-    display: none;
+.post-sidebar span.date {
+    margin: 0 0 0 10px;
 }
-.sidebar-widget .post .source {
-    display: none;
-}
-.sidebar-widget .post .time-search {
-    display: inline !important;
+.post.post-sidebar a.comment-count {
+    margin-left: 0px !important;
 }
 
 .welcome {
@@ -2914,7 +2940,7 @@ span.staff {
 }
  }
 .comment-box {
-    margin-top:40px;
+    margin-top:20px;
 }
 @media only screen and (max-width:480px) {
     .article-post .profile-photo {
@@ -4276,7 +4302,7 @@ ul.investments-list {
         padding:0 35px 0 20px;
     }
     .community .usv-post {
-        margin-right: 35px;
+        
     }
     .article-post .share-widget {
         display:none;
