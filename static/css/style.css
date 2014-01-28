@@ -1069,6 +1069,9 @@ h2.day-heading {
     border-top: 1px solid #eeebee;
     padding: 10px 75px;
 }
+.post .link span.glyphicon {
+    font-size: .7em;
+}
 .post .link .title {
     font-size: 1em;
     display: block;
