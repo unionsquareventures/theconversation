@@ -37,7 +37,7 @@
   {% block css %}{% end %}
 </head>
 
-<body data-menu-position="closed" class="{% block body_class %}{% end %} {% if current_user in settings.get('staff') %}staff{% end %}">
+<body data-menu-position="closed" class="{{ body_location_class }} {% block body_class %}{% end %} {% if current_user in settings.get('staff') %}staff{% end %}">
   {% block submit_area %}
     <div class="modal fade in" id="submit-modal">
       <div class="modal-dialog">

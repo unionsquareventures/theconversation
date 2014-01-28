@@ -14,7 +14,12 @@ class BaseHandler(tornado.web.RequestHandler):
     #user = self.get_current_user()
     #css_file = "%s/css/threatvector.css" % settings.tornado_config['static_path']
     #css_modified_time = os.path.getmtime(css_file)
+    body_location_class = ""
+    if self.request.path == "/":
+      body_location_class = "home"
+      
     self.vars = {
+                    'body_location_class': body_location_class,
                     #'user': user,
                     #'css_modified_time': css_modified_time
                 }

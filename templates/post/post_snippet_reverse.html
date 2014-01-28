@@ -1,28 +1,29 @@
 
 
-
-
-<div class="user">
-  <a href="/user/{{ p['user']['username'] }}">
-    <img class="avatar" title="{{ p['user']['username'] }}" src="{{ p['user']['profile_image_url_https'] }}" alt="thumbnail">
-  </a>
+<div class="meta-top meta">
+  
+  <div class="user">
+    <a href="/user/{{ p['user']['username'] }}">
+      <img class="avatar" title="{{ p['user']['username'] }}" src="{{ p['user']['profile_image_url_https'] }}" alt="thumbnail">
+    </a>
+  </div>
+  
+  <a class="username-link" href="/user/{{ p['user']['username'] }}">@{{ p['user']['username'] }}</a>:
+  
+  <span class="time"><a href="/posts/{{ p['slug'] }}" ><span class="glyphicon glyphicon-link" style="margin: 0;font-size: 90%"></span> {{ p['date_created'].strftime("%I:%M %p") }}</a></span>
+  
+  <span class="time-search" style="display:none"><a href="/posts/{{ p['slug'] }}" ><span class="glyphicon glyphicon-link" style="margin: 0;font-size: 90%"></span> {{ p['date_created'].strftime("%m/%d/%Y") }}</a></span>
+  
+  <b><a class="dsq-comment-count comment-count" data-disqus-identifier="{{ str(p['_id']) }}" href="/posts/{{ p['slug'] }}">{{ p['comment_count'] }} comment{{ 's' if p['comment_count'] != 1 else '' }}</a></b>
+  
+  {% if p['body_html'] and p['body_html'].strip() != ""  %}
+  <a class="expand" data-status="closed" href="/posts/{{ p['slug'] }}"><span class="glyphicon glyphicon-collapse-down"></span> expand</a>
+  {% end %}
+  
 </div>
 
 <div class="content">
-  <div class="meta-top meta">
-    <a class="username-link" href="/user/{{ p['user']['username'] }}" style="color: #999">@{{ p['user']['username'] }}</a>
-    
-    <span class="time"><a href="/posts/{{ p['slug'] }}" ><span class="glyphicon glyphicon-link" style="margin: 0;font-size: 90%"></span> {{ p['date_created'].strftime("%I:%M %p") }}</a></span>
-    
-    <span class="time-search" style="display:none"><a href="/posts/{{ p['slug'] }}" ><span class="glyphicon glyphicon-link" style="margin: 0;font-size: 90%"></span> {{ p['date_created'].strftime("%m/%d/%Y") }}</a></span>
-    
-    <b><a class="dsq-comment-count comment-count" data-disqus-identifier="{{ str(p['_id']) }}" href="/posts/{{ p['slug'] }}">{{ p['comment_count'] }} comment{{ 's' if p['comment_count'] != 1 else '' }}</a></b>
-    
-    {% if p['body_html'] and p['body_html'].strip() != ""  %}
-    <a class="expand" data-status="closed" href="/posts/{{ p['slug'] }}"><span class="glyphicon glyphicon-collapse-down"></span> expand</a>
-    {% end %}
-    
-  </div>
+  
   {% if p['body_html'] and p['body_html'].strip() != ""  %}
   <div class="excerpt">
     {% raw p['body_html'] %}

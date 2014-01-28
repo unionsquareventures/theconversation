@@ -186,8 +186,6 @@ def insert_post(post):
 def sort_posts(day="all"):
   # set our config values up
   staff_bonus = -3
-  time_penalty_multiplier = 2.0
-  grace_period = 18.0
   comments_multiplier = 3.0
   votes_multiplier = 1.0
   super_upvotes_multiplier = 3.0
@@ -198,7 +196,6 @@ def sort_posts(day="all"):
   else:
     posts = get_hot_posts_by_day(day)
 
-  data = []
   for post in posts:
     # determine if we should assign a staff bonus or not
     if post['user']['username'] in settings.get('staff'):
