@@ -485,7 +485,7 @@ class ViewPost(app.basic.BaseHandler):
     post = postsdb.get_post_by_slug(slug)
     if not post:
       raise tornado.web.HTTPError(404)  
-      
+    
     tag_posts = []
     all_keeper_posts = []
     for t in post['tags']:

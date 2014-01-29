@@ -1157,13 +1157,9 @@ body.staff .post .title {
 }
 .tweet-post {
     float: right;
-    border: 1px solid #eeebee;
-    border-bottom: 1px solid #ddd;
     background: #fffbff;
-    border-top: none;
-    border-radius: 0 0 6px 6px;
-    width: 110px;
-    margin: -20px 10px 0 !important;
+    width: 100px;
+    margin: 0px 0px 0 !important;
     padding: 10px 0px 3px 15px;
 }
 
@@ -1201,7 +1197,6 @@ body.staff .post .title {
 .sidebar-widget .post-sm .tags {
     display:none;
 }
-
 .post.featured .content {
     margin-left: 65px !important;
 }
@@ -1226,6 +1221,21 @@ body.staff .post .title {
 .post-sm .tags {
     display: none;
 }
+
+/* =Single post overrides */
+.single .post .excerpt {
+    font-size: 1.1em;
+    font-style: normal;
+    margin: 30px 0 20px;
+}
+.single .post .title {
+    font-size: 1.3em !important;
+}
+.single .post .username-link {
+    font-size: 1.3em !important;
+}
+
+
 
 .feed li.repeat {
     display: none;
@@ -2882,11 +2892,11 @@ span.staff {
 }
 .article-post ul.bumps {
     padding: 0;
-    margin: 0;
+    margin: 0 100px 0 0;
 }
 .article-post ul.bumps li {
     display: block;
-    padding: 10px;
+    padding: 10px 10px 0 0;
     float: left;
 }
 .article-post ul.bumps li:last-child {
@@ -2981,7 +2991,7 @@ span.staff {
 }
  }
 .comment-box {
-    margin-top:20px;
+    margin-top:40px;
 }
 @media only screen and (max-width:480px) {
     .article-post .profile-photo {
