@@ -1008,7 +1008,7 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 # =========================================================*/
 
 body.home #content > .container {
-    padding-top: 12px;
+    padding-top: 5px;
 }
 div.subsection.section-heading.day-heading h2 {
     margin: 0;
@@ -1019,7 +1019,7 @@ div.subsection.section-heading.day-heading {
   text-align: left !important;  
   margin: 0 0 20px;
   border-bottom: 1px solid #ddd !important;
-  padding: 10px 10px 10px 15px;
+  padding: 5px 5px 5px 15px;
   background: #eeebee;
 }
 #todays-posts div.subsection.section-heading.day-heading {
@@ -1028,10 +1028,9 @@ div.subsection.section-heading.day-heading {
 }
 .day-filter .nav {
     margin-top: 3px;
-    font-size: .8em;
+    font-size: .75em;
     text-transform: none;
 }
- 
 .day-filter li {
     display: none;
 }
@@ -1065,14 +1064,14 @@ div.subsection.section-heading.day-heading {
     min-height: 75px;
 }
 .feed .post {
-    margin: 0 0px 20px;
+    margin: 0 0px 10px;
 }
 .feed .post.featured {
     padding: 0 0 10px;
     margin-bottom: 15px;
 }
 .post .meta.meta-top {
-    padding: 14px 0 0 75px;
+    padding: 16px 0 0 60px;
     display: block;
     background: #fffbff;
     border-bottom: 1px solid #ddd;
@@ -1089,8 +1088,12 @@ div.subsection.section-heading.day-heading {
     top: 12px;
     left: 10px;
 }
+.feed .user .avatar {
+    width: 35px;
+    height: 35px;
+}
 .post a.username-link {
-    color: #333 !important;
+    color: #555 !important;
 }
 .post .volume {
     position: absolute;
@@ -1100,7 +1103,7 @@ div.subsection.section-heading.day-heading {
 }
 #posts .post .comment-count {
     position: absolute;
-    top: 9px;
+    top: 12px;
     right: 72px;
 }
 .post .comment-count:before {
@@ -1119,7 +1122,7 @@ div.subsection.section-heading.day-heading {
     font-size:0.85em;
 }
 .post .content {
-    padding: 8px 50px 0 75px;
+    padding: 8px 50px 0 60px;
     margin: 0;
     background: #fff;
 }
@@ -1132,13 +1135,13 @@ div.subsection.section-heading.day-heading {
 .post a.expand {
     display: none;
     position: absolute;
-    top: 9px;
+    top: 12px;
     right: 200px;
 }
 .post .link {
     /*background: #eeebee;
     border-top: 1px solid #eeebee;*/
-    padding: 10px 10px 10px 75px;
+    padding: 10px 10px 0px 60px;
 }
 .post .link span.glyphicon {
     font-size: .7em;
@@ -1276,6 +1279,11 @@ body.staff .post .title {
 
 /* =Post =Responsive overrides */
 @media only screen and (max-width:480px) {
+    #todays-posts div.subsection.section-heading.day-heading {
+        margin-left: 0px;
+        padding-left: 15px;
+    }
+
     .feed .post {
         margin-bottom: 5px !important;
     }

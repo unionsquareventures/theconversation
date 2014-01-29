@@ -1,11 +1,10 @@
-<form id="" class="form-horizontal" role="form" action="/posts" method="POST">
+<form id="" class="form-horizontal submit-post-form" role="form" action="/posts" method="POST">
   <input type="hidden" name="slug" value="{% try %}{{post['slug']}}{% except %}{% end %}" />
   {% raw xsrf_form_html() %}
   <div class="form-group">
 	  <label for="title" class="col-xs-1 control-label">Title</label>
 	  <div class="col-xs-11">
 		  <input id="post_title" name="title" type="text" class="form-control" placeholder="Your Post Title" required="" value="{% try %}{{ post['title'] }}{% except %}{% end %}">
-		  <div class="field-errors">{% try %}{{ field_errors(errors, 'title') }}{% except %}{% end %}</div>
 		</div>
 	</div>
 	<div class="form-group">
