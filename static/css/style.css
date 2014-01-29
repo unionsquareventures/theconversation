@@ -1026,7 +1026,7 @@ h2.subsection.section-heading.day-heading {
     min-height: 75px;
 }
 .feed .post {
-    margin: 0 20px 20px;
+    margin: 0 0px 20px;
 }
 .feed .post.featured {
     padding: 0 0 10px;
