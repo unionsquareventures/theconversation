@@ -1035,7 +1035,7 @@ h2.subsection.section-heading.day-heading {
 .post .meta.meta-top {
     padding: 13px 0 0 75px;
     display: block;
-    background: #eeebee;
+    background: #fffbff;
     border-bottom: 1px solid #ddd;
     height: 37px;
 }
@@ -1082,10 +1082,13 @@ h2.subsection.section-heading.day-heading {
 .post .content {
     padding: 8px 50px 0 75px;
     margin: 0;
+    background: #fffbff;
+    font-style: italic;
 }
 .post .excerpt {
-    margin: 10px 0 0 0;
+    margin: 0;
     padding: 0;
+    color: #555 !important;
 }
 .post a.expand {
     display: none;
