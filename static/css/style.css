@@ -1019,7 +1019,7 @@ div.subsection.section-heading.day-heading {
   text-align: left !important;  
   margin: 0 0 20px;
   border-bottom: 1px solid #ddd !important;
-  padding: 10px 10px 10px 15px;
+  padding: 5px 5px 5px 15px;
   background: #eeebee;
 }
 #todays-posts div.subsection.section-heading.day-heading {
@@ -1028,10 +1028,9 @@ div.subsection.section-heading.day-heading {
 }
 .day-filter .nav {
     margin-top: 3px;
-    font-size: .8em;
+    font-size: .75em;
     text-transform: none;
 }
- 
 .day-filter li {
     display: none;
 }
@@ -1072,7 +1071,7 @@ div.subsection.section-heading.day-heading {
     margin-bottom: 15px;
 }
 .post .meta.meta-top {
-    padding: 14px 0 0 75px;
+    padding: 15px 0 0 60px;
     display: block;
     background: #fffbff;
     border-bottom: 1px solid #ddd;
@@ -1088,6 +1087,10 @@ div.subsection.section-heading.day-heading {
     margin-left: 0px;
     top: 12px;
     left: 10px;
+}
+.feed .user .avatar {
+    width: 35px;
+    height: 35px;
 }
 .post a.username-link {
     color: #333 !important;
@@ -1119,7 +1122,7 @@ div.subsection.section-heading.day-heading {
     font-size:0.85em;
 }
 .post .content {
-    padding: 8px 50px 0 75px;
+    padding: 8px 50px 0 60px;
     margin: 0;
     background: #fff;
 }
@@ -1138,7 +1141,7 @@ div.subsection.section-heading.day-heading {
 .post .link {
     /*background: #eeebee;
     border-top: 1px solid #eeebee;*/
-    padding: 10px 10px 10px 75px;
+    padding: 10px 10px 0px 60px;
 }
 .post .link span.glyphicon {
     font-size: .7em;
@@ -1276,6 +1279,11 @@ body.staff .post .title {
 
 /* =Post =Responsive overrides */
 @media only screen and (max-width:480px) {
+    #todays-posts div.subsection.section-heading.day-heading {
+        margin-left: 0px;
+        padding-left: 15px;
+    }
+
     .feed .post {
         margin-bottom: 5px !important;
     }

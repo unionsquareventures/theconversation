@@ -1,7 +1,7 @@
 <div class="feed-container">
 	<div class="subsection section-heading day-heading clearfix">
 		<h2 class="pull-left">
-		  {{ day.strftime("%A, %b %d, %Y") }}:
+		  {{ day.strftime("%a, %b %d, %Y") }}:
 		</h2>
 		<div class="pull-right day-filter" style="">
 			<ul class="nav nav-pills pull-left">
@@ -15,7 +15,7 @@
 	</div>
 	<ul class="feed" data-date="{{ day_str }}">
 		{% for i, p in enumerate(posts) %}
-				{% if i < 5 %}
+				{% if i == 0 %}
 					<li class="post post-lg clearfix" data-date-created="{{ p['date_created'] }}" data-sort-score="{{ p.get('daily_sort_score') }}">
 					{% include post_snippet_reverse.html %}
 					</li>
