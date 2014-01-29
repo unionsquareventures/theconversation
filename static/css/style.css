@@ -1007,7 +1007,7 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 # =========================================================*/
 
 body.home #content > .container {
-    padding-top: 10px;
+    
 }
 
 h2.subsection.section-heading.day-heading {
@@ -1235,22 +1235,48 @@ body.staff .post .title {
     font-size: 1.2em !important;
 }
 
-
-
-.feed li.repeat {
-    display: none;
-}
-
-.feed.sort-by-new li.repeat {
-    display: block !important;
-}
-
- .feed .avatar,
- .featured-post .avatar {
-    display:none;
-    border:1px solid #DFDFD1;
-    border-radius: 3px;
-    margin-bottom: 5px;
+/* =Post =Responsive overrides */
+@media only screen and (max-width:480px) {
+    .feed .post {
+        margin-bottom: 5px !important;
+    }
+    .post .user {
+        display: none;
+    }
+    .post .title {
+        display: inline !important;
+    }
+    .post .source {
+        display: inline !important;
+    }
+    .post .link {
+        padding-top: 0;
+        padding-left: 0 !important;
+        padding-right: 0;
+        margin-top: 0 !important;
+    }
+    .post .meta-top {
+        padding-left: 0 !important;
+        padding-right: 0;
+        margin-top: 0 !important;
+    }
+    .post .excerpt {
+        display: none;
+    }
+    .single .post .excerpt {        
+        padding-left: 0 !important;
+        display: block;
+        margin: 0;
+    }
+    .single .post .content {
+        padding: 10px 0;
+    }
+    .post .expand {
+        display: none !important;
+    }
+    .post .tags {
+        display: none;
+    }
 }
 
 .avatar {
@@ -1609,23 +1635,7 @@ body.staff .sidebar-widget .post .title {
     /*background:transparent url(/static/img/icon-upvote.png) no-repeat 0 center;*/
 }
 
- @media only screen and (-webkit-min-device-pixel-ratio:1.3), only screen and (min--moz-device-pixel-ratio:1.3), only screen and (-o-min-device-pixel-ratio:1.3 / 1), only screen and (min-resolution:125dpi), only screen and (min-resolution:1.3dppx) {
-    #pagination a.newer {
-    background:transparent url(/static/img/icon-left-pointer_2x.png) no-repeat 0 center;
-    background-size:6px 6px;
-}
- }
- #pagination a.older {
-    border:none;
-    padding-right:15px;
-    background:transparent url(/static/img/icon-right-pointer.png) no-repeat right center;
-}
- @media only screen and (-webkit-min-device-pixel-ratio:1.3), only screen and (min--moz-device-pixel-ratio:1.3), only screen and (-o-min-device-pixel-ratio:1.3 / 1), only screen and (min-resolution:125dpi), only screen and (min-resolution:1.3dppx) {
-    #pagination a.older {
-    background:transparent url(/static/img/icon-right-pointer_2x.png) no-repeat right center;
-    background-size:6px 6px;
-}
- }
+
 /* =Post=================================================================*/
 article.page {
     position:relative;
