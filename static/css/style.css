@@ -1291,6 +1291,9 @@ body.staff .post .title {
 feed.search .post .volume {
     display: none
 }
+.feed.search a.expand {
+    display: none;
+}
 .feed.search .post .user {
     margin-left: 0 !important;
 }
@@ -1337,6 +1340,9 @@ feed.search .post .volume {
 }
 .sidebar-widget ul.tags {
     font-size: .7em;
+}
+.sidebar-widget .feed {
+    margin-bottom: 25px;
 }
 
 .feed .post.post-sidebar {
