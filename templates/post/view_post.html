@@ -11,7 +11,80 @@
   <div id="main" role="main">
     
     <div class="row article-post single community">
-      <div class="col-sm-4">
+      <div class="col-sm-8 col-sm-push-4">
+        {% if msg and msg == "updated" %}
+        <div class="alert alert-success">
+          Post updated!
+        </div>
+        {% end %}
+        <article class="usv-post">
+          <div class="post">
+          {% set p = post %}
+          {% include post_snippet.html %}
+          </div>
+          <div class="clearfix row hidden-xs tweet-post">
+              <a href="https://twitter.com/share" class="twitter-share-button" data-text="{{ post['title'] }}" data-via="{{ post['user']['screen_name'] }}" data-hashtags="usvconversation">Tweet</a> 
+          </div>
+          
+          {% set tmp = post['voted_users'].reverse() %}
+          <ul class="bumps clearfix">
+          {% for user in post['voted_users'] %}
+              <li>
+                {% if 'screen_name' in user and user['screen_name'] != post['user']['screen_name'] %}
+                <span class="glyphicon glyphicon-circle-arrow-up" style="color: #ccc"></span>
+                {% else %} 
+                <span class="glyphicon glyphicon-plus-sign" style="color: #CE3B00"></span>
+                {% end %}
+              <a href="/user/{{ user['screen_name'] }}"><img class="avatar" src="{{ user.get('profile_image_url_https', '') }}" title="@{{ user['screen_name'] }} bumped this up" style="max-height:25px;" /></a>
+            </li>
+          {% end %}
+            </ul>
+      
+      
+          {% if current_user == post['user']['username'] and ('disqus_user_id' not in user_obj.keys() or user_obj['disqus_user_id'] == '') %} 
+            <div class="alert alert-info">
+              If you'd like to receive email notifications of new comments, <a href="/auth/disqus">link to Disqus here</a>.
+            </div>
+          {% end %}
+      
+          <div class="comment-box">
+            <div id="disqus_thread"></div>
+      
+            <script type="text/javascript">
+              var disqus_config = function() {
+                this.callbacks.onNewComment = [function(comment) {
+                  $.get("/api/incr_comment_count", { comment: comment.id, post: "{{ str(post['slug']) }}" }, function(result){});
+                }];
+              };
+            </script>
+      
+            <script type="text/javascript">
+              /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+              var disqus_shortname = "{{ post['disqus_shortname'] or settings.get('disqus_short_code') }}";
+              
+              
+              {% if post['disqus_shortname'] == 'usvbeta2' or post['disqus_shortname'] == 'unionsquareventures' %}
+              var disqus_identifier = "{{ post['_id'] }}";
+              var disqus_title = "{{ post['title'] }}";
+              var disqus_url = "http://{{settings.get('base_url')}}/posts/{{ post['slug'] }}";
+              {% else %}
+              var disqus_url = "{{ post['url'] }}";
+              {% end %}
+              /* * * DON'T EDIT BELOW THIS LINE * * */
+              (function() {
+                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+              })();
+            </script>
+            <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+            <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+      
+          </div>
+          
+        </article>
+      </div>
+      <div class="col-sm-4 col-sm-pull-8">
          
          <div class="sidebar-widget welcome clearfix">
            <form class="form form-inline search" role="form" method="GET" action="/search">
@@ -42,82 +115,8 @@
               {% end %}
            {% end %}
          </div>
-      </div>
-      <div class="col-sm-8">
-        {% if msg and msg == "updated" %}
-        <div class="alert alert-success">
-          Post updated!
-        </div>
-        {% end %}
-        <article class="usv-post">
-          <div class="post">
-          {% set p = post %}
-          {% include post_snippet.html %}
-          </div>
-          <div class="clearfix row hidden-xs tweet-post">
-              <a href="https://twitter.com/share" class="twitter-share-button" data-text="{{ post['title'] }}" data-via="{{ post['user']['screen_name'] }}" data-hashtags="usvconversation">Tweet</a> 
-          </div>
-          
-          {% set tmp = post['voted_users'].reverse() %}
-          <ul class="bumps clearfix">
-          {% for user in post['voted_users'] %}
-              <li>
-                {% if 'screen_name' in user and user['screen_name'] != post['user']['screen_name'] %}
-                <span class="glyphicon glyphicon-circle-arrow-up" style="color: #ccc"></span>
-                {% else %} 
-                <span class="glyphicon glyphicon-plus-sign" style="color: #CE3B00"></span>
-                {% end %}
-              <a href="/user/{{ user['screen_name'] }}"><img class="avatar" src="{{ user.get('profile_image_url_https', '') }}" title="@{{ user['screen_name'] }} bumped this up" style="max-height:25px;" /></a>
-            </li>
-          {% end %}
-            </ul>
-
-
-          {% if current_user == post['user']['username'] and ('disqus_user_id' not in user_obj.keys() or user_obj['disqus_user_id'] == '') %} 
-            <div class="alert alert-info">
-              If you'd like to receive email notifications of new comments, <a href="/auth/disqus">link to Disqus here</a>.
-            </div>
-          {% end %}
-
-          <div class="comment-box">
-            <div id="disqus_thread"></div>
-
-            <script type="text/javascript">
-              var disqus_config = function() {
-                this.callbacks.onNewComment = [function(comment) {
-                  $.get("/api/incr_comment_count", { comment: comment.id, post: "{{ str(post['slug']) }}" }, function(result){});
-                }];
-              };
-            </script>
-
-            <script type="text/javascript">
-              /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
-              var disqus_shortname = "{{ post['disqus_shortname'] or settings.get('disqus_short_code') }}";
-              
-              
-              {% if post['disqus_shortname'] == 'usvbeta2' or post['disqus_shortname'] == 'unionsquareventures' %}
-              var disqus_identifier = "{{ post['_id'] }}";
-              var disqus_title = "{{ post['title'] }}";
-              var disqus_url = "http://{{settings.get('base_url')}}/posts/{{ post['slug'] }}";
-              {% else %}
-              var disqus_url = "{{ post['url'] }}";
-              {% end %}
-              
-              /* * * DON'T EDIT BELOW THIS LINE * * */
-              (function() {
-                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-              })();
-            </script>
-            <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-            <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
-
-          </div>
-          
-        </article>
-      </div>
-    </div>
+      </div><!-- /.col -->     
+    </div><!-- .row -->
   </div>
 {% end %}
 

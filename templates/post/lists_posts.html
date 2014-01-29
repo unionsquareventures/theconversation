@@ -16,12 +16,7 @@
   <div id="main" role="main">  
   
     <div class="row">
-      <div class="col-sm-4 sidebar">
-
-        {% include post_sidebar.html %}
-
-      </div><!-- /.col-sm-6 -->
-      <div class="col-sm-8" id="posts">
+      <div class="col-sm-8 col-sm-push-4" id="posts">
         {% if msg == "success" and new_post %}
           <div class="alert alert-success" style="color: #333">
             <p style="margin-top:0"><strong>Thanks!</strong> Your post has been published. Here's the link: </p>  
@@ -40,7 +35,11 @@
         {% module daily_posts_list_snippet(day=previous_day, datetime=datetime, posts=previous_day_posts, current_user_can=current_user_can, midpoint=midpoint) %}
         
       </div><!-- /.col-sm-6 -->
-      
+      <div class="col-sm-4 col-sm-pull-8">
+        
+        {% include post_sidebar.html %}
+        
+      </div><!-- /.col-sm-6 -->
     </div><!-- /.row -->
   </div>
 {% end %}
