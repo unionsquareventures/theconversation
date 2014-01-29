@@ -1,6 +1,6 @@
 {% extends '../base.html' %}
 
-{% block body_class %}conversation{% end %}
+{% block body_class %}conversation single{% end %}
 
 {% block title %}{{ post['title'] }} | {% end %}
 
@@ -52,6 +52,7 @@
         <article class="usv-post">
           
           <div class="post">
+          {% set p = post %}
           {% include post_snippet.html %}
           </div>
           <div class="clearfix row hidden-xs tweet-post">
