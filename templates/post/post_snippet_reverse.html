@@ -1,4 +1,8 @@
-
+{% if len(p['tags']) > 0 %}
+{% set has_tags = True %}
+{% else %}
+{% set has_tags = False %}
+{% end %}
 
 <div class="meta-top meta">
   
@@ -22,7 +26,7 @@
   
 </div>
 
-<div class="content">
+<div class="content {% if has_tags %}has-tags{% end %}">
   
   {% if p['body_html'] and p['body_html'].strip() != ""  %}
   <div class="excerpt">
@@ -40,12 +44,8 @@
   </div>
   {% include bumpit_snippet.html %}
 </div>
-{% if len(p['tags']) > 0 %}
-{% set has_tags = True %}
-{% else %}
-{% set has_tags = False %}
-{% end %}
-<div class="link {% if has_tags %}has-tags{% end %}">
+
+<div class="link">
   {% if 'url' in p and p['url'] %}
     <a class="title" href="{{ p['url'] }}" rel="nofollow" target="_blank">{{ p['title'] }}</a>
     <div class="source"><a href="{{ p['url'] }}" rel="nofollow" class="" target="_blank">{% if 'domain' in p.keys() %}{{p['domain']}}{% else %}{{ urlparse(p['url']).netloc }}{% end %}</a></div>

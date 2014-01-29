@@ -1126,6 +1126,9 @@ div.subsection.section-heading.day-heading {
     margin: 0;
     background: #fff;
 }
+.post-lg .content.has-tags {
+    padding-right: 160px;
+}
 .post .excerpt {
     margin: 0;
     padding: 0;
@@ -1155,7 +1158,7 @@ div.subsection.section-heading.day-heading {
 }
 .post .tags {
     position: absolute;
-    bottom: 10px;
+    top: 50px;
     right: 10px;
 }
 
