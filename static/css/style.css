@@ -1034,6 +1034,9 @@ div.subsection.section-heading.day-heading {
 .day-filter li.day-permalink {
     display: block;
 }
+#todays-posts li.day-permalink {
+    display: none;
+}
 .day-filter ul.nav>li>a,
 .day-filter ul.nav>li>span {
     padding: 3px 7px;
