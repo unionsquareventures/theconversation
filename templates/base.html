@@ -20,8 +20,6 @@
   <link rel="apple-touch-icon" sizes="57x57" href="{{ static_url("img/usv-touch-icon.png") }}" />
   <link rel="shortcut icon" href="{{ static_url("themes/%s/img/favicon.png" % settings.get('active_theme')) }}" type="image/png" />
   <link rel="stylesheet" href="{{ static_url("css/bootstrap.min.css") }}" />
-  <link rel="stylesheet" href="{{ static_url("css/jquery.qtip.min.css") }}" />
-  <link rel="stylesheet" href="{{ static_url("css/qtip.css") }}" />
   <!-- dont cache style.css yes, since we're still developing on it heavily -->
   <link rel="stylesheet" href="{{ static_url("css/style.css") }}" />
   
@@ -205,6 +203,17 @@
   
   {% block javascript %}{% end %}
   <script type="text/javascript">
+    
+    /*
+    #
+    # Validate Post Form
+    #
+    */
+    $('.submit-post-form').submit(function(e) {
+      
+      
+    });
+    
     $(function() {
       $('.field-errors').each(function() {
         if($.trim($(this).html()) == '') {

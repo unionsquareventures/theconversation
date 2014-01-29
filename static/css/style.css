@@ -1008,7 +1008,7 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 # =========================================================*/
 
 body.home #content > .container {
-    padding-top: 12px;
+    padding-top: 5px;
 }
 div.subsection.section-heading.day-heading h2 {
     margin: 0;
@@ -1064,14 +1064,14 @@ div.subsection.section-heading.day-heading {
     min-height: 75px;
 }
 .feed .post {
-    margin: 0 0px 20px;
+    margin: 0 0px 10px;
 }
 .feed .post.featured {
     padding: 0 0 10px;
     margin-bottom: 15px;
 }
 .post .meta.meta-top {
-    padding: 15px 0 0 60px;
+    padding: 16px 0 0 60px;
     display: block;
     background: #fffbff;
     border-bottom: 1px solid #ddd;
@@ -1093,7 +1093,7 @@ div.subsection.section-heading.day-heading {
     height: 35px;
 }
 .post a.username-link {
-    color: #333 !important;
+    color: #555 !important;
 }
 .post .volume {
     position: absolute;
@@ -1103,7 +1103,7 @@ div.subsection.section-heading.day-heading {
 }
 #posts .post .comment-count {
     position: absolute;
-    top: 9px;
+    top: 12px;
     right: 72px;
 }
 .post .comment-count:before {
@@ -1135,7 +1135,7 @@ div.subsection.section-heading.day-heading {
 .post a.expand {
     display: none;
     position: absolute;
-    top: 9px;
+    top: 12px;
     right: 200px;
 }
 .post .link {
