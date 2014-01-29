@@ -15,7 +15,7 @@
 	</div>
 	<ul class="feed" data-date="{{ day_str }}">
 		{% for i, p in enumerate(posts) %}
-				{% if i < 4 %}
+				{% if i < 3 %}
 					<li class="post post-lg clearfix" data-date-created="{{ p['date_created'] }}" data-sort-score="{{ p.get('daily_sort_score') }}">
 					{% include post_snippet_reverse.html %}
 					</li>
