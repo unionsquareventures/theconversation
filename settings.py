@@ -1,4 +1,5 @@
 import os
+import time
 import tornado.options
 
 # Environmenal settings for heroku#
@@ -13,6 +14,8 @@ try:
   import settings_local_environ
 except:
   pass
+  
+time.tzset()
 
 tornado.options.define("environment", default="dev", help="environment")
 PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__)))
