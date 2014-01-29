@@ -1008,11 +1008,12 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 # =========================================================*/
 
 body.home #content > .container {
-    
+    padding-top: 12px;
 }
 div.subsection.section-heading.day-heading h2 {
     margin: 0;
     padding: 5px 0 0;
+    font-size: 1.1em;
 }
 div.subsection.section-heading.day-heading {
   text-align: left !important;  
@@ -1020,6 +1021,10 @@ div.subsection.section-heading.day-heading {
   border-bottom: 1px solid #ddd !important;
   padding: 10px 10px 10px 15px;
   background: #eeebee;
+}
+#todays-posts div.subsection.section-heading.day-heading {
+    margin-left: -31px;
+    padding-left: 40px;
 }
 .day-filter .nav {
     margin-top: 3px;
@@ -1405,7 +1410,7 @@ feed.search .post .volume {
 .welcome {
     background: #eeebee;
     border-bottom: 1px solid #ddd;
-    padding: 20px;
+    padding: 15px 20px;
 }
 .welcome p {
     margin: 0 0 1em;
