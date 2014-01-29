@@ -1083,12 +1083,12 @@ h2.subsection.section-heading.day-heading {
     padding: 8px 50px 0 75px;
     margin: 0;
     background: #fffbff;
-    font-style: italic;
 }
 .post .excerpt {
     margin: 0;
     padding: 0;
     color: #555 !important;
+    font-style: italic;
 }
 .post a.expand {
     display: none;
