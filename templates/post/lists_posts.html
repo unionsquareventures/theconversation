@@ -32,7 +32,7 @@
         {% include daily_posts_list_snippet.html %}
         </div>
         
-        {% module daily_posts_list_snippet(day=previous_day, datetime=datetime, posts=previous_day_posts, current_user_can=current_user_can, midpoint=midpoint) %}
+        {# module daily_posts_list_snippet(day=previous_day, datetime=datetime, posts=previous_day_posts, current_user_can=current_user_can, midpoint=midpoint) #}
         
       </div><!-- /.col-sm-6 -->
       <div class="col-sm-4 col-sm-pull-8">
@@ -48,10 +48,58 @@
   <script type="text/javascript">
     $(document).ready(function() {
       
+      /*
+      #
+      # Excerpt Sliders
+      #
+      */
+      function sortDateDescending(a, b) {
+        var timestamp1 = $(a).attr('data-date-created');
+        date1 = new Date(timestamp1);
+        var timestamp2 = $(b).attr('data-date-created');
+        date2 = new Date(timestamp2);
+        console.log(date1);
+        console.log(date2);
+        return date1 < date2 ? 1 : -1;
+      }
+      
+      function sortScoreDescending(a, b) {
+        var score1 = parseFloat($(a).attr('data-sort-score'));
+        var score2 = parseFloat($(b).attr('data-sort-score'));
+        return score1 < score2 ? 1 : -1;
+      }
+      
+      $('body').on('click', '.sort-day-hot', function(e) {
+        e.preventDefault();
+        day = $(this).attr('data-date');
+        ul = "ul[data-date='"+ day +"']";
+        li = "ul[data-date='"+ day +"'] li";
+        $ul = $(ul);
+        $li = $(li);
+        $(li).sort(sortScoreDescending).appendTo(ul);
+        $(this).parent().siblings().removeClass('active');
+        $(this).parent().addClass('active');
+      });
+      $('body').on('click', '.sort-day-new', function(e) {
+        e.preventDefault();
+        day = $(this).attr('data-date');
+        ul = "ul[data-date='"+ day +"']";
+        li = "ul[data-date='"+ day +"'] li";
+        $ul = $(ul);
+        $li = $(li);
+        $(li).sort(sortDateDescending).appendTo(ul);
+        $(this).parent().siblings().removeClass('active');
+        $(this).parent().addClass('active');
+      });
+      
+      /*
+      #
+      # Excerpt Sliders
+      #
+      */
       $('body').on('click', 'a.expand', function(e) {
         e.preventDefault();
         $excerpt = $(this).parent().parent().find('.excerpt');
-        
         if ($(this).attr('data-status') == "closed") {
           // open it
           $excerpt.slideDown();
@@ -63,9 +111,13 @@
           $(this).html('<span class="glyphicon glyphicon-collapse-down"></span> expand');
           $(this).attr('data-status', 'closed');
         }
-        
-      })
+      });
       
+      /*
+      #
+      # Infinite Scroll
+      #
+      */
       {% if infinite_scroll %}
       $('#posts').jscroll({
         contentSelector: '.feed-container',
