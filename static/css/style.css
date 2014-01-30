@@ -1051,8 +1051,9 @@ div.subsection.section-heading.day-heading {
     color: #676767;
 }
 .day-filter ul.nav>li.active>a {
-    background: #ccc;
-    color: #000;
+    background: #e3e3e3;
+    color: #444;
+    font-weight: bold;
 }
 
 .post {
