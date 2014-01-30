@@ -1106,7 +1106,7 @@ div.subsection.section-heading.day-heading {
 #posts .post .comment-count {
     position: absolute;
     top: 8px;
-    right: 62px;
+    right: 59px;
 }
 .post .comment-count:before {
     content: "\e111";
@@ -1609,7 +1609,7 @@ body.staff .sidebar-widget .post .title {
     /*color: #fff !important;*/
 }
 .volume.bumped a.votes-count {
-    background: #eee;
+    
 }
 .volume.bumped a.votes-count .glyphicon {
     /*color: #CE3B00 !important; */ /* RED */
