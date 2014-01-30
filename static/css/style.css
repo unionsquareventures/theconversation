@@ -1296,9 +1296,17 @@ body.staff .post .title {
 
 /* =Post =Responsive overrides */
 @media only screen and (max-width:480px) {
-
+    div.subsection.section-heading.day-heading h2 {
+        margin: 10px 0 0 0;
+    }
+    .day-filter .nav {
+        margin-top: 10px;
+    }
+    #posts .feed {
+        margin-left: 0 !important;
+    }
     .feed .post {
-        margin-bottom: 5px !important;
+        margin-bottom: 8px !important;
     }
     .post .user {
         display: none;
@@ -1311,20 +1319,15 @@ body.staff .post .title {
     }
     .post .link {
         padding-top: 0;
-        padding-left: 0 !important;
-        padding-right: 0;
         margin-top: 0 !important;
     }
     .post .meta-top {
-        padding-left: 0 !important;
-        padding-right: 0;
         margin-top: 0 !important;
     }
     .post .excerpt {
         display: none;
     }
     .single .post .excerpt {        
-        padding-left: 0 !important;
         display: block;
         margin: 0;
     }
