@@ -1358,7 +1358,6 @@ feed.search .post .volume {
     margin-left: 0 !important;
 }
 .feed.search .content {
-    margin-left: 68px !important;
 }
 .feed.search .post .excerpt {
     display: none;
@@ -3106,7 +3105,7 @@ span.staff {
     padding:2px 7px 0;
     border-radius:2px;
     color:gray;
-    font-size:0.85em;
+    font-size:1.2em;
 }
  .filter-tabs li a:hover,
 .sort-tabs li a:hover {
