@@ -50,7 +50,7 @@
       
       /*
       #
-      # Excerpt Sliders
+      # Sort Day Posts
       #
       */
       function sortDateDescending(a, b) {
@@ -73,7 +73,7 @@
         e.preventDefault();
         day = $(this).attr('data-date');
         ul = "ul[data-date='"+ day +"']";
-        li = "ul[data-date='"+ day +"'] li";
+        li = "ul[data-date='"+ day +"'] li.post";
         $ul = $(ul);
         $li = $(li);
         $(li).sort(sortScoreDescending).appendTo(ul);
@@ -84,7 +84,7 @@
         e.preventDefault();
         day = $(this).attr('data-date');
         ul = "ul[data-date='"+ day +"']";
-        li = "ul[data-date='"+ day +"'] li";
+        li = "ul[data-date='"+ day +"'] li.post";
         $ul = $(ul);
         $li = $(li);
         $(li).sort(sortDateDescending).appendTo(ul);
