@@ -962,10 +962,11 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
     margin-left: 50px;
 }
  .featured-post {
-    background:#eee;
+    background:#fff;
     padding:20px !important;
     margin-bottom:25px !important;
-    border-bottom:1px solid #ccc;
+    border-bottom:1px solid #ddd;
+    display: block;
 }
 .featured-post .avatar {
     position: absolute!important;
@@ -1497,6 +1498,8 @@ body.staff .sidebar-widget .post .title {
 }
 .featured-post.card.usv .title {
     padding-right: 0;
+    font-family: 'proximanova-semibold';
+    padding-bottom: 0;
 }
  .feed .excerpt ,
  .featured-post .excerpt{
