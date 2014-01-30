@@ -1283,10 +1283,14 @@ body.staff .post .title {
 .single .post .excerpt {
     font-size: 1.1em;
     font-style: normal;
-    margin: 30px 0 20px;
+    margin: 0px 0 0px;
+    border-bottom: none;
 }
 .single .post .title {
-    font-size: 1.3em !important;
+    margin-top: 15px;
+    display: block;
+    font-size: 1.5em !important;
+    font-family: 'proximanova-bold';
 }
 .single .post .link {
     padding: 10px 20px 20px;
@@ -1296,6 +1300,9 @@ body.staff .post .title {
 }
 .single .post .tags {
     right: 60px;
+}
+.single .post .time-search {
+    display: inline !important;
 }
 
 
@@ -1570,7 +1577,12 @@ body.staff .sidebar-widget .post .title {
 .volume .value {
     font-family: "proximanova-regular";
     display: inline-block;
+    color: #86AA3B;
     /*margin-right: 5px;*/
+}
+.volume.bumped .value {
+    color: #aaa;
+    font-weight: normal;
 }
 .volume .supervote .value {
     display: inline;
@@ -1589,7 +1601,7 @@ body.staff .sidebar-widget .post .title {
 .volume a.votes-count {
     /*color: #86AA3B !important;*/ /*GREEN*/
     /*color: #aaa !important; */
-    color: gray !important;
+    font-weight: bold;
     border-radius: 2px;
     border-bottom: none;
     padding: 2px 7px 2px 5px;
