@@ -1586,8 +1586,8 @@ body.staff .sidebar-widget .post .title {
     border-bottom: none;
     padding: 2px 7px 2px 5px;
     position: relative;
-    /*background: #fff;
-    border: 1px solid #ddd !important;*/
+    background: #fff;
+    /*border: 1px solid #ddd !important;*/
     box-shadow: none;
     display: block;
     /*width: 30px;*/
