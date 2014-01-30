@@ -12,7 +12,7 @@
     </a>
   </div>
   
-  <a class="username-link" href="/user/{{ p['user']['username'] }}">@{{ p['user']['username'] }}</a>:
+  <a class="username-link" href="/user/{{ p['user']['username'] }}">@{{ p['user']['username'] }}:</a>
   
   <span class="time"><a href="/posts/{{ p['slug'] }}" ><span class="glyphicon glyphicon-link" style="margin: 0;font-size: 90%"></span> {{ p['date_created'].strftime("%I:%M %p") }}</a></span>
   
@@ -43,8 +43,6 @@
     </div>
   </div>
   {% include bumpit_snippet.html %}
-</div>
-
 <div class="link">
   {% if 'url' in p and p['url'] %}
     <a class="title" href="{{ p['url'] }}" rel="nofollow" target="_blank">{{ p['title'] }}</a>
@@ -54,3 +52,7 @@
     <div class="source"><a href="/posts/{{ p['slug'] }}" class="source" target="_blank">usv.com</a></div>
   {% end %}
 </div>
+
+</div>
+
+
