@@ -1134,8 +1134,7 @@ div.subsection.section-heading.day-heading {
     margin: 0 0 5px;
     padding: 0 20px;
     color: #555 !important;
-    font-style: italic;
-    /*border-bottom: 1px solid #eeebee;*/
+    border-bottom: 1px solid #eeebee;
 }
 .post a.expand {
     display: none;
@@ -1145,7 +1144,7 @@ div.subsection.section-heading.day-heading {
 }
 .post .link {
     /*background: #eeebee;*/
-    padding: 10px 20px 0;
+    padding: 5px 20px 0;
     /*white-space: nowrap;
     overflow-x: hidden;*/
 }
@@ -1232,7 +1231,7 @@ body.staff .post .title {
     
 }
 .post.post-sm .link {
-    padding-top: 0;
+    padding-top: 5px;
 }
 .feed .post-sm a.expand {
     position: absolute;
