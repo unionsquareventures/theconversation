@@ -471,13 +471,14 @@ html {
     background:#888;
 }
 .shell {
-    background-color:#fff;
+    
 }
 body {
     font-family:"proximanova-regular", "Helvetica Neue", Arial, Helvetica, sans-serif;
     font-style:normal;
     font-weight:400;
     -webkit-font-smoothing:antialiased;
+    background: #f5f5f5;
 }
 .container {
     *zoom:1;
@@ -895,7 +896,7 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 }
 #content .container {
     padding:20px;
-    background:#fff;
+    background:#f5f5f5;
 }
 .tabs {
     margin:0 0 10px 0;
@@ -957,6 +958,9 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
     margin:0 0 50px;
     padding:0;
 }
+#posts .feed {
+    margin-left: 50px;
+}
  .featured-post {
     background:#eee;
     padding:20px !important;
@@ -1012,22 +1016,18 @@ body.home #content > .container {
 }
 div.subsection.section-heading.day-heading h2 {
     margin: 0;
-    padding: 5px 0 0;
+    padding: 0px 0 0;
     font-size: 1.1em;
+    border-bottom: none !important;
 }
 div.subsection.section-heading.day-heading {
   text-align: left !important;  
-  margin: 0 0 20px;
-  border-bottom: 1px solid #ddd !important;
-  padding: 5px 5px 5px 15px;
-  background: #eeebee;
-}
-#todays-posts div.subsection.section-heading.day-heading {
-    margin-left: -31px;
-    padding-left: 40px;
+  margin: 0 0 10px;
+  padding: 0px 5px 5px 0px;
+  border-bottom: none !important;
 }
 .day-filter .nav {
-    margin-top: 3px;
+    margin-top: 0px;
     font-size: .75em;
     text-transform: none;
 }
@@ -1054,7 +1054,6 @@ div.subsection.section-heading.day-heading {
     color: #000;
 }
 
-
 .post {
     list-style:none;
     position:relative;
@@ -1063,19 +1062,21 @@ div.subsection.section-heading.day-heading {
     margin: 0 0 20px;
     min-height: 75px;
 }
-.feed .post {
-    margin: 0 0px 10px;
+.feed .post,
+.single .post {
+    margin: 0 0px 20px;
+    background: #fff;
+    border-bottom: 1px solid #ddd;
 }
 .feed .post.featured {
     padding: 0 0 10px;
     margin-bottom: 15px;
 }
 .post .meta.meta-top {
-    padding: 16px 0 0 60px;
+    padding: 12px 0 0 20px;
     display: block;
-    background: #fffbff;
-    border-bottom: 1px solid #ddd;
-    height: 37px;
+    border-bottom: 1px solid #eee;
+    height: 34px;
 }
 .post .user {
     position: absolute;
@@ -1085,12 +1086,12 @@ div.subsection.section-heading.day-heading {
     font-size: 80%;
     color: #999;
     margin-left: 0px;
-    top: 12px;
-    left: 10px;
+    top: 0;
+    left: -60px;
 }
 .feed .user .avatar {
-    width: 35px;
-    height: 35px;
+    width: 45px;
+    height: 45px;
 }
 .post a.username-link {
     color: #555 !important;
@@ -1098,13 +1099,13 @@ div.subsection.section-heading.day-heading {
 .post .volume {
     position: absolute;
     top: 5px;
-    right: 8px;
+    right: 5px;
     /*width: 20px;*/
 }
 #posts .post .comment-count {
     position: absolute;
-    top: 12px;
-    right: 72px;
+    top: 8px;
+    right: 62px;
 }
 .post .comment-count:before {
     content: "\e111";
@@ -1122,18 +1123,18 @@ div.subsection.section-heading.day-heading {
     font-size:0.85em;
 }
 .post .content {
-    padding: 8px 50px 0 60px;
+    padding: 8px 0px 10px 0px;
     margin: 0;
     background: #fff;
 }
 .post-lg .content.has-tags {
-    padding-right: 160px;
 }
 .post .excerpt {
-    margin: 0;
-    padding: 0;
+    margin: 0 0 5px;
+    padding: 0 20px;
     color: #555 !important;
     font-style: italic;
+    /*border-bottom: 1px solid #eeebee;*/
 }
 .post a.expand {
     display: none;
@@ -1142,24 +1143,24 @@ div.subsection.section-heading.day-heading {
     right: 200px;
 }
 .post .link {
-    /*background: #eeebee;
-    border-top: 1px solid #eeebee;*/
-    padding: 10px 10px 0px 60px;
+    /*background: #eeebee;*/
+    padding: 10px 20px 0;
+    /*white-space: nowrap;
+    overflow-x: hidden;*/
 }
 .post .link span.glyphicon {
     font-size: .7em;
 }
 .post .link .title {
     font-size: 1em;
-    display: block;
 }
 .post .link.has-tags .title {
     
 }
 .post .tags {
     position: absolute;
-    top: 50px;
-    right: 10px;
+    top: 12px;
+    right: 185px;
 }
 
 .post .time {
@@ -1171,7 +1172,6 @@ div.subsection.section-heading.day-heading {
 
 .post .title {
     /*margin-right: 60px !important;*/
-    display: block;
     font-family: "proximanova-semibold";
     text-decoration:none;
     line-height:1.2em;
@@ -1185,6 +1185,9 @@ div.subsection.section-heading.day-heading {
 }
 body.staff .post .title {
     /*margin-right: 100px !important;*/
+}
+.post .source {
+    display: inline;
 }
 .post .source a {
     color: #999;
@@ -1202,7 +1205,6 @@ body.staff .post .title {
 }
 .tweet-post {
     float: right;
-    background: #fffbff;
     width: 100px;
     margin: 0px 0px 0 !important;
     padding: 10px 0px 3px 15px;
@@ -1222,18 +1224,19 @@ body.staff .post .title {
 }
 .post.post-sm .title {
     font-size: 1em !important;
-    font-family: 'proximanova-bold' !important;
+    font-family: 'proximanova-semibold' !important;
     margin-top: 4px;
 }
 .post-sm .excerpt {
-    padding: 10px 0 5px;
+    
 }
 .post.post-sm .link {
     padding-top: 0;
 }
 .feed .post-sm a.expand {
-    display: inline;
-    margin: 0 0 0 20px;
+    position: absolute;
+    top: 7px;
+    right: 175px;
     color: #999;
 }
 .post-sm .expand span {
@@ -1268,6 +1271,9 @@ body.staff .post .title {
 }
 
 /* =Single post overrides */
+.single .post {
+    margin-left: 50px;
+}
 .single .post .excerpt {
     font-size: 1.1em;
     font-style: normal;
@@ -1276,16 +1282,19 @@ body.staff .post .title {
 .single .post .title {
     font-size: 1.3em !important;
 }
+.single .post .link {
+    padding: 10px 20px 20px;
+}
 .single .post .username-link {
     font-size: 1.2em !important;
 }
+.single .post .tags {
+    right: 60px;
+}
+
 
 /* =Post =Responsive overrides */
 @media only screen and (max-width:480px) {
-    #todays-posts div.subsection.section-heading.day-heading {
-        margin-left: 0px;
-        padding-left: 15px;
-    }
 
     .feed .post {
         margin-bottom: 5px !important;
@@ -1419,7 +1428,7 @@ feed.search .post .volume {
 }
 
 .welcome {
-    background: #eeebee;
+    background: #e7e7e7;
     border-bottom: 1px solid #ddd;
     padding: 15px 20px;
 }
@@ -1577,8 +1586,8 @@ body.staff .sidebar-widget .post .title {
     border-bottom: none;
     padding: 2px 7px 2px 5px;
     position: relative;
-    background: #fff;
-    border: 1px solid #ddd !important;
+    /*background: #fff;
+    border: 1px solid #ddd !important;*/
     box-shadow: none;
     display: block;
     /*width: 30px;*/
@@ -2959,7 +2968,7 @@ span.staff {
 }
 .article-post ul.bumps {
     padding: 0;
-    margin: 0 100px 0 0;
+    margin: 0 100px 0 55px;
 }
 .article-post ul.bumps li {
     display: block;
@@ -3735,7 +3744,7 @@ body.network #nav-network a,
 body.portfolio #nav-portfolio a,
 body.about #nav-about a
  {
-    background-color:#fff;
+    background-color:#f5f5f5;
     color:#ddd;
     color:#88a04b;
     /* green */
