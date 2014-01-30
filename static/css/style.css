@@ -3108,8 +3108,11 @@ span.staff {
     padding:2px 7px 0;
     border-radius:2px;
     color:gray;
-    font-size:1.2em;
+    font-size:.75em;
 }
+ .filter-tabs.tags li a {
+     font-size: 1.2em;
+ }
  .filter-tabs li a:hover,
 .sort-tabs li a:hover {
     background-color:#ddd;
