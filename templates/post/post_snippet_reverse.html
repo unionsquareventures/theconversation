@@ -29,7 +29,7 @@
 <div class="content {% if has_tags %}has-tags{% end %}">
   
   {% if p['body_html'] and p['body_html'].strip() != ""  %}
-  <div class="excerpt">
+  <div class="excerpt" data-post-url="/posts/{{ p['slug'] }}">
     {% if p['body_html'].find('<p>') < 0 %}
       {% set excerpt = "<p>" + p['body_html'] + "</p>" %}
     {% else %}

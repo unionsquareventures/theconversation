@@ -1136,6 +1136,12 @@ div.subsection.section-heading.day-heading {
     color: #555 !important;
     border-bottom: 1px solid #eeebee;
 }
+.feed .post .excerpt {
+    cursor: pointer;
+}
+.feed .post .excerpt:hover {
+    
+}
 .post a.expand {
     display: none;
     position: absolute;

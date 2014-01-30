@@ -116,6 +116,16 @@
       
       /*
       #
+      # Excerpt special links
+      #
+      */
+      $('body').on('click', '.feed .excerpt', function(e) {
+        link = $(this).attr('data-post-url');
+        window.location = link;
+      });
+      
+      /*
+      #
       # Infinite Scroll
       #
       */
