@@ -4,27 +4,7 @@
   <div id="main" role="main">
     <div class="row">
 
-      <div class="col-sm-4">   
-        <div class="sidebar-widget">
-          <h3 style="">All Tags:</h3>
-          <!--
-          <ul class="nav nav-tabs">
-            <li><a href="#">By Count</a></li>
-            <li><a href="#">Alphabetical</a></li>
-          </ul>
-        -->
-          <ul class="filter-tabs tags">
-            {% for t in tags_count['result'] %}
-            {% if t['count'] > 2 %}
-                <li {% if t['_id'] == tag %}class="active"{% end %}>
-                  <a data-tag-count="{{t['count']}}" href="/tagged/{{t['_id']}}">#{{t['_id']}} ({{t['count']}})</a>
-                </li>
-            {% end %}
-            {% end %}
-          </ul>
-          </div>
-      </div>
-      <div class="col-sm-8" id="posts">
+      <div class="col-sm-8 col-sm-push-4" id="posts">
         {% if 'tag' not in globals() and total_count == 0 %}
         <br />
           <h3 style="text-align:right">&larr; Pick a tag</h3>
@@ -45,5 +25,25 @@
         </div>
         {% end %}
       </div><!-- /.col-sm-6 -->
+      <div class="col-sm-4 col-sm-pull-8">   
+        <div class="sidebar-widget">
+          <h3 style="">All Tags:</h3>
+          <!--
+          <ul class="nav nav-tabs">
+            <li><a href="#">By Count</a></li>
+            <li><a href="#">Alphabetical</a></li>
+          </ul>
+        -->
+          <ul class="filter-tabs tags">
+            {% for t in tags_count['result'] %}
+            {% if t['count'] > 2 %}
+                <li {% if t['_id'] == tag %}class="active"{% end %}>
+                  <a data-tag-count="{{t['count']}}" href="/tagged/{{t['_id']}}">#{{t['_id']}} ({{t['count']}})</a>
+                </li>
+            {% end %}
+            {% end %}
+          </ul>
+          </div>
+      </div>
   </div>
 {% end %}
