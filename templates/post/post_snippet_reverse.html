@@ -30,7 +30,12 @@
   
   {% if p['body_html'] and p['body_html'].strip() != ""  %}
   <div class="excerpt">
-    {% raw p['body_html'] %}
+    {% if p['body_html'].find('<p>') < 0 %}
+      {% set excerpt = "<p>" + p['body_html'] + "</p>" %}
+    {% else %}
+      {% set excerpt = p['body_html'] %}
+    {% end %}
+    {% raw excerpt %}
   </div>
   {% end %}
   <div class="meta clearfix">
