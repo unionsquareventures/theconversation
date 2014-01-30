@@ -110,7 +110,9 @@ class ListPosts(app.basic.BaseHandler):
     post = {}
     hot_tags = tagsdb.get_hot_tags()
     
+    is_today = False
     if day == "today":
+      is_today = True
       day = datetime.datetime.today()
     else:
       day = datetime.datetime.strptime(day, "%Y-%m-%d")
@@ -128,8 +130,8 @@ class ListPosts(app.basic.BaseHandler):
     if self.current_user:
       is_blacklisted = self.is_blacklisted(self.current_user)
 
-    posts = postsdb.get_hot_posts_by_day(day)
-    #posts = postsdb.get_hot_posts_24hr()
+    #posts = postsdb.get_hot_posts_by_day(day)
+    posts = postsdb.get_hot_posts_24hr()
     previous_day_posts = postsdb.get_hot_posts_by_day(previous_day)
     
     
@@ -139,6 +141,7 @@ class ListPosts(app.basic.BaseHandler):
     hot_posts_past_week = postsdb.get_hot_posts_past_week()
 
     self.vars.update({
+      'is_today': is_today,
       'view': view,
       'msg': msg,
       'posts': posts,

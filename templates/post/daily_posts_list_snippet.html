@@ -1,7 +1,11 @@
 <div class="feed-container">
 	<div class="subsection section-heading day-heading clearfix">
 		<h2 class="pull-left">
+			{% if is_today %}
+			TODAY:
+			{% else %}
 		  {{ day.strftime("%a, %b %d, %Y") }}:
+		  {% end %}
 		</h2>
 		<div class="pull-right day-filter" style="">
 			<ul class="nav nav-pills pull-left">
