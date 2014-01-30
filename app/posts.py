@@ -183,6 +183,8 @@ class ListPosts(app.basic.BaseHandler):
     post['featured'] = self.get_argument('featured', '')
     post['has_hackpad'] = self.get_argument('has_hackpad', '')
     post['slug'] = self.get_argument('slug', '')
+    post['sort_score'] = 0
+    post['daily_sort_score'] = 0
     if post['has_hackpad'] != '':
       post['has_hackpad'] = True
     else:
