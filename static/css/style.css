@@ -8,6 +8,10 @@
 #
 */
 
+.nav-tabs>li.active>a, .nav-tabs>li.active>a:hover {
+    background: #f7f7f7;
+}
+
 
 /* Fonts
 ==================*/

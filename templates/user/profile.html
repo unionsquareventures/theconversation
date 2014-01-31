@@ -4,8 +4,9 @@
 
 {% block content %}
   <div id="main" role="main">
-    <section class="featured-feed clearfix mobile-hidden">
-
+    
+    <div class="row">
+      <div class="col-sm-4">
       <div class="well" style="text-align:center">
         <img src="{{ user['user'].get('profile_image_url') }}" />  
         <h2 style="margin-bottom: 0;"><a href="http://twitter.com/{{screen_name}}" target="_blank">@{{screen_name}}</a> on Twitter</h2>
@@ -26,9 +27,9 @@
         {% end %}
       {% end %}
       {% end %}
-    </section>
 
-    <section class="hot-newest-feed">
+    </div>
+    <div class="col-sm-8">
 
       <ul class="nav nav-tabs" style="margin-top: 0">
         <li class="{{ 'active' if section == 'shares' else '' }}"><a class="" href="/user/{{ screen_name }}/shares">Shares</a></li>
@@ -57,13 +58,15 @@
         {% end %}
         
         {% if section != "settings" %}
+        <div id="posts">
         <ul class="feed sort-by-new">
           {% for p in posts %}
-            <li class="post post-md">
+            <li class="post post-sm">
               {% include ../post/post_snippet.html %}
             </li>
           {% end %}
         </ul>
+        </div>
       {% end %}
 
       <div id="pagination-next-prev"></div>
@@ -178,8 +181,8 @@
       
       {% end %}
   
-
-    </section>
+      </div><!-- /col -->
+    </div> <!-- /row -->
   </div>
 {% end %}
 
