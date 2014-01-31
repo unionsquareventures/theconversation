@@ -11,7 +11,7 @@
   <div id="main" role="main">
     
     <div class="row article-post single community">
-      <div class="col-sm-8 col-sm-push-4">
+      <div class="col-md-8 col-md-push-4 col-sm-12">
         {% if msg and msg == "updated" %}
         <div class="alert alert-success">
           Post updated!
@@ -84,7 +84,7 @@
           
         </article>
       </div>
-      <div class="col-sm-4 col-sm-pull-8">
+      <div class="col-sm-4 col-sm-pull-8 hidden-sm">
          
          <div class="sidebar-widget welcome clearfix">
            {% raw settings.get('site_intro') %}
