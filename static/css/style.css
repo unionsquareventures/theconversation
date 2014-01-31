@@ -8,6 +8,10 @@
 #
 */
 
+.nav-tabs>li.active>a, .nav-tabs>li.active>a:hover {
+    background: #f7f7f7;
+}
+
 
 /* Fonts
 ==================*/
@@ -1044,6 +1048,7 @@ div.subsection.section-heading.day-heading {
 .day-filter ul.nav>li>a,
 .day-filter ul.nav>li>span {
     padding: 3px 7px;
+    border-radius: 3px;
 }
 .day-filter ul.nav>li>span {
     display: block;
@@ -1062,6 +1067,7 @@ div.subsection.section-heading.day-heading {
     padding: 0px;
     margin: 0 0 20px;
     min-height: 75px;
+    border-radius: 3px;
 }
 .feed .post,
 .single .post {
@@ -1078,6 +1084,7 @@ div.subsection.section-heading.day-heading {
     display: block;
     border-bottom: 1px solid #eee;
     height: 34px;
+    /*background: url('/static/img/linen.png') top left repeat;*/
 }
 .post .user {
     position: absolute;
@@ -1134,7 +1141,7 @@ div.subsection.section-heading.day-heading {
     margin: 0 0 5px;
     padding: 0 20px;
     color: #555 !important;
-    border-bottom: 1px solid #eeebee;
+    border-bottom: 1px solid #eee;
 }
 .feed .post .excerpt {
     cursor: pointer;
@@ -1166,7 +1173,7 @@ div.subsection.section-heading.day-heading {
 .post .tags {
     position: absolute;
     top: 12px;
-    right: 185px;
+    right: 180px;
 }
 
 .post .time {
@@ -1249,7 +1256,7 @@ body.staff .post .title {
     margin: 0 !important;
 }
 .sidebar-widget .post-sm .tags {
-    display:none;
+    
 }
 .post.featured .content {
     margin-left: 65px !important;
@@ -1304,6 +1311,9 @@ body.staff .post .title {
 .single .post .time-search {
     display: inline !important;
 }
+.single .post .content {
+    padding-bottom: 20px;
+}
 
 
 /* =Post =Responsive overrides */
@@ -1339,6 +1349,7 @@ body.staff .post .title {
     .post .excerpt {
         display: none;
     }
+
     .single .post .excerpt {        
         display: block;
         margin: 0;
@@ -1446,6 +1457,7 @@ feed.search .post .volume {
     background: #e7e7e7;
     border-bottom: 1px solid #ddd;
     padding: 15px 20px;
+    border-radius: 3px;
 }
 .welcome p {
     margin: 0 0 1em;
@@ -1606,7 +1618,7 @@ body.staff .sidebar-widget .post .title {
     border-bottom: none;
     padding: 2px 7px 2px 5px;
     position: relative;
-    background: #fff;
+    background: transparent;
     /*border: 1px solid #ddd !important;*/
     box-shadow: none;
     display: block;
@@ -1628,6 +1640,10 @@ body.staff .sidebar-widget .post .title {
     /*color: #fff !important;
     background: #86AA3B !important;*/
     color: #bbb !important;
+}
+.volume .popover {
+    border-radius: 3px;
+    border-color: #ddd;    
 }
 
 .feed .volume span {
@@ -3121,7 +3137,7 @@ span.staff {
     background-color:#eee;
     border:1px solid #ddd;
     padding:2px 7px 0;
-    border-radius:2px;
+    border-radius:3px;
     color:gray;
     font-size:.85em;
 }
