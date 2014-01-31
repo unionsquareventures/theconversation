@@ -65,40 +65,7 @@ def send_daily_email(email):
 	recipients = userdb.get_newsletter_recipients()
 	email_name = "Daily %s" % datetime.datetime.today().strftime("%a %b %d, %Y")
 	
-	# New!  Uses the sendgrid newsletter API
-	# =====
-	# 1) create a "list" for today's email	
-	# POST https://api.sendgrid.com/api/newsletter/lists/add.json
-	# @list (list name)
-	api_link = 'https://api.sendgrid.com/api/newsletter/lists/add.json'
-	params = {
-		'list': email_name
-	}
-	result = do_api_request(api_link, method='POST', params=params)
-	
-	# 2) add everyone from our recipients list to the sendgrid list
-	# POST https://api.sendgrid.com/api/newsletter/lists/email/add.json
-	# list=ListName  data[]={ 'email': '', 'name': '' } & data[]={ 'email': '', 'name': '' }
-	api_link = 'https://api.sendgrid.com/api/newsletter/lists/email/add.json'
-	
-	num_groups = int(math.ceil(len(recipients) / 50))
-	recipient_groups = split_seq(recipients, num_groups) 
-
-	for i, group in enumerate(recipient_groups):
-		# sendgrid needs list add requests to be < 100 peole
-		users = MultiDict()	
-		for i, user in enumerate(group):
-			if user.get('user').get('username') != "" and user.get('email_address') != "":
-				users.add('data', '{"name":"%s","email":"%s"}' % (user.get('user').get('username'), user.get('email_address')))
-
-		params = {
-			'list': email_name,
-			'data': users.getlist('data')
-		}
-	
-		result = do_api_request(api_link, method='POST', params=params)
-		
-	# 3) create the email
+	# 1) create the email
 	# POST https://api.sendgrid.com/api/newsletter/add.json
 	# @identity (created in advance == the sender's identity), @name (of email), @subject, @text, @html
 	api_link = 'https://api.sendgrid.com/api/newsletter/add.json'
@@ -111,8 +78,17 @@ def send_daily_email(email):
 	}
 	result = do_api_request(api_link, method="POST", params=params)
 	
+	# =====
+	# 2) create a "list" for today's email	
+	# POST https://api.sendgrid.com/api/newsletter/lists/add.json
+	# @list (list name)
+	api_link = 'https://api.sendgrid.com/api/newsletter/lists/add.json'
+	params = {
+		'list': email_name
+	}
+	result = do_api_request(api_link, method='POST', params=params)
 	
-	# 4) Add your list to the email
+	# 3) Add your list to the email
 	# POST https://api.sendgrid.com/api/newsletter/recipients/add.json
 	# @list (name of the list to assign to this email) @name (name of the email)
 	api_link = 'https://api.sendgrid.com/api/newsletter/recipients/add.json'
@@ -123,6 +99,28 @@ def send_daily_email(email):
 	result = do_api_request(api_link, method="POST", params=params)
 	print result
 	
+	# 4) add everyone from our recipients list to the sendgrid list
+	# POST https://api.sendgrid.com/api/newsletter/lists/email/add.json
+	# list=ListName  data[]={ 'email': '', 'name': '' } & data[]={ 'email': '', 'name': '' }
+	api_link = 'https://api.sendgrid.com/api/newsletter/lists/email/add.json'
+	
+	num_groups = int(math.ceil(len(recipients) / 50))
+	recipient_groups = split_seq(recipients, num_groups) 
+	
+	for i, group in enumerate(recipient_groups):
+		# sendgrid needs list add requests to be < 100 peole
+		users = MultiDict()	
+		for i, user in enumerate(group):
+			if user.get('user').get('username') != "" and user.get('email_address') != "":
+				users.add('data', '{"name":"%s","email":"%s"}' % (user.get('user').get('username'), user.get('email_address')))
+	
+		params = {
+			'list': email_name,
+			'data': users.getlist('data')
+		}
+	
+		result = do_api_request(api_link, method='POST', params=params)
+	
 	# 5) send the email
 	# POST https://api.sendgrid.com/api/newsletter/schedule/add.json
 	# @name (created in step 3)
@@ -132,11 +130,10 @@ def send_daily_email(email):
 	}
 	result = do_api_request(api_link, 'POST', params=params)
 	#check email sent
-
+	
 	# 6) Log it
 	if email_sent:
 		log_daily_email(email, recipient_usernames)
-
 	
 #
 # Add a daily email to the log
