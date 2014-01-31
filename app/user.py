@@ -116,6 +116,7 @@ class Profile(app.basic.BaseHandler):
     if not user:
       raise tornado.web.HTTPError(404)
     
+    view = "profile"
     #section = self.get_argument('section', 'shares')
     tag = self.get_argument('tag', '')
     per_page = int(self.get_argument('per_page', 10))
@@ -134,7 +135,7 @@ class Profile(app.basic.BaseHandler):
     # also get the list of tags this user has put in
     tags = tagsdb.get_user_tags(screen_name)
 
-    self.render('user/profile.html', user=user, screen_name=screen_name, posts=posts, section=section, page=page, per_page=per_page, tags=tags, tag=tag, msg=None)
+    self.render('user/profile.html', user=user, screen_name=screen_name, posts=posts, section=section, page=page, per_page=per_page, tags=tags, tag=tag, msg=None, view=profile)
 
 ###########################
 ### USER SETTINGS
