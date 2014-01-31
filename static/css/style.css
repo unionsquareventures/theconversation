@@ -1171,7 +1171,7 @@ div.subsection.section-heading.day-heading {
 .post .tags {
     position: absolute;
     top: 12px;
-    right: 185px;
+    right: 180px;
 }
 
 .post .time {
@@ -1247,14 +1247,14 @@ body.staff .post .title {
 .feed .post-sm a.expand {
     position: absolute;
     top: 7px;
-    right: 175px;
+    left: 165px;
     color: #999;
 }
 .post-sm .expand span {
     margin: 0 !important;
 }
 .sidebar-widget .post-sm .tags {
-    display:none;
+    
 }
 .post.featured .content {
     margin-left: 65px !important;
@@ -1278,7 +1278,7 @@ body.staff .post .title {
 }
 
 .post-sm .tags {
-    display: none;
+    
 }
 
 /* =Single post overrides */
