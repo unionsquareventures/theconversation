@@ -135,7 +135,7 @@ class Profile(app.basic.BaseHandler):
     # also get the list of tags this user has put in
     tags = tagsdb.get_user_tags(screen_name)
 
-    self.render('user/profile.html', user=user, screen_name=screen_name, posts=posts, section=section, page=page, per_page=per_page, tags=tags, tag=tag, msg=None, view=profile)
+    self.render('user/profile.html', user=user, screen_name=screen_name, posts=posts, section=section, page=page, per_page=per_page, tags=tags, tag=tag, msg=None, view=view)
 
 ###########################
 ### USER SETTINGS
