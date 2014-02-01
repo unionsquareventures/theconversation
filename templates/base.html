@@ -225,18 +225,7 @@
         $(this).closest('.field-errors').hide();
       });
     });
-
-
-    $('ul.feed .votes-count').each(function() {
-      var options = {
-        'content': $(this).siblings('.voted_users').html(),
-        'placement': 'bottom',
-        'trigger': 'hover',
-        'html': true,
-        'delay': {'show': 500, 'hide': 500}
-      }
-      $(this).popover(options)
-    });
+    
     
     $('body').on('click', '.ajax_upvote_link', function(e) {
       e.stopPropagation();

@@ -51,6 +51,25 @@
       
       /*
       #
+      # Voted Users Popover
+      #
+      */
+      var setupVotedListPopover = function() {
+        $('ul.feed .votes-count').each(function() {
+          var options = {
+            'content': $(this).siblings('.voted_users').html(),
+            'placement': 'bottom',
+            'trigger': 'hover',
+            'html': true,
+            'delay': {'show': 500, 'hide': 500}
+          }
+          $(this).popover(options)
+        });
+      }
+      setupVotedListPopover()
+      
+      /*
+      #
       # Sort Day Posts
       #
       */
@@ -132,9 +151,13 @@
       {% if infinite_scroll %}
       $('#posts').jscroll({
         contentSelector: '.feed-container',
-        loadingHtml: '<img src="/static/img/ajax-loader.gif" />'
+        loadingHtml: '<img src="/static/img/ajax-loader.gif" />',
+        callback: onScrollLoad
       });
       {% end %}
+      function onScrollLoad() {
+        setupVotedListPopover();
+      }
       
       if (window.location.hash == "#tools") {
         $("#tools").modal('show');
@@ -172,7 +195,11 @@
         {% end %}
       {% end %}
       
-      /* Tag weighting */
+      /*
+      #
+      # Tag Weighting
+      #
+      */
       function compare(a,b){
         return a-b;
       }
