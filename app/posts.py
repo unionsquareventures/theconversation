@@ -543,10 +543,11 @@ class Widget(app.basic.BaseHandler):
       #action = self.get_argument('action', '')
       page = abs(int(self.get_argument('page', '1')))
       per_page = abs(int(self.get_argument('per_page', '9')))
+      num_posts = abs(int(self.get_argument('num_posts', '5')))
 
       # get the current hot posts
       posts = postsdb.get_hot_posts(per_page, page)
-      self.render('post/widget.js', posts=posts)
+      self.render('post/widget.js', posts=posts, num_posts=num_posts)
 
 ###################
 ### WIDGET DEMO

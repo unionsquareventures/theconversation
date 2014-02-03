@@ -164,13 +164,15 @@
     document.write('<h1 id="usv-title"><a href="http://www.usv.com?referer=widget" target="_blank">#usvconversation</a></h1>');
     document.write('<div id="usv-widget-content">');
     document.write('<ul id="usv-posts">');
-      {% for post in posts %}
+      {% for i, post in enumerate(posts) %}
         {% if 'previous_author_username' in locals() and previous_author_username == post['user']['username'] %}
           {% set repeat = True %}
         {% else %}
           {% set repeat = False %}
         {% end %}
         var title = RegExp.escape("{{ post['title'] }}");
+        
+        {% if i < num_posts %}
         document.write('<li {% if repeat %}class="repeat"{% end %}>');
           document.write('<img class="avatar" src="{{ post["user"]["profile_image_url"] }}" />');
           document.write('<h3 class="usv-post-title"><a href="http://www.usv.com/posts/{{ post["slug"] }}?referer=widget" target="_blank">' + title + '</a></h3>');
@@ -182,6 +184,7 @@
           {% end %}
         document.write('</li>');
         {% set previous_author_username = post['user']['username'] %}  
+        {% end %}
       {% end %}
     document.write('</ul>');
     document.write('<ul id="usv-nav">');
