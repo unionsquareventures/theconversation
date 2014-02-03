@@ -1023,6 +1023,7 @@ div.subsection.section-heading.day-heading h2 {
     padding: 0px 0 0;
     font-size: 1.1em;
     border-bottom: none !important;
+    text-align: left;
 }
 div.subsection.section-heading.day-heading {
   text-align: left !important;  

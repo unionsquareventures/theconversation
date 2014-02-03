@@ -1,24 +1,25 @@
-{% set day_str = str(datetime.date(day.year, day.month, day.day)) %}
-{% set previous_day = day - datetime.timedelta(days=1) %}
-{% set previous_day_str = str(datetime.date(previous_day.year, previous_day.month, previous_day.day)) %}
-
 <div class="feed-container">
-	<h2 class="subsection section-heading day-heading" >
-		{{ day.strftime("%A, %b %d, %Y") }}:
-			<a class="pull-right" href="/day/{{ day_str }}" style="text-transform:none; font-size: 70%; margin-left: 30px">
-				<span class="glyphicon glyphicon-link" style=""></span>  Permalink
-			</a>
-	</h2>
-	<ul class="feed">
+	<div class="subsection section-heading day-heading clearfix">
+		<h2 class="pull-left">
+			{% if is_today %}
+			TODAY:
+			{% else %}
+			{{ day.strftime("%a, %b %d, %Y") }}:
+			{% end %}
+		</h2>
+	</div>
+	<ul class="feed" data-date="{{ day_str }}">
 		{% for i, p in enumerate(posts) %}
-				{% if i < 5 %}
-					<li class="post post-lg clearfix">
-						{% include post/post_snippet_reverse.html %}
+				{% if i < 3 %}
+					<li class="post post-lg clearfix" data-date-created="{{ p['date_created'] }}" data-sort-score="{{ p.get('daily_sort_score') }}">
+					{% include post/post_snippet_reverse.html %}
+					</li>
 				{% else %}
-					<li class="post post-sm clearfix">
-						{% include post/post_snippet_reverse.html %}
+					<li class="post post-sm clearfix" data-date-created="{{ p['date_created'] }}" data-sort-score="{{ p.get('daily_sort_score') }}">
+					{% include post/post_snippet_reverse.html %}
+					</li>
 				{% end %}
-				
+
 				</li>
 		{% end %}
 	</ul>

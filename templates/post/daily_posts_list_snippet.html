@@ -17,6 +17,13 @@
 	</a></ul>
 		</div>
 	</div>
+	
+	{% if is_today and len(posts) == 0 %}
+		<div class="alert alert-warning">
+			Nothings has been posted yet today.  <b><a href="/posts/new">Be the first!</a></b>
+		</div>
+	{% end %}
+	
 	<ul class="feed" data-date="{{ day_str }}">
 		{% for i, p in enumerate(posts) %}
 				{% if i < 3 %}

@@ -33,7 +33,9 @@
         {% include daily_posts_list_snippet.html %}
         </div>
         
-        {# module daily_posts_list_snippet(day=previous_day, datetime=datetime, posts=previous_day_posts, current_user_can=current_user_can, midpoint=midpoint) #}
+        {% if len(posts) < 5 %}
+        {% module daily_posts_list_snippet(day=previous_day, datetime=datetime, posts=previous_day_posts, current_user_can=current_user_can, midpoint=midpoint, is_today=False, day_str=day_str, previous_day_str=previous_day_str) %}
+        {% end %}
         
       </div><!-- /.col-sm-6 -->
       <div class="col-sm-4 col-sm-pull-8">
