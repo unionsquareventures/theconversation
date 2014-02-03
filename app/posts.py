@@ -117,8 +117,11 @@ class ListPosts(app.basic.BaseHandler):
     else:
       day = datetime.datetime.strptime(day, "%Y-%m-%d")
     previous_day = day - datetime.timedelta(days=1)
+    two_days_ago = previous_day - datetime.timedelta(days=1)
+    
     day_str = str(datetime.date(day.year, day.month, day.day))
     previous_day_str = str(datetime.date(previous_day.year, previous_day.month, previous_day.day))
+    two_days_ago_str = str(datetime.date(two_days_ago.year, two_days_ago.month, two_days_ago.day))
     
     show_day_permalink = True
     infinite_scroll = False
@@ -156,6 +159,8 @@ class ListPosts(app.basic.BaseHandler):
       'day_str': day_str,      
       'previous_day': previous_day,
       'previous_day_str': previous_day_str,
+      'two_days_ago': two_days_ago,
+      'two_days_ago_str': two_days_ago_str,
       'show_day_permalink': show_day_permalink,
       'infinite_scroll': infinite_scroll,
       'midpoint': midpoint,
