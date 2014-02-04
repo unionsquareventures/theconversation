@@ -1083,8 +1083,8 @@ div.subsection.section-heading.day-heading {
 .post .meta.meta-top {
     padding: 12px 0 0 20px;
     display: block;
-    border-bottom: 1px solid #eee;
-    height: 34px;
+    /*border-bottom: 1px solid #eee;*/
+    height: 32px;
     /*background: url('/static/img/linen.png') top left repeat;*/
 }
 .post .user {
@@ -1135,20 +1135,21 @@ div.subsection.section-heading.day-heading {
     font-size:0.85em;
 }
 .post .content {
-    padding: 8px 0px 10px 0px;
+    padding: 0 0px 10px 0px;
     margin: 0;
     background: #fff;
 }
 .post-lg .content.has-tags {
 }
 .post .excerpt {
-    margin: 0 0 5px;
+    margin: 0;
     padding: 0 20px;
     color: #555 !important;
-    border-bottom: 1px solid #eee;
+    /*border-bottom: 1px solid #eee;*/
 }
 .feed .post .excerpt {
     cursor: pointer;
+    padding: 5px 20px;
 }
 .feed .post .excerpt:hover {
     
@@ -1161,9 +1162,11 @@ div.subsection.section-heading.day-heading {
 }
 .post .link {
     /*background: #eeebee;*/
-    padding: 5px 20px 0;
+    padding: 10px 20px 0;
     /*white-space: nowrap;
     overflow-x: hidden;*/
+    border-top: 1px solid #ddd;
+    margin: 0;
 }
 .post .link span.glyphicon {
     font-size: .7em;
@@ -1236,7 +1239,7 @@ body.staff .post .title {
     display: none;
 }
 .post-lg .title {
-    font-size: 1.1em !important;
+    font-size: 1em !important;
     font-family: 'proximanova-bold' !important;
 }
 .post-md .title {
@@ -1244,14 +1247,14 @@ body.staff .post .title {
 }
 .post.post-sm .title {
     font-size: 1em !important;
-    font-family: 'proximanova-semibold' !important;
+    font-family: 'proximanova-bold' !important;
     margin-top: 4px;
 }
 .post-sm .excerpt {
     
 }
 .post.post-sm .link {
-    padding-top: 5px;
+    
 }
 .feed .post-sm a.expand {
     position: absolute;
