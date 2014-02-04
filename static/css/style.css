@@ -963,7 +963,7 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
     padding:0;
 }
 #posts .feed {
-    margin-left: 50px;
+    margin-left: 34px;
 }
  .featured-post {
     background:#eee;
@@ -1081,11 +1081,14 @@ div.subsection.section-heading.day-heading {
     margin-bottom: 15px;
 }
 .post .meta.meta-top {
-    padding: 12px 0 0 20px;
+    padding: 8px 0 0 20px;
     display: block;
     /*border-bottom: 1px solid #eee;*/
     height: 32px;
     /*background: url('/static/img/linen.png') top left repeat;*/
+}
+.feed .post .meta.meta-top {
+    padding-top: 12px;
 }
 .post .user {
     position: absolute;
@@ -1096,11 +1099,11 @@ div.subsection.section-heading.day-heading {
     color: #999;
     margin-left: 0px;
     top: 0;
-    left: -45px;
+    left: -34px;
 }
 .post .user .avatar {
-    width: 45px;
-    height: 45px;
+    width: 34px;
+    height: 34px;
     border-radius: 3px 0 0 3px;
     border: none;
     border-bottom: 1px solid #ddd;
@@ -1350,7 +1353,6 @@ body.staff .post .title {
         display: inline !important;
     }
     .post .link {
-        padding-top: 0;
         margin-top: 0 !important;
     }
     .post .meta-top {
@@ -1359,7 +1361,9 @@ body.staff .post .title {
     .post .excerpt {
         display: none;
     }
-
+    .single .post {
+        margin-left: 0;
+    }
     .single .post .excerpt {        
         display: block;
         margin: 0;
