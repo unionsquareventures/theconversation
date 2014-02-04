@@ -1019,7 +1019,7 @@ body.home #content > .container {
     padding-top: 5px;
 }
 div.subsection.section-heading.day-heading h2 {
-    margin: 0 0 0 52px;
+    margin: 0;
     padding: 0px 0 0;
     font-size: 1.1em;
     border-bottom: none !important;
