@@ -1096,11 +1096,14 @@ div.subsection.section-heading.day-heading {
     color: #999;
     margin-left: 0px;
     top: 0;
-    left: -60px;
+    left: -45px;
 }
-.feed .user .avatar {
+.post .user .avatar {
     width: 45px;
     height: 45px;
+    border-radius: 3px 0 0 3px;
+    border: none;
+    border-bottom: 1px solid #ddd;
 }
 .post a.username-link {
     color: #555 !important;
@@ -1175,6 +1178,9 @@ div.subsection.section-heading.day-heading {
     position: absolute;
     top: 12px;
     right: 180px;
+}
+.feed .tags {
+    display: none;
 }
 
 .post .time {
