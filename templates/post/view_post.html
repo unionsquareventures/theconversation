@@ -22,6 +22,9 @@
           <div class="post">
           {% set p = post %}
           {% include post_snippet.html %}
+          {% if post['user']['screen_name'] == current_user or current_user in settings.get('staff') %}
+            <p style="padding-left: 20px;"><a href="/posts/{{ post['slug'] }}/edit" class="btn">Edit this post</a></p>
+          {% end %}
           </div>
           <div class="clearfix row hidden-xs tweet-post">
               <a href="https://twitter.com/share" class="twitter-share-button" data-text="{{ post['title'] }}" data-via="{{ post['user']['screen_name'] }}" data-hashtags="usvconversation">Tweet</a> 
@@ -47,6 +50,7 @@
               If you'd like to receive email notifications of new comments, <a href="/auth/disqus">link to Disqus here</a>.
             </div>
           {% end %}
+
       
           <div class="comment-box">
             <div id="disqus_thread"></div>
