@@ -2,9 +2,9 @@
 	<div class="subsection section-heading day-heading clearfix">
 		<h2 class="pull-left">
 			{% if is_today %}
-			TODAY:
+			TODAY
 			{% else %}
-			{{ day.strftime("%a, %b %d, %Y") }}:
+			{{ day.strftime("%a, %b %d, %Y") }}
 			{% end %}
 		</h2>
 	</div>
@@ -12,11 +12,11 @@
 		{% for i, p in enumerate(posts) %}
 				{% if i < 3 %}
 					<li class="post post-lg clearfix" data-date-created="{{ p['date_created'] }}" data-sort-score="{{ p.get('daily_sort_score') }}">
-					{% include post/post_snippet_reverse.html %}
+					{% include post/post_snippet.html %}
 					</li>
 				{% else %}
 					<li class="post post-sm clearfix" data-date-created="{{ p['date_created'] }}" data-sort-score="{{ p.get('daily_sort_score') }}">
-					{% include post/post_snippet_reverse.html %}
+					{% include post/post_snippet.html %}
 					</li>
 				{% end %}
 

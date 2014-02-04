@@ -1067,8 +1067,8 @@ div.subsection.section-heading.day-heading {
     clear: both;
     padding: 0px;
     margin: 0 0 20px;
-    min-height: 75px;
-    border-radius: 3px;
+    border-radius: 0 3px 3px 3px;
+    min-height: 50px;
 }
 .feed .post,
 .single .post {
@@ -1096,22 +1096,26 @@ div.subsection.section-heading.day-heading {
     color: #999;
     margin-left: 0px;
     top: 0;
-    left: -60px;
+    left: -36px;
 }
 .feed .user .avatar {
-    width: 45px;
-    height: 45px;
+    width: 36px;
+    height: 36px;
+    border-radius: 3px 0 0 3px;
+    border-right: none;
+    border: none;
+    border-bottom: 1px solid #ccc;
 }
 .post a.username-link {
     color: #555 !important;
 }
 .post .volume {
     position: absolute;
-    top: 5px;
-    right: 5px;
+    left: 17px;
+    top: -2px;
     /*width: 20px;*/
 }
-#posts .post .comment-count {
+#posts .post .meta-top .comment-count {
     position: absolute;
     top: 8px;
     right: 59px;
@@ -1132,7 +1136,7 @@ div.subsection.section-heading.day-heading {
     font-size:0.85em;
 }
 .post .content {
-    padding: 8px 0px 10px 0px;
+    padding: 5px 0px 5px 0px;
     margin: 0;
     background: #fff;
 }
@@ -1146,6 +1150,7 @@ div.subsection.section-heading.day-heading {
 }
 .feed .post .excerpt {
     cursor: pointer;
+    padding: 10px 20px 5px 20px;
 }
 .feed .post .excerpt:hover {
     
@@ -1157,13 +1162,14 @@ div.subsection.section-heading.day-heading {
     right: 200px;
 }
 .post .link {
+    position: relative;
     /*background: #eeebee;*/
-    padding: 5px 20px 0;
+    padding: 5px 80px 5px 45px;
     /*white-space: nowrap;
     overflow-x: hidden;*/
 }
 .post .link span.glyphicon {
-    font-size: .7em;
+    
 }
 .post .link .title {
     font-size: 1em;
@@ -1171,10 +1177,13 @@ div.subsection.section-heading.day-heading {
 .post .link.has-tags .title {
     
 }
-.post .tags {
+.post .meta-top .tags {
     position: absolute;
     top: 12px;
     right: 180px;
+}
+.feed .post .tags {
+    display: none;
 }
 
 .post .time {
@@ -1182,6 +1191,7 @@ div.subsection.section-heading.day-heading {
 }
 .post .comment-count {
     margin-left: 20px;
+    font-weight: bold;
 }
 
 .post .title {
@@ -1223,9 +1233,15 @@ body.staff .post .title {
     margin: 0px 0px 0 !important;
     padding: 10px 0px 3px 15px;
 }
+.post .meta-bottom {
+    padding: 5px 20px 0;
+}
 
 
 /* Sm, Md, Lg variants */
+.post-sm .volume {
+    top: 0;
+}
 .post.post-lg .expand {
     display: none;
 }
@@ -1237,15 +1253,15 @@ body.staff .post .title {
     font-size: 1em !important;
 }
 .post.post-sm .title {
-    font-size: 1em !important;
-    font-family: 'proximanova-semibold' !important;
+    font-size: 1.1em !important;
+    font-family: 'proximanova-bold' !important;
     margin-top: 4px;
 }
 .post-sm .excerpt {
     
 }
 .post.post-sm .link {
-    padding-top: 5px;
+    
 }
 .feed .post-sm a.expand {
     position: absolute;
@@ -1594,7 +1610,7 @@ body.staff .sidebar-widget .post .title {
     /*margin-right: 5px;*/
 }
 .volume.bumped .value {
-    color: #aaa;
+    color: #333;
     font-weight: normal;
 }
 .volume .supervote .value {
@@ -1617,7 +1633,7 @@ body.staff .sidebar-widget .post .title {
     font-weight: bold;
     border-radius: 2px;
     border-bottom: none;
-    padding: 2px 7px 2px 5px;
+    padding: 0;
     position: relative;
     background: transparent;
     /*border: 1px solid #ddd !important;*/
@@ -1630,7 +1646,7 @@ body.staff .sidebar-widget .post .title {
     /*padding-left: 15px;*/
 }
 .volume a.votes-count:hover {
-    background: #ddd;
+    
     /*color: #fff !important;*/
 }
 .volume.bumped a.votes-count {
@@ -1648,7 +1664,8 @@ body.staff .sidebar-widget .post .title {
 }
 
 .feed .volume span {
-
+    display: block;
+    margin: 0 0 1px;
 }
 .voted_users {
     font-size: .9em;
