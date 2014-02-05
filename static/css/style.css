@@ -1116,7 +1116,7 @@ div.subsection.section-heading.day-heading {
 }
 .post .volume {
     position: absolute;
-    top: 33px;
+    top: 0px;
     left: -34px;
     width: 34px;
     background: transparent;
@@ -1174,6 +1174,7 @@ div.subsection.section-heading.day-heading {
     right: 200px;
 }
 .post .link {
+    position: relative;
     /*background: #eeebee;*/
     padding: 10px 20px 10px;
     /*white-space: nowrap;

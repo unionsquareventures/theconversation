@@ -11,7 +11,6 @@
 </div>
 
 <div class="meta-top meta" data-status="closed" data-post-url="/posts/{{ p['slug'] }}">
-  {% include bumpit_snippet.html %}
   
   <a class="username-link" href="/user/{{ p['user']['username'] }}">@{{ p['user']['username'] }}</a>
   
@@ -49,6 +48,8 @@
     </div>
   </div>
 <div class="link" data-post-url="/posts/{{ p['slug'] }}">
+  {% include bumpit_snippet.html %}
+
   {% if 'url' in p and p['url'] %}
     <a class="title" href="{{ p['url'] }}" rel="nofollow" target="_blank">{{ p['title'] }}</a>
     <div class="source">{% if 'domain' in p.keys() %}{{p['domain']}}{% else %}{{ urlparse(p['url']).netloc }}{% end %}</div>
