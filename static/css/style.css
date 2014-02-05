@@ -1116,19 +1116,29 @@ div.subsection.section-heading.day-heading {
 }
 .post .volume {
     position: absolute;
-    top: 0px;
+    top: -1px;
     left: -34px;
     width: 34px;
     background: transparent;
 }
 #posts .post .comment-count {
     position: absolute;
-    top: 9px;
+    display: block;
+    height: 24px;
+    top: 6px;
     right: 12px;
     color: #777;
+    background: url('/static/img/icon-comment-default.png') left center no-repeat;
+    padding-left: 32px;
+    padding-top: 7px;
+    text-decoration: none;
+}
+#posts .post .comment-count:hover {
+    background: url('/static/img/icon-comment-hover.png') left center no-repeat;
+    color: #333;
 }
 .post .comment-count:before {
-    content: "\e111";
+    /*content: "\e111";*/
     font-family: 'Glyphicons Halflings';
     -webkit-font-smoothing: antialiased;
     font-style: normal;
@@ -1316,7 +1326,7 @@ body.staff .post .title {
     /*color: #aaa !important; */
     width: 34px;
     height: 43px;
-    border-radius: 0 0 0 3px;
+    border-radius: 3px 0 0 3px;
     border-bottom: none;
     padding: 21px 0 0 0;
     position: relative;
