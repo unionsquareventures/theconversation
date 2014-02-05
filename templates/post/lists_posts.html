@@ -119,19 +119,26 @@
       # Excerpt Sliders
       #
       */
-      $('body').on('click', 'a.expand', function(e) {
+      $('body').on('click', '.meta-top', function(e) {
         e.preventDefault();
-        $excerpt = $(this).parent().parent().find('.excerpt');
-        if ($(this).attr('data-status') == "closed") {
+        $excerpt = $(this).siblings('.content').find('.excerpt');
+        if (!$excerpt.is(':visible')) {
           // open it
           $excerpt.slideDown();
-          $(this).html('<span class="glyphicon glyphicon-collapse-up"></span> close');
-          $(this).attr('data-status', 'open');
         } else {
           // close it
           $excerpt.slideUp();
-          $(this).html('<span class="glyphicon glyphicon-collapse-down"></span> expand');
-          $(this).attr('data-status', 'closed');
+        }
+      });
+      $('body').on('click', '.feed .link', function(e) {
+        e.preventDefault();
+        $excerpt = $($(this).siblings('.excerpt')[0]);
+        if (!$excerpt.is(':visible')) {
+          // open it
+          $excerpt.slideDown();
+        } else {
+          // close it
+          $excerpt.slideUp();
         }
       });
       
@@ -140,10 +147,32 @@
       # Excerpt special links
       #
       */
-      $('body').on('click', '.feed .excerpt', function(e) {
+      $('body').on('mouseover', '.feed .post', function(e) {
+          $(this).addClass('hover');
+      });
+      
+      $('body').on('mouseout', '.feed .post', function(e) {
+          $(this).removeClass('hover');
+      });
+      /*
+      $('body').on('mouseover', '.feed .excerpt', function(e) {
+          $(this).addClass('hover');
+      });
+      $('body').on('mouseout', '.feed .excerpt', function(e) {
+          $(this).removeClass('hover');
+      });
+      $('body').on('mouseover', '.feed .link', function(e) {
+          $(this).addClass('hover');
+      });
+      $('body').on('mouseout', '.feed .link', function(e) {
+          $(this).removeClass('hover');
+      });
+      */
+      /*
+      $('body').on('click', '.feed .link', function(e) {
         link = $(this).attr('data-post-url');
         window.location = link;
-      });
+      });*/
       
       /*
       #

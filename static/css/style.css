@@ -1067,8 +1067,10 @@ div.subsection.section-heading.day-heading {
     clear: both;
     padding: 0px;
     margin: 0 0 20px;
-    min-height: 75px;
     border-radius: 3px;
+}
+.feed .post.hover {
+    /*background: #f5f8fa !important;*/
 }
 .feed .post,
 .single .post {
@@ -1084,8 +1086,9 @@ div.subsection.section-heading.day-heading {
     padding: 8px 0 0 20px;
     display: block;
     /*border-bottom: 1px solid #eee;*/
-    height: 32px;
+    height: 33px;
     /*background: url('/static/img/linen.png') top left repeat;*/
+    cursor: pointer;
 }
 .feed .post .meta.meta-top {
     padding-top: 12px;
@@ -1109,18 +1112,20 @@ div.subsection.section-heading.day-heading {
     border-bottom: 1px solid #ddd;
 }
 .post a.username-link {
-    color: #555 !important;
+    color: #888 !important;
 }
 .post .volume {
     position: absolute;
-    top: 5px;
-    right: 5px;
-    /*width: 20px;*/
+    top: 33px;
+    left: -34px;
+    width: 34px;
+    background: transparent;
 }
 #posts .post .comment-count {
     position: absolute;
-    top: 8px;
-    right: 59px;
+    top: 9px;
+    right: 12px;
+    color: #777;
 }
 .post .comment-count:before {
     content: "\e111";
@@ -1138,9 +1143,8 @@ div.subsection.section-heading.day-heading {
     font-size:0.85em;
 }
 .post .content {
-    padding: 0 0px 10px 0px;
+    padding: 0;
     margin: 0;
-    background: #fff;
 }
 .post-lg .content.has-tags {
 }
@@ -1150,9 +1154,15 @@ div.subsection.section-heading.day-heading {
     color: #555 !important;
     /*border-bottom: 1px solid #eee;*/
 }
+.post .excerpt.hover,
+.post .meta-top.hover {
+    background: lightgreen;
+}
 .feed .post .excerpt {
+    padding: 6px 20px;
+}
+.feed .post-sm .excerpt {
     cursor: pointer;
-    padding: 5px 20px;
 }
 .feed .post .excerpt:hover {
     
@@ -1165,11 +1175,17 @@ div.subsection.section-heading.day-heading {
 }
 .post .link {
     /*background: #eeebee;*/
-    padding: 10px 20px 0;
+    padding: 10px 20px 10px;
     /*white-space: nowrap;
     overflow-x: hidden;*/
     border-top: 1px solid #ddd;
     margin: 0;
+}
+.post-sm .link {
+    cursor: pointer;
+}
+.post .link.hover {
+    background: lightblue;
 }
 .post .link span.glyphicon {
     font-size: .7em;
@@ -1194,6 +1210,9 @@ div.subsection.section-heading.day-heading {
 }
 .post .comment-count {
     margin-left: 20px;
+    /*background: url('/static/img/icon-comment.png') left center no-repeat;*/
+    font-size: 1.2em;
+
 }
 
 .post .title {
@@ -1236,6 +1255,139 @@ body.staff .post .title {
     padding: 10px 0px 3px 15px;
 }
 
+/* =bump it up */
+.supervote {
+    position: absolute;
+    top: -3px;
+    right: 50px;
+    text-align: center;
+    font-size: 70%;
+    white-space: nowrap;
+    opacity: .75em;
+    display: none; /* todo: remove */
+}
+.single .supervote {
+    display: none;
+}
+
+.feed .volume a {
+    text-align: center;
+    display: block;
+}
+.featured-post .volume {
+    width: 120px;
+}
+
+.volume .glyphicon {
+    font-size: 1.3em;
+    color: #86AA3B ;
+    color: #555;
+}
+.volume .value {
+    font-family: "proximanova-regular";
+    display: inline-block;
+    color: #86AA3B;
+    color: #555;
+    /*margin-right: 5px;*/
+    line-height: 1em;
+}
+.volume.bumped .value {
+    color: #aaa;
+    font-weight: normal;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+.volume .supervote .value {
+    display: inline;
+    margin: 0 !important;
+}
+.volume .supervote .glyphicon {
+    display: inline;
+    margin: 0 3px 0 0 !important;
+}
+.volume .superupvote {
+    color: #5A7FC2 !important;
+}
+.volume .superdownvote {
+    color: #D7636C !important;
+}
+.volume a.votes-count {
+    /*color: #86AA3B !important;*/ /*GREEN*/
+    /*color: #aaa !important; */
+    width: 34px;
+    height: 43px;
+    border-radius: 0 0 0 3px;
+    border-bottom: none;
+    padding: 21px 0 0 0;
+    position: relative;
+    background: transparent;
+    /*border: 1px solid #ddd !important;*/
+    box-shadow: none;
+    display: block;
+    /*width: 30px;*/
+    text-align: center;
+    /*background: #e3e3e3;*/
+    /*background: url('/static/img/linen.png')top left repeat;*/
+    background: url("/static/img/icon-upvote-default.png") 50% 8px no-repeat;
+}
+.volume.bumped a.votes-count {
+    background-image: url("/static/img/icon-upvote-voted.png");
+}
+.volume a.votes-count.no-votes {
+    /*padding-left: 15px;*/
+}
+.volume a.votes-count:hover {
+    background-color: #ddd;
+}
+
+.volume a.votes-count:hover span,
+.volume a.votes-count:hover span.glyphicon {
+    color: #333 !important;
+}
+.volume a.votes-count:hover a {
+    color: #333 !important;
+}
+.volume.bumped a.votes-count {
+
+}
+.volume.bumped a.votes-count .glyphicon {
+    /*color: #CE3B00 !important; */ /* RED */
+    /*color: #fff !important;
+    background: #86AA3B !important;*/
+    color: #bbb !important;
+}
+.volume .popover {
+    border-radius: 3px;
+    border-color: #ddd;    
+}
+
+.feed .volume span {
+display: block;
+}
+.voted_users {
+    font-size: .9em;
+    white-space: nowrap;
+}
+.voted_user {
+    margin-bottom: 10px;
+    white-space: nowrap;
+}
+.voted_user img {
+    width: 25px; height: 25px;
+    vertical-align: middle;
+}
+.volume .popover-title {
+    /*display: none;*/
+    text-align:center;
+    white-space: nowrap;
+}
+.volume .popover-content {
+    padding: 10px 6px 0;
+}
+.volume .popover-content p {
+    text-align:center;
+    margin: 0 6px 10px !important;
+    white-space: nowrap;
+}
 
 /* Sm, Md, Lg variants */
 .post.post-lg .expand {
@@ -1262,8 +1414,9 @@ body.staff .post .title {
 .feed .post-sm a.expand {
     position: absolute;
     top: 7px;
-    right: 175px;
+    left: 175px;
     color: #999;
+    display: none;
 }
 .post-sm .expand span {
     margin: 0 !important;
@@ -1571,123 +1724,7 @@ body.staff .sidebar-widget .post .title {
     
 }
 
-.supervote {
-    position: absolute;
-    top: -3px;
-    right: 50px;
-    text-align: center;
-    font-size: 70%;
-    white-space: nowrap;
-    opacity: .75em;
-    display: none; /* todo: remove */
-}
-.single .supervote {
-    display: none;
-}
 
-.feed .volume a {
-    text-align: center;
-    display: block;
-}
-.featured-post .volume {
-    width: 120px;
-}
-
-.volume .glyphicon-arrow-up {
-    /*position: absolute;
-    left: 5px;
-    top: 3px;
-    */
-    color: #86AA3B !important;
-}
-.volume .value {
-    font-family: "proximanova-regular";
-    display: inline-block;
-    color: #86AA3B;
-    /*margin-right: 5px;*/
-}
-.volume.bumped .value {
-    color: #aaa;
-    font-weight: normal;
-}
-.volume .supervote .value {
-    display: inline;
-    margin: 0 !important;
-}
-.volume .supervote .glyphicon {
-    display: inline;
-    margin: 0 3px 0 0 !important;
-}
-.volume .superupvote {
-    color: #5A7FC2 !important;
-}
-.volume .superdownvote {
-    color: #D7636C !important;
-}
-.volume a.votes-count {
-    /*color: #86AA3B !important;*/ /*GREEN*/
-    /*color: #aaa !important; */
-    font-weight: bold;
-    border-radius: 2px;
-    border-bottom: none;
-    padding: 2px 7px 2px 5px;
-    position: relative;
-    background: transparent;
-    /*border: 1px solid #ddd !important;*/
-    box-shadow: none;
-    display: block;
-    /*width: 30px;*/
-    text-align: center;
-}
-.volume a.votes-count.no-votes {
-    /*padding-left: 15px;*/
-}
-.volume a.votes-count:hover {
-    background: #ddd;
-    /*color: #fff !important;*/
-}
-.volume.bumped a.votes-count {
-    
-}
-.volume.bumped a.votes-count .glyphicon {
-    /*color: #CE3B00 !important; */ /* RED */
-    /*color: #fff !important;
-    background: #86AA3B !important;*/
-    color: #bbb !important;
-}
-.volume .popover {
-    border-radius: 3px;
-    border-color: #ddd;    
-}
-
-.feed .volume span {
-
-}
-.voted_users {
-    font-size: .9em;
-    white-space: nowrap;
-}
-.voted_user {
-    margin-bottom: 10px;
-    white-space: nowrap;
-}
-.voted_user img {
-    width: 25px; height: 25px;
-    vertical-align: middle;
-}
-.volume .popover-title {
-    /*display: none;*/
-    text-align:center;
-    white-space: nowrap;
-}
-.volume .popover-content {
-    padding: 10px 6px 0;
-}
-.volume .popover-content p {
-    text-align:center;
-    margin: 0 6px 10px !important;
-    white-space: nowrap;
-}
 
 
  .feed .meta a,
@@ -1699,8 +1736,9 @@ body.staff .sidebar-widget .post .title {
     *vertical-align:auto;
     /* margin-right:10px;
     */
- text-decoration:none;
-    color:#86aa3b;
+    text-decoration:none;
+    /*color:#86aa3b;
+    color: #333;*/
 }
  .feed .meta a:hover {
     text-decoration:underline;
@@ -1708,12 +1746,10 @@ body.staff .sidebar-widget .post .title {
  .feed .meta span, .feed a.username,
  .featured-post .meta span,
  .featured-post .feed a.username {
-    display:inline-block;
     vertical-align:baseline;
     zoom:1;
     *display:inline;
     *vertical-align:auto;
-    margin-right:10px;
 }
 .featured-post a.username {
     margin-right: 10px !important;
@@ -1746,7 +1782,7 @@ body.staff .sidebar-widget .post .title {
     position:relative;
 }
  .feed .votes-count {
-    padding-left:15px;
+    
     /*background:transparent url(/static/img/icon-upvote.png) no-repeat 0 center;*/
 }
 

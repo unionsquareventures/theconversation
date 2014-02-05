@@ -4,71 +4,68 @@
 {% set has_tags = False %}
 {% end %}
 
-<div class="meta-top meta">
-
   <div class="user">
-    <a href="/user/{{ p['user']['username'] }}">
-      <img class="avatar" title="{{ p['user']['username'] }}" src="{{ p['user']['profile_image_url_https'] }}" alt="thumbnail">
-    </a>
+    <!--<a href="/user/{{ p['user']['username'] }}">-->
+      <img class="avatar" src="{{ p['user']['profile_image_url_https'] }}" alt="thumbnail">
+    <!--</a>-->
   </div>
 
-  <a class="username-link" href="/user/{{ p['user']['username'] }}">@{{ p['user']['username'] }}</a>
-
-  <span class="time"><a href="/posts/{{ p['slug'] }}" ><span class="glyphicon glyphicon-link" style="margin: 0;font-size: 90%"></span> {{ p['date_created'].strftime("%I:%M %p") }}</a></span>
-
-  <span class="time-search" style="display:none"><a href="/posts/{{ p['slug'] }}" ><span class="glyphicon glyphicon-link" style="margin: 0;font-size: 90%"></span> {{ p['date_created'].strftime("%m/%d/%Y") }}</a></span>
-
-  <b><a class="dsq-comment-count comment-count" data-disqus-identifier="{{ str(p['_id']) }}" href="/posts/{{ p['slug'] }}">{{ p['comment_count'] }} comment{{ 's' if p['comment_count'] != 1 else '' }}</a></b>
-
-  {% if p['body_html'] and p['body_html'].strip() != ""  %}
-  <a class="expand" data-status="closed" href="/posts/{{ p['slug'] }}"><span class="glyphicon glyphicon-collapse-down"></span> expand</a>
-  {% end %}
-
-</div>
-{% if view == "single" %}
-<div class="link">
-  {% if 'url' in p and p['url'] %}
-    <a class="title" href="{{ p['url'] }}" rel="nofollow" target="_blank">{{ p['title'] }}</a>
-    <div class="source"><a href="{{ p['url'] }}" rel="nofollow" class="" target="_blank">{% if 'domain' in p.keys() %}{{p['domain']}}{% else %}{{ urlparse(p['url']).netloc }}{% end %}</a></div>
-  {% else %}
-    <a class="title" href="/posts/{{ p['slug'] }}" target="_blank">{{ p['title'] }}</a>
-    {% if view != "single" %}
-    <div class="source"><a href="/posts/{{ p['slug'] }}" class="source" target="_blank">usv.com</a></div>
+  {% if view == "single" %}
+  <!-- only show on detail view -->
+  <div class="meta-top meta"> 
+    <a class="username-link" href="/user/{{ p['user']['username'] }}">@{{ p['user']['username'] }}</a>
+  
+    <span class="time"><a href="/posts/{{ p['slug'] }}" ><span class="glyphicon glyphicon-link" style="margin: 0;font-size: 90%"></span> {{ p['date_created'].strftime("%I:%M %p") }}</a></span>
+  
+    <span class="time-search" style="display:none"><a href="/posts/{{ p['slug'] }}" ><span class="glyphicon glyphicon-link" style="margin: 0;font-size: 90%"></span> {{ p['date_created'].strftime("%m/%d/%Y") }}</a></span>
+  
+    <b><a class="dsq-comment-count comment-count" data-disqus-identifier="{{ str(p['_id']) }}" href="/posts/{{ p['slug'] }}">{{ p['comment_count'] }} comment{{ 's' if p['comment_count'] != 1 else '' }}</a></b>
+  
+    {% if p['body_html'] and p['body_html'].strip() != ""  %}
+    <a class="expand" data-status="closed" href="/posts/{{ p['slug'] }}"><span class="glyphicon glyphicon-collapse-down"></span> expand</a>
     {% end %}
-  {% end %}
-</div>
-{% end %}
-
-<div class="content {% if has_tags %}has-tags{% end %}">
-
-  {% if p['body_html'] and p['body_html'].strip() != ""  %}
-  <div class="excerpt">
-    {% raw p['body_html'] %}
   </div>
   {% end %}
-  <div class="meta clearfix">
-    <div class="tags pull-right">
-      {% for i, t in enumerate(p['tags']) %}
-        {% if i < 2 %}
-        <a href="/tagged/{{ t }}">#{{ t }}</a> 
+
+  <div class="content {% if has_tags %}has-tags{% end %}">
+  
+    {% if p['body_html'] and p['body_html'].strip() != ""  %}
+    <div class="excerpt" data-post-url="/posts/{{ p['slug'] }}">
+      {% if p['body_html'].find('<p>') < 0 %}
+        {% set excerpt = "<p>" + p['body_html'] + "</p>" %}
+      {% else %}
+        {% set excerpt = p['body_html'] %}
+      {% end %}
+      {% raw excerpt %}
+    </div>
+    {% end %}
+    
+    <div class="meta meta-bottom clearfix pull-right">
+      <div class="tags">
+        {% for i, t in enumerate(p['tags']) %}
+          {% if i < 2 %}
+          <a href="/tagged/{{ t }}">#{{ t }}</a> 
+          {% end %}
         {% end %}
+      </div>
+      <a class="dsq-comment-count comment-count" data-disqus-identifier="{{ str(p['_id']) }}" href="/posts/{{ p['slug'] }}">{{ p['comment_count'] }} {{ 'comment' if p['comment_count'] == 0 }}</a>
+      {% if p['body_html'] and p['body_html'].strip() != ""  %}
+      <a class="expand" data-status="closed" href="/posts/{{ p['slug'] }}"><span class="glyphicon glyphicon-collapse-down"></span> open</a>
       {% end %}
     </div>
+    
+    
+  <div class="link">
+    {% include bumpit_snippet.html %}
+    {% if 'url' in p and p['url'] %}
+      <a class="title" href="{{ p['url'] }}" rel="nofollow" target="_blank">{{ p['title'] }}</a>
+      <div class="source"><a href="{{ p['url'] }}" rel="nofollow" class="" target="_blank">{% if 'domain' in p.keys() %}{{p['domain']}}{% else %}{{ urlparse(p['url']).netloc }}{% end %}</a></div>
+    {% else %}
+      <a class="title" href="/posts/{{ p['slug'] }}" target="_blank">{{ p['title'] }}</a>
+      <div class="source"><a href="/posts/{{ p['slug'] }}" class="source" target="_blank">usv.com</a></div>
+    {% end %}
   </div>
-  {% include bumpit_snippet.html %}
   
-{% if view != "single" %}
-<div class="link">
-  {% if 'url' in p and p['url'] %}
-    <a class="title" href="{{ p['url'] }}" rel="nofollow" target="_blank">{{ p['title'] }}</a>
-    <div class="source"><a href="{{ p['url'] }}" rel="nofollow" class="" target="_blank">{% if 'domain' in p.keys() %}{{p['domain']}}{% else %}{{ urlparse(p['url']).netloc }}{% end %}</a></div>
-  {% else %}
-    <a class="title" href="/posts/{{ p['slug'] }}" target="_blank">{{ p['title'] }}</a>
-    <div class="source"><a href="/posts/{{ p['slug'] }}" class="source" target="_blank">usv.com</a></div>
-  {% end %}
-</div>
-{% end %}
-
-</div>
+  </div>
 
 
