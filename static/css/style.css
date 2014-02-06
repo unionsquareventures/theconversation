@@ -1533,7 +1533,7 @@ display: block;
         display: none;
     }
     .single .post {
-        margin-left: 0;
+        margin-left: 25px;
     }
     .single .post .excerpt {        
         display: block;
@@ -1547,6 +1547,9 @@ display: block;
     }
     .post .tags {
         display: none;
+    }
+    .single .article-post ul.bumps {
+        margin-left: 25px !important;
     }
 }
 
