@@ -4087,34 +4087,6 @@ ul.investments-list {
   }
 }
 
-@media only screen and (min-width: 769px) and (max-width:1024px) {
-  /* 
-  # 
-  # iPad Horizontal 
-  #
-  */
-  .feed .avatar {
-    display: block;
-    position: absolute;
-    top: 10px;
-    left: 0;
-  }
-  .hot-newest-feed .content {
-    margin-left: 70px;
-  }
-  .featured-feed {
-    width: 40% !important;
-  }
-  .hot-newest-feed {
-    width: 57% !important;
-  }
-}
-
- @media only screen and (min-width:720px) {
-        .feed li {
-        
-    }
- }
 @media only screen and (min-width:769px) {
     #site-footer {
         /*margin-top:70px;
