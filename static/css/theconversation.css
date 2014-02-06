@@ -1095,7 +1095,7 @@ div.subsection.section-heading.day-heading {
     height: 33px;
     /*background: url('/static/img/linen.png') top left repeat;*/
 }
-.post-sm .meta-top {
+.post-sm.has-excerpt .meta-top {
     cursor: pointer;
 }
 .feed .post .meta.meta-top {
@@ -1183,7 +1183,7 @@ div.subsection.section-heading.day-heading {
 .feed .post .excerpt {
     padding: 6px 20px;
 }
-.feed .post-sm .excerpt {
+.feed .post-sm.has-excerpt .excerpt {
     cursor: pointer;
 }
 .feed .post .excerpt:hover {
@@ -1204,7 +1204,7 @@ div.subsection.section-heading.day-heading {
     border-top: 1px solid #ddd;
     margin: 0;
 }
-.post-sm .link {
+.post-sm.has-excerpt .link {
     cursor: pointer;
 }
 .post .link.hover {

@@ -26,16 +26,20 @@
 	
 	<ul class="feed" data-date="{{ day_str }}">
 		{% for i, p in enumerate(posts) %}
+			{% set has_excerpt = False %}
+			{% if p['body_html'] and p['body_html'].strip() != ""  %}
+				{% set has_excerpt = True %}
+			{% end %}
 				{% if i < 3 %}
-					<li class="post post-lg clearfix" data-date-created="{{ p['date_created'] }}" data-sort-score="{{ p.get('daily_sort_score') }}">
+					<li class="post post-lg clearfix {{ 'has-excerpt' if has_excerpt else '' }}" data-date-created="{{ p['date_created'] }}" data-sort-score="{{ p.get('daily_sort_score') }}">
 					{% include post_snippet_reverse.html %}
 					</li>
 				{% else %}
-					<li class="post post-sm clearfix" data-date-created="{{ p['date_created'] }}" data-sort-score="{{ p.get('daily_sort_score') }}">
+					<li class="post post-sm clearfix {{ 'has-excerpt' if has_excerpt else '' }}" data-date-created="{{ p['date_created'] }}" data-sort-score="{{ p.get('daily_sort_score') }}">
 					{% include post_snippet_reverse.html %}
 					</li>
 				{% end %}
-				
+			
 				</li>
 		{% end %}
 	</ul>
