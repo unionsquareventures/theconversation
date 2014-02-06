@@ -6,42 +6,9 @@
 	
 	<div class="row">
 		<div class="col-sm-8">
-		<h3>Daily Email:</h3>
-		{% if not has_previewed %}
-			<div style="text-align: center; margin: 20px 0; padding: 20px; border-top: 1px solid #ccc; border-bottom: 1px solid #ccc;">
-				<button type="submit" class="btn" name="preview" value="true">Preview</button>
-			</div>
-			{% for post in posts %}
-				<div>
-					<input name="slugs" type="checkbox" value="{{ post['slug'] }}" id="{{ post['_id'] }}" /> {{ post['title'] }}
-				</div>
-			{% end %}
-		
-		{% else %}
-			{% for slug in slugs %}
-				<input type="hidden" name="slugs" value="{{ slug }}" />
-			{% end %}
-			<div class="well">
-				<a class="pull-left" href="#" onclick="javascript:history.back(1); return false">&larr; Back</a>
-				<button type="submit" class="btn pull-right" name="send" style="color: white; background: blue">Send</button>
-				<br />
-				<hr style="clear:both;" />
-				{% if email %}
-				<b>Subject:</b> {{ email['subject'] }}
-				<div style="border:1px solid #ccc; padding: 0 20px; background: #fff; margin: 20px;">
-					{% raw email['body_html'] %}
-				</div>
-				{% end %}
-			</div>
-		{% end %}
-		</div>
-		<div class="col-sm-4">
-			<h3>Recipients ({{ len(recipients) }}):</h3>
-			<div class="well">
-				{% for user in recipients %}
-					{{ user['user']['username'] }} &nbsp; 
-				{% end %}
-			</div>
+			<p><input type="submit" class="btn" name="action" value="setup_email" /></p>
+			<p><input type="submit" class="btn" name="action" value="add_list_to_email" /></p>
+			<p><input type="submit" class="btn" name="action" value="send_email" /></p>
 		</div>
 	</div>
 	</form>

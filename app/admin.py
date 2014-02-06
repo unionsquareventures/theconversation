@@ -1,7 +1,7 @@
 import app.basic
 import tornado.web
 import settings
-import datetime
+from datetime import datetime, date
 import logging
 import json
 import requests
@@ -24,24 +24,36 @@ class DailyEmail(app.basic.BaseHandler):
     has_previewed = self.get_argument("preview", False)
     recipients = userdb.get_newsletter_recipients()
     #on this page, you'll choose from hot posts and POST the selections to the email form`
-    self.render('admin/daily_email.html', posts=posts, slugs=None, email=None, has_previewed=has_previewed, has_sent=False, recipients=recipients)
+    self.render('admin/daily_email.html')
   
   def post(self):
     if not self.current_user_can('send_daily_email'):
       raise tornado.web.HTTPError(401)
+      
+    action = self.get_argument('action', None)
     
-    slugs = self.request.arguments['slugs']
-    if not slugs:
-      return self.write("No posts selected")
+    if not action:
+      return self.write("Select an action")
     
-    email = emailsdb.construct_daily_email(slugs)
-    recipients = userdb.get_newsletter_recipients()
-   
-    if self.get_argument('preview', '') == "true":
-      self.render('admin/daily_email.html', slugs=slugs, posts=None, email=email, has_previewed=True, has_sent=False, recipients=recipients)
-    else:
-      emailsdb.send_daily_email(email)
-      self.redirect('/admin/daily_email/history')
+    if action == "setup_email":
+      posts = postsdb.get_hot_posts_by_day(datetime.today())
+      slugs = []
+      for i, post in enumerate(posts):
+        if i < 5:
+          slugs.append(post['slug'])
+      response1 = emailsdb.construct_daily_email(slugs)
+      print response1
+      
+      response2 = emailsdb.setup_email_list()
+      print response2
+    
+    if action == "add_list_to_email":
+      response3 = emailsdb.add_list_to_email()
+      print response3
+    
+    if action == "send_email":
+      response4 = emailsdb.send_email()
+      print response4
 
 class DailyEmailHistory(app.basic.BaseHandler):
   def get(self):
@@ -346,3 +358,95 @@ class ManageDisqus(app.basic.BaseHandler):
         self.write(result)
     #response = disqus.get_all_threads()
     #self.write(response)
+
+###########################
+### Get correspondence data
+### /admin/gmail
+###########################
+class Gmail(app.basic.BaseHandler):
+  def get(self):   
+    if self.current_user not in settings.get('staff'):
+      self.redirect('/')
+
+    query = self.get_argument('q', '')
+    accounts = gmaildb.get_all()
+    usv_members = []
+    for usv_member in accounts:
+      usv_members.append(usv_member['name'])
+
+    return self.render('admin/gmail.html', query=query, accounts=usv_members)
+
+
+###########################
+### API call for correspondence data from a single USVer
+### /admin/gmailapi
+###########################
+class GmailAPI(app.basic.BaseHandler):
+  def get(self):
+    if self.current_user not in settings.get('staff'):
+      self.write(json.dumps({'err': 'Not logged in'}))
+
+    query = self.get_argument('q', '')
+    name = self.get_argument('n','')
+    if not query or not name:
+      return
+    try:
+      usv_member = gmaildb.get_by_name(name)
+      mail = self.email_login(usv_member['account'], usv_member['password'])
+      total_emails_in, recent_email_in = self.search_mail(mail, "FROM " + query)
+      total_emails_out, recent_email_out = self.search_mail(mail, "TO " + query)
+      correspondence = {'name': usv_member['name'],
+                        'account': usv_member['account'], 
+                        'total_emails_in': total_emails_in, 
+                        'total_emails_out': total_emails_out, 
+                        'latest_email_in': recent_email_in.strftime('%b %d, %Y'), 
+                        'latest_email_out': recent_email_out.strftime('%b %d, %Y')}
+      self.write(json.dumps(correspondence))
+    except:
+        self.write(json.dumps({'name': name, 'err': 'None found'}))
+
+  ''' Simple query to the inbox, returns how many emails match query and the date of the latest email.
+      Query must be a single string, i.e. not "science exchange" '''
+  def search_mail(self, mail, query):
+      if not query:
+        query = "ALL"
+      result, data = mail.search(None, query) # data is a list, but there is only data[0]. data[0] is a string of all the email ids for the given query. ex: ['1 2 4']
+      ids = data[0] # ids is a space separated string containing all the ids of email messages
+      id_list = ids.split() # id_list is an array of all the ids of email messages
+
+      # Get date of latest email
+      if id_list:
+        latest_id = id_list[-1]
+        result, data = mail.fetch(latest_id, "(RFC822)") # fetch the email body (RFC822) for the given ID
+        raw_email = data[0][1] # raw_email is the body, i.e. the raw text of the whole email including headers and alternate payloads     
+        date = self.get_mail_date(raw_email)
+      else:
+        date = None
+      return len(id_list), date
+
+  ''' Login into an account '''
+  def email_login(self, account, password):
+    try:
+      mail = imaplib.IMAP4_SSL('imap.gmail.com')
+      result, message = mail.login(account, password)
+      mail.select("[Gmail]/All Mail", readonly=True) #mark as unread 
+      if result != 'OK':
+        raise Exception
+      print 'Logged in as ' + account
+      return mail
+    except:
+      print "Failed to log into " + account
+      return None
+
+  ''' Parses raw email and returns date sent. Picks out dates of the form "26 Aug 2013" '''
+  def get_mail_date(self, raw_email):
+    if raw_email:
+      #Date: Mon, 5 Nov 2012 17:45:38 -0500
+      date_string = re.search(r'[0-3]*[0-9] [A-Z][a-z][a-z] 20[0-9][0-9]', raw_email)
+      if date_string:
+        time_obj = time.strptime(date_string.group(), "%d %b %Y")
+        return date(time_obj.tm_year, time_obj.tm_mon, time_obj.tm_mday)
+      else:
+        return None
+    else:
+      raise Exception
