@@ -1125,8 +1125,8 @@ div.subsection.section-heading.day-heading {
 .post .volume {
     position: absolute;
     top: -1px;
-    left: -34px;
-    width: 34px;
+    left: -30px;
+    width: 30px;
     background: transparent;
 }
 .single .post .volume {
@@ -1139,16 +1139,16 @@ div.subsection.section-heading.day-heading {
     width: 70px;
     top: 0px;
     right: 0px;
-    color: #333;
+    color: #555;
     background: #E3ECCE url('/static/img/icon-comment-default.png?v=2') 15px 50% no-repeat;
     padding: 12px 15px 4px 45px;
     text-decoration: none;
     border-radius: 0 3px 0 0;
 }
 #posts .post .comment-count:hover {
-    background-image: url('/static/img/icon-comment-hover.png?v=2');
-    color: #fff;
-    background-color: #86AA3B;
+    background-image: url('/static/img/icon-comment-hover.png?v=3');
+    color: #333;
+    background-color: #ddd;
 }
 .post .comment-count:before {
     /*content: "\e111";*/
@@ -1310,7 +1310,7 @@ body.staff .post .title {
     font-family: "proximanova-regular";
     display: inline-block;
     color: #86AA3B;
-    /*color: #555;*/
+    color: #555;
     /*margin-right: 5px;*/
     line-height: 1em;
 }
@@ -1336,7 +1336,7 @@ body.staff .post .title {
 .volume a.votes-count {
     /*color: #86AA3B !important;*/ /*GREEN*/
     /*color: #aaa !important; */
-    width: 34px;
+    width: 30px;
     height: 44px;
     border-radius: 3px 0 0 3px;
     border-bottom: none;
@@ -1350,7 +1350,7 @@ body.staff .post .title {
     text-align: center;
     /*background: #e3e3e3;*/
     /*background: url('/static/img/linen.png')top left repeat;*/
-    background: url("/static/img/icon-upvote-default.png") 50% 10px no-repeat;
+    background: #E3ECCE url("/static/img/icon-upvote-default.png") 50% 10px no-repeat;
 }
 .volume.bumped a.votes-count {
     background-image: url("/static/img/icon-upvote-voted.png");
