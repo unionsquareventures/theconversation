@@ -26,6 +26,17 @@
     {% end %}
   </div>
   {% end %}
+  
+  <div class="link">
+    {% include bumpit_snippet.html %}
+    {% if 'url' in p and p['url'] %}
+      <a class="title" href="{{ p['url'] }}" rel="nofollow" target="_blank">{{ p['title'] }}</a>
+      <div class="source"><a href="{{ p['url'] }}" rel="nofollow" class="" target="_blank">{% if 'domain' in p.keys() %}{{p['domain']}}{% else %}{{ urlparse(p['url']).netloc }}{% end %}</a></div>
+    {% else %}
+      <a class="title" href="/posts/{{ p['slug'] }}" target="_blank">{{ p['title'] }}</a>
+      <div class="source"><a href="/posts/{{ p['slug'] }}" class="source" target="_blank">usv.com</a></div>
+    {% end %}
+  </div>
 
   <div class="content {% if has_tags %}has-tags{% end %}">
   
@@ -48,23 +59,11 @@
           {% end %}
         {% end %}
       </div>
-      <a class="dsq-comment-count comment-count" data-disqus-identifier="{{ str(p['_id']) }}" href="/posts/{{ p['slug'] }}">{{ p['comment_count'] }} {{ 'comment' if p['comment_count'] == 0 }}</a>
+      <a class="dsq-comment-count comment-count" data-disqus-identifier="{{ str(p['_id']) }}" href="/posts/{{ p['slug'] }}">{{ p['comment_count'] }} {{ 'comment' if p['comment_count'] == 1 else 'comments' }}</a>
       {% if p['body_html'] and p['body_html'].strip() != ""  %}
       <a class="expand" data-status="closed" href="/posts/{{ p['slug'] }}"><span class="glyphicon glyphicon-collapse-down"></span> open</a>
       {% end %}
     </div>
-    
-    
-  <div class="link">
-    {% include bumpit_snippet.html %}
-    {% if 'url' in p and p['url'] %}
-      <a class="title" href="{{ p['url'] }}" rel="nofollow" target="_blank">{{ p['title'] }}</a>
-      <div class="source"><a href="{{ p['url'] }}" rel="nofollow" class="" target="_blank">{% if 'domain' in p.keys() %}{{p['domain']}}{% else %}{{ urlparse(p['url']).netloc }}{% end %}</a></div>
-    {% else %}
-      <a class="title" href="/posts/{{ p['slug'] }}" target="_blank">{{ p['title'] }}</a>
-      <div class="source"><a href="/posts/{{ p['slug'] }}" class="source" target="_blank">usv.com</a></div>
-    {% end %}
-  </div>
   
   </div>
 

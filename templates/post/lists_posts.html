@@ -119,8 +119,7 @@
       # Excerpt Sliders
       #
       */
-      $('body').on('click', '.meta-top', function(e) {
-        e.preventDefault();
+      $('body').on('click', '.post-sm .meta-top', function(e) {
         $excerpt = $(this).siblings('.content').find('.excerpt');
         if (!$excerpt.is(':visible')) {
           // open it
@@ -131,14 +130,12 @@
         }
       });
       $('body').on('click', '.post-sm .excerpt', function(e) {
-        e.preventDefault();
         if ($(this).is(':visible')) {
           // close it
           $excerpt.slideUp();
         }
       });
-      $('body').on('click', '.feed .link', function(e) {
-        e.preventDefault();
+      $('body').on('click', '.post-sm .link', function(e) {
         $excerpt = $($(this).siblings('.excerpt')[0]);
         if (!$excerpt.is(':visible')) {
           // open it

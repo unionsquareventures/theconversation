@@ -18,7 +18,7 @@
   
   <span class="time-search" style="display:none"><a href="/posts/{{ p['slug'] }}" ><span class="glyphicon glyphicon-link" style="margin: 0;font-size: 90%"></span> {{ p['date_created'].strftime("%m/%d/%Y") }}</a></span>
   
-  <a class="dsq-comment-count comment-count" title="{{ p['comment_count'] }} {{ 'comments' if p['comment_count'] == 1 else "" }}"
+  <a class="dsq-comment-count comment-count"
 data-disqus-identifier="{{ str(p['_id']) }}" href="/posts/{{ p['slug'] }}">{{ p['comment_count'] if p['comment_count'] > 0 else '' }} {{ '' if p['comment_count'] == 0 else "" }}</a>
   
   {% if p['body_html'] and p['body_html'].strip() != ""  %}
