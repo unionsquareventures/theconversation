@@ -1502,13 +1502,13 @@ display: block;
         margin-top: 10px;
     }
     #posts .feed {
-        margin-left: 0 !important;
+        
     }
     .feed .post {
         margin-bottom: 8px !important;
     }
     .post .user {
-        display: none;
+        
     }
     .post .title {
         display: inline !important;
