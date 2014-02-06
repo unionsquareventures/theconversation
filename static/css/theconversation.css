@@ -1315,7 +1315,7 @@ body.staff .post .title {
     line-height: 1em;
 }
 .volume.bumped .value {
-    color: #aaa;
+    color: #7BB1C6;
     font-weight: normal;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
@@ -1350,7 +1350,7 @@ body.staff .post .title {
     text-align: center;
     /*background: #e3e3e3;*/
     /*background: url('/static/img/linen.png')top left repeat;*/
-    background: #E3ECCE url("/static/img/icon-upvote-default.png") 50% 10px no-repeat;
+    background: #eee url("/static/img/icon-upvote-default.png") 50% 10px no-repeat;
 }
 .volume.bumped a.votes-count {
     background-image: url("/static/img/icon-upvote-voted.png");
