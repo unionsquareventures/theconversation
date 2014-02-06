@@ -1061,6 +1061,12 @@ div.subsection.section-heading.day-heading {
     font-weight: bold;
 }
 
+#submit-modal .modal-header,
+#submit-modal .modal-body {
+    text-align: center;
+}
+
+
 .post {
     list-style:none;
     position:relative;
