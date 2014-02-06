@@ -1469,7 +1469,7 @@ display: block;
 
 /* =Single post overrides */
 .single .post {
-    margin-left: 50px;
+    margin-left: 35px;
 }
 .single .post .excerpt {
     font-size: 1.1em;
