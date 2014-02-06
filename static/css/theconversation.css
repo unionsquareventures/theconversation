@@ -1135,19 +1135,20 @@ div.subsection.section-heading.day-heading {
 #posts .post .comment-count {
     position: absolute;
     display: block;
-    height: 27px;
-    top: 3px;
-    right: 3px;
-    color: #777;
-    background: url('/static/img/icon-comment-default.png') 10px 50% no-repeat;
-    padding: 7px 10px 4px 40px;
+    height: 34px;
+    width: 70px;
+    top: 0px;
+    right: 0px;
+    color: #333;
+    background: #E3ECCE url('/static/img/icon-comment-default.png?v=2') 15px 50% no-repeat;
+    padding: 12px 15px 4px 45px;
     text-decoration: none;
-    border-radius: 3px;
+    border-radius: 0 3px 0 0;
 }
 #posts .post .comment-count:hover {
-    background-image: url('/static/img/icon-comment-hover.png');
-    color: #333;
-    background-color: #eee;
+    background-image: url('/static/img/icon-comment-hover.png?v=2');
+    color: #fff;
+    background-color: #86AA3B;
 }
 .post .comment-count:before {
     /*content: "\e111";*/
