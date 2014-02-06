@@ -1354,6 +1354,7 @@ body.staff .post .title {
 }
 .volume.bumped a.votes-count {
     background-image: url("/static/img/icon-upvote-voted.png");
+    background-color: #eee;
 }
 .volume a.votes-count.no-votes {
     /*padding-left: 15px;*/
