@@ -1150,6 +1150,13 @@ div.subsection.section-heading.day-heading {
     color: #333;
     background-color: #ddd;
 }
+#posts .post .comment-count.zero {
+    background: #E3ECCE url('/static/img/icon-comment-default.png?v=2') 50% 50% no-repeat;
+}
+#posts .post .comment-count.zero:hover {
+    background-color: #ddd;
+    color: #333;
+}
 .post .comment-count:before {
     /*content: "\e111";*/
     font-family: 'Glyphicons Halflings';
@@ -1315,7 +1322,7 @@ body.staff .post .title {
     line-height: 1em;
 }
 .volume.bumped .value {
-    color: #7BB1C6;
+    color: #555;
     font-weight: normal;
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
