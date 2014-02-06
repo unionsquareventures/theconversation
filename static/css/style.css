@@ -1234,7 +1234,6 @@ div.subsection.section-heading.day-heading {
 .post .comment-count {
     margin-left: 20px;
     /*background: url('/static/img/icon-comment.png') left center no-repeat;*/
-    font-size: 1.2em;
 
 }
 
@@ -1640,13 +1639,27 @@ feed.search .post .volume {
     line-height: 1.3em !important;
     margin-bottom: 3px;
 }
+.feed .post-sidebar .username-link {
+    float: left;
+    display: block;
+    padding-top: 2px;
+}
 .post-sidebar span.date {
     margin: 0 0 0 10px;
 }
 .post.post-sidebar a.comment-count {
     margin-left: 0px !important;
+    display: block;
+    float: right;
+    padding: 2px 0 2px 26px;
+    background: url("/static/img/icon-comment-default.png") left center no-repeat;
+    font-size: .95em;
+    color: #777;
 }
-
+.post.post-sidebar a.comment-count:hover {
+    color: #333;
+    background-image: url('/static/img/icon-comment-hover.png') left center no-repeat;
+}
 .welcome {
     background: #e7e7e7;
     border-bottom: 1px solid #ddd;
