@@ -1325,10 +1325,10 @@ body.staff .post .title {
     /*color: #86AA3B !important;*/ /*GREEN*/
     /*color: #aaa !important; */
     width: 34px;
-    height: 43px;
+    height: 44px;
     border-radius: 3px 0 0 3px;
     border-bottom: none;
-    padding: 21px 0 0 0;
+    padding: 22px 0 0 0;
     position: relative;
     background: transparent;
     /*border: 1px solid #ddd !important;*/
@@ -1338,7 +1338,7 @@ body.staff .post .title {
     text-align: center;
     /*background: #e3e3e3;*/
     /*background: url('/static/img/linen.png')top left repeat;*/
-    background: url("/static/img/icon-upvote-default.png") 50% 8px no-repeat;
+    background: url("/static/img/icon-upvote-default.png") 50% 10px no-repeat;
 }
 .volume.bumped a.votes-count {
     background-image: url("/static/img/icon-upvote-voted.png");

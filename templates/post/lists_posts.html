@@ -130,6 +130,13 @@
           $excerpt.slideUp();
         }
       });
+      $('body').on('click', '.post-sm .excerpt', function(e) {
+        e.preventDefault();
+        if ($(this).is(':visible')) {
+          // close it
+          $excerpt.slideUp();
+        }
+      });
       $('body').on('click', '.feed .link', function(e) {
         e.preventDefault();
         $excerpt = $($(this).siblings('.excerpt')[0]);
