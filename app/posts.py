@@ -376,7 +376,7 @@ class ListPostsNew(app.basic.BaseHandler):
 ### /posts/([^\/]+)/bump
 ##########################
 class Bump(app.basic.BaseHandler):
-  def get(self, slug):
+  def post(self, slug):
     # user must be logged in
     msg = {}
     if not self.current_user:
@@ -414,7 +414,7 @@ class Bump(app.basic.BaseHandler):
 ### /posts/([^\/]+)/superupvote
 ##########################
 class SuperUpVote(app.basic.BaseHandler):
-  def get(self, slug):
+  def post(self, slug):
     # user must be logged in
     msg = {}
     if not self.current_user:
@@ -438,7 +438,7 @@ class SuperUpVote(app.basic.BaseHandler):
 ### /posts/([^\/]+)/superdownvote
 ##########################
 class SuperDownVote(app.basic.BaseHandler):
-  def get(self, slug):
+  def post(self, slug):
     # user must be logged in
     msg = {}
     if not self.current_user:
@@ -462,7 +462,7 @@ class SuperDownVote(app.basic.BaseHandler):
 ### /posts/([^\/]+)/unbump
 ##########################
 class UnBump(app.basic.BaseHandler):
-  def get(self, slug):
+  def post(self, slug):
     # user must be logged in
     msg = {}
     if not self.current_user:

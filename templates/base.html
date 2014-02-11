@@ -235,6 +235,7 @@
       if (upvote_link.parent().hasClass('bumped')) {
         // user has already voted - this is a downvote.
         $.ajax($(this).attr('href'), {
+          type: 'POST',
           error: function(jqxhr, status, error) {
             alert("Could not upvote, an error occurred. Please try again.");
           },
@@ -255,6 +256,7 @@
       } else {
         // user has not already voted. this is an upvote.
         $.ajax($(this).attr('href'), {
+          type: 'POST',
            error: function(jqxhr, status, error) {
              alert("Could not upvote, an error occurred. Please try again.");
            },
@@ -280,6 +282,7 @@
         e.preventDefault();
         link = $(this);
         $.ajax($(this).attr('href'), {
+          type: 'POST',
           error: function(jqxhr, status, error) {
             alert("Could not vote, an error occurred. Please try again.");
           },
