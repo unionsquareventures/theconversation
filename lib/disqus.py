@@ -50,8 +50,8 @@ def get_thread_details(post):
   api_link = 'https://disqus.com/api/3.0/threads/details.json'
   info = {
     'api_key': settings.get('disqus_public_key'),
+    'thread:link': template_helpers.post_permalink(post),
     'forum': settings.get('disqus_short_code'),
-    'thread:link': template_helpers.post_permalink(post)
   }
   return do_api_request(api_link, 'GET', info)
 
