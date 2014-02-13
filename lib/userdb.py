@@ -28,7 +28,7 @@ def get_user_by_email(email_address):
   return db.user_info.find_one({'email_address':email_address})
   
 def get_disqus_users():
-  return db.user_info.find({'disqus_user_id': { '$exists': 'true' }})
+  return db.user_info.find({'disqus': { '$exists': 'true' }})
   
 def get_newsletter_recipients():
   return list(db.user_info.find({'wants_daily_email': True}))

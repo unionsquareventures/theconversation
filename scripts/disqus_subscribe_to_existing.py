@@ -25,5 +25,5 @@ disqus_users = userdb.get_disqus_users()
 #
 for u in disqus_users:
 	print u['user']['username']
-	print "-- %s" % u['disqus_user_id']
+	print "-- %s" % u['disqus']['user_id']
 	disqus.subscribe_to_all_your_threads(u['user']['username'])
