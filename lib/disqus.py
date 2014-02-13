@@ -46,9 +46,14 @@ def get_post_details(post_id):
         message['author']['email'] = disqus['response']['author']['email']
   return message
 
-def get_thread_details(thread_id):
-  api_link = 'https://disqus.com/api/3.0/threads/details.json?api_key=%s&thread:ident=%s&forum=%s' % (settings.get('disqus_public_key'), thread_id, settings.get('disqus_short_code'))
-  return do_api_request(api_link, 'GET')
+def get_thread_details(post):
+  api_link = 'https://disqus.com/api/3.0/threads/details.json'
+  info = {
+    'api_key': settings.get('disqus_public_key'),
+    'forum': settings.get('disqus_short_code'),
+    'thread:link': template_helpers.post_permalink(post)
+  }
+  return do_api_request(api_link, 'GET', info)
 
 def grep_short_code(link):
   # attempt to get the disqus short code out of a given page
@@ -95,12 +100,17 @@ def subscribe_to_all_your_threads(username):
   #make sure all your threads are registered w disqus
   posts = postsdb.get_posts_by_screen_name(username, per_page=100, page=1)
   for post in posts:
-    if 'disqus_thread_id' not in post.keys():
+    if 'disqus_thread_id_str' not in post.keys():
       thread_details = create_thread(post, account['disqus']['access_token'])
-      thread_id = thread_details['response']['id']
-      post['disqus_thread_id'] = thread_id
+      try:
+        thread_id = thread_details['response']['id']
+      except:
+        thread = get_thread_details(post)
+        thread_id = thread['response']['id']
+
+      post['disqus_thread_id_str'] = thread_id
       postsdb.save_post(post)
-    subscribe_to_thread(post.get('disqus_thread_id'), account['disqus']['access_token'])
+    subscribe_to_thread(post.get('disqus_thread_id_str'), account['disqus']['access_token'])
   
   '''
   threads = get_all_threads(account['disqus']['user_id'])['response']
