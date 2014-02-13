@@ -103,7 +103,7 @@
           <td class="text-muted">(currently this cannot be changed)</td>
         </tr>
         
-        {% if 'disqus_user_id' in user.keys() and user['disqus_user_id'] != '' %}
+        {% if 'disqus' in user.keys() and user['disqus']['user_id'] != '' %}
         <tr class="complete">
           <th class="step"><span class="glyphicon glyphicon-ok"></span></th>
         {% else %}
@@ -111,15 +111,15 @@
           <th class="step"></th>
         {% end %}
           <th>
-            {% if 'disqus_user_id' in user.keys() and user['disqus_user_id'] != '' %}
+            {% if 'disqus' in user.keys() and user['disqus']['user_id'] != '' %}
             <img src="/static/img/connect-disqus-active.png" /> &nbsp;
             {% else %}
             <img src="/static/img/connect-disqus-inactive.png" /> &nbsp;
             {% end %}
           </th>
-          {% if 'disqus_user_id' in user.keys() and user['disqus_user_id'] != '' %}
+          {% if 'disqus' in user.keys() and user['disqus']['user_id'] != '' %}
           <td>
-            {{ user['disqus_username'] }} &nbsp;
+            {{ user['disqus']['username'] }} &nbsp;
           </td>
           <td></td>
           <td>

@@ -1,3 +1,4 @@
+{% if is_today and len(posts) > 0 %}
 <div class="feed-container">
 	<div class="subsection section-heading day-heading clearfix">
 		<h2 class="pull-left">
@@ -17,12 +18,6 @@
 	</a></ul>
 		</div>
 	</div>
-	
-	{% if is_today and len(posts) == 0 %}
-		<div class="alert alert-warning">
-			Nothings has been posted yet today.  <b><a href="/posts/new">Be the first!</a></b>
-		</div>
-	{% end %}
 	
 	<ul class="feed" data-date="{{ day_str }}">
 		{% for i, p in enumerate(posts) %}
@@ -48,3 +43,5 @@
 	  <a class="btn" href="/day/{{ previous_day_str }}" style="width: 20em">Show previous day &darr;</a>
 	</div>
 </div>
+
+{% end %}

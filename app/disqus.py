@@ -5,6 +5,7 @@ import tornado.web
 import logging
 import settings
 import app.basic
+from datetime import datetime
 
 from lib import userdb
 from lib import postsdb
@@ -41,15 +42,24 @@ class Disqus(app.basic.BaseHandler):
         #  access_token should look like access_token=111122828977539|98f28d8b5b8ed787b585e69b.1-537252399|1bKwe6ghzXyS9vPDyeB9b1fHLRc
         user_data = json.loads(response.read())
         # refresh the user token details
-        account['disqus_username'] = user_data['username']
-        account['disqus_user_id'] = user_data['user_id']
-        account['disqus_access_token'] = user_data['access_token']
-        account['disqus_expires_in'] = user_data['expires_in']
-        account['disqus_refresh_token'] = user_data['refresh_token']
-        account['disqus_token_type'] = user_data['token_type']
+        disqus_obj = {}
+        disqus_obj['username'] = user_data['username']
+        disqus_obj['user_id'] = user_data['user_id']
+        disqus_obj['access_token'] = user_data['access_token']
+        disqus_obj['expires_in'] = user_data['expires_in']
+        disqus_obj['refresh_token'] = user_data['refresh_token']
+        disqus_obj['token_type'] = user_data['token_type']
+        disqus_obj['token_startdate'] = datetime.now()
+        account['disqus'] = disqus_obj
+        if 'disqus_username' in account.keys(): del account['disqus_username']
+        if 'disqus_user_id' in account.keys(): del account['disqus_user_id']
+        if 'disqus_access_token' in account.keys(): del account['disqus_access_token']
+        if 'disqus_expires_in' in account.keys(): del account['disqus_expires_in']
+        if 'disqus_refresh_token' in account.keys(): del account['disqus_refresh_token']
+        if 'disqus_token_type' in account.keys(): del account['disqus_token_type']
         userdb.save_user(account)
         
-        # todo: subscribe user to all previous threads they've written
+        # subscribe user to all previous threads they've written
         disqus.subscribe_to_all_your_threads(self.current_user)
         
     except Exception, e:
@@ -64,12 +74,7 @@ class Remove(app.basic.BaseHandler):
     # remove twitter from this account
     account = userdb.get_user_by_screen_name(self.current_user)
     if account:
-      del account['disqus_username']
-      del account['disqus_user_id']
-      del account['disqus_access_token']
-      del account['disqus_expires_in']
-      del account['disqus_refresh_token']
-      del account['disqus_token_type']
+      del account['disqus']
       userdb.save_user(account)
 
     self.redirect('/user/%s/settings?msg=updated' % self.current_user)
