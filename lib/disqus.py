@@ -92,6 +92,11 @@ def subscribe_to_all_your_threads(username):
     return
   print 'subscribing to disqus threads for user %s' % username
   
+  #make sure all your threads are registered w disqus
+  posts = postsdb.get_posts_by_screen_name(username, per_page=100, page=1)
+  for post in posts:
+    create_thread(post, account['disqus']['access_token'])
+  
   threads = get_all_threads(account['disqus']['user_id'])['response']
   my_threads = []
   for thread in threads:
