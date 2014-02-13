@@ -87,12 +87,12 @@ def subscribe_to_all_your_threads(username):
   account = userdb.get_user_by_screen_name(username)
   # todo: get disqus_user_id
   # temp: nick's ID
-  if 'disqus_user_id' not in account:
+  if 'disqus' not in account:
     logging.info('ERROR: no disqus user ID')
     return
   logging.info('subscribing to disqus threads for user %s' % username)
   
-  threads = get_all_threads(account['disqus_user_id'])['response']
+  threads = get_all_threads(account['disqus']['user_id'])['response']
   my_threads = []
   for thread in threads:
     if 'link' not in thread or thread['link'] is None:
