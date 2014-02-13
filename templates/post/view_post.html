@@ -45,7 +45,7 @@
             </ul>
       
       
-          {% if current_user == post['user']['username'] and ('disqus_user_id' not in user_obj.keys() or user_obj['disqus_user_id'] == '') %} 
+          {% if current_user == post['user']['username'] and ('disqus' not in user_obj.keys() or user_obj['disqus']['user_id'] == '') %} 
             <div class="alert alert-info">
               If you'd like to receive email notifications of new comments, <a href="/auth/disqus">link to Disqus here</a>.
             </div>
