@@ -100,9 +100,9 @@ def subscribe_to_all_your_threads(username):
     if thread['link'].find('http://localhost') >= 0:
       continue
     my_threads.append(thread)
-  if 'disqus_access_token' in account:
+  if 'disqus' in account:
     for thread in my_threads:
-      subscribe_to_thread(thread['id'], account['disqus_access_token'])
+      subscribe_to_thread(thread['id'], account['disqus']['access_token'])
       logging.info('subscribed to thread: %s' % thread['title'])
   return
   

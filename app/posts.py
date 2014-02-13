@@ -317,7 +317,7 @@ class ListPosts(app.basic.BaseHandler):
     thread_id = 0
     try:
       # Attempt to create the thread.
-      thread_details = disqus.create_thread(post, acc['disqus_access_token'])
+      thread_details = disqus.create_thread(post, acc['disqus']['access_token'])
       thread_id = thread_details['response']['id']
     except:
       try:
@@ -328,7 +328,7 @@ class ListPosts(app.basic.BaseHandler):
         thread_id = 0
     if thread_id != 0:
       # Subscribe a user to the thread specified in response
-      disqus.subscribe_to_thread(thread_id, acc['disqus_access_token'])
+      disqus.subscribe_to_thread(thread_id, acc['disqus']['access_token'])
       # update the thread with the disqus_thread_id_str
       saved_post = postsdb.get_post_by_slug(post['slug'])
       saved_post['disqus_thread_id_str'] = thread_id
