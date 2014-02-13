@@ -95,8 +95,12 @@ def subscribe_to_all_your_threads(username):
   #make sure all your threads are registered w disqus
   posts = postsdb.get_posts_by_screen_name(username, per_page=100, page=1)
   for post in posts:
-    create_thread(post, account['disqus']['access_token'])
-    subscribe_to_thread(post['disqus_thread_id'], account['disqus']['access_token'])
+    if 'disqus_thread_id' not in post.keys():
+      thread_details = create_thread(post, account['disqus']['access_token'])
+      thread_id = thread_details['response']['id']
+      post['disqus_thread_id'] = thread_id
+      postsdb.save_post(post)
+    subscribe_to_thread(post.get('disqus_thread_id'), account['disqus']['access_token'])
   
   '''
   threads = get_all_threads(account['disqus']['user_id'])['response']
