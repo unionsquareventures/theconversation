@@ -96,7 +96,9 @@ def subscribe_to_all_your_threads(username):
   posts = postsdb.get_posts_by_screen_name(username, per_page=100, page=1)
   for post in posts:
     create_thread(post, account['disqus']['access_token'])
+    subscribe_to_thread(post['disqus_thread_id'], account['disqus']['access_token'])
   
+  '''
   threads = get_all_threads(account['disqus']['user_id'])['response']
   my_threads = []
   for thread in threads:
@@ -109,6 +111,8 @@ def subscribe_to_all_your_threads(username):
     for thread in my_threads:
       subscribe_to_thread(thread['id'], account['disqus']['access_token'])
       print 'subscribed to thread: %s' % thread['title']
+  return
+  '''
   return
   
 
@@ -181,6 +185,7 @@ def do_api_request(api_link, method='GET', params={}):
         verify=False
       )
     disqus = r.json()
+    print disqus
   except:
     disqus = {}
   return disqus
