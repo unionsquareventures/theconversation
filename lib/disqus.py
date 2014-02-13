@@ -98,7 +98,7 @@ def subscribe_to_all_your_threads(username):
   print 'subscribing to disqus threads for user %s' % username
   
   #make sure all your threads are registered w disqus
-  posts = postsdb.get_posts_by_screen_name(username, per_page=5, page=1)
+  posts = postsdb.get_posts_by_screen_name(username, per_page=25, page=1)
   for post in posts:
     print template_helpers.post_permalink(post)
     if 'disqus_thread_id_str' not in post.keys() or post.get('disqus_thread_id_str') == "":
