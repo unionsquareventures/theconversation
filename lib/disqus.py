@@ -19,7 +19,7 @@ def check_for_thread(short_code, link):
 
 def create_thread(post, access_token):
   api_link = 'https://disqus.com/api/3.0/threads/create.json'
-  url = "http://" + template_helpers.post_permalink(post)
+  url = template_helpers.post_permalink(post)
   thread_info = {
     'forum': settings.get('disqus_short_code'),
     'title': post['title'].encode('utf-8'),
@@ -98,9 +98,10 @@ def subscribe_to_all_your_threads(username):
   print 'subscribing to disqus threads for user %s' % username
   
   #make sure all your threads are registered w disqus
-  posts = postsdb.get_posts_by_screen_name(username, per_page=100, page=1)
+  posts = postsdb.get_posts_by_screen_name(username, per_page=5, page=1)
   for post in posts:
-    if 'disqus_thread_id_str' not in post.keys():
+    print template_helpers.post_permalink(post)
+    if 'disqus_thread_id_str' not in post.keys() or post.get('disqus_thread_id_str') == "":
       thread_details = create_thread(post, account['disqus']['access_token'])
       try:
         thread_id = thread_details['response']['id']
@@ -199,7 +200,8 @@ def do_api_request(api_link, method='GET', params={}):
         verify=False
       )
     disqus = r.json()
-    print disqus
+    print api_link
+    print json.dumps(disqus, indent=4)
   except:
     disqus = {}
   return disqus

@@ -322,7 +322,7 @@ class ListPosts(app.basic.BaseHandler):
     except:
       try:
         # trouble creating the thread, try to just get the thread via the slug
-        thread_details = disqus.get_thread_details(post.slug)
+        thread_details = disqus.get_thread_details(post)
         thread_id = thread_details['response']['id']
       except:
         thread_id = 0
