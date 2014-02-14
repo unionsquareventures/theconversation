@@ -3,6 +3,8 @@ The Conversation
 
 Community link-sharing and discussion app, built for [USV.com](http://www.usv.com).
 
+Dev list at https://groups.google.com/forum/#!forum/conversation-app
+
 Built with:
 
  * Python / [Tornado](http://tornadoweb.org)
