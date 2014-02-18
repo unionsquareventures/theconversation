@@ -19,7 +19,7 @@ def check_for_thread(short_code, link):
 
 def create_thread(post, access_token):
   api_link = 'https://disqus.com/api/3.0/threads/create.json'
-  url = "http://" + template_helpers.post_permalink(post)
+  url = template_helpers.post_permalink(post)
   thread_info = {
     'forum': settings.get('disqus_short_code'),
     'title': post['title'].encode('utf-8'),
@@ -46,9 +46,14 @@ def get_post_details(post_id):
         message['author']['email'] = disqus['response']['author']['email']
   return message
 
-def get_thread_details(thread_id):
-  api_link = 'https://disqus.com/api/3.0/threads/details.json?api_key=%s&thread:ident=%s&forum=%s' % (settings.get('disqus_public_key'), thread_id, settings.get('disqus_short_code'))
-  return do_api_request(api_link, 'GET')
+def get_thread_details(post):
+  api_link = 'https://disqus.com/api/3.0/threads/details.json'
+  info = {
+    'api_key': settings.get('disqus_public_key'),
+    'thread:link': template_helpers.post_permalink(post),
+    'forum': settings.get('disqus_short_code'),
+  }
+  return do_api_request(api_link, 'GET', info)
 
 def grep_short_code(link):
   # attempt to get the disqus short code out of a given page
@@ -88,10 +93,27 @@ def subscribe_to_all_your_threads(username):
   # todo: get disqus_user_id
   # temp: nick's ID
   if 'disqus' not in account:
-    logging.info('ERROR: no disqus user ID')
+    print 'ERROR: no disqus user ID'
     return
-  logging.info('subscribing to disqus threads for user %s' % username)
+  print 'subscribing to disqus threads for user %s' % username
   
+  #make sure all your threads are registered w disqus
+  posts = postsdb.get_posts_by_screen_name(username, per_page=25, page=1)
+  for post in posts:
+    print template_helpers.post_permalink(post)
+    if 'disqus_thread_id_str' not in post.keys() or post.get('disqus_thread_id_str') == "":
+      thread_details = create_thread(post, account['disqus']['access_token'])
+      try:
+        thread_id = thread_details['response']['id']
+      except:
+        thread = get_thread_details(post)
+        thread_id = thread['response']['id']
+
+      post['disqus_thread_id_str'] = thread_id
+      postsdb.save_post(post)
+    subscribe_to_thread(post.get('disqus_thread_id_str'), account['disqus']['access_token'])
+  
+  '''
   threads = get_all_threads(account['disqus']['user_id'])['response']
   my_threads = []
   for thread in threads:
@@ -103,7 +125,9 @@ def subscribe_to_all_your_threads(username):
   if 'disqus' in account:
     for thread in my_threads:
       subscribe_to_thread(thread['id'], account['disqus']['access_token'])
-      logging.info('subscribed to thread: %s' % thread['title'])
+      print 'subscribed to thread: %s' % thread['title']
+  return
+  '''
   return
   
 
@@ -176,6 +200,8 @@ def do_api_request(api_link, method='GET', params={}):
         verify=False
       )
     disqus = r.json()
+    print api_link
+    print json.dumps(disqus, indent=4)
   except:
     disqus = {}
   return disqus

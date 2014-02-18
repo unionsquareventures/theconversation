@@ -35,4 +35,4 @@ def pretty_date(d):
   
 # display a permalink to a post
 def post_permalink(p):
-  return settings.get('base_url') + "/posts/" + p['slug']
+  return 'http://' + settings.get('base_url') + "/posts/" + p['slug']

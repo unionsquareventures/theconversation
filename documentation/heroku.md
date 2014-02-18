@@ -66,7 +66,7 @@ Setting config vars and restarting <your-app-name>... done, v793
 1. Create your local settings file.  Since we are targeting heroku for deployment, we want to make sure our local build environment handles config variables in a way that works for heroku.  Heroku suggests using a .env file and their Foreman deployment app for this, but we've set things up a bit differently.  We use a local settings file called settings_local_environ.py, which stores our local development settings.  Doing it this way allows us to use Tornado's logging.info() for debugging, which you can't do with Foreman.  Phew.
 
 ```
-% touch settings_local_environment.py
+% touch settings_local_environ.py
 ```
 1. In the text editor of your choice, open settings_local_environ.py and add the following:
 
