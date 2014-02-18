@@ -536,6 +536,7 @@ class ViewPost(app.basic.BaseHandler):
 #############
 class Widget(app.basic.BaseHandler):
   def get(self, extra_path=''):
+    view = self.get_argument('view', 'sidebar')
     if extra_path != '':
       self.render('post/widget_demo.html')
     else:
@@ -545,9 +546,13 @@ class Widget(app.basic.BaseHandler):
       per_page = abs(int(self.get_argument('per_page', '9')))
       num_posts = abs(int(self.get_argument('num_posts', '5')))
 
-      # get the current hot posts
-      posts = postsdb.get_hot_posts(per_page, page)
-      self.render('post/widget.js', posts=posts, num_posts=num_posts)
+      if view == "sidebar":
+        # get the current hot posts
+        posts = postsdb.get_hot_posts(per_page, page)
+        self.render('post/widget.js', posts=posts, num_posts=num_posts)
+      else: 
+        posts = postsdb.get_hot_posts_by_day()
+        self.render('post/widget_inline.js', posts=posts, num_posts=3)
 
 ###################
 ### WIDGET DEMO
