@@ -83,9 +83,6 @@ class Feed(app.basic.BaseHandler):
     elif feed_type == 'sad':
       # show the sad posts
       posts = postsdb.get_sad_posts(per_page, page)
-    elif feed_type == 'hot':
-      # get the current hot posts
-      posts = postsdb.get_hot_posts(per_page, page)
     else:
       posts = postsdb.get_hot_posts_by_day()
 
