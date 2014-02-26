@@ -86,10 +86,11 @@ def get_hot_posts_by_day(day=date.today()):
   day_plus_one = day + timedelta(days=1)
   return list(db.post.find({"deleted": { "$ne": True }, 'date_created': {'$gte': day, '$lte': day_plus_one}}, sort=[('daily_sort_score', pymongo.DESCENDING)]))
 
-def get_super_hot_posts_by_day(day=date.today()):
+def get_super_hot_posts_by_day(min_score=8):
+  day=date.today()
   day = datetime.combine(day, datetime.min.time())
   day_plus_one = day + timedelta(days=1)
-  return list(db.post.find({'daily_sort_score': {"$gte" : 8 }, "deleted": { "$ne": True }, 'date_created': {'$gte': day, '$lte': day_plus_one}}, sort=[('daily_sort_score', pymongo.DESCENDING)]))
+  return list(db.post.find({'daily_sort_score': {"$gte" : min_score }, "deleted": { "$ne": True }, 'date_created': {'$gte': day, '$lte': day_plus_one}}, sort=[('daily_sort_score', pymongo.DESCENDING)]))
 
 def get_hot_posts_24hr():
   now = datetime.now()
