@@ -85,13 +85,13 @@ class Feed(app.basic.BaseHandler):
       posts = postsdb.get_sad_posts(per_page, page)
     elif feed_type == 'hot':
       # show the sad posts
-      posts = postsdb.get_super_hot_posts_by_day(8)
+      posts = postsdb.get_daily_posts_by_sort_score(8)
     elif feed_type == 'superhot':
       # show the sad posts
-      posts = postsdb.get_super_hot_posts_by_day(20)
+      posts = postsdb.get_daily_posts_by_sort_score(20)
     elif feed_type == 'superduperhot':
       # show the sad posts
-      posts = postsdb.get_super_hot_posts_by_day(50)
+      posts = postsdb.get_daily_posts_by_sort_score(50)
     elif feed_type == 'today':
       posts = postsdb.get_hot_posts_by_day()
     else:
