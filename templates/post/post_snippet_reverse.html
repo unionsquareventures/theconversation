@@ -58,6 +58,9 @@ data-disqus-identifier="{{ str(p['_id']) }}" href="/posts/{{ p['slug'] }}">{{ p[
     <a class="title" href="/posts/{{ p['slug'] }}" target="_blank">{{ p['title'] }}</a>
     <div class="source">usv.com</div>
   {% end %}
+  {% if current_user_can('view_post_sort_score') %}
+  <span class="sort_score">{{ p['daily_sort_score'] }}</span>
+  {% end %}
 </div>
 
 </div>

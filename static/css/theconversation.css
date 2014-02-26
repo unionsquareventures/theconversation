@@ -1132,6 +1132,10 @@ div.subsection.section-heading.day-heading {
 .single .post .volume {
     top: 20px;
 }
+.post .sort_score {
+    float: right;
+    color: #777;
+}
 #posts .post .comment-count {
     position: absolute;
     display: block;

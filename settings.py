@@ -83,7 +83,8 @@ default_options = {
     'super_upvote',
     'super_downvote',
     'downvote_posts',
-    'manage_disqus'
+    'manage_disqus',
+    'view_post_sort_score'
   ],
   'user_capabilities': [], 
   
