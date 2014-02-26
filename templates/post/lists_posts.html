@@ -24,7 +24,7 @@
             <p>Here's the link: <a href="/posts/{{ new_post['slug'] }}">http://usv.com/posts/{{ new_post['slug'] }}</a>. </p>
             <p style="margin: 10px 0 0"> 
              
-              <a href="https://twitter.com/share" class="twitter-share-button" data-url="/posts/{{ new_post['slug'] }}" data-text="{{ new_post['title'] }}" data-via="usvcommunity" data-size="large" data-count="none">Tweet it out</a>
+              <a href="https://twitter.com/share?url={{ template_helpers.post_permalink(new_post) }}" class="twitter-share-button" data-url="{{ template_helpers.post_permalink(new_post) }}" data-text="{{ new_post['title'] }}" data-via="usvcommunity" data-size="large" data-count="none">Tweet it out</a>
               <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
             </p>
             
