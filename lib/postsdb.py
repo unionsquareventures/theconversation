@@ -73,7 +73,7 @@ def get_posts_by_screen_name_and_tag(screen_name, tag, per_page=10, page=1):
   return list(db.post.find({'deleted': { "$ne": True }, 'user.screen_name':screen_name, 'tags':tag}, sort=[('date_created', pymongo.DESCENDING)]).skip((page-1)*per_page).limit(per_page))
 
 def get_featured_posts(per_page=10, page=1):
-  return list(db.post.find({'deleted': { "$ne": True }, 'featured':True}, sort=[('date_featured', pymongo.DESCENDING)]).skip((page-1)*per_page).limit(per_page))
+  return list(db.post.find({'deleted': { "$ne": True }, 'featured':True}, sort=[('date_created', pymongo.DESCENDING)]).skip((page-1)*per_page).limit(per_page))
 
 def get_new_posts(per_page=50, page=1):
   return list(db.post.find({"deleted": { "$ne": True }}, sort=[('_id', pymongo.DESCENDING)]).skip((page-1)*per_page).limit(per_page))
@@ -145,8 +145,9 @@ def get_posts_with_min_votes(min_votes):
   return list(db.post.find({'deleted': { "$ne": True }, 'votes':{'$gte':min_votes}}, sort=[('date_created', pymongo.DESCENDING)]))
   
 def get_hot_posts_past_week():
+  yesterday = datetime.today() - timedelta(days=1)
   week_ago = datetime.today() - timedelta(days=5)
-  return list(db.post.find({'deleted': { "$ne": True }, 'date_created':{'$gte':week_ago}}, sort=[('daily_sort_score', pymongo.DESCENDING)]).limit(5))
+  return list(db.post.find({'deleted': { "$ne": True }, 'date_created':{'$lte':yesterday, '$gte': week_ago}}, sort=[('daily_sort_score', pymongo.DESCENDING)]).limit(5))
 
 def get_related_posts_by_tag(tag):
   return list(db.post.find({'deleted': { "$ne": True }, 'tags':tag}, sort=[('daily_sort_score', pymongo.DESCENDING)]).limit(2))
