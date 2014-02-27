@@ -57,14 +57,12 @@ class EditPost(app.basic.BaseHandler):
 ### /featured.*$
 ##################
 class FeaturedPosts(app.basic.BaseHandler):
-  def get(self):
-    page = abs(int(self.get_argument('page', '1')))
-    per_page = abs(int(self.get_argument('per_page', '9')))
+  def get(self, tag=None):
+    featured_posts = postsdb.get_featured_posts(1000, 1)
+    tags_alpha = tagsdb.get_all_tags(sort="alpha")
+    tags_count = tagsdb.get_all_tags(sort="count")
 
-    featured_posts = postsdb.get_featured_posts(per_page, page)
-    total_count = postsdb.get_featured_posts_count()
-
-    self.render('post/featured_posts.html', featured_posts=featured_posts, total_count=total_count, page=page, per_page=per_page)
+    self.render('search/search_results.html', tag=tag, tags_alpha=tags_alpha, tags_count=tags_count, posts=featured_posts, total_count=len(featured_posts), query="featured_posts")
 
 ##############
 ### FEED
@@ -115,7 +113,7 @@ class ListPosts(app.basic.BaseHandler):
     if slug:
       new_post = postsdb.get_post_by_slug(slug)
       
-    featured_posts = postsdb.get_featured_posts(5, 1)
+    featured_posts = postsdb.get_featured_posts(1)
     posts = []
     post = {}
     hot_tags = tagsdb.get_hot_tags()

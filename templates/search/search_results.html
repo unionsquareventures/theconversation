@@ -11,8 +11,12 @@
         {% end %}   
         {% if total_count > 0 %}
           <h2 class="subsection section-heading" >
+            {% if query == "featured_posts" %}
+            Featured Posts
+            {% else %}
             {{ total_count }} result{% if total_count != 1 %}s{% end %} for
             <span class="search-term"> “{{ query }}”</span>
+            {% end %}
           </h2>
           <div class="feed-container">
           <ul class="feed search">

@@ -1,0 +1,44 @@
+{% if 'tags' in p.keys() and len(p['tags']) > 0 %}
+{% set has_tags = True %}
+{% else %}
+{% set has_tags = False %}
+{% end %}
+
+<div class="user">
+	<!--<a href="/user/{{ p['user']['username'] }}">-->
+		<img class="avatar" src="{{ p['user']['profile_image_url_https'] }}" alt="thumbnail">
+	<!--</a>-->
+</div>
+	<a class="dsq-comment-count comment-count {{ 'zero' if p['comment_count'] == 0 else "" }}" title="Go to discussion"
+data-disqus-identifier="{{ str(p['_id']) }}" href="/posts/{{ p['slug'] }}">{{ p['comment_count'] if p['comment_count'] > 0 else '' }} {{ '' if p['comment_count'] == 0 else "" }}</a>
+
+<div class="content {% if has_tags %}has-tags{% end %}">
+	
+	<div class="link" data-post-url="/posts/{{ p['slug'] }}">
+			<a class="title" href="/posts/{{ p['slug'] }}">{{ p['title'] }}</a>
+	</div>
+
+	{% if p['body_html'] and p['body_html'].strip() != ""  %}
+	<div class="excerpt" data-post-url="/posts/{{ p['slug'] }}">
+		{% if p['body_html'].find('<p>') < 0 %}
+			{% set excerpt = "<p>" + p['body_html'] + "</p>" %}
+		{% else %}
+			{% set excerpt = p['body_html'] %}
+		{% end %}
+		{% raw excerpt %}
+	</div>
+	{% end %}
+	<div class="meta clearfix">
+		{% if 'tags' in post.keys() %}
+		<div class="tags pull-right">
+			{% for i, t in enumerate(p['tags']) %}
+				{% if i < 2 %}
+				<a href="/tagged/{{ t }}">#{{ t }}</a> 
+				{% end %}
+			{% end %}
+		</div>
+		{% end %}
+	</div>
+</div>
+
+
