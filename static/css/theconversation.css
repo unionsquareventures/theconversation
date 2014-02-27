@@ -1028,7 +1028,7 @@ body.home #content > .container {
 div.subsection.section-heading.day-heading {
   text-align: left !important;  
   margin: 0 0 10px;
-  padding: 20px 5px 5px 0px;
+  padding: 25px0px 5px 5px 0px;
   border-bottom: none !important;
 }
 #todays-posts div.subsection.section-heading.day-heading,
@@ -1314,13 +1314,12 @@ body.staff .post .title {
 /* =bump it up */
 .supervote {
     position: absolute;
-    top: -3px;
-    right: 50px;
+    top: 8px;
+    right: 35px;
     text-align: center;
     font-size: 70%;
     white-space: nowrap;
     opacity: .75em;
-    display: none; /* todo: remove */
 }
 .single .supervote {
     display: none;
@@ -1360,11 +1359,13 @@ body.staff .post .title {
     display: inline;
     margin: 0 3px 0 0 !important;
 }
-.volume .superupvote {
-    color: #5A7FC2 !important;
+.volume .superupvote .value,
+.volume .superupvote .glyphicon {
+    color: #ccc !important;
 }
-.volume .superdownvote {
-    color: #D7636C !important;
+.volume .superdownvote .value,
+.volume .superdownvote .glyphicon {
+    color: #ccc !important;
 }
 .volume a.votes-count {
     /*color: #86AA3B !important;*/ /*GREEN*/
