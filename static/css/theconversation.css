@@ -1028,7 +1028,7 @@ body.home #content > .container {
 div.subsection.section-heading.day-heading {
   text-align: left !important;  
   margin: 0 0 10px;
-  padding: 30px 5px 5px 0px;
+  padding: 20px 5px 5px 0px;
   border-bottom: none !important;
 }
 #todays-posts div.subsection.section-heading.day-heading,
@@ -1046,6 +1046,8 @@ div.subsection.section-heading.day-heading h2 {
 div.subsection.section-heading .more {
     font-size: .75em;
     text-transform: none;
+    display: block;
+    padding-top: 5px;
 }
 
 .day-filter .nav {
