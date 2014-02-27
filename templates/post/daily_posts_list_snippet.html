@@ -28,8 +28,17 @@
 					<li class="post post-lg clearfix {{ 'has-excerpt' if has_excerpt else '' }}" data-date-created="{{ p['date_created'] }}" data-sort-score="{{ p.get('daily_sort_score') }}">
 					{% include post_snippet_reverse.html %}
 					</li>
-				{% else %}
+				{% elif i < 10 %}
 					<li class="post post-sm clearfix {{ 'has-excerpt' if has_excerpt else '' }}" data-date-created="{{ p['date_created'] }}" data-sort-score="{{ p.get('daily_sort_score') }}">
+					{% include post_snippet_reverse.html %}
+					</li>
+				{% else %}
+					{% if i % 2 == 0 %}
+					{% set label = "odd" %}
+					{% else %}
+					{% set label = "even" %}
+					{% end %}
+					<li class="post post-xs clearfix {{ label }} {{ 'has-excerpt' if has_excerpt else '' }}" data-date-created="{{ p['date_created'] }}" data-sort-score="{{ p.get('daily_sort_score') }}">
 					{% include post_snippet_reverse.html %}
 					</li>
 				{% end %}

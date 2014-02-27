@@ -43,6 +43,22 @@
           </div>
         {% end %}
         
+        {% if len(featured_posts) > 0 %}
+        <div class="subsection section-heading day-heading featured clearfix">
+          <h2 class="pull-left">
+            FEATURED:
+          </h2>
+          <a href="/featured" class="pull-right more">More featured posts</a>
+        </div>
+        <ul id="pinned" class="feed">
+          {% for p in featured_posts %}
+          <li class="post">
+            {% include post_snippet_featured.html %}
+          </li>
+          {% end %}
+        </ul>
+        {% end %}
+        
         <div id="todays-posts">
         {% include daily_posts_list_snippet.html %}
         </div>
@@ -82,7 +98,21 @@
           $(this).popover(options)
         });
       }
-      setupVotedListPopover()
+      setupVotedListPopover();
+      
+      var fixXSPostHeights = function() {
+        $('.post-xs.odd').each(function() {
+          console.log($(this).next().height())
+          if ($(this).next().height() < $(this).height()) {
+            $(this).next().height($(this).height());
+          }
+          if ($(this).next().height() > $(this).height()) {
+            $(this).height($(this).next().height());
+          }
+        });
+      }
+      fixXSPostHeights();
+      $(window).resize(fixXSPostHeights);
       
       /*
       #
@@ -200,12 +230,13 @@
       {% if infinite_scroll %}
       $('#posts').jscroll({
         contentSelector: '.feed-container',
-        loadingHtml: '<img src="/static/img/ajax-loader.gif" />',
+        loadingHtml: '<img style="clear:both" src="/static/img/ajax-loader.gif" />',
         callback: onScrollLoad
       });
       {% end %}
       function onScrollLoad() {
         setupVotedListPopover();
+        fixXSPostHeights();
       }
       
       if (window.location.hash == "#tools") {

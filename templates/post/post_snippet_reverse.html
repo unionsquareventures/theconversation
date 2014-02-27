@@ -1,4 +1,4 @@
-{% if len(p['tags']) > 0 %}
+{% if 'tags' in p.keys() and len(p['tags']) > 0 %}
 {% set has_tags = True %}
 {% else %}
 {% set has_tags = False %}
@@ -40,6 +40,7 @@ data-disqus-identifier="{{ str(p['_id']) }}" href="/posts/{{ p['slug'] }}">{{ p[
   </div>
   {% end %}
   <div class="meta clearfix">
+    {% if 'tags' in p.keys() %}
     <div class="tags pull-right">
       {% for i, t in enumerate(p['tags']) %}
         {% if i < 2 %}
@@ -47,6 +48,7 @@ data-disqus-identifier="{{ str(p['_id']) }}" href="/posts/{{ p['slug'] }}">{{ p[
         {% end %}
       {% end %}
     </div>
+    {% end %}
   </div>
 <div class="link" data-post-url="/posts/{{ p['slug'] }}">
   {% include bumpit_snippet.html %}

@@ -1015,8 +1015,26 @@ h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
 #
 # =========================================================*/
 
+.feed-container {
+    clear: both;
+}
+.jscroll-added {
+    clear: both;
+}
+
 body.home #content > .container {
     padding-top: 5px;
+}
+div.subsection.section-heading.day-heading {
+  text-align: left !important;  
+  margin: 0 0 10px;
+  padding: 30px 5px 5px 0px;
+  border-bottom: none !important;
+}
+#todays-posts div.subsection.section-heading.day-heading,
+div.subsection.section-heading.day-heading.featured
+ {
+    padding-top: 0;
 }
 div.subsection.section-heading.day-heading h2 {
     margin: 0;
@@ -1025,12 +1043,11 @@ div.subsection.section-heading.day-heading h2 {
     border-bottom: none !important;
     text-align: left;
 }
-div.subsection.section-heading.day-heading {
-  text-align: left !important;  
-  margin: 0 0 10px;
-  padding: 0px 5px 5px 0px;
-  border-bottom: none !important;
+div.subsection.section-heading .more {
+    font-size: .75em;
+    text-transform: none;
 }
+
 .day-filter .nav {
     margin-top: 0px;
     font-size: .75em;
@@ -1148,6 +1165,9 @@ div.subsection.section-heading.day-heading {
     padding: 12px 15px 4px 45px;
     text-decoration: none;
     border-radius: 0 3px 0 0;
+}
+#pinned .post .comment-count {
+    padding-top: 8px;
 }
 #posts .post .comment-count:hover {
     background-image: url('/static/img/icon-comment-hover.png?v=3');
@@ -1425,6 +1445,14 @@ display: block;
     white-space: nowrap;
 }
 
+/* pinned */
+#pinned .excerpt {
+    padding-top: 0;
+}
+#pinned .link {
+    border-top: 0;
+}
+
 /* Sm, Md, Lg variants */
 .post.post-lg .expand {
     display: none;
@@ -1438,7 +1466,7 @@ display: block;
 }
 .post.post-sm .title {
     font-size: 1em !important;
-    font-family: 'proximanova-bold' !important;
+    font-family: 'proximanova-semibold' !important;
     margin-top: 4px;
 }
 .post-sm .excerpt {
@@ -1484,6 +1512,27 @@ display: block;
 .post-sm .tags {
     display: none;
 }
+
+@media only screen and (min-width:600px) {
+    .post.post-xs {
+        width: 45%;
+        float: left;
+        clear: none;
+    }
+    .post.post-xs.even {
+        float: right;
+    }
+}
+.post.post-xs .title {
+    font-size: .9em !important;
+    font-family: 'proximanova-regular' !important;
+}
+.post.post-xs .excerpt,
+.post.post-xs .expand,
+.post.post-xs .sort_score {
+    display: none;
+}
+
 
 /* =Single post overrides */
 .single .post {
