@@ -411,7 +411,7 @@ class Bump(app.basic.BaseHandler):
           author = userdb.get_user_by_screen_name(post['user']['username'])
           if 'email_address' in author.keys():
             subject = "[#usvconversation] @%s just bumped up your post: %s" % (self.current_user, post['title'])
-            text = "Woo!\n\nhttp://%s" % template_helpers.post_permalink(post)
+            text = "Woo!\n\n%s" % template_helpers.post_permalink(post)
             logging.info('sent email to %s' % author['email_address'])
             self.send_email('web@usv.com', author['email_address'], subject, text)
           
