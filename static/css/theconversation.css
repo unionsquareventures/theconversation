@@ -1168,9 +1168,6 @@ div.subsection.section-heading .more {
     text-decoration: none;
     border-radius: 0 3px 0 0;
 }
-#pinned .post .comment-count {
-    padding-top: 8px;
-}
 #posts .post .comment-count:hover {
     background-image: url('/static/img/icon-comment-hover.png?v=3');
     color: #333;
@@ -1450,10 +1447,12 @@ display: block;
 
 /* pinned */
 #pinned .excerpt {
-    padding-top: 0;
 }
 #pinned .link {
-    border-top: 0;
+
+}
+#pinned .expand {
+    display: none;
 }
 
 /* Sm, Md, Lg variants */
