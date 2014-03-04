@@ -87,14 +87,12 @@
       <div class="col-sm-4 col-sm-pull-8 hidden-sm">
          
          <div class="sidebar-widget welcome clearfix">
+           <p class="" style=""><a class="btn btn-primary btn-block" role="button" data-toggle="modal" href="#submit-modal">Submit a post</a></p>
+           
            {% raw settings.get('site_intro') %}
            
-           
-           <p class="pull-left" style=""><a class="btn btn-primary" role="button" data-toggle="modal" href="#submit-modal">Submit a post</a></p>
-           <p style="font-size: .9em; margin-bottom: 0; padding-top: 4px" class="pull-right"><a href="/posts/welcome-to-the-new-usvcom#comment-1066691905">posting guidelines</a> <span class="text-muted">|</span> <a id="show-tools-btn" href="#tools">tools</a></p>
-           
            <form class="form form-inline search" style="margin-bottom: 0" role="form" method="GET" action="/search">
-             <input type="text" class="form-control" id="query" name="query" placeholder="Search...">
+             <input type="text" class="form-control" id="query" name="query" placeholder="Search posts...">
            </form>
          </div>
        

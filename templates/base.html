@@ -56,6 +56,7 @@
               <br />
               <a href="/auth/twitter" target="_top"><img src="/static/img/sign-in-with-twitter-gray.png" alt="Sign in with Twitter" /></a>
             {% else %}
+              {% set p = {} %}
               {% include post/post_form_snippet.html %}
             {% end %}
           </div>
