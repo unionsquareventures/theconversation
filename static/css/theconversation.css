@@ -1446,10 +1446,8 @@ display: block;
 }
 
 /* pinned */
-#pinned .excerpt {
-}
-#pinned .link {
-
+#pinned .excerpt * {
+    display: none;
 }
 #pinned .expand {
     display: none;
