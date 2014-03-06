@@ -2,7 +2,7 @@
 from datetime import datetime, timedelta
 try:
 	import sys
-	sys.path.insert(0, '/Users/nick/dev/conversation')
+	sys.path.insert(0, '/Users/nick/dev/theconversation')
 except:
 	print "could not import -- must be running on heroku"
 
