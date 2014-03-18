@@ -1516,10 +1516,16 @@ display: block;
 .post.post-xs {
     margin-bottom: 5px;
 }
+.post.post-xs .title {
+    display: block;
+    margin-bottom: 0;
+}
 .post.post-xs .link {
     border-top: none;
     margin-right: 70px;
     cursor: pointer;
+    padding-top: 10px;
+    padding-bottom: 6px;
 }
 .post.post-xs .excerpt {
     padding-top: 15px;
