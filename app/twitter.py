@@ -17,6 +17,8 @@ class Auth(app.basic.BaseHandler):
     auth_url = auth.get_authorization_url(True)
     self.set_secure_cookie("request_token_key", auth.request_token.key)
     self.set_secure_cookie("request_token_secret", auth.request_token.secret)
+    redirect = self.get_argument('next', '/')
+    self.set_secure_cookie("twitter_auth_redirect", redirect)
     self.redirect(auth_url)
 
 ##############################
@@ -32,7 +34,7 @@ class Twitter(app.basic.BaseHandler):
     auth.set_request_token(self.get_secure_cookie('request_token_key'), self.get_secure_cookie('request_token_secret'))
     auth.get_access_token(oauth_verifier)
     screen_name = auth.get_username()
-    bounce_to = '/'
+    bounce_to = self.get_secure_cookie('twitter_auth_redirect') or '/'
 
     access_token = {
       'secret': auth.access_token.secret,

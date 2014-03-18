@@ -104,7 +104,7 @@ class EmailSettings(app.basic.BaseHandler):
 class LogOut(app.basic.BaseHandler):
   def get(self):
     self.clear_all_cookies()
-    self.redirect('/')
+    self.redirect(self.get_argument('next', '/'))
 
 ##########################
 ### USER PROFILE
