@@ -1533,6 +1533,7 @@ display: block;
 .post.post-xs .excerpt {
     padding-top: 15px;
     padding-bottom: 0;
+    padding-right: 80px;
 }
 .post.post-xs .user {
     display: none;
