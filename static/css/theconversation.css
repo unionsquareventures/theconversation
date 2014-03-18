@@ -1143,10 +1143,13 @@ div.subsection.section-heading .more {
 }
 .post .volume {
     position: absolute;
-    top: -1px;
+    top: 4px;
     left: -30px;
     width: 30px;
     background: transparent;
+}
+.post-lg .volume {
+    top: 2px;
 }
 .single .post .volume {
     top: 20px;
@@ -1369,10 +1372,10 @@ body.staff .post .title {
     /*color: #86AA3B !important;*/ /*GREEN*/
     /*color: #aaa !important; */
     width: 30px;
-    height: 44px;
+    height: 36px;
     border-radius: 3px 0 0 3px;
     border-bottom: none;
-    padding: 22px 0 0 0;
+    padding: 18px 0 0 0;
     position: relative;
     background: transparent;
     /*border: 1px solid #ddd !important;*/
@@ -1382,7 +1385,7 @@ body.staff .post .title {
     text-align: center;
     /*background: #e3e3e3;*/
     /*background: url('/static/img/linen.png')top left repeat;*/
-    background: #eee url("/static/img/icon-upvote-default.png") 50% 10px no-repeat;
+    background: #eee url("/static/img/icon-upvote-default.png") 50% 6px no-repeat;
 }
 .volume.bumped a.votes-count {
     background-image: url("/static/img/icon-upvote-voted.png");
