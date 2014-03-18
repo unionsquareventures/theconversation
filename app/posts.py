@@ -505,18 +505,19 @@ class ViewPost(app.basic.BaseHandler):
     
     tag_posts = []
     all_keeper_posts = []
-    for t in post['tags']:
-      posts = postsdb.get_related_posts_by_tag(t)
-      tag_keeper_posts = []
-      for p in posts:
-        if p['slug'] != slug and p not in all_keeper_posts:
-          tag_keeper_posts.append(p)
-          all_keeper_posts.append(p)
-      obj = {
-        'tag': t,
-        'posts': tag_keeper_posts
-      }
-      tag_posts.append(obj)
+    if 'tags' in post.keys() and len(post['tags']) > 0:
+      for t in post['tags']:
+        posts = postsdb.get_related_posts_by_tag(t)
+        tag_keeper_posts = []
+        for p in posts:
+          if p['slug'] != slug and p not in all_keeper_posts:
+            tag_keeper_posts.append(p)
+            all_keeper_posts.append(p)
+        obj = {
+          'tag': t,
+          'posts': tag_keeper_posts
+        }
+        tag_posts.append(obj)
     
     msg = self.get_argument('msg', None)  
     
