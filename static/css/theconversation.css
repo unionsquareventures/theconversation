@@ -1166,7 +1166,7 @@ div.subsection.section-heading .more {
     background: #E3ECCE url('/static/img/icon-comment-default.png?v=2') 15px 50% no-repeat;
     padding: 12px 15px 4px 45px;
     text-decoration: none;
-    border-radius: 0 3px 0 0;
+    border-radius: 0 3px 0 3px;
 }
 #posts .post .comment-count:hover {
     background-image: url('/static/img/icon-comment-hover.png?v=3');
@@ -1317,6 +1317,7 @@ body.staff .post .title {
     font-size: 70%;
     white-space: nowrap;
     opacity: .75em;
+    display: none;
 }
 .single .supervote {
     display: none;
@@ -1512,16 +1513,38 @@ display: block;
 .post-sm .tags {
     display: none;
 }
+.post.post-xs {
+    margin-bottom: 5px;
+}
+.post.post-xs .link {
+    border-top: none;
+    margin-right: 70px;
+    cursor: pointer;
+}
+.post.post-xs .excerpt {
+    padding-top: 15px;
+    padding-bottom: 0;
+}
+.post.post-xs .user {
+    display: none;
+}
 
-@media only screen and (min-width:600px) {
-    .post.post-xs {
-        width: 45%;
-        float: left;
-        clear: none;
-    }
-    .post.post-xs.even {
-        float: right;
-    }
+.post.post-xs .meta-top {
+    display: inline;
+    padding: 0;
+}
+.post.post-xs .username-link {
+    display: none;
+}
+.post .xs-author {
+    display: none;
+}
+.post.post-xs .xs-author {
+    display: inline;
+    font-size: .85em;
+    color: #777;
+    margin-left: 5px;
+    white-space: nowrap;
 }
 .post.post-xs .title {
     font-size: .9em !important;

@@ -182,6 +182,16 @@
           $excerpt.slideUp();
         }
       });
+      $('body').on('click', '.post-xs .link', function(e) {
+        $excerpt = $(this).siblings('.excerpt');
+        if (!$excerpt.is(':visible')) {
+          // open it
+          $excerpt.slideDown();
+        } else {
+          // close it
+          $excerpt.slideUp();
+        }
+      });
       $('body').on('click', '.post-sm .excerpt', function(e) {
         if ($(this).is(':visible')) {
           // close it
