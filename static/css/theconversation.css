@@ -1534,6 +1534,9 @@ display: block;
 .post.post-xs .user {
     display: none;
 }
+.post.post-xs .xs-break {
+    display: block;
+}
 
 .post.post-xs .meta-top {
     display: inline;
