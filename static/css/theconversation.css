@@ -3695,6 +3695,9 @@ ul.stats .stat-notes {
     padding:30px 0;
     color:#dfdfdf;
 }
+body.home #site-footer {
+    display:none;
+}
  #site-footer h4 {
     font-size:1em;
     margin:0;
