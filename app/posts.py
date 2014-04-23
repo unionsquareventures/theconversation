@@ -8,7 +8,11 @@ import tornado.web
 import tornado.options
 import urllib
 
-import datetime
+from datetime import datetime
+from datetime import timedelta
+from datetime import date
+from lib import datetime_overrider
+
 import time
 from urlparse import urlparse
 from lib import bitly
@@ -121,15 +125,15 @@ class ListPosts(app.basic.BaseHandler):
     is_today = False
     if day == "today":
       is_today = True
-      day = datetime.datetime.today()
+      day = datetime.today()
     else:
-      day = datetime.datetime.strptime(day, "%Y-%m-%d")
-    previous_day = day - datetime.timedelta(days=1)
-    two_days_ago = previous_day - datetime.timedelta(days=1)
+      day = datetime.strptime(day, "%Y-%m-%d")
+    previous_day = day - timedelta(days=1)
+    two_days_ago = previous_day - timedelta(days=1)
     
-    day_str = str(datetime.date(day.year, day.month, day.day))
-    previous_day_str = str(datetime.date(previous_day.year, previous_day.month, previous_day.day))
-    two_days_ago_str = str(datetime.date(two_days_ago.year, two_days_ago.month, two_days_ago.day))
+    day_str = str(date(day.year, day.month, day.day))
+    previous_day_str = str(date(previous_day.year, previous_day.month, previous_day.day))
+    two_days_ago_str = str(date(two_days_ago.year, two_days_ago.month, two_days_ago.day))
     
     show_day_permalink = True
     infinite_scroll = False
@@ -206,7 +210,7 @@ class ListPosts(app.basic.BaseHandler):
     deleted = self.get_argument('deleted', '')
     if deleted != '':
       post['deleted'] = True
-      post['date_deleted'] = datetime.datetime.now()
+      post['date_deleted'] = datetime.now()
 
     bypass_dup_check = self.get_argument('bypass_dup_check', '')
     is_edit = False
@@ -260,7 +264,7 @@ class ListPosts(app.basic.BaseHandler):
       # determine if this should be a featured post or not
       if self.current_user_can('feature_posts') and post['featured'] != '':
         post['featured'] = True
-        post['date_featured'] = datetime.datetime.now()
+        post['date_featured'] = datetime.now()
       else:
         post['featured'] = False
         post['date_featured'] = None
@@ -277,7 +281,7 @@ class ListPosts(app.basic.BaseHandler):
         post['sort_score'] = 0.0
         post['downvotes'] = 0
         post['hackpad_url'] = ''
-        post['date_created'] = datetime.datetime.now()
+        post['date_created'] = datetime.now()
         post['user_id_str'] = user['user']['id_str']
         post['username'] = self.current_user
         post['user'] = user['user']
