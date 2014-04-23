@@ -10,3 +10,4 @@ tweepy
 disqus-python
 splinter
 selenium
+freezegun
