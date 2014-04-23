@@ -1,7 +1,7 @@
 from bson.son import SON
 from mongo import db
 from datetime import timedelta
-from lib.datetime_overrider import datetime
+from datetime import datetime
 
 def get_user_tags(screen_name):
   tags = db.post.aggregate([
