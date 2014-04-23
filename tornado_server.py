@@ -22,9 +22,7 @@ import app.stats
 import app.twitter
 import app.error
 import templates
-from freezegun import freeze_time
 
-@freeze_time("2012-01-14")
 class Application(tornado.web.Application):
   def __init__(self):
 
