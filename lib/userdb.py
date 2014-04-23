@@ -18,6 +18,9 @@ import urllib2
 """
 #db.user_info.ensure_index('user.screen_name')
 
+def get_all():
+  return list(db.user_info.find({}))
+
 def get_user_by_id_str(id_str):
   return db.user_info.find_one({'user.id_str': id_str})
 
