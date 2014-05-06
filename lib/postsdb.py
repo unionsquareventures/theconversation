@@ -81,10 +81,14 @@ def get_new_posts(per_page=50, page=1):
 def get_hot_posts(per_page=50, page=1):
   return list(db.post.find({"votes": { "$gte" : 2 }, "deleted": { "$ne": True }}, sort=[('sort_score', pymongo.DESCENDING)]).skip((page-1)*per_page).limit(per_page))
   
-def get_hot_posts_by_day(day=date.today()):
+def get_hot_posts_by_day(day=date.today(), hide_featured=False):
   day = datetime.combine(day, datetime.min.time())
   day_plus_one = day + timedelta(days=1)
-  return list(db.post.find({"deleted": { "$ne": True }, 'date_created': {'$gte': day, '$lte': day_plus_one}}, sort=[('daily_sort_score', pymongo.DESCENDING)]))
+  if hide_featured:
+    posts = list(db.post.find({"deleted": { "$ne": True }, "featured": { "$ne": True }, 'date_created': {'$gte': day, '$lte': day_plus_one}}, sort=[('daily_sort_score', pymongo.DESCENDING)]))
+  else:
+    posts = list(db.post.find({"deleted": { "$ne": True }, 'date_created': {'$gte': day, '$lte': day_plus_one}}, sort=[('daily_sort_score', pymongo.DESCENDING)]))
+  return posts
 
 def get_daily_posts_by_sort_score(min_score=8):
   day=date.today()

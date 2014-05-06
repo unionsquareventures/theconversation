@@ -141,7 +141,7 @@ class ListPosts(app.basic.BaseHandler):
     if self.current_user:
       is_blacklisted = self.is_blacklisted(self.current_user)
 
-    posts = postsdb.get_hot_posts_by_day(day)
+    posts = postsdb.get_hot_posts_by_day(day, True)
     #posts = postsdb.get_hot_posts_24hr()
     previous_day_posts = postsdb.get_hot_posts_by_day(previous_day)
     
