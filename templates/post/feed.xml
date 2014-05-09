@@ -18,7 +18,7 @@
         <category><![CDATA[Life]]></category>
         <guid isPermaLink="true">http://usv.com/posts/{{ post['slug'] }}</guid>
         <description><![CDATA[Link: <a href="{{ post['url'] }}">{{post['url']}}</a> <br /> <br />@{{ post['user']['username'] }}: <br /><br />{{ post['body_truncated'] }}]]></description>
-        <content><![CDATA[{{ post['body_html'] }}]]></content>
+        <atom:content type="html"><![CDATA[{{ post['body_html'] }}]]></atom:content>
       </item>
     {% end %}
   </channel>
