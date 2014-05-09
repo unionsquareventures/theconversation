@@ -2,10 +2,9 @@
 <rss version="2.0" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:wfw="http://wellformedweb.org/CommentAPI/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:sy="http://purl.org/rss/1.0/modules/syndication/" xmlns:slash="http://purl.org/rss/1.0/modules/slash/" >
   <channel>
     <title>Union Square Ventures</title>
-    <atom:link href="{{ settings.get('base_url') }}/feed/" rel="self" type="application/rss+xml" />
-    <link>{{ settings.get('base_url') }}</link>
+    <atom:link href="http://{{ settings.get('base_url') }}/feed/" rel="self" type="application/rss+xml" />
+    <link>http://{{ settings.get('base_url') }}</link>
     <description></description>
-    <lastBuildDate></lastBuildDate>
     <language>en-US</language>
     <sy:updatePeriod>hourly</sy:updatePeriod>
     <sy:updateFrequency>1</sy:updateFrequency>
@@ -14,7 +13,6 @@
       <item>
         <title>{{ post['title'] }}</title>
         <link>http://usv.com/posts/{{ post['slug'] }}</link>
-        <comments></comments>
         <pubDate>{{ post['date_created'] }}</pubDate>
         <dc:creator>@{{ post['user']['username'] }}</dc:creator>
         <category><![CDATA[Life]]></category>
@@ -24,4 +22,4 @@
       </item>
     {% end %}
   </channel>
-</rss>    
+</rss>
