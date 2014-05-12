@@ -124,12 +124,6 @@ class ListPosts(app.basic.BaseHandler):
       day = datetime.datetime.today()
     else:
       day = datetime.datetime.strptime(day, "%Y-%m-%d")
-    previous_day = day - datetime.timedelta(days=1)
-    two_days_ago = previous_day - datetime.timedelta(days=1)
-    
-    day_str = str(datetime.date(day.year, day.month, day.day))
-    previous_day_str = str(datetime.date(previous_day.year, previous_day.month, previous_day.day))
-    two_days_ago_str = str(datetime.date(two_days_ago.year, two_days_ago.month, two_days_ago.day))
     
     show_day_permalink = True
     infinite_scroll = False
@@ -141,10 +135,8 @@ class ListPosts(app.basic.BaseHandler):
     if self.current_user:
       is_blacklisted = self.is_blacklisted(self.current_user)
 
-    posts = postsdb.get_hot_posts_by_day(day, True)
-    #posts = postsdb.get_hot_posts_24hr()
-    previous_day_posts = postsdb.get_hot_posts_by_day(previous_day)
-    
+    posts = postsdb.get_hot_posts_24hr(day)
+    previous_day_posts = postsdb.get_hot_posts_24hr(datetime.datetime.now() - datetime.timedelta(hours=24))
     
     #midpoint = (len(posts) - 1) / 2
     # midpoint determines where post list breaks from size=md to size=sm
@@ -164,11 +156,6 @@ class ListPosts(app.basic.BaseHandler):
       'is_blacklisted': is_blacklisted,
       'tags': hot_tags,
       'day': day,
-      'day_str': day_str,      
-      'previous_day': previous_day,
-      'previous_day_str': previous_day_str,
-      'two_days_ago': two_days_ago,
-      'two_days_ago_str': two_days_ago_str,
       'show_day_permalink': show_day_permalink,
       'infinite_scroll': infinite_scroll,
       'midpoint': midpoint,

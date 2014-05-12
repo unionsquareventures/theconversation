@@ -1,8 +1,14 @@
+{% set day_str = day.strftime("%Y-%m-%d") %}
+{% set previous_day = day - datetime.timedelta(days=1) %}
+{% set previous_day_str = previous_day.strftime("%Y-%m-%d") %}
+
 <div class="feed-container">
 	<div class="subsection section-heading day-heading clearfix">
 		<h2 class="pull-left">
 			{% if is_today %}
 			TODAY:
+			{% elif is_yesterday %}
+			YESTERDAY:
 			{% else %}
 			{{ day.strftime("%a, %b %d, %Y") }}:
 			{% end %}
@@ -16,11 +22,11 @@
 			{% end %}
 				{% if i < 3 %}
 					<li class="post post-lg clearfix {{ 'has-excerpt' if has_excerpt else '' }}" data-date-created="{{ p['date_created'] }}" data-sort-score="{{ p.get('daily_sort_score') }}">
-					{% include post/post_snippet_reverse.html %}
+					{% include post/post_snippet.html %}
 					</li>
 				{% else %}
-					<li class="post post-sm clearfix {{ 'has-excerpt' if has_excerpt else '' }}" data-date-created="{{ p['date_created'] }}" data-sort-score="{{ p.get('daily_sort_score') }}">
-					{% include post/post_snippet_reverse.html %}
+					<li class="post post-xs clearfix {{ 'has-excerpt' if has_excerpt else '' }}" data-date-created="{{ p['date_created'] }}" data-sort-score="{{ p.get('daily_sort_score') }}">
+					{% include post/post_snippet.html %}
 					</li>
 				{% end %}
 
