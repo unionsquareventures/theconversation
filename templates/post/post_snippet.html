@@ -63,7 +63,7 @@ data-disqus-identifier="{{ str(p['_id']) }}" href="/posts/{{ p['slug'] }}">{{ p[
   {% end %}
   <span class="xs-author">&ndash; @{{ p['user']['username'] }}</span>
   {% if current_user_can('view_post_sort_score') %}
-  <span class="sort_score">{{ p['daily_sort_score'] }}</span>
+  <span class="sort_score">{{ p.get('daily_sort_score', '') }}</span>
   {% end %}
 </div>
 
