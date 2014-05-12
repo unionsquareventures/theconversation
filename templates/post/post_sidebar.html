@@ -1,11 +1,16 @@
 <div class="sidebar-widget welcome clearfix">
 
-	<p class="" style=""><a class="btn btn-primary btn-block" role="button" data-toggle="modal" href="#submit-modal">Submit a post</a></p>
-
 	{% raw settings.get('site_intro') %}
 	
+	<p class="" style=""><a class="btn btn-primary btn-block" role="button" data-toggle="modal" href="#submit-modal">Submit a post</a></p>
+	
+	<hr />
+	
 	<form class="form form-inline search" style="margin-bottom: 0" role="form" method="GET" action="/search">
-		<input type="text" class="form-control" id="query" name="query" placeholder="Search posts...">
+		<div class="form-group">
+			<input type="text" class="form-control" id="query" name="query" placeholder="Search posts...">
+		</div>
+		<button type="submit" class="btn btn-default">Go</button>
 	</form>
 	
 </div>
