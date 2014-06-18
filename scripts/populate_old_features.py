@@ -281,81 +281,81 @@ users = [
 ]
 
 for key, val in old_posts.iteritems():
-  api_link = 'http://www.usv.com%s' % val
-  r = requests.get(
-    api_link,
-    verify=False
-  )
-  html = r.text
-  html = re.sub(r'\n', ' ', html)
+    api_link = 'http://www.usv.com%s' % val
+    r = requests.get(
+      api_link,
+      verify=False
+    )
+    html = r.text
+    html = re.sub(r'\n', ' ', html)
 
-  post = {
-    'date_created':datetime.utcnow(),
-    'title':'',
-    'slugs':[],
-    'slug':'',
-    'user':{},
-    'tags':[],
-    'votes':0,
-    'voted_users':[],
-    'deleted':False,
-    'date_deleted':'',
-    'featured':True,
-    'date_featured':'',
-    'url':'',
-    'normalized_url':'',
-    'hackpad_url':'',
-    'has_hackpad':False,
-    'body_raw':'',
-    'body_html':'',
-    'body_truncated':'',
-    'body_text':'',
-    'disqus_shortname':'usvbeta2',
-    'muted':False,
-    'comment_count':0,
-    'disqus_thread_id_str':'',
-    'sort_score':0.0,
-    'downvotes':0,
-    'subscribed':[]
-  }
+    post = {
+      'date_created':datetime.utcnow(),
+      'title':'',
+      'slugs':[],
+      'slug':'',
+      'user':{},
+      'tags':[],
+      'votes':0,
+      'voted_users':[],
+      'deleted':False,
+      'date_deleted':'',
+      'featured':True,
+      'date_featured':'',
+      'url':'',
+      'normalized_url':'',
+      'hackpad_url':'',
+      'has_hackpad':False,
+      'body_raw':'',
+      'body_html':'',
+      'body_truncated':'',
+      'body_text':'',
+      'disqus_shortname':'usvbeta2',
+      'muted':False,
+      'comment_count':0,
+      'disqus_thread_id_str':'',
+      'sort_score':0.0,
+      'downvotes':0,
+      'subscribed':[]
+    }
 
-  m = re.search(r'http://www.twitter.com/([^"]+)"', html)
-  if m:
-    username = m.group(1).strip()
-    for user in users:
-      if user['screen_name'] == username:
-        post['user'] = user
-
-  #m = re.search(r'<span class="post-date">([^<]+)<', html)
-  #if m:
-  #  post['date_created'] = m.group(1).strip()
-
-  m = re.search(r'(\d+) vote', html)
-  if m:
-    post['votes'] = int(m.group(1).strip())
-
-  m = re.search(r'<title>([^|]+)', html)
-  if m:
-    post['title'] = m.group(1).strip()
-
-  post['slug'] = slugify.slugify(post['title'])
-  post['slugs'] = [post['slug']]
-
-  start = html.find('<div class="post-body">') + 23
-  stop = html.find('</div><!--end of post-body-->')
-  post['body_raw'] = html[start:stop].strip()
-  post['body_html'] = sanitize.html_sanitize(post['body_raw'], media=False)
-  post['body_text'] = sanitize.html_to_text(post['body_html'])
-  post['body_truncated'] = sanitize.truncate(post['body_text'], 500)
-
-  start = html.find('<div class="col-xs-6 tags">') + 27
-  stop = html.find('</div>', start)
-  raw_tags = html[start:stop].strip().split(', ')
-  for t in raw_tags:
-    m = re.search(r'#([^<]+)', t.replace('<span class="post-tags">','').replace('</span>','').strip())
+    m = re.search(r'http://www.twitter.com/([^"]+)"', html)
     if m:
-      post['tags'].append(m.group(1).strip())
+        username = m.group(1).strip()
+        for user in users:
+            if user['screen_name'] == username:
+                post['user'] = user
 
-  if 'user' in post.keys() and 'username' in post['user'].keys():
-    db.post.update({'slug':post['slug']}, post, upsert=True)
-    print "added %s" % post['slug']
+    #m = re.search(r'<span class="post-date">([^<]+)<', html)
+    #if m:
+    #  post['date_created'] = m.group(1).strip()
+
+    m = re.search(r'(\d+) vote', html)
+    if m:
+        post['votes'] = int(m.group(1).strip())
+
+    m = re.search(r'<title>([^|]+)', html)
+    if m:
+        post['title'] = m.group(1).strip()
+
+    post['slug'] = slugify.slugify(post['title'])
+    post['slugs'] = [post['slug']]
+
+    start = html.find('<div class="post-body">') + 23
+    stop = html.find('</div><!--end of post-body-->')
+    post['body_raw'] = html[start:stop].strip()
+    post['body_html'] = sanitize.html_sanitize(post['body_raw'], media=False)
+    post['body_text'] = sanitize.html_to_text(post['body_html'])
+    post['body_truncated'] = sanitize.truncate(post['body_text'], 500)
+
+    start = html.find('<div class="col-xs-6 tags">') + 27
+    stop = html.find('</div>', start)
+    raw_tags = html[start:stop].strip().split(', ')
+    for t in raw_tags:
+        m = re.search(r'#([^<]+)', t.replace('<span class="post-tags">','').replace('</span>','').strip())
+        if m:
+            post['tags'].append(m.group(1).strip())
+
+    if 'user' in post.keys() and 'username' in post['user'].keys():
+        db.post.update({'slug':post['slug']}, post, upsert=True)
+        print "added %s" % post['slug']

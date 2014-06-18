@@ -23,45 +23,45 @@ allowed_styles = ['text-decoration']
 # This is exposed to templates as a template method.
 # See ui/template_methods.py
 def tinymce_valid_elements(media=True):
-  if media:
-    tags = allowed_tags_media
-    attrs = allowed_attrs_media
-  else:
-    tags = allowed_tags
-    attrs = allowed_attrs
-  valid_list = []
-  for tag in tags:
-    elem_attrs = attrs.get(tag)
-    if elem_attrs:
-      tag += '[%s]' % '|'.join(elem_attrs)
-    valid_list.append(tag)
-  return ','.join(valid_list)
+    if media:
+        tags = allowed_tags_media
+        attrs = allowed_attrs_media
+    else:
+        tags = allowed_tags
+        attrs = allowed_attrs
+    valid_list = []
+    for tag in tags:
+        elem_attrs = attrs.get(tag)
+        if elem_attrs:
+            tag += '[%s]' % '|'.join(elem_attrs)
+        valid_list.append(tag)
+    return ','.join(valid_list)
 
 def linkify(input):
-  return bleach.linkify(input)
+    return bleach.linkify(input)
 
 def html_sanitize(input, media=True):
-  if media:
-    tags = allowed_tags_media
-    attrs = allowed_attrs_media
-  else:
-    tags = allowed_tags
-    attrs = allowed_attrs
-  text = bleach.clean(input, tags=tags, attributes=attrs, styles=allowed_styles)
-  return text
+    if media:
+        tags = allowed_tags_media
+        attrs = allowed_attrs_media
+    else:
+        tags = allowed_tags
+        attrs = allowed_attrs
+    text = bleach.clean(input, tags=tags, attributes=attrs, styles=allowed_styles)
+    return text
 
 def html_sanitize_preview(input):
-  return bleach.clean(input, tags=[], attributes=[], styles=[], strip=True)
+    return bleach.clean(input, tags=[], attributes=[], styles=[], strip=True)
 
 def html_to_text(text):
-  soup = BeautifulSoup(text)
-  for br in soup.find_all('br'):
-    br.string = ' '
-  text = soup.get_text()
-  return text
+    soup = BeautifulSoup(text)
+    for br in soup.find_all('br'):
+        br.string = ' '
+    text = soup.get_text()
+    return text
 
 def truncate(text, length, ellipsis=True):
-  truncated = text[:length]
-  if ellipsis and len(text) > length:
-    truncated += '...'
-  return truncated
+    truncated = text[:length]
+    if ellipsis and len(text) > length:
+        truncated += '...'
+    return truncated

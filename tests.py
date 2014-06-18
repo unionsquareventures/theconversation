@@ -4,4 +4,4 @@ browser = Browser('phantomjs')
 
 browser.visit('http://dev.usv.com')
 if browser.status_code == 200:
-	print("success")
+    print("success")

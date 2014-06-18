@@ -9,9 +9,9 @@ import tornado.options
 # this is better than using a .env file and foreman
 # since it still allows you to see logging.info() output
 try:
-  import settings_local_environ
+    import settings_local_environ
 except:
-  pass
+    pass
 
 tornado.options.define("environment", default="dev", help="environment")
 PROJECT_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__)))
@@ -35,7 +35,7 @@ default_options = {
   'active_theme': "default",
   'site_title': "The Conversation",
   'site_intro': "This is a website where people talk",
-  
+
   'project_root': os.path.abspath(os.path.join(os.path.dirname(__file__))),
 
   # twiter details
@@ -52,8 +52,8 @@ default_options = {
   'sendgrid_secret': '',
 
   # hackpad details
-  'hackpad_oauth_client_id':'', 
-  'hackpad_oauth_secret':'', 
+  'hackpad_oauth_client_id':'',
+  'hackpad_oauth_secret':'',
   'hackpad_domain':'',
 
   # google api key
@@ -86,31 +86,30 @@ default_options = {
     'manage_disqus',
     'view_post_sort_score'
   ],
-  'user_capabilities': [], 
-  
+  'user_capabilities': [],
+
   'module_dir': os.path.join(PROJECT_ROOT, 'templates/modules')
 }
 
 def get(key):
-  # check for an environmental variable (used w Heroku) first
-  if os.environ.get('ENVIRONMENT'):
-    env = os.environ.get('ENVIRONMENT')
-  else:
-    env = tornado.options.options.environment
+    # check for an environmental variable (used w Heroku) first
+    if os.environ.get('ENVIRONMENT'):
+        env = os.environ.get('ENVIRONMENT')
+    else:
+        env = tornado.options.options.environment
 
-  if env not in options:
-    raise Exception("Invalid Environment (%s)" % env)
+    if env not in options:
+        raise Exception("Invalid Environment (%s)" % env)
 
-  if key == 'environment':
-    return env
+    if key == 'environment':
+        return env
 
-  v = options.get(env).get(key) or os.environ.get(key.upper()) or default_options.get(key)
+    v = options.get(env).get(key) or os.environ.get(key.upper()) or default_options.get(key)
 
-  if callable(v):
-    return v
+    if callable(v):
+        return v
 
-  if v is not None:
-    return v
+    if v is not None:
+        return v
 
-  return default_options.get(key)
-
+    return default_options.get(key)

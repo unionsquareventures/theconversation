@@ -2,9 +2,9 @@
 # If running locally, uncomment below imports
 import sys
 try:
-	sys.path.insert(0, '/Users/nick/dev/usv/usv.com')
+    sys.path.insert(0, '/Users/nick/dev/usv/usv.com')
 except:
-	pass
+    pass
 import settings
 import requests
 import logging
@@ -27,6 +27,6 @@ disqus_users = userdb.get_disqus_users()
 # for each user, subscribe them to all of their threads
 #
 for u in disqus_users:
-	print u['user']['username']
-	print "-- %s" % u['disqus']['user_id']
-	disqus.subscribe_to_all_your_threads(u['user']['username'])
+    print u['user']['username']
+    print "-- %s" % u['disqus']['user_id']
+    disqus.subscribe_to_all_your_threads(u['user']['username'])

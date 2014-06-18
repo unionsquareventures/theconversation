@@ -6,4 +6,4 @@ import settings
 
 from lib import userdb
 
-userdb.update_twitter_profile_images() 
+userdb.update_twitter_profile_images()

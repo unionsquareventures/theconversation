@@ -12,6 +12,6 @@ from mongo import db
 threads = disqus.get_all_threads()
 
 for thread in threads['response']:
-	print(thread)
-	#for key in thread['response'].keys():
-	#	logging.info(key + ": " + thread[key])
+    print(thread)
+    #for key in thread['response'].keys():
+    #       logging.info(key + ": " + thread[key])
