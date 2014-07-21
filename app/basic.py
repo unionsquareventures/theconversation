@@ -5,6 +5,7 @@ import simplejson as json
 import os
 import httplib
 import logging
+from datetime import datetime, timedelta
 
 from lib import userdb
 
@@ -29,8 +30,11 @@ class BaseHandler(tornado.web.RequestHandler):
         kwargs['settings'] = settings
         kwargs['body_location_class'] = ""
         kwargs['current_path'] = self.request.uri
+        user_info = kwargs['user_obj']
         #kwargs['request_path'] = self.request
-
+        if user_info and 'date_created' not in user_info.keys():
+            user_info['date_created'] = datetime.now() - timedelta(days=180)
+            userdb.save_user(user_info)
         if self.request.path == "/":
             kwargs['body_location_class'] = "home"
 

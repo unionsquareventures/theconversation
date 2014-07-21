@@ -11,3 +11,4 @@ disqus-python
 splinter
 selenium
 werkzeug
+customerio
