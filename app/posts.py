@@ -62,7 +62,7 @@ class FeaturedPosts(app.basic.BaseHandler):
         tags_alpha = tagsdb.get_all_tags(sort="alpha")
         tags_count = tagsdb.get_all_tags(sort="count")
 
-        self.render('search/search_results.html', tag=tag, tags_alpha=tags_alpha, tags_count=tags_count, posts=featured_posts, total_count=len(featured_posts), query="featured_posts")
+        self.render('search/search_results.html', tag=tag, tags_alpha=tags_alpha, tags_count=tags_count, posts=featured_posts, total_count=len(featured_posts), query="featured_posts", view="featured")
 
 ##############
 ### FEED
