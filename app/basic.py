@@ -21,8 +21,8 @@ class BaseHandler(tornado.web.RequestHandler):
           #'css_modified_time': css_modified_time
         }
     
-    def head(self):
-        return
+    def head(self, *args, **kwargs):
+        super(BaseHandler, self).head(*args, **kwargs)
 
     def render(self, template, **kwargs):
 
