@@ -116,7 +116,7 @@ class BaseHandler(tornado.web.RequestHandler):
 
     def write_error(self, status_code, **kwargs):
         self.require_setting("static_path")
-        if status_code in [404, 500, 503, 403]:
+        if status_code in [404, 500, 503, 403, 405]:
             filename = os.path.join(self.settings['static_path'], '%d.html' % status_code)
             if os.path.exists(filename):
                 f = open(filename, 'r')
