@@ -20,6 +20,9 @@ class BaseHandler(tornado.web.RequestHandler):
           #'user': user,
           #'css_modified_time': css_modified_time
         }
+    
+    def head(self):
+        return
 
     def render(self, template, **kwargs):
 
