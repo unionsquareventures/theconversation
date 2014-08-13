@@ -22,7 +22,7 @@ class BaseHandler(tornado.web.RequestHandler):
         }
     
     def head(self, *args, **kwargs):
-        super(BaseHandler, self).head(*args, **kwargs)
+        return
 
     def render(self, template, **kwargs):
 
