@@ -371,6 +371,9 @@ class ListPostsNew(app.basic.BaseHandler):
 ### /posts/([^\/]+)/bump
 ##########################
 class Bump(app.basic.BaseHandler):
+    def get(self, slug):
+        # nothing to see here
+        return
     def post(self, slug):
         # user must be logged in
         msg = {}
