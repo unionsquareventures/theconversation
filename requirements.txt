@@ -1,4 +1,5 @@
 tornado
+mongoengine
 bitly_api
 requests
 simplejson

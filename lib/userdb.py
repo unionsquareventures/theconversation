@@ -1,4 +1,5 @@
 from mongo import db
+from mongoengine import *
 import postsdb
 
 # For update_twitter
@@ -9,7 +10,16 @@ from datetime import datetime
 
 """
 {
-  'user': { 'id_str':'', 'auth_type': '', 'username': '', 'fullname': '', 'screen_name': '', 'profile_image_url_https': '', 'profile_image_url': '', 'is_blacklisted': False }
+  'user': { 
+    'id_str':'', 
+    'auth_type': '', 
+    'username': '', 
+    'fullname': '', 
+    'screen_name': '', 
+    'profile_image_url_https': '', 
+    'profile_image_url': '', 
+    'is_blacklisted': False 
+    }
   'access_token': { 'secret': '', 'user_id': '', 'screen_name': '', 'key': '' },
   'email_address': '',
   'role': '',
@@ -17,9 +27,38 @@ from datetime import datetime
 }
 
 """
+
+class User(EmbeddedDocument):
+    id_str = StringField(required=True)
+    auth_type = StringField(required=True)
+    username = StringField(required=True)
+    fullname = StringField(required=True)
+    screen_name = StringField(required=True)
+    profile_image_url_https = StringField(required=True)
+    profile_image_url = StringField(required=True)
+    is_blacklisted = BooleanField(default=False)
+
+class AccessToken(EmbeddedDocument):
+    secret = StringField(required=True)
+    user_id = StringField(required=True)
+    screen_name = StringField(required=True)
+    key = StringField(required=True)
+
+class UserInfo(Document):
+    meta = {
+        'indexes': ['user.id_str', 'email_address', 'user.username']
+    }
+    user = EmbeddedDocumentField(User, required=True)
+    access_token = EmbeddedDocumentField(AccessToken, required=True)
+    email_address = StringField(required=False)
+    role = StringField(default="user")
+    last_login = DateTimeField(default=datetime.now())
+    date_created = DateTimeField(default=datetime.now())
+    
 #db.user_info.ensure_index('user.screen_name')
+
 def get_all():
-  return db.user_info.find({})
+    return db.user_info.find({})
 
 def get_user_by_id_str(id_str):
     return db.user_info.find_one({'user.id_str': id_str})
