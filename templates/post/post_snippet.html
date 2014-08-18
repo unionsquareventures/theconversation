@@ -11,7 +11,9 @@
   <span class="time-search" style="display:none"><a href="{{ post.permalink() }}" ><span class="glyphicon glyphicon-link" style="margin: 0;font-size: 90%"></span> {{ post.date_created.strftime("%m/%d/%Y") }}</a></span>
 
   <a class="dsq-comment-count comment-count {{ 'zero' if post.comment_count == 0 else "" }}" title="Go to discussion"
-data-disqus-identifier="{{ post.id }}" href="{{ post.permalink() }}">{{ post.comment_count if post.comment_count > 0 else '' }} {{ '' if post.comment_count == 0 else "" }}</a>
+data-disqus-identifier="{{ post.id }}" href="{{ post.permalink() }}">
+<span class="glyphicon glyphicon-comment"></span>
+{{ post.comment_count if post.comment_count > 0 else '' }} {{ '' if post.comment_count == 0 else "" }} <span class="comment-count-label">3</span></a>
 
   {% if post.body_html and post.body_html.strip() != ""  %}
   <a class="expand" data-status="closed" href="{{ post.permalink() }}"><span class="glyphicon glyphicon-collapse-down"></span> expand</a>
