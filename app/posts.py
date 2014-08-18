@@ -20,17 +20,18 @@ from lib import tagsdb
 from lib import userdb
 from lib import disqus
 from lib import template_helpers
+from lib.postsdb import Post
 
 ###############
 ### New Post
-### /posts
+### /posts/new
 ###############
 class NewPost(app.basic.BaseHandler):
     @tornado.web.authenticated
     def get(self):
-        post = {}
-        post['title'] = self.get_argument('title', '')
-        post['url'] = self.get_argument('url', '')
+        post = Post()
+        post.title = self.get_argument('title', '')
+        post.url = self.get_argument('url', '')
         is_bookmarklet = False
         if self.request.path.find('/bookmarklet') == 0:
             is_bookmarklet = True
@@ -115,7 +116,6 @@ class ListPosts(app.basic.BaseHandler):
 
         featured_posts = postsdb.get_featured_posts(1)
         posts = []
-        post = {}
         hot_tags = tagsdb.get_hot_tags()
 
         is_today = False
@@ -151,8 +151,6 @@ class ListPosts(app.basic.BaseHandler):
           'previous_day_posts': previous_day_posts,
           'hot_posts_past_week': hot_posts_past_week,
           'featured_posts': featured_posts,
-          'post': post,
-          #'featured_posts': featured_posts,
           'is_blacklisted': is_blacklisted,
           'tags': hot_tags,
           'day': day,
@@ -495,12 +493,12 @@ class ViewPost(app.basic.BaseHandler):
 
         tag_posts = []
         all_keeper_posts = []
-        if 'tags' in post.keys() and len(post['tags']) > 0:
-            for t in post['tags']:
+        if len(post.tags) > 0:
+            for t in post.tags:
                 posts = postsdb.get_related_posts_by_tag(t)
                 tag_keeper_posts = []
                 for p in posts:
-                    if p['slug'] != slug and p not in all_keeper_posts:
+                    if p.slug != slug and p not in all_keeper_posts:
                         tag_keeper_posts.append(p)
                         all_keeper_posts.append(p)
                 obj = {
@@ -517,16 +515,15 @@ class ViewPost(app.basic.BaseHandler):
 
         # remove dupes from voted_users
         voted_users = []
-        for i in post['voted_users']:
+        for i in post.voted_users:
             if i not in voted_users:
                 voted_users.append(i)
-        post['voted_users'] = voted_users
+        post.voted_users = voted_users
 
         hot_posts_past_week = postsdb.get_hot_posts_past_week()
         featured_posts = {}
 
         view = "single"
-
         self.render('post/view_post.html', user_obj=user, post=post, msg=msg, tag_posts=tag_posts, hot_posts_past_week=hot_posts_past_week, featured_posts=featured_posts, view=view)
 
 #############

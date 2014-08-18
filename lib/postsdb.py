@@ -5,53 +5,116 @@ import json
 from datetime import datetime
 from datetime import date
 from datetime import timedelta
-
+from mongoengine import *
+from lib.userdb import User
+from lib.custom_fields import ImprovedStringField, ImprovedURLField
 from mongo import db
 from slugify import slugify
+from lib.commentsdb import Comment
 
-"""
-{
-  'date_created':new Date(),
-  'title': '',
-  'slugs': [],
-  'slug': '',
-  'user': { 'id_str':'', 'auth_type': '', 'username': '', 'fullname': '', 'screen_name': '', 'profile_image_url_https': '', 'profile_image_url': '', 'is_blacklisted': False },
-  'tags': [],
-  'votes': 0,
-  'voted_users': [{ 'id_str':'', 'auth_type': '', 'username': '', 'fullname': '', 'screen_name': '', 'profile_image_url_https': '', 'profile_image_url': '', 'is_blacklisted': False }],
-  'deleted': False,
-  'date_deleted': new Date(),
-  'featured': False
-  'date_featured': new Date(),
-  'url': '',
-  'normalized_url': '',
-  'hackpad_url': '',
-  'has_hackpad': False,
-  'body_raw': '',
-  'body_html': '',
-  'body_truncated': '',
-  'body_text': '',
-  'disqus_shortname': 'usvbeta2',
-  'muted': False,
-  'comment_count': 0,
-  'disqus_thread_id_str': '',
-  'sort_score': 0.0,
-  'downvotes': 0,
-  'super_upvotes': 0,
-  'super_downvotes': 0,
-  'subscribed':[]
-}
-"""
+#
+# Post Object
+#
+class Post(Document):
+    def __init__(self, *args, **kwargs):
+        super(Post, self).__init__(*args, **kwargs)
+        db = self._get_db()
+
+    date_created = DateTimeField(required=True)
+    title = StringField(required=True, default="")
+    slugs = ListField(StringField())
+    slug = StringField(default="")
+    user = EmbeddedDocumentField(User, required=True)
+    tags = ListField(ImprovedStringField())
+    url = ImprovedURLField(max_length=65000, required=False, default="") # link to external content (if any)
+    normalized_url = ImprovedStringField(max_length=65000, required=False)
+    hackpad_url = ImprovedURLField(max_length=65000)
+    has_hackpad = BooleanField(default=False)
+    body_raw = ImprovedStringField(required=False, default="")
+    body_html = ImprovedStringField(required=False, default="")
+    body_truncated = ImprovedStringField(required=False, default="")
+    body_text = ImprovedStringField(required=False, default="")
+    status = StringField(default="new")
+    featured = BooleanField(default=False)
+    date_featured = DateTimeField()
+    comments = ListField(EmbeddedDocumentField(Comment))
+    comment_count = IntField()
+    voted_users = ListField(EmbeddedDocumentField(User))
+    votes = IntField()
+    deleted = IntField()
+    date_deleted = DateTimeField()
+    sort_score = IntField()
+    daily_sort_score = FloatField()
+    downvotes = IntField()
+    super_upvotes = IntField()
+    super_downvotes = IntField()
+    subscribed = ListField(EmbeddedDocumentField(User))
+
+    def add_slug(self, title):
+        slug = slugify(title)
+        counter_coll = self._get_collection_name() + 'Slug'
+        counter = self._get_db()[counter_coll].find_and_modify(query={'_id': slug},
+                                                                update={'$inc': {'value': 1}},
+                                                                upsert=True, new=True)
+        if counter['value'] != 1:
+            slug = '%s-%i' % (counter['_id'], counter['value'])
+        self._data['slugs'] = self._data.get('slugs', []) + [slug]
+        self._data['slug'] = slug
+        return slug
+
+    def save(self, *args, **kwargs):
+        self.validate()
+        title_changed = hasattr(self, '_changed_fields') and 'title' in self._changed_fields
+        if (title_changed or not self._data.get('slug')) and len(self._data.get('slugs', [])) < 6:
+            try:
+                self.add_slug(unicode(self._data['title']))
+            except:
+                self.add_slug(unicode(self._data['title'].decode('utf-8')))
+            if hasattr(self, '_changed_fields'):
+                self._changed_fields += ['slug', 'slugs']
+        super(Post, self).save(*args, **kwargs)
+
+    def set_fields(self, **kwargs):
+        for fname in self._fields.keys():
+            if kwargs.has_key(fname):
+                setattr(self, fname, kwargs[fname])
+
+    def permalink(self):
+        return "/posts/%s" % self._data['slug']
+
+    def editlink(self):
+        return "%s/edit" % self.permalink()
+
+    def invitelink(self):
+        return "%s/invite" % self.permalink()
+
+    def dblink(self):
+        return "%s/post/%s" % (settings.get('db_edit_baseurl'), self._data['id'])
+
+    def add_comment_link(self):
+        return self.permalink() + "/add_comment"
+
+    def add_slug(self, title):
+        slug = slugify(title)
+        counter_coll = self._get_collection_name() + 'Slug'
+        counter = self._get_db()[counter_coll].find_and_modify(query={'_id': slug},
+                                                                update={'$inc': {'value': 1}},
+                                                                upsert=True, new=True)
+        if counter['value'] != 1:
+            slug = '%s-%i' % (counter['_id'], counter['value'])
+        self._data['slugs'] = self._data.get('slugs', []) + [slug]
+        self._data['slug'] = slug
+        return slug
+
 
 ###########################
 ### GET A SPECIFIC POST
 ###########################
 def get_post_by_slug(slug):
-    return db.post.find_one({'slug':slug})
-
+    return Post.objects(slug=slug).first()
 
 def get_all():
-    return list(db.post.find(sort=[('date_created', pymongo.DESCENDING)]))
+    return Post.objects()
 
 ###########################
 ### GET PAGED LISTING OF POSTS
@@ -73,7 +136,8 @@ def get_posts_by_screen_name_and_tag(screen_name, tag, per_page=10, page=1):
     return list(db.post.find({'deleted': { "$ne": True }, 'user.screen_name':screen_name, 'tags':tag}, sort=[('date_created', pymongo.DESCENDING)]).skip((page-1)*per_page).limit(per_page))
 
 def get_featured_posts(per_page=10, page=1):
-    return list(db.post.find({'deleted': { "$ne": True }, 'featured':True}, sort=[('date_created', pymongo.DESCENDING)]).skip((page-1)*per_page).limit(per_page))
+    return Post.objects(deleted__ne=True, featured=True).order_by('date_created').skip((page-1)*per_page).limit(per_page)
+    #return list(db.post.find({'deleted': { "$ne": True }, 'featured':True}, sort=[('date_created', pymongo.DESCENDING)]).skip((page-1)*per_page).limit(per_page))
 
 def get_new_posts(per_page=50, page=1):
     return list(db.post.find({"deleted": { "$ne": True }}, sort=[('_id', pymongo.DESCENDING)]).skip((page-1)*per_page).limit(per_page))
@@ -150,10 +214,10 @@ def get_posts_with_min_votes(min_votes):
 def get_hot_posts_past_week():
     yesterday = datetime.today() - timedelta(days=1)
     week_ago = datetime.today() - timedelta(days=5)
-    return list(db.post.find({'deleted': { "$ne": True }, 'date_created':{'$lte':yesterday, '$gte': week_ago}}, sort=[('daily_sort_score', pymongo.DESCENDING)]).limit(5))
+    return Post.objects(deleted__ne=True, date_created__lte=yesterday, date_created__gte=week_ago).order_by('-daily_sort_score')[:5]
 
 def get_related_posts_by_tag(tag):
-    return list(db.post.find({'deleted': { "$ne": True }, 'tags':tag}, sort=[('daily_sort_score', pymongo.DESCENDING)]).limit(2))
+    return Post.objects(deleted__ne=True, tags__in=tag).order_by('-daily_sort_score')[:2]
 
 ###########################
 ### UPDATE POST DETAIL

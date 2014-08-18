@@ -2,11 +2,11 @@
 
 {% block body_class %}conversation single{% end %}
 
-{% block title %}{{ post['title'] }} | {% end %}
+{% block title %}{{ pist.title }} | {% end %}
 
 {% block content %}
   {% import re %}
-  {% set p = post %}
+  {% set post = pist %}
   
   <div id="main" role="main">
     
@@ -20,32 +20,31 @@
         <article class="usv-post">
           
           <div class="post">
-          {% set p = post %}
           {% include post_snippet.html %}
-          {% if post['user']['screen_name'] == current_user or current_user in settings.get('staff') %}
-            <p style="padding-left: 20px;"><a href="/posts/{{ post['slug'] }}/edit" class="btn">Edit this post</a></p>
+          {% if post.user.screen_name == current_user or current_user in settings.get('staff') %}
+            <p style="padding-left: 20px;"><a href="{{ post.permalink() }}/edit" class="btn">Edit this post</a></p>
           {% end %}
           </div>
           <div class="clearfix row hidden-xs tweet-post">
-              <a href="https://twitter.com/share" class="twitter-share-button" data-text="{{ post['title'] }}" data-via="{{ post['user']['screen_name'] }}" data-hashtags="usvconversation">Tweet</a> 
+              <a href="https://twitter.com/share" class="twitter-share-button" data-text="{{ post.title }}" data-via="{{ post.user.screen_name }}" data-hashtags="usvconversation">Tweet</a> 
           </div>
           
-          {% set tmp = post['voted_users'].reverse() %}
+          {% set tmp = post.voted_users.reverse() %}
           <ul class="bumps clearfix">
-          {% for user in post['voted_users'] %}
+          {% for user in post.voted_users %}
               <li>
-                {% if 'screen_name' in user and user['screen_name'] != post['user']['screen_name'] %}
+                {% if user.screen_name != post.user.screen_name %}
                 <span class="glyphicon glyphicon-circle-arrow-up" style="color: #ccc"></span>
                 {% else %} 
                 <span class="glyphicon glyphicon-plus-sign" style="color: #CE3B00"></span>
                 {% end %}
-              <a href="/user/{{ user['screen_name'] }}"><img class="avatar" src="{{ user.get('profile_image_url_https', '') }}" title="@{{ user['screen_name'] }} bumped this up" style="max-height:25px;" /></a>
+              <a href="/user/{{ user.screen_name }}"><img class="avatar" src="{{ user.profile_image_url_https }}" title="@{{ user.screen_name }} bumped this up" style="max-height:25px;" /></a>
             </li>
           {% end %}
             </ul>
       
       
-          {% if current_user == post['user']['username'] and ('disqus' not in user_obj.keys() or user_obj['disqus']['user_id'] == '') %} 
+          {% if current_user == post.user.username and ('disqus' not in user_obj.keys() or user_obj['disqus']['user_id'] == '') %} 
             <div class="alert alert-info">
               If you'd like to receive email notifications of new comments, <a href="/auth/disqus">link to Disqus here</a>.
             </div>
@@ -58,7 +57,7 @@
             <script type="text/javascript">
               var disqus_config = function() {
                 this.callbacks.onNewComment = [function(comment) {
-                  $.get("/api/incr_comment_count", { comment: comment.id, post: "{{ str(post['slug']) }}" }, function(result){});
+                  $.get("/api/incr_comment_count", { comment: comment.id, post: "{{ str(post.slug) }}" }, function(result){});
                 }];
               };
             </script>
@@ -66,9 +65,9 @@
             <script type="text/javascript">
               /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
               var disqus_shortname = "{{settings.get('disqus_short_code')}}";
-              var disqus_identifier = "{{ post['_id'] }}";
-              var disqus_title = "{{ post['title'] }}";
-              var disqus_url = "http://{{settings.get('base_url')}}/posts/{{ post['slug'] }}";
+              var disqus_identifier = "{{ post.id }}";
+              var disqus_title = "{{ post.title }}";
+              var disqus_url = "http://{{settings.get('base_url')}}{{ post.permalink() }}";
       
               /* * * DON'T EDIT BELOW THIS LINE * * */
               (function() {

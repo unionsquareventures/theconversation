@@ -1,7 +1,10 @@
 import logging
 import pymongo
 import settings
+from mongoengine import *
 
+mongodb_db = settings.get('db_name')
+connect(mongodb_db, host=settings.get('mongodb_url'))
 
 class Proxy(object):
     _db = None

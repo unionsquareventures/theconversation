@@ -1,16 +1,15 @@
 <div class="user">
-	<a href="/user/{{ p['user']['username'] }}">
-		<img class="avatar" title="{{ p['user']['username'] }}" src="{{ p['user']['profile_image_url_https'] }}" alt="thumbnail">
+	<a href="/user/{{ post.user.username }}">
+		<img class="avatar" title="{{ post.user.username }}" src="{{ post.user.profile_image_url_https }}" alt="thumbnail">
 	</a>
 </div>
 <div class="content">
-		<a class="title" href="/posts/{{ p['slug'] }}" target="_blank">{{ p['title'] }}</a>
+		<a class="title" href="{{ post.permalink() }}" target="_blank">{{ post.title }}</a>
 	<div class="meta">
-		<!--<a class="username-link" href="/user/{{ p['user']['username'] }}" style="color: #999">@{{ p['user']['username'] }}</a>-->
-		<span class="username" style="">@{{ p['user']['username'] }}</span>
-		<br /><span class="time"><a href="/posts/{{ p['slug'] }}" ><span> {{ p['date_created'].strftime("%m/%d/%Y") }}</a></span>
+		<span class="username" style="">@{{ post.user.username }}</span>
+		<br /><span class="time"><a href="{{ post.permalink() }}" ><span> {{ post.date_created.strftime("%m/%d/%Y") }}</a></span>
 
-	<a href="/posts/{{ p['slug'] }}" ><span class="glyphicon glyphicon-comment" style="margin: 0;"></span></a> <a class="dsq-comment-count" data-disqus-identifier="{{ str(p['_id']) }}" href="/posts/{{ p['slug'] }}">{{ p['comment_count'] }} comment{{ 's' if p['comment_count'] != 1 else '' }}</a>
+	<a href="{{ post.permalink() }}" ><span class="glyphicon glyphicon-comment" style="margin: 0;"></span></a> <a class="dsq-comment-count" data-disqus-identifier="{{ post.id }}" href="{{ post.permalink() }}">{{ post.comment_count }} comment{{ 's' if post.comment_count != 1 else '' }}</a>
 	</div>
 
 </div>

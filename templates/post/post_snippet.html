@@ -1,48 +1,40 @@
-{% if 'tags' in p.keys() and len(p['tags']) > 0 %}
-{% set has_tags = True %}
-{% else %}
-{% set has_tags = False %}
-{% end %}
-
 <div class="user">
-  <!--<a href="/user/{{ p['user']['username'] }}">-->
-    <img class="avatar" src="{{ p['user']['profile_image_url_https'] }}" alt="thumbnail">
-  <!--</a>-->
+    <img class="avatar" src="{{ post.user.profile_image_url_https }}" alt="thumbnail">
 </div>
 
-<div class="meta-top meta" data-status="closed" data-post-url="/posts/{{ p['slug'] }}">
+<div class="meta-top meta" data-status="closed" data-post-url="/posts/{{ post.slug }}">
 
-  <a class="username-link" href="/user/{{ p['user']['username'] }}">@{{ p['user']['username'] }}</a>
+  <a class="username-link" href="/user/{{ post.user.username }}">@{{ post.user.username }}</a>
 
-  <span class="time"><a href="/posts/{{ p['slug'] }}" ><span class="glyphicon glyphicon-link" style="margin: 0;font-size: 90%"></span> {{ p['date_created'].strftime("%I:%M %p") }}</a></span>
+  <span class="time"><a href="{{ post.permalink() }}" ><span class="glyphicon glyphicon-link" style="margin: 0;font-size: 90%"></span> {{ post.date_created.strftime("%I:%M %p") }}</a></span>
 
-  <span class="time-search" style="display:none"><a href="/posts/{{ p['slug'] }}" ><span class="glyphicon glyphicon-link" style="margin: 0;font-size: 90%"></span> {{ p['date_created'].strftime("%m/%d/%Y") }}</a></span>
+  <span class="time-search" style="display:none"><a href="{{ post.permalink() }}" ><span class="glyphicon glyphicon-link" style="margin: 0;font-size: 90%"></span> {{ post.date_created.strftime("%m/%d/%Y") }}</a></span>
 
-  <a class="dsq-comment-count comment-count {{ 'zero' if p['comment_count'] == 0 else "" }}" title="Go to discussion"
-data-disqus-identifier="{{ str(p['_id']) }}" href="/posts/{{ p['slug'] }}">{{ p['comment_count'] if p['comment_count'] > 0 else '' }} {{ '' if p['comment_count'] == 0 else "" }}</a>
+  <a class="dsq-comment-count comment-count {{ 'zero' if post.comment_count == 0 else "" }}" title="Go to discussion"
+data-disqus-identifier="{{ post.id }}" href="{{ post.permalink() }}">{{ post.comment_count if post.comment_count > 0 else '' }} {{ '' if post.comment_count == 0 else "" }}</a>
 
-  {% if p['body_html'] and p['body_html'].strip() != ""  %}
-  <a class="expand" data-status="closed" href="/posts/{{ p['slug'] }}"><span class="glyphicon glyphicon-collapse-down"></span> expand</a>
+  {% if post.body_html and post.body_html.strip() != ""  %}
+  <a class="expand" data-status="closed" href="{{ post.permalink() }}"><span class="glyphicon glyphicon-collapse-down"></span> expand</a>
   {% end %}
 
 </div>
 
-<div class="content {% if has_tags %}has-tags{% end %}">
+<div class="content {% if len(post.tags) > 0 %}has-tags{% end %}">
 
-  {% if p['body_html'] and p['body_html'].strip() != ""  %}
-  <div class="excerpt" data-post-url="/posts/{{ p['slug'] }}">
-    {% if p['body_html'].find('<p>') < 0 %}
-      {% set excerpt = "<p>" + p['body_html'] + "</p>" %}
+  {% if post.body_html and post.body_html.strip() != ""  %}
+  <div class="excerpt" data-post-url="{{ post.permalink() }}">
+    {% if post.body_html.find('<p>') < 0 %}
+      {% set excerpt = "<p>" + post.body_html + "</p>" %}
     {% else %}
-      {% set excerpt = p['body_html'] %}
+      {% set excerpt = post.body_html %}
     {% end %}
     {% raw excerpt %}
   </div>
   {% end %}
   <div class="meta clearfix">
-    {% if 'tags' in p.keys() %}
+    {% if len(post.tags) > 0 %}
     <div class="tags pull-right">
-      {% for i, t in enumerate(p['tags']) %}
+      {% for i, t in enumerate(post.tags) %}
         {% if i < 2 %}
         <a href="/tagged/{{ t }}">#{{ t }}</a> 
         {% end %}
@@ -50,20 +42,20 @@ data-disqus-identifier="{{ str(p['_id']) }}" href="/posts/{{ p['slug'] }}">{{ p[
     </div>
     {% end %}
   </div>
-<div class="link" data-post-url="/posts/{{ p['slug'] }}">
+<div class="link" data-post-url="{{ post.permalink() }}">
   {% include bumpit_snippet.html %}
-  {% if 'url' in p and p['url'] %}
-    <a class="title" href="{{ p['url'] }}" rel="nofollow" target="_blank">{{ p['title'] }}</a>
+  {% if post.url %}
+    <a class="title" href="{{ post.url }}" rel="nofollow" target="_blank">{{ post.title }}</a>
     <br class="xs-break" style="display:none" />
-    <div class="source">{% if 'domain' in p.keys() %}{{p['domain']}}{% else %}{{ urlparse(p['url']).netloc }}{% end %}</div>
+    <div class="source">{{ urlparse(post.url).netloc }}</div>
 
   {% else %}
-    <a class="title" href="/posts/{{ p['slug'] }}" target="_blank">{{ p['title'] }}</a>
+    <a class="title" href="{{ post.permalink() }}" target="_blank">{{ post.title }}</a>
     <div class="source">usv.com</div>
   {% end %}
-  <span class="xs-author">&ndash; @{{ p['user']['username'] }}</span>
+  <span class="xs-author">&ndash; @{{ post.user.username }}</span>
   {% if current_user_can('view_post_sort_score') %}
-  <span class="sort_score">{{ p.get('daily_sort_score', '') }}</span>
+  <span class="sort_score">{{ post.daily_sort_score }}</span>
   {% end %}
 </div>
 

@@ -1,30 +1,30 @@
 {% set has_voted = False %}
 {% set link_title = "bump it up" %}
-{% for v in p['voted_users'] %}
-{% if 'current_user' in globals() and 'username' in v and current_user == v['username'] %}
-{% set has_voted = True %}
-{% set link_title = "click to unbump" %}
-{% end %}
+{% for v in post.voted_users %}
+	{% if 'current_user' in globals() and current_user == v.username %}
+		{% set has_voted = True %}
+		{% set link_title = "click to unbump" %}
+	{% end %}
 {% end %}
 <div class="volume {% if has_voted %}bumped{% end %}">
-  <a title="{{ link_title }}" href="/posts/{{ p['slug'] }}/{% if has_voted %}unbump{%else%}bump{%end%}" class="votes-count ajax_upvote_link upvote-button btn {% if p['votes'] == 1 %}no-votes{% end %}">
+  <a title="{{ link_title }}" href="{{ post.permalink() }}/{% if has_voted %}unbump{%else%}bump{%end%}" class="votes-count ajax_upvote_link upvote-button btn {% if post.votes == 1 %}no-votes{% end %}">
 	<!--<span class="glyphicon glyphicon-chevron-up"></span> -->
 	 <span class="value">
-		{{ len(p['voted_users']) }}
+		{{ len(post.voted_users) }}
 	</span>
   </a>
   <div class="voted_users" style="display:none">
-	{% for v in p['voted_users'] %}
-	  <div class="voted_user"><img src="{{ v.get('profile_image_url') }}" /> {{ v.get('username') }}</div>
+	{% for v in post.voted_users %}
+	  <div class="voted_user"><img src="{{ v.profile_image_url }}" /> {{ v.username }}</div>
 	{% end %}
   </div>
   {% if current_user_can('super_upvote') and current_user_can('super_downvote') %}
   <div class="supervote">
-	  <a title="super upvote" class="supervote-link superupvote" href="/posts/{{ p['slug'] }}/superupvote">
-	  		<span class="glyphicon glyphicon-volume-up"></span><span class="value">{{ p.get('super_upvotes', '0') }}</span>
+	  <a title="super upvote" class="supervote-link superupvote" href="{{ post.permalink() }}/superupvote">
+	  		<span class="glyphicon glyphicon-volume-up"></span><span class="value">{{ post.super_upvotes }}</span>
 	  </a>
-		<a title="super downvote" class="supervote-link superdownvote" href="/posts/{{ p['slug'] }}/superdownvote">
-				<span class="glyphicon glyphicon-volume-down"></span><span class="value">{{ p.get('super_downvotes', '0') }}</span>
+		<a title="super downvote" class="supervote-link superdownvote" href="{{ post.permalink() }}/superdownvote">
+				<span class="glyphicon glyphicon-volume-down"></span><span class="value">{{ post.super_downvotes }}</span>
 			</a>
 	  
 

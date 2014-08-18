@@ -6,27 +6,20 @@ import os
 import httplib
 import logging
 from datetime import datetime, timedelta
-
 from lib import userdb
+from lib.postsdb import Post
 
 class BaseHandler(tornado.web.RequestHandler):
     def __init__(self, *args, **kwargs):
+        self.vars = {}
         super(BaseHandler, self).__init__(*args, **kwargs)
-        #user = self.get_current_user()
-        #css_file = "%s/css/threatvector.css" % settings.tornado_config['static_path']
-        #css_modified_time = os.path.getmtime(css_file)
-
-        self.vars = {
-          #'user': user,
-          #'css_modified_time': css_modified_time
-        }
     
     def head(self, *args, **kwargs):
         return
 
     def render(self, template, **kwargs):
-
         # add any variables we want available to all templates
+        kwargs['Post'] = Post
         kwargs['user_obj'] = None
         kwargs['user_obj'] = userdb.get_user_by_screen_name(self.current_user)
         kwargs['current_user_can'] = self.current_user_can
@@ -34,13 +27,8 @@ class BaseHandler(tornado.web.RequestHandler):
         kwargs['body_location_class'] = ""
         kwargs['current_path'] = self.request.uri
         user_info = kwargs['user_obj']
-        #kwargs['request_path'] = self.request
-        if user_info and 'date_created' not in user_info.keys():
-            user_info['date_created'] = datetime.now() - timedelta(days=180)
-            userdb.save_user(user_info)
         if self.request.path == "/":
             kwargs['body_location_class'] = "home"
-
         super(BaseHandler, self).render(template, **kwargs)
 
     def get_current_user(self):
@@ -64,25 +52,22 @@ class BaseHandler(tornado.web.RequestHandler):
               verify=False
             )
 
-
     def is_blacklisted(self, screen_name):
-        u = userdb.get_user_by_screen_name(screen_name)
-        if u and 'user' in u.keys() and 'is_blacklisted' in u['user'].keys() and u['user']['is_blacklisted']:
-            return True
-        return False
+        """
+        Legacy Support for pre-mongoengine check.
+        """
+        user_info = userdb.get_user_by_screen_name(screen_name)
+        return user_info.user.is_blacklisted
 
     def current_user_can(self, capability):
         """
         Tests whether a user can do a certain thing.
         """
-        result = False
         u = userdb.get_user_by_screen_name(self.current_user)
-        if u and 'role' in u.keys():
-            try:
-                if capability in settings.get('%s_capabilities' % u['role']):
-                    result = True
-            except:
-                result = False
+        if capability in settings.get('%s_capabilities' % u.role):
+            result = True
+        else:
+            result = False
         return result
 
     def api_response(self, data):

@@ -1,32 +1,12 @@
+import pymongo
+import settings
 from mongo import db
 from mongoengine import *
-import postsdb
 
 # For update_twitter
 import tweepy
-import settings
 import urllib2
 from datetime import datetime
-
-"""
-{
-  'user': { 
-    'id_str':'', 
-    'auth_type': '', 
-    'username': '', 
-    'fullname': '', 
-    'screen_name': '', 
-    'profile_image_url_https': '', 
-    'profile_image_url': '', 
-    'is_blacklisted': False 
-    }
-  'access_token': { 'secret': '', 'user_id': '', 'screen_name': '', 'key': '' },
-  'email_address': '',
-  'role': '',
-  'tags':[]
-}
-
-"""
 
 class User(EmbeddedDocument):
     id_str = StringField(required=True)
@@ -64,7 +44,7 @@ def get_user_by_id_str(id_str):
     return db.user_info.find_one({'user.id_str': id_str})
 
 def get_user_by_screen_name(screen_name):
-    return db.user_info.find_one({'user.screen_name': screen_name})
+    return UserInfo.objects(user__screen_name=screen_name).first()
 
 def get_user_by_email(email_address):
     return db.user_info.find_one({'email_address':email_address})
