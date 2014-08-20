@@ -39,7 +39,6 @@ class Disqus(app.basic.BaseHandler):
             account = userdb.get_user_by_screen_name(self.current_user)
             if account:
                 response = urllib2.urlopen(link, urllib.urlencode(data))
-                #  access_token should look like access_token=111122828977539|98f28d8b5b8ed787b585e69b.1-537252399|1bKwe6ghzXyS9vPDyeB9b1fHLRc
                 user_data = json.loads(response.read())
                 # refresh the user token details
                 disqus_obj = {}
@@ -50,13 +49,7 @@ class Disqus(app.basic.BaseHandler):
                 disqus_obj['refresh_token'] = user_data['refresh_token']
                 disqus_obj['token_type'] = user_data['token_type']
                 disqus_obj['token_startdate'] = datetime.now()
-                account['disqus'] = disqus_obj
-                if 'disqus_username' in account.keys(): del account['disqus_username']
-                if 'disqus_user_id' in account.keys(): del account['disqus_user_id']
-                if 'disqus_access_token' in account.keys(): del account['disqus_access_token']
-                if 'disqus_expires_in' in account.keys(): del account['disqus_expires_in']
-                if 'disqus_refresh_token' in account.keys(): del account['disqus_refresh_token']
-                if 'disqus_token_type' in account.keys(): del account['disqus_token_type']
+                account.disqus = disqus_obj
                 userdb.save_user(account)
 
                 # subscribe user to all previous threads they've written
@@ -74,7 +67,7 @@ class Remove(app.basic.BaseHandler):
         # remove twitter from this account
         account = userdb.get_user_by_screen_name(self.current_user)
         if account:
-            del account['disqus']
+            account.disqus = {}
             userdb.save_user(account)
 
         self.redirect('/user/%s/settings?msg=updated' % self.current_user)

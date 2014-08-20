@@ -7,7 +7,7 @@
     <section class="featured-feed clearfix mobile-hidden">
 
       <div class="well" style="text-align:center">
-        <img src="{{ user['user'].get('profile_image_url') }}" />  
+        <img src="{{ user.user.profile_image_url_https }}" />  
         <h2 style="margin-bottom: 0;"><a href="http://twitter.com/{{screen_name}}" target="_blank">@{{screen_name}}</a> on Twitter</h2>
       </div>
 
@@ -90,7 +90,7 @@
             <span class="glyphicon glyphicon-ok"></span>
           </th>
           <th>
-            {% if 'user' in user.keys() %}
+            {% if user.user %}
               <img src="/static/img/connect-twitter-active.png" /> &nbsp;
             {% else %}
               <img src="/static/img/connect-twitter-inactive.png" /> &nbsp;
@@ -103,7 +103,7 @@
           <td class="text-muted">(currently this cannot be changed)</td>
         </tr>
         
-        {% if 'disqus' in user.keys() and user['disqus']['user_id'] != '' %}
+        {% if user.disqus %}
         <tr class="complete">
           <th class="step"><span class="glyphicon glyphicon-ok"></span></th>
         {% else %}
@@ -111,15 +111,15 @@
           <th class="step"></th>
         {% end %}
           <th>
-            {% if 'disqus' in user.keys() and user['disqus']['user_id'] != '' %}
+            {% if user.disqus %}
             <img src="/static/img/connect-disqus-active.png" /> &nbsp;
             {% else %}
             <img src="/static/img/connect-disqus-inactive.png" /> &nbsp;
             {% end %}
           </th>
-          {% if 'disqus' in user.keys() and user['disqus']['user_id'] != '' %}
+          {% if user.disqus %}
           <td>
-            {{ user['disqus']['username'] }} &nbsp;
+            {{ user.disqus['username'] }} &nbsp;
           </td>
           <td></td>
           <td>
@@ -143,19 +143,14 @@
       <form id="submit-form" class="" action="/auth/email/" method="POST">
       <table class="table">
       {% module xsrf_form_html() %}
-      {% if 'email_address' in user and user['email_address'] %}
+      {% if user.email_address %}
       <tr class="complete">
       {% else %}
       <tr class="">
       {% end %}
         <th>Email</th>
-        {% if 'email_address' in user.keys()  %}
-        {% set email_address = user['email_address'] %}
-        {% else %}
-        {% set email_address = "" %}
-        {% end %}
-        <td colspan="2"><input type="text" class="form-control" name="email" value="{{ email_address }}" />
-          {% if 'email_address' not in user or not user['email_address'] %}
+        <td colspan="2"><input type="text" class="form-control" name="email" value="{{ user.email_address }}" />
+          {% if not user.email_address %}
             <div class="alert alert-info low-pro">
               &uarr; Please add your email address.
             </div>
@@ -164,12 +159,12 @@
       </tr>
       <tr>
         <th>Daily Email?</th>
-        <td><input type="checkbox" name="wants_daily_email" {{ "checked" if user['wants_daily_email'] else "" }}/></td>
+        <td><input type="checkbox" name="wants_daily_email" {{ "checked" if user.wants_daily_email else "" }}/></td>
         <td>Sent daily with the day's hottest posts</td>
       </tr> 
       <tr>
            <th style="white-space:nowrap">Email Alerts?</th>
-           <td><input type="checkbox" name="wants_email_alerts" {{ "checked" if user['wants_email_alerts'] else "" }}/></td>
+           <td><input type="checkbox" name="wants_email_alerts" {{ "checked" if user.wants_email_alerts else "" }}/></td>
            <td>When people bump your posts, etc</td>
          </tr>      
       </table>

@@ -20,7 +20,7 @@ class User(EmbeddedDocument):
 
 class AccessToken(EmbeddedDocument):
     secret = StringField(required=True)
-    user_id = StringField(required=True)
+    user_id = IntField(required=True)
     screen_name = StringField(required=True)
     key = StringField(required=True)
 
@@ -34,6 +34,9 @@ class UserInfo(Document):
     role = StringField(default="user")
     last_login = DateTimeField(default=datetime.now())
     date_created = DateTimeField(default=datetime.now())
+    wants_daily_email = BooleanField(default=True)
+    wants_email_alerts = BooleanField(default=True)
+    disqus = DictField()
     
 #db.user_info.ensure_index('user.screen_name')
 
@@ -58,8 +61,8 @@ def get_newsletter_recipients():
 def create_new_user(user, access_token):
     return db.user_info.update({'user.id_str': user['id_str']}, {'user':user, 'access_token':access_token, 'email_address':'', 'role':'', 'date_created': datetime.now()}, upsert=True)
 
-def save_user(user):
-    return db.user_info.update({'user.id_str': user['user']['id_str']}, user)
+def save_user(user_info):
+    return user_info.save()
 
 def get_user_count():
     return db.user_info.count()
