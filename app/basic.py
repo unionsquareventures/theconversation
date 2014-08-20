@@ -63,6 +63,9 @@ class BaseHandler(tornado.web.RequestHandler):
         """
         Tests whether a user can do a certain thing.
         """
+        if not self.current_user:
+            return False
+            
         u = userdb.get_user_by_screen_name(self.current_user)
         if capability in settings.get('%s_capabilities' % u.role):
             result = True
