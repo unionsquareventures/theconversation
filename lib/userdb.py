@@ -41,25 +41,30 @@ class UserInfo(Document):
 #db.user_info.ensure_index('user.screen_name')
 
 def get_all():
-    return db.user_info.find({})
+    return UserInfo.objects()
 
 def get_user_by_id_str(id_str):
-    return db.user_info.find_one({'user.id_str': id_str})
+    return UserInfo.objects(user__id_str=id_str).first()
 
 def get_user_by_screen_name(screen_name):
     return UserInfo.objects(user__screen_name=screen_name).first()
 
 def get_user_by_email(email_address):
-    return db.user_info.find_one({'email_address':email_address})
+    return UserInfo.objects(email_address=email_address).first()
 
 def get_disqus_users():
-    return db.user_info.find({'disqus': { '$exists': 'true' }})
+    return UserInfo.objects(disqus__exists=true)
 
 def get_newsletter_recipients():
-    return list(db.user_info.find({'wants_daily_email': True}))
+    return UserInfo.objects(wants_daily_email=True)
 
 def create_new_user(user, access_token):
-    return db.user_info.update({'user.id_str': user['id_str']}, {'user':user, 'access_token':access_token, 'email_address':'', 'role':'', 'date_created': datetime.now()}, upsert=True)
+    user_info_dict = {
+        'user': user,
+        'access_token': access_token
+    }
+    user_info = UserInfo(**user_info_dict)
+    return user_info.save()
 
 def save_user(user_info):
     return user_info.save()

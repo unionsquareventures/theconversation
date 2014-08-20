@@ -140,7 +140,8 @@ def get_featured_posts(per_page=10, page=1):
     #return list(db.post.find({'deleted': { "$ne": True }, 'featured':True}, sort=[('date_created', pymongo.DESCENDING)]).skip((page-1)*per_page).limit(per_page))
 
 def get_new_posts(per_page=50, page=1):
-    return list(db.post.find({"deleted": { "$ne": True }}, sort=[('_id', pymongo.DESCENDING)]).skip((page-1)*per_page).limit(per_page))
+    Post.objects(deleted__ne=True).order_by('-id')
+    #return list(db.post.find({"deleted": { "$ne": True }}, sort=[('_id', pymongo.DESCENDING)]).skip((page-1)*per_page).limit(per_page))
 
 def get_hot_posts(per_page=50, page=1):
     return list(db.post.find({"votes": { "$gte" : 2 }, "deleted": { "$ne": True }}, sort=[('sort_score', pymongo.DESCENDING)]).skip((page-1)*per_page).limit(per_page))
@@ -162,7 +163,8 @@ def get_daily_posts_by_sort_score(min_score=8):
 
 def get_hot_posts_24hr(start=datetime.now()):
     end = start - timedelta(hours=24)
-    return list(db.post.find({"deleted": { "$ne": True }, 'date_created': {'$gte': end , '$lte': start}}, sort=[('daily_sort_score', pymongo.DESCENDING)]))
+    return Post.objects(deleted__ne=True, date_created__gte=end, date_created__lte=start).order_by('-daily_sort_score')
+    #return list(db.post.find({"deleted": { "$ne": True }, 'date_created': {'$gte': end , '$lte': start}}, sort=[('daily_sort_score', pymongo.DESCENDING)]))
 
 def get_sad_posts(per_page=50, page=1):
     return list(db.post.find({'date_created':{'$gt': datetime.datetime.strptime("10/12/13", "%m/%d/%y")}, 'votes':1, 'comment_count':0, 'deleted': { "$ne": True } , 'featured': False}, sort=[('date_created', pymongo.DESCENDING)]).skip((page-1)*per_page).limit(per_page))
@@ -240,17 +242,17 @@ def delete_all_posts_by_user(screen_name):
 ###########################
 ### ADD A NEW POST
 ###########################
-def insert_post(post):
-    slug = slugify(post['title'])
+def insert_post(post_dict):
+    slug = slugify(post_dict['title'])
     slug_count = len(list(db.post.find({'slug':slug})))
     if slug_count > 0:
         slug = '%s-%i' % (slug, slug_count)
-    post['slug'] = slug
-    post['slugs'] = [slug]
-    if 'subscribed' not in post.keys():
-        post['subscribed'] = []
-    db.post.update({'url':post['slug'], 'user.screen_name':post['user']['screen_name']}, post, upsert=True)
-    return post['slug']
+    post_dict['slug'] = slug
+    post_dict['slugs'] = [slug]
+    if 'subscribed' not in post_dict.keys():
+        post_dict['subscribed'] = []
+    post = Post(**post_dict)
+    return post.save()
 
 ###########################
 ### SORT ALL POSTS
