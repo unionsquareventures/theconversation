@@ -19,7 +19,7 @@
 <div class="sidebar-widget" id="hot-posts-past-week" >
 	<h3 style="">Active conversations</h3>
 	<ul class="feed">
-		{% for p in hot_posts_past_week %}
+		{% for post in hot_posts_past_week %}
 			<li class="post post-sidebar">
 				{% include sidebar_post_snippet.html %}
 			</li>

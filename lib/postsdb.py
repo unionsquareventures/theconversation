@@ -120,7 +120,8 @@ def get_all():
 ### GET PAGED LISTING OF POSTS
 ###########################
 def get_posts_by_bumps(screen_name, per_page, page):
-    return list(db.post.find({'voted_users.screen_name':screen_name, 'user.screen_name':{'$ne':screen_name}}, sort=[('date_created', pymongo.DESCENDING)]).skip((page-1)*per_page).limit(per_page))
+    return Post.objects(voted_users__screen_name=screen_name, user__screen_name__ne=screen_name).order_by('-date_created').skip((page-1)*per_page).limit(per_page)
+    #return list(db.post.find({'voted_users.screen_name':screen_name, 'user.screen_name':{'$ne':screen_name}}, sort=[('date_created', pymongo.DESCENDING)]).skip((page-1)*per_page).limit(per_page))
 
 def get_posts_by_query(query, per_page=10, page=1):
     query_regex = re.compile('%s[\s$]' % query, re.I)

@@ -509,10 +509,6 @@ class ViewPost(app.basic.BaseHandler):
 
         msg = self.get_argument('msg', None)
 
-        user = None
-        if self.current_user:
-            user = userdb.get_user_by_screen_name(self.current_user)
-
         # remove dupes from voted_users
         voted_users = []
         for i in post.voted_users:
@@ -524,7 +520,7 @@ class ViewPost(app.basic.BaseHandler):
         featured_posts = {}
 
         view = "single"
-        self.render('post/view_post.html', user_obj=user, post=post, msg=msg, tag_posts=tag_posts, hot_posts_past_week=hot_posts_past_week, featured_posts=featured_posts, view=view)
+        self.render('post/view_post.html', post=post, msg=msg, tag_posts=tag_posts, hot_posts_past_week=hot_posts_past_week, featured_posts=featured_posts, view=view)
 
 #############
 ### WIDGET

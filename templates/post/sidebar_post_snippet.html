@@ -1,13 +1,13 @@
-{% if 'url' in p and p['url'] %}
-  <a class="title" href="{{ p['url'] }}" rel="nofollow" target="_blank">{{ p['title'] }}</a>
+{% if post.url %}
+  <a class="title" href="{{ post.url }}" rel="nofollow" target="_blank">{{ post.title }}</a>
 {% else %}
-  <a class="title" href="/posts/{{ p['slug'] }}" target="_blank">{{ p['title'] }}</a>
+  <a class="title" href="{{ post.permalink() }}" target="_blank">{{ post.title }}</a>
 {% end %}
 
   
 <div class="meta clearfix">
-  <a class="username-link" href="/user/{{ p['user']['username'] }}" style="color: #999">@{{ p['user']['username'] }}</a>
+  <a class="username-link" href="/user/{{ post.user.username }}" style="color: #999">@{{ post.user.username }}</a>
 
-  <a class="dsq-comment-count comment-count" data-disqus-identifier="{{ str(p['_id']) }}" href="/posts/{{ p['slug'] }}">{{ p['comment_count'] }}</a>
+  <a class="dsq-comment-count comment-count" data-disqus-identifier="{{ str(post.id) }}" href="/posts/{{ post.slug }}">{{ post.comment_count }}</a>
 
 </div>

@@ -2,11 +2,10 @@
 
 {% block body_class %}conversation single{% end %}
 
-{% block title %}{{ pist.title }} | {% end %}
+{% block title %}{{ post.title }} | {% end %}
 
 {% block content %}
   {% import re %}
-  {% set post = pist %}
   
   <div id="main" role="main">
     

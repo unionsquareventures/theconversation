@@ -317,10 +317,10 @@
     _cio.identify({
       // Required attributes
       id: '{{ current_user }}',           // Unique id for the currently signed in user in your application.
-      email: '{{ user_obj.get("email_address","") }}', // Email of the currently signed in user.
-      created_at: {{ user_obj.get('date_created', datetime.datetime.now()).strftime('%s') }}   // Timestamp in your system that represents when
-                                // the user first signed up. You'll want to send it
-                                // as seconds since the epoch.
+      email: '{{ user_obj.email_address }}', // Email of the currently signed in user.
+      created_at: {{ user_obj.date_created }}   // Timestamp in your system that represents when
+        // the user first signed up. You'll want to send it
+        // as seconds since the epoch.
     });
   </script>
   {% end %}
