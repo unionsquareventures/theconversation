@@ -31,6 +31,15 @@ class BaseHandler(tornado.web.RequestHandler):
         user_info = kwargs['user_obj']
         if self.request.path == "/":
             kwargs['body_location_class'] = "home"
+        #handle flash message
+        kwargs['flash_text'] = ""
+        if self.get_secure_cookie('flash'):
+            kwargs['show_flash'] = True
+            kwargs['flash_text'] = self.get_secure_cookie('flash')
+        else:
+            kwargs['show_flash'] = False
+        self.clear_cookie('flash')
+        
         super(BaseHandler, self).render(template, **kwargs)
 
     def get_current_user(self):

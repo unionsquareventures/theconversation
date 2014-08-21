@@ -126,6 +126,11 @@
     {% block precontent %}{% end %}
     <div id="content">
       <div class="container">
+        {% if show_flash %}
+          <div class="alert alert-info">
+            {% flash_text %}
+          </div>
+        {% end %}
         {% block content %}{% end %}
       </div>
     </div>
