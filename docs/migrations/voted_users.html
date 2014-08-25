@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <title>voted_users.py</title>
+  <link rel="stylesheet" href="../pycco.css">
+</head>
+<body>
+<div id="background"></div>
+<div id='container'>
+  <div class='section'>
+    <div class='docs'><h1>voted_users.py</h1></div>
+  </div>
+  <div class='clearall'>
+  <div class='section' id='section-0'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-0'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="kn">import</span> <span class="nn">sys</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s">&#39;/Users/nick/dev/conversation&#39;</span><span class="p">)</span>
+<span class="kn">import</span> <span class="nn">settings</span>
+<span class="kn">from</span> <span class="nn">lib</span> <span class="kn">import</span> <span class="n">postsdb</span>
+<span class="kn">from</span> <span class="nn">lib</span> <span class="kn">import</span> <span class="n">userdb</span>
+<span class="kn">from</span> <span class="nn">mongo</span> <span class="kn">import</span> <span class="n">db</span>
+<span class="kn">import</span> <span class="nn">logging</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-1'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-1'>#</a>
+      </div>
+      <p>MIGRATES from the old voted users format
+to the new one.
+meant to be run by hand from the command line, e.g. python voted_users.py
+Update the path above to whatever path is right on your machine (root of this app)</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="n">posts</span> <span class="o">=</span> <span class="n">postsdb</span><span class="o">.</span><span class="n">get_posts_by_query</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">,</span> <span class="mi">3000</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">post</span> <span class="ow">in</span> <span class="n">posts</span><span class="p">:</span>
+    <span class="n">voted_users</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">post</span><span class="p">[</span><span class="s">&#39;voted_users&#39;</span><span class="p">]:</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-2'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-2'>#</a>
+      </div>
+      <p>OLD FORMAT</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>        <span class="k">if</span> <span class="s">&#39;_id&#39;</span> <span class="ow">in</span> <span class="n">v</span><span class="p">:</span>
+            <span class="n">user_info</span> <span class="o">=</span> <span class="n">userdb</span><span class="o">.</span><span class="n">get_user_by_id_str</span><span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="s">&#39;_id&#39;</span><span class="p">])</span>
+            <span class="k">if</span> <span class="n">user_info</span><span class="p">:</span>
+                <span class="n">voted_users</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">user_info</span><span class="p">[</span><span class="s">&#39;user&#39;</span><span class="p">])</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-3'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-3'>#</a>
+      </div>
+      <p>NEW FORMAT</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>        <span class="k">if</span> <span class="s">&#39;id_str&#39;</span> <span class="ow">in</span> <span class="n">v</span><span class="p">:</span>
+            <span class="n">user_info</span> <span class="o">=</span> <span class="n">userdb</span><span class="o">.</span><span class="n">get_user_by_id_str</span><span class="p">(</span><span class="n">v</span><span class="p">[</span><span class="s">&#39;id_str&#39;</span><span class="p">])</span>
+            <span class="k">if</span> <span class="n">user_info</span><span class="p">:</span>
+                <span class="n">voted_users</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">user_info</span><span class="p">[</span><span class="s">&#39;user&#39;</span><span class="p">])</span>
+
+    <span class="k">if</span> <span class="n">db</span><span class="o">.</span><span class="n">post</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s">&#39;_id&#39;</span><span class="p">:</span><span class="n">post</span><span class="p">[</span><span class="s">&#39;_id&#39;</span><span class="p">]},</span> <span class="p">{</span><span class="s">&#39;$set&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s">&#39;voted_users&#39;</span><span class="p">:</span> <span class="n">voted_users</span><span class="p">,</span> <span class="s">&#39;votes&#39;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">voted_users</span><span class="p">)}}):</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">&#39;saved post: [</span><span class="si">%s</span><span class="s"> votes] </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">voted_users</span><span class="p">)),</span> <span class="n">post</span><span class="p">[</span><span class="s">&#39;title&#39;</span><span class="p">]))</span>
+
+</pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+</div>
+</body>

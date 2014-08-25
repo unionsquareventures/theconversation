@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <title>disqus.py</title>
+  <link rel="stylesheet" href="../pycco.css">
+</head>
+<body>
+<div id="background"></div>
+<div id='container'>
+  <div class='section'>
+    <div class='docs'><h1>disqus.py</h1></div>
+  </div>
+  <div class='clearall'>
+  <div class='section' id='section-0'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-0'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="kn">import</span> <span class="nn">base64</span>
+<span class="kn">import</span> <span class="nn">hashlib</span>
+<span class="kn">import</span> <span class="nn">hmac</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">import</span> <span class="nn">settings</span>
+<span class="kn">import</span> <span class="nn">time</span>
+
+<span class="kn">from</span> <span class="nn">lib</span> <span class="kn">import</span> <span class="n">postsdb</span>
+<span class="kn">from</span> <span class="nn">lib</span> <span class="kn">import</span> <span class="n">userdb</span>
+<span class="kn">from</span> <span class="nn">lib</span> <span class="kn">import</span> <span class="n">template_helpers</span>
+
+<span class="kn">import</span> <span class="nn">logging</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-1'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-1'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">check_for_thread</span><span class="p">(</span><span class="n">short_code</span><span class="p">,</span> <span class="n">link</span><span class="p">):</span>
+    <span class="n">api_link</span> <span class="o">=</span> <span class="s">&#39;https://disqus.com/api/3.0/threads/details.json?api_key=</span><span class="si">%s</span><span class="s">&amp;thread:link=</span><span class="si">%s</span><span class="s">&amp;forum=</span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;disqus_public_key&#39;</span><span class="p">),</span> <span class="n">link</span><span class="p">,</span> <span class="n">short_code</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">do_api_request</span><span class="p">(</span><span class="n">api_link</span><span class="p">,</span> <span class="s">&#39;GET&#39;</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-2'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-2'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">create_thread</span><span class="p">(</span><span class="n">post</span><span class="p">,</span> <span class="n">access_token</span><span class="p">):</span>
+    <span class="n">api_link</span> <span class="o">=</span> <span class="s">&#39;https://disqus.com/api/3.0/threads/create.json&#39;</span>
+    <span class="n">url</span> <span class="o">=</span> <span class="n">template_helpers</span><span class="o">.</span><span class="n">post_permalink</span><span class="p">(</span><span class="n">post</span><span class="p">)</span>
+    <span class="n">thread_info</span> <span class="o">=</span> <span class="p">{</span>
+      <span class="s">&#39;forum&#39;</span><span class="p">:</span> <span class="n">settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;disqus_short_code&#39;</span><span class="p">),</span>
+      <span class="s">&#39;title&#39;</span><span class="p">:</span> <span class="n">post</span><span class="p">[</span><span class="s">&#39;title&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s">&#39;utf-8&#39;</span><span class="p">),</span>
+      <span class="s">&#39;identifier&#39;</span><span class="p">:</span><span class="n">post</span><span class="p">[</span><span class="s">&#39;slug&#39;</span><span class="p">],</span>
+      <span class="s">&#39;url&#39;</span><span class="p">:</span> <span class="n">url</span><span class="p">,</span>
+      <span class="s">&#39;api_secret&#39;</span><span class="p">:</span><span class="n">settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;disqus_secret_key&#39;</span><span class="p">),</span>
+      <span class="s">&#39;api_key&#39;</span><span class="p">:</span> <span class="n">settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;disqus_public_key&#39;</span><span class="p">),</span>
+      <span class="s">&#39;access_token&#39;</span><span class="p">:</span> <span class="n">access_token</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">do_api_request</span><span class="p">(</span><span class="n">api_link</span><span class="p">,</span> <span class="s">&#39;POST&#39;</span><span class="p">,</span> <span class="n">thread_info</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-3'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-3'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">get_post_details</span><span class="p">(</span><span class="n">post_id</span><span class="p">):</span>
+    <span class="n">message</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;id&#39;</span><span class="p">:</span><span class="s">&#39;&#39;</span><span class="p">,</span><span class="s">&#39;message&#39;</span><span class="p">:</span><span class="s">&#39;&#39;</span><span class="p">,</span><span class="s">&#39;author&#39;</span><span class="p">:{</span><span class="s">&#39;username&#39;</span><span class="p">:</span><span class="s">&#39;&#39;</span><span class="p">,</span> <span class="s">&#39;email&#39;</span><span class="p">:</span><span class="s">&#39;&#39;</span><span class="p">}}</span>
+    <span class="n">api_link</span> <span class="o">=</span> <span class="s">&#39;https://disqus.com/api/3.0/posts/details.json&#39;</span>
+    <span class="n">api_key</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;disqus_public_key&#39;</span><span class="p">)</span>
+    <span class="n">api_link</span> <span class="o">=</span> <span class="s">&#39;https://disqus.com/api/3.0/posts/details.json?api_key=</span><span class="si">%s</span><span class="s">&amp;post=</span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">api_key</span><span class="p">,</span> <span class="n">post_id</span><span class="p">)</span>
+    <span class="n">disqus</span> <span class="o">=</span> <span class="n">do_api_request</span><span class="p">(</span><span class="n">api_link</span><span class="p">)</span>
+    <span class="k">if</span> <span class="s">&#39;response&#39;</span> <span class="ow">in</span> <span class="n">disqus</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="k">if</span> <span class="s">&#39;id&#39;</span> <span class="ow">in</span> <span class="n">disqus</span><span class="p">[</span><span class="s">&#39;response&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="n">message</span><span class="p">[</span><span class="s">&#39;id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">disqus</span><span class="p">[</span><span class="s">&#39;response&#39;</span><span class="p">][</span><span class="s">&#39;id&#39;</span><span class="p">]</span>
+            <span class="n">message</span><span class="p">[</span><span class="s">&#39;message&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">disqus</span><span class="p">[</span><span class="s">&#39;response&#39;</span><span class="p">][</span><span class="s">&#39;message&#39;</span><span class="p">]</span>
+            <span class="n">message</span><span class="p">[</span><span class="s">&#39;author&#39;</span><span class="p">][</span><span class="s">&#39;username&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">disqus</span><span class="p">[</span><span class="s">&#39;response&#39;</span><span class="p">][</span><span class="s">&#39;author&#39;</span><span class="p">][</span><span class="s">&#39;username&#39;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="s">&#39;email&#39;</span> <span class="ow">in</span> <span class="n">disqus</span><span class="p">[</span><span class="s">&#39;response&#39;</span><span class="p">][</span><span class="s">&#39;author&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                <span class="n">message</span><span class="p">[</span><span class="s">&#39;author&#39;</span><span class="p">][</span><span class="s">&#39;email&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">disqus</span><span class="p">[</span><span class="s">&#39;response&#39;</span><span class="p">][</span><span class="s">&#39;author&#39;</span><span class="p">][</span><span class="s">&#39;email&#39;</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">message</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-4'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-4'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">get_thread_details</span><span class="p">(</span><span class="n">post</span><span class="p">):</span>
+    <span class="n">api_link</span> <span class="o">=</span> <span class="s">&#39;https://disqus.com/api/3.0/threads/details.json&#39;</span>
+    <span class="n">info</span> <span class="o">=</span> <span class="p">{</span>
+      <span class="s">&#39;api_key&#39;</span><span class="p">:</span> <span class="n">settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;disqus_public_key&#39;</span><span class="p">),</span>
+      <span class="s">&#39;thread:link&#39;</span><span class="p">:</span> <span class="n">template_helpers</span><span class="o">.</span><span class="n">post_permalink</span><span class="p">(</span><span class="n">post</span><span class="p">),</span>
+      <span class="s">&#39;forum&#39;</span><span class="p">:</span> <span class="n">settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;disqus_short_code&#39;</span><span class="p">),</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">do_api_request</span><span class="p">(</span><span class="n">api_link</span><span class="p">,</span> <span class="s">&#39;GET&#39;</span><span class="p">,</span> <span class="n">info</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-5'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-5'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">grep_short_code</span><span class="p">(</span><span class="n">link</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-6'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-6'>#</a>
+      </div>
+      <p>attempt to get the disqus short code out of a given page
+http://continuations.disqus.com/embed.js vs. http://disqus.com/forums/avc/embed.js</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="n">short_code</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">link</span><span class="p">,</span> <span class="n">verify</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+    <span class="n">html</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">text</span>
+    <span class="n">m</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s">r&#39;http:\/\/disqus\.com\/forums\/([^/]+)&#39;</span><span class="p">,</span> <span class="n">html</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">m</span><span class="p">:</span>
+        <span class="n">short_code</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">short_code</span> <span class="o">==</span> <span class="s">&#39;&#39;</span><span class="p">:</span>
+        <span class="n">m</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s">r&#39;http:\/\/([^.]+)\.disqus\.com&#39;</span><span class="p">,</span> <span class="n">html</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">m</span><span class="p">:</span>
+            <span class="n">short_code</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">short_code</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-7'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-7'>#</a>
+      </div>
+      <p>Subscribe to a thread</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">subscribe_to_thread</span><span class="p">(</span><span class="n">thread_id</span><span class="p">,</span> <span class="n">access_token</span><span class="p">):</span>
+    <span class="n">api_link</span> <span class="o">=</span> <span class="s">&#39;https://disqus.com/api/3.0/threads/subscribe.json&#39;</span>
+    <span class="n">info</span> <span class="o">=</span> <span class="p">{</span>
+      <span class="s">&#39;api_secret&#39;</span><span class="p">:</span> <span class="n">settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;disqus_secret_key&#39;</span><span class="p">),</span>
+      <span class="s">&#39;api_key&#39;</span><span class="p">:</span> <span class="n">settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;disqus_public_key&#39;</span><span class="p">),</span>
+      <span class="s">&#39;access_token&#39;</span><span class="p">:</span> <span class="n">access_token</span><span class="p">,</span>
+      <span class="s">&#39;thread&#39;</span><span class="p">:</span> <span class="n">thread_id</span><span class="p">,</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">do_api_request</span><span class="p">(</span><span class="n">api_link</span><span class="p">,</span> <span class="s">&#39;POST&#39;</span><span class="p">,</span> <span class="n">info</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-8'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-8'>#</a>
+      </div>
+      <p>Subscribe to all your threads</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">subscribe_to_all_your_threads</span><span class="p">(</span><span class="n">username</span><span class="p">):</span>
+    <span class="n">account</span> <span class="o">=</span> <span class="n">userdb</span><span class="o">.</span><span class="n">get_user_by_screen_name</span><span class="p">(</span><span class="n">username</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-9'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-9'>#</a>
+      </div>
+      <p>todo: get disqus_user_id
+temp: nick's ID</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="k">if</span> <span class="s">&#39;disqus&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">account</span><span class="p">:</span>
+        <span class="k">print</span> <span class="s">&#39;ERROR: no disqus user ID&#39;</span>
+        <span class="k">return</span>
+    <span class="k">print</span> <span class="s">&#39;subscribing to disqus threads for user </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">username</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-10'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-10'>#</a>
+      </div>
+      <p>make sure all your threads are registered w disqus</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="n">posts</span> <span class="o">=</span> <span class="n">postsdb</span><span class="o">.</span><span class="n">get_posts_by_screen_name</span><span class="p">(</span><span class="n">username</span><span class="p">,</span> <span class="n">per_page</span><span class="o">=</span><span class="mi">25</span><span class="p">,</span> <span class="n">page</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">post</span> <span class="ow">in</span> <span class="n">posts</span><span class="p">:</span>
+        <span class="k">print</span> <span class="n">template_helpers</span><span class="o">.</span><span class="n">post_permalink</span><span class="p">(</span><span class="n">post</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s">&#39;disqus_thread_id_str&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">post</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="ow">or</span> <span class="n">post</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;disqus_thread_id_str&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="s">&quot;&quot;</span><span class="p">:</span>
+            <span class="n">thread_details</span> <span class="o">=</span> <span class="n">create_thread</span><span class="p">(</span><span class="n">post</span><span class="p">,</span> <span class="n">account</span><span class="p">[</span><span class="s">&#39;disqus&#39;</span><span class="p">][</span><span class="s">&#39;access_token&#39;</span><span class="p">])</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">thread_id</span> <span class="o">=</span> <span class="n">thread_details</span><span class="p">[</span><span class="s">&#39;response&#39;</span><span class="p">][</span><span class="s">&#39;id&#39;</span><span class="p">]</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="n">thread</span> <span class="o">=</span> <span class="n">get_thread_details</span><span class="p">(</span><span class="n">post</span><span class="p">)</span>
+                <span class="n">thread_id</span> <span class="o">=</span> <span class="n">thread</span><span class="p">[</span><span class="s">&#39;response&#39;</span><span class="p">][</span><span class="s">&#39;id&#39;</span><span class="p">]</span>
+
+            <span class="n">post</span><span class="p">[</span><span class="s">&#39;disqus_thread_id_str&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">thread_id</span>
+            <span class="n">postsdb</span><span class="o">.</span><span class="n">save_post</span><span class="p">(</span><span class="n">post</span><span class="p">)</span>
+        <span class="n">subscribe_to_thread</span><span class="p">(</span><span class="n">post</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;disqus_thread_id_str&#39;</span><span class="p">),</span> <span class="n">account</span><span class="p">[</span><span class="s">&#39;disqus&#39;</span><span class="p">][</span><span class="s">&#39;access_token&#39;</span><span class="p">])</span>
+
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    threads = get_all_threads(account[&#39;disqus&#39;][&#39;user_id&#39;])[&#39;response&#39;]</span>
+<span class="sd">    my_threads = []</span>
+<span class="sd">    for thread in threads:</span>
+<span class="sd">      if &#39;link&#39; not in thread or thread[&#39;link&#39;] is None:</span>
+<span class="sd">        continue</span>
+<span class="sd">      if thread[&#39;link&#39;].find(&#39;http://localhost&#39;) &gt;= 0:</span>
+<span class="sd">        continue</span>
+<span class="sd">      my_threads.append(thread)</span>
+<span class="sd">    if &#39;disqus&#39; in account:</span>
+<span class="sd">      for thread in my_threads:</span>
+<span class="sd">        subscribe_to_thread(thread[&#39;id&#39;], account[&#39;disqus&#39;][&#39;access_token&#39;])</span>
+<span class="sd">        print &#39;subscribed to thread: %s&#39; % thread[&#39;title&#39;]</span>
+<span class="sd">    return</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">return</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-11'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-11'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">remove_all_your_threads</span><span class="p">(</span><span class="n">username</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-12'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-12'>#</a>
+      </div>
+      <p>account = userdb.get_user_by_screen_name(username)
+get posts from disqus</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="n">threads</span> <span class="o">=</span> <span class="n">get_all_threads</span><span class="p">(</span><span class="mi">851030</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">thread</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">threads</span><span class="p">[</span><span class="s">&#39;response&#39;</span><span class="p">]):</span>
+        <span class="k">if</span> <span class="n">thread</span><span class="p">[</span><span class="s">&#39;link&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&#39;http://localhost&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">print</span> <span class="n">thread</span><span class="p">[</span><span class="s">&#39;link&#39;</span><span class="p">]</span>
+            <span class="k">print</span> <span class="s">&quot;----</span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">thread</span><span class="p">[</span><span class="s">&#39;identifiers&#39;</span><span class="p">]</span>
+            <span class="k">print</span> <span class="s">&quot;----</span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">thread</span><span class="p">[</span><span class="s">&#39;author&#39;</span><span class="p">]</span>
+            <span class="k">print</span> <span class="s">&quot;----</span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">thread</span><span class="p">[</span><span class="s">&#39;id&#39;</span><span class="p">]</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-13'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-13'>#</a>
+      </div>
+      <p>print remove_thread(thread['id'])</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-14'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-14'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">user_details</span><span class="p">(</span><span class="n">api_key</span><span class="p">,</span> <span class="n">access_token</span><span class="p">,</span> <span class="n">api_secret</span><span class="p">,</span> <span class="n">user_id</span><span class="p">):</span>
+    <span class="n">api_link</span> <span class="o">=</span> <span class="s">&#39;https://disqus.com/api/3.0/users/details.json?access_token=</span><span class="si">%s</span><span class="s">&amp;api_key=</span><span class="si">%s</span><span class="s">&amp;api_secret=</span><span class="si">%s</span><span class="s">&amp;user=</span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">access_token</span><span class="p">,</span> <span class="n">api_key</span><span class="p">,</span> <span class="n">api_secret</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">user_id</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">do_api_request</span><span class="p">(</span><span class="n">api_link</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-15'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-15'>#</a>
+      </div>
+      <p>Get Threads</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">get_all_threads</span><span class="p">(</span><span class="n">disqus_user_id</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="n">api_link</span> <span class="o">=</span> <span class="s">&#39;https://disqus.com/api/3.0/threads/list.json&#39;</span>
+    <span class="n">info</span> <span class="o">=</span> <span class="p">{</span>
+      <span class="s">&#39;api_secret&#39;</span><span class="p">:</span> <span class="n">settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;disqus_secret_key&#39;</span><span class="p">),</span>
+      <span class="s">&#39;forum&#39;</span><span class="p">:</span> <span class="n">settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;disqus_short_code&#39;</span><span class="p">),</span>
+      <span class="s">&#39;limit&#39;</span><span class="p">:</span> <span class="mi">100</span>
+    <span class="p">}</span>
+    <span class="k">if</span> <span class="n">disqus_user_id</span><span class="p">:</span>
+        <span class="n">info</span><span class="o">.</span><span class="n">update</span><span class="p">({</span>
+          <span class="s">&#39;author&#39;</span><span class="p">:</span> <span class="n">disqus_user_id</span>
+        <span class="p">})</span>
+    <span class="k">return</span> <span class="n">do_api_request</span><span class="p">(</span><span class="n">api_link</span><span class="p">,</span> <span class="s">&#39;GET&#39;</span><span class="p">,</span> <span class="n">info</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-16'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-16'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">remove_thread</span><span class="p">(</span><span class="n">thread_id</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">thread_id</span><span class="p">:</span>
+        <span class="k">return</span>
+    <span class="n">api_link</span> <span class="o">=</span> <span class="s">&#39;https://disqus.com/api/3.0/threads/remove.json&#39;</span>
+    <span class="n">info</span> <span class="o">=</span> <span class="p">{</span>
+      <span class="s">&#39;api_secret&#39;</span><span class="p">:</span> <span class="n">settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;disqus_secret_key&#39;</span><span class="p">),</span>
+      <span class="s">&#39;forum&#39;</span><span class="p">:</span> <span class="n">settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;disqus_short_code&#39;</span><span class="p">),</span>
+      <span class="s">&#39;thread&#39;</span><span class="p">:</span> <span class="n">thread_id</span><span class="p">,</span>
+      <span class="s">&#39;access_token&#39;</span><span class="p">:</span> <span class="s">&quot;0a75d127c53f4a99bd853d721166af14&quot;</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">do_api_request</span><span class="p">(</span><span class="n">api_link</span><span class="p">,</span> <span class="s">&#39;POST&#39;</span><span class="p">,</span> <span class="n">info</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-17'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-17'>#</a>
+      </div>
+      <h6></h6>
+<h3>ACTUALLY HANDLE THE REQUESTS/RESPOSNE TO THE API</h3>
+<h6></h6>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">do_api_request</span><span class="p">(</span><span class="n">api_link</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s">&#39;GET&#39;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{}):</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">method</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="o">==</span> <span class="s">&#39;GET&#39;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+                  <span class="n">api_link</span><span class="p">,</span>
+                  <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span>
+                  <span class="n">verify</span><span class="o">=</span><span class="bp">False</span>
+                <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+                  <span class="n">api_link</span><span class="p">,</span>
+                  <span class="n">verify</span><span class="o">=</span><span class="bp">False</span>
+                <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+              <span class="n">api_link</span><span class="p">,</span>
+              <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span>
+              <span class="n">verify</span><span class="o">=</span><span class="bp">False</span>
+            <span class="p">)</span>
+        <span class="n">disqus</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+        <span class="k">print</span> <span class="n">api_link</span>
+        <span class="k">print</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">disqus</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="n">disqus</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">return</span> <span class="n">disqus</span>
+
+</pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+</div>
+</body>

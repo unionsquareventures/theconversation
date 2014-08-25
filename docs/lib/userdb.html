@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <title>userdb.py</title>
+  <link rel="stylesheet" href="../pycco.css">
+</head>
+<body>
+<div id="background"></div>
+<div id='container'>
+  <div class='section'>
+    <div class='docs'><h1>userdb.py</h1></div>
+  </div>
+  <div class='clearall'>
+  <div class='section' id='section-0'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-0'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="kn">import</span> <span class="nn">pymongo</span>
+<span class="kn">import</span> <span class="nn">settings</span>
+<span class="kn">from</span> <span class="nn">mongo</span> <span class="kn">import</span> <span class="n">db</span>
+<span class="kn">from</span> <span class="nn">mongoengine</span> <span class="kn">import</span> <span class="o">*</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-1'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-1'>#</a>
+      </div>
+      <p>For update_twitter</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="kn">import</span> <span class="nn">tweepy</span>
+<span class="kn">import</span> <span class="nn">urllib2</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-2'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-2'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">class</span> <span class="nc">User</span><span class="p">(</span><span class="n">EmbeddedDocument</span><span class="p">):</span>
+    <span class="n">id_str</span> <span class="o">=</span> <span class="n">StringField</span><span class="p">(</span><span class="n">required</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">auth_type</span> <span class="o">=</span> <span class="n">StringField</span><span class="p">(</span><span class="n">required</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">username</span> <span class="o">=</span> <span class="n">StringField</span><span class="p">(</span><span class="n">required</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">fullname</span> <span class="o">=</span> <span class="n">StringField</span><span class="p">(</span><span class="n">required</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">screen_name</span> <span class="o">=</span> <span class="n">StringField</span><span class="p">(</span><span class="n">required</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">profile_image_url_https</span> <span class="o">=</span> <span class="n">StringField</span><span class="p">(</span><span class="n">required</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">profile_image_url</span> <span class="o">=</span> <span class="n">StringField</span><span class="p">(</span><span class="n">required</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">is_blacklisted</span> <span class="o">=</span> <span class="n">BooleanField</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-3'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-3'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">class</span> <span class="nc">AccessToken</span><span class="p">(</span><span class="n">EmbeddedDocument</span><span class="p">):</span>
+    <span class="n">secret</span> <span class="o">=</span> <span class="n">StringField</span><span class="p">(</span><span class="n">required</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">user_id</span> <span class="o">=</span> <span class="n">IntField</span><span class="p">(</span><span class="n">required</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">screen_name</span> <span class="o">=</span> <span class="n">StringField</span><span class="p">(</span><span class="n">required</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">key</span> <span class="o">=</span> <span class="n">StringField</span><span class="p">(</span><span class="n">required</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-4'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-4'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">class</span> <span class="nc">UserInfo</span><span class="p">(</span><span class="n">Document</span><span class="p">):</span>
+    <span class="n">meta</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s">&#39;indexes&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s">&#39;user.id_str&#39;</span><span class="p">,</span> <span class="s">&#39;email_address&#39;</span><span class="p">,</span> <span class="s">&#39;user.username&#39;</span><span class="p">]</span>
+    <span class="p">}</span>
+    <span class="n">user</span> <span class="o">=</span> <span class="n">EmbeddedDocumentField</span><span class="p">(</span><span class="n">User</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">access_token</span> <span class="o">=</span> <span class="n">EmbeddedDocumentField</span><span class="p">(</span><span class="n">AccessToken</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">email_address</span> <span class="o">=</span> <span class="n">StringField</span><span class="p">(</span><span class="n">required</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+    <span class="n">role</span> <span class="o">=</span> <span class="n">StringField</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="s">&quot;user&quot;</span><span class="p">)</span>
+    <span class="n">last_login</span> <span class="o">=</span> <span class="n">DateTimeField</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">())</span>
+    <span class="n">date_created</span> <span class="o">=</span> <span class="n">DateTimeField</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">())</span>
+    <span class="n">wants_daily_email</span> <span class="o">=</span> <span class="n">BooleanField</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">wants_email_alerts</span> <span class="o">=</span> <span class="n">BooleanField</span><span class="p">(</span><span class="n">default</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">disqus</span> <span class="o">=</span> <span class="n">DictField</span><span class="p">()</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-5'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-5'>#</a>
+      </div>
+      <p>db.user_info.ensure_index('user.screen_name')</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-6'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-6'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">get_all</span><span class="p">():</span>
+    <span class="k">return</span> <span class="n">UserInfo</span><span class="o">.</span><span class="n">objects</span><span class="p">()</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-7'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-7'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">get_user_by_id_str</span><span class="p">(</span><span class="n">id_str</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">UserInfo</span><span class="o">.</span><span class="n">objects</span><span class="p">(</span><span class="n">user__id_str</span><span class="o">=</span><span class="n">id_str</span><span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="p">()</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-8'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-8'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">get_user_by_screen_name</span><span class="p">(</span><span class="n">screen_name</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">UserInfo</span><span class="o">.</span><span class="n">objects</span><span class="p">(</span><span class="n">user__screen_name</span><span class="o">=</span><span class="n">screen_name</span><span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="p">()</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-9'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-9'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">get_user_by_email</span><span class="p">(</span><span class="n">email_address</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">UserInfo</span><span class="o">.</span><span class="n">objects</span><span class="p">(</span><span class="n">email_address</span><span class="o">=</span><span class="n">email_address</span><span class="p">)</span><span class="o">.</span><span class="n">first</span><span class="p">()</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-10'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-10'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">get_disqus_users</span><span class="p">():</span>
+    <span class="k">return</span> <span class="n">UserInfo</span><span class="o">.</span><span class="n">objects</span><span class="p">(</span><span class="n">disqus__exists</span><span class="o">=</span><span class="n">true</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-11'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-11'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">get_newsletter_recipients</span><span class="p">():</span>
+    <span class="k">return</span> <span class="n">UserInfo</span><span class="o">.</span><span class="n">objects</span><span class="p">(</span><span class="n">wants_daily_email</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-12'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-12'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">create_new_user</span><span class="p">(</span><span class="n">user</span><span class="p">,</span> <span class="n">access_token</span><span class="p">):</span>
+    <span class="n">user_info_dict</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s">&#39;user&#39;</span><span class="p">:</span> <span class="n">user</span><span class="p">,</span>
+        <span class="s">&#39;access_token&#39;</span><span class="p">:</span> <span class="n">access_token</span>
+    <span class="p">}</span>
+    <span class="n">user_info</span> <span class="o">=</span> <span class="n">UserInfo</span><span class="p">(</span><span class="o">**</span><span class="n">user_info_dict</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">user_info</span><span class="o">.</span><span class="n">save</span><span class="p">()</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-13'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-13'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">save_user</span><span class="p">(</span><span class="n">user_info</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">user_info</span><span class="o">.</span><span class="n">save</span><span class="p">()</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-14'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-14'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">get_user_count</span><span class="p">():</span>
+    <span class="k">return</span> <span class="n">db</span><span class="o">.</span><span class="n">user_info</span><span class="o">.</span><span class="n">count</span><span class="p">()</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-15'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-15'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">add_tags_to_user</span><span class="p">(</span><span class="n">screen_name</span><span class="p">,</span> <span class="n">tags</span><span class="o">=</span><span class="p">[]):</span>
+    <span class="k">return</span> <span class="n">db</span><span class="o">.</span><span class="n">user_info</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s">&#39;user.screen_name&#39;</span><span class="p">:</span><span class="n">screen_name</span><span class="p">},</span> <span class="p">{</span><span class="s">&#39;$addToSet&#39;</span><span class="p">:{</span><span class="s">&#39;tags&#39;</span><span class="p">:{</span><span class="s">&#39;$each&#39;</span><span class="p">:</span><span class="n">tags</span><span class="p">}}})</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-16'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-16'>#</a>
+      </div>
+      <h6></h6>
+<h2>SCRIPT FUNCTIONS</h2>
+<h6></h6>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="sd">&#39;&#39;&#39; Updates twitter account of id id_str, or else updates all twitter accounts.</span>
+<span class="sd">    Updating all accounts will probably cause API to puke from too many requests &#39;&#39;&#39;</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-17'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-17'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">update_twitter</span><span class="p">(</span><span class="n">id_str</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">api</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">api</span><span class="p">:</span>
+        <span class="n">consumer_key</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;twitter_consumer_key&#39;</span><span class="p">)</span>
+        <span class="n">consumer_secret</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;twitter_consumer_secret&#39;</span><span class="p">)</span>
+        <span class="n">auth</span> <span class="o">=</span> <span class="n">tweepy</span><span class="o">.</span><span class="n">OAuthHandler</span><span class="p">(</span><span class="n">consumer_key</span><span class="p">,</span> <span class="n">consumer_secret</span><span class="p">,</span> <span class="n">secure</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+        <span class="n">api</span> <span class="o">=</span> <span class="n">tweepy</span><span class="o">.</span><span class="n">API</span><span class="p">(</span><span class="n">auth</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">id_str</span><span class="p">:</span>
+        <span class="n">users</span> <span class="o">=</span> <span class="p">[</span><span class="n">get_user_by_id_str</span><span class="p">(</span><span class="n">id_str</span><span class="p">)]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">users</span> <span class="o">=</span> <span class="n">get_all</span><span class="p">()</span>
+
+    <span class="k">for</span> <span class="n">user</span> <span class="ow">in</span> <span class="n">users</span><span class="p">:</span>
+        <span class="n">id_str</span> <span class="o">=</span> <span class="n">user</span><span class="p">[</span><span class="s">&#39;user&#39;</span><span class="p">][</span><span class="s">&#39;id_str&#39;</span><span class="p">]</span>
+        <span class="n">twitter_user</span> <span class="o">=</span> <span class="n">api</span><span class="o">.</span><span class="n">get_user</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">id_str</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">id_str</span> <span class="o">!=</span> <span class="n">twitter_user</span><span class="o">.</span><span class="n">id_str</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">Exception</span>
+
+        <span class="n">user_data</span> <span class="o">=</span> <span class="p">{</span>
+          <span class="s">&#39;auth_type&#39;</span><span class="p">:</span> <span class="s">&#39;twitter&#39;</span><span class="p">,</span>
+          <span class="s">&#39;id_str&#39;</span><span class="p">:</span> <span class="n">twitter_user</span><span class="o">.</span><span class="n">id_str</span><span class="p">,</span>
+          <span class="s">&#39;username&#39;</span><span class="p">:</span> <span class="n">twitter_user</span><span class="o">.</span><span class="n">screen_name</span><span class="p">,</span>
+          <span class="s">&#39;fullname&#39;</span><span class="p">:</span> <span class="n">twitter_user</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+          <span class="s">&#39;screen_name&#39;</span><span class="p">:</span> <span class="n">twitter_user</span><span class="o">.</span><span class="n">screen_name</span><span class="p">,</span>
+          <span class="s">&#39;profile_image_url&#39;</span><span class="p">:</span> <span class="n">twitter_user</span><span class="o">.</span><span class="n">profile_image_url</span><span class="p">,</span>
+          <span class="s">&#39;profile_image_url_https&#39;</span><span class="p">:</span> <span class="n">twitter_user</span><span class="o">.</span><span class="n">profile_image_url_https</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="n">updated_user</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;access_token&#39;</span><span class="p">:</span> <span class="n">user</span><span class="p">[</span><span class="s">&#39;access_token&#39;</span><span class="p">],</span> <span class="s">&#39;user&#39;</span><span class="p">:</span> <span class="n">user_data</span><span class="p">}</span>
+        <span class="n">save_user</span><span class="p">(</span><span class="n">updated_user</span><span class="p">)</span>
+        <span class="k">print</span> <span class="s">&quot;++ Updated user @</span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">user</span><span class="p">[</span><span class="s">&#39;user&#39;</span><span class="p">][</span><span class="s">&#39;username&#39;</span><span class="p">]</span>
+        <span class="n">user_posts</span> <span class="o">=</span> <span class="n">postsdb</span><span class="o">.</span><span class="n">get_posts_by_screen_name</span><span class="p">(</span><span class="n">twitter_user</span><span class="o">.</span><span class="n">screen_name</span><span class="p">,</span> <span class="n">per_page</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">page</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">user_posts</span><span class="p">:</span>
+            <span class="n">p</span><span class="p">[</span><span class="s">&#39;user&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">user_data</span>
+            <span class="n">postsdb</span><span class="o">.</span><span class="n">save_post</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+            <span class="k">print</span> <span class="s">&quot;++++ Updated </span><span class="si">%s</span><span class="s"> info for </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="s">&#39;user&#39;</span><span class="p">][</span><span class="s">&#39;screen_name&#39;</span><span class="p">],</span> <span class="n">p</span><span class="p">[</span><span class="s">&#39;title&#39;</span><span class="p">])</span>
+
+<span class="sd">&#39;&#39;&#39; Only updates a user if their twitter profile image URL returns a 404 &#39;&#39;&#39;</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-18'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-18'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">update_twitter_profile_images</span><span class="p">():</span>
+    <span class="n">consumer_key</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;twitter_consumer_key&#39;</span><span class="p">)</span>
+    <span class="n">consumer_secret</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;twitter_consumer_secret&#39;</span><span class="p">)</span>
+    <span class="n">auth</span> <span class="o">=</span> <span class="n">tweepy</span><span class="o">.</span><span class="n">OAuthHandler</span><span class="p">(</span><span class="n">consumer_key</span><span class="p">,</span> <span class="n">consumer_secret</span><span class="p">,</span> <span class="n">secure</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">api</span> <span class="o">=</span> <span class="n">tweepy</span><span class="o">.</span><span class="n">API</span><span class="p">(</span><span class="n">auth</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">user</span> <span class="ow">in</span> <span class="n">get_all</span><span class="p">():</span>
+        <span class="k">print</span> <span class="s">&quot;Checking user </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">user</span><span class="p">[</span><span class="s">&#39;user&#39;</span><span class="p">][</span><span class="s">&#39;screen_name&#39;</span><span class="p">]</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">response</span><span class="o">=</span> <span class="n">urllib2</span><span class="o">.</span><span class="n">urlopen</span><span class="p">(</span><span class="n">user</span><span class="p">[</span><span class="s">&#39;user&#39;</span><span class="p">][</span><span class="s">&#39;profile_image_url_https&#39;</span><span class="p">])</span>
+        <span class="k">except</span> <span class="n">urllib2</span><span class="o">.</span><span class="n">HTTPError</span><span class="p">,</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">e</span><span class="o">.</span><span class="n">code</span> <span class="o">==</span> <span class="mi">404</span><span class="p">:</span>
+                <span class="n">update_twitter</span><span class="p">(</span><span class="n">id_str</span><span class="o">=</span><span class="n">user</span><span class="p">[</span><span class="s">&#39;user&#39;</span><span class="p">][</span><span class="s">&#39;id_str&#39;</span><span class="p">],</span> <span class="n">api</span><span class="o">=</span><span class="n">api</span><span class="p">)</span>
+
+</pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+</div>
+</body>

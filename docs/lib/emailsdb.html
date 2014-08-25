@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <title>emailsdb.py</title>
+  <link rel="stylesheet" href="../pycco.css">
+</head>
+<body>
+<div id="background"></div>
+<div id='container'>
+  <div class='section'>
+    <div class='docs'><h1>emailsdb.py</h1></div>
+  </div>
+  <div class='clearall'>
+  <div class='section' id='section-0'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-0'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="kn">from</span> <span class="nn">mongo</span> <span class="kn">import</span> <span class="n">db</span>
+<span class="kn">import</span> <span class="nn">pymongo</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+
+<span class="kn">from</span> <span class="nn">lib</span> <span class="kn">import</span> <span class="n">postsdb</span><span class="p">,</span> <span class="n">userdb</span>
+
+<span class="kn">import</span> <span class="nn">settings</span>
+<span class="kn">import</span> <span class="nn">urllib2</span>
+<span class="kn">import</span> <span class="nn">requests</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-1'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-1'>#</a>
+      </div>
+      <p>track emails sent to users</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-2'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-2'>#</a>
+      </div>
+      <p>{
+        _id: ...,
+        timestamp: Date(),
+        subject: "",
+        body: "",
+        recipients: []
+}</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="n">db</span><span class="o">.</span><span class="n">user_info</span><span class="o">.</span><span class="n">ensure_index</span><span class="p">(</span><span class="s">&#39;wants_daily_email&#39;</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-3'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-3'>#</a>
+      </div>
+      <p>Construct a daily email</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">construct_daily_email</span><span class="p">(</span><span class="n">slugs</span><span class="p">):</span>
+    <span class="n">from_email</span> <span class="o">=</span> <span class="s">&quot;web@usv.com&quot;</span>
+    <span class="n">subject</span> <span class="o">=</span> <span class="s">&quot;Top USV.com posts for </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">datetime</span><span class="o">.</span><span class="n">today</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s">&quot;%a %b </span><span class="si">%d</span><span class="s">, %Y&quot;</span><span class="p">)</span>
+    <span class="n">body_html</span> <span class="o">=</span> <span class="s">&quot;&lt;p&gt;Here are the posts with the mosts for today:&lt;/p&gt;&lt;hr /&gt;&quot;</span>
+    <span class="n">email_name</span> <span class="o">=</span> <span class="s">&quot;Daily </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">datetime</span><span class="o">.</span><span class="n">today</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s">&quot;%a %b </span><span class="si">%d</span><span class="s">, %Y&quot;</span><span class="p">)</span>
+
+    <span class="n">posts</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">slug</span> <span class="ow">in</span> <span class="n">slugs</span><span class="p">:</span>
+        <span class="n">post</span> <span class="o">=</span> <span class="n">postsdb</span><span class="o">.</span><span class="n">get_post_by_slug</span><span class="p">(</span><span class="n">slug</span><span class="p">)</span>
+        <span class="n">posts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">post</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">post</span> <span class="ow">in</span> <span class="n">posts</span><span class="p">:</span>
+        <span class="n">post</span><span class="p">[</span><span class="s">&#39;url&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">post</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;url&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">)</span>
+        <span class="n">source</span> <span class="o">=</span> <span class="n">post</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;domain&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">)</span>
+        <span class="n">body_html</span> <span class="o">+=</span> <span class="s">&quot;&lt;p&gt;&lt;b&gt;&lt;a href=&#39;</span><span class="si">%s</span><span class="s">&#39;&gt;</span><span class="si">%s</span><span class="s">&lt;/a&gt;&lt;/b&gt;&lt;/p&gt;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">post</span><span class="p">[</span><span class="s">&#39;url&#39;</span><span class="p">],</span> <span class="n">post</span><span class="p">[</span><span class="s">&#39;title&#39;</span><span class="p">])</span>
+        <span class="n">body_html</span> <span class="o">+=</span> <span class="s">&quot;&lt;p&gt;posted by @&lt;a href=&#39;http://</span><span class="si">%s</span><span class="s">/user/</span><span class="si">%s</span><span class="s">&#39;&gt;</span><span class="si">%s</span><span class="s">&lt;/a&gt; | </span><span class="si">%s</span><span class="s"> comments | </span><span class="si">%s</span><span class="s"> &amp;uarr;&lt;/p&gt;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;base_url&#39;</span><span class="p">),</span> <span class="n">post</span><span class="p">[</span><span class="s">&#39;user&#39;</span><span class="p">][</span><span class="s">&#39;username&#39;</span><span class="p">],</span> <span class="n">post</span><span class="p">[</span><span class="s">&#39;user&#39;</span><span class="p">][</span><span class="s">&#39;username&#39;</span><span class="p">],</span> <span class="n">post</span><span class="p">[</span><span class="s">&#39;comment_count&#39;</span><span class="p">],</span> <span class="n">post</span><span class="p">[</span><span class="s">&#39;votes&#39;</span><span class="p">])</span>
+        <span class="n">body_html</span> <span class="o">+=</span> <span class="s">&quot;&lt;p&gt;</span><span class="si">%s</span><span class="s">&lt;/p&gt;&quot;</span> <span class="o">%</span> <span class="n">post</span><span class="p">[</span><span class="s">&#39;body_html&#39;</span><span class="p">]</span>
+        <span class="n">body_html</span> <span class="o">+=</span> <span class="s">&quot;&lt;p&gt;discussion: &lt;a href=&#39;http://</span><span class="si">%s</span><span class="s">/posts/</span><span class="si">%s</span><span class="s">&#39;&gt;http://</span><span class="si">%s</span><span class="s">/posts/</span><span class="si">%s</span><span class="s">&lt;/a&gt;&lt;/p&gt;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;base_url&#39;</span><span class="p">),</span> <span class="n">post</span><span class="p">[</span><span class="s">&#39;slug&#39;</span><span class="p">],</span> <span class="n">settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;base_url&#39;</span><span class="p">),</span> <span class="n">post</span><span class="p">[</span><span class="s">&#39;slug&#39;</span><span class="p">])</span>
+        <span class="n">body_html</span> <span class="o">+=</span> <span class="s">&quot;&lt;hr /&gt;&quot;</span>
+    <span class="n">body_html</span> <span class="o">+=</span> <span class="s">&quot;Want to unsubscribe? Visit http://</span><span class="si">%s</span><span class="s">/user/settings&quot;</span> <span class="o">%</span> <span class="n">settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;base_url&#39;</span><span class="p">)</span>
+
+    <span class="n">email</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s">&#39;from&#39;</span><span class="p">:</span> <span class="n">from_email</span><span class="p">,</span>
+            <span class="s">&#39;subject&#39;</span><span class="p">:</span> <span class="n">subject</span><span class="p">,</span>
+            <span class="s">&#39;body_html&#39;</span><span class="p">:</span> <span class="n">body_html</span>
+    <span class="p">}</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-4'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-4'>#</a>
+      </div>
+      <p>create the email
+POST https://api.sendgrid.com/api/newsletter/add.json
+@identity (created in advance == the sender's identity), @name (of email), @subject, @text, @html</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="n">api_link</span> <span class="o">=</span> <span class="s">&#39;https://api.sendgrid.com/api/newsletter/add.json&#39;</span>
+    <span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s">&#39;identity&#39;</span><span class="p">:</span> <span class="n">settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;sendgrid_sender_identity&#39;</span><span class="p">),</span>
+            <span class="s">&#39;name&#39;</span><span class="p">:</span> <span class="n">email_name</span><span class="p">,</span>
+            <span class="s">&#39;subject&#39;</span><span class="p">:</span> <span class="n">email</span><span class="p">[</span><span class="s">&#39;subject&#39;</span><span class="p">],</span>
+            <span class="s">&#39;text&#39;</span><span class="p">:</span> <span class="s">&#39;&#39;</span><span class="p">,</span> <span class="c">#to do get text version,</span>
+            <span class="s">&#39;html&#39;</span><span class="p">:</span> <span class="n">email</span><span class="p">[</span><span class="s">&#39;body_html&#39;</span><span class="p">]</span>
+    <span class="p">}</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">do_api_request</span><span class="p">(</span><span class="n">api_link</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s">&quot;POST&quot;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">result</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-5'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-5'>#</a>
+      </div>
+      <p>Setup Email List</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">setup_email_list</span><span class="p">():</span>
+    <span class="n">email_sent</span> <span class="o">=</span> <span class="bp">False</span>
+    <span class="n">recipients</span> <span class="o">=</span> <span class="n">userdb</span><span class="o">.</span><span class="n">get_newsletter_recipients</span><span class="p">()</span>
+    <span class="n">email_name</span> <span class="o">=</span> <span class="s">&quot;Daily </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">datetime</span><span class="o">.</span><span class="n">today</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s">&quot;%a %b </span><span class="si">%d</span><span class="s">, %Y&quot;</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-6'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-6'>#</a>
+      </div>
+      <h5>&lt;span id="1)-create-a-"list"-for-today's-email</h5>
+<p>post-https://api.sendgrid.com/api/newsletter/lists/add.json
+@list-(list-name)" href="1)-create-a-"list"-for-today's-email
+post-https://api.sendgrid.com/api/newsletter/lists/add.json
+@list-(list-name)"&gt;
+1) create a "list" for today's email
+POST https://api.sendgrid.com/api/newsletter/lists/add.json
+@list (list name)
+</span></p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="n">api_link</span> <span class="o">=</span> <span class="s">&#39;https://api.sendgrid.com/api/newsletter/lists/add.json&#39;</span>
+    <span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s">&#39;list&#39;</span><span class="p">:</span> <span class="n">email_name</span>
+    <span class="p">}</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">do_api_request</span><span class="p">(</span><span class="n">api_link</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s">&#39;POST&#39;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-7'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-7'>#</a>
+      </div>
+      <p>4) add everyone from our recipients list to the sendgrid list
+POST https://api.sendgrid.com/api/newsletter/lists/email/add.json
+list=ListName  data[]={ 'email': '', 'name': '' } &amp; data[]={ 'email': '', 'name': '' }</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="n">api_link</span> <span class="o">=</span> <span class="s">&#39;https://api.sendgrid.com/api/newsletter/lists/email/add.json&#39;</span>
+
+    <span class="n">num_groups</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">recipients</span><span class="p">)</span> <span class="o">/</span> <span class="mi">50</span><span class="p">))</span>
+    <span class="n">recipient_groups</span> <span class="o">=</span> <span class="n">split_seq</span><span class="p">(</span><span class="n">recipients</span><span class="p">,</span> <span class="n">num_groups</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">group</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">recipient_groups</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-8'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-8'>#</a>
+      </div>
+      <p>sendgrid needs list add requests to be &lt; 100 peole</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>        <span class="n">users</span> <span class="o">=</span> <span class="n">MultiDict</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">user</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">group</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">user</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;user&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;username&#39;</span><span class="p">)</span> <span class="o">!=</span> <span class="s">&quot;&quot;</span> <span class="ow">and</span> <span class="n">user</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;email_address&#39;</span><span class="p">)</span> <span class="o">!=</span> <span class="s">&quot;&quot;</span><span class="p">:</span>
+                <span class="n">users</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s">&#39;data&#39;</span><span class="p">,</span> <span class="s">&#39;{&quot;name&quot;:&quot;</span><span class="si">%s</span><span class="s">&quot;,&quot;email&quot;:&quot;</span><span class="si">%s</span><span class="s">&quot;}&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">user</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;user&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;username&#39;</span><span class="p">),</span> <span class="n">user</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;email_address&#39;</span><span class="p">)))</span>
+
+        <span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s">&#39;list&#39;</span><span class="p">:</span> <span class="n">email_name</span><span class="p">,</span>
+                <span class="s">&#39;data&#39;</span><span class="p">:</span> <span class="n">users</span><span class="o">.</span><span class="n">getlist</span><span class="p">(</span><span class="s">&#39;data&#39;</span><span class="p">)</span>
+        <span class="p">}</span>
+
+        <span class="n">result</span> <span class="o">=</span> <span class="n">do_api_request</span><span class="p">(</span><span class="n">api_link</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s">&#39;POST&#39;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-9'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-9'>#</a>
+      </div>
+      <p>Add the newly created list to the email</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">add_list_to_email</span><span class="p">():</span>
+    <span class="n">email_name</span> <span class="o">=</span> <span class="s">&quot;Daily </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">datetime</span><span class="o">.</span><span class="n">today</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s">&quot;%a %b </span><span class="si">%d</span><span class="s">, %Y&quot;</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-10'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-10'>#</a>
+      </div>
+      <p>3) Add your list to the email
+POST https://api.sendgrid.com/api/newsletter/recipients/add.json
+@list (name of the list to assign to this email) @name (name of the email)</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="n">api_link</span> <span class="o">=</span> <span class="s">&#39;https://api.sendgrid.com/api/newsletter/recipients/add.json&#39;</span>
+    <span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s">&#39;list&#39;</span><span class="p">:</span> <span class="n">email_name</span><span class="p">,</span>
+            <span class="s">&#39;name&#39;</span><span class="p">:</span> <span class="n">email_name</span><span class="p">,</span>
+    <span class="p">}</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">do_api_request</span><span class="p">(</span><span class="n">api_link</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s">&quot;POST&quot;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
+    <span class="k">print</span> <span class="n">result</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-11'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-11'>#</a>
+      </div>
+      <p>Actually Send it</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">send_email</span><span class="p">():</span>
+    <span class="n">email_name</span> <span class="o">=</span> <span class="s">&quot;Daily </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">datetime</span><span class="o">.</span><span class="n">today</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s">&quot;%a %b </span><span class="si">%d</span><span class="s">, %Y&quot;</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-12'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-12'>#</a>
+      </div>
+      <p>5) send the email
+POST https://api.sendgrid.com/api/newsletter/schedule/add.json
+@email (created in step 3)</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="n">api_link</span> <span class="o">=</span> <span class="s">&#39;https://api.sendgrid.com/api/newsletter/schedule/add.json&#39;</span>
+    <span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s">&#39;email&#39;</span><span class="p">:</span> <span class="n">email</span><span class="p">,</span>
+            <span class="s">&#39;name&#39;</span><span class="p">:</span> <span class="s">&quot;Daily </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">today</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s">&quot;%a %b </span><span class="si">%d</span><span class="s">, %Y&quot;</span><span class="p">)</span>
+    <span class="p">}</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">do_api_request</span><span class="p">(</span><span class="n">api_link</span><span class="p">,</span> <span class="s">&#39;POST&#39;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">result</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-13'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-13'>#</a>
+      </div>
+      <p>Add a daily email to the log</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">log_daily_email</span><span class="p">(</span><span class="n">email</span><span class="p">,</span> <span class="n">recipient_usernames</span><span class="p">):</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s">&#39;timestamp&#39;</span><span class="p">:</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">(),</span>
+            <span class="s">&#39;subject&#39;</span><span class="p">:</span> <span class="n">email</span><span class="p">[</span><span class="s">&#39;subject&#39;</span><span class="p">],</span>
+            <span class="s">&#39;body&#39;</span><span class="p">:</span> <span class="n">email</span><span class="p">[</span><span class="s">&#39;body_html&#39;</span><span class="p">],</span>
+            <span class="s">&#39;recipients&#39;</span><span class="p">:</span> <span class="n">recipient_usernames</span>
+    <span class="p">}</span>
+    <span class="n">db</span><span class="o">.</span><span class="n">email</span><span class="o">.</span><span class="n">daily</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">data</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-14'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-14'>#</a>
+      </div>
+      <p>Get log of daily emails</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">get_daily_email_log</span><span class="p">():</span>
+    <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">db</span><span class="o">.</span><span class="n">email</span><span class="o">.</span><span class="n">daily</span><span class="o">.</span><span class="n">find</span><span class="p">({},</span> <span class="n">sort</span><span class="o">=</span><span class="p">[(</span><span class="s">&#39;timestamp&#39;</span><span class="p">,</span> <span class="n">pymongo</span><span class="o">.</span><span class="n">DESCENDING</span><span class="p">)]))</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-15'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-15'>#</a>
+      </div>
+      <h6></h6>
+<h3>ACTUALLY HANDLE THE REQUESTS/RESPOSNE TO THE API</h3>
+<h6></h6>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">do_api_request</span><span class="p">(</span><span class="n">api_link</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s">&#39;GET&#39;</span><span class="p">,</span> <span class="n">params</span><span class="o">=</span><span class="p">{}):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-16'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-16'>#</a>
+      </div>
+      <p>add sendgrid user &amp; api key</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="n">params</span><span class="o">.</span><span class="n">update</span><span class="p">({</span>
+            <span class="s">&#39;api_user&#39;</span><span class="p">:</span> <span class="n">settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;sendgrid_user&#39;</span><span class="p">),</span>
+            <span class="s">&#39;api_key&#39;</span><span class="p">:</span> <span class="n">settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;sendgrid_secret&#39;</span><span class="p">)</span>
+    <span class="p">})</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">method</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span> <span class="o">==</span> <span class="s">&#39;GET&#39;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+                        <span class="n">api_link</span><span class="p">,</span>
+                        <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span>
+                        <span class="n">verify</span><span class="o">=</span><span class="bp">False</span>
+                <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+                        <span class="n">api_link</span><span class="p">,</span>
+                        <span class="n">verify</span><span class="o">=</span><span class="bp">False</span>
+                <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+                    <span class="n">api_link</span><span class="p">,</span>
+                    <span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span>
+                    <span class="n">verify</span><span class="o">=</span><span class="bp">False</span>
+            <span class="p">)</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">json</span><span class="p">()</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">if</span> <span class="n">settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;environment&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="s">&quot;dev&quot;</span><span class="p">:</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;=================&quot;</span><span class="p">)</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span> <span class="n">api_link</span><span class="p">)</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">))</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span> <span class="n">response</span><span class="p">)</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span> <span class="s">&quot;=================&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">response</span>
+
+</pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+</div>
+</body>

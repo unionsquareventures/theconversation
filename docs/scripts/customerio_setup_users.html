@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <title>customerio_setup_users.py</title>
+  <link rel="stylesheet" href="../pycco.css">
+</head>
+<body>
+<div id="background"></div>
+<div id='container'>
+  <div class='section'>
+    <div class='docs'><h1>customerio_setup_users.py</h1></div>
+  </div>
+  <div class='clearall'>
+  <div class='section' id='section-0'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-0'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">try</span><span class="p">:</span>
+	<span class="kn">import</span> <span class="nn">sys</span>
+	<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s">&#39;/Users/nick/dev/theconversation&#39;</span><span class="p">)</span>
+<span class="k">except</span><span class="p">:</span>
+	<span class="k">print</span> <span class="s">&quot;could not import -- must be running on heroku&quot;</span>
+
+<span class="kn">from</span> <span class="nn">customerio</span> <span class="kn">import</span> <span class="n">CustomerIO</span>
+<span class="kn">import</span> <span class="nn">settings</span>
+<span class="kn">from</span> <span class="nn">lib</span> <span class="kn">import</span> <span class="n">userdb</span>
+
+<span class="n">cio</span> <span class="o">=</span> <span class="n">CustomerIO</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;customer_io_site_id&#39;</span><span class="p">),</span> <span class="n">settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;customer_io_api_key&#39;</span><span class="p">))</span>
+
+<span class="n">users</span> <span class="o">=</span> <span class="n">userdb</span><span class="o">.</span><span class="n">get_all</span><span class="p">()</span>
+<span class="k">for</span> <span class="n">user_info</span> <span class="ow">in</span> <span class="n">users</span><span class="p">:</span>
+	<span class="k">if</span> <span class="n">user_info</span> <span class="ow">and</span> <span class="s">&#39;user&#39;</span> <span class="ow">in</span> <span class="n">user_info</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="ow">and</span> <span class="s">&#39;email_address&#39;</span> <span class="ow">in</span> <span class="n">user_info</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="ow">and</span> <span class="n">user_info</span><span class="p">[</span><span class="s">&#39;email_address&#39;</span><span class="p">]</span> <span class="o">!=</span> <span class="s">&quot;&quot;</span><span class="p">:</span>
+		<span class="n">cio</span><span class="o">.</span><span class="n">identify</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="n">user_info</span><span class="p">[</span><span class="s">&#39;user&#39;</span><span class="p">][</span><span class="s">&#39;username&#39;</span><span class="p">],</span> <span class="n">email</span><span class="o">=</span><span class="n">user_info</span><span class="p">[</span><span class="s">&#39;email_address&#39;</span><span class="p">],</span> <span class="n">name</span><span class="o">=</span><span class="n">user_info</span><span class="p">[</span><span class="s">&#39;user&#39;</span><span class="p">][</span><span class="s">&#39;fullname&#39;</span><span class="p">])</span>
+		<span class="k">print</span> <span class="s">&quot;added @&quot;</span> <span class="o">+</span> <span class="n">user_info</span><span class="p">[</span><span class="s">&#39;user&#39;</span><span class="p">][</span><span class="s">&#39;username&#39;</span><span class="p">]</span>
+
+</pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+</div>
+</body>

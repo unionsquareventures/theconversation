@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <title>tornado_server.py</title>
+  <link rel="stylesheet" href="pycco.css">
+</head>
+<body>
+<div id="background"></div>
+<div id='container'>
+  <div class='section'>
+    <div class='docs'><h1>tornado_server.py</h1></div>
+  </div>
+  <div class='clearall'>
+  <div class='section' id='section-0'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-0'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">tornado.httpserver</span>
+<span class="kn">import</span> <span class="nn">tornado.httpclient</span>
+<span class="kn">import</span> <span class="nn">tornado.ioloop</span>
+<span class="kn">import</span> <span class="nn">tornado.options</span>
+<span class="kn">import</span> <span class="nn">tornado.web</span>
+
+<span class="kn">import</span> <span class="nn">logging</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-1'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-1'>#</a>
+      </div>
+      <p>settings is required/used to set our environment</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="kn">import</span> <span class="nn">settings</span>
+
+<span class="kn">import</span> <span class="nn">app.user</span>
+<span class="kn">import</span> <span class="nn">app.admin</span>
+<span class="kn">import</span> <span class="nn">app.api</span>
+<span class="kn">import</span> <span class="nn">app.basic</span>
+<span class="kn">import</span> <span class="nn">app.disqus</span>
+<span class="kn">import</span> <span class="nn">app.general</span>
+<span class="kn">import</span> <span class="nn">app.posts</span>
+<span class="kn">import</span> <span class="nn">app.search</span>
+<span class="kn">import</span> <span class="nn">app.stats</span>
+<span class="kn">import</span> <span class="nn">app.twitter</span>
+<span class="kn">import</span> <span class="nn">app.error</span>
+<span class="kn">import</span> <span class="nn">templates</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-2'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-2'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">class</span> <span class="nc">Application</span><span class="p">(</span><span class="n">tornado</span><span class="o">.</span><span class="n">web</span><span class="o">.</span><span class="n">Application</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-3'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-3'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="n">debug</span> <span class="o">=</span> <span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;environment&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="s">&quot;dev&quot;</span><span class="p">)</span>
+
+        <span class="n">app_settings</span> <span class="o">=</span> <span class="p">{</span>
+          <span class="s">&quot;cookie_secret&quot;</span> <span class="p">:</span> <span class="s">&quot;change_me&quot;</span><span class="p">,</span>
+          <span class="s">&quot;login_url&quot;</span><span class="p">:</span> <span class="s">&quot;/auth/twitter&quot;</span><span class="p">,</span>
+          <span class="s">&quot;debug&quot;</span><span class="p">:</span> <span class="n">debug</span><span class="p">,</span>
+          <span class="s">&quot;static_path&quot;</span> <span class="p">:</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">__file__</span><span class="p">),</span> <span class="s">&quot;static&quot;</span><span class="p">),</span>
+          <span class="s">&quot;template_path&quot;</span> <span class="p">:</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">__file__</span><span class="p">),</span> <span class="s">&quot;templates&quot;</span><span class="p">),</span>
+        <span class="p">}</span>
+
+        <span class="n">handlers</span> <span class="o">=</span> <span class="p">[</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-4'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-4'>#</a>
+      </div>
+      <p>account stuff</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>          <span class="p">(</span><span class="s">r&quot;/auth/email/?&quot;</span><span class="p">,</span> <span class="n">app</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">EmailSettings</span><span class="p">),</span>
+          <span class="p">(</span><span class="s">r&quot;/auth/logout/?&quot;</span><span class="p">,</span> <span class="n">app</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">LogOut</span><span class="p">),</span>
+          <span class="p">(</span><span class="s">r&quot;/user/(?P&lt;username&gt;[A-z-+0-9]+)/settings/?&quot;</span><span class="p">,</span> <span class="n">app</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">UserSettings</span><span class="p">),</span>
+          <span class="p">(</span><span class="s">r&quot;/user/settings?&quot;</span><span class="p">,</span> <span class="n">app</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">UserSettings</span><span class="p">),</span>
+          <span class="p">(</span><span class="s">r&quot;/user/(?P&lt;screen_name&gt;[A-z-+0-9]+)&quot;</span><span class="p">,</span> <span class="n">app</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">Profile</span><span class="p">),</span>
+          <span class="p">(</span><span class="s">r&quot;/user/(?P&lt;screen_name&gt;[A-z-+0-9]+)/(?P&lt;section&gt;[A-z]+)&quot;</span><span class="p">,</span> <span class="n">app</span><span class="o">.</span><span class="n">user</span><span class="o">.</span><span class="n">Profile</span><span class="p">),</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-5'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-5'>#</a>
+      </div>
+      <p>admin stuff</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>          <span class="p">(</span><span class="s">r&quot;/admin&quot;</span><span class="p">,</span> <span class="n">app</span><span class="o">.</span><span class="n">admin</span><span class="o">.</span><span class="n">AdminHome</span><span class="p">),</span>
+          <span class="p">(</span><span class="s">r&quot;/admin/delete_user&quot;</span><span class="p">,</span> <span class="n">app</span><span class="o">.</span><span class="n">admin</span><span class="o">.</span><span class="n">DeleteUser</span><span class="p">),</span>
+          <span class="p">(</span><span class="s">r&quot;/admin/deleted_posts&quot;</span><span class="p">,</span> <span class="n">app</span><span class="o">.</span><span class="n">admin</span><span class="o">.</span><span class="n">DeletedPosts</span><span class="p">),</span>
+          <span class="p">(</span><span class="s">r&quot;/admin/sort_posts&quot;</span><span class="p">,</span> <span class="n">app</span><span class="o">.</span><span class="n">admin</span><span class="o">.</span><span class="n">ReCalculateScores</span><span class="p">),</span>
+          <span class="p">(</span><span class="s">r&quot;/admin/stats&quot;</span><span class="p">,</span> <span class="n">app</span><span class="o">.</span><span class="n">admin</span><span class="o">.</span><span class="n">AdminStats</span><span class="p">),</span>
+          <span class="p">(</span><span class="s">r&quot;/admin/disqus&quot;</span><span class="p">,</span> <span class="n">app</span><span class="o">.</span><span class="n">admin</span><span class="o">.</span><span class="n">ManageDisqus</span><span class="p">),</span>
+          <span class="p">(</span><span class="s">r&quot;/admin/daily_email&quot;</span><span class="p">,</span> <span class="n">app</span><span class="o">.</span><span class="n">admin</span><span class="o">.</span><span class="n">DailyEmail</span><span class="p">),</span>
+          <span class="p">(</span><span class="s">r&quot;/admin/daily_email/history&quot;</span><span class="p">,</span> <span class="n">app</span><span class="o">.</span><span class="n">admin</span><span class="o">.</span><span class="n">DailyEmailHistory</span><span class="p">),</span>
+          <span class="p">(</span><span class="s">r&quot;/generate_hackpad/?&quot;</span><span class="p">,</span> <span class="n">app</span><span class="o">.</span><span class="n">admin</span><span class="o">.</span><span class="n">GenerateNewHackpad</span><span class="p">),</span>
+          <span class="p">(</span><span class="s">r&quot;/list_hackpads&quot;</span><span class="p">,</span> <span class="n">app</span><span class="o">.</span><span class="n">admin</span><span class="o">.</span><span class="n">ListAllHackpad</span><span class="p">),</span>
+          <span class="p">(</span><span class="s">r&quot;/posts/([^\/]+)/mute&quot;</span><span class="p">,</span> <span class="n">app</span><span class="o">.</span><span class="n">admin</span><span class="o">.</span><span class="n">Mute</span><span class="p">),</span>
+          <span class="p">(</span><span class="s">r&quot;/users/(?P&lt;username&gt;[A-z-+0-9]+)/ban&quot;</span><span class="p">,</span> <span class="n">app</span><span class="o">.</span><span class="n">admin</span><span class="o">.</span><span class="n">BanUser</span><span class="p">),</span>
+          <span class="p">(</span><span class="s">r&quot;/users/(?P&lt;username&gt;[A-z-+0-9]+)/unban&quot;</span><span class="p">,</span> <span class="n">app</span><span class="o">.</span><span class="n">admin</span><span class="o">.</span><span class="n">UnBanUser</span><span class="p">),</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-6'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-6'>#</a>
+      </div>
+      <p>api stuff</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>          <span class="p">(</span><span class="s">r&quot;/api/incr_comment_count&quot;</span><span class="p">,</span> <span class="n">app</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">DisqusCallback</span><span class="p">),</span>
+          <span class="p">(</span><span class="s">r&quot;/api/user_status&quot;</span><span class="p">,</span> <span class="n">app</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">GetUserStatus</span><span class="p">),</span>
+          <span class="p">(</span><span class="s">r&quot;/api/voted_users/(.+)&quot;</span><span class="p">,</span> <span class="n">app</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">GetVotedUsers</span><span class="p">),</span>
+          <span class="p">(</span><span class="s">r&quot;/api/check_for_url&quot;</span><span class="p">,</span> <span class="n">app</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">CheckForUrl</span><span class="p">),</span>
+          <span class="p">(</span><span class="s">r&quot;/api/posts/get_day&quot;</span><span class="p">,</span> <span class="n">app</span><span class="o">.</span><span class="n">api</span><span class="o">.</span><span class="n">PostsGetDay</span><span class="p">),</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-7'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-7'>#</a>
+      </div>
+      <p>disqus stuff</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>          <span class="p">(</span><span class="s">r&quot;/auth/disqus&quot;</span><span class="p">,</span> <span class="n">app</span><span class="o">.</span><span class="n">disqus</span><span class="o">.</span><span class="n">Auth</span><span class="p">),</span>
+          <span class="p">(</span><span class="s">r&quot;/remove/disqus&quot;</span><span class="p">,</span> <span class="n">app</span><span class="o">.</span><span class="n">disqus</span><span class="o">.</span><span class="n">Remove</span><span class="p">),</span>
+          <span class="p">(</span><span class="s">r&quot;/disqus&quot;</span><span class="p">,</span> <span class="n">app</span><span class="o">.</span><span class="n">disqus</span><span class="o">.</span><span class="n">Disqus</span><span class="p">),</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-8'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-8'>#</a>
+      </div>
+      <p>search stuff</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>          <span class="p">(</span><span class="s">r&quot;/search&quot;</span><span class="p">,</span> <span class="n">app</span><span class="o">.</span><span class="n">search</span><span class="o">.</span><span class="n">Search</span><span class="p">),</span>
+          <span class="p">(</span><span class="s">r&quot;/tagged/(.+)&quot;</span><span class="p">,</span> <span class="n">app</span><span class="o">.</span><span class="n">search</span><span class="o">.</span><span class="n">ViewByTag</span><span class="p">),</span>
+          <span class="p">(</span><span class="s">r&quot;/tags&quot;</span><span class="p">,</span> <span class="n">app</span><span class="o">.</span><span class="n">search</span><span class="o">.</span><span class="n">ViewByTag</span><span class="p">),</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-9'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-9'>#</a>
+      </div>
+      <p>stats stuff</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>          <span class="p">(</span><span class="s">r&quot;/stats/shares/weekly&quot;</span><span class="p">,</span> <span class="n">app</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">WeeklyShareStats</span><span class="p">),</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-10'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-10'>#</a>
+      </div>
+      <p>twitter stuff</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>          <span class="p">(</span><span class="s">r&quot;/auth/twitter/?&quot;</span><span class="p">,</span> <span class="n">app</span><span class="o">.</span><span class="n">twitter</span><span class="o">.</span><span class="n">Auth</span><span class="p">),</span>
+          <span class="p">(</span><span class="s">r&quot;/twitter&quot;</span><span class="p">,</span> <span class="n">app</span><span class="o">.</span><span class="n">twitter</span><span class="o">.</span><span class="n">Twitter</span><span class="p">),</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-11'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-11'>#</a>
+      </div>
+      <p>post stuff</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>          <span class="p">(</span><span class="s">r&quot;/featured.*$&quot;</span><span class="p">,</span> <span class="n">app</span><span class="o">.</span><span class="n">posts</span><span class="o">.</span><span class="n">FeaturedPosts</span><span class="p">),</span>
+          <span class="p">(</span><span class="s">r&quot;/feed/(?P&lt;feed_type&gt;[A-z-+0-9]+)$&quot;</span><span class="p">,</span> <span class="n">app</span><span class="o">.</span><span class="n">posts</span><span class="o">.</span><span class="n">Feed</span><span class="p">),</span>
+          <span class="p">(</span><span class="s">r&quot;/feed$&quot;</span><span class="p">,</span> <span class="n">app</span><span class="o">.</span><span class="n">posts</span><span class="o">.</span><span class="n">Feed</span><span class="p">),</span>
+          <span class="p">(</span><span class="s">r&quot;/posts/new$&quot;</span><span class="p">,</span> <span class="n">app</span><span class="o">.</span><span class="n">posts</span><span class="o">.</span><span class="n">NewPost</span><span class="p">),</span>
+          <span class="p">(</span><span class="s">r&quot;/bookmarklet$&quot;</span><span class="p">,</span> <span class="n">app</span><span class="o">.</span><span class="n">posts</span><span class="o">.</span><span class="n">NewPost</span><span class="p">),</span>
+          <span class="p">(</span><span class="s">r&quot;/(?P&lt;sort_by&gt;hot)$&quot;</span><span class="p">,</span> <span class="n">app</span><span class="o">.</span><span class="n">posts</span><span class="o">.</span><span class="n">ListPosts</span><span class="p">),</span>
+          <span class="p">(</span><span class="s">r&quot;/(?P&lt;sort_by&gt;new)$&quot;</span><span class="p">,</span> <span class="n">app</span><span class="o">.</span><span class="n">posts</span><span class="o">.</span><span class="n">ListPostsNew</span><span class="p">),</span>
+          <span class="p">(</span><span class="s">r&quot;/(?P&lt;sort_by&gt;sad)$&quot;</span><span class="p">,</span> <span class="n">app</span><span class="o">.</span><span class="n">posts</span><span class="o">.</span><span class="n">ListPosts</span><span class="p">),</span>
+          <span class="p">(</span><span class="s">r&quot;/(?P&lt;sort_by&gt;[^\/]+)/page/(?P&lt;page&gt;[0-9]+)$&quot;</span><span class="p">,</span> <span class="n">app</span><span class="o">.</span><span class="n">posts</span><span class="o">.</span><span class="n">ListPosts</span><span class="p">),</span>
+          <span class="p">(</span><span class="s">r&quot;/posts/([^\/]+)/upvote&quot;</span><span class="p">,</span> <span class="n">app</span><span class="o">.</span><span class="n">posts</span><span class="o">.</span><span class="n">Bump</span><span class="p">),</span>
+          <span class="p">(</span><span class="s">r&quot;/posts/([^\/]+)/bump&quot;</span><span class="p">,</span> <span class="n">app</span><span class="o">.</span><span class="n">posts</span><span class="o">.</span><span class="n">Bump</span><span class="p">),</span>
+          <span class="p">(</span><span class="s">r&quot;/posts/([^\/]+)/unbump&quot;</span><span class="p">,</span> <span class="n">app</span><span class="o">.</span><span class="n">posts</span><span class="o">.</span><span class="n">UnBump</span><span class="p">),</span>
+          <span class="p">(</span><span class="s">r&quot;/posts/([^\/]+)/superupvote&quot;</span><span class="p">,</span> <span class="n">app</span><span class="o">.</span><span class="n">posts</span><span class="o">.</span><span class="n">SuperUpVote</span><span class="p">),</span>
+          <span class="p">(</span><span class="s">r&quot;/posts/([^\/]+)/superdownvote&quot;</span><span class="p">,</span> <span class="n">app</span><span class="o">.</span><span class="n">posts</span><span class="o">.</span><span class="n">SuperDownVote</span><span class="p">),</span>
+          <span class="p">(</span><span class="s">r&quot;/posts/([^\/]+)/edit&quot;</span><span class="p">,</span> <span class="n">app</span><span class="o">.</span><span class="n">posts</span><span class="o">.</span><span class="n">EditPost</span><span class="p">),</span>
+          <span class="p">(</span><span class="s">r&quot;/day/(?P&lt;day&gt;[A-z-+0-9]+)$&quot;</span><span class="p">,</span> <span class="n">app</span><span class="o">.</span><span class="n">posts</span><span class="o">.</span><span class="n">ListPosts</span><span class="p">),</span>
+          <span class="p">(</span><span class="s">r&quot;/posts/(.+)&quot;</span><span class="p">,</span> <span class="n">app</span><span class="o">.</span><span class="n">posts</span><span class="o">.</span><span class="n">ViewPost</span><span class="p">),</span>
+          <span class="p">(</span><span class="s">r&quot;/posts$&quot;</span><span class="p">,</span> <span class="n">app</span><span class="o">.</span><span class="n">posts</span><span class="o">.</span><span class="n">ListPosts</span><span class="p">),</span>
+          <span class="p">(</span><span class="s">r&quot;/widget/demo.*?&quot;</span><span class="p">,</span> <span class="n">app</span><span class="o">.</span><span class="n">posts</span><span class="o">.</span><span class="n">WidgetDemo</span><span class="p">),</span>
+          <span class="p">(</span><span class="s">r&quot;/widget.*?&quot;</span><span class="p">,</span> <span class="n">app</span><span class="o">.</span><span class="n">posts</span><span class="o">.</span><span class="n">Widget</span><span class="p">),</span>
+          <span class="p">(</span><span class="s">r&#39;/$&#39;</span><span class="p">,</span> <span class="n">app</span><span class="o">.</span><span class="n">posts</span><span class="o">.</span><span class="n">ListPosts</span><span class="p">),</span>
+        <span class="p">]</span>
+
+        <span class="n">app_settings</span><span class="o">.</span><span class="n">update</span><span class="p">({</span>
+          <span class="s">&#39;ui_modules&#39;</span><span class="p">:</span> <span class="n">templates</span><span class="o">.</span><span class="n">template_modules</span><span class="p">()</span>
+        <span class="p">})</span>
+
+        <span class="n">tornado</span><span class="o">.</span><span class="n">web</span><span class="o">.</span><span class="n">Application</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">handlers</span><span class="p">,</span> <span class="o">**</span><span class="n">app_settings</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-12'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-12'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="n">tornado</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">define</span><span class="p">(</span><span class="s">&quot;port&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">8001</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s">&quot;Listen on port&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+    <span class="n">tornado</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">parse_command_line</span><span class="p">()</span>
+    <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;starting tornado_server on 0.0.0.0:</span><span class="si">%d</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">tornado</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">port</span><span class="p">)</span>
+    <span class="n">http_server</span> <span class="o">=</span> <span class="n">tornado</span><span class="o">.</span><span class="n">httpserver</span><span class="o">.</span><span class="n">HTTPServer</span><span class="p">(</span><span class="n">request_callback</span><span class="o">=</span><span class="n">Application</span><span class="p">(),</span> <span class="n">xheaders</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">http_server</span><span class="o">.</span><span class="n">listen</span><span class="p">(</span><span class="n">tornado</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">port</span><span class="p">)</span>
+    <span class="n">tornado</span><span class="o">.</span><span class="n">ioloop</span><span class="o">.</span><span class="n">IOLoop</span><span class="o">.</span><span class="n">instance</span><span class="p">()</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+
+</pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+</div>
+</body>

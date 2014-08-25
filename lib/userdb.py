@@ -131,34 +131,3 @@ def update_twitter_profile_images():
         except urllib2.HTTPError, e:
             if e.code == 404:
                 update_twitter(id_str=user['user']['id_str'], api=api)
-
-
-''' Update all account info from twitter, i.e. profile pic
-    This currently times out for making too many API calls '''
-'''
-def update_twitter_all():
-  consumer_key = settings.get('twitter_consumer_key')
-  consumer_secret = settings.get('twitter_consumer_secret')
-  auth = tweepy.OAuthHandler(consumer_key, consumer_secret, secure=True)
-  api = tweepy.API(auth)
-
-  for user in get_all():
-    id_str = user['user']['id_str']
-    twitter_user = api.get_user(id=id_str)
-    if id_str != twitter_user.id_str:
-      raise Exception
-
-    user_data = {
-      'auth_type': 'twitter',
-      'id_str': twitter_user.id_str,
-      'username': twitter_user.screen_name,
-      'fullname': twitter_user.name,
-      'screen_name': twitter_user.screen_name,
-      'profile_image_url': twitter_user.profile_image_url,
-      'profile_image_url_https': twitter_user.profile_image_url_https,
-    }
-
-    updated_user = {'access_token': user['access_token'], 'user': user_data}
-    save_user(updated_user)
-    print "Updated user @%s" % user['user']['username']
-'''

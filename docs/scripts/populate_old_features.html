@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <title>populate_old_features.py</title>
+  <link rel="stylesheet" href="../pycco.css">
+</head>
+<body>
+<div id="background"></div>
+<div id='container'>
+  <div class='section'>
+    <div class='docs'><h1>populate_old_features.py</h1></div>
+  </div>
+  <div class='clearall'>
+  <div class='section' id='section-0'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-0'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">slugify</span>
+<span class="kn">import</span> <span class="nn">sanitize</span>
+
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+<span class="kn">from</span> <span class="nn">mongo</span> <span class="kn">import</span> <span class="n">db</span>
+
+<span class="n">old_posts</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="s">&quot;/2005/09/is-bill-gates-t.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/is-bill-gates-the-cat-with-nine-lives&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2005/10/location-locati.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/location-location-location&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2005/10/the-problem-wit.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/the-problem-with-podcasts&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2005/10/wikis.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/wikis&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2005/10/inspiration.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/inspiration&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2005/10/downturns.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/downturns&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2005/10/impact-media.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/impact-media&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2005/10/a-new-dimension.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/a-new-dimension&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2005/10/indeed.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/indeed&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2005/10/delicious.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/delicious&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2005/10/audience-manage.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/audience-management&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2005/09/union-square-ve.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/union-square-ventures&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2005/10/10-steps-to-a-h.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/10-steps-to-a-hugely-successful-web-20-company&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2005/10/founders.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/founders&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2005/10/hello-world.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/hello-world&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2005/10/web-services-ar.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/web-services-are-different&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2005/10/metrics.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/metrics&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2005/10/management-case.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/management-case-base-case-and-worst-case&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2005/10/usv-sessions-1.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/union-square-sessions-1-peer-production&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2005/10/usv-sessions-1-1.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/union-square-sessions-1-photos&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2005/10/union-square-se.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/union-square-sessions-1-transcript&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2005/10/peer-production.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/peer-production-in-action&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2005/10/we-dont-get-it.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/we-dont-get-it&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2005/10/vc-cliche-of-th.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/vc-cliche-of-the-week&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2005/10/seeking-a-super.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/seeking-a-super-talented-productdesign-person&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2005/10/sessions-top-te.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/sessions-top-ten-insights-one&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2005/10/post.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/sessions-top-ten-insights-two&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2005/11/sessions-top-te-2.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/sessions-top-ten-insights-three&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2005/11/vc-cliche-of-th-1.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/vc-cliche-of-the-week-2&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2005/11/sessions-top-te-1.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/sessions-top-ten-insights-four&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2005/11/will-live-kill.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/will-live-kill&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2005/11/sessions-top-te-3.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/sessions-top-ten-insights-five&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2005/11/vc-cliche-of-th-2.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/vc-cliche-of-the-week-3&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2005/11/are-reputations.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/sessions-top-ten-insights-six-reputations-are-not-portable&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2005/11/our-customer-is.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/our-customer-is-the-entrepreneur&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2005/11/sessions-top-te-5.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/sessions-top-ten-insights-seven-less-control-can-create-more-value&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2005/11/cliche-of-the-w.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/cliche-of-the-week&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2005/11/sessions-top-te-4.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/sessions-top-ten-insights-eight-putting-a-string-on-data&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2005/11/evolution-vs-in.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/evolution-vs-intelligent-design&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2005/11/cliche-of-the-w-1.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/cliche-of-the-week-2&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2005/11/powered-by.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/powered-by&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2005/11/cliche-of-the-w-2.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/cliche-of-the-week-3&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2005/12/cliche-of-the-w-3.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/cliche-of-the-week-4&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2005/12/a-delicious-eig-1.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/a-delicious-eight-months&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2005/12/cliche-of-the-w-4.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/cliche-of-the-week-5&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2005/12/cliche-of-the-w-5.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/cliche-of-the-week-6&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2006/01/vc-cliche-of-th-3.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/cliche-of-the-week-7&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2006/01/cliche-of-the-w-6.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/cliche-of-the-week-8&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2006/01/web-services-in.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/web-services-in-the-mist&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2006/01/rich-media-real.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/rich-media-realities&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2006/01/advertising-out.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/advertising-out-of-context&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2006/01/instant-job-boa.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/instant-job-board&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2006/01/indeed-job-data-1.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/indeed-job-data&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2006/01/physics-the-sec.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/physics-the-second-law-of-thermodynamics&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2006/02/web-20-is-an-ox.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/web-20-is-an-oxymoron&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2006/02/post-1.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/mathematics-how-much-is-enough&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2006/02/feedburner.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/feedburner&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2006/02/why-we-invested.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/why-we-invested-in-feedburner&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2006/02/research-and-de.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/research-and-development&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2006/02/advisory-capita.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/advisory-capital&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2006/02/web-services-an.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/web-services-and-devices&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2006/03/tacoda-raises-1.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/tacoda-raises-12-million&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2006/03/looking-ahead.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/looking-ahead&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2006/03/will-computing-1.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/will-computing-ever-be-as-invisible-as-electricity&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2006/03/yes-but.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/yes-but&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2006/04/taking-web-serv.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/taking-web-services-to-the-office&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2006/04/why-has-the-flo.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/why-has-the-flow-of-technology-reversed&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2006/05/a-stray-thought-1.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/a-stray-thought-on-the-micro-chunking-of-media&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2006/05/user-tagging-is-1.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/user-tagging-is-fundamental&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2006/05/on-influence-1.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/on-influence&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2006/05/introducing-bug.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/introducing-bug-labs&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2006/05/advertising-to.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/advertising-to-job-seekers&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2006/05/what-else-are-y.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/what-else-are-you-interested-in&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2006/05/replicating-sil.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/replicating-silicon-valley&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2006/06/how-does-indeed-1.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/how-does-indeed-make-money&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2006/06/etsy-1.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/etsy&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2006/06/why-we-admire-c.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/why-we-admire-craigslist&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2006/06/oddcast.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/oddcast&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2006/06/union-square-se-1.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/union-square-sessions-2-public-policy-and-innovation&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2006/06/sessions.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/sessions&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2006/07/a-bittersweet-m.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/a-bittersweet-moment&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2006/07/through-the-loo-1.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/through-the-looking-glass-into-the-net-neutrality-debate&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2006/07/sessions-patent.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/do-patents-encourage-or-stifle-innovation&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2010/01/we-need-an-independent-invention-defense-to-minimize-the-damage-of-aggressive-patent-trolls.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/we-need-an-independent-invention-defense-to-minimize-the-damage-of-aggressive-patent-trolls&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2006/07/looking-for-the.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/looking-for-the-right-person&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2006/08/our-focus.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/our-focus&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2006/08/potential-to-ch-1.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/potential-to-change-the-structure-of-markets&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2006/08/information-tec.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/information-technology-leverage&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2006/08/defensibility.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/defensibility&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2006/08/scalability.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/scalability&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2006/08/business-develo.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/business-development-20&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2006/08/welcome-andrew-1.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/welcome-andrew-parker&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2006/09/other-things-we.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/other-things-we-look-for&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2006/09/history-doesnt-1.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/history-doesnt-repeat-itself-but-it-does-rhyme&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2006/09/early-stage-inv.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/early-stage-investing&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2006/09/traction.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/traction&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2006/10/lead-investor.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/lead-investor&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2006/10/deal-size-1.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/deal-size&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2006/11/customer-servic.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/customer-service-is-the-new-marketing&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2006/11/geography-1.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/geography&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2007/01/founders-and-ma.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/founders-and-management&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2007/01/why-we-dont-inv.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/why-we-dont-invest-in-competitive-businesses&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2007/01/whats-next.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/whats-next&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2007/01/siaa-preview-ke-1.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/siaa-preview-keynote&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2007/02/adaptiveblue.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/adaptiveblue&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2007/02/outsidein.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/outsidein&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2007/04/targetspot-1.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/targetspot&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2007/04/reserves.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/reserves&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2007/04/cash-flow-forec-1.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/cash-flow-forecasting-isnt-what-it-used-to-be&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2007/05/job-board.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/job-board&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2007/05/who-do-you-trus.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/who-do-you-trust-to-edit-your-news&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2007/05/dick-costolo-on.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/dick-costolo-on-wallstrip&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2007/05/feedburner-is-a.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/feedburner-is-acquired-by-google&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2007/06/wesabe-is-more.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/wesabe-is-more-than-a-personal-financial-service&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2007/06/introducing-alb.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/introducing-albert-wenger&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2007/07/clickable.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/clickable&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2007/07/twitter.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/twitter&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2007/07/aoltime-warner-1.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/aoltime-warner-buys-tacoda&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2007/08/hiring-a-vp-of.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/hiring-a-vp-of-engineering-or-cto-for-non-techie-first-time-founders&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2007/09/what-i-want-fro-1.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/what-i-want-from-bug-labs&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2007/09/post-2.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/there-are-no-open-web-services&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2007/09/i-want-a-new-pl.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/i-want-a-new-platform&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2007/09/union-square-se-2.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/union-square-sessions-3-hacking-philanthropy&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2007/10/hacking-philant.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/hacking-philanthropy-the-transcript&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2010/02/twilio.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/twilio&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2007/10/markets-and-phi.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/markets-and-philanthropy&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2007/10/tumblr.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/tumblr&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2007/11/why-past-perfor.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/why-past-performance-is-a-good-predictor-of-future-returns-in-the-venture-capital-asset-class&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2007/11/failure-rates-i.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/failure-rates-in-early-stage-venture-deals&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2007/11/why-early-stage.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/why-early-stage-venture-investments-fail&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2008/01/zynga-game-netw.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/zynga-game-network&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2007/12/googles-data-as.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/googles-data-asset&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2008/01/etsys-new-finan.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/etsys-new-financing-and-what-they-are-going-to-do-with-it&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2008/02/were-hiring.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/were-hiring&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2008/03/new-fund-same-f.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/new-fund-same-focus&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2008/03/targetspot-rais.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/targetspot-raises-series-b-round&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2008/03/disqus.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/disqus&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2008/03/structural-chan.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/structural-change-and-marketplaces&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2008/04/covestor.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/covestor&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2008/04/i-may-have-a-ne.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/i-may-have-a-new-platform&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2008/04/this-is-nuts.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/this-is-nuts&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2008/04/ab-meta.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/ab-meta&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2008/04/wesabe-steps-ou.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/wesabe-steps-out&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2008/05/outsidein-steps.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/outsidein-steps-it-up&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2008/05/losing-jason.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/losing-jason&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2008/05/pinch-media-inv.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/pinch-media-investing-on-a-new-platform&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2008/06/the-spooky-econ.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/the-weird-economics-of-information&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2008/06/and-then-there-1.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/and-then-there-were-five&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2008/06/call-for-topics.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/call-for-topics&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2008/06/internet-for-ev.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/internet-for-everyone&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2008/06/twitter-raises.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/twitter-raises-a-second-round-of-funding&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2008/07/twitter-acquire.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/twitter-acquires-summize&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2008/07/10gen.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/10gen&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2008/07/meetup-the-orig.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/meetup-the-original-web-meets-world-company&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2008/07/zynga-announces.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/zynga-announces-new-investment-from-kleiner-perkins-and-ivp&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2008/09/zemanta-1.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/zemanta&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2008/09/power-to-the-pe-1.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/power-to-the-people&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2008/09/why-the-flow-of.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/why-the-flow-of-innovation-has-reversed&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2008/10/return-path.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/return-path&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2008/11/boxee.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/boxee&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2008/12/amee.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/amee&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2009/01/arguing-from-fi.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/arguing-from-first-principles&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2009/02/twitter-fills-t.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/twitter-fills-the-tank&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2009/02/pinch-medias-ip.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/pinch-medias-iphone-app-store-secrets&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2009/03/dave-morgan-lau.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/welcome-back-dave&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2009/03/hacking-educati.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/hacking-education&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2009/04/open-spectrum-i.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/open-spectrum-is-good-policy&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2009/05/hacking-education.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/hacking-education-2&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2009/05/heyzap.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/heyzap&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2009/06/bring-the-world.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/bring-the-world-to-your-event&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2009/06/the-mobile-chal.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/the-mobile-challenge&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2009/08/chris-and-malco.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/chris-and-malcolm-are-both-wrong&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2009/09/foursquare.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/foursquare&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2009/10/introducing-tra.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/introducing-trackedcom&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2012/06/duolingo.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/duolingo&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2009/08/our-focus-intro.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/our-focus-intro&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2010/04/hiring-update.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/hiring-update&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2010/02/software-patents-are-the-problem-not-the-answer.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/software-patents-are-the-problem-not-the-answer&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2010/03/communicator-done-replicator-next-the-future-of-making-stuff.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/communicator-done-replicator-next-the-future-of-making-stuff&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2010/03/bidding-goodbye-to-andrew.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/bidding-goodbye-to-andrew&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2010/04/usv-is-hiring.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/we-are-hiring&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2010/04/hiring-update-2.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/hiring-update-2&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2010/04/hiring-update-3.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/hiring-update-3&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2010/05/stackoverflow.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/stack-overflow&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2010/05/hiring-update-4.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/hiring-update-4&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2010/06/final-hiring-update.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/final-hiring-update&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2010/06/a-new-analyst-at-usv.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/a-new-member-of-the-usv-team&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2010/06/web-services-as-governments.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/web-services-as-governments&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2010/06/work-market.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/work-market&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2013/01/hi-im-brittany-laughlin-im.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/joining-union-square-ventures&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2010/06/getting-started.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/getting-started&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2010/07/policies-to-encourage-startup-innovation.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/policies-to-encourage-startup-innovation&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2010/08/a-threat-to-startups.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/a-threat-to-startups&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2010/08/internet-architecture-and-innovation.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/internet-architecture-and-innovation&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2010/09/shapeways.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/shapeways&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2010/11/tasty-labs.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/tasty-labs&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2010/12/10gen-fills-the-tank.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/10gen-fills-the-tank&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2010/12/edmodo.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/edmodo&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2010/12/an-applications-agnostic-approach.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/internet-access-should-be-application-agnostic&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2013/05/circle-up.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/circleup&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2011/01/soundcloud.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/soundcloud&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2011/01/the-opportunity-fund.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/the-opportunity-fund&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2011/03/kik.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/kik&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2011/03/innovation-in-education.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/innovation-in-education&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2011/03/stack-overflow-becomes-stack-exchange.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/stack-overflow-becomes-stack-exchange&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2011/03/kickstarter.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/kickstarter&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2011/06/canvas.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/canvas&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2011/06/the-protect-ip-act-will-slow-start-up-innovation.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/the-protect-ip-act-will-slow-start-up-innovation&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2011/08/lending-club-1.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/lending-club&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2011/08/skillshare.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/skillshare&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2011/09/jig---when-you-need-a-little-help.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/jig-when-you-need-a-little-help&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2011/09/wattpad.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/wattpad&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2012/06/wattpads-continued-re-imagining-of-the-book.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/wattpads-continued-re-imagining-of-the-book&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2011/09/turntable.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/turntable&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2011/09/were-hiring-1.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/were-hiring-2&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2011/10/analyst-hiring-update.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/analyst-hiring-update&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2011/10/duck-duck-go.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/duck-duck-go&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2011/10/my-back-pages.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/my-back-pages&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2011/10/codecademy.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/codecademy&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2011/10/analyst-hiring-update-2.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/analyst-hiring-update-2&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2011/11/help-protect-internet-innovation.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/help-protect-internet-innovation&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2011/11/what-comes-next.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/what-comes-next&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2012/02/dwolla.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/dwolla&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2012/03/the-freedom-to-innovate.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/the-freedom-to-innovate&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2012/04/funding-circle.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/funding-circle&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2012/04/the-twitter-patent-hack.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/the-twitter-patent-hack&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2012/04/hacking-society.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/hacking-society&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2012/05/b-corporation.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/b-corporation&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2012/05/behance.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/behance&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2012/05/investment-thesis-usv.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/investment-thesis-usv&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2012/06/internet-presence-usv.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/the-next-stage-of-usvcom&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2012/06/and-then-there-were-nine.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/and-then-there-were-nine&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2012/06/hello-world-1.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/hello-world-2&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2012/06/joining-usv.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/joining-usv&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2012/07/brewster.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/brewster&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2012/08/networks-and-the-enterprise.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/networks-and-the-enterprise&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2012/09/pollenware.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/pollenware&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2012/10/researching-online-education.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/researching-online-education&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2012/10/looking-for-design-talent.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/looking-for-design-talent&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2012/11/visualizing-our-investments.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/visualizing-our-investments&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2012/12/behance-joins-adobe-to-scale-creative-network.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/behance-joins-adobe-to-scale-creative-network&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2013/02/hailo.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/hailo&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2013/03/sift-science.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/sift-science&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2013/04/kitchensurfing.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/kitchensurfing&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2013/04/foursquare-checks-in.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/foursquare-checks-in&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2013/04/shapeways-restocks.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/shapeways-restocks&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2013/04/science-exchange.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/science-exchange&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2013/05/coinbase.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/coinbase&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2013/05/the-patent-quality-improvement-act.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/the-patent-quality-improvement-act&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2013/05/yahoo-acquires-tumblr.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/yahoo-acquires-tumblr&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2013/06/auxmoney-1.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/auxmoney&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2013/06/firebase.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/firebase&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2013/07/sigfig.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/sigfig&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2013/07/transparency-in-government-surveillance.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/transparency-in-government-surveillance&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2013/10/splice.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/splice&quot;</span><span class="p">,</span>
+  <span class="s">&quot;/2013/08/vhx.php&quot;</span><span class="p">:</span> <span class="s">&quot;/posts/vhx&quot;</span>
+<span class="p">}</span>
+
+<span class="n">users</span> <span class="o">=</span> <span class="p">[</span>
+  <span class="p">{</span><span class="s">&#39;id_str&#39;</span><span class="p">:</span><span class="s">&#39;14202841&#39;</span><span class="p">,</span> <span class="s">&#39;auth_type&#39;</span><span class="p">:</span><span class="s">&#39;staff&#39;</span><span class="p">,</span> <span class="s">&#39;username&#39;</span><span class="p">:</span><span class="s">&#39;_zachary&#39;</span><span class="p">,</span> <span class="s">&#39;fullname&#39;</span><span class="p">:</span><span class="s">&#39;Zach Cimafonte&#39;</span><span class="p">,</span> <span class="s">&#39;screen_name&#39;</span><span class="p">:</span><span class="s">&#39;_zachary&#39;</span><span class="p">,</span> <span class="s">&#39;profile_image_url_https&#39;</span><span class="p">:</span><span class="s">&#39;https://pbs.twimg.com/profile_images/378800000265819635/0dd348de38d14502ee97d418dacab8ca_normal.jpeg&#39;</span><span class="p">,</span> <span class="s">&#39;profile_image_url&#39;</span><span class="p">:</span><span class="s">&#39;http://pbs.twimg.com/profile_images/378800000265819635/0dd348de38d14502ee97d418dacab8ca_normal.jpeg&#39;</span><span class="p">,</span> <span class="s">&#39;is_blacklisted&#39;</span><span class="p">:</span> <span class="bp">False</span><span class="p">},</span>
+  <span class="p">{</span><span class="s">&#39;id_str&#39;</span><span class="p">:</span><span class="s">&#39;3021344974&#39;</span><span class="p">,</span> <span class="s">&#39;auth_type&#39;</span><span class="p">:</span><span class="s">&#39;staff&#39;</span><span class="p">,</span> <span class="s">&#39;username&#39;</span><span class="p">:</span><span class="s">&#39;alexandermpease&#39;</span><span class="p">,</span> <span class="s">&#39;fullname&#39;</span><span class="p">:</span><span class="s">&#39;Alexander Pease&#39;</span><span class="p">,</span> <span class="s">&#39;screen_name&#39;</span><span class="p">:</span><span class="s">&#39;alexandermpease&#39;</span><span class="p">,</span> <span class="s">&#39;profile_image_url_https&#39;</span><span class="p">:</span><span class="s">&#39;https://pbs.twimg.com/profile_images/2425968860/zg9wdsxlfgecxog9lkwz_normal.png&#39;</span><span class="p">,</span> <span class="s">&#39;profile_image_url&#39;</span><span class="p">:</span><span class="s">&#39;http://pbs.twimg.com/profile_images/2425968860/zg9wdsxlfgecxog9lkwz_normal.png&#39;</span><span class="p">,</span> <span class="s">&#39;is_blacklisted&#39;</span><span class="p">:</span> <span class="bp">False</span><span class="p">},</span>
+  <span class="p">{</span><span class="s">&#39;id_str&#39;</span><span class="p">:</span><span class="s">&#39;18500786&#39;</span><span class="p">,</span> <span class="s">&#39;auth_type&#39;</span><span class="p">:</span><span class="s">&#39;staff&#39;</span><span class="p">,</span> <span class="s">&#39;username&#39;</span><span class="p">:</span><span class="s">&#39;bwats&#39;</span><span class="p">,</span> <span class="s">&#39;fullname&#39;</span><span class="p">:</span><span class="s">&#39;Brian Watson&#39;</span><span class="p">,</span> <span class="s">&#39;screen_name&#39;</span><span class="p">:</span><span class="s">&#39;bwats&#39;</span><span class="p">,</span> <span class="s">&#39;profile_image_url_https&#39;</span><span class="p">:</span><span class="s">&#39;https://pbs.twimg.com/profile_images/378800000426206820/2f6d04c6b302bf60423190f62b4005ce_normal.jpeg&#39;</span><span class="p">,</span> <span class="s">&#39;profile_image_url&#39;</span><span class="p">:</span><span class="s">&#39;http://pbs.twimg.com/profile_images/378800000426206820/2f6d04c6b302bf60423190f62b4005ce_normal.jpeg&#39;</span><span class="p">,</span> <span class="s">&#39;is_blacklisted&#39;</span><span class="p">:</span> <span class="bp">False</span><span class="p">},</span>
+  <span class="p">{</span><span class="s">&#39;id_str&#39;</span><span class="p">:</span><span class="s">&#39;1374411&#39;</span><span class="p">,</span> <span class="s">&#39;auth_type&#39;</span><span class="p">:</span><span class="s">&#39;staff&#39;</span><span class="p">,</span> <span class="s">&#39;username&#39;</span><span class="p">:</span><span class="s">&#39;aweissman&#39;</span><span class="p">,</span> <span class="s">&#39;fullname&#39;</span><span class="p">:</span><span class="s">&#39;Andrew Weissman&#39;</span><span class="p">,</span> <span class="s">&#39;screen_name&#39;</span><span class="p">:</span><span class="s">&#39;aweissman&#39;</span><span class="p">,</span> <span class="s">&#39;profile_image_url_https&#39;</span><span class="p">:</span><span class="s">&#39;https://pbs.twimg.com/profile_images/344513261581924513/b3735cda4529be5530c9d29b6f8e148e_normal.jpeg&#39;</span><span class="p">,</span> <span class="s">&#39;profile_image_url&#39;</span><span class="p">:</span><span class="s">&#39;http://pbs.twimg.com/profile_images/344513261581924513/b3735cda4529be5530c9d29b6f8e148e_normal.jpeg&#39;</span><span class="p">,</span> <span class="s">&#39;is_blacklisted&#39;</span><span class="p">:</span> <span class="bp">False</span><span class="p">},</span>
+  <span class="p">{</span><span class="s">&#39;id_str&#39;</span><span class="p">:</span><span class="s">&#39;1000591&#39;</span><span class="p">,</span> <span class="s">&#39;auth_type&#39;</span><span class="p">:</span><span class="s">&#39;staff&#39;</span><span class="p">,</span> <span class="s">&#39;username&#39;</span><span class="p">:</span><span class="s">&#39;fredwilson&#39;</span><span class="p">,</span> <span class="s">&#39;fullname&#39;</span><span class="p">:</span><span class="s">&#39;Fred Wilson&#39;</span><span class="p">,</span> <span class="s">&#39;screen_name&#39;</span><span class="p">:</span><span class="s">&#39;fredwilson&#39;</span><span class="p">,</span> <span class="s">&#39;profile_image_url_https&#39;</span><span class="p">:</span><span class="s">&#39;https://pbs.twimg.com/profile_images/3580641456/82c873940343750638b7caa04b4652fe_normal.jpeg&#39;</span><span class="p">,</span> <span class="s">&#39;profile_image_url&#39;</span><span class="p">:</span><span class="s">&#39;http://pbs.twimg.com/profile_images/3580641456/82c873940343750638b7caa04b4652fe_normal.jpeg&#39;</span><span class="p">,</span> <span class="s">&#39;is_blacklisted&#39;</span><span class="p">:</span> <span class="bp">False</span><span class="p">},</span>
+  <span class="p">{</span><span class="s">&#39;id_str&#39;</span><span class="p">:</span><span class="s">&#39;7015112&#39;</span><span class="p">,</span> <span class="s">&#39;auth_type&#39;</span><span class="p">:</span><span class="s">&#39;staff&#39;</span><span class="p">,</span> <span class="s">&#39;username&#39;</span><span class="p">:</span><span class="s">&#39;albertwenger&#39;</span><span class="p">,</span> <span class="s">&#39;fullname&#39;</span><span class="p">:</span><span class="s">&#39;Albert Wenger&#39;</span><span class="p">,</span> <span class="s">&#39;screen_name&#39;</span><span class="p">:</span><span class="s">&#39;albertwenger&#39;</span><span class="p">,</span> <span class="s">&#39;profile_image_url_https&#39;</span><span class="p">:</span><span class="s">&#39;https://pbs.twimg.com/profile_images/1773890030/aew_artistic_normal.gif&#39;</span><span class="p">,</span> <span class="s">&#39;profile_image_url&#39;</span><span class="p">:</span><span class="s">&#39;http://pbs.twimg.com/profile_images/1773890030/aew_artistic_normal.gif&#39;</span><span class="p">,</span> <span class="s">&#39;is_blacklisted&#39;</span><span class="p">:</span> <span class="bp">False</span><span class="p">},</span>
+  <span class="p">{</span><span class="s">&#39;id_str&#39;</span><span class="p">:</span><span class="s">&#39;7410742&#39;</span><span class="p">,</span> <span class="s">&#39;auth_type&#39;</span><span class="p">:</span><span class="s">&#39;staff&#39;</span><span class="p">,</span> <span class="s">&#39;username&#39;</span><span class="p">:</span><span class="s">&#39;bradusv&#39;</span><span class="p">,</span> <span class="s">&#39;fullname&#39;</span><span class="p">:</span><span class="s">&#39;Brad Burnham&#39;</span><span class="p">,</span> <span class="s">&#39;screen_name&#39;</span><span class="p">:</span><span class="s">&#39;bradusv&#39;</span><span class="p">,</span> <span class="s">&#39;profile_image_url_https&#39;</span><span class="p">:</span><span class="s">&#39;https://pbs.twimg.com/profile_images/52435733/bio_brad_normal.jpg&#39;</span><span class="p">,</span> <span class="s">&#39;profile_image_url&#39;</span><span class="p">:</span><span class="s">&#39;http://pbs.twimg.com/profile_images/52435733/bio_brad_normal.jpg&#39;</span><span class="p">,</span> <span class="s">&#39;is_blacklisted&#39;</span><span class="p">:</span> <span class="bp">False</span><span class="p">},</span>
+  <span class="p">{</span><span class="s">&#39;id_str&#39;</span><span class="p">:</span><span class="s">&#39;14375609&#39;</span><span class="p">,</span> <span class="s">&#39;auth_type&#39;</span><span class="p">:</span><span class="s">&#39;staff&#39;</span><span class="p">,</span> <span class="s">&#39;username&#39;</span><span class="p">:</span><span class="s">&#39;nickgrossman&#39;</span><span class="p">,</span> <span class="s">&#39;fullname&#39;</span><span class="p">:</span><span class="s">&#39;Nick Grossman&#39;</span><span class="p">,</span> <span class="s">&#39;screen_name&#39;</span><span class="p">:</span><span class="s">&#39;nickgrossman&#39;</span><span class="p">,</span> <span class="s">&#39;profile_image_url_https&#39;</span><span class="p">:</span><span class="s">&#39;https://pbs.twimg.com/profile_images/3608605926/71036b2e9d4deff52fdacd8196c40ce5_normal.png&#39;</span><span class="p">,</span> <span class="s">&#39;profile_image_url&#39;</span><span class="p">:</span><span class="s">&#39;http://pbs.twimg.com/profile_images/3608605926/71036b2e9d4deff52fdacd8196c40ce5_normal.png&#39;</span><span class="p">,</span> <span class="s">&#39;is_blacklisted&#39;</span><span class="p">:</span> <span class="bp">False</span><span class="p">},</span>
+  <span class="p">{</span><span class="s">&#39;id_str&#39;</span><span class="p">:</span><span class="s">&#39;45452822&#39;</span><span class="p">,</span> <span class="s">&#39;auth_type&#39;</span><span class="p">:</span><span class="s">&#39;staff&#39;</span><span class="p">,</span> <span class="s">&#39;username&#39;</span><span class="p">:</span><span class="s">&#39;br_ttany&#39;</span><span class="p">,</span> <span class="s">&#39;fullname&#39;</span><span class="p">:</span><span class="s">&#39;Brittany Laughlin&#39;</span><span class="p">,</span> <span class="s">&#39;screen_name&#39;</span><span class="p">:</span><span class="s">&#39;br_ttany&#39;</span><span class="p">,</span> <span class="s">&#39;profile_image_url_https&#39;</span><span class="p">:</span><span class="s">&#39;https://pbs.twimg.com/profile_images/1217456552/theoffice_normal.JPG&#39;</span><span class="p">,</span> <span class="s">&#39;profile_image_url&#39;</span><span class="p">:</span><span class="s">&#39;http://pbs.twimg.com/profile_images/1217456552/theoffice_normal.JPG&#39;</span><span class="p">,</span> <span class="s">&#39;is_blacklisted&#39;</span><span class="p">:</span> <span class="bp">False</span><span class="p">},</span>
+  <span class="p">{</span><span class="s">&#39;id_str&#39;</span><span class="p">:</span><span class="s">&#39;314817239&#39;</span><span class="p">,</span> <span class="s">&#39;auth_type&#39;</span><span class="p">:</span><span class="s">&#39;staff&#39;</span><span class="p">,</span> <span class="s">&#39;username&#39;</span><span class="p">:</span><span class="s">&#39;johnbuttrick&#39;</span><span class="p">,</span> <span class="s">&#39;fullname&#39;</span><span class="p">:</span><span class="s">&#39;John Buttrick&#39;</span><span class="p">,</span> <span class="s">&#39;screen_name&#39;</span><span class="p">:</span><span class="s">&#39;johnbuttrick&#39;</span><span class="p">,</span> <span class="s">&#39;profile_image_url_https&#39;</span><span class="p">:</span><span class="s">&#39;https://pbs.twimg.com/profile_images/378800000598260826/94bdf40ab10196dea98aff13b7d30565_normal.jpeg&#39;</span><span class="p">,</span> <span class="s">&#39;profile_image_url&#39;</span><span class="p">:</span><span class="s">&#39;http://pbs.twimg.com/profile_images/378800000598260826/94bdf40ab10196dea98aff13b7d30565_normal.jpeg&#39;</span><span class="p">,</span> <span class="s">&#39;is_blacklisted&#39;</span><span class="p">:</span> <span class="bp">False</span><span class="p">},</span>
+  <span class="p">{</span><span class="s">&#39;id_str&#39;</span><span class="p">:</span><span class="s">&#39;29294520&#39;</span><span class="p">,</span> <span class="s">&#39;auth_type&#39;</span><span class="p">:</span><span class="s">&#39;staff&#39;</span><span class="p">,</span> <span class="s">&#39;username&#39;</span><span class="p">:</span><span class="s">&#39;christinacaci&#39;</span><span class="p">,</span> <span class="s">&#39;fullname&#39;</span><span class="p">:</span><span class="s">&#39;Christina Cacioppo&#39;</span><span class="p">,</span> <span class="s">&#39;screen_name&#39;</span><span class="p">:</span><span class="s">&#39;christinacaci&#39;</span><span class="p">,</span> <span class="s">&#39;profile_image_url_https&#39;</span><span class="p">:</span><span class="s">&#39;https://pbs.twimg.com/profile_images/1043543563/temp_normal.jpg&#39;</span><span class="p">,</span> <span class="s">&#39;profile_image_url&#39;</span><span class="p">:</span><span class="s">&#39;http://pbs.twimg.com/profile_images/1043543563/temp_normal.jpg&#39;</span><span class="p">,</span> <span class="s">&#39;is_blacklisted&#39;</span><span class="p">:</span> <span class="bp">False</span><span class="p">},</span>
+  <span class="p">{</span><span class="s">&#39;id_str&#39;</span><span class="p">:</span><span class="s">&#39;29058287&#39;</span><span class="p">,</span> <span class="s">&#39;auth_type&#39;</span><span class="p">:</span><span class="s">&#39;staff&#39;</span><span class="p">,</span> <span class="s">&#39;username&#39;</span><span class="p">:</span><span class="s">&#39;garychou&#39;</span><span class="p">,</span> <span class="s">&#39;fullname&#39;</span><span class="p">:</span><span class="s">&#39;Gary Chou&#39;</span><span class="p">,</span> <span class="s">&#39;screen_name&#39;</span><span class="p">:</span><span class="s">&#39;garychou&#39;</span><span class="p">,</span> <span class="s">&#39;profile_image_url_https&#39;</span><span class="p">:</span><span class="s">&#39;https://pbs.twimg.com/profile_images/3292748896/a94514170806ebf29c2f481023217967_normal.jpeg&#39;</span><span class="p">,</span> <span class="s">&#39;profile_image_url&#39;</span><span class="p">:</span><span class="s">&#39;http://pbs.twimg.com/profile_images/3292748896/a94514170806ebf29c2f481023217967_normal.jpeg&#39;</span><span class="p">,</span> <span class="s">&#39;is_blacklisted&#39;</span><span class="p">:</span> <span class="bp">False</span><span class="p">}</span>
+<span class="p">]</span>
+
+<span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">old_posts</span><span class="o">.</span><span class="n">iteritems</span><span class="p">():</span>
+    <span class="n">api_link</span> <span class="o">=</span> <span class="s">&#39;http://www.usv.com</span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">val</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+      <span class="n">api_link</span><span class="p">,</span>
+      <span class="n">verify</span><span class="o">=</span><span class="bp">False</span>
+    <span class="p">)</span>
+    <span class="n">html</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">text</span>
+    <span class="n">html</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s">r&#39;\n&#39;</span><span class="p">,</span> <span class="s">&#39; &#39;</span><span class="p">,</span> <span class="n">html</span><span class="p">)</span>
+
+    <span class="n">post</span> <span class="o">=</span> <span class="p">{</span>
+      <span class="s">&#39;date_created&#39;</span><span class="p">:</span><span class="n">datetime</span><span class="o">.</span><span class="n">utcnow</span><span class="p">(),</span>
+      <span class="s">&#39;title&#39;</span><span class="p">:</span><span class="s">&#39;&#39;</span><span class="p">,</span>
+      <span class="s">&#39;slugs&#39;</span><span class="p">:[],</span>
+      <span class="s">&#39;slug&#39;</span><span class="p">:</span><span class="s">&#39;&#39;</span><span class="p">,</span>
+      <span class="s">&#39;user&#39;</span><span class="p">:{},</span>
+      <span class="s">&#39;tags&#39;</span><span class="p">:[],</span>
+      <span class="s">&#39;votes&#39;</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span>
+      <span class="s">&#39;voted_users&#39;</span><span class="p">:[],</span>
+      <span class="s">&#39;deleted&#39;</span><span class="p">:</span><span class="bp">False</span><span class="p">,</span>
+      <span class="s">&#39;date_deleted&#39;</span><span class="p">:</span><span class="s">&#39;&#39;</span><span class="p">,</span>
+      <span class="s">&#39;featured&#39;</span><span class="p">:</span><span class="bp">True</span><span class="p">,</span>
+      <span class="s">&#39;date_featured&#39;</span><span class="p">:</span><span class="s">&#39;&#39;</span><span class="p">,</span>
+      <span class="s">&#39;url&#39;</span><span class="p">:</span><span class="s">&#39;&#39;</span><span class="p">,</span>
+      <span class="s">&#39;normalized_url&#39;</span><span class="p">:</span><span class="s">&#39;&#39;</span><span class="p">,</span>
+      <span class="s">&#39;hackpad_url&#39;</span><span class="p">:</span><span class="s">&#39;&#39;</span><span class="p">,</span>
+      <span class="s">&#39;has_hackpad&#39;</span><span class="p">:</span><span class="bp">False</span><span class="p">,</span>
+      <span class="s">&#39;body_raw&#39;</span><span class="p">:</span><span class="s">&#39;&#39;</span><span class="p">,</span>
+      <span class="s">&#39;body_html&#39;</span><span class="p">:</span><span class="s">&#39;&#39;</span><span class="p">,</span>
+      <span class="s">&#39;body_truncated&#39;</span><span class="p">:</span><span class="s">&#39;&#39;</span><span class="p">,</span>
+      <span class="s">&#39;body_text&#39;</span><span class="p">:</span><span class="s">&#39;&#39;</span><span class="p">,</span>
+      <span class="s">&#39;disqus_shortname&#39;</span><span class="p">:</span><span class="s">&#39;usvbeta2&#39;</span><span class="p">,</span>
+      <span class="s">&#39;muted&#39;</span><span class="p">:</span><span class="bp">False</span><span class="p">,</span>
+      <span class="s">&#39;comment_count&#39;</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span>
+      <span class="s">&#39;disqus_thread_id_str&#39;</span><span class="p">:</span><span class="s">&#39;&#39;</span><span class="p">,</span>
+      <span class="s">&#39;sort_score&#39;</span><span class="p">:</span><span class="mf">0.0</span><span class="p">,</span>
+      <span class="s">&#39;downvotes&#39;</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span>
+      <span class="s">&#39;subscribed&#39;</span><span class="p">:[]</span>
+    <span class="p">}</span>
+
+    <span class="n">m</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s">r&#39;http://www.twitter.com/([^&quot;]+)&quot;&#39;</span><span class="p">,</span> <span class="n">html</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">m</span><span class="p">:</span>
+        <span class="n">username</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">user</span> <span class="ow">in</span> <span class="n">users</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">user</span><span class="p">[</span><span class="s">&#39;screen_name&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">username</span><span class="p">:</span>
+                <span class="n">post</span><span class="p">[</span><span class="s">&#39;user&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">user</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-1'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-1'>#</a>
+      </div>
+      <p>m = re.search(r'<span class="post-date">([^&lt;]+)&lt;', html)
+if m:
+ post['date_created'] = m.group(1).strip()</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="n">m</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s">r&#39;(\d+) vote&#39;</span><span class="p">,</span> <span class="n">html</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">m</span><span class="p">:</span>
+        <span class="n">post</span><span class="p">[</span><span class="s">&#39;votes&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+
+    <span class="n">m</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s">r&#39;&lt;title&gt;([^|]+)&#39;</span><span class="p">,</span> <span class="n">html</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">m</span><span class="p">:</span>
+        <span class="n">post</span><span class="p">[</span><span class="s">&#39;title&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+
+    <span class="n">post</span><span class="p">[</span><span class="s">&#39;slug&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">slugify</span><span class="o">.</span><span class="n">slugify</span><span class="p">(</span><span class="n">post</span><span class="p">[</span><span class="s">&#39;title&#39;</span><span class="p">])</span>
+    <span class="n">post</span><span class="p">[</span><span class="s">&#39;slugs&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">post</span><span class="p">[</span><span class="s">&#39;slug&#39;</span><span class="p">]]</span>
+
+    <span class="n">start</span> <span class="o">=</span> <span class="n">html</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&#39;&lt;div class=&quot;post-body&quot;&gt;&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="mi">23</span>
+    <span class="n">stop</span> <span class="o">=</span> <span class="n">html</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&#39;&lt;/div&gt;&lt;!--end of post-body--&gt;&#39;</span><span class="p">)</span>
+    <span class="n">post</span><span class="p">[</span><span class="s">&#39;body_raw&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">html</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">stop</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+    <span class="n">post</span><span class="p">[</span><span class="s">&#39;body_html&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sanitize</span><span class="o">.</span><span class="n">html_sanitize</span><span class="p">(</span><span class="n">post</span><span class="p">[</span><span class="s">&#39;body_raw&#39;</span><span class="p">],</span> <span class="n">media</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+    <span class="n">post</span><span class="p">[</span><span class="s">&#39;body_text&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sanitize</span><span class="o">.</span><span class="n">html_to_text</span><span class="p">(</span><span class="n">post</span><span class="p">[</span><span class="s">&#39;body_html&#39;</span><span class="p">])</span>
+    <span class="n">post</span><span class="p">[</span><span class="s">&#39;body_truncated&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sanitize</span><span class="o">.</span><span class="n">truncate</span><span class="p">(</span><span class="n">post</span><span class="p">[</span><span class="s">&#39;body_text&#39;</span><span class="p">],</span> <span class="mi">500</span><span class="p">)</span>
+
+    <span class="n">start</span> <span class="o">=</span> <span class="n">html</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&#39;&lt;div class=&quot;col-xs-6 tags&quot;&gt;&#39;</span><span class="p">)</span> <span class="o">+</span> <span class="mi">27</span>
+    <span class="n">stop</span> <span class="o">=</span> <span class="n">html</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&#39;&lt;/div&gt;&#39;</span><span class="p">,</span> <span class="n">start</span><span class="p">)</span>
+    <span class="n">raw_tags</span> <span class="o">=</span> <span class="n">html</span><span class="p">[</span><span class="n">start</span><span class="p">:</span><span class="n">stop</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;, &#39;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">raw_tags</span><span class="p">:</span>
+        <span class="n">m</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s">r&#39;#([^&lt;]+)&#39;</span><span class="p">,</span> <span class="n">t</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&#39;&lt;span class=&quot;post-tags&quot;&gt;&#39;</span><span class="p">,</span><span class="s">&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&#39;&lt;/span&gt;&#39;</span><span class="p">,</span><span class="s">&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+        <span class="k">if</span> <span class="n">m</span><span class="p">:</span>
+            <span class="n">post</span><span class="p">[</span><span class="s">&#39;tags&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">m</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+
+    <span class="k">if</span> <span class="s">&#39;user&#39;</span> <span class="ow">in</span> <span class="n">post</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="ow">and</span> <span class="s">&#39;username&#39;</span> <span class="ow">in</span> <span class="n">post</span><span class="p">[</span><span class="s">&#39;user&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="n">db</span><span class="o">.</span><span class="n">post</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s">&#39;slug&#39;</span><span class="p">:</span><span class="n">post</span><span class="p">[</span><span class="s">&#39;slug&#39;</span><span class="p">]},</span> <span class="n">post</span><span class="p">,</span> <span class="n">upsert</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+        <span class="k">print</span> <span class="s">&quot;added </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">post</span><span class="p">[</span><span class="s">&#39;slug&#39;</span><span class="p">]</span>
+
+</pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+</div>
+</body>

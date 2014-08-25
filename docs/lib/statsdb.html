@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <title>statsdb.py</title>
+  <link rel="stylesheet" href="../pycco.css">
+</head>
+<body>
+<div id="background"></div>
+<div id='container'>
+  <div class='section'>
+    <div class='docs'><h1>statsdb.py</h1></div>
+  </div>
+  <div class='clearall'>
+  <div class='section' id='section-0'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-0'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="kn">from</span> <span class="nn">mongo</span> <span class="kn">import</span> <span class="n">db</span>
+<span class="kn">import</span> <span class="nn">postsdb</span>
+
+<span class="kn">import</span> <span class="nn">settings</span>
+<span class="kn">import</span> <span class="nn">urllib2</span>
+<span class="kn">import</span> <span class="nn">datetime</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-1'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-1'>#</a>
+      </div>
+      <p>For stats, we have two collections:
+"daily" and "weekly"
+a document in each collection is a day or a week
+each collection looks like:</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-2'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-2'>#</a>
+      </div>
+      <p>{
+        _id: ...,
+        timestamp: Date(),
+        metric1: 0
+}</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-3'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-3'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">insert_stat</span><span class="p">(</span><span class="n">stat</span><span class="o">=</span><span class="s">&quot;foo&quot;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="s">&quot;Bar&quot;</span><span class="p">,</span> <span class="n">timescale</span><span class="o">=</span><span class="s">&quot;day&quot;</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-4'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-4'>#</a>
+      </div>
+      <p>We expect that stats will be added on a daily basis
+Via a cron job, at 12:01 am</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-5'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-5'>#</a>
+      </div>
+      <p>handle time -- create timestamp for start of preceding day at 12:00am</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="n">now</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+    <span class="n">today</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="n">now</span><span class="o">.</span><span class="n">year</span><span class="p">,</span> <span class="n">now</span><span class="o">.</span><span class="n">month</span><span class="p">,</span> <span class="n">now</span><span class="o">.</span><span class="n">day</span><span class="p">)</span>
+    <span class="n">yesterday</span> <span class="o">=</span> <span class="n">today</span> <span class="o">-</span> <span class="n">datetime</span><span class="o">.</span><span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-6'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-6'>#</a>
+      </div>
+      <p>calculate the appropriate monday -- for week beginning that monday</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="n">dow</span> <span class="o">=</span> <span class="n">yesterday</span><span class="o">.</span><span class="n">weekday</span><span class="p">()</span>
+    <span class="n">monday</span> <span class="o">=</span> <span class="n">yesterday</span> <span class="o">-</span> <span class="n">datetime</span><span class="o">.</span><span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="n">dow</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-7'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-7'>#</a>
+      </div>
+      <p>setup daystats object</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="n">daystats</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">daily</span><span class="o">.</span><span class="n">find_one</span><span class="p">({</span><span class="s">&#39;timestamp&#39;</span><span class="p">:</span> <span class="n">yesterday</span><span class="p">})</span>
+    <span class="k">if</span> <span class="n">daystats</span><span class="p">:</span>
+        <span class="n">daystats</span><span class="p">[</span><span class="n">stat</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">daystats</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s">&#39;timestamp&#39;</span><span class="p">:</span> <span class="n">yesterday</span><span class="p">,</span>
+                <span class="n">stat</span><span class="p">:</span> <span class="n">value</span>
+        <span class="p">}</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-8'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-8'>#</a>
+      </div>
+      <p>upsert the daily document</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="n">db</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">daily</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s">&#39;timestamp&#39;</span><span class="p">:</span> <span class="n">yesterday</span> <span class="p">},</span> <span class="n">daystats</span><span class="p">,</span> <span class="n">upsert</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-9'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-9'>#</a>
+      </div>
+      <p>upsert the weekly document.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="n">sumkey</span> <span class="o">=</span> <span class="s">&quot;</span><span class="si">%s</span><span class="s">.sum&quot;</span> <span class="o">%</span> <span class="n">stat</span>
+    <span class="n">countkey</span> <span class="o">=</span> <span class="s">&quot;</span><span class="si">%s</span><span class="s">.count&quot;</span> <span class="o">%</span> <span class="n">stat</span>
+    <span class="n">db</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">weekly</span><span class="o">.</span><span class="n">update</span><span class="p">(</span> <span class="p">{</span> <span class="s">&#39;timestamp&#39;</span><span class="p">:</span> <span class="n">monday</span> <span class="p">},</span> <span class="p">{</span> <span class="s">&#39;$inc&#39;</span><span class="p">:</span> <span class="p">{</span> <span class="n">sumkey</span> <span class="p">:</span> <span class="n">value</span><span class="p">,</span> <span class="n">countkey</span> <span class="p">:</span> <span class="mi">1</span> <span class="p">}</span> <span class="p">},</span> <span class="n">upsert</span><span class="o">=</span><span class="bp">True</span> <span class="p">)</span>
+
+</pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+</div>
+</body>

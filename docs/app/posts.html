@@ -1,0 +1,1260 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <title>posts.py</title>
+  <link rel="stylesheet" href="../pycco.css">
+</head>
+<body>
+<div id="background"></div>
+<div id='container'>
+  <div class='section'>
+    <div class='docs'><h1>posts.py</h1></div>
+  </div>
+  <div class='clearall'>
+  <div class='section' id='section-0'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-0'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="kn">import</span> <span class="nn">app.basic</span>
+
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">settings</span>
+<span class="kn">import</span> <span class="nn">tornado.web</span>
+<span class="kn">import</span> <span class="nn">tornado.options</span>
+<span class="kn">import</span> <span class="nn">urllib</span>
+
+<span class="kn">import</span> <span class="nn">datetime</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">from</span> <span class="nn">urlparse</span> <span class="kn">import</span> <span class="n">urlparse</span>
+<span class="kn">from</span> <span class="nn">lib</span> <span class="kn">import</span> <span class="n">bitly</span>
+<span class="kn">from</span> <span class="nn">lib</span> <span class="kn">import</span> <span class="n">google</span>
+<span class="kn">from</span> <span class="nn">lib</span> <span class="kn">import</span> <span class="n">mentionsdb</span>
+<span class="kn">from</span> <span class="nn">lib</span> <span class="kn">import</span> <span class="n">postsdb</span>
+<span class="kn">from</span> <span class="nn">lib</span> <span class="kn">import</span> <span class="n">sanitize</span>
+<span class="kn">from</span> <span class="nn">lib</span> <span class="kn">import</span> <span class="n">tagsdb</span>
+<span class="kn">from</span> <span class="nn">lib</span> <span class="kn">import</span> <span class="n">userdb</span>
+<span class="kn">from</span> <span class="nn">lib</span> <span class="kn">import</span> <span class="n">disqus</span>
+<span class="kn">from</span> <span class="nn">lib</span> <span class="kn">import</span> <span class="n">template_helpers</span>
+<span class="kn">from</span> <span class="nn">lib.postsdb</span> <span class="kn">import</span> <span class="n">Post</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-1'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-1'>#</a>
+      </div>
+      <h6></h6>
+<h2>New Post</h2>
+<h2>/posts/new</h2>
+<h6></h6>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">class</span> <span class="nc">NewPost</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">basic</span><span class="o">.</span><span class="n">BaseHandler</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-2'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-2'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="nd">@tornado.web.authenticated</span>
+    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">post</span> <span class="o">=</span> <span class="n">Post</span><span class="p">()</span>
+        <span class="n">post</span><span class="o">.</span><span class="n">title</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_argument</span><span class="p">(</span><span class="s">&#39;title&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">)</span>
+        <span class="n">post</span><span class="o">.</span><span class="n">url</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_argument</span><span class="p">(</span><span class="s">&#39;url&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">)</span>
+        <span class="n">is_bookmarklet</span> <span class="o">=</span> <span class="bp">False</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&#39;/bookmarklet&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">is_bookmarklet</span> <span class="o">=</span> <span class="bp">True</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="s">&#39;post/new_post.html&#39;</span><span class="p">,</span> <span class="n">post</span><span class="o">=</span><span class="n">post</span><span class="p">,</span> <span class="n">is_bookmarklet</span><span class="o">=</span><span class="n">is_bookmarklet</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-3'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-3'>#</a>
+      </div>
+      <h6></h6>
+<h2>EDIT A POST</h2>
+<h2>/posts/([^\/]+)/edit</h2>
+<h6></h6>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">class</span> <span class="nc">EditPost</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">basic</span><span class="o">.</span><span class="n">BaseHandler</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-4'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-4'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="nd">@tornado.web.authenticated</span>
+    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">slug</span><span class="p">):</span>
+        <span class="n">post</span> <span class="o">=</span> <span class="n">postsdb</span><span class="o">.</span><span class="n">get_post_by_slug</span><span class="p">(</span><span class="n">slug</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">post</span> <span class="ow">and</span> <span class="n">post</span><span class="p">[</span><span class="s">&#39;user&#39;</span><span class="p">][</span><span class="s">&#39;screen_name&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_user</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_user_can</span><span class="p">(</span><span class="s">&#39;edit_posts&#39;</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-5'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-5'>#</a>
+      </div>
+      <p>available to edit this post</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>            <span class="bp">self</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="s">&#39;post/edit_post.html&#39;</span><span class="p">,</span> <span class="n">post</span><span class="o">=</span><span class="n">post</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-6'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-6'>#</a>
+      </div>
+      <p>not available to edit right now</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>            <span class="bp">self</span><span class="o">.</span><span class="n">redirect</span><span class="p">(</span><span class="s">&#39;/posts/</span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">slug</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-7'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-7'>#</a>
+      </div>
+      <h6></h6>
+<h2>FEATURED POSTS</h2>
+<h2>/featured.*$</h2>
+<h6></h6>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">class</span> <span class="nc">FeaturedPosts</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">basic</span><span class="o">.</span><span class="n">BaseHandler</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-8'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-8'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="n">featured_posts</span> <span class="o">=</span> <span class="n">postsdb</span><span class="o">.</span><span class="n">get_featured_posts</span><span class="p">(</span><span class="mi">1000</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">tags_alpha</span> <span class="o">=</span> <span class="n">tagsdb</span><span class="o">.</span><span class="n">get_all_tags</span><span class="p">(</span><span class="n">sort</span><span class="o">=</span><span class="s">&quot;alpha&quot;</span><span class="p">)</span>
+        <span class="n">tags_count</span> <span class="o">=</span> <span class="n">tagsdb</span><span class="o">.</span><span class="n">get_all_tags</span><span class="p">(</span><span class="n">sort</span><span class="o">=</span><span class="s">&quot;count&quot;</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="s">&#39;search/search_results.html&#39;</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="n">tag</span><span class="p">,</span> <span class="n">tags_alpha</span><span class="o">=</span><span class="n">tags_alpha</span><span class="p">,</span> <span class="n">tags_count</span><span class="o">=</span><span class="n">tags_count</span><span class="p">,</span> <span class="n">posts</span><span class="o">=</span><span class="n">featured_posts</span><span class="p">,</span> <span class="n">total_count</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">featured_posts</span><span class="p">),</span> <span class="n">query</span><span class="o">=</span><span class="s">&quot;featured_posts&quot;</span><span class="p">,</span> <span class="n">view</span><span class="o">=</span><span class="s">&quot;featured&quot;</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-9'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-9'>#</a>
+      </div>
+      <h6></h6>
+<h2>FEED</h2>
+<h2>/feed</h2>
+<h6></h6>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">class</span> <span class="nc">Feed</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">basic</span><span class="o">.</span><span class="n">BaseHandler</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-10'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-10'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">feed_type</span><span class="o">=</span><span class="s">&quot;hot&quot;</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-11'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-11'>#</a>
+      </div>
+      <p>action = self.get_argument('action', '')</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>        <span class="n">page</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_argument</span><span class="p">(</span><span class="s">&#39;page&#39;</span><span class="p">,</span> <span class="s">&#39;1&#39;</span><span class="p">)))</span>
+        <span class="n">per_page</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_argument</span><span class="p">(</span><span class="s">&#39;per_page&#39;</span><span class="p">,</span> <span class="s">&#39;9&#39;</span><span class="p">)))</span>
+
+        <span class="n">posts</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="n">feed_type</span> <span class="o">==</span> <span class="s">&#39;new&#39;</span><span class="p">:</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-12'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-12'>#</a>
+      </div>
+      <p>show the newest posts</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>            <span class="n">posts</span> <span class="o">=</span> <span class="n">postsdb</span><span class="o">.</span><span class="n">get_new_posts</span><span class="p">(</span><span class="n">per_page</span><span class="p">,</span> <span class="n">page</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">feed_type</span> <span class="o">==</span> <span class="s">&#39;sad&#39;</span><span class="p">:</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-13'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-13'>#</a>
+      </div>
+      <p>show the sad posts</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>            <span class="n">posts</span> <span class="o">=</span> <span class="n">postsdb</span><span class="o">.</span><span class="n">get_sad_posts</span><span class="p">(</span><span class="n">per_page</span><span class="p">,</span> <span class="n">page</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">feed_type</span> <span class="o">==</span> <span class="s">&#39;hot&#39;</span><span class="p">:</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-14'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-14'>#</a>
+      </div>
+      <p>show the sad posts</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>            <span class="n">posts</span> <span class="o">=</span> <span class="n">postsdb</span><span class="o">.</span><span class="n">get_daily_posts_by_sort_score</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">feed_type</span> <span class="o">==</span> <span class="s">&#39;superhot&#39;</span><span class="p">:</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-15'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-15'>#</a>
+      </div>
+      <p>show the sad posts</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>            <span class="n">posts</span> <span class="o">=</span> <span class="n">postsdb</span><span class="o">.</span><span class="n">get_daily_posts_by_sort_score</span><span class="p">(</span><span class="mi">20</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">feed_type</span> <span class="o">==</span> <span class="s">&#39;superduperhot&#39;</span><span class="p">:</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-16'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-16'>#</a>
+      </div>
+      <p>show the sad posts</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>            <span class="n">posts</span> <span class="o">=</span> <span class="n">postsdb</span><span class="o">.</span><span class="n">get_daily_posts_by_sort_score</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">feed_type</span> <span class="o">==</span> <span class="s">&#39;today&#39;</span><span class="p">:</span>
+            <span class="n">posts</span> <span class="o">=</span> <span class="n">postsdb</span><span class="o">.</span><span class="n">get_hot_posts_by_day</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">posts</span> <span class="o">=</span> <span class="n">postsdb</span><span class="o">.</span><span class="n">get_hot_posts_by_day</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="s">&#39;post/feed.xml&#39;</span><span class="p">,</span> <span class="n">posts</span><span class="o">=</span><span class="n">posts</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-17'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-17'>#</a>
+      </div>
+      <h6></h6>
+<h2>LIST POSTS and SHARE POST</h2>
+<h2>/</h2>
+<h6></h6>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">class</span> <span class="nc">ListPosts</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">basic</span><span class="o">.</span><span class="n">BaseHandler</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-18'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-18'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">day</span><span class="o">=</span><span class="s">&quot;today&quot;</span><span class="p">,</span> <span class="n">page</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">sort_by</span><span class="o">=</span><span class="s">&quot;hot&quot;</span><span class="p">):</span>
+        <span class="n">view</span> <span class="o">=</span> <span class="s">&quot;list&quot;</span>
+        <span class="n">sort_by</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_argument</span><span class="p">(</span><span class="s">&#39;sort_by&#39;</span><span class="p">,</span> <span class="n">sort_by</span><span class="p">)</span>
+        <span class="n">page</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_argument</span><span class="p">(</span><span class="s">&#39;page&#39;</span><span class="p">,</span> <span class="n">page</span><span class="p">)))</span>
+        <span class="n">per_page</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_argument</span><span class="p">(</span><span class="s">&#39;per_page&#39;</span><span class="p">,</span> <span class="s">&#39;20&#39;</span><span class="p">)))</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_argument</span><span class="p">(</span><span class="s">&#39;msg&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">)</span>
+        <span class="n">slug</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_argument</span><span class="p">(</span><span class="s">&#39;slug&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">)</span>
+        <span class="n">new_post</span> <span class="o">=</span> <span class="bp">None</span>
+        <span class="k">if</span> <span class="n">slug</span><span class="p">:</span>
+            <span class="n">new_post</span> <span class="o">=</span> <span class="n">postsdb</span><span class="o">.</span><span class="n">get_post_by_slug</span><span class="p">(</span><span class="n">slug</span><span class="p">)</span>
+
+        <span class="n">featured_posts</span> <span class="o">=</span> <span class="n">postsdb</span><span class="o">.</span><span class="n">get_featured_posts</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">posts</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">hot_tags</span> <span class="o">=</span> <span class="n">tagsdb</span><span class="o">.</span><span class="n">get_hot_tags</span><span class="p">()</span>
+
+        <span class="n">is_today</span> <span class="o">=</span> <span class="bp">False</span>
+        <span class="k">if</span> <span class="n">day</span> <span class="o">==</span> <span class="s">&quot;today&quot;</span><span class="p">:</span>
+            <span class="n">is_today</span> <span class="o">=</span> <span class="bp">True</span>
+            <span class="n">day</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">today</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">day</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">day</span><span class="p">,</span> <span class="s">&quot;%Y-%m-</span><span class="si">%d</span><span class="s">&quot;</span><span class="p">)</span>
+
+        <span class="n">show_day_permalink</span> <span class="o">=</span> <span class="bp">True</span>
+        <span class="n">infinite_scroll</span> <span class="o">=</span> <span class="bp">False</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">path</span> <span class="o">==</span> <span class="p">(</span><span class="s">&#39;/&#39;</span><span class="p">):</span>
+            <span class="n">show_day_permalink</span> <span class="o">=</span> <span class="bp">False</span>
+            <span class="n">infinite_scroll</span> <span class="o">=</span> <span class="bp">True</span>
+
+        <span class="n">is_blacklisted</span> <span class="o">=</span> <span class="bp">False</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_user</span><span class="p">:</span>
+            <span class="n">is_blacklisted</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_blacklisted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">current_user</span><span class="p">)</span>
+
+        <span class="n">posts</span> <span class="o">=</span> <span class="n">postsdb</span><span class="o">.</span><span class="n">get_hot_posts_24hr</span><span class="p">(</span><span class="n">day</span><span class="p">)</span>
+        <span class="n">previous_day_posts</span> <span class="o">=</span> <span class="n">postsdb</span><span class="o">.</span><span class="n">get_hot_posts_24hr</span><span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span> <span class="o">-</span> <span class="n">datetime</span><span class="o">.</span><span class="n">timedelta</span><span class="p">(</span><span class="n">hours</span><span class="o">=</span><span class="mi">24</span><span class="p">))</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-19'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-19'>#</a>
+      </div>
+      <p>midpoint = (len(posts) - 1) / 2
+midpoint determines where post list breaks from size=md to size=sm</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>        <span class="n">midpoint</span> <span class="o">=</span> <span class="mi">7</span>
+        <span class="n">hot_posts_past_week</span> <span class="o">=</span> <span class="n">postsdb</span><span class="o">.</span><span class="n">get_hot_posts_past_week</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">vars</span><span class="o">.</span><span class="n">update</span><span class="p">({</span>
+          <span class="s">&#39;is_today&#39;</span><span class="p">:</span> <span class="n">is_today</span><span class="p">,</span>
+          <span class="s">&#39;view&#39;</span><span class="p">:</span> <span class="n">view</span><span class="p">,</span>
+          <span class="s">&#39;msg&#39;</span><span class="p">:</span> <span class="n">msg</span><span class="p">,</span>
+          <span class="s">&#39;posts&#39;</span><span class="p">:</span> <span class="n">posts</span><span class="p">,</span>
+          <span class="s">&#39;previous_day_posts&#39;</span><span class="p">:</span> <span class="n">previous_day_posts</span><span class="p">,</span>
+          <span class="s">&#39;hot_posts_past_week&#39;</span><span class="p">:</span> <span class="n">hot_posts_past_week</span><span class="p">,</span>
+          <span class="s">&#39;featured_posts&#39;</span><span class="p">:</span> <span class="n">featured_posts</span><span class="p">,</span>
+          <span class="s">&#39;is_blacklisted&#39;</span><span class="p">:</span> <span class="n">is_blacklisted</span><span class="p">,</span>
+          <span class="s">&#39;tags&#39;</span><span class="p">:</span> <span class="n">hot_tags</span><span class="p">,</span>
+          <span class="s">&#39;day&#39;</span><span class="p">:</span> <span class="n">day</span><span class="p">,</span>
+          <span class="s">&#39;show_day_permalink&#39;</span><span class="p">:</span> <span class="n">show_day_permalink</span><span class="p">,</span>
+          <span class="s">&#39;infinite_scroll&#39;</span><span class="p">:</span> <span class="n">infinite_scroll</span><span class="p">,</span>
+          <span class="s">&#39;midpoint&#39;</span><span class="p">:</span> <span class="n">midpoint</span><span class="p">,</span>
+          <span class="s">&#39;new_post&#39;</span><span class="p">:</span> <span class="n">new_post</span><span class="p">,</span>
+          <span class="s">&#39;datetime&#39;</span><span class="p">:</span> <span class="n">datetime</span>
+        <span class="p">})</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="s">&#39;post/lists_posts.html&#39;</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">vars</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-20'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-20'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="nd">@tornado.web.authenticated</span>
+    <span class="k">def</span> <span class="nf">post</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">sort_by</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_argument</span><span class="p">(</span><span class="s">&#39;sort_by&#39;</span><span class="p">,</span> <span class="s">&#39;hot&#39;</span><span class="p">)</span>
+        <span class="n">page</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_argument</span><span class="p">(</span><span class="s">&#39;page&#39;</span><span class="p">,</span> <span class="s">&#39;1&#39;</span><span class="p">)))</span>
+        <span class="n">per_page</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_argument</span><span class="p">(</span><span class="s">&#39;per_page&#39;</span><span class="p">,</span> <span class="s">&#39;9&#39;</span><span class="p">)))</span>
+        <span class="n">is_blacklisted</span> <span class="o">=</span> <span class="bp">False</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="s">&#39;success&#39;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_user</span><span class="p">:</span>
+            <span class="n">is_blacklisted</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_blacklisted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">current_user</span><span class="p">)</span>
+
+        <span class="n">post</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">post</span><span class="p">[</span><span class="s">&#39;slug&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_argument</span><span class="p">(</span><span class="s">&#39;slug&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+        <span class="n">post</span><span class="p">[</span><span class="s">&#39;title&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_argument</span><span class="p">(</span><span class="s">&#39;title&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">)</span>
+        <span class="n">post</span><span class="p">[</span><span class="s">&#39;url&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_argument</span><span class="p">(</span><span class="s">&#39;url&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">)</span>
+        <span class="n">post</span><span class="p">[</span><span class="s">&#39;body_raw&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_argument</span><span class="p">(</span><span class="s">&#39;body_raw&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">)</span>
+        <span class="n">post</span><span class="p">[</span><span class="s">&#39;tags&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_argument</span><span class="p">(</span><span class="s">&#39;tags&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;,&#39;</span><span class="p">)</span>
+        <span class="n">post</span><span class="p">[</span><span class="s">&#39;featured&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_argument</span><span class="p">(</span><span class="s">&#39;featured&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">)</span>
+        <span class="n">post</span><span class="p">[</span><span class="s">&#39;has_hackpad&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_argument</span><span class="p">(</span><span class="s">&#39;has_hackpad&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">)</span>
+        <span class="n">post</span><span class="p">[</span><span class="s">&#39;slug&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_argument</span><span class="p">(</span><span class="s">&#39;slug&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">)</span>
+        <span class="n">post</span><span class="p">[</span><span class="s">&#39;sort_score&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">post</span><span class="p">[</span><span class="s">&#39;daily_sort_score&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">if</span> <span class="n">post</span><span class="p">[</span><span class="s">&#39;has_hackpad&#39;</span><span class="p">]</span> <span class="o">!=</span> <span class="s">&#39;&#39;</span><span class="p">:</span>
+            <span class="n">post</span><span class="p">[</span><span class="s">&#39;has_hackpad&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">True</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">post</span><span class="p">[</span><span class="s">&#39;has_hackpad&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">False</span>
+
+        <span class="n">deleted</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_argument</span><span class="p">(</span><span class="s">&#39;deleted&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">deleted</span> <span class="o">!=</span> <span class="s">&#39;&#39;</span><span class="p">:</span>
+            <span class="n">post</span><span class="p">[</span><span class="s">&#39;deleted&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">True</span>
+            <span class="n">post</span><span class="p">[</span><span class="s">&#39;date_deleted&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+
+        <span class="n">bypass_dup_check</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_argument</span><span class="p">(</span><span class="s">&#39;bypass_dup_check&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">)</span>
+        <span class="n">is_edit</span> <span class="o">=</span> <span class="bp">False</span>
+        <span class="k">if</span> <span class="n">post</span><span class="p">[</span><span class="s">&#39;slug&#39;</span><span class="p">]:</span>
+            <span class="n">bypass_dup_check</span> <span class="o">=</span> <span class="s">&quot;true&quot;</span>
+            <span class="n">is_edit</span> <span class="o">=</span> <span class="bp">True</span>
+
+        <span class="n">dups</span> <span class="o">=</span> <span class="p">[]</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-21'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-21'>#</a>
+      </div>
+      <p>make sure user isn't blacklisted</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_blacklisted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">current_user</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-22'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-22'>#</a>
+      </div>
+      <p>check if there is an existing URL</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>            <span class="k">if</span> <span class="n">post</span><span class="p">[</span><span class="s">&#39;url&#39;</span><span class="p">]</span> <span class="o">!=</span> <span class="s">&#39;&#39;</span><span class="p">:</span>
+                <span class="n">url</span> <span class="o">=</span> <span class="n">urlparse</span><span class="p">(</span><span class="n">post</span><span class="p">[</span><span class="s">&#39;url&#39;</span><span class="p">])</span>
+                <span class="n">netloc</span> <span class="o">=</span> <span class="n">url</span><span class="o">.</span><span class="n">netloc</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;.&#39;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">netloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;www&#39;</span><span class="p">:</span>
+                    <span class="k">del</span> <span class="n">netloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="n">path</span> <span class="o">=</span> <span class="n">url</span><span class="o">.</span><span class="n">path</span>
+                <span class="k">if</span> <span class="n">path</span> <span class="ow">and</span> <span class="n">path</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;/&#39;</span><span class="p">:</span>
+                    <span class="n">path</span> <span class="o">=</span> <span class="n">path</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+                <span class="n">url</span> <span class="o">=</span> <span class="s">&#39;</span><span class="si">%s%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="s">&#39;.&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">netloc</span><span class="p">),</span> <span class="n">path</span><span class="p">)</span>
+                <span class="n">post</span><span class="p">[</span><span class="s">&#39;normalized_url&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">url</span>
+
+                <span class="n">long_url</span> <span class="o">=</span> <span class="n">post</span><span class="p">[</span><span class="s">&#39;url&#39;</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">long_url</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&#39;goo.gl&#39;</span><span class="p">)</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+                    <span class="n">long_url</span> <span class="o">=</span> <span class="n">google</span><span class="o">.</span><span class="n">expand_url</span><span class="p">(</span><span class="n">post</span><span class="p">[</span><span class="s">&#39;url&#39;</span><span class="p">])</span>
+                <span class="k">if</span> <span class="n">long_url</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&#39;bit.ly&#39;</span><span class="p">)</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mi">1</span> <span class="ow">or</span> <span class="n">long_url</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&#39;bitly.com&#39;</span><span class="p">)</span> <span class="o">&gt;</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+                    <span class="n">long_url</span> <span class="o">=</span> <span class="n">bitly</span><span class="o">.</span><span class="n">expand_url</span><span class="p">(</span><span class="n">post</span><span class="p">[</span><span class="s">&#39;url&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&#39;http://bitly.com&#39;</span><span class="p">,</span><span class="s">&#39;&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s">&#39;http://bit.ly&#39;</span><span class="p">,</span><span class="s">&#39;&#39;</span><span class="p">))</span>
+                <span class="n">post</span><span class="p">[</span><span class="s">&#39;domain&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">urlparse</span><span class="p">(</span><span class="n">long_url</span><span class="p">)</span><span class="o">.</span><span class="n">netloc</span>
+
+            <span class="n">ok_to_post</span> <span class="o">=</span> <span class="bp">True</span>
+            <span class="n">dups</span> <span class="o">=</span> <span class="n">postsdb</span><span class="o">.</span><span class="n">get_posts_by_normalized_url</span><span class="p">(</span><span class="n">post</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;normalized_url&#39;</span><span class="p">,</span> <span class="s">&quot;&quot;</span><span class="p">),</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">post</span><span class="p">[</span><span class="s">&#39;url&#39;</span><span class="p">]</span> <span class="o">!=</span> <span class="s">&#39;&#39;</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">dups</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">bypass_dup_check</span> <span class="o">!=</span> <span class="s">&quot;true&quot;</span><span class="p">:</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-23'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-23'>#</a>
+      </div>
+      <h1></h1>
+<h1>If there are dupes, kick them back to the post add form</h1>
+<h1></h1>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>                <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="s">&#39;post/new_post.html&#39;</span><span class="p">,</span> <span class="n">post</span><span class="o">=</span><span class="n">post</span><span class="p">,</span> <span class="n">dups</span><span class="o">=</span><span class="n">dups</span><span class="p">))</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-24'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-24'>#</a>
+      </div>
+      <p>Handle tags</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>            <span class="n">post</span><span class="p">[</span><span class="s">&#39;tags&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">t</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">post</span><span class="p">[</span><span class="s">&#39;tags&#39;</span><span class="p">]]</span>
+            <span class="n">post</span><span class="p">[</span><span class="s">&#39;tags&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">t</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">post</span><span class="p">[</span><span class="s">&#39;tags&#39;</span><span class="p">]</span> <span class="k">if</span> <span class="n">t</span><span class="p">]</span>
+            <span class="n">userdb</span><span class="o">.</span><span class="n">add_tags_to_user</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">current_user</span><span class="p">,</span> <span class="n">post</span><span class="p">[</span><span class="s">&#39;tags&#39;</span><span class="p">])</span>
+            <span class="k">for</span> <span class="n">tag</span> <span class="ow">in</span> <span class="n">post</span><span class="p">[</span><span class="s">&#39;tags&#39;</span><span class="p">]:</span>
+                <span class="n">tagsdb</span><span class="o">.</span><span class="n">save_tag</span><span class="p">(</span><span class="n">tag</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-25'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-25'>#</a>
+      </div>
+      <p>format the content as needed</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>            <span class="n">post</span><span class="p">[</span><span class="s">&#39;body_html&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sanitize</span><span class="o">.</span><span class="n">html_sanitize</span><span class="p">(</span><span class="n">post</span><span class="p">[</span><span class="s">&#39;body_raw&#39;</span><span class="p">],</span> <span class="n">media</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">current_user_can</span><span class="p">(</span><span class="s">&#39;post_rich_media&#39;</span><span class="p">))</span>
+            <span class="n">post</span><span class="p">[</span><span class="s">&#39;body_text&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sanitize</span><span class="o">.</span><span class="n">html_to_text</span><span class="p">(</span><span class="n">post</span><span class="p">[</span><span class="s">&#39;body_html&#39;</span><span class="p">])</span>
+            <span class="n">post</span><span class="p">[</span><span class="s">&#39;body_truncated&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sanitize</span><span class="o">.</span><span class="n">truncate</span><span class="p">(</span><span class="n">post</span><span class="p">[</span><span class="s">&#39;body_text&#39;</span><span class="p">],</span> <span class="mi">500</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-26'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-26'>#</a>
+      </div>
+      <p>determine if this should be a featured post or not</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_user_can</span><span class="p">(</span><span class="s">&#39;feature_posts&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">post</span><span class="p">[</span><span class="s">&#39;featured&#39;</span><span class="p">]</span> <span class="o">!=</span> <span class="s">&#39;&#39;</span><span class="p">:</span>
+                <span class="n">post</span><span class="p">[</span><span class="s">&#39;featured&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">True</span>
+                <span class="n">post</span><span class="p">[</span><span class="s">&#39;date_featured&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">post</span><span class="p">[</span><span class="s">&#39;featured&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">False</span>
+                <span class="n">post</span><span class="p">[</span><span class="s">&#39;date_featured&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">None</span>
+
+            <span class="n">user</span> <span class="o">=</span> <span class="n">userdb</span><span class="o">.</span><span class="n">get_user_by_screen_name</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">current_user</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">post</span><span class="p">[</span><span class="s">&#39;slug&#39;</span><span class="p">]:</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-27'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-27'>#</a>
+      </div>
+      <p>No slug -- this is a new post.
+initiate fields that are new</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>                <span class="n">post</span><span class="p">[</span><span class="s">&#39;disqus_shortname&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;disqus_short_code&#39;</span><span class="p">)</span>
+                <span class="n">post</span><span class="p">[</span><span class="s">&#39;muted&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">False</span>
+                <span class="n">post</span><span class="p">[</span><span class="s">&#39;comment_count&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="n">post</span><span class="p">[</span><span class="s">&#39;disqus_thread_id_str&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
+                <span class="n">post</span><span class="p">[</span><span class="s">&#39;sort_score&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.0</span>
+                <span class="n">post</span><span class="p">[</span><span class="s">&#39;downvotes&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="n">post</span><span class="p">[</span><span class="s">&#39;hackpad_url&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
+                <span class="n">post</span><span class="p">[</span><span class="s">&#39;date_created&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+                <span class="n">post</span><span class="p">[</span><span class="s">&#39;user_id_str&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">user</span><span class="p">[</span><span class="s">&#39;user&#39;</span><span class="p">][</span><span class="s">&#39;id_str&#39;</span><span class="p">]</span>
+                <span class="n">post</span><span class="p">[</span><span class="s">&#39;username&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_user</span>
+                <span class="n">post</span><span class="p">[</span><span class="s">&#39;user&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">user</span><span class="p">[</span><span class="s">&#39;user&#39;</span><span class="p">]</span>
+                <span class="n">post</span><span class="p">[</span><span class="s">&#39;votes&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+                <span class="n">post</span><span class="p">[</span><span class="s">&#39;voted_users&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">user</span><span class="p">[</span><span class="s">&#39;user&#39;</span><span class="p">]]</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-28'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-28'>#</a>
+      </div>
+      <p>save it</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>                <span class="n">post</span><span class="p">[</span><span class="s">&#39;slug&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">postsdb</span><span class="o">.</span><span class="n">insert_post</span><span class="p">(</span><span class="n">post</span><span class="p">)</span>
+                <span class="n">msg</span> <span class="o">=</span> <span class="s">&#39;success&#39;</span>
+            <span class="k">else</span><span class="p">:</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-29'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-29'>#</a>
+      </div>
+      <p>this is an existing post.
+attempt to edit the post (make sure they are the author)</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>                <span class="n">saved_post</span> <span class="o">=</span> <span class="n">postsdb</span><span class="o">.</span><span class="n">get_post_by_slug</span><span class="p">(</span><span class="n">post</span><span class="p">[</span><span class="s">&#39;slug&#39;</span><span class="p">])</span>
+                <span class="k">if</span> <span class="n">saved_post</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_user</span> <span class="o">==</span> <span class="n">saved_post</span><span class="p">[</span><span class="s">&#39;user&#39;</span><span class="p">][</span><span class="s">&#39;screen_name&#39;</span><span class="p">]:</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-30'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-30'>#</a>
+      </div>
+      <p>looks good - let's update the saved_post values to new values</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>                    <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">post</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                        <span class="n">saved_post</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">post</span><span class="p">[</span><span class="n">key</span><span class="p">]</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-31'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-31'>#</a>
+      </div>
+      <p>finally let's save the updates</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>                    <span class="n">postsdb</span><span class="o">.</span><span class="n">save_post</span><span class="p">(</span><span class="n">saved_post</span><span class="p">)</span>
+                    <span class="n">msg</span> <span class="o">=</span> <span class="s">&#39;success&#39;</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-32'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-32'>#</a>
+      </div>
+      <p>log any @ mentions in the post</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>            <span class="n">mentions</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="s">r&#39;@([^\s]+)&#39;</span><span class="p">,</span> <span class="n">post</span><span class="p">[</span><span class="s">&#39;body_raw&#39;</span><span class="p">])</span>
+            <span class="k">for</span> <span class="n">mention</span> <span class="ow">in</span> <span class="n">mentions</span><span class="p">:</span>
+                <span class="n">mentionsdb</span><span class="o">.</span><span class="n">add_mention</span><span class="p">(</span><span class="n">mention</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span> <span class="n">post</span><span class="p">[</span><span class="s">&#39;slug&#39;</span><span class="p">])</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-33'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-33'>#</a>
+      </div>
+      <p>Send email to USVers if OP is staff</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_user</span> <span class="ow">in</span> <span class="n">settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;staff&#39;</span><span class="p">):</span>
+            <span class="n">subject</span> <span class="o">=</span> <span class="s">&#39;USV.com: </span><span class="si">%s</span><span class="s"> posted &quot;</span><span class="si">%s</span><span class="s">&quot;&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">current_user</span><span class="p">,</span> <span class="n">post</span><span class="p">[</span><span class="s">&#39;title&#39;</span><span class="p">])</span>
+            <span class="k">if</span> <span class="s">&#39;url&#39;</span> <span class="ow">in</span> <span class="n">post</span> <span class="ow">and</span> <span class="n">post</span><span class="p">[</span><span class="s">&#39;url&#39;</span><span class="p">]:</span> <span class="c"># post.url is the link to external content (if any)</span>
+                <span class="n">post_link</span> <span class="o">=</span> <span class="s">&#39;External Link: </span><span class="si">%s</span><span class="s"> </span><span class="se">\n\n</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">post</span><span class="p">[</span><span class="s">&#39;url&#39;</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">post_link</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
+            <span class="n">post_url</span> <span class="o">=</span> <span class="s">&quot;http://</span><span class="si">%s</span><span class="s">/posts/</span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;base_url&#39;</span><span class="p">),</span> <span class="n">post</span><span class="p">[</span><span class="s">&#39;slug&#39;</span><span class="p">])</span>
+            <span class="n">text</span> <span class="o">=</span> <span class="s">&#39;&quot;</span><span class="si">%s</span><span class="s">&quot; ( </span><span class="si">%s</span><span class="s"> ) posted by </span><span class="si">%s</span><span class="s">. </span><span class="se">\n\n</span><span class="s"> </span><span class="si">%s</span><span class="s"> </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">post</span><span class="p">[</span><span class="s">&#39;title&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s">&#39;ascii&#39;</span><span class="p">,</span> <span class="n">errors</span><span class="o">=</span><span class="s">&#39;ignore&#39;</span><span class="p">),</span> <span class="n">post_url</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_user</span><span class="p">,</span> <span class="n">post_link</span><span class="p">,</span> <span class="n">post</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;body_text&#39;</span><span class="p">,</span> <span class="s">&quot;&quot;</span><span class="p">))</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-34'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-34'>#</a>
+      </div>
+      <p>now attempt to actually send the emails</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>            <span class="k">for</span> <span class="n">u</span> <span class="ow">in</span> <span class="n">settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;staff&#39;</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">u</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_user</span><span class="p">:</span>
+                    <span class="n">acc</span> <span class="o">=</span> <span class="n">userdb</span><span class="o">.</span><span class="n">get_user_by_screen_name</span><span class="p">(</span><span class="n">u</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">acc</span><span class="p">:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">send_email</span><span class="p">(</span><span class="s">&#39;web@usv.com&#39;</span><span class="p">,</span> <span class="n">acc</span><span class="p">[</span><span class="s">&#39;email_address&#39;</span><span class="p">],</span> <span class="n">subject</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-35'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-35'>#</a>
+      </div>
+      <p>Subscribe to Disqus
+Attempt to create the post's thread</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>        <span class="n">acc</span> <span class="o">=</span> <span class="n">userdb</span><span class="o">.</span><span class="n">get_user_by_screen_name</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">current_user</span><span class="p">)</span>
+        <span class="n">thread_id</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">try</span><span class="p">:</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-36'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-36'>#</a>
+      </div>
+      <p>Attempt to create the thread.</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>            <span class="n">thread_details</span> <span class="o">=</span> <span class="n">disqus</span><span class="o">.</span><span class="n">create_thread</span><span class="p">(</span><span class="n">post</span><span class="p">,</span> <span class="n">acc</span><span class="p">[</span><span class="s">&#39;disqus&#39;</span><span class="p">][</span><span class="s">&#39;access_token&#39;</span><span class="p">])</span>
+            <span class="n">thread_id</span> <span class="o">=</span> <span class="n">thread_details</span><span class="p">[</span><span class="s">&#39;response&#39;</span><span class="p">][</span><span class="s">&#39;id&#39;</span><span class="p">]</span>
+        <span class="k">except</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-37'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-37'>#</a>
+      </div>
+      <p>trouble creating the thread, try to just get the thread via the slug</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>                <span class="n">thread_details</span> <span class="o">=</span> <span class="n">disqus</span><span class="o">.</span><span class="n">get_thread_details</span><span class="p">(</span><span class="n">post</span><span class="p">)</span>
+                <span class="n">thread_id</span> <span class="o">=</span> <span class="n">thread_details</span><span class="p">[</span><span class="s">&#39;response&#39;</span><span class="p">][</span><span class="s">&#39;id&#39;</span><span class="p">]</span>
+            <span class="k">except</span><span class="p">:</span>
+                <span class="n">thread_id</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">if</span> <span class="n">thread_id</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-38'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-38'>#</a>
+      </div>
+      <p>Subscribe a user to the thread specified in response</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>            <span class="n">disqus</span><span class="o">.</span><span class="n">subscribe_to_thread</span><span class="p">(</span><span class="n">thread_id</span><span class="p">,</span> <span class="n">acc</span><span class="p">[</span><span class="s">&#39;disqus&#39;</span><span class="p">][</span><span class="s">&#39;access_token&#39;</span><span class="p">])</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-39'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-39'>#</a>
+      </div>
+      <p>update the thread with the disqus_thread_id_str</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>            <span class="n">saved_post</span> <span class="o">=</span> <span class="n">postsdb</span><span class="o">.</span><span class="n">get_post_by_slug</span><span class="p">(</span><span class="n">post</span><span class="p">[</span><span class="s">&#39;slug&#39;</span><span class="p">])</span>
+            <span class="n">saved_post</span><span class="p">[</span><span class="s">&#39;disqus_thread_id_str&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">thread_id</span>
+            <span class="n">postsdb</span><span class="o">.</span><span class="n">save_post</span><span class="p">(</span><span class="n">saved_post</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">is_edit</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">redirect</span><span class="p">(</span><span class="s">&#39;/posts/</span><span class="si">%s</span><span class="s">?msg=updated&#39;</span> <span class="o">%</span> <span class="n">post</span><span class="p">[</span><span class="s">&#39;slug&#39;</span><span class="p">])</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">redirect</span><span class="p">(</span><span class="s">&#39;/?msg=success&amp;slug=</span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">post</span><span class="p">[</span><span class="s">&#39;slug&#39;</span><span class="p">])</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-40'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-40'>#</a>
+      </div>
+      <h6></h6>
+<h2>List all New Posts</h2>
+<h2>/new</h2>
+<h6></h6>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">class</span> <span class="nc">ListPostsNew</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">basic</span><span class="o">.</span><span class="n">BaseHandler</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-41'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-41'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">page</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+        <span class="n">page</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_argument</span><span class="p">(</span><span class="s">&#39;page&#39;</span><span class="p">,</span> <span class="n">page</span><span class="p">)))</span>
+        <span class="n">per_page</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_argument</span><span class="p">(</span><span class="s">&#39;per_page&#39;</span><span class="p">,</span> <span class="s">&#39;100&#39;</span><span class="p">)))</span>
+
+        <span class="n">featured_posts</span> <span class="o">=</span> <span class="n">postsdb</span><span class="o">.</span><span class="n">get_featured_posts</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">posts</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">post</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">hot_tags</span> <span class="o">=</span> <span class="n">tagsdb</span><span class="o">.</span><span class="n">get_hot_tags</span><span class="p">()</span>
+
+        <span class="n">is_blacklisted</span> <span class="o">=</span> <span class="bp">False</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_user</span><span class="p">:</span>
+            <span class="n">is_blacklisted</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_blacklisted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">current_user</span><span class="p">)</span>
+
+        <span class="n">posts</span> <span class="o">=</span> <span class="n">postsdb</span><span class="o">.</span><span class="n">get_new_posts</span><span class="p">(</span><span class="n">per_page</span><span class="o">=</span><span class="n">per_page</span><span class="p">,</span> <span class="n">page</span><span class="o">=</span><span class="n">page</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">vars</span><span class="o">.</span><span class="n">update</span><span class="p">({</span>
+          <span class="s">&#39;posts&#39;</span><span class="p">:</span> <span class="n">posts</span><span class="p">,</span>
+          <span class="s">&#39;featured_posts&#39;</span><span class="p">:</span> <span class="n">featured_posts</span><span class="p">,</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-42'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-42'>#</a>
+      </div>
+      <p>'featured_posts': featured_posts,</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>          <span class="s">&#39;is_blacklisted&#39;</span><span class="p">:</span> <span class="n">is_blacklisted</span><span class="p">,</span>
+          <span class="s">&#39;tags&#39;</span><span class="p">:</span> <span class="n">hot_tags</span><span class="p">,</span>
+        <span class="p">})</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="s">&#39;post/list_new_posts.html&#39;</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">vars</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-43'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-43'>#</a>
+      </div>
+      <h6></h6>
+<h2>Bump Up A SPECIFIC POST</h2>
+<h2>/posts/([^\/]+)/bump</h2>
+<h6></h6>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">class</span> <span class="nc">Bump</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">basic</span><span class="o">.</span><span class="n">BaseHandler</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-44'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-44'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">slug</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-45'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-45'>#</a>
+      </div>
+      <p>nothing to see here</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>        <span class="k">return</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-46'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-46'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">post</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">slug</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-47'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-47'>#</a>
+      </div>
+      <p>user must be logged in</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>        <span class="n">msg</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_user</span><span class="p">:</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;error&#39;</span><span class="p">:</span> <span class="s">&#39;You must be logged in to bump.&#39;</span><span class="p">,</span> <span class="s">&#39;redirect&#39;</span><span class="p">:</span> <span class="bp">True</span><span class="p">}</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">post</span> <span class="o">=</span> <span class="n">postsdb</span><span class="o">.</span><span class="n">get_post_by_slug</span><span class="p">(</span><span class="n">slug</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">post</span><span class="p">:</span>
+                <span class="n">can_vote</span> <span class="o">=</span> <span class="bp">True</span>
+                <span class="k">for</span> <span class="n">u</span> <span class="ow">in</span> <span class="n">post</span><span class="p">[</span><span class="s">&#39;voted_users&#39;</span><span class="p">]:</span>
+                    <span class="k">if</span> <span class="n">u</span><span class="p">[</span><span class="s">&#39;username&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_user</span><span class="p">:</span>
+                        <span class="n">can_vote</span> <span class="o">=</span> <span class="bp">False</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">can_vote</span><span class="p">:</span>
+                    <span class="n">msg</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;error&#39;</span><span class="p">:</span> <span class="s">&#39;You have already upvoted this post.&#39;</span><span class="p">}</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">user</span> <span class="o">=</span> <span class="n">userdb</span><span class="o">.</span><span class="n">get_user_by_screen_name</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">current_user</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-48'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-48'>#</a>
+      </div>
+      <p>Increment the vote count</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>                    <span class="n">post</span><span class="p">[</span><span class="s">&#39;votes&#39;</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+                    <span class="n">post</span><span class="p">[</span><span class="s">&#39;voted_users&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">user</span><span class="p">[</span><span class="s">&#39;user&#39;</span><span class="p">])</span>
+                    <span class="n">postsdb</span><span class="o">.</span><span class="n">save_post</span><span class="p">(</span><span class="n">post</span><span class="p">)</span>
+                    <span class="n">msg</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;votes&#39;</span><span class="p">:</span> <span class="n">post</span><span class="p">[</span><span class="s">&#39;votes&#39;</span><span class="p">]}</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-49'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-49'>#</a>
+      </div>
+      <p>send email notification to post author</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>                    <span class="n">author</span> <span class="o">=</span> <span class="n">userdb</span><span class="o">.</span><span class="n">get_user_by_screen_name</span><span class="p">(</span><span class="n">post</span><span class="p">[</span><span class="s">&#39;user&#39;</span><span class="p">][</span><span class="s">&#39;username&#39;</span><span class="p">])</span>
+                    <span class="k">if</span> <span class="s">&#39;email_address&#39;</span> <span class="ow">in</span> <span class="n">author</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                        <span class="n">subject</span> <span class="o">=</span> <span class="s">&quot;[#usvconversation] @</span><span class="si">%s</span><span class="s"> just bumped up your post: </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">current_user</span><span class="p">,</span> <span class="n">post</span><span class="p">[</span><span class="s">&#39;title&#39;</span><span class="p">])</span>
+                        <span class="n">text</span> <span class="o">=</span> <span class="s">&quot;Woo!</span><span class="se">\n\n</span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">template_helpers</span><span class="o">.</span><span class="n">post_permalink</span><span class="p">(</span><span class="n">post</span><span class="p">)</span>
+                        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&#39;sent email to </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">author</span><span class="p">[</span><span class="s">&#39;email_address&#39;</span><span class="p">])</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">send_email</span><span class="p">(</span><span class="s">&#39;web@usv.com&#39;</span><span class="p">,</span> <span class="n">author</span><span class="p">[</span><span class="s">&#39;email_address&#39;</span><span class="p">],</span> <span class="n">subject</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">api_response</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-50'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-50'>#</a>
+      </div>
+      <h6></h6>
+<h2>Super Upvote</h2>
+<h2>/posts/([^\/]+)/superupvote</h2>
+<h6></h6>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">class</span> <span class="nc">SuperUpVote</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">basic</span><span class="o">.</span><span class="n">BaseHandler</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-51'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-51'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">post</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">slug</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-52'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-52'>#</a>
+      </div>
+      <p>user must be logged in</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>        <span class="n">msg</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_user</span><span class="p">:</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;error&#39;</span><span class="p">:</span> <span class="s">&#39;You must be logged in to super upvote.&#39;</span><span class="p">,</span> <span class="s">&#39;redirect&#39;</span><span class="p">:</span> <span class="bp">True</span><span class="p">}</span>
+        <span class="k">elif</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_user_can</span><span class="p">(</span><span class="s">&#39;super_upvote&#39;</span><span class="p">):</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;error&#39;</span><span class="p">:</span> <span class="s">&#39;You are not authorized to super upvote&#39;</span><span class="p">,</span> <span class="s">&#39;redirect&#39;</span><span class="p">:</span> <span class="bp">True</span><span class="p">}</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">post</span> <span class="o">=</span> <span class="n">postsdb</span><span class="o">.</span><span class="n">get_post_by_slug</span><span class="p">(</span><span class="n">slug</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">post</span><span class="p">:</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-53'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-53'>#</a>
+      </div>
+      <p>Increment the vote count</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>                <span class="n">super_upvotes</span> <span class="o">=</span> <span class="n">post</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;super_upvotes&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="mi">0</span>
+                <span class="n">super_upvotes</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="n">post</span><span class="p">[</span><span class="s">&#39;super_upvotes&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">super_upvotes</span>
+                <span class="n">postsdb</span><span class="o">.</span><span class="n">save_post</span><span class="p">(</span><span class="n">post</span><span class="p">)</span>
+                <span class="n">msg</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;supervotes&#39;</span><span class="p">:</span> <span class="n">post</span><span class="p">[</span><span class="s">&#39;super_upvotes&#39;</span><span class="p">]}</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">api_response</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-54'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-54'>#</a>
+      </div>
+      <h6></h6>
+<h2>Super DownVote</h2>
+<h2>/posts/([^\/]+)/superdownvote</h2>
+<h6></h6>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">class</span> <span class="nc">SuperDownVote</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">basic</span><span class="o">.</span><span class="n">BaseHandler</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-55'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-55'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">post</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">slug</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-56'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-56'>#</a>
+      </div>
+      <p>user must be logged in</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>        <span class="n">msg</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_user</span><span class="p">:</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;error&#39;</span><span class="p">:</span> <span class="s">&#39;You must be logged in to super downvote.&#39;</span><span class="p">,</span> <span class="s">&#39;redirect&#39;</span><span class="p">:</span> <span class="bp">True</span><span class="p">}</span>
+        <span class="k">elif</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_user_can</span><span class="p">(</span><span class="s">&#39;super_downvote&#39;</span><span class="p">):</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;error&#39;</span><span class="p">:</span> <span class="s">&#39;You are not authorized to super downvote&#39;</span><span class="p">,</span> <span class="s">&#39;redirect&#39;</span><span class="p">:</span> <span class="bp">True</span><span class="p">}</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">post</span> <span class="o">=</span> <span class="n">postsdb</span><span class="o">.</span><span class="n">get_post_by_slug</span><span class="p">(</span><span class="n">slug</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">post</span><span class="p">:</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-57'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-57'>#</a>
+      </div>
+      <p>Increment the vote count</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>                <span class="n">super_downvotes</span> <span class="o">=</span> <span class="n">post</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;super_downvotes&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="mi">0</span>
+                <span class="n">super_downvotes</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="n">post</span><span class="p">[</span><span class="s">&#39;super_downvotes&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">super_downvotes</span>
+                <span class="n">postsdb</span><span class="o">.</span><span class="n">save_post</span><span class="p">(</span><span class="n">post</span><span class="p">)</span>
+                <span class="n">msg</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;supervotes&#39;</span><span class="p">:</span> <span class="n">post</span><span class="p">[</span><span class="s">&#39;super_downvotes&#39;</span><span class="p">]}</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">api_response</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-58'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-58'>#</a>
+      </div>
+      <h6></h6>
+<h2>Un-Bump A SPECIFIC POST</h2>
+<h2>/posts/([^\/]+)/unbump</h2>
+<h6></h6>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">class</span> <span class="nc">UnBump</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">basic</span><span class="o">.</span><span class="n">BaseHandler</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-59'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-59'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">post</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">slug</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-60'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-60'>#</a>
+      </div>
+      <p>user must be logged in</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>        <span class="n">msg</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_user</span><span class="p">:</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;error&#39;</span><span class="p">:</span> <span class="s">&#39;You must be logged in to bump.&#39;</span><span class="p">,</span> <span class="s">&#39;redirect&#39;</span><span class="p">:</span> <span class="bp">True</span><span class="p">}</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">post</span> <span class="o">=</span> <span class="n">postsdb</span><span class="o">.</span><span class="n">get_post_by_slug</span><span class="p">(</span><span class="n">slug</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">post</span><span class="p">:</span>
+                <span class="n">can_vote</span> <span class="o">=</span> <span class="bp">True</span>
+                <span class="k">for</span> <span class="n">u</span> <span class="ow">in</span> <span class="n">post</span><span class="p">[</span><span class="s">&#39;voted_users&#39;</span><span class="p">]:</span>
+                    <span class="k">if</span> <span class="n">u</span><span class="p">[</span><span class="s">&#39;username&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_user</span><span class="p">:</span>
+                        <span class="n">can_unbump</span> <span class="o">=</span> <span class="bp">True</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">can_unbump</span><span class="p">:</span>
+                    <span class="n">msg</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;error&#39;</span><span class="p">:</span> <span class="s">&quot;You can&#39;t unbump this post!&quot;</span><span class="p">}</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">user</span> <span class="o">=</span> <span class="n">userdb</span><span class="o">.</span><span class="n">get_user_by_screen_name</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">current_user</span><span class="p">)</span>
+                    <span class="n">post</span><span class="p">[</span><span class="s">&#39;votes&#39;</span><span class="p">]</span> <span class="o">-=</span> <span class="mi">1</span>
+                    <span class="n">post</span><span class="p">[</span><span class="s">&#39;voted_users&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">user</span><span class="p">[</span><span class="s">&#39;user&#39;</span><span class="p">])</span>
+                    <span class="n">postsdb</span><span class="o">.</span><span class="n">save_post</span><span class="p">(</span><span class="n">post</span><span class="p">)</span>
+                    <span class="n">msg</span> <span class="o">=</span> <span class="p">{</span><span class="s">&#39;votes&#39;</span><span class="p">:</span> <span class="n">post</span><span class="p">[</span><span class="s">&#39;votes&#39;</span><span class="p">]}</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">api_response</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-61'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-61'>#</a>
+      </div>
+      <h6></h6>
+<h2>VIEW A SPECIFIC POST</h2>
+<h2>/posts/(.+)</h2>
+<h6></h6>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">class</span> <span class="nc">ViewPost</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">basic</span><span class="o">.</span><span class="n">BaseHandler</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-62'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-62'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">slug</span><span class="p">):</span>
+        <span class="n">post</span> <span class="o">=</span> <span class="n">postsdb</span><span class="o">.</span><span class="n">get_post_by_slug</span><span class="p">(</span><span class="n">slug</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">post</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">tornado</span><span class="o">.</span><span class="n">web</span><span class="o">.</span><span class="n">HTTPError</span><span class="p">(</span><span class="mi">404</span><span class="p">)</span>
+
+        <span class="n">tag_posts</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">all_keeper_posts</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">post</span><span class="o">.</span><span class="n">tags</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">post</span><span class="o">.</span><span class="n">tags</span><span class="p">:</span>
+                <span class="n">posts</span> <span class="o">=</span> <span class="n">postsdb</span><span class="o">.</span><span class="n">get_related_posts_by_tag</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+                <span class="n">tag_keeper_posts</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">posts</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">slug</span> <span class="o">!=</span> <span class="n">slug</span> <span class="ow">and</span> <span class="n">p</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">all_keeper_posts</span><span class="p">:</span>
+                        <span class="n">tag_keeper_posts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+                        <span class="n">all_keeper_posts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+                <span class="n">obj</span> <span class="o">=</span> <span class="p">{</span>
+                  <span class="s">&#39;tag&#39;</span><span class="p">:</span> <span class="n">t</span><span class="p">,</span>
+                  <span class="s">&#39;posts&#39;</span><span class="p">:</span> <span class="n">tag_keeper_posts</span>
+                <span class="p">}</span>
+                <span class="n">tag_posts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+
+        <span class="n">msg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_argument</span><span class="p">(</span><span class="s">&#39;msg&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-63'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-63'>#</a>
+      </div>
+      <p>remove dupes from voted_users</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>        <span class="n">voted_users</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">post</span><span class="o">.</span><span class="n">voted_users</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">i</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">voted_users</span><span class="p">:</span>
+                <span class="n">voted_users</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+        <span class="n">post</span><span class="o">.</span><span class="n">voted_users</span> <span class="o">=</span> <span class="n">voted_users</span>
+
+        <span class="n">hot_posts_past_week</span> <span class="o">=</span> <span class="n">postsdb</span><span class="o">.</span><span class="n">get_hot_posts_past_week</span><span class="p">()</span>
+        <span class="n">featured_posts</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="n">view</span> <span class="o">=</span> <span class="s">&quot;single&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="s">&#39;post/view_post.html&#39;</span><span class="p">,</span> <span class="n">post</span><span class="o">=</span><span class="n">post</span><span class="p">,</span> <span class="n">msg</span><span class="o">=</span><span class="n">msg</span><span class="p">,</span> <span class="n">tag_posts</span><span class="o">=</span><span class="n">tag_posts</span><span class="p">,</span> <span class="n">hot_posts_past_week</span><span class="o">=</span><span class="n">hot_posts_past_week</span><span class="p">,</span> <span class="n">featured_posts</span><span class="o">=</span><span class="n">featured_posts</span><span class="p">,</span> <span class="n">view</span><span class="o">=</span><span class="n">view</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-64'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-64'>#</a>
+      </div>
+      <h6></h6>
+<h2>WIDGET</h2>
+<h2>/widget.*?</h2>
+<h6></h6>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">class</span> <span class="nc">Widget</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">basic</span><span class="o">.</span><span class="n">BaseHandler</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-65'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-65'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">extra_path</span><span class="o">=</span><span class="s">&#39;&#39;</span><span class="p">):</span>
+        <span class="n">view</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_argument</span><span class="p">(</span><span class="s">&#39;view&#39;</span><span class="p">,</span> <span class="s">&#39;sidebar&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">extra_path</span> <span class="o">!=</span> <span class="s">&#39;&#39;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="s">&#39;post/widget_demo.html&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-66'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-66'>#</a>
+      </div>
+      <p>list posts
+action = self.get_argument('action', '')</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>            <span class="n">page</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_argument</span><span class="p">(</span><span class="s">&#39;page&#39;</span><span class="p">,</span> <span class="s">&#39;1&#39;</span><span class="p">)))</span>
+            <span class="n">per_page</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_argument</span><span class="p">(</span><span class="s">&#39;per_page&#39;</span><span class="p">,</span> <span class="s">&#39;9&#39;</span><span class="p">)))</span>
+            <span class="n">num_posts</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_argument</span><span class="p">(</span><span class="s">&#39;num_posts&#39;</span><span class="p">,</span> <span class="s">&#39;5&#39;</span><span class="p">)))</span>
+
+            <span class="k">if</span> <span class="n">view</span> <span class="o">==</span> <span class="s">&quot;sidebar&quot;</span><span class="p">:</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-67'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-67'>#</a>
+      </div>
+      <p>get the current hot posts</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>                <span class="n">posts</span> <span class="o">=</span> <span class="n">postsdb</span><span class="o">.</span><span class="n">get_hot_posts</span><span class="p">(</span><span class="n">per_page</span><span class="p">,</span> <span class="n">page</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="s">&#39;post/widget.js&#39;</span><span class="p">,</span> <span class="n">posts</span><span class="o">=</span><span class="n">posts</span><span class="p">,</span> <span class="n">num_posts</span><span class="o">=</span><span class="n">num_posts</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">posts</span> <span class="o">=</span> <span class="n">postsdb</span><span class="o">.</span><span class="n">get_hot_posts_by_day</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="s">&#39;post/widget_inline.js&#39;</span><span class="p">,</span> <span class="n">posts</span><span class="o">=</span><span class="n">posts</span><span class="p">,</span> <span class="n">num_posts</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-68'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-68'>#</a>
+      </div>
+      <h6></h6>
+<h2>WIDGET DEMO</h2>
+<h2>/widget/demo.*?</h2>
+<h6></h6>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">class</span> <span class="nc">WidgetDemo</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">basic</span><span class="o">.</span><span class="n">BaseHandler</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-69'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-69'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">extra_path</span><span class="o">=</span><span class="s">&#39;&#39;</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="s">&#39;post/widget_demo.html&#39;</span><span class="p">)</span>
+
+</pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+</div>
+</body>

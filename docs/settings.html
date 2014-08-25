@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <title>settings.py</title>
+  <link rel="stylesheet" href="pycco.css">
+</head>
+<body>
+<div id="background"></div>
+<div id='container'>
+  <div class='section'>
+    <div class='docs'><h1>settings.py</h1></div>
+  </div>
+  <div class='clearall'>
+  <div class='section' id='section-0'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-0'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">tornado.options</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-1'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-1'>#</a>
+      </div>
+      <p>Environmenal settings for heroku#
+If you are developing for heroku and want to set your settings as environmental vars
+create settings_local_environ.py in the root folder and use:
+os.environ['KEY'] = 'value'
+to simulate using heroku config vars
+this is better than using a .env file and foreman
+since it still allows you to see logging.info() output</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">settings_local_environ</span>
+<span class="k">except</span><span class="p">:</span>
+    <span class="k">pass</span>
+
+<span class="n">tornado</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">define</span><span class="p">(</span><span class="s">&quot;environment&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s">&quot;dev&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s">&quot;environment&quot;</span><span class="p">)</span>
+<span class="n">PROJECT_ROOT</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">__file__</span><span class="p">)))</span>
+
+<span class="n">options</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="s">&#39;dev&#39;</span> <span class="p">:</span> <span class="p">{</span>
+    <span class="s">&#39;mongo_database&#39;</span> <span class="p">:</span> <span class="p">{</span><span class="s">&#39;host&#39;</span> <span class="p">:</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;MONGODB_URL&#39;</span><span class="p">),</span> <span class="s">&#39;port&#39;</span> <span class="p">:</span> <span class="mi">27017</span><span class="p">,</span> <span class="s">&#39;db&#39;</span> <span class="p">:</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;DB_NAME&#39;</span><span class="p">)},</span>
+    <span class="s">&#39;base_url&#39;</span> <span class="p">:</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;BASE_URL&#39;</span><span class="p">),</span>
+  <span class="p">},</span>
+  <span class="s">&#39;test&#39;</span> <span class="p">:</span> <span class="p">{</span>
+    <span class="s">&#39;mongo_database&#39;</span> <span class="p">:</span> <span class="p">{</span><span class="s">&#39;host&#39;</span> <span class="p">:</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;MONGODB_URL&#39;</span><span class="p">),</span> <span class="s">&#39;port&#39;</span> <span class="p">:</span> <span class="mi">27017</span><span class="p">,</span> <span class="s">&#39;db&#39;</span> <span class="p">:</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;DB_NAME&#39;</span><span class="p">)},</span>
+    <span class="s">&#39;base_url&#39;</span> <span class="p">:</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;BASE_URL&#39;</span><span class="p">),</span>
+  <span class="p">},</span>
+  <span class="s">&#39;prod&#39;</span> <span class="p">:</span> <span class="p">{</span>
+    <span class="s">&#39;mongo_database&#39;</span> <span class="p">:</span> <span class="p">{</span><span class="s">&#39;host&#39;</span> <span class="p">:</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;MONGODB_URL&#39;</span><span class="p">),</span> <span class="s">&#39;port&#39;</span> <span class="p">:</span> <span class="mi">27017</span><span class="p">,</span> <span class="s">&#39;db&#39;</span> <span class="p">:</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;DB_NAME&#39;</span><span class="p">)},</span>
+    <span class="s">&#39;base_url&#39;</span> <span class="p">:</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;BASE_URL&#39;</span><span class="p">),</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">default_options</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="s">&#39;active_theme&#39;</span><span class="p">:</span> <span class="s">&quot;default&quot;</span><span class="p">,</span>
+  <span class="s">&#39;site_title&#39;</span><span class="p">:</span> <span class="s">&quot;The Conversation&quot;</span><span class="p">,</span>
+  <span class="s">&#39;site_intro&#39;</span><span class="p">:</span> <span class="s">&quot;This is a website where people talk&quot;</span><span class="p">,</span>
+
+  <span class="s">&#39;project_root&#39;</span><span class="p">:</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">__file__</span><span class="p">))),</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-2'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-2'>#</a>
+      </div>
+      <p>twiter details</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>  <span class="s">&#39;twitter_consumer_key&#39;</span> <span class="p">:</span> <span class="s">&#39;&#39;</span><span class="p">,</span>
+  <span class="s">&#39;twitter_consumer_secret&#39;</span> <span class="p">:</span> <span class="s">&#39;&#39;</span><span class="p">,</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-3'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-3'>#</a>
+      </div>
+      <p>disqus details</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>  <span class="s">&#39;disqus_public_key&#39;</span><span class="p">:</span> <span class="s">&#39;&#39;</span><span class="p">,</span>
+  <span class="s">&#39;disqus_secret_key&#39;</span><span class="p">:</span> <span class="s">&#39;&#39;</span><span class="p">,</span>
+  <span class="s">&#39;disqus_short_code&#39;</span><span class="p">:</span> <span class="s">&#39;&#39;</span><span class="p">,</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-4'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-4'>#</a>
+      </div>
+      <p>sendgrid details</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>  <span class="s">&#39;sendgrid_user&#39;</span><span class="p">:</span> <span class="s">&#39;&#39;</span><span class="p">,</span>
+  <span class="s">&#39;sendgrid_secret&#39;</span><span class="p">:</span> <span class="s">&#39;&#39;</span><span class="p">,</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-5'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-5'>#</a>
+      </div>
+      <p>hackpad details</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>  <span class="s">&#39;hackpad_oauth_client_id&#39;</span><span class="p">:</span><span class="s">&#39;&#39;</span><span class="p">,</span>
+  <span class="s">&#39;hackpad_oauth_secret&#39;</span><span class="p">:</span><span class="s">&#39;&#39;</span><span class="p">,</span>
+  <span class="s">&#39;hackpad_domain&#39;</span><span class="p">:</span><span class="s">&#39;&#39;</span><span class="p">,</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-6'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-6'>#</a>
+      </div>
+      <p>google api key</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>  <span class="s">&#39;google_api_key&#39;</span><span class="p">:</span> <span class="s">&#39;&#39;</span><span class="p">,</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-7'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-7'>#</a>
+      </div>
+      <p>bitly access token</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>  <span class="s">&#39;bitly_access_token&#39;</span><span class="p">:</span> <span class="s">&#39;&#39;</span><span class="p">,</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-8'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-8'>#</a>
+      </div>
+      <p>other control variables</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>  <span class="s">&#39;tinymce_valid_elements&#39;</span><span class="p">:</span> <span class="s">&#39;&#39;</span><span class="p">,</span>
+  <span class="s">&#39;post_char_limit&#39;</span><span class="p">:</span> <span class="mi">1000</span><span class="p">,</span>
+  <span class="s">&#39;sticky&#39;</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span>
+  <span class="s">&#39;read_only&#39;</span> <span class="p">:</span> <span class="bp">False</span><span class="p">,</span>
+  <span class="s">&#39;max_simultaneous_connections&#39;</span> <span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+  <span class="s">&#39;hot_post_set_count&#39;</span><span class="p">:</span> <span class="mi">200</span><span class="p">,</span>
+  <span class="s">&#39;staff&#39;</span><span class="p">:[</span> <span class="s">&#39;nickgrossman&#39;</span><span class="p">],</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-9'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-9'>#</a>
+      </div>
+      <p>define the various roles and what capabilities they support</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>  <span class="s">&#39;staff_capabilities&#39;</span><span class="p">:</span> <span class="p">[</span>
+    <span class="s">&#39;send_daily_email&#39;</span><span class="p">,</span>
+    <span class="s">&#39;see_admin_link&#39;</span><span class="p">,</span>
+    <span class="s">&#39;delete_users&#39;</span><span class="p">,</span>
+    <span class="s">&#39;delete_posts&#39;</span><span class="p">,</span>
+    <span class="s">&#39;post_rich_media&#39;</span><span class="p">,</span>
+    <span class="s">&#39;feature_posts&#39;</span><span class="p">,</span>
+    <span class="s">&#39;edit_posts&#39;</span><span class="p">,</span>
+    <span class="s">&#39;super_upvote&#39;</span><span class="p">,</span>
+    <span class="s">&#39;super_downvote&#39;</span><span class="p">,</span>
+    <span class="s">&#39;downvote_posts&#39;</span><span class="p">,</span>
+    <span class="s">&#39;manage_disqus&#39;</span><span class="p">,</span>
+    <span class="s">&#39;view_post_sort_score&#39;</span>
+  <span class="p">],</span>
+  <span class="s">&#39;user_capabilities&#39;</span><span class="p">:</span> <span class="p">[],</span>
+
+  <span class="s">&#39;module_dir&#39;</span><span class="p">:</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">PROJECT_ROOT</span><span class="p">,</span> <span class="s">&#39;templates/modules&#39;</span><span class="p">)</span>
+<span class="p">}</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-10'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-10'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="n">key</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-11'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-11'>#</a>
+      </div>
+      <p>check for an environmental variable (used w Heroku) first</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;ENVIRONMENT&#39;</span><span class="p">):</span>
+        <span class="n">env</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;ENVIRONMENT&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">env</span> <span class="o">=</span> <span class="n">tornado</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">environment</span>
+
+    <span class="k">if</span> <span class="n">env</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">options</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s">&quot;Invalid Environment (</span><span class="si">%s</span><span class="s">)&quot;</span> <span class="o">%</span> <span class="n">env</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">key</span> <span class="o">==</span> <span class="s">&#39;environment&#39;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">env</span>
+
+    <span class="n">v</span> <span class="o">=</span> <span class="n">options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">env</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">)</span> <span class="ow">or</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="o">.</span><span class="n">upper</span><span class="p">())</span> <span class="ow">or</span> <span class="n">default_options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="nb">callable</span><span class="p">(</span><span class="n">v</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">v</span>
+
+    <span class="k">if</span> <span class="n">v</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">v</span>
+
+    <span class="k">return</span> <span class="n">default_options</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+
+</pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+</div>
+</body>

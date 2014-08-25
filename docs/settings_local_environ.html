@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <title>settings_local_environ.py</title>
+  <link rel="stylesheet" href="pycco.css">
+</head>
+<body>
+<div id="background"></div>
+<div id='container'>
+  <div class='section'>
+    <div class='docs'><h1>settings_local_environ.py</h1></div>
+  </div>
+  <div class='clearall'>
+  <div class='section' id='section-0'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-0'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="kn">import</span> <span class="nn">os</span>
+
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s">&#39;ACTIVE_THEME&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;default&quot;</span>
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s">&#39;SITE_TITLE&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;TheConversation&quot;</span>
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s">&#39;SITE_INTRO&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;&lt;p&gt;sandbox site&lt;/p&gt;&#39;</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-1'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-1'>#</a>
+      </div>
+      <p>DEV DB</p>
+<p>os.environ['MONGODB_URL'] = "mongodb://conversationdev:conversationdev-pw@ds039379.mongolab.com:39379/sandbox3"
+os.environ['DB_NAME'] = "sandbox3"</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-2'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-2'>#</a>
+      </div>
+      <p>PROD DB</p>
+<p>os.environ['MONGODB_URL'] = 'mongodb://zander:Bdway1915@ds047198.mongolab.com:47198/usv-prod-mongolab'
+os.environ['DB_NAME'] = 'usv-prod-mongolab'</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s">&#39;MONGODB_URL&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;localhost&#39;</span>
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s">&#39;DB_NAME&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&#39;usv&#39;</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-3'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-3'>#</a>
+      </div>
+      <p>ENVIRONMENT.  dev for local DB.  test for dev.usv.com db</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s">&#39;ENVIRONMENT&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;dev&quot;</span>
+
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s">&#39;BASE_URL&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;localhost:8001&quot;</span>
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s">&#39;COOKIE_SECRET&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;adfsadfldskfk3333&quot;</span>
+
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s">&#39;DISQUS_PUBLIC_KEY&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;yVmONnJV7GtOlVQ4kMr156eU3PVDxax5iIGmjbqLzIt3RqVcDCLdkv8Bj6lbZzHW&quot;</span>
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s">&#39;DISQUS_SECRET_KEY&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;xkiF2wsAEKolLwyZ7sjyOsQbyz0tWNeBFQWxnZecVtf4pYeCCRN1HZDoP9pFMNxq&quot;</span>
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s">&#39;DISQUS_SHORT_CODE&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;theconversationsandbox&quot;</span>
+
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s">&#39;TWITTER_CONSUMER_KEY&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;pZzpUhMWaAr7PgfgHOalnGWV9&quot;</span>
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s">&#39;TWITTER_CONSUMER_SECRET&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;emfQNa0thz91zCYMoFx04lddHCIE1yAs9G9xGkwEIJOKueQlHO&quot;</span>
+
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s">&#39;CUSTOMER_IO_SITE_ID&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;a4a849a7757297138069&quot;</span>
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s">&#39;CUSTOMER_IO_API_KEY&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s">&quot;688da94223bd73af6db4&quot;</span>
+
+</pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+</div>
+</body>

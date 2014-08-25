@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <title>stats.py</title>
+  <link rel="stylesheet" href="../pycco.css">
+</head>
+<body>
+<div id="background"></div>
+<div id='container'>
+  <div class='section'>
+    <div class='docs'><h1>stats.py</h1></div>
+  </div>
+  <div class='clearall'>
+  <div class='section' id='section-0'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-0'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="kn">import</span> <span class="nn">sys</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s">&#39;/Users/nick/dev/conversation&#39;</span><span class="p">)</span>
+<span class="kn">import</span> <span class="nn">settings</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timedelta</span>
+<span class="kn">import</span> <span class="nn">optparse</span>
+<span class="kn">from</span> <span class="nn">lib</span> <span class="kn">import</span> <span class="n">statsdb</span><span class="p">,</span> <span class="n">postsdb</span>
+
+<span class="n">parser</span> <span class="o">=</span> <span class="n">optparse</span><span class="o">.</span><span class="n">OptionParser</span><span class="p">()</span>
+<span class="n">parser</span><span class="o">.</span><span class="n">add_option</span><span class="p">(</span><span class="s">&#39;-s&#39;</span><span class="p">,</span> <span class="s">&#39;--start&#39;</span><span class="p">,</span>
+        <span class="n">action</span><span class="o">=</span><span class="s">&quot;store&quot;</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="s">&quot;start_date&quot;</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s">&quot;start date&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s">&quot;today&quot;</span><span class="p">)</span>
+<span class="n">options</span><span class="p">,</span> <span class="n">args</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
+
+<span class="k">if</span> <span class="n">options</span><span class="o">.</span><span class="n">start_date</span> <span class="o">==</span> <span class="s">&quot;today&quot;</span><span class="p">:</span>
+    <span class="n">options</span><span class="o">.</span><span class="n">start_date</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">today</span><span class="p">()</span>
+
+<span class="n">start_date_str</span> <span class="o">=</span> <span class="n">options</span><span class="o">.</span><span class="n">start_date</span>
+<span class="n">start_date</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">start_date_str</span><span class="p">,</span> <span class="s">&quot;%m-</span><span class="si">%d</span><span class="s">-%Y&quot;</span><span class="p">)</span>
+<span class="n">end_date</span> <span class="o">=</span> <span class="n">start_date</span> <span class="o">+</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="mi">7</span><span class="p">)</span>
+<span class="n">count</span> <span class="o">=</span> <span class="n">postsdb</span><span class="o">.</span><span class="n">get_post_count_for_range</span><span class="p">(</span><span class="n">start_date</span><span class="p">,</span> <span class="n">end_date</span><span class="p">)</span>
+<span class="n">unique_posters</span> <span class="o">=</span> <span class="n">postsdb</span><span class="o">.</span><span class="n">get_unique_posters</span><span class="p">(</span><span class="n">start_date</span><span class="p">,</span> <span class="n">end_date</span><span class="p">)</span>
+<span class="n">single_post_count</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="k">for</span> <span class="n">user</span> <span class="ow">in</span> <span class="n">unique_posters</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">user</span><span class="p">[</span><span class="s">&#39;count&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">single_post_count</span> <span class="o">+=</span> <span class="mi">1</span>
+
+
+<span class="k">print</span> <span class="s">&quot;Week starting </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">start_date_str</span>
+<span class="k">print</span> <span class="s">&quot;+++ </span><span class="si">%s</span><span class="s"> posts&quot;</span> <span class="o">%</span> <span class="n">count</span>
+<span class="k">print</span> <span class="s">&quot;+++ </span><span class="si">%s</span><span class="s"> unique posters&quot;</span> <span class="o">%</span> <span class="nb">len</span><span class="p">(</span><span class="n">unique_posters</span><span class="p">)</span>
+<span class="k">print</span> <span class="s">&quot;+++ </span><span class="si">%s</span><span class="s"> one-time posters&quot;</span> <span class="o">%</span> <span class="n">single_post_count</span>
+
+</pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+</div>
+</body>

@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <title>api.py</title>
+  <link rel="stylesheet" href="../pycco.css">
+</head>
+<body>
+<div id="background"></div>
+<div id='container'>
+  <div class='section'>
+    <div class='docs'><h1>api.py</h1></div>
+  </div>
+  <div class='clearall'>
+  <div class='section' id='section-0'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-0'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="kn">import</span> <span class="nn">app.basic</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">settings</span>
+<span class="kn">import</span> <span class="nn">datetime</span>
+
+<span class="kn">from</span> <span class="nn">lib</span> <span class="kn">import</span> <span class="n">disqus</span>
+<span class="kn">from</span> <span class="nn">lib</span> <span class="kn">import</span> <span class="n">postsdb</span>
+<span class="kn">from</span> <span class="nn">lib</span> <span class="kn">import</span> <span class="n">userdb</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-1'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-1'>#</a>
+      </div>
+      <h6></h6>
+<h2>Alerting to share owner (and other subscribers) on new Disqus comments</h2>
+<h2>/api/incr_comment_count</h2>
+<h6></h6>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">class</span> <span class="nc">DisqusCallback</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">basic</span><span class="o">.</span><span class="n">BaseHandler</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-2'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-2'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">comment</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_argument</span><span class="p">(</span><span class="s">&#39;comment&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">)</span>
+        <span class="n">post_slug</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_argument</span><span class="p">(</span><span class="s">&#39;post&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">)</span>
+        <span class="n">post</span> <span class="o">=</span> <span class="n">postsdb</span><span class="o">.</span><span class="n">get_post_by_slug</span><span class="p">(</span><span class="n">post_slug</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">post</span><span class="p">:</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-3'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-3'>#</a>
+      </div>
+      <p>increment the comment count for this post</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>            <span class="n">post</span><span class="p">[</span><span class="s">&#39;comment_count&#39;</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="n">postsdb</span><span class="o">.</span><span class="n">save_post</span><span class="p">(</span><span class="n">post</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-4'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-4'>#</a>
+      </div>
+      <p>determine if anyone is subscribed to this post (for email alerts)</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">post</span><span class="p">[</span><span class="s">&#39;subscribed&#39;</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-5'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-5'>#</a>
+      </div>
+      <p>attempt to get the current user's email (we don't need to alert them)</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>                <span class="n">author_email</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_user</span><span class="p">:</span>
+                    <span class="n">author</span> <span class="o">=</span> <span class="n">userdb</span><span class="o">.</span><span class="n">get_user_by_screen_name</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">current_user</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">author</span> <span class="ow">and</span> <span class="s">&#39;email_address&#39;</span> <span class="ow">in</span> <span class="n">author</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="ow">and</span> <span class="n">author</span><span class="p">[</span><span class="s">&#39;email_address&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="o">!=</span> <span class="s">&#39;&#39;</span><span class="p">:</span>
+                        <span class="n">author_email</span> <span class="o">=</span> <span class="n">author</span><span class="p">[</span><span class="s">&#39;email_address&#39;</span><span class="p">]</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-6'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-6'>#</a>
+      </div>
+      <p>get the message details from Disqus</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>                <span class="n">message</span> <span class="o">=</span> <span class="n">disqus</span><span class="o">.</span><span class="n">get_post_details</span><span class="p">(</span><span class="n">comment</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">message</span><span class="p">[</span><span class="s">&#39;message&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="o">!=</span> <span class="s">&#39;&#39;</span><span class="p">:</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-7'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-7'>#</a>
+      </div>
+      <p>send the emails with details</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>                    <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+                    <span class="n">subject</span> <span class="o">=</span> <span class="s">&#39;New message on: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">post</span><span class="p">[</span><span class="s">&#39;title&#39;</span><span class="p">]</span>
+                    <span class="n">text</span> <span class="o">=</span> <span class="s">&#39;The following comment was just added to your share on usv.com.</span><span class="se">\n\n</span><span class="si">%s</span><span class="se">\n\n</span><span class="s">You can engaged in the conversation, and manage your alert settings for this share, at http://www.usv.com/posts/</span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">message</span><span class="p">[</span><span class="s">&#39;message&#39;</span><span class="p">],</span> <span class="n">post</span><span class="p">[</span><span class="s">&#39;slug&#39;</span><span class="p">])</span>
+                    <span class="k">for</span> <span class="n">email</span> <span class="ow">in</span> <span class="n">post</span><span class="p">[</span><span class="s">&#39;subscribed&#39;</span><span class="p">]:</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-8'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-8'>#</a>
+      </div>
+      <p>attempt to send to each of these subscribed people (don't send to author)</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>                        <span class="k">if</span> <span class="n">email</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">!=</span> <span class="n">author_email</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">and</span> <span class="n">email</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="o">!=</span> <span class="s">&#39;&#39;</span><span class="p">:</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">send_email</span><span class="p">(</span><span class="s">&#39;alerts@usv.com&#39;</span><span class="p">,</span> <span class="n">email</span><span class="p">,</span> <span class="n">subject</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">api_response</span><span class="p">(</span><span class="s">&#39;OK&#39;</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-9'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-9'>#</a>
+      </div>
+      <h6></h6>
+<h2>Get a user's status</h2>
+<h2>/api/user_status</h2>
+<h6></h6>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">class</span> <span class="nc">GetUserStatus</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">basic</span><span class="o">.</span><span class="n">BaseHandler</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-10'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-10'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">status</span> <span class="o">=</span> <span class="s">&#39;none&#39;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_user</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_user</span> <span class="ow">in</span> <span class="n">settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;staff&#39;</span><span class="p">):</span>
+                <span class="n">status</span> <span class="o">=</span> <span class="s">&#39;staff&#39;</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_blacklisted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">current_user</span><span class="p">):</span>
+                <span class="n">status</span> <span class="o">=</span> <span class="s">&#39;blacklisted&#39;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">status</span> <span class="o">=</span> <span class="s">&#39;user&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">api_response</span><span class="p">(</span><span class="n">status</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-11'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-11'>#</a>
+      </div>
+      <h6></h6>
+<h2>Get list of users who have voted on a post</h2>
+<h2>/api/voted_users/(.+)</h2>
+<h6></h6>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">class</span> <span class="nc">GetVotedUsers</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">basic</span><span class="o">.</span><span class="n">BaseHandler</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-12'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-12'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">slug</span><span class="p">):</span>
+        <span class="n">voted_users</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">post</span> <span class="o">=</span> <span class="n">postsdb</span><span class="o">.</span><span class="n">get_post_by_slug</span><span class="p">(</span><span class="n">slug</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">post</span><span class="p">:</span>
+            <span class="n">voted_users</span> <span class="o">=</span> <span class="n">post</span><span class="p">[</span><span class="s">&#39;voted_users&#39;</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">user</span> <span class="ow">in</span> <span class="n">voted_users</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">user</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;username&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="n">post</span><span class="p">[</span><span class="s">&#39;user&#39;</span><span class="p">][</span><span class="s">&#39;username&#39;</span><span class="p">]:</span>
+                    <span class="n">voted_users</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">user</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="s">&#39;post/voted_users.html&#39;</span><span class="p">,</span> <span class="n">voted_users</span><span class="o">=</span><span class="n">voted_users</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-13'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-13'>#</a>
+      </div>
+      <h6></h6>
+<h2>Check to see if we already have a post by url</h2>
+<h2>/api/check_for_url?url=foo</h2>
+<h6></h6>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">class</span> <span class="nc">CheckForUrl</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">basic</span><span class="o">.</span><span class="n">BaseHandler</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-14'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-14'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">):</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="p">{</span>
+          <span class="s">&quot;exists&quot;</span><span class="p">:</span> <span class="bp">False</span><span class="p">,</span>
+          <span class="s">&quot;posts&quot;</span><span class="p">:</span> <span class="p">[]</span>
+        <span class="p">}</span>
+        <span class="n">posts</span> <span class="o">=</span> <span class="n">postsdb</span><span class="o">.</span><span class="n">get_post_by_url</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">posts</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">response</span><span class="p">[</span><span class="s">&quot;exists&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">True</span>
+            <span class="n">response</span><span class="p">[</span><span class="s">&quot;posts&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">posts</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">api_response</span><span class="p">(</span><span class="n">response</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-15'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-15'>#</a>
+      </div>
+      <h6></h6>
+<h2>Get a day's worth of posts</h2>
+<h2>/api/posts/get_day</h2>
+<h6></h6>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">class</span> <span class="nc">PostsGetDay</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">basic</span><span class="o">.</span><span class="n">BaseHandler</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-16'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-16'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">day</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_argument</span><span class="p">(</span><span class="s">&#39;day&#39;</span><span class="p">),</span> <span class="s">&quot;%Y-%m-</span><span class="si">%d</span><span class="s"> %H:%M:%S&quot;</span><span class="p">)</span>
+        <span class="n">yesterday</span> <span class="o">=</span> <span class="n">day</span> <span class="o">-</span> <span class="n">datetime</span><span class="o">.</span><span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">posts</span> <span class="o">=</span> <span class="n">postsdb</span><span class="o">.</span><span class="n">get_hot_posts_by_day</span><span class="p">(</span><span class="n">day</span><span class="p">)</span>
+        <span class="n">html</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">render_string</span><span class="p">(</span><span class="s">&#39;post/daily_posts_list_snippet.html&#39;</span><span class="p">,</span> <span class="n">today</span><span class="o">=</span><span class="n">day</span><span class="p">,</span> <span class="n">yesterday</span><span class="o">=</span><span class="n">yesterday</span><span class="p">,</span> <span class="n">posts</span><span class="o">=</span><span class="n">posts</span><span class="p">,</span> <span class="n">current_user_can</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">current_user_can</span><span class="p">)</span>
+        <span class="n">response</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">response</span><span class="p">[</span><span class="s">&#39;html&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">html</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">api_response</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
+
+</pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+</div>
+</body>

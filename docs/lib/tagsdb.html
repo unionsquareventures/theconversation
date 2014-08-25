@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <title>tagsdb.py</title>
+  <link rel="stylesheet" href="../pycco.css">
+</head>
+<body>
+<div id="background"></div>
+<div id='container'>
+  <div class='section'>
+    <div class='docs'><h1>tagsdb.py</h1></div>
+  </div>
+  <div class='clearall'>
+  <div class='section' id='section-0'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-0'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="kn">from</span> <span class="nn">bson.son</span> <span class="kn">import</span> <span class="n">SON</span>
+<span class="kn">from</span> <span class="nn">mongo</span> <span class="kn">import</span> <span class="n">db</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timedelta</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-1'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-1'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">get_user_tags</span><span class="p">(</span><span class="n">screen_name</span><span class="p">):</span>
+    <span class="n">tags</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">post</span><span class="o">.</span><span class="n">aggregate</span><span class="p">([</span>
+      <span class="p">{</span><span class="s">&#39;$unwind&#39;</span><span class="p">:</span><span class="s">&#39;$tags&#39;</span><span class="p">},</span>
+      <span class="p">{</span><span class="s">&#39;$match&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s">&#39;user.screen_name&#39;</span><span class="p">:</span><span class="n">screen_name</span><span class="p">}},</span>
+      <span class="p">{</span><span class="s">&#39;$group&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s">&#39;_id&#39;</span><span class="p">:</span> <span class="s">&#39;$tags&#39;</span><span class="p">,</span> <span class="s">&#39;count&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s">&#39;$sum&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">}}},</span>
+      <span class="p">{</span><span class="s">&quot;$sort&quot;</span><span class="p">:</span> <span class="n">SON</span><span class="p">([(</span><span class="s">&quot;count&quot;</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="s">&quot;_id&quot;</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)])}</span>
+    <span class="p">])</span>
+    <span class="k">return</span> <span class="n">tags</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-2'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-2'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">get_all_tags</span><span class="p">(</span><span class="n">sort</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">sort</span> <span class="ow">or</span> <span class="n">sort</span> <span class="o">==</span> <span class="s">&quot;count&quot;</span><span class="p">:</span>
+        <span class="n">sort</span> <span class="o">=</span> <span class="n">SON</span><span class="p">([(</span><span class="s">&quot;count&quot;</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="s">&quot;_id&quot;</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)])</span>
+    <span class="k">if</span> <span class="n">sort</span> <span class="o">==</span> <span class="s">&quot;alpha&quot;</span><span class="p">:</span>
+        <span class="n">sort</span> <span class="o">=</span> <span class="n">SON</span><span class="p">([(</span><span class="s">&quot;_id&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)])</span>
+
+    <span class="n">tags</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">post</span><span class="o">.</span><span class="n">aggregate</span><span class="p">([</span>
+      <span class="p">{</span><span class="s">&#39;$unwind&#39;</span><span class="p">:</span><span class="s">&#39;$tags&#39;</span><span class="p">},</span>
+      <span class="p">{</span><span class="s">&#39;$group&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s">&#39;_id&#39;</span><span class="p">:</span> <span class="s">&#39;$tags&#39;</span><span class="p">,</span> <span class="s">&#39;count&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s">&#39;$sum&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">}}},</span>
+      <span class="p">{</span><span class="s">&quot;$sort&quot;</span><span class="p">:</span> <span class="n">sort</span><span class="p">}</span>
+    <span class="p">])</span>
+    <span class="k">return</span> <span class="n">tags</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-3'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-3'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">get_hot_tags</span><span class="p">():</span>
+    <span class="n">today</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">today</span><span class="p">()</span>
+    <span class="n">two_weeks_ago</span> <span class="o">=</span> <span class="n">today</span> <span class="o">+</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=-</span><span class="mi">14</span><span class="p">)</span>
+    <span class="n">tags</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">post</span><span class="o">.</span><span class="n">aggregate</span><span class="p">([</span>
+      <span class="p">{</span><span class="s">&#39;$unwind&#39;</span><span class="p">:</span><span class="s">&#39;$tags&#39;</span><span class="p">},</span>
+      <span class="p">{</span><span class="s">&#39;$match&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s">&#39;date_created&#39;</span><span class="p">:{</span><span class="s">&#39;$gte&#39;</span><span class="p">:</span><span class="n">two_weeks_ago</span><span class="p">}}},</span>
+      <span class="p">{</span><span class="s">&#39;$group&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s">&#39;_id&#39;</span><span class="p">:</span> <span class="s">&#39;$tags&#39;</span><span class="p">,</span> <span class="s">&#39;count&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s">&#39;$sum&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">}}},</span>
+      <span class="p">{</span><span class="s">&quot;$sort&quot;</span><span class="p">:</span> <span class="n">SON</span><span class="p">([(</span><span class="s">&quot;count&quot;</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="s">&quot;_id&quot;</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)])},</span>
+      <span class="p">{</span><span class="s">&quot;$limit&quot;</span><span class="p">:</span> <span class="mi">24</span><span class="p">}</span>
+    <span class="p">])</span>
+    <span class="k">return</span> <span class="n">tags</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-4'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-4'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">get_user_tags</span><span class="p">(</span><span class="n">screen_name</span><span class="p">):</span>
+    <span class="n">tags</span> <span class="o">=</span> <span class="n">db</span><span class="o">.</span><span class="n">post</span><span class="o">.</span><span class="n">aggregate</span><span class="p">([</span>
+      <span class="p">{</span><span class="s">&#39;$unwind&#39;</span><span class="p">:</span><span class="s">&#39;$tags&#39;</span><span class="p">},</span>
+      <span class="p">{</span><span class="s">&#39;$match&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s">&#39;user.screen_name&#39;</span><span class="p">:</span><span class="n">screen_name</span><span class="p">}},</span>
+      <span class="p">{</span><span class="s">&#39;$group&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s">&#39;_id&#39;</span><span class="p">:</span> <span class="s">&#39;$tags&#39;</span><span class="p">,</span> <span class="s">&#39;count&#39;</span><span class="p">:</span> <span class="p">{</span><span class="s">&#39;$sum&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">}}},</span>
+      <span class="p">{</span><span class="s">&quot;$sort&quot;</span><span class="p">:</span> <span class="n">SON</span><span class="p">([(</span><span class="s">&quot;count&quot;</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="s">&quot;_id&quot;</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)])}</span>
+    <span class="p">])</span>
+    <span class="k">return</span> <span class="n">tags</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-5'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-5'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">save_tag</span><span class="p">(</span><span class="n">tag</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">db</span><span class="o">.</span><span class="n">tag</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s">&#39;name&#39;</span><span class="p">:</span><span class="n">tag</span><span class="p">},</span> <span class="p">{</span><span class="s">&#39;name&#39;</span><span class="p">:</span><span class="n">tag</span><span class="p">},</span> <span class="n">upsert</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+</pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+</div>
+</body>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <title>tests.py</title>
+  <link rel="stylesheet" href="pycco.css">
+</head>
+<body>
+<div id="background"></div>
+<div id='container'>
+  <div class='section'>
+    <div class='docs'><h1>tests.py</h1></div>
+  </div>
+  <div class='clearall'>
+  <div class='section' id='section-0'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-0'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="kn">from</span> <span class="nn">splinter</span> <span class="kn">import</span> <span class="n">Browser</span>
+
+<span class="n">browser</span> <span class="o">=</span> <span class="n">Browser</span><span class="p">(</span><span class="s">&#39;phantomjs&#39;</span><span class="p">)</span>
+
+<span class="n">browser</span><span class="o">.</span><span class="n">visit</span><span class="p">(</span><span class="s">&#39;http://dev.usv.com&#39;</span><span class="p">)</span>
+<span class="k">if</span> <span class="n">browser</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">&quot;success&quot;</span><span class="p">)</span>
+
+</pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+</div>
+</body>

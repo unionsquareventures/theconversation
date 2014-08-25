@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <title>twitter.py</title>
+  <link rel="stylesheet" href="../pycco.css">
+</head>
+<body>
+<div id="background"></div>
+<div id='container'>
+  <div class='section'>
+    <div class='docs'><h1>twitter.py</h1></div>
+  </div>
+  <div class='clearall'>
+  <div class='section' id='section-0'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-0'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="kn">import</span> <span class="nn">tweepy</span>
+<span class="kn">import</span> <span class="nn">app.basic</span>
+<span class="kn">import</span> <span class="nn">settings</span>
+
+<span class="kn">from</span> <span class="nn">lib</span> <span class="kn">import</span> <span class="n">userdb</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-1'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-1'>#</a>
+      </div>
+      <h6></h6>
+<h2>AUTH VIA TWITTER</h2>
+<h2>/auth/twitter</h2>
+<h6></h6>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">class</span> <span class="nc">Auth</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">basic</span><span class="o">.</span><span class="n">BaseHandler</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-2'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-2'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">consumer_key</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;twitter_consumer_key&#39;</span><span class="p">)</span>
+        <span class="n">consumer_secret</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;twitter_consumer_secret&#39;</span><span class="p">)</span>
+        <span class="n">callback_host</span> <span class="o">=</span> <span class="s">&#39;http://</span><span class="si">%s</span><span class="s">/twitter&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="s">&#39;host&#39;</span><span class="p">]</span>
+        <span class="n">auth</span> <span class="o">=</span> <span class="n">tweepy</span><span class="o">.</span><span class="n">OAuthHandler</span><span class="p">(</span><span class="n">consumer_key</span><span class="p">,</span> <span class="n">consumer_secret</span><span class="p">,</span> <span class="n">callback_host</span><span class="p">,</span> <span class="n">secure</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+        <span class="n">auth_url</span> <span class="o">=</span> <span class="n">auth</span><span class="o">.</span><span class="n">get_authorization_url</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_secure_cookie</span><span class="p">(</span><span class="s">&quot;request_token_key&quot;</span><span class="p">,</span> <span class="n">auth</span><span class="o">.</span><span class="n">request_token</span><span class="o">.</span><span class="n">key</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_secure_cookie</span><span class="p">(</span><span class="s">&quot;request_token_secret&quot;</span><span class="p">,</span> <span class="n">auth</span><span class="o">.</span><span class="n">request_token</span><span class="o">.</span><span class="n">secret</span><span class="p">)</span>
+        <span class="n">redirect</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_argument</span><span class="p">(</span><span class="s">&#39;next&#39;</span><span class="p">,</span> <span class="s">&#39;/&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_secure_cookie</span><span class="p">(</span><span class="s">&quot;twitter_auth_redirect&quot;</span><span class="p">,</span> <span class="n">redirect</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">redirect</span><span class="p">(</span><span class="n">auth_url</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-3'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-3'>#</a>
+      </div>
+      <h6></h6>
+<h2>RESPONSE FROM TWITTER AUTH</h2>
+<h2>/twitter</h2>
+<h6></h6>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">class</span> <span class="nc">Twitter</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">basic</span><span class="o">.</span><span class="n">BaseHandler</span><span class="p">):</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-4'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-4'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">oauth_verifier</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_argument</span><span class="p">(</span><span class="s">&#39;oauth_verifier&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">)</span>
+        <span class="n">consumer_key</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;twitter_consumer_key&#39;</span><span class="p">)</span>
+        <span class="n">consumer_secret</span> <span class="o">=</span> <span class="n">settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;twitter_consumer_secret&#39;</span><span class="p">)</span>
+        <span class="n">auth</span> <span class="o">=</span> <span class="n">tweepy</span><span class="o">.</span><span class="n">OAuthHandler</span><span class="p">(</span><span class="n">consumer_key</span><span class="p">,</span> <span class="n">consumer_secret</span><span class="p">,</span> <span class="n">secure</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+        <span class="n">auth</span><span class="o">.</span><span class="n">set_request_token</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_secure_cookie</span><span class="p">(</span><span class="s">&#39;request_token_key&#39;</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_secure_cookie</span><span class="p">(</span><span class="s">&#39;request_token_secret&#39;</span><span class="p">))</span>
+        <span class="n">auth</span><span class="o">.</span><span class="n">get_access_token</span><span class="p">(</span><span class="n">oauth_verifier</span><span class="p">)</span>
+        <span class="n">screen_name</span> <span class="o">=</span> <span class="n">auth</span><span class="o">.</span><span class="n">get_username</span><span class="p">()</span>
+        <span class="n">bounce_to</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_secure_cookie</span><span class="p">(</span><span class="s">&#39;twitter_auth_redirect&#39;</span><span class="p">)</span> <span class="ow">or</span> <span class="s">&#39;/&#39;</span>
+
+        <span class="n">access_token</span> <span class="o">=</span> <span class="p">{</span>
+          <span class="s">&#39;secret&#39;</span><span class="p">:</span> <span class="n">auth</span><span class="o">.</span><span class="n">access_token</span><span class="o">.</span><span class="n">secret</span><span class="p">,</span>
+          <span class="s">&#39;user_id&#39;</span><span class="p">:</span> <span class="s">&#39;&#39;</span><span class="p">,</span>
+          <span class="s">&#39;screen_name&#39;</span><span class="p">:</span> <span class="s">&#39;&#39;</span><span class="p">,</span>
+          <span class="s">&#39;key&#39;</span><span class="p">:</span> <span class="n">auth</span><span class="o">.</span><span class="n">access_token</span><span class="o">.</span><span class="n">key</span>
+        <span class="p">}</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-5'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-5'>#</a>
+      </div>
+      <p>check if we have this user already or not in the system</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>        <span class="n">user</span> <span class="o">=</span> <span class="n">userdb</span><span class="o">.</span><span class="n">get_user_by_screen_name</span><span class="p">(</span><span class="n">screen_name</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">user</span><span class="p">:</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-6'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-6'>#</a>
+      </div>
+      <p>set the cookies based on account details</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>            <span class="bp">self</span><span class="o">.</span><span class="n">set_secure_cookie</span><span class="p">(</span><span class="s">&quot;user_id_str&quot;</span><span class="p">,</span> <span class="n">user</span><span class="p">[</span><span class="s">&#39;user&#39;</span><span class="p">][</span><span class="s">&#39;id_str&#39;</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">set_secure_cookie</span><span class="p">(</span><span class="s">&quot;username&quot;</span><span class="p">,</span> <span class="n">user</span><span class="p">[</span><span class="s">&#39;user&#39;</span><span class="p">][</span><span class="s">&#39;screen_name&#39;</span><span class="p">])</span>
+            <span class="k">if</span> <span class="s">&#39;email_address&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">user</span> <span class="ow">or</span> <span class="p">(</span><span class="s">&#39;email_address&#39;</span> <span class="ow">in</span> <span class="n">user</span> <span class="ow">and</span> <span class="n">user</span><span class="p">[</span><span class="s">&#39;email_address&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s">&#39;&#39;</span><span class="p">):</span>
+                <span class="n">bounce_to</span> <span class="o">=</span> <span class="s">&#39;/user/</span><span class="si">%s</span><span class="s">/settings?1&#39;</span> <span class="o">%</span> <span class="n">screen_name</span>
+        <span class="k">else</span><span class="p">:</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-7'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-7'>#</a>
+      </div>
+      <p>need to create the account (so get more details from Twitter)</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>            <span class="n">auth</span> <span class="o">=</span> <span class="n">tweepy</span><span class="o">.</span><span class="n">OAuthHandler</span><span class="p">(</span><span class="n">consumer_key</span><span class="p">,</span> <span class="n">consumer_secret</span><span class="p">,</span> <span class="n">secure</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+            <span class="n">api</span> <span class="o">=</span> <span class="n">tweepy</span><span class="o">.</span><span class="n">API</span><span class="p">(</span><span class="n">auth</span><span class="p">)</span>
+            <span class="n">user</span> <span class="o">=</span> <span class="n">api</span><span class="o">.</span><span class="n">get_user</span><span class="p">(</span><span class="n">screen_name</span><span class="p">)</span>
+            <span class="n">access_token</span><span class="p">[</span><span class="s">&#39;user_id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">user</span><span class="o">.</span><span class="n">id</span>
+            <span class="n">access_token</span><span class="p">[</span><span class="s">&#39;screen_name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">user</span><span class="o">.</span><span class="n">screen_name</span>
+            <span class="n">user_data</span> <span class="o">=</span> <span class="p">{</span>
+              <span class="s">&#39;auth_type&#39;</span><span class="p">:</span> <span class="s">&#39;twitter&#39;</span><span class="p">,</span>
+              <span class="s">&#39;id_str&#39;</span><span class="p">:</span> <span class="n">user</span><span class="o">.</span><span class="n">id_str</span><span class="p">,</span>
+              <span class="s">&#39;username&#39;</span><span class="p">:</span> <span class="n">user</span><span class="o">.</span><span class="n">screen_name</span><span class="p">,</span>
+              <span class="s">&#39;fullname&#39;</span><span class="p">:</span> <span class="n">user</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+              <span class="s">&#39;screen_name&#39;</span><span class="p">:</span> <span class="n">user</span><span class="o">.</span><span class="n">screen_name</span><span class="p">,</span>
+              <span class="s">&#39;profile_image_url&#39;</span><span class="p">:</span> <span class="n">user</span><span class="o">.</span><span class="n">profile_image_url</span><span class="p">,</span>
+              <span class="s">&#39;profile_image_url_https&#39;</span><span class="p">:</span> <span class="n">user</span><span class="o">.</span><span class="n">profile_image_url_https</span><span class="p">,</span>
+            <span class="p">}</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-8'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-8'>#</a>
+      </div>
+      <p>now save to mongo</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>            <span class="n">userdb</span><span class="o">.</span><span class="n">create_new_user</span><span class="p">(</span><span class="n">user_data</span><span class="p">,</span> <span class="n">access_token</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-9'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-9'>#</a>
+      </div>
+      <p>and set our cookies</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>            <span class="bp">self</span><span class="o">.</span><span class="n">set_secure_cookie</span><span class="p">(</span><span class="s">&quot;user_id_str&quot;</span><span class="p">,</span> <span class="n">user</span><span class="o">.</span><span class="n">id_str</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">set_secure_cookie</span><span class="p">(</span><span class="s">&quot;username&quot;</span><span class="p">,</span> <span class="n">user</span><span class="o">.</span><span class="n">screen_name</span><span class="p">)</span>
+            <span class="n">bounce_to</span> <span class="o">=</span> <span class="s">&#39;/user/</span><span class="si">%s</span><span class="s">/settings?msg=twitter-thanks&#39;</span> <span class="o">%</span> <span class="n">screen_name</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-10'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-10'>#</a>
+      </div>
+      <p>let's save the screen_name to a cookie as well so we can use it for restricted bounces if need be</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>        <span class="bp">self</span><span class="o">.</span><span class="n">set_secure_cookie</span><span class="p">(</span><span class="s">&#39;screen_name&#39;</span><span class="p">,</span> <span class="n">screen_name</span><span class="p">,</span> <span class="n">expires_days</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-11'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-11'>#</a>
+      </div>
+      <p>bounce to account</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre>        <span class="bp">self</span><span class="o">.</span><span class="n">redirect</span><span class="p">(</span><span class="n">bounce_to</span><span class="p">)</span>
+
+</pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+</div>
+</body>

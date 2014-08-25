@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <title>hackpad.py</title>
+  <link rel="stylesheet" href="../pycco.css">
+</head>
+<body>
+<div id="background"></div>
+<div id='container'>
+  <div class='section'>
+    <div class='docs'><h1>hackpad.py</h1></div>
+  </div>
+  <div class='clearall'>
+  <div class='section' id='section-0'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-0'>#</a>
+      </div>
+      <p>Hackpad API. Documentation: https://hackpad.com/Public-Hackpad-API-Draft-nGhsrCJFlP7</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="kn">from</span> <span class="nn">tornado</span> <span class="kn">import</span> <span class="n">escape</span>
+<span class="kn">from</span> <span class="nn">tornado.auth</span> <span class="kn">import</span> <span class="n">_oauth10a_signature</span>
+<span class="kn">import</span> <span class="nn">urllib</span>
+<span class="kn">from</span> <span class="nn">urlparse</span> <span class="kn">import</span> <span class="n">urljoin</span>
+<span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">import</span> <span class="nn">settings</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">binascii</span>
+<span class="kn">import</span> <span class="nn">uuid</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">sys</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-1'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-1'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-2'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-2'>#</a>
+      </div>
+      <p>Returns all of the pad IDs</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">list_all</span><span class="p">():</span>
+    <span class="k">return</span> <span class="n">do_api_request</span><span class="p">(</span><span class="s">&#39;pads/all&#39;</span><span class="p">,</span> <span class="s">&#39;GET&#39;</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-3'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-3'>#</a>
+      </div>
+      <p>Creates and returns the new pad ID</p>
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">create_hackpad</span><span class="p">():</span>
+    <span class="k">return</span> <span class="n">do_api_request</span><span class="p">(</span><span class="s">&#39;pad/create&#39;</span><span class="p">,</span> <span class="s">&#39;POST&#39;</span><span class="p">,</span> <span class="p">{},</span> <span class="s">&#39;Hackpad Title</span><span class="se">\n</span><span class="s">Hackpad contents.&#39;</span><span class="p">)</span></pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+  <div class='section' id='section-4'>
+    <div class='docs'>
+      <div class='octowrap'>
+        <a class='octothorpe' href='#section-4'>#</a>
+      </div>
+      
+    </div>
+    <div class='code'>
+      <div class="highlight"><pre><span class="k">def</span> <span class="nf">do_api_request</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">method</span><span class="p">,</span> <span class="n">post_data</span><span class="o">=</span><span class="p">{},</span> <span class="n">body</span><span class="o">=</span><span class="s">&#39;&#39;</span><span class="p">):</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="n">urljoin</span><span class="p">(</span><span class="s">&#39;https://</span><span class="si">%s</span><span class="s">.hackpad.com/api/1.0/&#39;</span> <span class="o">%</span> <span class="n">settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;hackpad_domain&#39;</span><span class="p">),</span> <span class="n">path</span><span class="p">)</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+          <span class="n">oauth_consumer_key</span><span class="o">=</span><span class="n">escape</span><span class="o">.</span><span class="n">to_basestring</span><span class="p">(</span><span class="n">settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;hackpad_oauth_client_id&#39;</span><span class="p">)),</span>
+          <span class="n">oauth_signature_method</span><span class="o">=</span><span class="s">&#39;HMAC-SHA1&#39;</span><span class="p">,</span>
+          <span class="n">oauth_timestamp</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">())),</span>
+          <span class="n">oauth_nonce</span><span class="o">=</span><span class="n">escape</span><span class="o">.</span><span class="n">to_basestring</span><span class="p">(</span><span class="n">binascii</span><span class="o">.</span><span class="n">b2a_hex</span><span class="p">(</span><span class="n">uuid</span><span class="o">.</span><span class="n">uuid4</span><span class="p">()</span><span class="o">.</span><span class="n">bytes</span><span class="p">)),</span>
+          <span class="n">oauth_version</span><span class="o">=</span><span class="s">&#39;1.0a&#39;</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">signature</span> <span class="o">=</span> <span class="n">_oauth10a_signature</span><span class="p">(</span>
+          <span class="p">{</span>
+            <span class="s">&#39;key&#39;</span><span class="p">:</span><span class="n">settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;hackpad_oauth_client_id&#39;</span><span class="p">),</span>
+            <span class="s">&#39;secret&#39;</span><span class="p">:</span><span class="n">settings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;hackpad_oauth_secret&#39;</span><span class="p">)</span>
+          <span class="p">},</span>
+          <span class="n">method</span><span class="p">,</span>
+          <span class="n">url</span><span class="p">,</span>
+          <span class="n">args</span>
+        <span class="p">)</span>
+        <span class="n">args</span><span class="p">[</span><span class="s">&#39;oauth_signature&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">signature</span>
+        <span class="n">api_link</span> <span class="o">=</span> <span class="n">url</span> <span class="o">+</span> <span class="s">&#39;?&#39;</span> <span class="o">+</span> <span class="n">urllib</span><span class="o">.</span><span class="n">urlencode</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">api_link</span><span class="p">)</span>
+
+        <span class="n">hackpad</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="n">method</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="s">&#39;post&#39;</span><span class="p">:</span>
+            <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">post</span><span class="p">(</span>
+              <span class="n">api_link</span><span class="p">,</span>
+              <span class="n">data</span><span class="o">=</span><span class="n">body</span><span class="p">,</span>
+              <span class="n">headers</span><span class="o">=</span><span class="p">{</span><span class="s">&#39;Content-Type&#39;</span><span class="p">:</span> <span class="s">&#39;text/plain&#39;</span><span class="p">},</span>
+              <span class="n">verify</span><span class="o">=</span><span class="bp">False</span>
+            <span class="p">)</span>
+            <span class="n">hackpad</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">json</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+              <span class="n">api_link</span><span class="p">,</span>
+              <span class="n">headers</span><span class="o">=</span><span class="p">{</span><span class="s">&#39;Content-Type&#39;</span><span class="p">:</span> <span class="s">&#39;text/plain&#39;</span><span class="p">},</span>
+              <span class="n">verify</span><span class="o">=</span><span class="bp">False</span>
+            <span class="p">)</span>
+            <span class="n">hackpad</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">json</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="n">logging</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">exc_info</span><span class="p">()[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">hackpad</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="k">return</span> <span class="n">hackpad</span>
+
+</pre></div>
+    </div>
+  </div>
+  <div class='clearall'></div>
+</div>
+</body>
