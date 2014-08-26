@@ -13,10 +13,13 @@ import settings
 ###########################
 class ViewPage(app.basic.BaseHandler):
 	@tornado.web.authenticated
-	def get(self, path="index.html"):
+	def get(self, path=None):
 		if not self.current_user_can('view_docs'):
 			raise tornado.web.HTTPError(401)
-
+		
+		if not path:
+			self.redirect('/docs/index.html')
+			
 		# path starts with docs/ 
 		self.render(path)
 
