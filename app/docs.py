@@ -1,6 +1,30 @@
 """
 Make it so we can view the auto-generated docs.<br />
 Docs are built using [this fork of Pycco](https://github.com/nickgrossman/quezo-pycco/).
+
+Here's how it works:
+
+Documentation is automatically generated from [docstrings](https://www.python.org/dev/peps/pep-0257/) and inline comments.
+
+Whenever you add comments or update docstrings, if you want the documentation to get updated, you need to run `pycco` by hand:
+
+* Install this custom version of pycco: [https://github.com/nickgrossman/quezo-pycco/](https://github.com/nickgrossman/quezo-pycco/) -- download the code as a zip file, unzip it, then, from the command line, cd into the unzipped directory and run:
+
+`$ setup.py install`
+
+Next, cd into your application's code directory (for example: `$ cd ~/dev/theconversation`), and run pycco:
+
+`$ pycco . -p`
+
+The "." tells pycco to run in the current directory, and "-p" tells it to use the default file location (the `docs/` folder)
+
+This will overwrite your existing docs, which is fine -- since they are both just auto-generated from the codebase.  Commit them:
+
+`$ git add docs`
+
+`$ git commit -m "docs updated!"`
+
+etc.
 """
 import app.basic
 import tornado.web

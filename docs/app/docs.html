@@ -454,6 +454,20 @@
       </div>
       <p>Make it so we can view the auto-generated docs.<br />
 Docs are built using <a href="https://github.com/nickgrossman/quezo-pycco/">this fork of Pycco</a>.</p>
+<p>Here's how it works:</p>
+<p>Documentation is automatically generated from <a href="https://www.python.org/dev/peps/pep-0257/">docstrings</a> and inline comments.</p>
+<p>Whenever you add comments or update docstrings, if you want the documentation to get updated, you need to run <code>pycco</code> by hand:</p>
+<ul>
+<li>Install this custom version of pycco: <a href="https://github.com/nickgrossman/quezo-pycco/">https://github.com/nickgrossman/quezo-pycco/</a> -- download the code as a zip file, unzip it, then, from the command line, cd into the unzipped directory and run:</li>
+</ul>
+<p><code>$ setup.py install</code></p>
+<p>Next, cd into your application's code directory (for example: <code>$ cd ~/dev/theconversation</code>), and run pycco:</p>
+<p><code>$ pycco . -p</code></p>
+<p>The "." tells pycco to run in the current directory, and "-p" tells it to use the default file location (the <code>docs/</code> folder)</p>
+<p>This will overwrite your existing docs, which is fine -- since they are both just auto-generated from the codebase.  Commit them:</p>
+<p><code>$ git add docs</code></p>
+<p><code>$ git commit -m "docs updated!"</code></p>
+<p>etc.</p>
     </div>
     <div class='code'>
       <div class="highlight"><pre><span class="kn">import</span> <span class="nn">app.basic</span>
@@ -486,9 +500,12 @@ Docs are built using <a href="https://github.com/nickgrossman/quezo-pycco/">this
     </div>
     <div class='code'>
       <div class="highlight"><pre>	<span class="nd">@tornado.web.authenticated</span>
-	<span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="s">&quot;index.html&quot;</span><span class="p">):</span>
+	<span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
 		<span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_user_can</span><span class="p">(</span><span class="s">&#39;view_docs&#39;</span><span class="p">):</span>
-			<span class="k">raise</span> <span class="n">tornado</span><span class="o">.</span><span class="n">web</span><span class="o">.</span><span class="n">HTTPError</span><span class="p">(</span><span class="mi">401</span><span class="p">)</span></pre></div>
+			<span class="k">raise</span> <span class="n">tornado</span><span class="o">.</span><span class="n">web</span><span class="o">.</span><span class="n">HTTPError</span><span class="p">(</span><span class="mi">401</span><span class="p">)</span>
+		
+		<span class="k">if</span> <span class="ow">not</span> <span class="n">path</span><span class="p">:</span>
+			<span class="bp">self</span><span class="o">.</span><span class="n">redirect</span><span class="p">(</span><span class="s">&#39;/docs/index.html&#39;</span><span class="p">)</span></pre></div>
     </div>
   </div>
   <div class='clearall'></div>
