@@ -8,7 +8,7 @@ Documentation is automatically generated from [docstrings](https://www.python.or
 
 Whenever you add comments or update docstrings, if you want the documentation to get updated, you need to run `pycco` by hand:
 
-* Install this custom version of pycco: [https://github.com/nickgrossman/quezo-pycco/](https://github.com/nickgrossman/quezo-pycco/) -- download the code as a zip file, unzip it, then, from the command line, cd into the unzipped directory and run:
+Install this custom version of pycco: [https://github.com/nickgrossman/quezo-pycco/](https://github.com/nickgrossman/quezo-pycco/) -- download the code as a zip file, unzip it, then, from the command line, cd into the unzipped directory and run:
 
 `$ setup.py install`
 
