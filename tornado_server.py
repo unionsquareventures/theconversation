@@ -12,6 +12,7 @@ import settings
 
 import app.user
 import app.admin
+import app.docs
 import app.api
 import app.basic
 import app.disqus
@@ -45,6 +46,10 @@ class Application(tornado.web.Application):
           (r"/user/(?P<screen_name>[A-z-+0-9]+)", app.user.Profile),
           (r"/user/(?P<screen_name>[A-z-+0-9]+)/(?P<section>[A-z]+)", app.user.Profile),
 
+          # docs
+          (r"/docs/(?P<path>[A-z-+0-9+/.+//]+)", app.docs.ViewPage),
+          (r"/docs", app.docs.ViewPage),
+  
           # admin stuff
           (r"/admin", app.admin.AdminHome),
           (r"/admin/delete_user", app.admin.DeleteUser),

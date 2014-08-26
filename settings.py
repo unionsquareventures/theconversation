@@ -84,7 +84,8 @@ default_options = {
     'super_downvote',
     'downvote_posts',
     'manage_disqus',
-    'view_post_sort_score'
+    'view_post_sort_score',
+    'view_docs'
   ],
   'user_capabilities': [],
 
