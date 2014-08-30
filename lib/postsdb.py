@@ -200,13 +200,13 @@ def get_post_count_by_tag(tag):
 ###########################
 def get_latest_staff_posts_by_tag(tag, limit=10):
     staff = settings.get('staff')
-    return list(db.post.find({'deleted': { "$ne": True }, 'user.username': {'$in': staff}, 'tags':tag}, sort=[('date_featured', pymongo.DESCENDING)]).limit(limit))
+    return Post.objects(deleted__ne=True, user__username__in=staff, tags_in=[tag]).order_by('-date_featured').limit(limit)
 
 def get_posts_by_normalized_url(normalized_url, limit):
-    return list(db.post.find({'normalized_url':normalized_url, 'deleted': { "$ne": True }}, sort=[('_id', pymongo.DESCENDING)]).limit(limit))
+    return Post.objects(normalized_url=normalized_url, deleted__ne=True).order_by('-date_created').limit(limit)
 
 def get_posts_with_min_votes(min_votes):
-    return list(db.post.find({'deleted': { "$ne": True }, 'votes':{'$gte':min_votes}}, sort=[('date_created', pymongo.DESCENDING)]))
+    return Post.objects(deleted__ne=True, votes__gte=min_votes).order_by('-date_created')
 
 def get_hot_posts_past_week():
     yesterday = datetime.today() - timedelta(days=1)
