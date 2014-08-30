@@ -540,7 +540,7 @@ class Widget(app.basic.BaseHandler):
 
             if view == "sidebar":
                 # get the current hot posts
-                posts = postsdb.get_hot_posts(per_page, page)
+                posts = postsdb.get_hot_posts_by_day()
                 self.render('post/widget.js', posts=posts, num_posts=num_posts)
             else:
                 posts = postsdb.get_hot_posts_by_day()

@@ -137,13 +137,10 @@ def get_posts_by_screen_name_and_tag(screen_name, tag, per_page=10, page=1):
     return Post.objects(deleted__ne=True, user__screen_name=screen_name, tags__in=[tag]).order_by('-date_created').skip((page-1)*per_page).limit(per_page)
 
 def get_featured_posts(per_page=10, page=1):
-    return Post.objects(deleted__ne=True, featured=True).order_by('date_created').skip((page-1)*per_page).limit(per_page)
+    return Post.objects(deleted__ne=True, featured=True).order_by('-date_created').skip((page-1)*per_page).limit(per_page)
 
 def get_new_posts(per_page=50, page=1):
     return Post.objects(deleted__ne=True).order_by('-id')
-
-def get_hot_posts(per_page=50, page=1):
-    return list(db.post.find({"votes": { "$gte" : 2 }, "deleted": { "$ne": True }}, sort=[('sort_score', pymongo.DESCENDING)]).skip((page-1)*per_page).limit(per_page))
 
 def get_hot_posts_by_day(day=date.today(), hide_featured=False):
     day = datetime.combine(day, datetime.min.time())

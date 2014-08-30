@@ -14,53 +14,6 @@ from lib import disqus
 from lib import emailsdb
 from disqusapi import DisqusAPI
 
-############################
-# ADMIN NEWSLETTER
-# /admin/newsletter
-############################
-class DailyEmail(app.basic.BaseHandler):
-    def get(self):
-        posts = postsdb.get_hot_posts()
-        has_previewed = self.get_argument("preview", False)
-        recipients = userdb.get_newsletter_recipients()
-        #on this page, you'll choose from hot posts and POST the selections to the email form`
-        self.render('admin/daily_email.html')
-
-    def post(self):
-        if not self.current_user_can('send_daily_email'):
-            raise tornado.web.HTTPError(401)
-
-        action = self.get_argument('action', None)
-
-        if not action:
-            return self.write("Select an action")
-
-        if action == "setup_email":
-            posts = postsdb.get_hot_posts_by_day(datetime.today())
-            slugs = []
-            for i, post in enumerate(posts):
-                if i < 5:
-                    slugs.append(post['slug'])
-            response1 = emailsdb.construct_daily_email(slugs)
-            print response1
-
-            response2 = emailsdb.setup_email_list()
-            print response2
-
-        if action == "add_list_to_email":
-            response3 = emailsdb.add_list_to_email()
-            print response3
-
-        if action == "send_email":
-            response4 = emailsdb.send_email()
-            print response4
-
-class DailyEmailHistory(app.basic.BaseHandler):
-    def get(self):
-        history = emailsdb.get_daily_email_log()
-        self.render('admin/daily_email_history.html', history=history)
-
-
 ###########################
 ### ADMIN COMPANY
 ### /admin/company
