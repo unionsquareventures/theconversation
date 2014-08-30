@@ -1,4 +1,4 @@
-{% set post = Post() %}
+
 <form id="" class="form-horizontal submit-post-form" role="form" action="/posts" method="POST">
   <input type="hidden" name="slug" value="{{ post.slug }}" />
   {% raw xsrf_form_html() %}
@@ -39,7 +39,7 @@
 	<div class="form-group">
 		<label for="tags" class="col-xs-1 control-label">Tags</label>
 		<div class="col-xs-11">
-			<input id="post_tags" name="tags" type="text" placeholder="pitch, meta, health, mobile, education" value="{{ ', '.join(p.tags) }}" class="form-control">
+			<input id="post_tags" name="tags" type="text" placeholder="pitch, meta, health, mobile, education" value="{{ ', '.join(post.tags) }}" class="form-control">
 			<span class="text-muted">(separate by commas)</span>
 		</div>
 	</div> 

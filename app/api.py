@@ -19,8 +19,8 @@ class DisqusCallback(app.basic.BaseHandler):
 
         if post:
             # increment the comment count for this post
-            post['comment_count'] += 1
-            postsdb.save_post(post)
+            post.comment_count += 1
+            post.save()
             # determine if anyone is subscribed to this post (for email alerts)
             if len(post['subscribed']) > 0:
                 # attempt to get the current user's email (we don't need to alert them)

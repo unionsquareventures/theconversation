@@ -21,6 +21,7 @@ from lib import userdb
 from lib import disqus
 from lib import template_helpers
 from lib.postsdb import Post
+from lib.userdb import User
 
 ###############
 ### New Post
@@ -46,7 +47,7 @@ class EditPost(app.basic.BaseHandler):
     @tornado.web.authenticated
     def get(self, slug):
         post = postsdb.get_post_by_slug(slug)
-        if post and post['user']['screen_name'] == self.current_user or self.current_user_can('edit_posts'):
+        if post and post.user.screen_name == self.current_user or self.current_user_can('edit_posts'):
             # available to edit this post
             self.render('post/edit_post.html', post=post)
         else:
@@ -250,7 +251,7 @@ class ListPosts(app.basic.BaseHandler):
                 post['featured'] = False
                 post['date_featured'] = None
 
-            user = userdb.get_user_by_screen_name(self.current_user)
+            user_info = userdb.get_user_by_screen_name(self.current_user)
 
             if not post['slug']:
                 # No slug -- this is a new post.
@@ -263,9 +264,7 @@ class ListPosts(app.basic.BaseHandler):
                 post['downvotes'] = 0
                 post['hackpad_url'] = ''
                 post['date_created'] = datetime.datetime.now()
-                post['user_id_str'] = user['user']['id_str']
-                post['username'] = self.current_user
-                post['user'] = user['user']
+                post['user'] = user_info.user
                 post['votes'] = 1
                 post['voted_users'] = [user['user']]
                 #save it
@@ -277,10 +276,9 @@ class ListPosts(app.basic.BaseHandler):
                 saved_post = postsdb.get_post_by_slug(post['slug'])
                 if saved_post and self.current_user == saved_post['user']['screen_name']:
                     # looks good - let's update the saved_post values to new values
-                    for key in post.keys():
-                        saved_post[key] = post[key]
+                    saved_post.set_fields(**post)
                     # finally let's save the updates
-                    postsdb.save_post(saved_post)
+                    saved_post.save()
                     msg = 'success'
 
             # log any @ mentions in the post
@@ -324,11 +322,11 @@ class ListPosts(app.basic.BaseHandler):
             disqus.subscribe_to_thread(thread_id, acc['disqus']['access_token'])
             # update the thread with the disqus_thread_id_str
             saved_post = postsdb.get_post_by_slug(post['slug'])
-            saved_post['disqus_thread_id_str'] = thread_id
-            postsdb.save_post(saved_post)
+            saved_post.disqus_thread_id_str = thread_id
+            saved_post.save()
 
         if is_edit:
-            self.redirect('/posts/%s?msg=updated' % post['slug'])
+            self.redirect('%s?msg=updated' % saved_post.permalink())
         else:
             self.redirect('/?msg=success&slug=%s' % post['slug'])
 
@@ -387,21 +385,21 @@ class Bump(app.basic.BaseHandler):
                 if not can_vote:
                     msg = {'error': 'You have already upvoted this post.'}
                 else:
-                    user = userdb.get_user_by_screen_name(self.current_user)
+                    user_info = userdb.get_user_by_screen_name(self.current_user)
 
                     # Increment the vote count
-                    post['votes'] += 1
-                    post['voted_users'].append(user['user'])
-                    postsdb.save_post(post)
-                    msg = {'votes': post['votes']}
+                    post.votes += 1
+                    post.update(push__voted_users=user_info.user)
+                    post.save()
+                    msg = {'votes': post.votes}
 
                     # send email notification to post author
-                    author = userdb.get_user_by_screen_name(post['user']['username'])
-                    if 'email_address' in author.keys():
-                        subject = "[#usvconversation] @%s just bumped up your post: %s" % (self.current_user, post['title'])
-                        text = "Woo!\n\n%s" % template_helpers.post_permalink(post)
-                        logging.info('sent email to %s' % author['email_address'])
-                        self.send_email('web@usv.com', author['email_address'], subject, text)
+                    author = userdb.get_user_by_screen_name(post.user.username)
+                    if author.email_address:
+                        subject = "[#theconversation] @%s just bumped up your post: %s" % (self.current_user, post.title)
+                        text = "Woo!\n\n%s" % post.permalink()
+                        logging.info('sent email to %s' % author.email_address)
+                        self.send_email(settings.get('system_email_address'), author.email_address, subject, text)
 
         self.api_response(msg)
 
@@ -421,11 +419,9 @@ class SuperUpVote(app.basic.BaseHandler):
             post = postsdb.get_post_by_slug(slug)
             if post:
                     # Increment the vote count
-                super_upvotes = post.get('super_upvotes') or 0
-                super_upvotes += 1
-                post['super_upvotes'] = super_upvotes
-                postsdb.save_post(post)
-                msg = {'supervotes': post['super_upvotes']}
+                post.super_upvotes += 1
+                post.save()
+                msg = {'supervotes': post.super_upvotes}
 
         self.api_response(msg)
 
@@ -445,11 +441,9 @@ class SuperDownVote(app.basic.BaseHandler):
             post = postsdb.get_post_by_slug(slug)
             if post:
                 # Increment the vote count
-                super_downvotes = post.get('super_downvotes') or 0
-                super_downvotes += 1
-                post['super_downvotes'] = super_downvotes
-                postsdb.save_post(post)
-                msg = {'supervotes': post['super_downvotes']}
+                post.super_downvotes += 1
+                post.save()
+                msg = {'supervotes': post.super_downvotes}
 
         self.api_response(msg)
 
@@ -473,11 +467,11 @@ class UnBump(app.basic.BaseHandler):
                 if not can_unbump:
                     msg = {'error': "You can't unbump this post!"}
                 else:
-                    user = userdb.get_user_by_screen_name(self.current_user)
-                    post['votes'] -= 1
-                    post['voted_users'].remove(user['user'])
-                    postsdb.save_post(post)
-                    msg = {'votes': post['votes']}
+                    user_info = userdb.get_user_by_screen_name(self.current_user)
+                    post.votes -= 1
+                    post.update(pull_voted_users=user_info.user)
+                    post.save()
+                    msg = {'votes': post.votes}
 
         self.api_response(msg)
 

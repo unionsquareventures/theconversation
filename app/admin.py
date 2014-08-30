@@ -185,8 +185,8 @@ class Mute(app.basic.BaseHandler):
         post = postsdb.get_post_by_slug(slug)
 
         if post and self.current_user_can('mute_posts'):
-            post['muted'] = True
-            postsdb.save_post(post)
+            post.muted = True
+            post.save()
 
         self.redirect('/?sort_by=hot')
 

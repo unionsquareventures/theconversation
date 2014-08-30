@@ -20,7 +20,7 @@ class BaseHandler(tornado.web.RequestHandler):
 
     def render(self, template, **kwargs):
         # add any variables we want available to all templates
-        kwargs['Post'] = Post
+        kwargs['BlankPost'] = Post
         kwargs['pprint'] = pprint
         kwargs['user_obj'] = None
         kwargs['user_obj'] = userdb.get_user_by_screen_name(self.current_user)

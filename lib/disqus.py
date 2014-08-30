@@ -109,8 +109,8 @@ def subscribe_to_all_your_threads(username):
                 thread = get_thread_details(post)
                 thread_id = thread['response']['id']
 
-            post['disqus_thread_id_str'] = thread_id
-            postsdb.save_post(post)
+            post.disqus_thread_id_str = thread_id
+            post.save()
         subscribe_to_thread(post.get('disqus_thread_id_str'), account['disqus']['access_token'])
 
     '''

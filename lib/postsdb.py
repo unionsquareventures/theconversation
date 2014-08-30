@@ -49,6 +49,8 @@ class Post(Document):
     super_upvotes = IntField()
     super_downvotes = IntField()
     subscribed = ListField(EmbeddedDocumentField(User))
+    domain = StringField(default="")
+    disqus_thread_id_str = StringField()
 
     def add_slug(self, title):
         slug = slugify(title)
@@ -224,9 +226,6 @@ def add_subscriber_to_post(slug, email):
 
 def remove_subscriber_from_post(slug, email):
     return db.post.update({'slug':slug}, {'$pull': {'subscribed': email}})
-
-def save_post(post):
-    return db.post.update({'_id':post['_id']}, post)
 
 def update_post_score(slug, score, scores):
     return db.post.update({'slug':slug}, {'$set':{'daily_sort_score': score, 'scores': scores}})
