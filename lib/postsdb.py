@@ -121,16 +121,15 @@ def get_all():
 ###########################
 def get_posts_by_bumps(screen_name, per_page, page):
     return Post.objects(voted_users__screen_name=screen_name, user__screen_name__ne=screen_name).order_by('-date_created').skip((page-1)*per_page).limit(per_page)
-    #return list(db.post.find({'voted_users.screen_name':screen_name, 'user.screen_name':{'$ne':screen_name}}, sort=[('date_created', pymongo.DESCENDING)]).skip((page-1)*per_page).limit(per_page))
 
 def get_posts_by_query(query, per_page=10, page=1):
     query_regex = re.compile('%s[\s$]' % query, re.I)
-    #return list(db.post.find({'$or':[{'title':query_regex}, {'body_raw':query_regex}]}, sort=[('date_created', pymongo.DESCENDING)]).skip((page-1)*per_page).limit(per_page))
     return Post.objects(__raw__={'$or':[{'title':query_regex}, {'body_raw':query_regex}]}).order_by('-date_created').skip((page-1)*per_page).limit(per_page)
 
 
 def get_posts_by_tag(tag):
-    return list(db.post.find({'deleted': { "$ne": True }, 'tags':tag}, sort=[('date_created', pymongo.DESCENDING)]))
+    return Post.objects(deleted__ne=True, tags__in=[tag]).order_by('-date_created')
+    #return list(db.post.find({'deleted': { "$ne": True }, 'tags':tag}, sort=[('date_created', pymongo.DESCENDING)]))
 
 def get_posts_by_screen_name(screen_name, per_page=10, page=1):
     return list(db.post.find({'deleted': { "$ne": True }, 'user.screen_name':screen_name}, sort=[('date_created', pymongo.DESCENDING)]).skip((page-1)*per_page).limit(per_page))
