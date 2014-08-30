@@ -165,7 +165,7 @@ def get_sad_posts(per_page=50, page=1):
     return Post.objects(date_created__gt=datetime.strptime("10/12/13", "%m/%d/%y"), votes=1, comment_count=0, deleted__ne=True, featured__ne=True).order_by('-date_created').skip((page-1)*per_page).limit(per_page)
 
 def get_deleted_posts(per_page=50, page=1):
-    return list(db.post.find({'deleted':True}, sort=[('date_deleted', pymongo.DESCENDING)]).skip((page-1)*per_page).limit(per_page))
+    return Post.objects(deleted=True).order_by('-date_created').skip((page-1)*per_page).limit(per_page)
 
 ###########################
 ### AGGREGATE QUERIES
