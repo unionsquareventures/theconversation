@@ -146,9 +146,9 @@ def get_hot_posts_by_day(day=date.today(), hide_featured=False):
     day = datetime.combine(day, datetime.min.time())
     day_plus_one = day + timedelta(days=1)
     if hide_featured:
-        posts = list(db.post.find({"deleted": { "$ne": True }, "featured": { "$ne": True }, 'date_created': {'$gte': day, '$lte': day_plus_one}}, sort=[('daily_sort_score', pymongo.DESCENDING)]))
+        posts = Post.objects(deleted__ne=True, featured__ne=True, date_created__gte=day, date_created__lte=day_plus_one).order_by('-daily_sort_score')
     else:
-        posts = list(db.post.find({"deleted": { "$ne": True }, 'date_created': {'$gte': day, '$lte': day_plus_one}}, sort=[('daily_sort_score', pymongo.DESCENDING)]))
+        posts = Post.objects(deleted__ne=True, date_created__gte=day, date_created__lte=day_plus_one).order_by('-daily_sort_score')
     return posts
 
 def get_daily_posts_by_sort_score(min_score=8):
@@ -160,7 +160,6 @@ def get_daily_posts_by_sort_score(min_score=8):
 def get_hot_posts_24hr(start=datetime.now()):
     end = start - timedelta(hours=24)
     return Post.objects(deleted__ne=True, date_created__gte=end, date_created__lte=start).order_by('-daily_sort_score')
-    #return list(db.post.find({"deleted": { "$ne": True }, 'date_created': {'$gte': end , '$lte': start}}, sort=[('daily_sort_score', pymongo.DESCENDING)]))
 
 def get_sad_posts(per_page=50, page=1):
     return list(db.post.find({'date_created':{'$gt': datetime.datetime.strptime("10/12/13", "%m/%d/%y")}, 'votes':1, 'comment_count':0, 'deleted': { "$ne": True } , 'featured': False}, sort=[('date_created', pymongo.DESCENDING)]).skip((page-1)*per_page).limit(per_page))

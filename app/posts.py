@@ -92,9 +92,9 @@ class Feed(app.basic.BaseHandler):
             # show the sad posts
             posts = postsdb.get_daily_posts_by_sort_score(50)
         elif feed_type == 'today':
-            posts = postsdb.get_hot_posts_by_day()
+            posts = postsdb.get_hot_posts_24hr()
         else:
-            posts = postsdb.get_hot_posts_by_day()
+            posts = postsdb.get_hot_posts_24hr()
 
         self.render('post/feed.xml', posts=posts)
 
@@ -540,10 +540,10 @@ class Widget(app.basic.BaseHandler):
 
             if view == "sidebar":
                 # get the current hot posts
-                posts = postsdb.get_hot_posts_by_day()
+                posts = postsdb.get_hot_posts_24hr()
                 self.render('post/widget.js', posts=posts, num_posts=num_posts)
             else:
-                posts = postsdb.get_hot_posts_by_day()
+                posts = postsdb.get_hot_posts_24hr()
                 self.render('post/widget_inline.js', posts=posts, num_posts=3)
 
 ###################
