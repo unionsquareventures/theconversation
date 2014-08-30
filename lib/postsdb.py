@@ -224,7 +224,6 @@ def get_related_posts_by_tag(tag):
 def delete_all_posts_by_user(screen_name):
     posts = get_posts_by_screen_name(screen_name, 1000, 1)
     posts.update(set__deleted=True, set__date_deleted=datetime.datetime.utcnow())
-    #db.post.update({'user.screen_name':screen_name}, {'$set':{'deleted':True, 'date_delated': datetime.datetime.utcnow()}}, multi=True)
 
 ###########################
 ### ADD A NEW POST
