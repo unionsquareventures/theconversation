@@ -58,7 +58,7 @@
         
         {% if section != "settings" %}
         <ul class="feed sort-by-new">
-          {% for p in posts %}
+          {% for post in posts %}
             <li class="post post-md">
               {% include ../post/post_snippet.html %}
             </li>

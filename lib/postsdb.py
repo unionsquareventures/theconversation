@@ -129,13 +129,12 @@ def get_posts_by_query(query, per_page=10, page=1):
 
 def get_posts_by_tag(tag):
     return Post.objects(deleted__ne=True, tags__in=[tag]).order_by('-date_created')
-    #return list(db.post.find({'deleted': { "$ne": True }, 'tags':tag}, sort=[('date_created', pymongo.DESCENDING)]))
 
 def get_posts_by_screen_name(screen_name, per_page=10, page=1):
-    return list(db.post.find({'deleted': { "$ne": True }, 'user.screen_name':screen_name}, sort=[('date_created', pymongo.DESCENDING)]).skip((page-1)*per_page).limit(per_page))
+    return Post.objects(deleted__ne=True, user__screen_name=screen_name).order_by('-date_created').skip((page-1)*per_page).limit(per_page)
 
 def get_posts_by_screen_name_and_tag(screen_name, tag, per_page=10, page=1):
-    return list(db.post.find({'deleted': { "$ne": True }, 'user.screen_name':screen_name, 'tags':tag}, sort=[('date_created', pymongo.DESCENDING)]).skip((page-1)*per_page).limit(per_page))
+    return Post.objects(deleted__ne=True, user__screen_name=screen_name, tags__in=[tag]).order_by('-date_created').skip((page-1)*per_page).limit(per_page)
 
 def get_featured_posts(per_page=10, page=1):
     return Post.objects(deleted__ne=True, featured=True).order_by('date_created').skip((page-1)*per_page).limit(per_page)
