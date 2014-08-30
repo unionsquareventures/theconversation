@@ -268,7 +268,7 @@ class ListPosts(app.basic.BaseHandler):
                 post['votes'] = 1
                 post['voted_users'] = [user['user']]
                 #save it
-                post['slug'] = postsdb.insert_post(post)
+                saved_post = postsdb.insert_post(post)
                 msg = 'success'
             else:
                 # this is an existing post.
@@ -280,35 +280,38 @@ class ListPosts(app.basic.BaseHandler):
                     # finally let's save the updates
                     saved_post.save()
                     msg = 'success'
+            
+            #
+            # From here on out, we have a saved_post, which is a mongoengine Post object.
+            #
 
             # log any @ mentions in the post
-            mentions = re.findall(r'@([^\s]+)', post['body_raw'])
+            mentions = re.findall(r'@([^\s]+)', saved_post.body_raw)
             for mention in mentions:
-                mentionsdb.add_mention(mention.lower(), post['slug'])
+                mentionsdb.add_mention(mention.lower(), saved_post.slug)
 
         # Send email to USVers if OP is staff
         if self.current_user in settings.get('staff'):
-            subject = 'USV.com: %s posted "%s"' % (self.current_user, post['title'])
-            if 'url' in post and post['url']: # post.url is the link to external content (if any)
-                post_link = 'External Link: %s \n\n' % post['url']
+            subject = '%s: %s posted "%s"' % (settings.get('site_title'), self.current_user, saved_post.title)
+            if saved_post.url: # post.url is the link to external content (if any)
+                post_link = 'External Link: %s \n\n' % saved_post.url
             else:
                 post_link = ''
-            post_url = "http://%s/posts/%s" % (settings.get('base_url'), post['slug'])
-            text = '"%s" ( %s ) posted by %s. \n\n %s %s' % (post['title'].encode('ascii', errors='ignore'), post_url, self.current_user, post_link, post.get('body_text', ""))
+            text = '"%s" ( %s ) posted by %s. \n\n %s %s' % (saved_post.title.encode('ascii', errors='ignore'), saved_post.permalink(), self.current_user, saved_post.permalink(), saved_post.body_text or ""))
             # now attempt to actually send the emails
-            for u in settings.get('staff'):
-                if u != self.current_user:
-                    acc = userdb.get_user_by_screen_name(u)
-                    if acc:
-                        self.send_email('web@usv.com', acc['email_address'], subject, text)
+            for username in settings.get('staff'):
+                if username != self.current_user:
+                    user_info = userdb.get_user_by_screen_name(username)
+                    if user_info:
+                        self.send_email(settings.get('system_email_address'), user_info.email_address, subject, text)
 
         # Subscribe to Disqus
         # Attempt to create the post's thread
-        acc = userdb.get_user_by_screen_name(self.current_user)
+        user_info = userdb.get_user_by_screen_name(self.current_user)
         thread_id = 0
         try:
             # Attempt to create the thread.
-            thread_details = disqus.create_thread(post, acc['disqus']['access_token'])
+            thread_details = disqus.create_thread(post, user_info.disqus['access_token'])
             thread_id = thread_details['response']['id']
         except:
             try:
@@ -319,16 +322,15 @@ class ListPosts(app.basic.BaseHandler):
                 thread_id = 0
         if thread_id != 0:
             # Subscribe a user to the thread specified in response
-            disqus.subscribe_to_thread(thread_id, acc['disqus']['access_token'])
+            disqus.subscribe_to_thread(thread_id, user_info.disqus['access_token'])
             # update the thread with the disqus_thread_id_str
-            saved_post = postsdb.get_post_by_slug(post['slug'])
             saved_post.disqus_thread_id_str = thread_id
             saved_post.save()
 
         if is_edit:
             self.redirect('%s?msg=updated' % saved_post.permalink())
         else:
-            self.redirect('/?msg=success&slug=%s' % post['slug'])
+            self.redirect('/?msg=success&slug=%s' % saved_post.slug)
 
 
 ##############
