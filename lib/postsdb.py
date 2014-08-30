@@ -221,17 +221,10 @@ def get_related_posts_by_tag(tag):
 ###########################
 ### UPDATE POST DETAIL
 ###########################
-def add_subscriber_to_post(slug, email):
-    return db.post.update({'slug':slug}, {'$addToSet': {'subscribed': email}})
-
-def remove_subscriber_from_post(slug, email):
-    return db.post.update({'slug':slug}, {'$pull': {'subscribed': email}})
-
-def update_post_score(slug, score, scores):
-    return db.post.update({'slug':slug}, {'$set':{'daily_sort_score': score, 'scores': scores}})
-
 def delete_all_posts_by_user(screen_name):
-    db.post.update({'user.screen_name':screen_name}, {'$set':{'deleted':True, 'date_delated': datetime.datetime.utcnow()}}, multi=True)
+    posts = get_posts_by_screen_name(screen_name, 1000, 1)
+    posts.update(set__deleted=True, set__date_deleted=datetime.datetime.utcnow())
+    #db.post.update({'user.screen_name':screen_name}, {'$set':{'deleted':True, 'date_delated': datetime.datetime.utcnow()}}, multi=True)
 
 ###########################
 ### ADD A NEW POST

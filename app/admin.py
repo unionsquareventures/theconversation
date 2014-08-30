@@ -147,7 +147,7 @@ class DeleteUser(app.basic.BaseHandler):
             post = postsdb.get_post_by_slug(post_slug)
             if post:
                 # get the author of this post
-                screen_name = post['user']['screen_name']
+                screen_name = post.user.screen_name
                 postsdb.delete_all_posts_by_user(screen_name)
             self.ender('admin/delete_user.html', msg=msg)
 
