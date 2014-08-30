@@ -162,7 +162,6 @@ def get_hot_posts_24hr(start=datetime.now()):
     return Post.objects(deleted__ne=True, date_created__gte=end, date_created__lte=start).order_by('-daily_sort_score')
 
 def get_sad_posts(per_page=50, page=1):
-    #return list(db.post.find({'date_created':{'$gt': datetime.datetime.strptime("10/12/13", "%m/%d/%y")}, 'votes':1, 'comment_count':0, 'deleted': { "$ne": True } , 'featured': False}, sort=[('date_created', pymongo.DESCENDING)]).skip((page-1)*per_page).limit(per_page))
     return Post.objects(date_created__gt=datetime.strptime("10/12/13", "%m/%d/%y"), votes=1, comment_count=0, deleted__ne=True, featured__ne=True).order_by('-date_created').skip((page-1)*per_page).limit(per_page)
 
 def get_deleted_posts(per_page=50, page=1):
