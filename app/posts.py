@@ -134,8 +134,10 @@ class ListPosts(app.basic.BaseHandler):
         is_blacklisted = False
         if self.current_user:
             is_blacklisted = self.is_blacklisted(self.current_user)
-
-        posts = postsdb.get_hot_posts_24hr(day)
+        
+        if sort_by == "sad":
+            posts = postsdb.get_sad_posts(per_page=50, page=1)
+        #posts = postsdb.get_hot_posts_24hr(day)
         previous_day_posts = postsdb.get_hot_posts_24hr(datetime.datetime.now() - datetime.timedelta(hours=24))
 
         #midpoint = (len(posts) - 1) / 2
