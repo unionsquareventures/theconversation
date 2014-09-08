@@ -252,8 +252,8 @@ class ListPosts(app.basic.BaseHandler):
                 post['date_featured'] = None
 
             user_info = userdb.get_user_by_screen_name(self.current_user)
-
-            if not post['slug']:
+            
+            if not post['slug'] or post.get('slug') == "" or post.get('slug') == "None":
                 # No slug -- this is a new post.
                 # initiate fields that are new
                 post['disqus_shortname'] = settings.get('disqus_short_code')
@@ -266,12 +266,14 @@ class ListPosts(app.basic.BaseHandler):
                 post['date_created'] = datetime.datetime.now()
                 post['user'] = user_info.user
                 post['votes'] = 1
-                post['voted_users'] = [user['user']]
+                post['voted_users'] = [user_info.user]
                 #save it
                 saved_post = postsdb.insert_post(post)
+                print "new post"
                 msg = 'success'
             else:
                 # this is an existing post.
+                print "existing post"
                 # attempt to edit the post (make sure they are the author)
                 saved_post = postsdb.get_post_by_slug(post['slug'])
                 if saved_post and self.current_user == saved_post['user']['screen_name']:
@@ -286,24 +288,10 @@ class ListPosts(app.basic.BaseHandler):
             #
 
             # log any @ mentions in the post
+
             mentions = re.findall(r'@([^\s]+)', saved_post.body_raw)
             for mention in mentions:
                 mentionsdb.add_mention(mention.lower(), saved_post.slug)
-
-        # Send email to USVers if OP is staff
-        if self.current_user in settings.get('staff'):
-            subject = '%s: %s posted "%s"' % (settings.get('site_title'), self.current_user, saved_post.title)
-            if saved_post.url: # post.url is the link to external content (if any)
-                post_link = 'External Link: %s \n\n' % saved_post.url
-            else:
-                post_link = ''
-            text = '"%s" ( %s ) posted by %s. \n\n %s %s' % (saved_post.title.encode('ascii', errors='ignore'), saved_post.permalink(), self.current_user, saved_post.permalink(), saved_post.body_text or ""))
-            # now attempt to actually send the emails
-            for username in settings.get('staff'):
-                if username != self.current_user:
-                    user_info = userdb.get_user_by_screen_name(username)
-                    if user_info:
-                        self.send_email(settings.get('system_email_address'), user_info.email_address, subject, text)
 
         # Subscribe to Disqus
         # Attempt to create the post's thread

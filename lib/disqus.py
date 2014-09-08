@@ -19,12 +19,11 @@ def check_for_thread(short_code, link):
 
 def create_thread(post, access_token):
     api_link = 'https://disqus.com/api/3.0/threads/create.json'
-    url = template_helpers.post_permalink(post)
     thread_info = {
       'forum': settings.get('disqus_short_code'),
-      'title': post['title'].encode('utf-8'),
-      'identifier':post['slug'],
-      'url': url,
+      'title': post.title.encode('utf-8'),
+      'identifier':post.slug,
+      'url': post.permalink(),
       'api_secret':settings.get('disqus_secret_key'),
       'api_key': settings.get('disqus_public_key'),
       'access_token': access_token

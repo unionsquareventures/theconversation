@@ -21,19 +21,19 @@ class Post(Document):
         db = self._get_db()
 
     date_created = DateTimeField(required=True)
-    title = StringField(required=True, default="")
+    title = StringField(required=True)
     slugs = ListField(StringField())
-    slug = StringField(default="")
+    slug = StringField()
     user = EmbeddedDocumentField(User, required=True)
     tags = ListField(ImprovedStringField())
-    url = ImprovedURLField(max_length=65000, required=False, default="") # link to external content (if any)
+    url = ImprovedURLField(max_length=65000, required=False) # link to external content (if any)
     normalized_url = ImprovedStringField(max_length=65000, required=False)
     hackpad_url = ImprovedURLField(max_length=65000)
     has_hackpad = BooleanField(default=False)
-    body_raw = ImprovedStringField(required=False, default="")
-    body_html = ImprovedStringField(required=False, default="")
-    body_truncated = ImprovedStringField(required=False, default="")
-    body_text = ImprovedStringField(required=False, default="")
+    body_raw = ImprovedStringField(required=False)
+    body_html = ImprovedStringField(required=False)
+    body_truncated = ImprovedStringField(required=False)
+    body_text = ImprovedStringField(required=False)
     status = StringField(default="new")
     featured = BooleanField(default=False)
     date_featured = DateTimeField()
@@ -49,7 +49,7 @@ class Post(Document):
     super_upvotes = IntField()
     super_downvotes = IntField()
     subscribed = ListField(EmbeddedDocumentField(User))
-    domain = StringField(default="")
+    domain = StringField()
     disqus_thread_id_str = StringField()
 
     def add_slug(self, title):
@@ -127,7 +127,6 @@ def get_posts_by_bumps(screen_name, per_page, page):
 def get_posts_by_query(query, per_page=10, page=1):
     query_regex = re.compile('%s[\s$]' % query, re.I)
     return Post.objects(__raw__={'$or':[{'title':query_regex}, {'body_raw':query_regex}]}).order_by('-date_created').skip((page-1)*per_page).limit(per_page)
-
 
 def get_posts_by_tag(tag):
     return Post.objects(deleted__ne=True, tags__in=[tag]).order_by('-date_created')
@@ -238,7 +237,8 @@ def insert_post(post_dict):
     if 'subscribed' not in post_dict.keys():
         post_dict['subscribed'] = []
     post = Post(**post_dict)
-    return post.save()
+    post.save()
+    return post
 
 ###########################
 ### SORT ALL POSTS
