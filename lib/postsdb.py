@@ -211,9 +211,9 @@ def get_post_count_by_query(query):
     """
     Returns numbers of posts matching an arbitrary query
     Executes using a raw mongodb query through MongoEngine
-    #query_regex = re.compile('%s[\s$]' % query, re.I)
     #return len(list(db.post.find({'$or':[{'title':query_regex}, {'body_raw':query_regex}]})))
     """
+    query_regex = re.compile('%s[\s$]' % query, re.I)
     return len(Post.objects(__raw__={'$or':[{'title':query_regex}, {'body_raw':query_regex}]}))
 
 def get_post_count():
