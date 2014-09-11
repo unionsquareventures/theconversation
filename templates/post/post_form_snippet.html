@@ -1,5 +1,5 @@
 {% if 'post' not in globals() %}
-{% set post = blank_post %}
+	{% set post = blank_post %}
 {% end %}
 <form id="" class="form-horizontal submit-post-form" role="form" action="/posts" method="POST">
   <input type="hidden" name="slug" value="{{ post.slug or "" }}" />
