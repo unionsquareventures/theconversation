@@ -32,7 +32,7 @@ class ViewByTag(app.basic.BaseHandler):
         if tag:
             tag = urllib.unquote(tag.strip().replace('+',' ')).decode('utf8')
             posts = postsdb.get_posts_by_tag(tag)
-            total_count = postsdb.get_post_count_by_tag(tag)
+            total_count = len(posts)
         else:
             posts = None
             total_count = 0
