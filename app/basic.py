@@ -39,6 +39,8 @@ class BaseHandler(tornado.web.RequestHandler):
         else:
             kwargs['show_flash'] = False
         self.clear_cookie('flash')
+
+        print globals()
         
         super(BaseHandler, self).render(template, **kwargs)
 

@@ -1,6 +1,3 @@
-{% if 'post' not in globals() %}
-
-{% end %}
 <form id="" class="form-horizontal submit-post-form" role="form" action="/posts" method="POST">
   <input type="hidden" name="slug" value="{{ post.slug or "" }}" />
   {% raw xsrf_form_html() %}

@@ -16,6 +16,7 @@ class WeeklyShareStats(app.basic.BaseHandler):
 
         single_post_count = 0
         unique_posters = postsdb.get_unique_posters(week_ago, today)
+        print unique_posters
         for user in unique_posters:
             if user['count'] == 1:
                 single_post_count += 1
