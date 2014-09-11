@@ -72,7 +72,7 @@ def get_user_count():
 
 def add_tags_to_user(screen_name, tags=[]):
     # return db.user_info.update({'user.screen_name':screen_name}, {'$addToSet':{'tags':{'$each':tags}}})
-    u = UserInfo.objects.get(user__screenname=screen_name)
+    u = UserInfo.objects.get(user__screen_name=screen_name)
     for t in tags:
         if t not in u.tags:
             u.tags.append(t)

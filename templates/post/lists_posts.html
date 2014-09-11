@@ -28,13 +28,7 @@
               <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
             </p>
             
-            {% if 'disqus_user_id' in user_obj.keys() and 'disqus' not in user_obj.keys() %}
-            <div class="alert alert-danger" style="margin: 10px 0 0">
-              <b>Yowzas!</b> Your connection to Disqus has expired.  <br /><a href="/auth/disqus">Click here to reauthorize</a> and receive email notifications of comments on your post.
-            </div>
-            {% end %}
-            
-            {% if 'disqus_user_id' not in user_obj.keys() and 'disqus' not in user_obj.keys() %}
+            {% if not user_obj.disqus %}
             <div class="alert alert-warning" style="margin: 10px 0 0">
               <b><a href="/auth/disqus">Connect to Disqus</a></b> to receive emails notifications of new comments on your post.
             </div>
