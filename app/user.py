@@ -46,9 +46,9 @@ class EmailSettings(app.basic.BaseHandler):
             # Clear the existing email address
             if email == '':
                 if subscribe_to == '':
-                    user['email_address'] = ''
+                    user.email_address = ''
+                    user.save()
                     self.set_secure_cookie('email_address', '')
-                    userdb.save_user(user)
                     error = 'Your email address has been cleared.'
             else:
                 # make sure someone else isn't already using this email
@@ -57,8 +57,8 @@ class EmailSettings(app.basic.BaseHandler):
                     error = 'This email address is already in use.'
                 else:
                     # OK to save as user's email
-                    user['email_address'] = email
-                    userdb.save_user(user)
+                    user.email_address = email
+                    user.save()
                     self.set_secure_cookie('email_address', email)
 
                     if subscribe_to != '':
@@ -85,15 +85,15 @@ class EmailSettings(app.basic.BaseHandler):
                             disqus.subscribe_to_thread(thread_id, user['disqus_access_token'])
 
         #save email prefs
-        user['wants_daily_email'] = self.get_argument('wants_daily_email', False)
-        if user['wants_daily_email'] == "on":
-            user['wants_daily_email'] = True
+        user.wants_daily_email = self.get_argument('wants_daily_email', False)
+        if user.wants_daily_email == "on":
+            user.wants_daily_email = True
 
-        user['wants_email_alerts'] = self.get_argument('wants_email_alerts', False)
-        if user['wants_email_alerts'] == "on":
-            user['wants_email_alerts'] = True
+        user.wants_email_alerts = self.get_argument('wants_email_alerts', False)
+        if user.wants_email_alerts == "on":
+            user.wants_email_alerts = True
 
-        userdb.save_user(user)
+        user.save()
 
         self.redirect("/user/%s/settings?msg=updated" % user['user']['screen_name'])
 

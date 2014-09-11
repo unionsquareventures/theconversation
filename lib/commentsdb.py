@@ -18,15 +18,19 @@ from lib.userdb import User
 # Embedded Comment
 #
 class Comment(EmbeddedDocument):
-	author_email = StringField()
-	user = EmbeddedDocumentField(User, required=True)
-	date_created = DateTimeField(required=True)
-	body_raw = ImprovedStringField(required=False, default="")
-	body_text = ImprovedStringField(required=False, default="")
-	body_html = ImprovedStringField(required=False, default="")
-	status = StringField(default="published")
+    def __init__(self, *args, **kwargs):
+        super(Comment, self).__init__(*args, **kwargs)
+        db = self._get_db()
 
-	def set_fields(self, **kwargs):
-		for fname in self._fields.keys():
-			if kwargs.has_key(fname):
-				setattr(self, fname, kwargs[fname])
+    author_email = StringField()
+    user = EmbeddedDocumentField(User, required=True)
+    date_created = DateTimeField(required=True)
+    body_raw = ImprovedStringField(required=False, default="")
+    body_text = ImprovedStringField(required=False, default="")
+    body_html = ImprovedStringField(required=False, default="")
+    status = StringField(default="published")
+
+    def set_fields(self, **kwargs):
+        for fname in self._fields.keys():
+            if kwargs.has_key(fname):
+                setattr(self, fname, kwargs[fname])

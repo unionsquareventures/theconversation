@@ -50,7 +50,7 @@ class Disqus(app.basic.BaseHandler):
                 disqus_obj['token_type'] = user_data['token_type']
                 disqus_obj['token_startdate'] = datetime.now()
                 account.disqus = disqus_obj
-                userdb.save_user(account)
+                accounts.save()
 
                 # subscribe user to all previous threads they've written
                 disqus.subscribe_to_all_your_threads(self.current_user)
@@ -68,6 +68,6 @@ class Remove(app.basic.BaseHandler):
         account = userdb.get_user_by_screen_name(self.current_user)
         if account:
             account.disqus = {}
-            userdb.save_user(account)
+            account.save()
 
         self.redirect('/user/%s/settings?msg=updated' % self.current_user)
