@@ -20,6 +20,9 @@ start_date = datetime.strptime(start_date_str, "%m-%d-%Y")
 end_date = start_date + timedelta(days=7)
 count = postsdb.get_post_count_for_range(start_date, end_date)
 unique_posters = postsdb.get_unique_posters(start_date, end_date)
+
+logging.info(unique_posters)
+
 single_post_count = 0
 for user in unique_posters:
     if user['count'] == 1:

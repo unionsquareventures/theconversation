@@ -1,19 +1,16 @@
-{% if 'post' not in globals() %}
-	{% set post = blank_post %}
-{% end %}
 <form id="" class="form-horizontal submit-post-form" role="form" action="/posts" method="POST">
-  <input type="hidden" name="slug" value="{{ post.slug or "" }}" />
+  <input type="hidden" name="slug" value="{{ submit_post.slug or "" }}" />
   {% raw xsrf_form_html() %}
   <div class="form-group">
 	  <label for="title" class="col-xs-1 control-label">Title</label>
 	  <div class="col-xs-11">
-		  <input id="post_title" name="title" type="text" class="form-control" placeholder="Your Post Title" required="" value="{{ post.title or "" }}">
+		  <input id="post_title" name="title" type="text" class="form-control" placeholder="Your Post Title" required="" value="{{ submit_post.title or "" }}">
 		</div>
 	</div>
 	<div class="form-group">
 		<label for="url" class="col-xs-1 control-label">Link</label>
 		<div class="col-xs-11">
-			<input id="post_url" name="url" type="text" placeholder="http://example.com" value="{{ post.url or "" }}" class="form-control">
+			<input id="post_url" name="url" type="text" placeholder="http://example.com" value="{{ submit_post.url or "" }}" class="form-control">
 				{% if 'dups' in globals() and dups %}
 				<div class="alert alert-danger" style="color: #333">
 					<p style="margin-top:0"><strong>This URL might have already been submitted.</strong> Does it match one of these?</p>
@@ -33,7 +30,7 @@
 		<label for="body_raw" class="col-xs-1 control-label">Body</label>
 		<div class="col-xs-11 tinymce-textbox">
 			<textarea type="text" class="form-control" id="post_body_raw" name="body_raw">
-				{% raw post.body_raw or "" %}
+				{% raw submit_post.body_raw or "" %}
 			</textarea>
 		</div>
 	</div>
@@ -41,7 +38,7 @@
 	<div class="form-group">
 		<label for="tags" class="col-xs-1 control-label">Tags</label>
 		<div class="col-xs-11">
-			<input id="post_tags" name="tags" type="text" placeholder="pitch, meta, health, mobile, education" value="{{ ', '.join(post.tags) }}" class="form-control">
+			<input id="post_tags" name="tags" type="text" placeholder="pitch, meta, health, mobile, education" value="{{ ', '.join(submit_post.tags) }}" class="form-control">
 			<span class="text-muted">(separate by commas)</span>
 		</div>
 	</div> 
@@ -52,7 +49,7 @@
 		<div class="col-xs-11 col-xs-offset-1">
 			<div class="checkbox">
 				<label>
-					<input type="checkbox" id="post_featured" name="featured" value="true" {{ 'checked' if post.featured else '' }}/> Featured?
+					<input type="checkbox" id="post_featured" name="featured" value="true" {{ 'checked' if submit_post.featured else '' }}/> Featured?
 				</label>
 			</div>
 		</div>
@@ -64,7 +61,7 @@
 			<div class="col-xs-11 col-xs-offset-1 hidden-xs">
 				<div class="checkbox">
 					<label>
-						<input type="checkbox" id="post_deleted" name="deleted" value="true" {{ 'checked' if post.deleted else '' }} /> Deleted?
+						<input type="checkbox" id="post_deleted" name="deleted" value="true" {{ 'checked' if submit_post.deleted else '' }} /> Deleted?
 					</label>
 				</div>
 			</div>

@@ -52,6 +52,12 @@ class Post(Document):
     domain = StringField()
     disqus_thread_id_str = StringField()
 
+    def __str__(self):
+        try:
+            return 'Post: "%s" by %s' % (self.title, self.user.screen_name)
+        except:
+            return 'Empty Post'
+
     def add_slug(self, title):
         slug = slugify(title)
         counter_coll = self._get_collection_name() + 'Slug'
@@ -172,29 +178,72 @@ def get_deleted_posts(per_page=50, page=1):
 ### AGGREGATE QUERIES
 ###########################
 def get_unique_posters(start_date, end_date):
-    return db.post.group(["user.screen_name"], {'date_created':{'$gte': start_date, '$lte': end_date}}, {"count":0}, "function(o, p){p.count++}" )
+    """
+    Original query: return db.post.group(["user.screen_name"], {'date_created':{'$gte': start_date, '$lte': end_date}}, {"count":0}, "function(o, p){p.count++}" )
+    Using MongoEngine necessitating breaking out the logic
+    """
+    # Get all posts created in a given time period
+    posts = Post.objects(date_created__gte=start_date, date_created__lte=end_date)
+
+    # Determine unique authors of this subset of posts
+    unique_posters = []
+    for p in posts:
+        if not any(p.user.screen_name == entry['user.screen_name'] for entry in unique_posters):
+            unique_posters.append(
+                {'count':len(Post.objects(user__screen_name=p.user.screen_name, date_created__gte=start_date, date_created__lte=end_date)), 
+                'user.screen_name':p.user.screen_name})
+
+    return unique_posters
+    
 
 ###########################
 ### GET POST COUNTS
 ###########################
 def get_featured_posts_count():
-    return len(list(db.post.find({'featured':True})))
+    """
+    Returns number of posts that have been featured
+    #return len(list(db.post.find({'featured':True})))
+    """
+    return len(Post.objects(featured=True))
+    
 
 def get_post_count_by_query(query):
+    """
+    Returns numbers of posts matching an arbitrary query
+    Executes using a raw mongodb query through MongoEngine
+    #return len(list(db.post.find({'$or':[{'title':query_regex}, {'body_raw':query_regex}]})))
+    """
     query_regex = re.compile('%s[\s$]' % query, re.I)
-    return len(list(db.post.find({'$or':[{'title':query_regex}, {'body_raw':query_regex}]})))
+    return len(Post.objects(__raw__={'$or':[{'title':query_regex}, {'body_raw':query_regex}]}))
 
 def get_post_count():
-    return len(list(db.post.find({'date_created':{'$gt': datetime.datetime.strptime("10/12/13", "%m/%d/%y")}})))
+    """
+    Get total number of posts. Arbitrarily set beginning of time to 10/12/13
+    to ignore posts that came before this
+    #return len(list(db.post.find({'date_created':{'$gt': datetime.datetime.strptime("10/12/13", "%m/%d/%y")}})))
+    """
+    return len(Post.objects(date_created__gte=datetime.datetime.strptime("10/12/13", "%m/%d/%y")))
 
 def get_post_count_for_range(start_date, end_date):
-    return len(list(db.post.find({'date_created':{'$gte': start_date, '$lte': end_date}})))
+    """
+    Return number of posts created within a date get_post_count_for_range
+    #return len(list(db.post.find({'date_created':{'$gte': start_date, '$lte': end_date}})))
+    """
+    return len(Post.objects(date_created__gte=state_date, date_created__lte=end_date))
 
 def get_delete_posts_count():
-    return len(list(db.post.find({'deleted':True})))
+    """"
+    Returns number of posts that have been deleted
+    #return len(list(db.post.find({'deleted':True})))
+    """
+    return len(Post.objects(deleted=True))
 
 def get_post_count_by_tag(tag):
-    return len(list(db.post.find({'tags':tag})))
+    """
+    Returns number of posts with a given tag
+    #return len(list(db.post.find({'tags':tag})))
+    """
+    return len(Post.objects(tags__in=tag))
 
 ###########################
 ### GET LIST OF POSTS BY CRITERIA

@@ -16,7 +16,6 @@ class Search(app.basic.BaseHandler):
 
         # get posts based on query
         posts = postsdb.get_posts_by_query(query, per_page, page)
-        print posts
         total_count = postsdb.get_post_count_by_query(query)
         tags_alpha = tagsdb.get_all_tags(sort="alpha")
         tags_count = tagsdb.get_all_tags(sort="count")

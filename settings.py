@@ -69,7 +69,7 @@ default_options = {
   'read_only' : False,
   'max_simultaneous_connections' : 10,
   'hot_post_set_count': 200,
-  'staff':[ 'nickgrossman'],
+  'staff':[ 'nickgrossman', 'AlexanderPease'],
 
   # define the various roles and what capabilities they support
   'staff_capabilities': [
